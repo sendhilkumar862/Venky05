@@ -154,10 +154,18 @@ class _NavBarState extends State<NavBar> {
                           fontSize: 15,
                           color: widget.index == index
                               ? widget.selectedIconColor
-                              : Colors.transparent,
+                              : widget.unselectedIconColor,
                         ),
                       )
-                    : SizedBox.shrink(),
+                    : Text(
+                        item.title,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: widget.index == index
+                              ? widget.selectedIconColor
+                              : widget.unselectedIconColor,
+                        ),
+                      ),
               )
             : Container(
                 height: 5,

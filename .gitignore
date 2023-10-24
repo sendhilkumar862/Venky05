@@ -45,3 +45,4 @@ app.*.map.json
 
 # Ignore .g.dart files
 *.g.dart
+

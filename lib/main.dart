@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hessah/feature/home/view/home_view.dart';
 import 'package:provider/provider.dart';
 
 import 'product/constants/app/app_constants.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: NavigationRoute.instance.generateRoute,
       navigatorKey: NavigationService.instance.navigatorKey,
       theme: context.watch<ThemeNotifier>().currentTheme,
-      home: const Scaffold(),
+      home: const HomeView(),
     );
   }
 }
