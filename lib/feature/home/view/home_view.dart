@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hessah/custom/navgation/navbar.dart';
 import 'package:hessah/custom/navgation/navbar_item.dart';
+import 'package:hessah/feature/preference/view/preference_view.dart';
 import 'package:hessah/product/constants/colors/app_colors_constants.dart';
 
 import '../../../../product/base/view/base_view.dart';
@@ -39,7 +40,7 @@ class HomeView extends StatelessWidget {
           NavBarItem(
             iconData: Icons.account_circle,
             title: 'Account',
-            page: Container(),
+            page: const PreferenceView(),
           ),
            NavBarItem(
             iconData: Icons.message_rounded,
