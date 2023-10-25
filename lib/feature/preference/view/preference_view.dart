@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import '../../../../product/base/view/base_view.dart';
 import '../../../custom/choice/choice.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
+import '../../../product/extension/colors_extension.dart';
 import '../viewModel/preference_view_model.dart';
 
 class PreferenceView extends StatefulWidget {
@@ -73,6 +74,36 @@ class _PreferenceViewState extends State<PreferenceView> with TickerProviderStat
       ),
           body: SingleChildScrollView(
           child: Column(children: <Widget>[ 
+            const SizedBox(height: 10,),
+             const Center(child: Text('Customization', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),),),
+              Padding(padding: const EdgeInsets.all(15),
+       child: 
+       ListTile(
+        contentPadding: const EdgeInsets.all(15),
+    tileColor:HexColor('#F0F5FF'),
+                leading:  Lottie.asset(
+            'assets/animations/building_animation.json',
+            controller: _controller,
+            onLoaded: (LottieComposition composition) {
+              _controller.duration = composition.duration;
+              _controller.repeat();
+            },
+          ),
+                title: const Text('Customize your education journey now!', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),),
+               
+                subtitle: const 
+                    Text('Tailor your education journey by selecting preferences for a personalized experience'),
+                    
+            
+    
+              ),
+              ),
+              const Padding(padding: EdgeInsets.all(10), child:    Row(children: [
+                 Text('Grade', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),),
+                 Text('Select 1 or more', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),),
+              ],),),
+           
+           
           Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 5,
@@ -112,15 +143,22 @@ class _PreferenceViewState extends State<PreferenceView> with TickerProviderStat
         ),
             ),
           ),
+          
         ),
-         Lottie.asset(
-            'assets/animations/building_animation.json',
-            controller: _controller,
-            onLoaded: (LottieComposition composition) {
-              _controller.duration = composition.duration;
-              _controller.repeat();
-            },
-          ),
+        
+     
+         TextButton(
+                  onPressed: () {},
+                  child: Container(
+                    color: const Color.fromARGB(255, 3, 111, 199),
+                    // height: 40,
+                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: const Text(
+                      'Save  Preference',
+                      style: TextStyle(color: Colors.white, fontSize: 13.0),
+                    ),
+                  ),
+                ),
          
         ],
         )
