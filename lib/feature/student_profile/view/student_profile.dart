@@ -1,9 +1,10 @@
-import 'package:async/async.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
-import '../../../../product/base/view/base_view.dart';
+import '../../../custom/image/app_image_assets.dart';
+import '../../../custom/text/app_text.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
+import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/student_profile_view_model.dart';
 
 class StudentProfileView extends StatefulWidget {
@@ -13,134 +14,105 @@ class StudentProfileView extends StatefulWidget {
   State<StudentProfileView> createState() => _StudentProfileViewState();
 }
 
-class _StudentProfileViewState extends State<StudentProfileView>
-    with TickerProviderStateMixin {
-  List<String> choicesValue = [];
-  late final AnimationController _controller;
-  final choicesMemoizer = AsyncMemoizer<List<dynamic>>();
+class _StudentProfileViewState extends State<StudentProfileView> {
+  StudentProfileViewModel studentProfileViewModel = StudentProfileViewModel();
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this);
-  }
-
-  Future<List<dynamic>> getChoices() async {
-    try {
-      const url = "https://randomuser.me/api/?inc=name,picture,email&results=5";
-      final res = await Dio().get(url);
-      final data = res.data['results'];
-      return Future.value(data);
-    } on DioException catch (e) {
-      throw ErrorDescription(e.message ?? '');
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<StudentProfileViewModel>(
-      viewModel: StudentProfileViewModel(),
-      onModelReady: (model) {
-        model.setContext(context);
-      },
-      onPageBuilder: (context, value) => MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: FutureBuilder<List<dynamic>>(
-          initialData: const [],
-          future: choicesMemoizer.runOnce(getChoices),
-          builder: (context, snapshot) {
-            final choices = snapshot.data ?? [];
-            return Scaffold(
-              backgroundColor: Colors.white,
-              appBar: AppBar(
-                elevation: 0,
-                leading: const Icon(
-                  Icons.keyboard_backspace,
-                  color: Colors.black,
+    return Scaffold(
+        backgroundColor: Colors.white,
+
+        body: Observer(
+          builder: (BuildContext context) {
+            return ListView(
+              children: <Widget>[
+                const SizedBox(height: 60),
+                SizedBox(
+                  height: 50,
+                  width: 50,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(500),
+                      child: const AppImageAsset(
+                        image: ImageConstants.avtar,
+                      )),
                 ),
-                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-                title: const Text(
-                  'Student Profile',
-                  style: TextStyle(color: Colors.black),
+                const SizedBox(height: 10),
+                const AppText(
+                  'User Name',
+                  textAlign: TextAlign.center,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.appDarkBlack,
                 ),
-              ),
-              body: SingleChildScrollView(
-                  child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    const SizedBox(height: 40),
                     Container(
-                      height: 70,
-                      width: 70,
+                      height: 35,
+                      width: 120,
                       decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
-                        shape: BoxShape.circle,
+                        color: AppColors.appBlue,
+                        borderRadius: BorderRadius.circular(30),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Mr. '),
-                        Text('User Name',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      ],
+                      child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            AppImageAsset(
+                              image: ImageConstants.messageIcon,
+                              height: 20,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            AppText(
+                              'Message',
+                              color: AppColors.appWhite,fontSize: 14,
+                            ),
+                          ]),
                     ),
                     const SizedBox(
-                      height: 20,
+                      width: 10,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 45,
-                          width: 130,
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Message',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ]),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          height: 45,
-                          width: 130,
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Unfavorite',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ]),
-                        ),
-                      ],
-                    )
+                    Container(
+                      height: 35,
+                      width: 120,
+                      decoration: BoxDecoration(
+                        color: AppColors.appBlue,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            AppImageAsset(
+                              image: ImageConstants.saveIcon,
+                              height: 20,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            AppText(
+                              'Message',
+                              color: AppColors.appWhite,fontSize: 14,
+                            ),
+                          ]),
+                    ),
                   ],
                 ),
-              )),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                )
+              ],
             );
           },
-        ),
-      ),
-    );
+        ));
   }
 }

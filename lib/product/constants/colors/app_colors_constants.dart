@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:hessah/product/extension/colors_extension.dart';
+import '../../extension/colors_extension.dart';
 
 class AppColors {
-  static  Color primaryColor = HexColor("#002BC7");
+  static  Color primaryColor = HexColor('#002BC7');
   static const Color secondaryColor = Color(0xFFEF6F6C);
   static const Color accentColor = Color(0xFFFFD700);
-  // Add more color constants as needed
+  static const Color appTransparent = Color(0x00000000);
+  static const Color appWhite = Color(0xffFFFFFF);
+  static const Color appLightBlack = Color(0xFF5E5F60);
+  static const Color appGrey = Color(0xFFa1a3a6);
+  static const Color appRed = Color(0xFFf26c61);
+  static const Color appGreen = Color(0xFF69c9cd);
+  static const Color appBlue = Color(0xFF002BC7);
+  static const Color appDarkBlack = Color(0xFF404040);
+  static const Color appDarkGrey = Color(0xFF515151);
+  static const Color appLightGrey = Color(0xFFeeeeee);
+  static const Color appErrorColor = Color(0xFFd92d20);
+  static const Color appBrown = Color(0xFF856404);
+  static const Color appPurple = Color(0xFF9185FF);
+  static const Color lightPurple= Color(0xffE9EEFF);
 }

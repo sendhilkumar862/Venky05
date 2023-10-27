@@ -6,12 +6,16 @@ import '../../../../product/base/model/base_view_model.dart';
 part 'student_profile_view_model.g.dart';
 
 
-class StudentProfileViewModel = _StudentProfileViewModelBase with _$StudentProfileViewModel;
+class StudentProfileViewModel = StudentProfileViewModelBase with _$StudentProfileViewModel;
 
-abstract class _StudentProfileViewModelBase extends BaseViewModel with Store {
-  @override
-  void setContext(BuildContext context) => viewModelContext = context;
+abstract class StudentProfileViewModelBase  with Store {
 
-  @override
-  void init() {}
+@observable
+  int b = 0;
+
+@action
+  void incre()
+  {
+    b++;
+  }
 }
