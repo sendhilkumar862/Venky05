@@ -274,16 +274,18 @@ class ChoiceList<T> extends StatelessWidget {
     Axis direction = Axis.horizontal,
     WrapAlignment alignment = WrapAlignment.start,
     EdgeInsetsGeometry padding = EdgeInsets.zero,
-    double spacing = 10.0,
+    double spacing = 8,
     WrapAlignment runAlignment = WrapAlignment.start,
-    double runSpacing = 10.0,
+    double runSpacing = -5,
     WrapCrossAlignment crossAxisAlignment = WrapCrossAlignment.start,
     TextDirection? textDirection,
     VerticalDirection verticalDirection = VerticalDirection.down,
     Clip clipBehavior = Clip.none,
+    double width = 500,
   }) {
     return (itemBuilder, itemCount) {
-      return IntrinsicWidth(
+      return SizedBox(
+        width: width,
         child: Padding(
           padding: padding,
           child: Wrap(
