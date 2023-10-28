@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
-import 'package:hessah/custom/choice/anchor.dart';
-import 'package:hessah/custom/choice/inline.dart';
-import 'package:hessah/custom/choice/modal.dart';
-import 'package:hessah/custom/choice/selection.dart';
-import 'package:hessah/custom/choice/utils.dart';
+import '../../anchor.dart';
+import '../../inline.dart';
+import '../../modal.dart';
+import '../../selection.dart';
+import '../../utils.dart';
 import 'delegate.dart';
 import 'types.dart';
 
@@ -107,7 +107,7 @@ class PromptedChoice<T> extends StatefulWidget {
     this.confirmation = false,
     this.loading = false,
     this.error = false,
-    this.value = const [],
+    this.value = const <Never>[],
     this.onChanged,
     required this.itemCount,
     required this.itemBuilder,
@@ -322,7 +322,7 @@ class PromptedChoice<T> extends StatefulWidget {
     this.confirmation = false,
     this.loading = false,
     this.error = false,
-    this.value = const [],
+    this.value = const <Never>[],
     this.onChanged,
     required this.itemCount,
     required this.itemBuilder,
@@ -448,7 +448,7 @@ class PromptedChoice<T> extends StatefulWidget {
   /// {@endtemplate}
   final ValueSetter<String>? onSearch;
 
-  static final defaultListBuilder = ChoiceList.createVirtualized();
+  static final ChoiceListBuilder defaultListBuilder = ChoiceList.createVirtualized();
 
   Widget get modal {
     return ChoiceModal<T>(
@@ -456,7 +456,7 @@ class PromptedChoice<T> extends StatefulWidget {
       headerBuilder: modalHeaderBuilder,
       footerBuilder: modalFooterBuilder,
       separatorBuilder: modalSeparatorBuilder,
-      bodyBuilder: (state) {
+      bodyBuilder: (ChoiceController<T> state) {
         return ChoiceList<T>(
           loading: loading,
           error: error,
@@ -498,10 +498,10 @@ class _PromptedChoiceState<T> extends State<PromptedChoice<T>> {
     ChoiceController<T> state,
   ) {
     return () async {
-      final res = await effectivePromptDelegate(
+      final List<T>? res = await effectivePromptDelegate(
         context,
         Builder(
-          builder: (modalContext) {
+          builder: (BuildContext modalContext) {
             return ChoiceProvider<T>(
               controller: ChoiceController.createModalController(
                 modalContext: modalContext,
@@ -549,7 +549,7 @@ class _PromptedChoiceState<T> extends State<PromptedChoice<T>> {
         value: widget.value,
         onChanged: widget.onChanged,
       ),
-      builder: (state, child) {
+      builder: (ChoiceController<T> state, Widget? child) {
         return effectiveAnchorBuilder(state, createOpenModal(context, state));
       },
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hessah/custom/choice/selection.dart';
+import '../../selection.dart';
 
 class ChoiceListLoader extends StatelessWidget {
   const ChoiceListLoader({
@@ -22,7 +22,7 @@ class ChoiceListLoader extends StatelessWidget {
     double size = 16,
     double thickness = 2,
   }) {
-    return (state) {
+    return (ChoiceController<T> state) {
       return ChoiceListLoader(
         key: key,
         padding: padding,

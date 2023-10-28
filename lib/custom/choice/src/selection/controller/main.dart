@@ -32,7 +32,7 @@ class ChoiceController<T> extends ChangeNotifier {
   ///
   /// The [onCloseModal] is called to close modal
   ChoiceController({
-    List<T> value = const [],
+    List<T> value = const <Never>[],
     ValueChanged<List<T>>? onChanged,
     ValueChanged<List<T>?>? onCloseModal,
     ChoiceSearchController? search,
@@ -63,10 +63,10 @@ class ChoiceController<T> extends ChangeNotifier {
         searchable: searchable,
         onChanged: onSearch,
       ),
-      onCloseModal: (value) {
+      onCloseModal: (List<T>? value) {
         Navigator.maybePop(modalContext, value);
       },
-      onChanged: (value) {
+      onChanged: (List<T> value) {
         if (!rootController.confirmation) {
           rootController.replace(value);
         }
@@ -106,7 +106,9 @@ class ChoiceController<T> extends ChangeNotifier {
   /// the given fields replaced with the new values.
   ChoiceController<T> merge(ChoiceController<T>? other) {
     // if null return current object
-    if (other == null) return this;
+    if (other == null) {
+      return this;
+    }
 
     return copyWith(
       value: other.value,
@@ -283,7 +285,9 @@ class ChoiceController<T> extends ChangeNotifier {
     ValueChanged<List<T>>? onChanged,
   }) {
     return (bool? active) {
-      if (selected(choice) == active) return;
+      if (selected(choice) == active) {
+        return;
+      }
       select(choice, active);
       onChanged?.call(value);
     };
@@ -306,13 +310,13 @@ class ChoiceController<T> extends ChangeNotifier {
       if (multiple) {
         add(choice);
       } else {
-        replace([choice]);
+        replace(<T>[choice]);
       }
     } else {
       remove(choice);
     }
     if (!confirmation && !multiple) {
-      closeModal(confirmed: true);
+      closeModal();
     }
   }
 
@@ -334,7 +338,9 @@ class ChoiceController<T> extends ChangeNotifier {
 
   /// Removes [choice] from [value] collection
   void remove(T choice) {
-    if (!clearable && _value.length == 1) return;
+    if (!clearable && _value.length == 1) {
+      return;
+    }
 
     if (_value.remove(choice)) {
       notifyListeners();
@@ -344,7 +350,9 @@ class ChoiceController<T> extends ChangeNotifier {
 
   /// Removes each element of [choices] from [value] collection
   void removeMany(List<T> choices) {
-    if (!clearable && every(choices)) return;
+    if (!clearable && every(choices)) {
+      return;
+    }
 
     _value.removeAll(choices);
     notifyListeners();
@@ -369,7 +377,7 @@ class ChoiceController<T> extends ChangeNotifier {
     }
   }
 
-  void closeModal({confirmed = true, VoidCallback? onClosed}) {
+  void closeModal({bool confirmed = true, VoidCallback? onClosed}) {
     search?.detach();
     _onCloseModal?.call(confirmed == true ? value : null);
     onClosed?.call();

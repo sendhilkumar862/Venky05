@@ -28,12 +28,12 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
           alignment: Alignment.center,
           width: 100,
           decoration: BoxDecoration(
-              color: (isSelected) ? AppColors.appWhite : AppColors.lightPurple,
+              color: isSelected ? AppColors.appWhite : AppColors.lightPurple,
               borderRadius: BorderRadius.circular(30)),
           height: 30,
           child: AppText(
             content['title'],
-            color: (isSelected) ? AppColors.appBlue : AppColors.appLightBlack,
+            color: isSelected ? AppColors.appBlue : AppColors.appLightBlack,
           ),
         ),
       ),
@@ -52,7 +52,7 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
           builder: (BuildContext context) {
             return Scaffold(
               backgroundColor: AppColors.appWhite,
-              appBar: appBar(
+              appBar: HessaAppBar(
                   icon: ImageConstants.avtar,
                   title: 'Welcome!',
                   subTitle: 'Abdullah Mohamed'),

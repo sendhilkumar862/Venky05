@@ -1,13 +1,12 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:hessah/custom/navgation/navbar.dart';
-import 'package:hessah/custom/navgation/navbar_item.dart';
-import 'package:hessah/feature/preference/view/preference_view.dart';
-import 'package:hessah/product/constants/colors/app_colors_constants.dart';
 
 import '../../../../product/base/view/base_view.dart';
-import '../../home_views/views/home_views.dart';
+import '../../../custom/navgation/navbar.dart';
+import '../../../custom/navgation/navbar_item.dart';
+import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/extension/context_extension.dart';
+import '../../home_views/views/home_views.dart';
+import '../../preference/view/preference_view.dart';
 import '../viewModel/home_view_model.dart';
 
 class HomeView extends StatelessWidget {
@@ -20,20 +19,19 @@ class HomeView extends StatelessWidget {
       onModelReady: (HomeViewModel model) {
         model.setContext(context);
       },
-      onPageBuilder: (context, value) =>  MaterialApp(
+      onPageBuilder: (BuildContext context, HomeViewModel value) =>  MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: NavBar(
-        resizeToAvoidBottomInset: false,
         color: Colors.white,
         showTitle: true,
         borderRadius: MediaQueryExtension(context).dynamicHeight(20),
         selectedIconColor:AppColors.primaryColor,
         unselectedIconColor: AppColors.secondaryColor,
-        items: [
+        items: <NavBarItem>[
           NavBarItem(
             iconData: Icons.home,
             title: 'Home',

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hessah/custom/choice/inline.dart';
+import '../../inline.dart';
 
 class ChoiceValueText<T> extends StatelessWidget {
   const ChoiceValueText({
@@ -15,8 +15,8 @@ class ChoiceValueText<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final display = truncate ?? value.length;
-    final stringify = value.isNotEmpty
+    final int display = truncate ?? value.length;
+    final String stringify = value.isNotEmpty
         ? value.length > display
             ? display > 0
                 ? '${value.take(display).join(', ')}, and ${value.length - display} more'
@@ -43,7 +43,7 @@ class ChoiceValueChips<T> extends StatelessWidget {
   final ChoiceListBuilder? builder;
   final Widget Function(T value, VoidCallback? onDelete)? itemBuilder;
 
-  static final defaultBuilder = ChoiceList.createWrapped();
+  static final ChoiceListBuilder defaultBuilder = ChoiceList.createWrapped();
 
   ChoiceListBuilder get effectiveBuilder => builder ?? defaultBuilder;
 
@@ -58,9 +58,9 @@ class ChoiceValueChips<T> extends StatelessWidget {
 
   Widget effectiveItemBuilder(i) {
     final singleValue = value[i];
-    final singleOnDelete =
+    final void Function()? singleOnDelete =
         onDelete != null ? () => onDelete?.call(singleValue) : null;
-    final effectiveItemBuilder = itemBuilder ?? defaultItemBuilder;
+    final Widget Function(T value, void Function()? onDelete) effectiveItemBuilder = itemBuilder ?? defaultItemBuilder;
     return effectiveItemBuilder(singleValue, singleOnDelete);
   }
 

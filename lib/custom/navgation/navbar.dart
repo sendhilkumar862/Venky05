@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:hessah/custom/navgation/navbar_item.dart';
+import 'navbar_item.dart';
 
 // ignore: must_be_immutable
 class NavBar extends StatefulWidget {
+
+  NavBar({super.key, 
+    this.index = 0,
+    this.borderRadius = 15.0,
+    this.cardWidth,
+    this.showTitle = false,
+    this.selectedIconColor = Colors.white,
+    this.unselectedIconColor = Colors.white,
+    this.resizeToAvoidBottomInset = false,
+    required this.horizontalPadding,
+    required this.items,
+    required this.color,
+    required this.hapticFeedback,
+  })  : assert(items.length > 1),
+        assert(items.length <= 5);
   /// NavBar
   ///
   /// [NavBar] Base class for the bottom navigation bar
@@ -41,22 +55,6 @@ class NavBar extends StatefulWidget {
 
   bool resizeToAvoidBottomInset;
 
-  NavBar({
-    Key? key,
-    this.index = 0,
-    this.borderRadius = 15.0,
-    this.cardWidth,
-    this.showTitle = false,
-    this.selectedIconColor = Colors.white,
-    this.unselectedIconColor = Colors.white,
-    this.resizeToAvoidBottomInset = false,
-    required this.horizontalPadding,
-    required this.items,
-    required this.color,
-    required this.hapticFeedback,
-  })  : assert(items.length > 1),
-        assert(items.length <= 5);
-
   @override
   _NavBarState createState() {
     return _NavBarState();
@@ -64,20 +62,21 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-      body: Container(
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Stack(
-          children: [
+          children: <Widget>[
             PageView(
               controller: _pageController,
-              children: widget.items.map((item) => item.page).toList(),
-              onPageChanged: (index) => this._changePage(index),
+              children: widget.items.map((NavBarItem item) => item.page).toList(),
+              onPageChanged: (int index) => _changePage(index),
             ),
             Positioned(
               left: 0,
@@ -88,7 +87,7 @@ class _NavBarState extends State<NavBar> {
                   vertical: 10.0,
                   horizontal: widget.horizontalPadding,
                 ),
-                child: Container(
+                child: SizedBox(
                   height: 70,
                   width: widget.cardWidth ?? MediaQuery.of(context).size.width,
                   child: Card(
@@ -122,17 +121,17 @@ class _NavBarState extends State<NavBar> {
     }
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: <Widget>[
         GestureDetector(
           onTap: () {
             // If haptic feedback is set to true then use mediumImpact on NavBarItem tap
-            if (hapticFeedback == true) {
+            if (hapticFeedback) {
               HapticFeedback.mediumImpact();
             }
             _changePage(index);
           },
           child: Container(
-            padding: EdgeInsets.all(6),
+            padding: const EdgeInsets.all(6),
             width: 50,
             child: item.useImageIcon
                 ? item.icon
@@ -144,9 +143,8 @@ class _NavBarState extends State<NavBar> {
                   ),
           ),
         ),
-        widget.showTitle
-            ? AnimatedContainer(
-                duration: Duration(milliseconds: 1000),
+        if (widget.showTitle) AnimatedContainer(
+                duration: const Duration(milliseconds: 1000),
                 child: widget.index == index
                     ? Text(
                         item.title,
@@ -166,8 +164,7 @@ class _NavBarState extends State<NavBar> {
                               : widget.unselectedIconColor,
                         ),
                       ),
-              )
-            : Container(
+              ) else Container(
                 height: 5,
                 width: 5,
                 decoration: BoxDecoration(
@@ -184,12 +181,12 @@ class _NavBarState extends State<NavBar> {
   /// [_widgetsBuilder] adds widgets from [_NavBarItem] into a List<Widget> and returns the list
   List<Widget> _widgetsBuilder(
       List<NavBarItem> items, bool hapticFeedback) {
-    List<Widget> _NavBarItems = [];
+    final List<Widget> NavBarItems = <Widget>[];
     for (int i = 0; i < items.length; i++) {
-      Widget item = this._NavBarItem(items[i], i, hapticFeedback);
-      _NavBarItems.add(item);
+      final Widget item = _NavBarItem(items[i], i, hapticFeedback);
+      NavBarItems.add(item);
     }
-    return _NavBarItems;
+    return NavBarItems;
   }
 
   /// [_changePage] changes selected page index so as to change the page being currently viewed by the user

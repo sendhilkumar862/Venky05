@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hessah/custom/choice/selection.dart';
+import '../../selection.dart';
 
 class ChoiceModalSeparator extends Divider {
   const ChoiceModalSeparator({

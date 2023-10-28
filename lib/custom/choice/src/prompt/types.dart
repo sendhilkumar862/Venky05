@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:hessah/custom/choice/selection.dart';
+import '../../selection.dart';
 
 typedef ChoicePromptDelegate<T> = Future<List<T>?> Function(
   BuildContext context,
