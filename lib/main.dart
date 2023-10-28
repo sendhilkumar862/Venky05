@@ -4,6 +4,9 @@ import 'package:hessah/feature/home/view/home_view.dart';
 import 'package:provider/provider.dart';
 
 import 'feature/student_profile/view/student_profile.dart';
+import 'feature/createclass/view/create_class.dart';
+import 'feature/preference/view/preference_view.dart';
+
 import 'product/constants/app/app_constants.dart';
 import 'product/cache/locale_manager.dart';
 import 'product/lang/language_manager.dart';
@@ -41,7 +44,7 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: NavigationRoute.instance.generateRoute,
       navigatorKey: NavigationService.instance.navigatorKey,
       theme: context.watch<ThemeNotifier>().currentTheme,
-      home: const StudentProfileView(),
+      home: const PreferenceView(),
     );
   }
 }

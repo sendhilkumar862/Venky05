@@ -7,6 +7,7 @@ import 'package:hessah/product/constants/colors/app_colors_constants.dart';
 
 import '../../../../product/base/view/base_view.dart';
 import '../../home_views/views/home_views.dart';
+import '../../../product/extension/context_extension.dart';
 import '../viewModel/home_view_model.dart';
 
 class HomeView extends StatelessWidget {
@@ -29,7 +30,7 @@ class HomeView extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         color: Colors.white,
         showTitle: true,
-        borderRadius: 30,
+        borderRadius: MediaQueryExtension(context).dynamicHeight(20),
         selectedIconColor:AppColors.primaryColor,
         unselectedIconColor: AppColors.secondaryColor,
         items: [
