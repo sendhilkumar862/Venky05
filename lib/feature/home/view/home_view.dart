@@ -6,6 +6,7 @@ import 'package:hessah/feature/preference/view/preference_view.dart';
 import 'package:hessah/product/constants/colors/app_colors_constants.dart';
 
 import '../../../../product/base/view/base_view.dart';
+import '../../home_views/views/home_views.dart';
 import '../../../product/extension/context_extension.dart';
 import '../viewModel/home_view_model.dart';
 
@@ -16,7 +17,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<HomeViewModel>(
       viewModel: HomeViewModel(),
-      onModelReady: (model) {
+      onModelReady: (HomeViewModel model) {
         model.setContext(context);
       },
       onPageBuilder: (context, value) =>  MaterialApp(
@@ -36,7 +37,7 @@ class HomeView extends StatelessWidget {
           NavBarItem(
             iconData: Icons.home,
             title: 'Home',
-            page: Container(child: const Center(child: Text("Home")) ,),
+            page: const HomeViews(),
           ),
           NavBarItem(
             iconData: Icons.account_circle,
