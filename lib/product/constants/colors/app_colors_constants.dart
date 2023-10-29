@@ -28,4 +28,6 @@ class AppColors {
   static const Color white = Colors.white;
   static const Color appColor = Color(0xff002BC7);
   static const Color appBorderColor = Color(0xffC5CEEE);
+  
+  static const Color textWhite80Color = Color(0xFFf2f2f2);
 }
