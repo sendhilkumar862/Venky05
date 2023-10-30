@@ -25,7 +25,7 @@ void main() {
         supportedLocales: LanguageManager.instance.supportedLocales,
         path: ApplicationConstants.LANG_ASSET_PATH,
         startLocale: LanguageManager.instance.enLocale,
-        child: const MyApp(),
+        child: const HomeView(),
       ),
     ),
   );

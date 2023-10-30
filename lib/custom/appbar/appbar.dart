@@ -57,15 +57,14 @@ class appBar extends PreferredSize {
                   Container(
                     height: 55,
                     width: 55,
-                    decoration: const BoxDecoration(
+                    decoration:  BoxDecoration(
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.appPurple,
-                          spreadRadius: -7,
-                          blurRadius: 20,
-                          blurStyle: BlurStyle.normal,
-                          offset: Offset(1, 10),
+                          color: AppColors.appPurple.withOpacity(0.4),
+                          blurRadius: 6,
+                          spreadRadius: 1,
+                          offset: const Offset(1, 7),
                         ),
                       ],
                     ),

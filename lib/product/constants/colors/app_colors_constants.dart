@@ -6,6 +6,7 @@ class AppColors {
   static  Color primaryColor = HexColor('#002BC7');
   static const Color secondaryColor = Color(0xFFEF6F6C);
   static const Color accentColor = Color(0xFFFFD700);
+  static const Color appYellow = Color(0xFFFFD600);
   static const Color appTransparent = Color(0x00000000);
   static const Color appWhite = Color(0xffFFFFFF);
   static const Color appLightBlack = Color(0xFF5E5F60);
@@ -13,7 +14,7 @@ class AppColors {
   static const Color appRed = Color(0xFFf26c61);
   static const Color appGreen = Color(0xFF69c9cd);
   static const Color appBlue = Color(0xFF002BC7);
-  static const Color appDarkBlack = Color(0xFF404040);
+  static const Color appDarkBlack = Color(0xFF051335);
   static const Color appDarkGrey = Color(0xFF515151);
   static const Color appLightGrey = Color(0xFFeeeeee);
   static const Color appErrorColor = Color(0xFFd92d20);
@@ -28,4 +29,32 @@ class AppColors {
   static const Color white = Colors.white;
   static const Color appColor = Color(0xff002BC7);
   static const Color appBorderColor = Color(0xffC5CEEE);
+  static const Color darkPurple= Color(0xff05133580);
+  static const Color appShadow= Color(0xffdddddd);
+
+  static List<BoxShadow> appBoxShadow = [
+    BoxShadow(
+      offset: const Offset(1, 3),
+      spreadRadius: 5,
+      color: appLightBlack.withOpacity(0.2),
+      blurRadius: 10,
+    ),
+  ];
+
+  static List<BoxShadow> appCardShadow = [
+    const BoxShadow(
+        color: AppColors.appShadow,
+        offset: Offset(-1, 8),
+        blurRadius: 15,
+    spreadRadius: -4),
+  ];
+
+  static List<BoxShadow> appDarkBoxShadow = [
+    BoxShadow(
+      offset: const Offset(0, 3),
+      spreadRadius: 0.2,
+      color: appWhite.withOpacity(0.2),
+      blurRadius: 2,
+    ),
+  ];
 }
