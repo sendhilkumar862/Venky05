@@ -4,19 +4,8 @@ import 'package:flutter/services.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 
 class AppButton extends StatelessWidget {
-  final String title;
-  final Function() onPressed;
-  final double? height;
-  final double? width;
-  final BorderRadiusGeometry? borderRadius;
-  final TextStyle? textStyle;
-  final EdgeInsetsGeometry? padding;
-  final String? copyText; // Text to be copied to the clipboard
-  final bool showCopySnackbar; // Flag to show the snackbar on tap
-  final bool? isBorderOnly;
-  final Color? borderColor;
 
-  const AppButton({
+  AppButton({
     super.key,
     required this.title,
     required this.onPressed,
@@ -30,16 +19,27 @@ class AppButton extends StatelessWidget {
     this.isBorderOnly = false,
     this.borderColor, // Default to true
   });
+  
+  final String title;
+  final Function() onPressed;
+  final double? height;
+  final double? width;
+  final BorderRadiusGeometry? borderRadius;
+  final TextStyle? textStyle;
+  final EdgeInsetsGeometry? padding;
+  final String? copyText; // Text to be copied to the clipboard
+  final bool showCopySnackbar; // Flag to show the snackbar on tap
+  bool? isBorderOnly = true;
+  final Color? borderColor;
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.of(context).size.width;
     return Align(
-      alignment: Alignment.center,
       child: GestureDetector(
         onTap: () {
           if (copyText != null && showCopySnackbar) {
-            _copyToClipboardAndShowSnackbar(context, copyText ?? "");
+            _copyToClipboardAndShowSnackbar(context, copyText ?? '');
           }
           onPressed();
         },
@@ -81,7 +81,7 @@ class AppButton extends StatelessWidget {
       behavior: SnackBarBehavior.floating,
       width: 47,
       duration: const Duration(seconds: 1),
-      content: Text(
+      content: const Text(
         'Copied to Clipboard !',
       ),
     ));

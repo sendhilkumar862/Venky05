@@ -20,38 +20,38 @@ class PreferenceView extends StatefulWidget {
 
 class _PreferenceViewState extends State<PreferenceView>
     with TickerProviderStateMixin {
-  List<String> choicesValue = [];
+  List<String> choicesValue = <String>[];
   late final AnimationController _controller;
-  Set<String> selectedGrade = {};
-  Set<String> selectedSchool = {};
+  Set<String> selectedGrade = <String>{};
+  Set<String> selectedSchool = <String>{};
   int? value = 0;
   int isSelect = 0;
-  Set<int> selectedSchoolIndices = Set<int>();
-  Set<int> selectedCurriculumIndices = Set<int>();
-  Set<int> selectedSubjectIndices = Set<int>();
-  List<String> school = [
-    "Public",
-    "Private",
+  Set<int> selectedSchoolIndices = <int>{};
+  Set<int> selectedCurriculumIndices = <int>{};
+  Set<int> selectedSubjectIndices = <int>{};
+  List<String> school = <String>[
+    'Public',
+    'Private',
   ];
-  List<String> curriculum = [
-    "Arabic",
-    "American",
-    "British",
+  List<String> curriculum = <String>[
+    'Arabic',
+    'American',
+    'British',
   ];
-  List<String> Subject = [
-    "Arabic",
-    "Math",
-    "Science",
-    "Islamic",
-    "Physics",
-    "Chemisty",
-    "English",
-    "French",
-    "Deutsch",
-    "Arts",
+  List<String> subject = <String>[
+    'Arabic',
+    'Math',
+    'Science',
+    'Islamic',
+    'Physics',
+    'Chemisty',
+    'English',
+    'French',
+    'Deutsch',
+    'Arts',
   ];
 
-  final choicesMemoizer = AsyncMemoizer<List<dynamic>>();
+  final AsyncMemoizer<List> choicesMemoizer = AsyncMemoizer<List<dynamic>>();
 
   @override
   void initState() {
@@ -75,8 +75,8 @@ class _PreferenceViewState extends State<PreferenceView>
 
   Future<List<dynamic>> getChoices() async {
     try {
-      const url = "https://randomuser.me/api/?inc=name,picture,email&results=5";
-      final res = await Dio().get(url);
+      const String url = 'https://randomuser.me/api/?inc=name,picture,email&results=5';
+      final Response res = await Dio().get(url);
       final data = res.data['results'];
       return Future.value(data);
     } on DioException catch (e) {
@@ -88,10 +88,10 @@ class _PreferenceViewState extends State<PreferenceView>
   Widget build(BuildContext context) {
     return BaseView<PreferenceViewModel>(
       viewModel: PreferenceViewModel(),
-      onModelReady: (model) {
+      onModelReady: (PreferenceViewModel model) {
         model.setContext(context);
       },
-      onPageBuilder: (context, value) => MaterialApp(
+      onPageBuilder: (BuildContext context, PreferenceViewModel value) => MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -100,8 +100,8 @@ class _PreferenceViewState extends State<PreferenceView>
         home: FutureBuilder<List<dynamic>>(
           initialData: const [],
           future: choicesMemoizer.runOnce(getChoices),
-          builder: (context, snapshot) {
-            final choices = snapshot.data ?? [];
+          builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+            final List choices = snapshot.data ?? [];
             return Scaffold(
               body: SingleChildScrollView(
                   child: Padding(
@@ -124,7 +124,7 @@ class _PreferenceViewState extends State<PreferenceView>
                       padding: const EdgeInsets.all(15),
                       child: ListTile(
                         shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 0, color: Colors.transparent),
+                          side: const BorderSide(width: 0, color: Colors.transparent),
                           borderRadius:
                               BorderRadius.circular(20), //<-- SEE HERE
                         ),
@@ -147,15 +147,15 @@ class _PreferenceViewState extends State<PreferenceView>
                             'Tailor your education journey by selecting preferences for a personalized experience'),
                       ),
                     ),
-                    Row(
-                      children: [
+                    const Row(
+                      children: <Widget>[
                         Text(
                           'Grade',
                           style: TextStyle(
                               fontWeight: FontWeight.w700, fontSize: 16),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          padding: EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
                             'Select 1 or more',
                             style: TextStyle(
@@ -174,7 +174,7 @@ class _PreferenceViewState extends State<PreferenceView>
                           value: choicesValue,
                           onChanged: setChoicesValue,
                           itemCount: choices.length,
-                          itemBuilder: (selection, i) {
+                          itemBuilder: (ChoiceController<String> selection, int i) {
                             final choice = choices.elementAt(i);
                             final value = choice['email'];
                             final label = choice['name']['first'] +
@@ -189,7 +189,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                           : AppColors.appBorderColor)),
                               backgroundColor: AppColors.trans,
                               selected: selectedGrade.contains(value),
-                              onSelected: (isSelected) {
+                              onSelected: (bool isSelected) {
                                 setState(() {
                                   if (isSelected) {
                                     selectedGrade.add(value);
@@ -218,7 +218,7 @@ class _PreferenceViewState extends State<PreferenceView>
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: Row(
-                        children: [
+                        children: <Widget>[
                           Text(
                             'School',
                             style: TextStyle(
@@ -240,7 +240,7 @@ class _PreferenceViewState extends State<PreferenceView>
                       value: school,
                       onChanged: setSchoolValue,
                       itemCount: school.length,
-                      itemBuilder: (selection, index) {
+                      itemBuilder: (ChoiceController<String> selection, int index) {
                         return ChoiceChip(
                           shape: StadiumBorder(
                               side: BorderSide(
@@ -273,11 +273,11 @@ class _PreferenceViewState extends State<PreferenceView>
                       },
                       listBuilder: ChoiceList.createWrapped(),
                     ),
-                    AppDivider(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                    const AppDivider(),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
                       child: Row(
-                        children: [
+                        children: <Widget>[
                           Text(
                             'Curriculum',
                             style: TextStyle(
@@ -291,7 +291,7 @@ class _PreferenceViewState extends State<PreferenceView>
                       value: curriculum,
                       onChanged: setSchoolValue,
                       itemCount: curriculum.length,
-                      itemBuilder: (selection, index) {
+                      itemBuilder: (ChoiceController<String> selection, int index) {
                         return ChoiceChip(
                           shape: StadiumBorder(
                               side: BorderSide(
@@ -325,11 +325,11 @@ class _PreferenceViewState extends State<PreferenceView>
                       },
                       listBuilder: ChoiceList.createWrapped(),
                     ),
-                    AppDivider(),
+                    const AppDivider(),
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: Row(
-                        children: [
+                        children: <Widget>[
                           Text(
                             'Subject',
                             style: TextStyle(
@@ -348,10 +348,10 @@ class _PreferenceViewState extends State<PreferenceView>
                     ),
                     InlineChoice<String>(
                       clearable: true,
-                      value: Subject,
+                      value: subject,
                       onChanged: setSchoolValue,
-                      itemCount: Subject.length,
-                      itemBuilder: (selection, index) {
+                      itemCount: subject.length,
+                      itemBuilder: (ChoiceController<String> selection, int index) {
                         return ChoiceChip(
                           shape: StadiumBorder(
                               side: BorderSide(
@@ -372,7 +372,7 @@ class _PreferenceViewState extends State<PreferenceView>
                             });
                           },
                           showCheckmark: false,
-                          label: Text(Subject[index]),
+                          label: Text(subject[index]),
                           selectedColor: AppColors
                               .appColor, // Change this to your desired color
                           labelStyle: TextStyle(
@@ -384,7 +384,7 @@ class _PreferenceViewState extends State<PreferenceView>
                       },
                       listBuilder: ChoiceList.createWrapped(),
                     ),
-                    AppDivider(),
+                    const AppDivider(),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: AppButton(

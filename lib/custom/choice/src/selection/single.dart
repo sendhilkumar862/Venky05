@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 abstract class ChoiceSingle {
   /// Adapter for assign single choice value
   static List<T> value<T>(T? value) {
-    return [value].whereType<T>().toList();
+    return <T?>[value].whereType<T>().toList();
   }
 
   /// Adapter for assign single choice on changed callback

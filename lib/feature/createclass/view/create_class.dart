@@ -12,43 +12,43 @@ class SchoolList {
 }
 
 class CreateClass extends StatefulWidget {
-  const CreateClass({Key? key}) : super(key: key);
+  const CreateClass({super.key});
 
   @override
   State<CreateClass> createState() => _CreateClassState();
 }
 
 class _CreateClassState extends State<CreateClass> {
-  List<String> grade = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "University",
+  List<String> grade = <String>[
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    'University',
   ];
-  List<SchoolList> school = [
-    SchoolList(isSelect: false, title: "Public"),
-    SchoolList(isSelect: false, title: "Private"),
+  List<SchoolList> school = <SchoolList>[
+    SchoolList(isSelect: false, title: 'Public'),
+    SchoolList(isSelect: false, title: 'Private'),
   ];
-  List<SchoolList> subject = [
-    SchoolList(isSelect: false, title: "Arabic"),
-    SchoolList(isSelect: false, title: "Math"),
-    SchoolList(isSelect: false, title: "Science"),
-    SchoolList(isSelect: false, title: "Islamic"),
-    SchoolList(isSelect: false, title: "physics"),
-    SchoolList(isSelect: false, title: "Chemisty"),
-    SchoolList(isSelect: false, title: "English"),
-    SchoolList(isSelect: false, title: "French"),
-    SchoolList(isSelect: false, title: "Deutsch"),
-    SchoolList(isSelect: false, title: "Arts"),
+  List<SchoolList> subject = <SchoolList>[
+    SchoolList(isSelect: false, title: 'Arabic'),
+    SchoolList(isSelect: false, title: 'Math'),
+    SchoolList(isSelect: false, title: 'Science'),
+    SchoolList(isSelect: false, title: 'Islamic'),
+    SchoolList(isSelect: false, title: 'physics'),
+    SchoolList(isSelect: false, title: 'Chemisty'),
+    SchoolList(isSelect: false, title: 'English'),
+    SchoolList(isSelect: false, title: 'French'),
+    SchoolList(isSelect: false, title: 'Deutsch'),
+    SchoolList(isSelect: false, title: 'Arts'),
   ];
   int isGradeSelect = 0;
   int isSchoolSelect = 0;
@@ -56,7 +56,7 @@ class _CreateClassState extends State<CreateClass> {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.of(context).size.width;
     // var std
     // List<EmiAmount> emiData = [
     //   EmiAmount(std:"6 Month" ),
@@ -66,7 +66,7 @@ class _CreateClassState extends State<CreateClass> {
         backgroundColor: AppColors.trans,
         elevation: 0,
         title:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
           const Text('Create Class',
               style: TextStyle(
                   fontSize: 16,
@@ -74,7 +74,7 @@ class _CreateClassState extends State<CreateClass> {
                   color: Colors.black)),
           TextButton(
               onPressed: () {},
-              child: const Text("Cancel",
+              child: const Text('Cancel',
                   style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
@@ -83,10 +83,10 @@ class _CreateClassState extends State<CreateClass> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               const Padding(
                 padding: EdgeInsets.only(top: 40),
                 child: Text(
@@ -103,7 +103,7 @@ class _CreateClassState extends State<CreateClass> {
               Wrap(
                   children: List.generate(
                       grade.length,
-                      (index) => InkWell(
+                      (int index) => InkWell(
                             onTap: () {
                               setState(() {
                                 isGradeSelect = index;
@@ -113,32 +113,32 @@ class _CreateClassState extends State<CreateClass> {
                             splashColor: Colors.transparent,
                             child: Container(
                               height: 32,
-                              width: grade[index] == "University" ? 83 : 50,
+                              width: grade[index] == 'University' ? 83 : 50,
                               margin: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
                                   color: isGradeSelect == index
-                                      ? Color(0xff002BC7)
+                                      ? const Color(0xff002BC7)
                                       : Colors.transparent,
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(
-                                      width: 1, color: Color(0xffC5CEEE))),
+                                      width: 1, color: const Color(0xffC5CEEE))),
                               child: Center(
                                   child: Text(
                                 grade[index],
                                 style: TextStyle(
                                     color: isGradeSelect != index
-                                        ? Color(0xff051335).withOpacity(0.5)
+                                        ? const Color(0xff051335).withOpacity(0.5)
                                         : Colors.white),
                               )),
                             ),
                           ))),
-              Divider(),
+              const Divider(),
               const Text('School',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
               Wrap(
                   children: List.generate(
                       school.length,
-                      (index) => InkWell(
+                      (int index) => InkWell(
                             onTap: () {
                               setState(() {
                                 school[index].isSelect =
@@ -152,11 +152,11 @@ class _CreateClassState extends State<CreateClass> {
                               margin: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
                                   color: school[index].isSelect
-                                      ? Color(0xff002BC7)
+                                      ? const Color(0xff002BC7)
                                       : Colors.transparent,
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(
-                                      width: 1, color: Color(0xffC5CEEE))),
+                                      width: 1, color: const Color(0xffC5CEEE))),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 15, vertical: 7),
@@ -185,7 +185,7 @@ class _CreateClassState extends State<CreateClass> {
               Wrap(
                   children: List.generate(
                       subject.length,
-                      (index) => InkWell(
+                      (int index) => InkWell(
                             onTap: () {
                               setState(() {
                                 subject[index].isSelect =
@@ -199,11 +199,11 @@ class _CreateClassState extends State<CreateClass> {
                               margin: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
                                   color: subject[index].isSelect
-                                      ? Color(0xff002BC7)
+                                      ? const Color(0xff002BC7)
                                       : Colors.transparent,
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(
-                                      width: 1, color: Color(0xffC5CEEE))),
+                                      width: 1, color: const Color(0xffC5CEEE))),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 15, vertical: 7),
@@ -228,21 +228,21 @@ class _CreateClassState extends State<CreateClass> {
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Text('class summary',
                     style:
-                        TextStyle(color: Color(0xff051335).withOpacity(0.5))),
+                        TextStyle(color: const Color(0xff051335).withOpacity(0.5))),
               ),
               TextFormField(
                 decoration: InputDecoration(
                     hintTextDirection: TextDirection.rtl,
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                          color: Color(0xff051335).withOpacity(0.5), width: 1),
+                          color: const Color(0xff051335).withOpacity(0.5), width: 1),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                     contentPadding:
-                        EdgeInsets.symmetric(vertical: 30, horizontal: 10),
+                        const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
                     hintText: 'class summary',
                     hintStyle: const TextStyle(
                         fontSize: 16,
@@ -260,13 +260,13 @@ class _CreateClassState extends State<CreateClass> {
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
-                child: Container(
+                child: SizedBox(
                   width: width,
                   height: 50,
                   child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(Color(0xff002BC7)),
+                            MaterialStateProperty.all(const Color(0xff002BC7)),
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(

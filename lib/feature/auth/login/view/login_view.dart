@@ -10,10 +10,10 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<LoginViewModel>(
       viewModel: LoginViewModel(),
-      onModelReady: (model) {
+      onModelReady: (LoginViewModel model) {
         model.setContext(context);
       },
-      onPageBuilder: (context, value) => const Scaffold(),
+      onPageBuilder: (BuildContext context, LoginViewModel value) => const Scaffold(),
     );
   }
 }

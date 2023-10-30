@@ -1,10 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:hessah/custom/choice/choice.dart';
-import 'group.dart';
-import 'placeholder.dart';
-import 'error.dart';
-import 'loader.dart';
-import 'types.dart';
+import '../../choice.dart';
 
 class ChoiceList<T> extends StatelessWidget {
   const ChoiceList({
@@ -121,11 +116,11 @@ class ChoiceList<T> extends StatelessWidget {
   /// Indicates whether the choice list has trailing item
   bool get hasTrailing => trailingBuilder != null;
 
-  static final defaultBuilder = createWrapped();
+  static final ChoiceListBuilder defaultBuilder = createWrapped();
 
-  static final defaultGroupBuilder = ChoiceGroup.createList();
+  static final ChoiceGroupBuilder defaultGroupBuilder = ChoiceGroup.createList();
 
-  static final defaultGroupItemBuilder = ChoiceGroup.createItem();
+  static final ChoiceGroupItemBuilder defaultGroupItemBuilder = ChoiceGroup.createItem();
 
   static bool defaultItemSkip<T>(ChoiceController<T> state, int i) => false;
 
@@ -160,7 +155,7 @@ class ChoiceList<T> extends StatelessWidget {
   List<ChoiceItemBuilder?> _resolveSkippedItems(ChoiceController<T> state) {
     return List<ChoiceItemBuilder?>.generate(
       itemCount,
-      (i) => !effectiveItemSkip(state, i) ? () => itemBuilder(state, i) : null,
+      (int i) => !effectiveItemSkip(state, i) ? () => itemBuilder(state, i) : null,
     );
   }
 
@@ -169,8 +164,8 @@ class ChoiceList<T> extends StatelessWidget {
     List<ChoiceItemBuilder> items,
   ) {
     if (hasDivider) {
-      final count = items.length;
-      for (var i = count - 1; i > 0; i--) {
+      final int count = items.length;
+      for (int i = count - 1; i > 0; i--) {
         items.insert(i, () => dividerBuilder!(state));
       }
     }
@@ -181,7 +176,7 @@ class ChoiceList<T> extends StatelessWidget {
     ChoiceController<T> state,
     List<ChoiceItemBuilder?> items,
   ) {
-    final composedItems = <ChoiceItemBuilder>[
+    final List<ChoiceItemBuilder> composedItems = <ChoiceItemBuilder>[
       if (hasLeading) () => leadingBuilder!(state),
       ...items.whereType<ChoiceItemBuilder>().toList(),
       if (hasTrailing) () => trailingBuilder!(state),
@@ -207,13 +202,13 @@ class ChoiceList<T> extends StatelessWidget {
     ChoiceController<T> state,
     List<ChoiceItemBuilder?> items,
   ) {
-    final itemBuilders = _resolveComposedItems(state, items);
-    final itemCount = itemBuilders.length;
+    final List<ChoiceItemBuilder> itemBuilders = _resolveComposedItems(state, items);
+    final int itemCount = itemBuilders.length;
     return _buildLayout(
       state,
       itemBuilders.isEmpty,
       () => effectiveListBuilder.call(
-        (i) => itemBuilders[i](),
+        (int i) => itemBuilders[i](),
         itemCount,
       ),
     );
@@ -224,34 +219,34 @@ class ChoiceList<T> extends StatelessWidget {
     List<ChoiceItemBuilder?> items,
   ) {
     /// name => index => builder
-    final Map<String, Map<int, ChoiceItemBuilder>> groups = {};
-    for (var i = 0; i < items.length; i++) {
-      final item = items[i];
+    final Map<String, Map<int, ChoiceItemBuilder>> groups = <String, Map<int, ChoiceItemBuilder>>{};
+    for (int i = 0; i < items.length; i++) {
+      final ChoiceItemBuilder? item = items[i];
       if (item != null) {
-        final name = itemGroup!(i);
-        groups[name] = {
+        final String name = itemGroup!(i);
+        groups[name] = <int, ChoiceItemBuilder>{
           ...?groups[name],
-          ...{i: item}
+          ...<int, ChoiceItemBuilder>{i: item}
         };
       }
     }
-    final groupEntries = groups.entries.toList();
+    final List<MapEntry<String, Map<int, ChoiceItemBuilder>>> groupEntries = groups.entries.toList();
     if (groupSort != null) {
-      groupEntries.sort((a, b) => groupSort!(a.key, b.key));
+      groupEntries.sort((MapEntry<String, Map<int, ChoiceItemBuilder>> a, MapEntry<String, Map<int, ChoiceItemBuilder>> b) => groupSort!(a.key, b.key));
     }
     return _buildLayout(
       state,
       groups.isEmpty,
       () => effectiveGroupBuilder.call(
-        (i) {
-          final entry = groupEntries.elementAt(i);
-          final groupName = entry.key;
-          final groupIndexedBuilders = entry.value;
-          final groupBuilders = groupIndexedBuilders.values;
-          final groupIndices = groupIndexedBuilders.keys.toList();
-          final header = effectiveGroupHeaderBuilder(groupName, groupIndices);
-          final choices = effectiveListBuilder.call(
-            (j) => groupBuilders.elementAt(j)(),
+        (int i) {
+          final MapEntry<String, Map<int, ChoiceItemBuilder>> entry = groupEntries.elementAt(i);
+          final String groupName = entry.key;
+          final Map<int, ChoiceItemBuilder> groupIndexedBuilders = entry.value;
+          final Iterable<ChoiceItemBuilder> groupBuilders = groupIndexedBuilders.values;
+          final List<int> groupIndices = groupIndexedBuilders.keys.toList();
+          final Widget header = effectiveGroupHeaderBuilder(groupName, groupIndices);
+          final Widget choices = effectiveListBuilder.call(
+            (int j) => groupBuilders.elementAt(j)(),
             groupBuilders.length,
           );
           return effectiveGroupItemBuilder(header, choices);
@@ -263,8 +258,8 @@ class ChoiceList<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = ChoiceProvider.of<T>(context);
-    final itemBuilders = _resolveSkippedItems(state);
+    final ChoiceController<T> state = ChoiceProvider.of<T>(context);
+    final List<ChoiceItemBuilder?> itemBuilders = _resolveSkippedItems(state);
     return isGrouped
         ? _buildGrouped(state, itemBuilders)
         : _buildNonGrouped(state, itemBuilders);
@@ -283,7 +278,7 @@ class ChoiceList<T> extends StatelessWidget {
     Clip clipBehavior = Clip.none,
     double width = 500,
   }) {
-    return (itemBuilder, itemCount) {
+    return (itemBuilder, int itemCount) {
       return SizedBox(
         width: width,
         child: Padding(
@@ -300,7 +295,7 @@ class ChoiceList<T> extends StatelessWidget {
             clipBehavior: clipBehavior,
             children: List<Widget>.generate(
               itemCount,
-              (i) => itemBuilder(i),
+              (int i) => itemBuilder(i),
             ),
           ),
         ),
@@ -320,7 +315,7 @@ class ChoiceList<T> extends StatelessWidget {
     VerticalDirection verticalDirection = VerticalDirection.down,
     Clip clipBehavior = Clip.none,
   }) {
-    return (itemBuilder, itemCount) {
+    return (itemBuilder, int itemCount) {
       return SingleChildScrollView(
         primary: false,
         padding: padding,
@@ -337,7 +332,7 @@ class ChoiceList<T> extends StatelessWidget {
           clipBehavior: clipBehavior,
           children: List<Widget>.generate(
             itemCount,
-            (i) => itemBuilder(i),
+            (int i) => itemBuilder(i),
           ),
         ),
       );
@@ -350,7 +345,7 @@ class ChoiceList<T> extends StatelessWidget {
     Axis direction = Axis.vertical,
     EdgeInsetsGeometry? padding,
   }) {
-    return (itemBuilder, itemCount) {
+    return (itemBuilder, int itemCount) {
       return ListView.builder(
         primary: false,
         shrinkWrap: shrinkWrap,
@@ -358,7 +353,7 @@ class ChoiceList<T> extends StatelessWidget {
         scrollDirection: direction,
         padding: padding,
         itemCount: itemCount,
-        itemBuilder: (context, i) => itemBuilder(i),
+        itemBuilder: (BuildContext context, int i) => itemBuilder(i),
       );
     };
   }
@@ -373,7 +368,7 @@ class ChoiceList<T> extends StatelessWidget {
     int columns = 2,
     double childAspectRatio = 1.0,
   }) {
-    return (itemBuilder, itemCount) {
+    return (itemBuilder, int itemCount) {
       return GridView.builder(
         primary: false,
         shrinkWrap: shrinkWrap,
@@ -381,7 +376,7 @@ class ChoiceList<T> extends StatelessWidget {
         scrollDirection: direction,
         padding: padding,
         itemCount: itemCount,
-        itemBuilder: (context, i) => itemBuilder(i),
+        itemBuilder: (BuildContext context, int i) => itemBuilder(i),
         gridDelegate: delegate ??
             SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: columns,

@@ -1,5 +1,17 @@
 /// Choice data
 class ChoiceData<T> {
+
+  /// Default Constructor
+  const ChoiceData({
+    required this.value,
+    required this.title,
+    this.subtitle,
+    this.group,
+    this.image,
+    this.tooltip,
+    this.disabled = false,
+    this.hidden = false,
+  });
   /// Value to return
   final T value;
 
@@ -23,18 +35,6 @@ class ChoiceData<T> {
 
   /// Whether the choice is hidden or displayed
   final bool hidden;
-
-  /// Default Constructor
-  const ChoiceData({
-    required this.value,
-    required this.title,
-    this.subtitle,
-    this.group,
-    this.image,
-    this.tooltip,
-    this.disabled = false,
-    this.hidden = false,
-  });
 
   @override
   bool operator ==(Object other) =>
@@ -85,7 +85,9 @@ class ChoiceData<T> {
   /// the given fields replaced with the new values.
   ChoiceData<T> merge(ChoiceData<T>? other) {
     // if null return current object
-    if (other == null) return this;
+    if (other == null) {
+      return this;
+    }
 
     return copyWith(
       value: other.value,
@@ -116,7 +118,7 @@ extension ChoiceDataGeneration<T> on List<T> {
     ChoiceDataProp<T, bool>? hidden,
   }) {
     return asMap()
-        .map((index, item) {
+        .map((int index, item) {
           return MapEntry(
             index,
             ChoiceData<R>(

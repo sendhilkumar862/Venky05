@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hessah/custom/choice/selection.dart';
+import '../../selection.dart';
 
 class ChoiceSearchField extends StatelessWidget {
   const ChoiceSearchField({
@@ -36,8 +36,8 @@ class ChoiceSearchField extends StatelessWidget {
     bool autoSubmit = false,
     Duration? submitDelay,
   }) {
-    FocusNode searchFocusNode = FocusNode();
-    return (state) {
+    final FocusNode searchFocusNode = FocusNode();
+    return (ChoiceController<T> state) {
       return ChoiceSearchField(
         key: key,
         focusNode: searchFocusNode,
@@ -48,13 +48,13 @@ class ChoiceSearchField extends StatelessWidget {
         hintStyle: hintStyle,
         textAlign: textAlign,
         onSubmitted: !autoSubmit
-            ? (query) {
+            ? (String query) {
                 state.search?.apply(query);
                 searchFocusNode.requestFocus();
               }
             : null,
         onChanged: autoSubmit
-            ? (query) => state.search?.apply(query, submitDelay)
+            ? (String query) => state.search?.apply(query, submitDelay)
             : null,
       );
     };
@@ -97,15 +97,15 @@ class ChoiceSearchToggle extends StatelessWidget {
   final VoidCallback? onShow;
   final VoidCallback? onHide;
 
-  static const defaultIconShow = Icon(Icons.search);
-  static const defaultIconHide = Icon(Icons.clear);
+  static const Icon defaultIconShow = Icon(Icons.search);
+  static const Icon defaultIconHide = Icon(Icons.clear);
 
   static ChoiceStateBuilder<T> create<T>({
     Key? key,
     Widget? iconShow,
     Widget? iconHide,
   }) {
-    return (modal) {
+    return (ChoiceController<T> modal) {
       return ChoiceSearchToggle(
         key: key,
         searching: modal.search?.active ?? false,
@@ -120,7 +120,7 @@ class ChoiceSearchToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedCrossFade(
-      crossFadeState: searching == true
+      crossFadeState: searching ?? false
           ? CrossFadeState.showSecond
           : CrossFadeState.showFirst,
       firstChild: IconButton(

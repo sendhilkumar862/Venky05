@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hessah/custom/choice/selection.dart';
+import '../../selection.dart';
 
 class ChoiceConfirmButton extends StatelessWidget {
   const ChoiceConfirmButton({
@@ -33,7 +33,7 @@ class ChoiceConfirmButton extends StatelessWidget {
     EdgeInsetsGeometry? margin,
     Brightness brightness = Brightness.light,
   }) {
-    return (state) {
+    return (ChoiceController<T> state) {
       return ChoiceConfirmButton(
         key: key,
         icon: icon,
@@ -42,7 +42,7 @@ class ChoiceConfirmButton extends StatelessWidget {
         margin: margin,
         brightness: brightness,
         onPressed: () {
-          state.closeModal(confirmed: true);
+          state.closeModal();
         },
       );
     };
@@ -83,7 +83,7 @@ class ChoiceConfirmButton extends StatelessWidget {
       }
     } else {
       return Padding(
-        padding: margin ?? const EdgeInsets.all(0),
+        padding: margin ?? EdgeInsets.zero,
         child: IconButton(
           icon: icon ?? const Icon(Icons.check_circle_outline),
           color: color,

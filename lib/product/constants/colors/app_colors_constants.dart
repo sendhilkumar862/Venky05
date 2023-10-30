@@ -57,4 +57,6 @@ class AppColors {
       blurRadius: 2,
     ),
   ];
+
+  static const Color textWhite80Color = Color(0xFFf2f2f2);
 }

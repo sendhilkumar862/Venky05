@@ -16,6 +16,8 @@ class HomeViews extends StatefulWidget {
 }
 
 class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
+
+
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeViewsModel>(
@@ -28,11 +30,11 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
           builder: (BuildContext context) {
             return Scaffold(
               backgroundColor: AppColors.appWhite,
-              appBar: appBar(
-                icon: ImageConstants.avtar,
-                title: 'Welcome!',
-                subTitle: 'Abdullah Mohamed',
-              ),
+
+              appBar: HessaAppBar(
+                  icon: ImageConstants.avtar,
+                  title: 'Welcome!',
+                  subTitle: 'Abdullah Mohamed'),
               body: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[

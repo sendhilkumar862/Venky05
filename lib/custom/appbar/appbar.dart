@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 import '../../product/constants/colors/app_colors_constants.dart';
@@ -5,8 +6,8 @@ import '../../product/constants/image/image_constants.dart';
 import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
 
-class appBar extends PreferredSize {
-  appBar({
+class HessaAppBar extends PreferredSize {
+  HessaAppBar({
     super.key,
     this.appBarTitle = '',
     this.onTapBackTap,
@@ -43,13 +44,12 @@ class appBar extends PreferredSize {
           child: Stack(
             fit: StackFit.expand,
             alignment: Alignment.center,
-            children: [
+            children: <Widget>[
               const AppImageAsset(
                 image: ImageConstants.appBarBG,
                 fit: BoxFit.fill,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   const SizedBox(
                     width: 15,
@@ -59,12 +59,13 @@ class appBar extends PreferredSize {
                     width: 55,
                     decoration:  BoxDecoration(
                       shape: BoxShape.circle,
-                      boxShadow: [
+                      boxShadow: <BoxShadow>[
                         BoxShadow(
                           color: AppColors.appPurple.withOpacity(0.4),
                           blurRadius: 6,
                           spreadRadius: 1,
                           offset: const Offset(1, 7),
+
                         ),
                       ],
                     ),
@@ -82,7 +83,7 @@ class appBar extends PreferredSize {
                    Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       AppText(
                         title!,
                         fontSize: 14,

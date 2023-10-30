@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hessah/custom/choice/selection.dart';
+import '../../selection.dart';
 
 class ChoiceListError extends StatelessWidget {
   const ChoiceListError({
@@ -21,7 +21,7 @@ class ChoiceListError extends StatelessWidget {
     TextAlign? textAlign = TextAlign.center,
     required String message,
   }) {
-    return (state) {
+    return (ChoiceController<T> state) {
       return ChoiceListError(
         key: key,
         padding: padding,

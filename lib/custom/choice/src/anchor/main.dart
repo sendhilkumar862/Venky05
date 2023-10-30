@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'value.dart';
+
+import '../selection/controller/main.dart';
 import 'types.dart';
+import 'value.dart';
 
 class ChoiceAnchor extends ListTile {
   const ChoiceAnchor({
@@ -22,16 +24,16 @@ class ChoiceAnchor extends ListTile {
     bool? dense,
     int? valueTruncate,
   }) {
-    return (state, openModal) {
-      final value = ChoiceValueText(
+    return (ChoiceController<T> state, openModal) {
+      final ChoiceValueText<T> value = ChoiceValueText<T>(
         value: state.value,
         placeholder: state.multiple ? 'Select one or more' : 'Select',
-        truncate: valueTruncate ?? (inline == true ? 1 : 2),
+        truncate: valueTruncate ?? (inline ?? false ? 1 : 2),
       );
-      final effectiveTrailingIcon = loading != true
+      final Widget effectiveTrailingIcon = loading != true
           ? trailing ?? defaultTrailingIcon
           : defaultTrailingSpinner;
-      final effectiveTrailing = inline == true
+      final Widget effectiveTrailing = inline ?? false 
           ? Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               children: <Widget>[
@@ -42,7 +44,7 @@ class ChoiceAnchor extends ListTile {
           : effectiveTrailingIcon;
       return ChoiceAnchor(
         title: title ?? (state.title != null ? Text(state.title!) : null),
-        subtitle: inline == true ? null : value,
+        subtitle: inline ?? false ? null : value,
         leading: leading,
         trailing: effectiveTrailing,
         dense: dense,

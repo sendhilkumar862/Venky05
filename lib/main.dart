@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: NavigationRoute.instance.generateRoute,
       navigatorKey: NavigationService.instance.navigatorKey,
       theme: context.watch<ThemeNotifier>().currentTheme,
-      home: const PreferenceView(),
+      home: const HomeView(),
     );
   }
 }

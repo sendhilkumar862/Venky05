@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hessah/custom/choice/selection.dart';
+import '../../selection.dart';
 
 /// Placeholder widget for empty choice items
 class ChoiceListPlaceholder extends StatelessWidget {
