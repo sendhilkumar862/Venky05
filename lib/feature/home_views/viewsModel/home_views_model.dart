@@ -5,6 +5,7 @@ import 'package:mobx/mobx.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../views/tabs/avtivities_view.dart';
 import '../views/tabs/classes_view.dart';
+import '../views/tabs/teachers_view.dart';
 
 part 'home_views_model.g.dart';
 
@@ -24,7 +25,7 @@ abstract class _HomeViewsModelBase extends BaseViewModel with Store {
   List<Map<String, dynamic>> bottomBarItems = [
     {'title': 'Classes', 'screenName': const ClassesView()},
     {'title': 'Activities', 'screenName': const ActivitiesView()},
-    {'title': 'Teachers', 'screenName': const SizedBox()},
+    {'title': 'Teachers', 'screenName': const TeachersView()},
   ];
 
   // ignore: use_setters_to_change_properties

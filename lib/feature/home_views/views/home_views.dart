@@ -16,8 +16,6 @@ class HomeViews extends StatefulWidget {
 }
 
 class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
-
-
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeViewsModel>(
@@ -30,7 +28,6 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
           builder: (BuildContext context) {
             return Scaffold(
               backgroundColor: AppColors.appWhite,
-
               appBar: HessaAppBar(
                   icon: ImageConstants.avtar,
                   title: 'Welcome!',
@@ -73,7 +70,8 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
     );
   }
 
-  Widget tabBarCardView(Map<String, dynamic> content, int index, HomeViewsModel homeViewsModel) {
+  Widget tabBarCardView(
+      Map<String, dynamic> content, int index, HomeViewsModel homeViewsModel) {
     final bool isSelected = homeViewsModel.selectedIndex == index;
     return Expanded(
       child: GestureDetector(

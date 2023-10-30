@@ -12,7 +12,7 @@ class AppColors {
   static const Color appLightBlack = Color(0xFF5E5F60);
   static const Color appGrey = Color(0xFFa1a3a6);
   static const Color appRed = Color(0xFFf26c61);
-  static const Color appGreen = Color(0xFF69c9cd);
+  static const Color appLightGreen = Color(0xFF69c9cd);
   static const Color appBlue = Color(0xFF002BC7);
   static const Color appDarkBlack = Color(0xFF051335);
   static const Color appDarkGrey = Color(0xFF515151);
@@ -21,6 +21,10 @@ class AppColors {
   static const Color appBrown = Color(0xFF856404);
   static const Color appPurple = Color(0xFF9185FF);
   static const Color lightPurple= Color(0xffE9EEFF);
+  static const Color appGreen= Color(0xff07B53B);
+  static const Color appLightRed= Color(0xffFF4956);
+  static const Color appOrange= Color(0xffF28602);
+  static const Color appLightBlue= Color(0xff3D67FF);
 
   static const Color trans = Colors.transparent;
   static const Color black = Colors.black;
@@ -38,6 +42,14 @@ class AppColors {
       spreadRadius: 5,
       color: appLightBlack.withOpacity(0.2),
       blurRadius: 10,
+    ),
+  ];
+
+  static List<BoxShadow> infoBoxShadow = [
+     BoxShadow(
+      offset: const Offset(1, 6),
+      color: appShadow.withOpacity(0.5),
+      blurRadius: 5,
     ),
   ];
 
