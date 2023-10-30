@@ -75,7 +75,8 @@ class _PreferenceViewState extends State<PreferenceView>
 
   Future<List<dynamic>> getChoices() async {
     try {
-      const String url = 'https://randomuser.me/api/?inc=name,picture,email&results=5';
+      const String url =
+          'https://randomuser.me/api/?inc=name,picture,email&results=5';
       final Response res = await Dio().get(url);
       final data = res.data['results'];
       return Future.value(data);
@@ -91,7 +92,8 @@ class _PreferenceViewState extends State<PreferenceView>
       onModelReady: (PreferenceViewModel model) {
         model.setContext(context);
       },
-      onPageBuilder: (BuildContext context, PreferenceViewModel value) => MaterialApp(
+      onPageBuilder: (BuildContext context, PreferenceViewModel value) =>
+          MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -124,7 +126,8 @@ class _PreferenceViewState extends State<PreferenceView>
                       padding: const EdgeInsets.all(15),
                       child: ListTile(
                         shape: RoundedRectangleBorder(
-                          side: const BorderSide(width: 0, color: Colors.transparent),
+                          side: const BorderSide(
+                              width: 0, color: Colors.transparent),
                           borderRadius:
                               BorderRadius.circular(20), //<-- SEE HERE
                         ),
@@ -174,7 +177,8 @@ class _PreferenceViewState extends State<PreferenceView>
                           value: choicesValue,
                           onChanged: setChoicesValue,
                           itemCount: choices.length,
-                          itemBuilder: (ChoiceController<String> selection, int i) {
+                          itemBuilder:
+                              (ChoiceController<String> selection, int i) {
                             final choice = choices.elementAt(i);
                             final value = choice['email'];
                             final label = choice['name']['first'] +
@@ -241,7 +245,8 @@ class _PreferenceViewState extends State<PreferenceView>
                       value: school,
                       onChanged: setSchoolValue,
                       itemCount: school.length,
-                      itemBuilder: (ChoiceController<String> selection, int index) {
+                      itemBuilder:
+                          (ChoiceController<String> selection, int index) {
                         return ChoiceChip(
                           shape: StadiumBorder(
                               side: BorderSide(
@@ -292,7 +297,8 @@ class _PreferenceViewState extends State<PreferenceView>
                       value: curriculum,
                       onChanged: setSchoolValue,
                       itemCount: curriculum.length,
-                      itemBuilder: (ChoiceController<String> selection, int index) {
+                      itemBuilder:
+                          (ChoiceController<String> selection, int index) {
                         return ChoiceChip(
                           shape: StadiumBorder(
                               side: BorderSide(
@@ -352,7 +358,8 @@ class _PreferenceViewState extends State<PreferenceView>
                       value: subject,
                       onChanged: setSchoolValue,
                       itemCount: subject.length,
-                      itemBuilder: (ChoiceController<String> selection, int index) {
+                      itemBuilder:
+                          (ChoiceController<String> selection, int index) {
                         return ChoiceChip(
                           shape: StadiumBorder(
                               side: BorderSide(
@@ -389,7 +396,10 @@ class _PreferenceViewState extends State<PreferenceView>
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: AppButton(
-                          title: 'Save My Preferences', onPressed: () {}),
+                        title: 'Save My Preferences',
+                        onPressed: () {},
+                        isDisable: false,
+                      ),
                     )
                   ],
                 ),

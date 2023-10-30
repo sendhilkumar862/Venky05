@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../core/typography.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 
 class AppButton extends StatelessWidget {
+  final String title;
+  final Function() onPressed;
+  final double? height;
+  final double? width;
+  final BorderRadiusGeometry? borderRadius;
+  final TextStyle? textStyle;
+  final EdgeInsetsGeometry? padding;
+  final String? copyText; // Text to be copied to the clipboard
+  final bool showCopySnackbar; // Flag to show the snackbar on tap
+  final bool? isBorderOnly;
+  final Color? borderColor;
+  final bool isDisable;
 
-  AppButton({
+  const AppButton({
     super.key,
     required this.title,
     required this.onPressed,
@@ -17,43 +30,35 @@ class AppButton extends StatelessWidget {
     this.copyText,
     this.showCopySnackbar = true,
     this.isBorderOnly = false,
-    this.borderColor, // Default to true
+    this.borderColor,
+    required this.isDisable,
   });
-  
-  final String title;
-  final Function() onPressed;
-  final double? height;
-  final double? width;
-  final BorderRadiusGeometry? borderRadius;
-  final TextStyle? textStyle;
-  final EdgeInsetsGeometry? padding;
-  final String? copyText; // Text to be copied to the clipboard
-  final bool showCopySnackbar; // Flag to show the snackbar on tap
-  bool? isBorderOnly = true;
-  final Color? borderColor;
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
     return Align(
       child: GestureDetector(
         onTap: () {
           if (copyText != null && showCopySnackbar) {
-            _copyToClipboardAndShowSnackbar(context, copyText ?? '');
+            _copyToClipboardAndShowSnackbar(context, copyText ?? "");
           }
           onPressed();
         },
         child: Padding(
-          padding:
-              padding ?? const EdgeInsets.symmetric(horizontal: 2, vertical: 3),
+          padding: padding ??
+              const EdgeInsets.symmetric(horizontal: 2, vertical: 20),
           child: Container(
             height: height ?? 50,
             width: width,
             decoration: BoxDecoration(
               border: Border.all(color: borderColor ?? Colors.grey),
               borderRadius: borderRadius ?? BorderRadius.circular(16),
-              color:
-                  isBorderOnly == true ? AppColors.trans : AppColors.appColor,
+              color: isBorderOnly == true
+                  ? AppColors.trans
+                  : isDisable == false
+                      ? AppColors.appColor
+                      : AppColors.appColor.withOpacity(0.4),
             ),
             child: Center(
               child: Text(
@@ -81,9 +86,7 @@ class AppButton extends StatelessWidget {
       behavior: SnackBarBehavior.floating,
       width: 47,
       duration: const Duration(seconds: 1),
-      content: const Text(
-        'Copied to Clipboard !',
-      ),
+      content: Text('Copied to Clipboard !', style: poppins.white),
     ));
   }
 }
