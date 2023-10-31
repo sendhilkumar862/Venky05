@@ -5,6 +5,7 @@ import '../../product/constants/image/image_constants.dart';
 import '../app_button/app_button.dart';
 import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
+import 'heading_card_view.dart';
 
 class InfoCardVIew extends StatelessWidget {
   InfoCardVIew({
@@ -32,7 +33,8 @@ class InfoCardVIew extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        viewAllCardView(heading??''!, isViewAllIcon: isViewAllIcon ?? false, onTap: viewAllOnTap),
+        HeadingCardView(
+            title: heading, isViewAllIcon: isViewAllIcon, onTap: viewAllOnTap),
         const SizedBox(height: 15),
         Container(
           width: double.infinity,
@@ -79,43 +81,6 @@ class InfoCardVIew extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget viewAllCardView(String title,
-      {bool? isViewAllIcon, VoidCallback? onTap}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          AppText(
-            title,
-            fontWeight: FontWeight.w700,
-          ),
-          if (isViewAllIcon!)
-            Row(
-              children: <Widget>[
-                GestureDetector(
-                  onTap: onTap,
-                  child: const AppText(
-                    'View All',
-                    color: AppColors.appBlue,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const AppImageAsset(
-                  image: ImageConstants.layersIcon,
-                  height: 18,
-                ),
-              ],
-            )
-        ],
-      ),
     );
   }
 }

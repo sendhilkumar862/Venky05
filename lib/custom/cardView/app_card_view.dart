@@ -6,6 +6,8 @@ import '../../product/extension/context_extension.dart';
 import '../app_button/app_button.dart';
 import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
+import 'heading_card_view.dart';
+import 'status_card_view.dart';
 
 class AppCardView extends StatelessWidget {
   AppCardView({
@@ -51,17 +53,19 @@ class AppCardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        viewAllCardView(heading!,
+        HeadingCardView(
+            title: heading,
             isViewAllIcon: isViewAllIcon,
             onTap: viewAllOnTap,
-            totalItem: totalCards),
+            totalItem: totalCards.toString()),
         const SizedBox(
           height: 10,
         ),
         SizedBox(
           height: 225,
           child: ListView.separated(
-            padding: const EdgeInsets.only(right: 15, top: 5, bottom: 20, left: 15),
+            padding:
+                const EdgeInsets.only(right: 15, top: 5, bottom: 20, left: 15),
             shrinkWrap: true,
             physics: const BouncingScrollPhysics(),
             itemCount: totalCards ?? 0,
@@ -86,7 +90,7 @@ class AppCardView extends StatelessWidget {
                           fontWeight: FontWeight.w800,
                           fontSize: 20,
                         ),
-                        statuses(status!)
+                        StatusCardView(status: status)
                       ],
                     ),
                     const SizedBox(
@@ -121,7 +125,7 @@ class AppCardView extends StatelessWidget {
                 ),
               );
             },
-            separatorBuilder: (context, index) {
+            separatorBuilder: (BuildContext context, int index) {
               return const SizedBox(
                 width: 15,
               );
@@ -167,7 +171,7 @@ class AppCardView extends StatelessWidget {
           shrinkWrap: true,
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
+          itemBuilder: (BuildContext context, int index) {
             return Container(
               margin: const EdgeInsets.only(right: 5),
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -196,52 +200,6 @@ class AppCardView extends StatelessWidget {
             );
           },
         ),
-      ),
-    );
-  }
-
-  Widget viewAllCardView(String title,
-      {bool? isViewAllIcon = true, VoidCallback? onTap, num? totalItem}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              AppText(
-                title,
-                fontWeight: FontWeight.w700,
-              ),
-              AppText(
-                ' ($totalItem)',
-                fontWeight: FontWeight.w700,
-                color: AppColors.appGrey,
-              ),
-            ],
-          ),
-          if (isViewAllIcon!)
-            Row(
-              children: <Widget>[
-                GestureDetector(
-                  onTap: onTap,
-                  child: const AppText(
-                    'View All',
-                    color: AppColors.appBlue,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const AppImageAsset(
-                  image: ImageConstants.layersIcon,
-                  height: 18,
-                ),
-              ],
-            )
-        ],
       ),
     );
   }
@@ -383,54 +341,56 @@ class AppCardView extends StatelessWidget {
               ],
             )
           else if (proposals == 0)
-            const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              SizedBox(
-                width: 50,
-                child: AppText('Proposals From',
-                    fontSize: 12, fontWeight: FontWeight.w500),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Stack(
-                alignment: Alignment.centerLeft,
-                children: [
-                  AppImageAsset(
-                    image: ImageConstants.teacherAvtar,
-                    height: 40,
+            const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    width: 50,
+                    child: AppText('Proposals From',
+                        fontSize: 12, fontWeight: FontWeight.w500),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 16),
-                    child: AppImageAsset(
-                      image: ImageConstants.avtar,
-                      height: 40,
-                    ),
+                  SizedBox(
+                    width: 10,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 32),
-                    child: AppImageAsset(
-                      image: ImageConstants.avtar,
-                      height: 40,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 48),
-                    child: AppImageAsset(
-                      image: ImageConstants.avtar,
-                      height: 40,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 64),
-                    child: CircleAvatar(
-                      child: AppText('+5',
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.appWhite),
-                    ),
+                  Stack(
+                    alignment: Alignment.centerLeft,
+                    children: <Widget>[
+                      AppImageAsset(
+                        image: ImageConstants.teacherAvtar,
+                        height: 40,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 16),
+                        child: AppImageAsset(
+                          image: ImageConstants.avtar,
+                          height: 40,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 32),
+                        child: AppImageAsset(
+                          image: ImageConstants.avtar,
+                          height: 40,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 48),
+                        child: AppImageAsset(
+                          image: ImageConstants.avtar,
+                          height: 40,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 64),
+                        child: CircleAvatar(
+                          child: AppText('+5',
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.appWhite),
+                        ),
+                      )
+                    ],
                   )
-                ],
-              )
-            ])
+                ])
           else
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -451,99 +411,6 @@ class AppCardView extends StatelessWidget {
             borderRadius: BorderRadius.circular(13),
             onPressed: buttonTap!,
           )
-        ],
-      ),
-    );
-  }
-
-  Widget statuses(String status) {
-    switch (status) {
-      case 'COMPLETED':
-        return customStatusView(
-            title: 'Completed',
-            icon: ImageConstants.acceptedStatus,
-            cardColor: AppColors.appGreen,
-            iconColor: AppColors.appWhite);
-
-      case 'ACCEPTED':
-        return customStatusView(
-            title: 'Accepted',
-            icon: ImageConstants.acceptedStatus,
-            cardColor: AppColors.appGreen,
-            iconColor: AppColors.appWhite);
-
-      case 'PENDING':
-        return customStatusView(
-            title: 'Pending',
-            icon: ImageConstants.pendingStatus,
-            cardColor: AppColors.appYellow,
-            iconColor: AppColors.appDarkBlack);
-
-      case 'INCOMPLETE':
-        return customStatusView(
-            title: 'Incomplete',
-            icon: ImageConstants.inCompletedStatus,
-            cardColor: AppColors.appBorderColor,
-            iconColor: AppColors.appDarkBlack);
-
-      case 'CANCELLED':
-        return customStatusView(
-            title: 'Cancelled',
-            icon: ImageConstants.inCompletedStatus,
-            cardColor: AppColors.appLightRed,
-            iconColor: AppColors.appWhite);
-
-      case 'CREATED':
-        return customStatusView(
-            title: 'Created',
-            icon: ImageConstants.pendingStatus,
-            cardColor: AppColors.appLightBlue,
-            iconColor: AppColors.appWhite);
-
-      case 'CANCELLING':
-        return customStatusView(
-            title: 'Cancelling',
-            icon: ImageConstants.cancellingStatus,
-            cardColor: AppColors.appOrange,
-            iconColor: AppColors.appWhite);
-
-      case 'RESCHEDULING':
-        return customStatusView(
-            title: 'Rescheduling',
-            icon: ImageConstants.reschedulingStatus,
-            cardColor: AppColors.appOrange,
-            iconColor: AppColors.appWhite);
-
-      default:
-        return customStatusView(
-            title: 'Completed',
-            icon: ImageConstants.acceptedStatus,
-            cardColor: AppColors.appGreen,
-            iconColor: AppColors.appWhite);
-    }
-  }
-
-  Container customStatusView(
-      {Color? cardColor, String? icon, String? title, Color? iconColor}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        color: cardColor,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          AppImageAsset(
-            image: icon!,
-            height: 16,
-            color: iconColor,
-          ),
-          const SizedBox(
-            width: 3,
-          ),
-          AppText(title!,
-              color: iconColor!, fontSize: 10, fontWeight: FontWeight.w500),
         ],
       ),
     );

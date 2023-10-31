@@ -9,7 +9,7 @@ class HessaAppBar extends PreferredSize {
   HessaAppBar(
       {super.key,
       this.onTapBackTap,
-      this.isTitle = false,
+      this.isTitleOnly = false,
       this.showSuffix = false,
       this.title,
       this.subTitle,
@@ -24,7 +24,7 @@ class HessaAppBar extends PreferredSize {
   final String? icon;
   final String? title;
   final String? subTitle;
-  final bool isTitle;
+  final bool isTitleOnly;
   final bool showSuffix;
   final GestureTapCallback? onTapBackTap;
   final GestureTapCallback? onProfileTap;
@@ -46,82 +46,103 @@ class HessaAppBar extends PreferredSize {
               image: ImageConstants.appBarBG,
               fit: BoxFit.fill,
             ),
-            Row(
-              children: <Widget>[
-                const SizedBox(
-                  width: 15,
-                ),
-                Container(
-                  height: 55,
-                  width: 55,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: AppColors.appPurple.withOpacity(0.4),
-                        blurRadius: 6,
-                        spreadRadius: 1,
-                        offset: const Offset(1, 7),
+            if (isTitleOnly)
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: onTapBackTap,
+                    icon: const Icon(
+                      Icons.arrow_back_rounded,
+                      color: AppColors.appDarkBlack,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 6,
+                  ),
+                  AppText(
+                    title!,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  )
+                ],
+              )
+            else
+              Row(
+                children: <Widget>[
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  Container(
+                    height: 55,
+                    width: 55,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: AppColors.appPurple.withOpacity(0.4),
+                          blurRadius: 6,
+                          spreadRadius: 1,
+                          offset: const Offset(1, 7),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(500),
+                      child: GestureDetector(
+                        onTap: onProfileTap,
+                        child: AppImageAsset(
+                          image: icon!,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 23),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      AppText(
+                        title ?? ''!,
+                        fontSize: 14,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      SizedBox(
+                        width: 160,
+                        child: AppText(
+                          subTitle ?? ''!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
                     ],
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(500),
-                    child: GestureDetector(
-                      onTap: onProfileTap,
-                      child: AppImageAsset(
-                        image: icon!,
-                      ),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: onSearchTap,
+                    child: const AppImageAsset(
+                      image: ImageConstants.searchIcon,
+                      height: 25,
                     ),
                   ),
-                ),
-                const SizedBox(width: 23),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    AppText(
-                      title ?? ''!,
-                      fontSize: 14,
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    SizedBox(
-                      width: 160,
-                      child: AppText(
-                        subTitle!,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                GestureDetector(
-                  onTap: onSearchTap,
-                  child: const AppImageAsset(
-                    image: ImageConstants.searchIcon,
-                    height: 25,
+                  const SizedBox(
+                    width: 18,
                   ),
-                ),
-                const SizedBox(
-                  width: 18,
-                ),
-                GestureDetector(
-                  onTap: onBellTap,
-                  child: const AppImageAsset(
-                    image: ImageConstants.bellIcon,
-                    height: 20,
+                  GestureDetector(
+                    onTap: onBellTap,
+                    child: const AppImageAsset(
+                      image: ImageConstants.bellIcon,
+                      height: 20,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-              ],
-            ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                ],
+              ),
           ],
         ),
       ),

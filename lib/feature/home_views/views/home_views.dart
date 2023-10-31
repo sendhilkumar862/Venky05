@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../product/base/view/base_view.dart';
+import '../../../config/routes/app_router.dart';
+import '../../../config/routes/routes.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
@@ -29,9 +31,12 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
             return Scaffold(
               backgroundColor: AppColors.appWhite,
               appBar: HessaAppBar(
-                  icon: ImageConstants.avtar,
-                  title: 'Welcome!',
-                  subTitle: 'Abdullah Mohamed'),
+                icon: ImageConstants.avtar,
+                title: 'Welcome!',
+                subTitle: 'Abdullah Mohamed',
+              onProfileTap: () => AppRouter.pushNamed(Routes.PrefrencesScreen
+              ),
+              ),
               body: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[

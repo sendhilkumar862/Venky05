@@ -4,6 +4,7 @@ import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
 import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
+import 'heading_card_view.dart';
 
 class DetailsCardView extends StatelessWidget {
   DetailsCardView({
@@ -36,8 +37,11 @@ class DetailsCardView extends StatelessWidget {
     return Column(
       children: [
         if (isShowViewAll ?? true!)
-          viewAllCardView(heading ?? ''!,
-              totalItem: 5, onTap: () => null, isViewAllIcon: true),
+          HeadingCardView(
+              title: heading ?? ''!,
+              totalItem: '5',
+              onTap: () {},
+              isViewAllIcon: true),
         const SizedBox(
           height: 5,
         ),
@@ -47,7 +51,6 @@ class DetailsCardView extends StatelessWidget {
             itemCount: 5,
             shrinkWrap: true,
             physics: const BouncingScrollPhysics(),
-
             scrollDirection: Axis.horizontal,
             itemBuilder: (BuildContext context, int index) {
               return Container(
@@ -194,52 +197,6 @@ class DetailsCardView extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget viewAllCardView(String title,
-      {bool? isViewAllIcon = true, VoidCallback? onTap, num? totalItem}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              AppText(
-                title,
-                fontWeight: FontWeight.w700,
-              ),
-              AppText(
-                ' (${totalItem})',
-                fontWeight: FontWeight.w700,
-                color: AppColors.appGrey,
-              ),
-            ],
-          ),
-          if (isViewAllIcon!)
-            Row(
-              children: <Widget>[
-                GestureDetector(
-                  onTap: onTap,
-                  child: const AppText(
-                    'View All',
-                    color: AppColors.appBlue,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const AppImageAsset(
-                  image: ImageConstants.layersIcon,
-                  height: 18,
-                ),
-              ],
-            )
-        ],
-      ),
     );
   }
 }

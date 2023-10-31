@@ -19,6 +19,7 @@ class ImageConstants {
   static const String appBarBG = '${ApplicationConstants.imagePath}appbar_bg.png';
   static const String teacherAvtar = '${ApplicationConstants.imagePath}teacher_avtar.png';
   static const String starSecondary = '${ApplicationConstants.imagePath}star_secondary.png';
+  static const String successCircle = '${ApplicationConstants.imagePath}success_circle.png';
 
 
 
@@ -45,5 +46,10 @@ class ImageConstants {
   static const String reschedulingStatus = '${ApplicationConstants.iconPath}rescheduling_icon.png';
   static const String doBookmark = '${ApplicationConstants.iconPath}do_bookmark.png';
   static const String removeBookmark = '${ApplicationConstants.iconPath}remove_bookmark.png';
+  static const String pinLocation = '${ApplicationConstants.iconPath}pin_location.png';
+  static const String infoIcon = '${ApplicationConstants.iconPath}info_icon.png';
+  static const String deleteIcon = '${ApplicationConstants.iconPath}delete_icon.png';
+  static const String editIcon = '${ApplicationConstants.iconPath}edit_icon.png';
+  static const String closeIcon = '${ApplicationConstants.iconPath}close_icon.png';
 
 }
