@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/typography.dart';
+import '../../../custom/app_button/app_button.dart';
+import '../../../custom/app_textformfield/app_field.dart';
+import '../../../custom/appbar/appbar.dart';
+import '../../../custom/choice/src/inline/list.dart';
+import '../../../custom/choice/src/inline/main.dart';
+import '../../../custom/choice/src/selection/controller/main.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
+import '../../class_detail/class_detail.dart';
 
 class SchoolList {
   SchoolList({
     required this.isSelect,
     required this.title,
   });
+
   final String title;
   late bool isSelect;
 }
@@ -34,25 +43,26 @@ class _CreateClassState extends State<CreateClass> {
     '12',
     'University',
   ];
-  List<SchoolList> school = <SchoolList>[
-    SchoolList(isSelect: false, title: 'Public'),
-    SchoolList(isSelect: false, title: 'Private'),
+  List<String> school = <String>['Public', 'Private'];
+  List<String> subject = <String>[
+    'Arabic',
+    'Math',
+    'Science',
+    'Islamic',
+    'physics',
+    'Chemistry',
+    'English',
+    'French',
+    'Deutsch',
+    'Arts'
   ];
-  List<SchoolList> subject = <SchoolList>[
-    SchoolList(isSelect: false, title: 'Arabic'),
-    SchoolList(isSelect: false, title: 'Math'),
-    SchoolList(isSelect: false, title: 'Science'),
-    SchoolList(isSelect: false, title: 'Islamic'),
-    SchoolList(isSelect: false, title: 'physics'),
-    SchoolList(isSelect: false, title: 'Chemisty'),
-    SchoolList(isSelect: false, title: 'English'),
-    SchoolList(isSelect: false, title: 'French'),
-    SchoolList(isSelect: false, title: 'Deutsch'),
-    SchoolList(isSelect: false, title: 'Arts'),
-  ];
-  int isGradeSelect = 0;
-  int isSchoolSelect = 0;
-  int isSubjectSelect = 0;
+  Set<int> isGradeSelect = <int>{};
+  Set<int> isSchoolSelect = <int>{};
+  Set<int> isSubjectSelect = <int>{};
+
+  void setSchoolValue(List<String> value) {
+    setState(() => school = value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,24 +72,10 @@ class _CreateClassState extends State<CreateClass> {
     //   EmiAmount(std:"6 Month" ),
     // ];
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.trans,
-        elevation: 0,
-        title:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-          const Text('Create Class',
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black)),
-          TextButton(
-              onPressed: () {},
-              child: const Text('Cancel',
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black)))
-        ]),
+      appBar: HessaAppBar(
+        trailingText: 'Cancel',
+        titleText: 'Create Class',
+        normalAppbar: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -100,81 +96,86 @@ class _CreateClassState extends State<CreateClass> {
                     style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
               ),
-              Wrap(
-                  children: List.generate(
-                      grade.length,
-                      (int index) => InkWell(
-                            onTap: () {
-                              setState(() {
-                                isGradeSelect = index;
-                              });
-                            },
-                            highlightColor: Colors.transparent,
-                            splashColor: Colors.transparent,
-                            child: Container(
-                              height: 32,
-                              width: grade[index] == 'University' ? 83 : 50,
-                              margin: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                  color: isGradeSelect == index
-                                      ? const Color(0xff002BC7)
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                      width: 1, color: const Color(0xffC5CEEE))),
-                              child: Center(
-                                  child: Text(
-                                grade[index],
-                                style: TextStyle(
-                                    color: isGradeSelect != index
-                                        ? const Color(0xff051335).withOpacity(0.5)
-                                        : Colors.white),
-                              )),
-                            ),
-                          ))),
+              InlineChoice<String>(
+                clearable: true,
+                value: grade,
+                onChanged: setSchoolValue,
+                itemCount: grade.length,
+                itemBuilder: (ChoiceController<String> selection, int index) {
+                  return ChoiceChip(
+                    shape: StadiumBorder(
+                        side: BorderSide(
+                            color: isGradeSelect.contains(index)
+                                ? AppColors.trans
+                                : AppColors.appBorderColor)),
+                    backgroundColor: AppColors.trans,
+                    selected: isGradeSelect.contains(index),
+                    onSelected: (bool selected) {
+                      setState(() {
+                        if (selected) {
+                          isGradeSelect
+                              .add(index); // Add to the set for multi-selection
+                        } else {
+                          isGradeSelect.remove(index); // Remove from the set
+                        }
+                      });
+                    },
+                    showCheckmark: false,
+                    label: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(grade[index], style: poppins.get12.w600),
+                    ),
+                    selectedColor: AppColors.appColor,
+                    // Change this to your desired color
+                    labelStyle: TextStyle(
+                      color: isGradeSelect.contains(index)
+                          ? AppColors.white
+                          : AppColors.black, // Change text color
+                    ),
+                  );
+                },
+                listBuilder: ChoiceList.createWrapped(),
+              ),
               const Divider(),
               const Text('School',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
-              Wrap(
-                  children: List.generate(
-                      school.length,
-                      (int index) => InkWell(
-                            onTap: () {
-                              setState(() {
-                                school[index].isSelect =
-                                    !school[index].isSelect;
-                              });
-                            },
-                            highlightColor: Colors.transparent,
-                            splashColor: Colors.transparent,
-                            child: Container(
-                              height: 32,
-                              margin: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                  color: school[index].isSelect
-                                      ? const Color(0xff002BC7)
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                      width: 1, color: const Color(0xffC5CEEE))),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 7),
-                                child: FittedBox(
-                                  child: Center(
-                                    child: Text(
-                                      school[index].title,
-                                      style: TextStyle(
-                                          color: school[index].isSelect == false
-                                              ? const Color(0xff051335)
-                                                  .withOpacity(0.5)
-                                              : Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ))),
+              InlineChoice<String>(
+                clearable: true,
+                value: school,
+                onChanged: setSchoolValue,
+                itemCount: school.length,
+                itemBuilder: (ChoiceController<String> selection, int index) {
+                  return ChoiceChip(
+                    shape: StadiumBorder(
+                        side: BorderSide(
+                            color: isSchoolSelect.contains(index)
+                                ? AppColors.trans
+                                : AppColors.appBorderColor)),
+                    backgroundColor: AppColors.trans,
+                    selected: isSchoolSelect.contains(index),
+                    onSelected: (bool selected) {
+                      setState(() {
+                        if (selected) {
+                          isSchoolSelect
+                              .add(index); // Add to the set for multi-selection
+                        } else {
+                          isSchoolSelect.remove(index); // Remove from the set
+                        }
+                      });
+                    },
+                    showCheckmark: false,
+                    label: Text(school[index], style: poppins.get12.w600),
+                    selectedColor: AppColors.appColor,
+                    // Change this to your desired color
+                    labelStyle: TextStyle(
+                      color: isSchoolSelect.contains(index)
+                          ? AppColors.white
+                          : AppColors.black, // Change text color
+                    ),
+                  );
+                },
+                listBuilder: ChoiceList.createWrapped(),
+              ),
               const Divider(),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
@@ -182,107 +183,73 @@ class _CreateClassState extends State<CreateClass> {
                     style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
               ),
-              Wrap(
-                  children: List.generate(
-                      subject.length,
-                      (int index) => InkWell(
-                            onTap: () {
-                              setState(() {
-                                subject[index].isSelect =
-                                    !subject[index].isSelect;
-                              });
-                            },
-                            highlightColor: Colors.transparent,
-                            splashColor: Colors.transparent,
-                            child: Container(
-                              height: 32,
-                              margin: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                  color: subject[index].isSelect
-                                      ? const Color(0xff002BC7)
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                      width: 1, color: const Color(0xffC5CEEE))),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 7),
-                                child: FittedBox(
-                                  child: Center(
-                                    child: Text(
-                                      subject[index].title,
-                                      style: TextStyle(
-                                          color:
-                                              subject[index].isSelect == false
-                                                  ? const Color(0xff051335)
-                                                      .withOpacity(0.5)
-                                                  : Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ))),
-              const Divider(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Text('class summary',
-                    style:
-                        TextStyle(color: const Color(0xff051335).withOpacity(0.5))),
+              InlineChoice<String>(
+                clearable: true,
+                value: subject,
+                onChanged: setSchoolValue,
+                itemCount: subject.length,
+                itemBuilder: (ChoiceController<String> selection, int index) {
+                  return ChoiceChip(
+                    shape: StadiumBorder(
+                        side: BorderSide(
+                            color: isSubjectSelect.contains(index)
+                                ? AppColors.trans
+                                : AppColors.appBorderColor)),
+                    backgroundColor: AppColors.trans,
+                    selected: isSubjectSelect.contains(index),
+                    onSelected: (bool selected) {
+                      setState(() {
+                        if (selected) {
+                          isSubjectSelect
+                              .add(index); // Add to the set for multi-selection
+                        } else {
+                          isSubjectSelect.remove(index); // Remove from the set
+                        }
+                      });
+                    },
+                    showCheckmark: false,
+                    label: Text(subject[index], style: poppins.get12.w600),
+                    selectedColor: AppColors.appColor,
+                    // Change this to your desired color
+                    labelStyle: TextStyle(
+                      color: isSubjectSelect.contains(index)
+                          ? AppColors.white
+                          : AppColors.black, // Change text color
+                    ),
+                  );
+                },
+                listBuilder: ChoiceList.createWrapped(),
               ),
-              TextFormField(
-                decoration: InputDecoration(
-                    hintTextDirection: TextDirection.rtl,
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: const Color(0xff051335).withOpacity(0.5), width: 1),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-                    hintText: 'class summary',
-                    hintStyle: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xff051335))),
-                maxLines: 1,
-                textAlign: TextAlign.left,
+              const Divider(),
+              const AppTextFormField(
+                minLines: 4,
+                maxLines: 10,
+                hintText: 'Class Summary',
+                borderColor: AppColors.appColor,
+                titleColor: AppColors.appColor,
+                title: 'Class Summary',
+                top: 0,
+                height: 30,
               ),
               const Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 20),
+                padding: EdgeInsets.only(
+                  top: 15,
+                ),
                 child: Divider(
                   height: 1,
                   color: Color(0xffC5CEEE),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: SizedBox(
-                  width: width,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(const Color(0xff002BC7)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                        ))),
-                    onPressed: () {},
-                    child: const Text(
-                      'Next for Class Details',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
-              )
+              AppButton(
+                  title: 'Next for Class Details',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ClassDetail()),
+                    );
+                  },
+                  isDisable: false)
             ],
           ),
         ),
@@ -295,5 +262,6 @@ class EmiAmount {
   EmiAmount({
     required this.std,
   });
+
   final String std;
 }

@@ -26,7 +26,6 @@ class _StudentProfileViewState extends State<StudentProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-
         body: Observer(
           builder: (BuildContext context) {
             return ListView(
@@ -58,7 +57,7 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                       height: 35,
                       width: 120,
                       decoration: BoxDecoration(
-                        color: AppColors.appBlue,
+                        color: AppColors.appColor,
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: const Row(
@@ -73,7 +72,8 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                             ),
                             AppText(
                               'Message',
-                              color: AppColors.appWhite,fontSize: 14,
+                              color: AppColors.appWhite,
+                              fontSize: 14,
                             ),
                           ]),
                     ),
@@ -84,7 +84,7 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                       height: 35,
                       width: 120,
                       decoration: BoxDecoration(
-                        color: AppColors.appBlue,
+                        color: AppColors.appColor,
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: const Row(
@@ -99,16 +99,16 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                             ),
                             AppText(
                               'Message',
-                              color: AppColors.appWhite,fontSize: 14,
+                              color: AppColors.appWhite,
+                              fontSize: 14,
                             ),
                           ]),
                     ),
                   ],
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10)
-                  ),
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
                 )
               ],
             );

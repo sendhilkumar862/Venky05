@@ -1,10 +1,13 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import '../../core/typography.dart';
 import '../../custom/app_button/app_button.dart';
 import '../../custom/app_textformfield/app_field.dart';
+import '../../custom/appbar/appbar.dart';
 import '../../custom/common_dropdown/app_dropdown.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 
@@ -27,7 +30,9 @@ class _ClassDetailState extends State<ClassDetail> {
   TextEditingController participators3 = TextEditingController();
   TextEditingController participators4 = TextEditingController();
   TextEditingController participators5 = TextEditingController();
-  RangeValues values = const RangeValues(40, 40);
+  TextEditingController classDurationController = TextEditingController();
+  SfRangeValues value = SfRangeValues(40, 40);
+  double sliderValue = 50.0;
   bool isDisable = true;
   String dateAndTime = '';
   String classDuration = '';
@@ -38,19 +43,26 @@ class _ClassDetailState extends State<ClassDetail> {
   ];
   List<String> classDurationList = <String>[
     '1 Hours',
+    '1 Hour - 15 Minutes',
+    '1 Hour - 30 Minutes',
+    '1 Hour - 45 Minutes',
     '2 Hours',
-    '3 Hours',
-    '4 Hours',
+    '2 Hour - 15 Minutes',
+    '2 Hour - 30 Minutes',
+    '2 Hour - 45 Minutes',
+    '3 Hour',
   ];
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.sizeOf(context).width;
     return Scaffold(
-      // appBar: myAppBar(
-      //   isBack: true,
-      //   trailingText: 'Cancel',
-      //   titleText: 'Create class',
-      // ),
+      appBar: HessaAppBar(
+        isBack: true,
+        trailingText: 'Cancel',
+        titleText: 'Create class',
+        normalAppbar: true,
+      ),
       body: Form(
         key: formKey,
         onChanged: () {
@@ -71,29 +83,42 @@ class _ClassDetailState extends State<ClassDetail> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(top: 40),
+                    padding: const EdgeInsets.only(top: 20),
                     child: Text(
                       'Class Details',
-                      style: poppins.get20.w700,
+                      style:
+                          poppins.get20.w700.textColor(AppColors.appTextColor),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: Text(
                       'participators',
-                      style: poppins.get8.w300,
+                      style: poppins.get12.w400
+                          .textColor(AppColors.appTextColor.withOpacity(0.5)),
                     ),
                   ),
-                  RangeSlider(
-                    activeColor: AppColors.appColor,
-                    max: 100,
-                    values: values,
-                    inactiveColor: AppColors.appBorderColor,
-                    onChanged: (RangeValues value) {
+                  SfRangeSlider(
+                    max: 100.0,
+                    values: value,
+                    interval: 20,
+                    minorTicksPerInterval: 1,
+                    onChanged: (SfRangeValues values) {
                       setState(() {
-                        values = value;
+                        value = values;
                       });
                     },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Minimum',
+                          style: poppins.get10.w400.textColor(
+                              AppColors.appTextColor.withOpacity(0.5))),
+                      Text('Maximum',
+                          style: poppins.get10.w400.textColor(
+                              AppColors.appTextColor.withOpacity(0.5))),
+                    ],
                   ),
                   AppTextFormField(
                     controller: classCost,
@@ -117,7 +142,8 @@ class _ClassDetailState extends State<ClassDetail> {
                     },
                     hintText: 'select Date and Time',
                     readOnly: true,
-                    suffix: Icon(Icons.keyboard_arrow_down_sharp),
+                    suffix: Icon(Icons.keyboard_arrow_down_sharp,
+                        color: AppColors.downArrowColor),
                   ),
                   AppDropdown(
                     hintText: 'select Date and Time',
@@ -141,27 +167,63 @@ class _ClassDetailState extends State<ClassDetail> {
                       dateAndTime = value.toString();
                     },
                   ),
-                  AppDropdown(
+                  AppTextFormField(
+                    suffix: Icon(Icons.keyboard_arrow_down_sharp,
+                        color: AppColors.downArrowColor),
                     hintText: 'Class Duration',
-                    validate: requiredValidator,
                     title: 'Class Duration',
-                    options: classDurationList,
-                    getLabel: (String value) => value,
-                    value: classDuration,
-                    onChanged: (String? value) {
-                      classDuration = value.toString();
+                    readOnly: true,
+                    controller: classDurationController,
+                    onTap: () {
+                      bottomSheetDropDownList();
                     },
                   ),
-                  AppDropdown(
-                    hintText: 'Class address',
-                    validate: requiredValidator,
-                    title: 'Select Location',
-                    options: dateAndTimeList,
-                    getLabel: (String value) => value,
-                    value: dateAndTime,
-                    onChanged: (String? value) {
-                      dateAndTime = value.toString();
-                    },
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20, bottom: 7),
+                    child: Text(
+                      'Select Location',
+                      style: TextStyle(
+                          color: const Color(0xff051335).withOpacity(0.5),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  SizedBox(
+                    width: width,
+                    child: DottedBorder(
+                        borderType: BorderType.RRect,
+                        radius: Radius.circular(15),
+                        color: AppColors.appColor,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 10),
+                          child: Column(
+                            children: [
+                              Center(
+                                  child: Text(
+                                'No Address Found!',
+                                style: poppins.get16.w700,
+                              )),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 15),
+                                child: AppButton(
+                                    borderRadius: BorderRadius.circular(10),
+                                    padding: EdgeInsets.symmetric(vertical: 0),
+                                    borderColor: AppColors.appColor,
+                                    isBorderOnly: true,
+                                    textStyle: const TextStyle(
+                                        color: AppColors.appColor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600),
+                                    height: 45,
+                                    width: width,
+                                    title: 'Add Address Found',
+                                    onPressed: () {},
+                                    isDisable: isDisable),
+                              )
+                            ],
+                          ),
+                        )),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 25, bottom: 10),
@@ -169,11 +231,13 @@ class _ClassDetailState extends State<ClassDetail> {
                       children: <Widget>[
                         Text(
                           'Other Participators',
-                          style: poppins.get15.w500,
+                          style: poppins.get20.w700
+                              .textColor(AppColors.appTextColor),
                         ),
                         Text(
                           '(optional)',
-                          style: poppins.get8.w300,
+                          style: poppins.get12.w400.textColor(
+                              AppColors.appTextColor.withOpacity(0.5)),
                         ),
                       ],
                     ),
@@ -234,5 +298,58 @@ class _ClassDetailState extends State<ClassDetail> {
       selectedDate = picked;
       dateController.text = DateFormat('dd-MM-yyyy').format(picked);
     }
+  }
+
+  void bottomSheetDropDownList() {
+    showModalBottomSheet(
+      shape: const OutlineInputBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+      context: context,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          child: Column(
+            children: [
+              Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+                Text('Class Duration', style: poppins.get14.w700),
+                const SizedBox(width: 80),
+                Container(
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle, color: AppColors.appTextColor),
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Padding(
+                        padding: EdgeInsets.all(3),
+                        child: Icon(Icons.close),
+                      ),
+                    ))
+              ]),
+              Expanded(
+                child: ListView.separated(
+                  separatorBuilder: (BuildContext context, index) {
+                    return const Divider();
+                  },
+                  itemCount: classDurationList.length,
+                  itemBuilder: (BuildContext context, index) {
+                    return ListTile(
+                      title: Text(classDurationList[index],
+                          style: poppins.get16.w400
+                              .textColor(AppColors.appTextColor)),
+                      onTap: () {
+                        classDurationController.text = classDurationList[index];
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
