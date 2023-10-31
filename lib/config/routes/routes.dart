@@ -1,12 +1,14 @@
 // ignore_for_file: constant_identifier_names
 import 'package:flutter/material.dart';
 
-import '../../feature/home/view/home_view.dart';
-import '../../product/constants/typedefs.dart';
-
 // Screens
 
 // Helpers
+import '../../feature/home/view/home_view.dart';
+
+
+// Helpers
+import '../../product/constants/typedefs.dart';
 
 /// A utility class that holds screen names for named navigation.
 /// This class has no constructor and all variables are `static`.
