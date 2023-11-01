@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../product/base/view/base_view.dart';
+
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/appbar/appbar.dart';
-import '../../../custom/cardView/details_card_view.dart';
 import '../../../custom/cardView/details_card_view_horizontal.dart';
 import '../../../custom/cardView/heading_card_view.dart';
 import '../../../custom/cardView/status_card_view.dart';
-import '../../../custom/dialog/success_fail_dialog.dart';
-import '../../../custom/divider/divider.dart';
+
+import '../../../custom/cardView/student_card_view.dart';
 import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/extension/context_extension.dart';
+import '../../rating/view/rating_view.dart';
 import '../viewModel/class_details_view_model.dart';
+import 'bottomSheetView/booking_bottom_view.dart';
+import 'bottomSheetView/student_bottom_view.dart';
 
 class ClassDetailsView extends StatefulWidget {
   const ClassDetailsView({super.key});
@@ -114,16 +117,70 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   const SizedBox(
                     height: 20,
                   ),
-                  DetailsCardViewHorizontal(
-                      heading: 'Teacher',
-                      reViewLength: 3,
-                      name: 'User Name',
-                      avatar: ImageConstants.teacherAvtar,
-                      countryIcon: ImageConstants.countryIcon,
-                      countryName: 'Kuwait',
-                      isPro: true,
-                      isBookmarked: true,
-                      subjects: 'Science - Accounta..'),
+                  HeadingCardView(
+                    padding: 0,
+                    title: 'Teachers',
+                    isViewAllIcon: true,
+                    trailingWidget: const Row(
+                      children: <Widget>[
+                        AppText('Accept or Reject Students',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.appBlue),
+                        SizedBox(width: 5),
+                        AppImageAsset(
+                          image: ImageConstants.editIcon,
+                          height: 18,
+                          color: AppColors.appBlue,
+                        )
+                      ],
+                    ),
+                    onTap: () {
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        context: context,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(25.0),
+                          ),
+                        ),
+                        builder: (BuildContext context) {
+                          return const StudentBottomSheet();
+                        },
+                      );
+                    },
+                  ),
+                  SizedBox(
+                    height: 18,
+                  ),
+                  SizedBox(
+                    height: 68,
+                    child: ListView.separated(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                          return const StudentCardView();
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const SizedBox(width: 14);
+                        },
+                        itemCount: 10),
+                  ),
+                  const SizedBox(height: 18),
+                  InkWell(
+                    onTap: () {},
+                    child: DetailsCardViewHorizontal(
+                        heading: 'Teacher',
+                        reViewLength: 3,
+                        name: 'User Name',
+                        avatar: ImageConstants.teacherAvtar,
+                        countryIcon: ImageConstants.countryIcon,
+                        countryName: 'Kuwait',
+                        isPro: true,
+                        isBookmarked: true,
+                        subjects: 'Science - Account..'),
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -141,13 +198,13 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            AppText(
-                              'Class Details'!,
+                            const AppText(
+                              'Class Details',
                               fontWeight: FontWeight.w800,
                               fontSize: 16,
                             ),
                             const Spacer(),
-                            StatusCardView(status: 'COMPLETED'),
+                            StatusCardView(status: 'PAYING'),
                           ],
                         ),
                         const SizedBox(height: 15),
@@ -186,30 +243,9 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    padding: context.paddingNormal,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(13),
-                      color: AppColors.lightPurpleTwo,
-                    ),
-                    child: const Row(children: <Widget>[
-                      AppImageAsset(
-                        image: ImageConstants.infoIcon,
-                        height: 23,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      SizedBox(
-                        width: 260,
-                        child: AppText(
-                          'You wil pay after the class accepted by the teacher.',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      )
-                    ]),
+                  screenButton(
+                    isPaying: true,
+                    onTap: () {},
                   ),
                   const SizedBox(
                     height: 25,
@@ -227,7 +263,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                           ),
                         ),
                         builder: (BuildContext context) {
-                          return const SelectLocationBottomSheet();
+                          return const BookingBottomSheet();
                         },
                       );
                     },
@@ -241,6 +277,66 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
           },
         );
       },
+    );
+  }
+
+  Widget screenButton({bool? isPaying, VoidCallback? onTap}) {
+    return Container(
+      alignment: Alignment.center,
+      height: 80,
+      padding: context.paddingNormal,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(13),
+        color:
+            (isPaying!) ? AppColors.appTransparent : AppColors.lightPurpleTwo,
+      ),
+      child: isPaying
+          ? Row(children: <Widget>[
+              const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    AppText('Total amount to pay',
+                        color: AppColors.appGrey,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500),
+                    SizedBox(height: 3),
+                    Row(
+                      children: <Widget>[
+                        AppText('27',
+                            fontSize: 16, fontWeight: FontWeight.w700),
+                        AppText('.500 KWD',
+                            fontSize: 12, fontWeight: FontWeight.w700),
+                      ],
+                    ),
+                  ]),
+              const Spacer(),
+              AppButton(
+                width: 150,
+                title: 'Book Now',
+                borderColor: AppColors.appBlue,
+                borderRadius: BorderRadius.circular(10),
+                onPressed: isPaying ? onTap! : () {},
+              )
+            ])
+          : const Row(children: <Widget>[
+              AppImageAsset(
+                image: ImageConstants.infoIcon,
+                height: 23,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              SizedBox(
+                width: 260,
+                child: AppText(
+                  'You wil pay after the class accepted by the teacher.',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+              )
+            ]),
     );
   }
 
@@ -274,7 +370,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       icon.isNotEmpty) // Another check for spacing
                     const SizedBox(width: 5),
                   AppText(
-                    title ?? ''!,
+                    title ?? '',
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
                   ),
@@ -283,242 +379,6 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
             );
           },
         ),
-      ),
-    );
-  }
-}
-
-class SelectLocationBottomSheet extends StatelessWidget {
-  const SelectLocationBottomSheet({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 15, right: 15),
-      height: MediaQuery.of(context).size.height * 0.80,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
-        ),
-      ),
-      child: Stack(
-        alignment: Alignment.topRight,
-        children: <Widget>[
-          Container(
-            margin: const EdgeInsets.only(top: 14),
-            alignment: Alignment.center,
-            height: 25,
-            width: 25,
-            decoration: const BoxDecoration(
-                color: AppColors.appLightGrey, shape: BoxShape.circle),
-            child: const AppImageAsset(
-              image: ImageConstants.closeIcon,
-              height: 20,
-            ),
-          ),
-          Column(
-            children: <Widget>[
-              const SizedBox(
-                height: 28,
-              ),
-              const AppText(
-                'Select Class Location',
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-              ),
-              const SizedBox(
-                height: 22,
-              ),
-              Container(
-                height: 50,
-                padding: const EdgeInsets.only(left: 15),
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(width: 1.3, color: AppColors.lightPurple),
-                ),
-                child: const AppText(
-                  'Keep at the teacher location',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(
-                height: 3,
-              ),
-              const AppDivider(),
-              const SizedBox(
-                height: 3,
-              ),
-              addressCardView(
-                  title: 'Home',
-                  subtitle:
-                      'City, Block No., Street Name, Street Name 2, House No., Floor No., Apartment No.',
-                  isDefault: true),
-              const SizedBox(
-                height: 13,
-              ),
-              addressCardView(
-                  title: 'Home',
-                  subtitle:
-                      'City, Block No., Street Name, Street Name 2, House No., Floor No., Apartment No.',
-                  isDefault: false),
-              const SizedBox(
-                height: 10,
-              ),
-              const AppDivider(),
-              const SizedBox(
-                height: 25,
-              ),
-              AppButton(
-                borderColor: AppColors.appBlue,
-                height: 45,
-                title: 'Select',
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return SuccessFailsInfoDialog(
-                        title: 'Success',
-                        buttonTitle: 'Done',
-                        content:
-                            'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
-                      );
-                    },
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              InkWell(
-                onTap: () {},
-                child: const AppText(
-                  'Add New Address',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.appBlue,
-                ),
-              )
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Container circleButtonView({Widget? widget, Color? color}) {
-    return Container(
-      alignment: Alignment.center,
-      padding: const EdgeInsets.all(8),
-      height: 30,
-      decoration:
-          BoxDecoration(borderRadius: BorderRadius.circular(30), color: color),
-      child: widget,
-    );
-  }
-
-  Widget addressCardView({
-    String? title,
-    String? subtitle,
-    bool? isDefault,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(15),
-      alignment: Alignment.centerLeft,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-            width: 1.3,
-            color: (isDefault!) ? AppColors.appBlue : AppColors.lightPurple),
-      ),
-      child: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              AppText(
-                title ?? ''!,
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-              ),
-              const SizedBox(
-                width: 4,
-              ),
-              if (isDefault!)
-                Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.lightPurple,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-                  child: const AppText(
-                    'Default',
-                    fontSize: 10,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              const Spacer(),
-              if (isDefault!)
-                const AppImageAsset(
-                  image: ImageConstants.acceptedStatus,
-                  height: 22,
-                  color: AppColors.appBlue,
-                )
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: SizedBox(
-              width: 260,
-              child: AppText(
-                subtitle ?? ''!,
-                fontSize: 10,
-                fontWeight: FontWeight.w500,
-                textAlign: TextAlign.start,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              circleButtonView(
-                  widget: const AppImageAsset(
-                    image: ImageConstants.deleteIcon,
-                  ),
-                  color: AppColors.appBlue),
-              const SizedBox(
-                width: 11,
-              ),
-              circleButtonView(
-                  widget: const AppImageAsset(
-                    image: ImageConstants.editIcon,
-                  ),
-                  color: AppColors.appLightRed),
-              if (!isDefault)
-                const SizedBox(
-                  width: 11,
-                ),
-              if (!isDefault)
-                circleButtonView(
-                    widget: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8),
-                      child: AppText('Set Default',
-                          color: AppColors.appWhite,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12),
-                    ),
-                    color: AppColors.appBlue),
-            ],
-          )
-        ],
       ),
     );
   }

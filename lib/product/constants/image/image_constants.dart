@@ -20,6 +20,14 @@ class ImageConstants {
   static const String teacherAvtar = '${ApplicationConstants.imagePath}teacher_avtar.png';
   static const String starSecondary = '${ApplicationConstants.imagePath}star_secondary.png';
   static const String successCircle = '${ApplicationConstants.imagePath}success_circle.png';
+  static const String applePayLogo = '${ApplicationConstants.imagePath}apple_pay_logo.png';
+  static const String gPayLogo = '${ApplicationConstants.imagePath}gpay_logo.png';
+  static const String kNetLogo = '${ApplicationConstants.imagePath}kenet_logo.png';
+  static const String mastercardLogo = '${ApplicationConstants.imagePath}master_card_logo.png';
+  static const String visaLogo = '${ApplicationConstants.imagePath}visa_logo.png';
+  static const String warningCircle = '${ApplicationConstants.imagePath}warning_circle.png';
+  static const String starBlue = '${ApplicationConstants.imagePath}star_blue.png';
+  static const String starGrey = '${ApplicationConstants.imagePath}star_grey.png';
 
 
 
@@ -51,5 +59,6 @@ class ImageConstants {
   static const String deleteIcon = '${ApplicationConstants.iconPath}delete_icon.png';
   static const String editIcon = '${ApplicationConstants.iconPath}edit_icon.png';
   static const String closeIcon = '${ApplicationConstants.iconPath}close_icon.png';
+  static const String payingIcon = '${ApplicationConstants.iconPath}paying_icon.png';
 
 }

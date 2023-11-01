@@ -76,6 +76,13 @@ class StatusCardView extends StatelessWidget {
             cardColor: AppColors.appOrange,
             iconColor: AppColors.appWhite);
 
+      case 'PAYING':
+        return customStatusView(
+            title: 'Paying',
+            icon: ImageConstants.payingIcon,
+            cardColor: AppColors.appOrange,
+            iconColor: AppColors.appWhite);
+
       default:
         return customStatusView(
             title: 'Completed',

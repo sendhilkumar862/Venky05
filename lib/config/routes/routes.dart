@@ -9,6 +9,7 @@ import '../../feature/home/view/home_view.dart';
 
 // Helpers
 import '../../feature/preference/view/preference_view.dart';
+import '../../feature/rating/view/rating_view.dart';
 import '../../product/constants/typedefs.dart';
 
 /// A utility class that holds screen names for named navigation.
@@ -29,6 +30,7 @@ class Routes {
   /// The name of the route for home dashboard screen
   static const String HomeScreenRoute = '/home-screen';
   static const String PrefrencesScreen = '/Pref-screen';
+  static const String RatingScreen = '/rating-screen';
 
   /// The name of the route for unrecognized route screen
   static const String NotFoundScreenRoute = '/route-not-found-screen';
@@ -36,6 +38,7 @@ class Routes {
   static final Map<String, RouteBuilder> _routesMap = {
     HomeScreenRoute: (_) => const HomeView(),
     PrefrencesScreen: (_) => const PreferenceView(),
+    RatingScreen: (_) => const RatingView(),
     NotFoundScreenRoute: (_) => const SizedBox.shrink(),
     AppStartupScreenRoute: (_) => const SizedBox.shrink(),
   };

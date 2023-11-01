@@ -12,6 +12,7 @@ class HeadingCardView extends StatelessWidget {
     this.onTap,
     this.totalItem,
     this.padding,
+    this.trailingWidget,
     super.key,
   });
 
@@ -20,6 +21,7 @@ class HeadingCardView extends StatelessWidget {
   String? totalItem;
   String? title;
   double? padding;
+  Widget? trailingWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -43,25 +45,28 @@ class HeadingCardView extends StatelessWidget {
             ],
           ),
           if (isViewAllIcon!)
-            Row(
-              children: <Widget>[
-                GestureDetector(
-                  onTap: onTap,
-                  child: const AppText(
-                    'View All',
-                    color: AppColors.appBlue,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
+            GestureDetector(onTap: onTap,
+              child: trailingWidget ??
+                  Row(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: onTap,
+                        child: const AppText(
+                          'View All',
+                          color: AppColors.appBlue,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const AppImageAsset(
+                        image: ImageConstants.layersIcon,
+                        height: 18,
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const AppImageAsset(
-                  image: ImageConstants.layersIcon,
-                  height: 18,
-                ),
-              ],
             )
         ],
       ),

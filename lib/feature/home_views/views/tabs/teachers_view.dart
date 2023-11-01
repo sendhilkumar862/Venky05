@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../custom/cardView/details_card_view.dart';
+import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
@@ -24,28 +25,62 @@ class TeachersView extends StatelessWidget {
             buttonTap: () => null,
           ),
           const SizedBox(height: 20),
-          DetailsCardView(
-              heading: 'Favorites Teachers',
-              reViewLength: 3,
-              name: 'User Name',
-              avatar: ImageConstants.teacherAvtar,
-              countryIcon: ImageConstants.countryIcon,
-              countryName: 'Kuwait',
-              isPro: true,
-              isShowViewAll: true,
-              isBookmarked: true,
-              subjects: 'Science - Accounta..'),
-          DetailsCardView(
-              heading: 'Favorites Teachers',
-              reViewLength: 3,
-              name: 'User Name',
-              avatar: ImageConstants.teacherAvtar,
-              countryIcon: ImageConstants.countryIcon,
-              countryName: 'Kuwait',
-              isPro: false,
-              isShowViewAll: true,
-              isBookmarked: false,
-              subjects: 'Science - Accounta..'),
+          HeadingCardView(
+              title: 'Favorites Teachers',
+              totalItem: '5',
+              onTap: () {},
+              isViewAllIcon: true),
+          const SizedBox(
+            height: 5,
+          ),
+          SizedBox(
+            height: 210,
+            child: ListView.builder(
+              itemCount: 5,
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (BuildContext context, int index) {
+                return DetailsCardView(
+                    reViewLength: 3,
+                    name: 'User Name',
+                    avatar: ImageConstants.teacherAvtar,
+                    countryIcon: ImageConstants.countryIcon,
+                    countryName: 'Kuwait',
+                    isPro: true,
+                    isBookmarked: true,
+                    subjects: 'Science - Accounta..');
+              },
+            ),
+          ),
+          HeadingCardView(
+              title: 'Favorites Teachers',
+              totalItem: '5',
+              onTap: () {},
+              isViewAllIcon: true),
+          const SizedBox(
+            height: 5,
+          ),
+          SizedBox(
+            height: 210,
+            child: ListView.builder(
+              itemCount: 5,
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (BuildContext context, int index) {
+                return DetailsCardView(
+                    reViewLength: 3,
+                    name: 'User Name',
+                    avatar: ImageConstants.teacherAvtar,
+                    countryIcon: ImageConstants.countryIcon,
+                    countryName: 'Kuwait',
+                    isPro: true,
+                    isBookmarked: true,
+                    subjects: 'Science - Accounta..');
+              },
+            ),
+          ),
           const SizedBox(
             height: 200,
           )

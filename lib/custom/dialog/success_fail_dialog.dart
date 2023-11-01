@@ -6,59 +6,62 @@ import '../app_button/app_button.dart';
 import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
 
+// ignore: must_be_immutable
 class SuccessFailsInfoDialog extends StatelessWidget {
   SuccessFailsInfoDialog(
-      {this.content, this.title, this.buttonTitle, super.key});
+      {this.content,
+      this.title,
+      this.buttonTitle,
+      this.customWidget,
+      super.key});
 
   String? content;
   String? title;
   String? buttonTitle;
+  Widget? customWidget;
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(32.0))),
-      content: Container(
-        padding: const EdgeInsets.symmetric(vertical: 15),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AppText(
-              title ?? ''!,
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            const AppImageAsset(
-              image: ImageConstants.successCircle,
-              height: 63,
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            AppText(
-              content ?? ''!,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            AppButton(
-              borderColor: AppColors.appBlue,
-              height: 40,
-              title: buttonTitle!,
-              borderRadius: BorderRadius.circular(10),
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-            )
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          AppText(
+            title ?? '',
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          const AppImageAsset(
+            image: ImageConstants.successCircle,
+            height: 63,
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          AppText(
+            content ?? '',
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            textAlign: TextAlign.center,
+          ),
+          customWidget ?? const SizedBox(),
+          const SizedBox(
+            height: 20,
+          ),
+          AppButton(
+            borderColor: AppColors.appBlue,
+            height: 40,
+            title: buttonTitle!,
+            borderRadius: BorderRadius.circular(10),
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+          )
+        ],
       ),
     );
   }

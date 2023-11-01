@@ -11,14 +11,10 @@ import 'status_card_view.dart';
 
 class AppCardView extends StatelessWidget {
   AppCardView({
-    this.totalCards,
-    this.heading,
     this.cardTitle,
     this.date,
     this.timer,
     this.money,
-    this.isViewAllIcon = true,
-    this.viewAllOnTap,
     this.buttonTap,
     this.status,
     this.isPro,
@@ -31,8 +27,6 @@ class AppCardView extends StatelessWidget {
     super.key,
   });
 
-  int? totalCards;
-  String? heading;
   String? cardTitle;
   String? date;
   String? timer;
@@ -44,98 +38,63 @@ class AppCardView extends StatelessWidget {
   String? countryName;
   num? reViewLength;
   num? proposals;
-  bool? isViewAllIcon;
   bool? isPro;
-  VoidCallback? viewAllOnTap;
   VoidCallback? buttonTap;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        HeadingCardView(
-            title: heading,
-            isViewAllIcon: isViewAllIcon,
-            onTap: viewAllOnTap,
-            totalItem: totalCards.toString()),
-        const SizedBox(
-          height: 10,
-        ),
-        SizedBox(
-          height: 225,
-          child: ListView.separated(
-            padding:
-                const EdgeInsets.only(right: 15, top: 5, bottom: 20, left: 15),
-            shrinkWrap: true,
-            physics: const BouncingScrollPhysics(),
-            itemCount: totalCards ?? 0,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                padding: context.paddingNormal,
-                width: 318,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppColors.appWhite,
-                  border: Border.all(color: AppColors.lightPurple, width: 1.1),
-                  boxShadow: AppColors.appCardShadow,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        AppText(
-                          cardTitle!,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 20,
-                        ),
-                        StatusCardView(status: status)
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    tagCardView(
-                      title: 'Grade 2',
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        infoCardView(ImageConstants.dateIcon, date!),
-                        infoCardView(ImageConstants.timerIcon, timer!),
-                        infoCardView(ImageConstants.moneyIcon, money!),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    detailsCardView(
-                        proposals: proposals,
-                        isPro: isPro,
-                        name: teacherName,
-                        avtar: avtar,
-                        country: countryName,
-                        countyIcon: countryIcon,
-                        reViewLength: reViewLength,
-                        buttonTap: buttonTap)
-                  ],
-                ),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return const SizedBox(
-                width: 15,
-              );
-            },
+    return Container(
+      padding: context.paddingNormal,
+      width: 318,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: AppColors.appWhite,
+        border: Border.all(color: AppColors.lightPurple, width: 1.1),
+        boxShadow: AppColors.appCardShadow,
+      ),
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              AppText(
+                cardTitle!,
+                fontWeight: FontWeight.w800,
+                fontSize: 20,
+              ),
+              StatusCardView(status: status)
+            ],
           ),
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-      ],
+          const SizedBox(
+            height: 10,
+          ),
+          tagCardView(
+            title: 'Grade 2',
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: <Widget>[
+              infoCardView(ImageConstants.dateIcon, date!),
+              infoCardView(ImageConstants.timerIcon, timer!),
+              infoCardView(ImageConstants.moneyIcon, money!),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          detailsCardView(
+              proposals: proposals,
+              isPro: isPro,
+              name: teacherName,
+              avtar: avtar,
+              country: countryName,
+              countyIcon: countryIcon,
+              reViewLength: reViewLength,
+              buttonTap: buttonTap)
+        ],
+      ),
     );
   }
 
