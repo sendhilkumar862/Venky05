@@ -1,14 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
-// Exceptions
-import '../../constants/typedefs.dart';
-import './custom_exception.dart';
-
 // Services
 import './api_interface.dart';
+import './custom_exception.dart';
 import './dio_service.dart';
-
+// Exceptions
+import '../../constants/typedefs.dart';
 // Helpers
 
 // Models
@@ -16,12 +14,12 @@ import 'response_model.dart';
 
 /// A service class implementing methods for basic API requests.
 class ApiService implements ApiInterface {
-  /// An instance of [DioService] for network requests
-  late final DioService _dioService;
 
   /// A public constructor that is used to initialize the API service
   /// and setup the underlying [_dioService].
   ApiService(DioService dioService) : _dioService = dioService;
+  /// An instance of [DioService] for network requests
+  late final DioService _dioService;
 
   /// An implementation of the base method for requesting collection of data
   /// from the [endpoint].
@@ -54,7 +52,7 @@ class ApiService implements ApiInterface {
 
     try {
       // Entire map of response
-      final data = await _dioService.get<List<Object?>>(
+      final ResponseModel<List<Object?>> data = await _dioService.get<List<Object?>>(
         endpoint: endpoint,
         cacheOptions: _dioService.globalCacheOptions?.copyWith(
           policy: cachePolicy,
@@ -79,7 +77,7 @@ class ApiService implements ApiInterface {
 
     try {
       // Returning the deserialized objects
-      return body.map((dataMap) => converter(dataMap! as JSON)).toList();
+      return body.map((Object? dataMap) => converter(dataMap! as JSON)).toList();
     } on Exception catch (ex) {
       throw CustomException.fromParsingException(ex);
     }
@@ -115,7 +113,7 @@ class ApiService implements ApiInterface {
     JSON body;
     try {
       // Entire map of response
-      final data = await _dioService.get<JSON>(
+      final ResponseModel<JSON> data = await _dioService.get<JSON>(
         endpoint: endpoint,
         queryParams: queryParams,
         cacheOptions: _dioService.globalCacheOptions?.copyWith(

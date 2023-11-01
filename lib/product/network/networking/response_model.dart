@@ -4,8 +4,6 @@ import '../../constants/app/app_utils.dart';
 import '../../constants/typedefs.dart';
 
 class ResponseModel<T> {
-  final _ResponseHeadersModel headers;
-  final T body;
 
   const ResponseModel({
     required this.headers,
@@ -20,12 +18,11 @@ class ResponseModel<T> {
       body: json['body'] as T,
     );
   }
+  final _ResponseHeadersModel headers;
+  final T body;
 }
 
 class _ResponseHeadersModel {
-  final bool error;
-  final String message;
-  final String? code;
 
   const _ResponseHeadersModel({
     required this.error,
@@ -40,4 +37,7 @@ class _ResponseHeadersModel {
       code: json['code'] as String?,
     );
   }
+  final bool error;
+  final String message;
+  final String? code;
 }

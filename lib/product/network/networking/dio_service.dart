@@ -15,15 +15,6 @@ import 'response_model.dart';
 /// A service class that wraps the [Dio] instance and provides methods for
 /// basic network requests.
 class DioService {
-  /// An instance of [Dio] for executing network requests.
-  final Dio _dio;
-
-  /// A set of cache options to be used for each request
-  final CacheOptions? globalCacheOptions;
-
-  /// An instance of [CancelToken] used to pre-maturely cancel
-  /// network requests.
-  final CancelToken _cancelToken;
 
   /// A public constructor that is used to create a Dio service and initialize
   /// the underlying [Dio] client.
@@ -39,9 +30,22 @@ class DioService {
     HttpClientAdapter? httpClientAdapter,
   })  : _dio = dioClient,
         _cancelToken = CancelToken() {
-    if (interceptors != null) _dio.interceptors.addAll(interceptors);
-    if (httpClientAdapter != null) _dio.httpClientAdapter = httpClientAdapter;
+    if (interceptors != null) {
+      _dio.interceptors.addAll(interceptors);
+    }
+    if (httpClientAdapter != null) {
+      _dio.httpClientAdapter = httpClientAdapter;
+    }
   }
+  /// An instance of [Dio] for executing network requests.
+  final Dio _dio;
+
+  /// A set of cache options to be used for each request
+  final CacheOptions? globalCacheOptions;
+
+  /// An instance of [CancelToken] used to pre-maturely cancel
+  /// network requests.
+  final CancelToken _cancelToken;
 
   /// This method invokes the [cancel()] method on either the input
   /// [cancelToken] or internal [_cancelToken] to pre-maturely end all
@@ -76,7 +80,7 @@ class DioService {
     CacheOptions? cacheOptions,
     CancelToken? cancelToken,
   }) async {
-    final response = await _dio.get<JSON>(
+    final Response<JSON> response = await _dio.get<JSON>(
       endpoint,
       queryParameters: queryParams,
       options: _mergeDioAndCacheOptions(
@@ -106,7 +110,7 @@ class DioService {
     Options? options,
     CancelToken? cancelToken,
   }) async {
-    final response = await _dio.post<JSON>(
+    final Response<JSON> response = await _dio.post<JSON>(
       endpoint,
       data: data,
       options: options,
@@ -133,7 +137,7 @@ class DioService {
     Options? options,
     CancelToken? cancelToken,
   }) async {
-    final response = await _dio.patch<JSON>(
+    final Response<JSON> response = await _dio.patch<JSON>(
       endpoint,
       data: data,
       options: options,
@@ -160,7 +164,7 @@ class DioService {
     Options? options,
     CancelToken? cancelToken,
   }) async {
-    final response = await _dio.delete<JSON>(
+    final Response<JSON> response = await _dio.delete<JSON>(
       endpoint,
       data: data,
       options: options,
@@ -214,9 +218,9 @@ class DioService {
       return dioOptions;
     }
 
-    final _cacheOptionsMap = cacheOptions!.toExtra();
-    final options = dioOptions!.copyWith(
-      extra: <String, dynamic>{...dioOptions.extra!, ..._cacheOptionsMap},
+    final Map<String, dynamic> cacheOptionsMap = cacheOptions!.toExtra();
+    final Options options = dioOptions!.copyWith(
+      extra: <String, dynamic>{...dioOptions.extra!, ...cacheOptionsMap},
     );
     return options;
   }

@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../constants/typedefs.dart';
 
@@ -30,24 +30,24 @@ class LoggingInterceptor extends Interceptor {
   /// - [handler.resolve]/[super.onResponse], if you want to resolve the
   /// request with your custom [Response]. All ** request ** interceptors are ignored.
   /// - [handler.reject]/[super.onError], if you want to fail the request
-  /// with your custom [DioError].
+  /// with your custom [DioException].
   @override
   void onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) {
-    final httpMethod = options.method.toUpperCase();
-    final url = options.baseUrl + options.path;
+    final String httpMethod = options.method.toUpperCase();
+    final String url = options.baseUrl + options.path;
 
     debugPrint('--> $httpMethod $url'); //GET www.example.com/mock_path/all
 
     debugPrint('\tHeaders:');
-    options.headers.forEach((k, Object? v) => debugPrint('\t\t$k: $v'));
+    options.headers.forEach((String k, Object? v) => debugPrint('\t\t$k: $v'));
 
     if (options.queryParameters.isNotEmpty) {
       debugPrint('\tqueryParams:');
       options.queryParameters
-          .forEach((k, Object? v) => debugPrint('\t\t$k: $v'));
+          .forEach((String k, Object? v) => debugPrint('\t\t$k: $v'));
     }
 
     if (options.data != null) {
@@ -75,7 +75,7 @@ class LoggingInterceptor extends Interceptor {
   /// - [handler.resolve]/[super.onResponse], if you want to resolve the
   /// [Response] with your custom data. All ** response ** interceptors are ignored.
   /// - [handler.reject]/[super.onError], if you want to fail the response
-  /// with your custom [DioError].
+  /// with your custom [DioException].
   @override
   void onResponse(
     Response response,
@@ -119,30 +119,30 @@ class LoggingInterceptor extends Interceptor {
   /// - [handler.resolve]/[super.onResponse], if you want to resolve the
   /// [Response] with your custom data. All ** error ** interceptors are ignored.
   /// - [handler.reject]/[super.onError], if you want to fail the response
-  /// with your custom [DioError].
+  /// with your custom [DioException].
   @override
   void onError(
-    DioError dioError,
+    DioException dioError,
     ErrorInterceptorHandler handler,
   ) {
     debugPrint('--> ERROR');
-    final httpMethod = dioError.requestOptions.method.toUpperCase();
-    final url = dioError.requestOptions.baseUrl + dioError.requestOptions.path;
+    final String httpMethod = dioError.requestOptions.method.toUpperCase();
+    final String url = dioError.requestOptions.baseUrl + dioError.requestOptions.path;
 
     debugPrint('\tMETHOD: $httpMethod'); // GET
     debugPrint('\tURL: $url'); // URL
     if (dioError.response != null) {
       debugPrint('\tStatus code: ${dioError.response!.statusCode}');
       if (dioError.response!.data != null) {
-        final headers =
+        final JSON headers =
             dioError.response!.data['headers'] as JSON; //API Dependant
-        final message = headers['message'] as String; //API Dependant
-        final code = headers['code'] as String; //API Dependant
+        final String message = headers['message'] as String; //API Dependant
+        final String code = headers['code'] as String; //API Dependant
         debugPrint('\tException: $code');
         debugPrint('\tMessage: $message');
         if (headers.containsKey('data')) {
           //API Dependant
-          final data = headers['data'] as List<Object?>;
+          final List<Object?> data = headers['data'] as List<Object?>;
           if (data.isNotEmpty) {
             debugPrint('\tData: $data');
           }
@@ -151,7 +151,7 @@ class LoggingInterceptor extends Interceptor {
         debugPrint('${dioError.response!.data}');
       }
     } else if (dioError.error is SocketException) {
-      const message = 'No internet connectivity';
+      const String message = 'No internet connectivity';
       debugPrint('\tException: FetchDataException');
       debugPrint('\tMessage: $message');
     } else {
