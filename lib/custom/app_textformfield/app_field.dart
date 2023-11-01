@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../core/typography.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
+import '../../product/utils/typography.dart';
 
 class AppTextFormField extends StatelessWidget {
   const AppTextFormField({
@@ -73,7 +73,7 @@ class AppTextFormField extends StatelessWidget {
           maxLines: maxLines,
           minLines: minLines,
           maxLength: maxLength,
-          style: poppins.black.w500.get16.textColor(AppColors.appTextColor),
+          style: openSans.black.w500.get16.textColor(AppColors.appTextColor),
           inputFormatters: inputFormatters,
           keyboardType: keyboardType ?? TextInputType.text,
           onTap: onTap,
@@ -91,7 +91,7 @@ class AppTextFormField extends StatelessWidget {
               fillColor: Colors.transparent,
               counterText: '',
               hintText: hintText,
-              hintStyle: poppins.w400
+              hintStyle: openSans.w400
                   .textColor(AppColors.appTextColor.withOpacity(0.25))
                   .get14,
               focusedBorder: const OutlineInputBorder(
@@ -110,7 +110,7 @@ class AppTextFormField extends StatelessWidget {
               errorBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(color: AppColors.red)),
-              errorStyle: poppins.red.get8),
+              errorStyle: openSans.red.get8),
         ),
       ],
     );

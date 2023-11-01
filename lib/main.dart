@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
+import 'config/routes/app_router.dart';
 import 'feature/home/view/home_view.dart';
 import 'product/cache/locale_manager.dart';
 import 'product/constants/app/app_constants.dart';
 import 'product/lang/language_manager.dart';
 import 'product/navigation/navigation_router.dart';
-import 'product/navigation/navigation_service.dart';
 import 'product/notifier/app_provider.dart';
 import 'product/theme/theme_notifier.dart';
 
@@ -17,7 +17,9 @@ void main() {
   LocaleManager.prefrencesInit();
   runApp(
     MultiProvider(
-      providers: <SingleChildWidget>[...ApplicationProvider.instance.dependItems],
+      providers: <SingleChildWidget>[
+        ...ApplicationProvider.instance.dependItems
+      ],
       child: EasyLocalization(
         supportedLocales: LanguageManager.instance.supportedLocales,
         path: ApplicationConstants.LANG_ASSET_PATH,
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
       locale: LanguageManager.instance.enLocale,
       supportedLocales: LanguageManager.instance.supportedLocales,
       onGenerateRoute: NavigationRoute.instance.generateRoute,
-      navigatorKey: NavigationService.instance.navigatorKey,
+      navigatorKey: AppRouter.navigatorKey,
       theme: context.watch<ThemeNotifier>().currentTheme,
       home: const HomeView(),
     );

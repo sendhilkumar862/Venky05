@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../core/typography.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
+import '../../product/utils/typography.dart';
 
 class AppButton extends StatelessWidget {
   final String title;
@@ -86,7 +86,7 @@ class AppButton extends StatelessWidget {
       behavior: SnackBarBehavior.floating,
       width: 47,
       duration: const Duration(seconds: 1),
-      content: Text('Copied to Clipboard !', style: poppins.white),
+      content: Text('Copied to Clipboard !', style: openSans.white),
     ));
   }
 }

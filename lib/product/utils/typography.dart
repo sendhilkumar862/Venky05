@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../product/constants/colors/app_colors_constants.dart';
+import '../constants/colors/app_colors_constants.dart';
 
-TextStyle poppins = const TextStyle(fontFamily: TextFontFamily.poppins);
+TextStyle openSans = const TextStyle(fontFamily: TextFontFamily.openSans);
 
 class TextFontFamily {
 //==============================================================================
 // ** Font Names **
 //==============================================================================
-  static const String poppins = 'poppins';
+  static const String openSans = 'OpenSans';
 }
 
 extension TextStyleExtensions on TextStyle {

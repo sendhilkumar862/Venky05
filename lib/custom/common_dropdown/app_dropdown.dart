@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../core/typography.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
+import '../../product/utils/typography.dart';
 
 class AppDropdown extends StatefulWidget {
   const AppDropdown({
@@ -44,7 +44,7 @@ class _AppDropdownState extends State<AppDropdown> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
               hintText: widget.hintText,
-              hintStyle: poppins.w300
+              hintStyle: openSans.w300
                   .textColor(AppColors.black.withOpacity(0.5))
                   .get10,
               contentPadding: const EdgeInsets.symmetric(horizontal: 10),
@@ -67,7 +67,7 @@ class _AppDropdownState extends State<AppDropdown> {
               errorBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(color: AppColors.red)),
-              errorStyle: poppins.red.get8),
+              errorStyle: openSans.red.get8),
           validator: (String? value) {
             if (value != null) {
               return null;
@@ -91,7 +91,7 @@ class _AppDropdownState extends State<AppDropdown> {
             color: AppColors.black,
           ),
           focusColor: Colors.transparent,
-          style: poppins.black.w400.get10,
+          style: openSans.black.w400.get10,
           dropdownColor: AppColors.gray,
         ),
       ],

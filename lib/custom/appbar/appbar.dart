@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../core/typography.dart';
+import '../../config/routes/app_router.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
+import '../../product/utils/typography.dart';
 import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
 
@@ -151,9 +152,14 @@ class HessaAppBar extends PreferredSize {
                             child: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 4),
-                              child: Text(trailingText ?? '',
-                                  style: poppins.get12.w600
-                                    ..textColor(AppColors.appTextColor)),
+                              child: TextButton(
+                                child: Text(trailingText ?? '',
+                                    style: openSans.get12.w600
+                                        .textColor(AppColors.appTextColor)),
+                                onPressed: () {
+                                  AppRouter.pop();
+                                },
+                              ),
                             )),
                   ],
                   leadingWidth: 0,
@@ -176,7 +182,7 @@ class HessaAppBar extends PreferredSize {
                       else
                         const SizedBox(width: 4),
                       Text(titleText ?? '',
-                          style: style ?? poppins.get16.w700.black),
+                          style: style ?? openSans.get16.w700.black),
                     ],
                   ),
                   backgroundColor: AppColors.trans,

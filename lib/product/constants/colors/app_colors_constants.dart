@@ -21,7 +21,6 @@ class AppColors {
   static const Color lightPurple = Color(0xffE9EEFF);
   static const Color appTextColor = Color(0xff051335);
   static const Color downArrowColor = Color(0xff303444);
-
   static const Color trans = Colors.transparent;
   static const Color black = Colors.black;
   static const Color red = Colors.red;
@@ -29,6 +28,6 @@ class AppColors {
   static const Color white = Colors.white;
   static const Color appBlue = Color(0xff002BC7);
   static const Color appBorderColor = Color(0xffC5CEEE);
-
+  static const Color secondaryRed = Color(0xffff4956);
   static const Color textWhite80Color = Color(0xFFf2f2f2);
 }
