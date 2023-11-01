@@ -57,7 +57,7 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                       height: 35,
                       width: 120,
                       decoration: BoxDecoration(
-                        color: AppColors.appColor,
+                        color: AppColors.appBlue,
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: const Row(
@@ -84,7 +84,7 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                       height: 35,
                       width: 120,
                       decoration: BoxDecoration(
-                        color: AppColors.appColor,
+                        color: AppColors.appBlue,
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: const Row(

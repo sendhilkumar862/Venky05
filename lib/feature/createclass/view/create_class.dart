@@ -125,7 +125,7 @@ class _CreateClassState extends State<CreateClass> {
                       padding: const EdgeInsets.symmetric(horizontal: 6),
                       child: Text(grade[index], style: poppins.get12.w600),
                     ),
-                    selectedColor: AppColors.appColor,
+                    selectedColor: AppColors.appBlue,
                     // Change this to your desired color
                     labelStyle: TextStyle(
                       color: isGradeSelect.contains(index)
@@ -165,7 +165,7 @@ class _CreateClassState extends State<CreateClass> {
                     },
                     showCheckmark: false,
                     label: Text(school[index], style: poppins.get12.w600),
-                    selectedColor: AppColors.appColor,
+                    selectedColor: AppColors.appBlue,
                     // Change this to your desired color
                     labelStyle: TextStyle(
                       color: isSchoolSelect.contains(index)
@@ -209,7 +209,7 @@ class _CreateClassState extends State<CreateClass> {
                     },
                     showCheckmark: false,
                     label: Text(subject[index], style: poppins.get12.w600),
-                    selectedColor: AppColors.appColor,
+                    selectedColor: AppColors.appBlue,
                     // Change this to your desired color
                     labelStyle: TextStyle(
                       color: isSubjectSelect.contains(index)
@@ -225,8 +225,8 @@ class _CreateClassState extends State<CreateClass> {
                 minLines: 4,
                 maxLines: 10,
                 hintText: 'Class Summary',
-                borderColor: AppColors.appColor,
-                titleColor: AppColors.appColor,
+                borderColor: AppColors.appBlue,
+                titleColor: AppColors.appBlue,
                 title: 'Class Summary',
                 top: 0,
                 height: 30,

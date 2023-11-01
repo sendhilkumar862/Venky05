@@ -57,8 +57,8 @@ class AppButton extends StatelessWidget {
               color: isBorderOnly == true
                   ? AppColors.trans
                   : isDisable == false
-                      ? AppColors.appColor
-                      : AppColors.appColor.withOpacity(0.4),
+                      ? AppColors.appBlue
+                      : AppColors.appBlue.withOpacity(0.4),
             ),
             child: Center(
               child: Text(
@@ -66,7 +66,7 @@ class AppButton extends StatelessWidget {
                 style: textStyle ??
                     TextStyle(
                         color: isBorderOnly == true
-                            ? AppColors.appColor
+                            ? AppColors.appBlue
                             : AppColors.white,
                         fontSize: 14,
                         fontWeight: FontWeight.w600),

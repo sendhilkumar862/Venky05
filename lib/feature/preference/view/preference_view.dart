@@ -205,7 +205,7 @@ class _PreferenceViewState extends State<PreferenceView>
                               showCheckmark: false,
                               label: Text(label),
                               selectedColor: AppColors
-                                  .appColor, // Change this to your desired color
+                                  .appBlue, // Change this to your desired color
                               labelStyle: TextStyle(
                                 color: selectedGrade.contains(value)
                                     ? AppColors.white
@@ -226,8 +226,9 @@ class _PreferenceViewState extends State<PreferenceView>
                           Text(
                             'School',
                             style: TextStyle(
-                              fontFamily: 'OpenSans',
-                                fontWeight: FontWeight.w800, fontSize: 16),
+                                fontFamily: 'OpenSans',
+                                fontWeight: FontWeight.w800,
+                                fontSize: 16),
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 5),
@@ -269,7 +270,7 @@ class _PreferenceViewState extends State<PreferenceView>
                           showCheckmark: false,
                           label: Text(school[index]),
                           selectedColor: AppColors
-                              .appColor, // Change this to your desired color
+                              .appBlue, // Change this to your desired color
                           labelStyle: TextStyle(
                             color: selectedSchoolIndices.contains(index)
                                 ? AppColors.white
@@ -322,7 +323,7 @@ class _PreferenceViewState extends State<PreferenceView>
                           showCheckmark: false,
                           label: Text(curriculum[index]),
                           selectedColor: AppColors
-                              .appColor, // Change this to your desired color
+                              .appBlue, // Change this to your desired color
                           labelStyle: TextStyle(
                             color: selectedCurriculumIndices.contains(index)
                                 ? AppColors.white
@@ -382,7 +383,7 @@ class _PreferenceViewState extends State<PreferenceView>
                           showCheckmark: false,
                           label: Text(subject[index]),
                           selectedColor: AppColors
-                              .appColor, // Change this to your desired color
+                              .appBlue, // Change this to your desired color
                           labelStyle: TextStyle(
                             color: selectedSubjectIndices.contains(index)
                                 ? AppColors.white

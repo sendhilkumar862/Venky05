@@ -30,7 +30,7 @@ class ClassesView extends StatelessWidget {
                   children: <Widget>[
                     AppText(
                       'View All',
-                      color: AppColors.appColor,
+                      color: AppColors.appBlue,
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
                     ),

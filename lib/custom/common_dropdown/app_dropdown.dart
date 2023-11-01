@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+
 import '../../core/typography.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 
 class AppDropdown extends StatefulWidget {
-
   const AppDropdown({
     super.key,
     this.hintText,
@@ -33,11 +33,11 @@ class _AppDropdownState extends State<AppDropdown> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(top: 20,bottom: 7),
+          padding: const EdgeInsets.only(top: 20, bottom: 7),
           child: Text(
             widget.title ?? '',
-            style: TextStyle(color: const Color(0xff051335).withOpacity(0.5),fontSize: 8),
-
+            style: TextStyle(
+                color: const Color(0xff051335).withOpacity(0.5), fontSize: 8),
           ),
         ),
         DropdownButtonFormField<String>(
@@ -51,23 +51,23 @@ class _AppDropdownState extends State<AppDropdown> {
               filled: true,
               fillColor: Colors.transparent,
               counterText: '',
-              focusedBorder:  const OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.appBorderColor, width: 1.5),
+              focusedBorder: const OutlineInputBorder(
+                  borderSide:
+                      BorderSide(color: AppColors.appBorderColor, width: 1.5),
                   borderRadius: BorderRadius.all(Radius.circular(10))),
               enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.appBorderColor, width: 1),
+                  borderSide:
+                      BorderSide(color: AppColors.appBorderColor, width: 1),
                   borderRadius: BorderRadius.all(Radius.circular(10))),
               border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(
-                color: AppColors.appColor,
-              )),
+                    color: AppColors.appBlue,
+                  )),
               errorBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(color: AppColors.red)),
-              errorStyle: poppins.red.get8
-
-          ),
+              errorStyle: poppins.red.get8),
           validator: (String? value) {
             if (value != null) {
               return null;
@@ -75,8 +75,7 @@ class _AppDropdownState extends State<AppDropdown> {
               return "Value Can't be Empty";
             }
           },
-          value:
-              widget.options.contains(widget.value) ? widget.value : null,
+          value: widget.options.contains(widget.value) ? widget.value : null,
           items: List.generate(
               widget.options.length ?? 0,
               (int index) => DropdownMenuItem(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../product/constants/colors/app_colors_constants.dart';
 
+import '../product/constants/colors/app_colors_constants.dart';
 
 TextStyle poppins = const TextStyle(fontFamily: TextFontFamily.poppins);
 
@@ -130,7 +130,7 @@ extension TextStyleExtensions on TextStyle {
   TextStyle get white => textColor(AppColors.white);
   TextStyle get gray => textColor(AppColors.gray);
   TextStyle get red => textColor(AppColors.red);
-  TextStyle get appColor => textColor(AppColors.appColor);
+  TextStyle get appColor => textColor(AppColors.appBlue);
 
 //==============================================================================
 // ** letterSpace **

@@ -193,7 +193,7 @@ class _ClassDetailState extends State<ClassDetail> {
                     child: DottedBorder(
                         borderType: BorderType.RRect,
                         radius: Radius.circular(15),
-                        color: AppColors.appColor,
+                        color: AppColors.appBlue,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 15, horizontal: 10),
@@ -209,10 +209,10 @@ class _ClassDetailState extends State<ClassDetail> {
                                 child: AppButton(
                                     borderRadius: BorderRadius.circular(10),
                                     padding: EdgeInsets.symmetric(vertical: 0),
-                                    borderColor: AppColors.appColor,
+                                    borderColor: AppColors.appBlue,
                                     isBorderOnly: true,
                                     textStyle: const TextStyle(
-                                        color: AppColors.appColor,
+                                        color: AppColors.appBlue,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600),
                                     height: 45,

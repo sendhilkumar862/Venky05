@@ -33,7 +33,7 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
           height: 30,
           child: AppText(
             content['title'],
-            color: isSelected ? AppColors.appColor : AppColors.appLightBlack,
+            color: isSelected ? AppColors.appBlue : AppColors.appLightBlack,
           ),
         ),
       ),
