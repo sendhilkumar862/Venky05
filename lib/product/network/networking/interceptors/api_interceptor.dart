@@ -1,3 +1,5 @@
+// ignore_for_file: always_specify_types, avoid_dynamic_calls
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,9 +14,9 @@ import '../../all_providers.dart';
 /// Since this interceptor isn't responsible for error handling, if an exception
 /// occurs it is passed on the next [Interceptor] or to [Dio].
 class ApiInterceptor extends Interceptor {
-  late final Ref _ref;
 
   ApiInterceptor(this._ref) : super();
+  late final Ref _ref;
 
   /// This method intercepts an out-going request before it reaches the
   /// destination.
@@ -31,7 +33,7 @@ class ApiInterceptor extends Interceptor {
   /// - [handler.resolve]/[super.onResponse], if you want to resolve the
   /// request with your custom [Response]. All ** request ** interceptors are ignored.
   /// - [handler.reject]/[super.onError], if you want to fail the request
-  /// with your custom [DioError].
+  /// with your custom [DioException].
   @override
   Future<void> onRequest(
     RequestOptions options,
@@ -39,7 +41,7 @@ class ApiInterceptor extends Interceptor {
   ) async {
     if (options.extra.containsKey('requiresAuthToken')) {
       if (options.extra['requiresAuthToken'] == true) {
-        final token =
+        final String token =
             await _ref.watch(keyValueStorageServiceProvider).getAuthToken();
         options.headers.addAll(
           <String, Object?>{'Authorization': 'Bearer $token'},
@@ -81,9 +83,11 @@ class ApiInterceptor extends Interceptor {
     Response response,
     ResponseInterceptorHandler handler,
   ) {
-    final success = response.data['headers']['error'] == 0;
+    final bool success = response.data['headers']['error'] == 0;
 
-    if (success) return handler.next(response);
+    if (success) {
+      return handler.next(response);
+    }
 
     //Reject all error codes from server except 402 and 200 OK
     return handler.reject(

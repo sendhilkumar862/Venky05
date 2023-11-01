@@ -22,11 +22,11 @@ class ApiEndpoint {
   /// ```
   /// flutter run --dart-define=BASE_URL=www.some_url.com
   /// ```
-  static const baseUrl = Config.baseUrl;
+  static const String baseUrl = Config.baseUrl;
 
   /// Returns the path for an authentication [endpoint].
   static String auth(AuthEndpoint endpoint) {
-    const path = '/auth';
+    const String path = '/auth';
     switch (endpoint) {
       case AuthEndpoint.REGISTER: return '$path/register';
       case AuthEndpoint.LOGIN: return '$path/login';
@@ -44,7 +44,7 @@ class ApiEndpoint {
   /// 
   /// Specify secondary [extendedResourceId] to get the path for a specific secondary resource.
   static String students(StudentEndpoint endpoint, {String? erp, int? extendedResourceId}) {
-    const path = '/students';
+    const String path = '/students';
     switch(endpoint){
       case StudentEndpoint.BASE: return path;
     }
@@ -52,7 +52,7 @@ class ApiEndpoint {
 
   /// Returns the path for teachers [endpoint].
   static String teachers(TeacherEndpoint endpoint) {
-    const path = '/teachers';
+    const String path = '/teachers';
     switch (endpoint) {
       case TeacherEndpoint.BASE: return path;
     }

@@ -1,4 +1,4 @@
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, avoid_dynamic_calls, library_private_types_in_public_api
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
@@ -57,33 +57,33 @@ class CustomException implements Exception {
 
   factory CustomException.fromDioException(Exception error) {
     try {
-      if (error is DioError) {
+      if (error is DioException) {
         switch (error.type) {
-          case DioErrorType.cancel:
+          case DioExceptionType.cancel:
             return CustomException(
               exceptionType: _ExceptionType.CancelException,
               statusCode: error.response?.statusCode,
               message: 'Request cancelled prematurely',
             );
-          case DioErrorType.connectionTimeout:
+          case DioExceptionType.connectionTimeout:
             return CustomException(
               exceptionType: _ExceptionType.ConnectTimeoutException,
               statusCode: error.response?.statusCode,
               message: 'Connection not established',
             );
-          case DioErrorType.sendTimeout:
+          case DioExceptionType.sendTimeout:
             return CustomException(
               exceptionType: _ExceptionType.SendTimeoutException,
               statusCode: error.response?.statusCode,
               message: 'Failed to send',
             );
-          case DioErrorType.receiveTimeout:
+          case DioExceptionType.receiveTimeout:
             return CustomException(
               exceptionType: _ExceptionType.ReceiveTimeoutException,
               statusCode: error.response?.statusCode,
               message: 'Failed to receive',
             );
-          case DioErrorType.unknown:
+          case DioExceptionType.unknown:
             if (error.message!.contains(_ExceptionType.SocketException.name)) {
               return CustomException(
                 exceptionType: _ExceptionType.FetchDataException,
@@ -98,8 +98,8 @@ class CustomException implements Exception {
                 message: error.response?.statusMessage ?? 'Unknown',
               );
             }
-            final name = error.response?.data['headers']['code'] as String;
-            final message =
+            final String name = error.response?.data['headers']['code'] as String;
+            final String message =
                 error.response?.data['headers']['message'] as String;
             if (name == _ExceptionType.TokenExpiredException.name) {
               return CustomException(
@@ -153,7 +153,7 @@ class CustomException implements Exception {
   }
 
   factory CustomException.fromParsingException(Exception error) {
-    // TODO(arafaysaleem): add logging to print stack trace
+    // TODO(): add logging to print stack trace
     debugPrint('$error');
     return CustomException(
       exceptionType: _ExceptionType.SerializationException,
