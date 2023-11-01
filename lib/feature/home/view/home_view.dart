@@ -21,10 +21,11 @@ class HomeView extends StatelessWidget {
       },
       onPageBuilder: (BuildContext context, HomeViewModel value) =>  MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      // theme: ThemeData(
+      //   primarySwatch: Colors.blue,
+      //   visualDensity: VisualDensity.adaptivePlatformDensity,
+
+      // ),
       home: NavBar(
         color: Colors.white,
         showTitle: true,
