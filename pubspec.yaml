@@ -86,6 +86,7 @@ dependencies:
   flutter_switch: ^0.3.2
   country_picker: ^2.0.22
   country_code_picker: ^3.0.0
+  flutter_share: ^2.0.0
 
 dev_dependencies:
   flutter_test:

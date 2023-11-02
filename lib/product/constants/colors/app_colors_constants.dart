@@ -30,4 +30,5 @@ class AppColors {
   static const Color appBorderColor = Color(0xffC5CEEE);
   static const Color secondaryRed = Color(0xffff4956);
   static const Color textWhite80Color = Color(0xFFf2f2f2);
+  static const Color isDisableColor = Color(0xFFC5D1FF);
 }

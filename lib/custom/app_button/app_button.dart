@@ -11,12 +11,12 @@ class AppButton extends StatelessWidget {
   final double? width;
   final BorderRadiusGeometry? borderRadius;
   final TextStyle? textStyle;
-  final EdgeInsetsGeometry? padding;
   final String? copyText; // Text to be copied to the clipboard
   final bool showCopySnackbar; // Flag to show the snackbar on tap
   final bool? isBorderOnly;
   final Color? borderColor;
   final bool isDisable;
+  final double? top;
 
   const AppButton({
     super.key,
@@ -26,12 +26,12 @@ class AppButton extends StatelessWidget {
     this.width,
     this.borderRadius,
     this.textStyle,
-    this.padding,
     this.copyText,
     this.showCopySnackbar = true,
-    this.isBorderOnly = false,
+    this.isBorderOnly,
     this.borderColor,
     required this.isDisable,
+    this.top,
   });
 
   @override
@@ -46,20 +46,28 @@ class AppButton extends StatelessWidget {
           onPressed();
         },
         child: Padding(
-          padding: padding ??
-              const EdgeInsets.symmetric(horizontal: 2, vertical: 20),
+          padding:
+              const EdgeInsets.only(left: 2, right: 2, top: 10, bottom: 10),
           child: Container(
             height: height ?? 50,
             width: width,
             decoration: BoxDecoration(
-              border: Border.all(color: borderColor ?? Colors.grey),
-              borderRadius: borderRadius ?? BorderRadius.circular(16),
-              color: isBorderOnly == true
-                  ? AppColors.trans
-                  : isDisable == false
-                      ? AppColors.appBlue
-                      : AppColors.appBlue.withOpacity(0.4),
-            ),
+                border: !isDisable || isBorderOnly == true
+                    ? Border.all(color: borderColor ?? Colors.grey)
+                    : null,
+                borderRadius: borderRadius ?? BorderRadius.circular(16),
+                color: isBorderOnly == true
+                    ? AppColors.trans
+                    : !isDisable
+                        ? AppColors.appBlue
+                        : AppColors.isDisableColor,
+                boxShadow: [
+                  if (isDisable == false || isBorderOnly == false)
+                    BoxShadow(
+                        blurRadius: 24,
+                        offset: Offset(0, 12),
+                        color: AppColors.appBlue.withOpacity(0.25))
+                ]),
             child: Center(
               child: Text(
                 title,
@@ -67,7 +75,9 @@ class AppButton extends StatelessWidget {
                     TextStyle(
                         color: isBorderOnly == true
                             ? AppColors.appBlue
-                            : AppColors.white,
+                            : isDisable
+                                ? AppColors.white.withOpacity(0.6)
+                                : AppColors.white,
                         fontSize: 14,
                         fontWeight: FontWeight.w600),
               ),
