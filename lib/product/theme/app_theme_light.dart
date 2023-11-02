@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'app_theme.dart';
 
 class AppThemeLight extends AppTheme {
+
+  AppThemeLight._init();
+
   static AppThemeLight? _instance;
 
   static AppThemeLight get instance {
@@ -10,11 +13,10 @@ class AppThemeLight extends AppTheme {
     return _instance!;
   }
 
-  AppThemeLight._init();
-
   @override
   ThemeData get theme => ThemeData.light().copyWith(
         colorScheme: _buildColorScheme,
+        textTheme: Typography().black.apply(fontFamily: 'OpenSans'),
       );
 
   ColorScheme get _buildColorScheme => ColorScheme(

@@ -222,7 +222,8 @@ class _PreferenceViewState extends State<PreferenceView>
                           Text(
                             'School',
                             style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 16),
+                              fontFamily: 'OpenSans',
+                                fontWeight: FontWeight.w800, fontSize: 16),
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 5),

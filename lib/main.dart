@@ -1,14 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:hessah/feature/home/view/home_view.dart';
+import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
-import 'feature/student_profile/view/student_profile.dart';
-import 'feature/createclass/view/create_class.dart';
-import 'feature/preference/view/preference_view.dart';
-
-import 'product/constants/app/app_constants.dart';
+import 'feature/home/view/home_view.dart';
 import 'product/cache/locale_manager.dart';
+import 'product/constants/app/app_constants.dart';
 import 'product/lang/language_manager.dart';
 import 'product/navigation/navigation_router.dart';
 import 'product/navigation/navigation_service.dart';
@@ -20,7 +17,7 @@ void main() {
   LocaleManager.prefrencesInit();
   runApp(
     MultiProvider(
-      providers: [...ApplicationProvider.instance.dependItems],
+      providers: <SingleChildWidget>[...ApplicationProvider.instance.dependItems],
       child: EasyLocalization(
         supportedLocales: LanguageManager.instance.supportedLocales,
         path: ApplicationConstants.LANG_ASSET_PATH,
