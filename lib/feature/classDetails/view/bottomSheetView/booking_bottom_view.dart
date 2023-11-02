@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/dialog/payment_dialog.dart';
+import '../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../custom/divider/divider.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
@@ -287,8 +288,11 @@ class BookingBottomSheet extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     builder: (BuildContext context) {
-                      return PaymentDialog(
+                      return SuccessFailsInfoDialog(
                         tranId: '#232132132132133',
+                        buttonTitle: 'Done',
+                        title: 'Success',
+                        content: 'You have successfully booked your class!.',
                       );
                     },
                   );

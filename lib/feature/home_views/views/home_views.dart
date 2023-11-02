@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../product/base/view/base_view.dart';
 import '../../../config/routes/app_router.dart';
@@ -84,7 +85,7 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
         child: Container(
           margin: const EdgeInsets.all(3),
           alignment: Alignment.center,
-          width: 100,
+          width: 100.px,
           decoration: BoxDecoration(
               color: isSelected ? AppColors.appWhite : AppColors.lightPurple,
               borderRadius: BorderRadius.circular(30)),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
@@ -6,7 +7,6 @@ import '../../product/extension/context_extension.dart';
 import '../app_button/app_button.dart';
 import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
-import 'heading_card_view.dart';
 import 'status_card_view.dart';
 
 class AppCardView extends StatelessWidget {
@@ -45,7 +45,7 @@ class AppCardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: context.paddingNormal,
-      width: 318,
+      width: 318.px,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: AppColors.appWhite,
@@ -60,19 +60,19 @@ class AppCardView extends StatelessWidget {
               AppText(
                 cardTitle!,
                 fontWeight: FontWeight.w800,
-                fontSize: 20,
+                fontSize: 20.px,
               ),
               StatusCardView(status: status)
             ],
           ),
-          const SizedBox(
-            height: 10,
+           SizedBox(
+            height: 10.px,
           ),
           tagCardView(
             title: 'Grade 2',
           ),
-          const SizedBox(
-            height: 10,
+           SizedBox(
+            height: 10.px,
           ),
           Row(
             children: <Widget>[
@@ -81,8 +81,8 @@ class AppCardView extends StatelessWidget {
               infoCardView(ImageConstants.moneyIcon, money!),
             ],
           ),
-          const SizedBox(
-            height: 10,
+           SizedBox(
+            height: 10.px,
           ),
           detailsCardView(
               proposals: proposals,
@@ -100,19 +100,19 @@ class AppCardView extends StatelessWidget {
 
   Padding infoCardView(String icon, String title) {
     return Padding(
-      padding: const EdgeInsets.only(right: 12),
+      padding: EdgeInsets.only(right: 12.px),
       child: Row(
         children: <Widget>[
           AppImageAsset(
             image: icon ?? '',
-            height: 12,
+            height: 12.px,
           ),
-          const SizedBox(
-            width: 4,
+           SizedBox(
+            width: 4.px,
           ),
           AppText(
             title ?? '',
-            fontSize: 10,
+            fontSize: 10.px,
             fontWeight: FontWeight.w500,
           )
         ],
@@ -122,7 +122,7 @@ class AppCardView extends StatelessWidget {
 
   Widget tagCardView({String? title, String? icon}) {
     return SizedBox(
-      height: 22,
+      height: 22.px,
       child: Align(
         alignment: Alignment.centerLeft,
         child: ListView.builder(
@@ -132,11 +132,11 @@ class AppCardView extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
             return Container(
-              margin: const EdgeInsets.only(right: 5),
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              margin:  EdgeInsets.only(right: 5.px),
+              padding: EdgeInsets.symmetric(horizontal: 10.px, vertical: 5.px),
               decoration: BoxDecoration(
                 color: AppColors.lightPurple,
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(30.px),
               ),
               child: Row(
                 children: <Widget>[
@@ -144,14 +144,14 @@ class AppCardView extends StatelessWidget {
                       icon.isNotEmpty) // Check if icon is not null and not empty
                     AppImageAsset(
                       image: icon,
-                      height: 12,
+                      height: 12.px,
                     ),
                   if (icon != null &&
                       icon.isNotEmpty) // Another check for spacing
-                    const SizedBox(width: 4),
+                     SizedBox(width: 4.px),
                   AppText(
                     title ?? ''!,
-                    fontSize: 10,
+                    fontSize: 10.px,
                     fontWeight: FontWeight.w500,
                   ),
                 ],
@@ -174,13 +174,13 @@ class AppCardView extends StatelessWidget {
     VoidCallback? buttonTap,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: EdgeInsets.symmetric(horizontal: 12.px),
       alignment: Alignment.centerLeft,
-      height: 80,
+      height: 80.px,
       width: double.infinity,
       decoration: BoxDecoration(
         color: AppColors.lightPurple,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10.px),
       ),
       child: Row(
         children: <Widget>[
@@ -192,11 +192,11 @@ class AppCardView extends StatelessWidget {
                   children: <Widget>[
                     AppImageAsset(
                       image: avtar!,
-                      height: 40,
+                      height: 40.px,
                     ),
                     SizedBox(
-                      height: 20,
-                      width: 50,
+                      height: 20.px,
+                      width: 50.px,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: 5,
@@ -205,16 +205,16 @@ class AppCardView extends StatelessWidget {
                             image: (index < reViewLength!)
                                 ? ImageConstants.reviewStarPurple
                                 : ImageConstants.reviewStar,
-                            height: 10,
-                            width: 10,
+                            height: 10.px,
+                            width: 10.px,
                           );
                         },
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(
-                  width: 14,
+                 SizedBox(
+                  width: 14.px,
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -224,73 +224,73 @@ class AppCardView extends StatelessWidget {
                       textAlign: TextAlign.center,
                       text: TextSpan(
                         children: <InlineSpan>[
-                          const TextSpan(
+                           TextSpan(
                             text: 'Mr. ',
                             style: TextStyle(
                               color: AppColors.appDarkBlack,
                               fontStyle: FontStyle.normal,
-                              fontSize: 12,
+                              fontSize: 12.px,
                             ),
                           ),
                           TextSpan(
                             text: name ?? '',
-                            style: const TextStyle(
+                            style:  TextStyle(
                               color: AppColors.appDarkBlack,
                               fontWeight: FontWeight.w700,
                               fontStyle: FontStyle.normal,
-                              fontSize: 12,
+                              fontSize: 12.px,
                             ),
                           )
                         ],
                       ),
                     ),
                     if (isPro!)
-                      const SizedBox(
-                        height: 4,
+                       SizedBox(
+                        height: 4.px,
                       ),
                     if (isPro!)
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 3, horizontal: 8),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 3.px, horizontal: 8.px),
                         decoration: BoxDecoration(
                           color: AppColors.appDarkBlack,
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(30.px),
                         ),
-                        child: const Row(
+                        child:  Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             AppImageAsset(
                               image: ImageConstants.proIcon,
-                              height: 10,
+                              height: 10.px,
                             ),
                             SizedBox(
-                              width: 3,
+                              width: 3.px,
                             ),
                             AppText(
                               'Pro',
-                              fontSize: 10,
+                              fontSize: 10.px,
                               fontWeight: FontWeight.w700,
                               color: AppColors.appYellow,
                             ),
                           ],
                         ),
                       ),
-                    const SizedBox(
-                      height: 4,
+                     SizedBox(
+                      height: 4.px,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         AppImageAsset(
                           image: countyIcon ?? ''!,
-                          height: 10,
+                          height: 10.px,
                         ),
-                        const SizedBox(
-                          width: 4,
+                         SizedBox(
+                          width: 4.px,
                         ),
                         AppText(
                           country ?? ''!,
-                          fontSize: 12,
+                          fontSize: 12.px,
                           fontWeight: FontWeight.w400,
                         )
                       ],
@@ -300,47 +300,47 @@ class AppCardView extends StatelessWidget {
               ],
             )
           else if (proposals == 0)
-            const Row(
+             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(
-                    width: 50,
+                    width: 50.px,
                     child: AppText('Proposals From',
-                        fontSize: 12, fontWeight: FontWeight.w500),
+                        fontSize: 12.px, fontWeight: FontWeight.w500),
                   ),
                   SizedBox(
-                    width: 10,
+                    width: 10.px,
                   ),
                   Stack(
                     alignment: Alignment.centerLeft,
                     children: <Widget>[
                       AppImageAsset(
                         image: ImageConstants.teacherAvtar,
-                        height: 40,
+                        height: 40.px,
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 16),
+                        padding: EdgeInsets.only(left: 16.px),
                         child: AppImageAsset(
                           image: ImageConstants.avtar,
-                          height: 40,
+                          height: 40.px,
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 32),
+                        padding: EdgeInsets.only(left: 32.px),
                         child: AppImageAsset(
                           image: ImageConstants.avtar,
-                          height: 40,
+                          height: 40.px,
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 48),
+                        padding: EdgeInsets.only(left: 48.px),
                         child: AppImageAsset(
                           image: ImageConstants.avtar,
-                          height: 40,
+                          height: 40.px,
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 64),
+                        padding: EdgeInsets.only(left: 64.px),
                         child: CircleAvatar(
                           child: AppText('+5',
                               fontWeight: FontWeight.w600,
@@ -351,23 +351,23 @@ class AppCardView extends StatelessWidget {
                   )
                 ])
           else
-            const Row(
+             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  width: 27,
+                  width: 27.px,
                 ),
                 AppText('No proposals received',
-                    fontSize: 14, fontWeight: FontWeight.w700),
+                    fontSize: 14.px, fontWeight: FontWeight.w700),
               ],
             ),
           const Spacer(),
           AppButton(
             title: 'Book',
-            width: 60,
-            height: 35,
+            width: 60.px,
+            height: 35.px,
             borderColor: AppColors.appBlue,
-            borderRadius: BorderRadius.circular(13),
+            borderRadius: BorderRadius.circular(13.px),
             onPressed: buttonTap!,
           )
         ],

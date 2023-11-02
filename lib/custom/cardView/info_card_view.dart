@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
@@ -9,78 +10,67 @@ import 'heading_card_view.dart';
 
 class InfoCardVIew extends StatelessWidget {
   InfoCardVIew({
-    this.heading,
     this.isShowButton,
     this.title,
     this.subTitle,
     this.cardColor,
-    this.isViewAllIcon,
-    this.viewAllOnTap,
     this.buttonTap,
+    this.buttonTitle,
     super.key,
   });
 
-  String? heading;
   String? title;
   String? subTitle;
   bool? isShowButton;
-  bool? isViewAllIcon;
   Color? cardColor;
-  VoidCallback? viewAllOnTap;
+  String? buttonTitle;
   VoidCallback? buttonTap;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        HeadingCardView(
-            title: heading, isViewAllIcon: isViewAllIcon, onTap: viewAllOnTap),
-        const SizedBox(height: 15),
-        Container(
-          width: double.infinity,
-          margin: const EdgeInsets.symmetric(horizontal: 16),
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: cardColor ?? AppColors.appWhite,
-            border: Border.all(color: AppColors.lightPurple, width: 1.7),
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(horizontal: 16.px),
+      padding: EdgeInsets.all(12.px),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.px),
+        color: cardColor ?? AppColors.appWhite,
+        border: Border.all(color: AppColors.lightPurple, width: 1.7.px),
+      ),
+      child: Column(
+        children: <Widget>[
+          AppImageAsset(
+            image: ImageConstants.starSecondary,
+            height: 55.px,
           ),
-          child: Column(
-            children: <Widget>[
-              const AppImageAsset(
-                image: ImageConstants.starSecondary,
-                height: 55,
-              ),
-              const SizedBox(height: 13),
-              AppText(
-                title!,
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-              ),
-              const SizedBox(height: 5),
-              AppText(subTitle!,
-                  textAlign: TextAlign.center,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.appLightBlack),
-              if (isShowButton!) const SizedBox(height: 13),
-              if (isShowButton!)
-                AppButton(
-                  height: 42,
-                  title: 'Create New Class',
-                  textStyle: const TextStyle(
-                      color: AppColors.appBlue,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600),
-                  borderRadius: BorderRadius.circular(12),
-                  borderColor: AppColors.appBlue,
-                  isBorderOnly: true,
-                  onPressed: buttonTap!,
-                )
-            ],
+          SizedBox(height: 13.px),
+          AppText(
+            title??'',
+            fontSize: 16.px,
+            fontWeight: FontWeight.w700,
           ),
-        ),
-      ],
+          SizedBox(height: 5.px),
+          AppText(subTitle??'',
+              textAlign: TextAlign.center,
+              fontSize: 14.px,
+              fontWeight: FontWeight.w400,
+              color: AppColors.appLightBlack),
+          if (isShowButton??true) SizedBox(height: 13.px),
+          if (isShowButton??true)
+            AppButton(
+              height: 42.px,
+              title: buttonTitle??'',
+              textStyle: TextStyle(
+                  color: AppColors.appBlue,
+                  fontSize: 14.px,
+                  fontWeight: FontWeight.w600),
+              borderRadius: BorderRadius.circular(12.px),
+              borderColor: AppColors.appBlue,
+              isBorderOnly: true,
+              onPressed: buttonTap!,
+            )
+        ],
+      ),
     );
   }
 }

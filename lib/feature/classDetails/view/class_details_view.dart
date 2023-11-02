@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../product/base/view/base_view.dart';
 
@@ -49,58 +50,58 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               ),
               body: ListView(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                EdgeInsets.symmetric(horizontal: 15.px, vertical: 5.px),
                 children: <Widget>[
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: 20.px,
                   ),
-                  const AppText(
+                  AppText(
                     'Math',
-                    fontSize: 20,
+                    fontSize: 20.px,
                     fontWeight: FontWeight.w800,
                   ),
-                  const SizedBox(
-                    height: 10,
+                  SizedBox(
+                    height: 10.px,
                   ),
-                  const AppText(
+                  AppText(
                     'Explore the world of math with interactive games, puzzles, and challenges. Join us for fun learning adventures and make math your favorite subject!',
                     fontWeight: FontWeight.w400,
                   ),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: 20.px,
                   ),
                   HeadingCardView(
                     title: 'Class Info',
                     padding: 0,
                   ),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: 20.px,
                   ),
                   SizedBox(
-                    height: 40,
+                    height: 40.px,
                     child: ListView.separated(
                         scrollDirection: Axis.horizontal,
-                        physics: const BouncingScrollPhysics(),
+                        physics: BouncingScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
                           return SizedBox(
-                            width: 80,
+                            width: 80.px,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                const AppText('Grade 2',
-                                    fontSize: 12,
+                                AppText('Grade 2',
+                                    fontSize: 12.px,
                                     color: AppColors.appLightBlack),
-                                const SizedBox(
-                                  height: 5,
+                                SizedBox(
+                                  height: 5.px,
                                 ),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 6, vertical: 3),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 6.px, vertical: 3.px),
                                   decoration: BoxDecoration(
                                       color: AppColors.lightPurple,
-                                      borderRadius: BorderRadius.circular(30)),
-                                  child: const AppText('Grade',
-                                      fontSize: 10,
+                                      borderRadius: BorderRadius.circular(30.px)),
+                                  child: AppText('Grade',
+                                      fontSize: 10.px,
                                       color: AppColors.appLightBlack),
                                 ),
                               ],
@@ -108,29 +109,29 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                           );
                         },
                         separatorBuilder: (BuildContext context, int index) {
-                          return const SizedBox(
-                            width: 6,
+                          return SizedBox(
+                            width: 6.px,
                           );
                         },
                         itemCount: 4),
                   ),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: 20.px,
                   ),
                   HeadingCardView(
                     padding: 0,
                     title: 'Teachers',
                     isViewAllIcon: true,
-                    trailingWidget: const Row(
+                    trailingWidget: Row(
                       children: <Widget>[
                         AppText('Accept or Reject Students',
-                            fontSize: 14,
+                            fontSize: 14.px,
                             fontWeight: FontWeight.w600,
                             color: AppColors.appBlue),
-                        SizedBox(width: 5),
+                        SizedBox(width: 5.px),
                         AppImageAsset(
                           image: ImageConstants.editIcon,
-                          height: 18,
+                          height: 18.px,
                           color: AppColors.appBlue,
                         )
                       ],
@@ -139,7 +140,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       showModalBottomSheet(
                         isScrollControlled: true,
                         context: context,
-                        shape: const RoundedRectangleBorder(
+                        shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.vertical(
                             top: Radius.circular(25.0),
                           ),
@@ -151,23 +152,23 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     },
                   ),
                   SizedBox(
-                    height: 18,
+                    height: 18.px,
                   ),
                   SizedBox(
-                    height: 68,
+                    height: 70.px,
                     child: ListView.separated(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        physics: const BouncingScrollPhysics(),
+                        physics: BouncingScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
                           return const StudentCardView();
                         },
                         separatorBuilder: (BuildContext context, int index) {
-                          return const SizedBox(width: 14);
+                          return SizedBox(width: 14.px);
                         },
                         itemCount: 10),
                   ),
-                  const SizedBox(height: 18),
+                  SizedBox(height: 18.px),
                   InkWell(
                     onTap: () {},
                     child: DetailsCardViewHorizontal(
@@ -181,74 +182,74 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         isBookmarked: true,
                         subjects: 'Science - Account..'),
                   ),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: 20.px,
                   ),
                   Container(
                     padding: context.paddingNormal,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10.px),
                       color: AppColors.lightPurple,
                       border:
-                          Border.all(color: AppColors.lightPurple, width: 1.1),
+                      Border.all(color: AppColors.lightPurple, width: 1.1.px),
                     ),
                     child: Column(
                       children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            const AppText(
+                            AppText(
                               'Class Details',
                               fontWeight: FontWeight.w800,
-                              fontSize: 16,
+                              fontSize: 16.px,
                             ),
-                            const Spacer(),
+                            Spacer(),
                             StatusCardView(status: 'PAYING'),
                           ],
                         ),
-                        const SizedBox(height: 15),
+                        SizedBox(height: 15.px),
                         tagCardView(
                             title: 'Private 1/1',
                             icon: ImageConstants.groupIcon),
                         tagCardView(
                             title: 'Sessions', icon: ImageConstants.moneyIcon),
-                        const SizedBox(height: 5),
-                        const Row(
+                        SizedBox(height: 5.px),
+                        Row(
                           children: <Widget>[
                             AppImageAsset(
                               image: ImageConstants.pinLocation,
-                              height: 20,
+                              height: 20.px,
                             ),
                             SizedBox(
-                              width: 260,
+                              width: 260.px,
                               child: AppText(
                                 'City, Block No., Street Name, Street Name 2, House No., Floor No., Apartment No.',
-                                fontSize: 10,
+                                fontSize: 10.px,
                                 fontWeight: FontWeight.w500,
                               ),
                             )
                           ],
                         ),
-                        const SizedBox(height: 15),
+                        SizedBox(height: 15.px),
                         Container(
-                          height: 90,
+                          height: 90.px,
                           width: double.infinity,
                           decoration:
-                              const BoxDecoration(color: AppColors.appWhite),
+                          BoxDecoration(color: AppColors.appWhite),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: 20.px,
                   ),
                   screenButton(
                     isPaying: true,
                     onTap: () {},
                   ),
-                  const SizedBox(
-                    height: 25,
+                  SizedBox(
+                    height: 25.px,
                   ),
                   AppButton(
                     title: 'Book Now',
@@ -257,7 +258,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       showModalBottomSheet(
                         isScrollControlled: true,
                         context: context,
-                        shape: const RoundedRectangleBorder(
+                        shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.vertical(
                             top: Radius.circular(25.0),
                           ),
@@ -268,8 +269,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       );
                     },
                   ),
-                  const SizedBox(
-                    height: 40,
+                  SizedBox(
+                    height: 40.px,
                   ),
                 ],
               ),
@@ -283,80 +284,80 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
   Widget screenButton({bool? isPaying, VoidCallback? onTap}) {
     return Container(
       alignment: Alignment.center,
-      height: 80,
+      height: 80.px,
       padding: context.paddingNormal,
       width: double.infinity,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(13),
+        borderRadius: BorderRadius.circular(13.px),
         color:
-            (isPaying!) ? AppColors.appTransparent : AppColors.lightPurpleTwo,
+        (isPaying!) ? AppColors.appTransparent : AppColors.lightPurpleTwo,
       ),
       child: isPaying
           ? Row(children: <Widget>[
-              const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    AppText('Total amount to pay',
-                        color: AppColors.appGrey,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500),
-                    SizedBox(height: 3),
-                    Row(
-                      children: <Widget>[
-                        AppText('27',
-                            fontSize: 16, fontWeight: FontWeight.w700),
-                        AppText('.500 KWD',
-                            fontSize: 12, fontWeight: FontWeight.w700),
-                      ],
-                    ),
-                  ]),
-              const Spacer(),
-              AppButton(
-                width: 150,
-                title: 'Book Now',
-                borderColor: AppColors.appBlue,
-                borderRadius: BorderRadius.circular(10),
-                onPressed: isPaying ? onTap! : () {},
-              )
-            ])
-          : const Row(children: <Widget>[
-              AppImageAsset(
-                image: ImageConstants.infoIcon,
-                height: 23,
+        Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              AppText('Total amount to pay',
+                  color: AppColors.appGrey,
+                  fontSize: 12.px,
+                  fontWeight: FontWeight.w500),
+              SizedBox(height: 3.px),
+              Row(
+                children: <Widget>[
+                  AppText('27',
+                      fontSize: 16.px, fontWeight: FontWeight.w700),
+                  AppText('.500 KWD',
+                      fontSize: 12.px, fontWeight: FontWeight.w700),
+                ],
               ),
-              SizedBox(
-                width: 10,
-              ),
-              SizedBox(
-                width: 260,
-                child: AppText(
-                  'You wil pay after the class accepted by the teacher.',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                ),
-              )
             ]),
+        Spacer(),
+        AppButton(
+          width: 150.px,
+          title: 'Book Now',
+          borderColor: AppColors.appBlue,
+          borderRadius: BorderRadius.circular(10.px),
+          onPressed: isPaying ? onTap! : () {},
+        )
+      ])
+          : Row(children: <Widget>[
+        AppImageAsset(
+          image: ImageConstants.infoIcon,
+          height: 23.px,
+        ),
+        SizedBox(
+          width: 10.px,
+        ),
+        SizedBox(
+          width: 260.px,
+          child: AppText(
+            'You wil pay after the class accepted by the teacher.',
+            fontSize: 12.px,
+            fontWeight: FontWeight.w400,
+          ),
+        )
+      ]),
     );
   }
 
   Widget tagCardView({String? title, String? icon}) {
     return SizedBox(
-      height: 24,
+      height: 24.px,
       child: Align(
         alignment: Alignment.centerLeft,
         child: ListView.builder(
-          padding: const EdgeInsets.only(right: 5),
+          padding: EdgeInsets.only(right: 5.px),
           itemCount: 3,
           shrinkWrap: true,
-          physics: const BouncingScrollPhysics(),
+          physics: BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
             return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
+              padding: EdgeInsets.symmetric(horizontal: 4.px, vertical: 5.px),
               decoration: BoxDecoration(
                 color: AppColors.lightPurple,
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(30.px),
               ),
               child: Row(
                 children: <Widget>[
@@ -364,14 +365,14 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       icon.isNotEmpty) // Check if icon is not null and not empty
                     AppImageAsset(
                       image: icon,
-                      height: 14,
+                      height: 14.px,
                     ),
                   if (icon != null &&
                       icon.isNotEmpty) // Another check for spacing
-                    const SizedBox(width: 5),
+                    SizedBox(width: 5.px),
                   AppText(
                     title ?? '',
-                    fontSize: 10,
+                    fontSize: 10.px,
                     fontWeight: FontWeight.w500,
                   ),
                 ],

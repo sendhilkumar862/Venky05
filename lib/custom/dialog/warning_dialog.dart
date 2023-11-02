@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
@@ -14,7 +15,7 @@ class WarningDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      padding: EdgeInsets.symmetric(horizontal: 15.px),
       child: Stack(
         alignment: Alignment.topRight,
         children: <Widget>[
@@ -23,55 +24,52 @@ class WarningDialog extends StatelessWidget {
               Navigator.pop(context);
             },
             child: Container(
-              margin: const EdgeInsets.only(top: 14),
+              margin: EdgeInsets.only(top: 14.px),
               alignment: Alignment.center,
-              height: 25,
-              width: 25,
+              height: 25.px,
+              width: 25.px,
               decoration: const BoxDecoration(
-                  color: AppColors.appLightGrey,
-                  shape: BoxShape.circle),
-              child: const AppImageAsset(
+                  color: AppColors.appLightGrey, shape: BoxShape.circle),
+              child: AppImageAsset(
                 image: ImageConstants.closeIcon,
-                height: 20,
+                height: 20.px,
               ),
             ),
           ),
           Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const SizedBox(
-                height: 20,
+              SizedBox(
+                height: 20.px,
               ),
-              const AppImageAsset(
-                  image: ImageConstants.warningCircle,
-                  height: 40),
-              const SizedBox(height: 15),
+              AppImageAsset(image: ImageConstants.warningCircle, height: 40.px),
+              SizedBox(height: 15.px),
               const AppText(
                 'Cancel Booking Confirmation',
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
               ),
-              const SizedBox(height: 12),
-              const AppText(
+              SizedBox(height: 12.px),
+              AppText(
                 'Are you sure you want to cancel the class booking?',
-                fontSize: 12,
+                fontSize: 12.px,
                 fontWeight: FontWeight.w400,
               ),
-              const SizedBox(height: 18),
+              SizedBox(height: 18.px),
               AppButton(
                 title: 'No, Keep It',
                 borderColor: AppColors.appBlue,
-                height: 45,
+                height: 45.px,
                 onPressed: () {},
               ),
-              const SizedBox(height: 22),
-              const AppText(
+              SizedBox(height: 22.px),
+              AppText(
                 'Yes, Cancel the Booking',
-                fontSize: 14,
+                fontSize: 14.px,
                 fontWeight: FontWeight.w600,
                 color: AppColors.appLightRed,
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.px),
             ],
           ),
         ],

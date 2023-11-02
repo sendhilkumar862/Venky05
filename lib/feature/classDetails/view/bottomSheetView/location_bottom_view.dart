@@ -26,9 +26,7 @@ class SelectLocationBottomSheet extends StatelessWidget {
         alignment: Alignment.topRight,
         children: <Widget>[
           InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
+            onTap: () =>  Navigator.pop(context),
             child: Container(
               margin: const EdgeInsets.only(top: 14),
               alignment: Alignment.center,

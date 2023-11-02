@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/cardView/details_card_view.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
@@ -20,8 +21,7 @@ class TeachersView extends StatelessWidget {
             subTitle:
                 "You don't have any pending activities that require your action. If there are scheduled classes or new proposals for the classes you created, etc...\nyou will find them here.",
             cardColor: AppColors.white,
-            isViewAllIcon: false,
-            viewAllOnTap: () => null,
+            buttonTitle: 'Class Details',
             buttonTap: () => null,
           ),
           const SizedBox(height: 20),
@@ -34,7 +34,7 @@ class TeachersView extends StatelessWidget {
             height: 5,
           ),
           SizedBox(
-            height: 210,
+            height: 210.px,
             child: ListView.builder(
               itemCount: 5,
               shrinkWrap: true,
@@ -62,7 +62,7 @@ class TeachersView extends StatelessWidget {
             height: 5,
           ),
           SizedBox(
-            height: 210,
+            height: 210.px,
             child: ListView.builder(
               itemCount: 5,
               shrinkWrap: true,

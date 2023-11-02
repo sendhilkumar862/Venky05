@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../custom/cardView/app_card_view.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../product/constants/image/image_constants.dart';
@@ -11,17 +12,17 @@ class ClassesView extends StatelessWidget {
     return Expanded(
       child: ListView(
         children: <Widget>[
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            height: 20.px,
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.px),
           HeadingCardView(
               title: 'Related Classes', onTap: () {}, totalItem: '3'),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: 10.px,
           ),
           SizedBox(
-            height: 225,
+            height: 225.px,
             child: ListView.separated(
               padding: const EdgeInsets.only(
                   right: 15, top: 5, bottom: 20, left: 15),
@@ -56,14 +57,14 @@ class ClassesView extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-          const SizedBox(height: 20),
+           SizedBox(height: 20.px),
           HeadingCardView(
               title: 'Related Classes', onTap: () {}, totalItem: '3'),
           const SizedBox(
             height: 10,
           ),
           SizedBox(
-            height: 225,
+            height: 225.px,
             child: ListView.separated(
               padding: const EdgeInsets.only(
                   right: 15, top: 5, bottom: 20, left: 15),

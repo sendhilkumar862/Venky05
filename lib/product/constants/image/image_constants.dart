@@ -28,6 +28,7 @@ class ImageConstants {
   static const String warningCircle = '${ApplicationConstants.imagePath}warning_circle.png';
   static const String starBlue = '${ApplicationConstants.imagePath}star_blue.png';
   static const String starGrey = '${ApplicationConstants.imagePath}star_grey.png';
+  static const String failCircle = '${ApplicationConstants.imagePath}fail_circle.png';
 
 
 
@@ -60,5 +61,9 @@ class ImageConstants {
   static const String editIcon = '${ApplicationConstants.iconPath}edit_icon.png';
   static const String closeIcon = '${ApplicationConstants.iconPath}close_icon.png';
   static const String payingIcon = '${ApplicationConstants.iconPath}paying_icon.png';
+  static const String walletIcon = '${ApplicationConstants.iconPath}wallet_icon.png';
+  static const String readBookIcon = '${ApplicationConstants.iconPath}read_book_icon.png';
+  static const String filterIcon = '${ApplicationConstants.iconPath}filter_icon.png';
+  static const String forwardIcon = '${ApplicationConstants.iconPath}forward_errow.png';
 
 }

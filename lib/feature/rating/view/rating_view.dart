@@ -37,11 +37,6 @@ class _RatingViewState extends State<RatingView> with TickerProviderStateMixin {
                   icon: ImageConstants.avtar,
                   title: 'Class Details',
                   isTitleOnly: true,
-                  onTapBackTap: () {
-                    Navigator.pop(context);
-                  },
-                  onProfileTap: () =>
-                      AppRouter.pushNamed(Routes.PrefrencesScreen),
                 ),
                 body: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),

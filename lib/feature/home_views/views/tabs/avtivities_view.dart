@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/cardView/app_card_view.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
@@ -21,21 +22,22 @@ class ActivitiesView extends StatelessWidget {
             subTitle:
                 "You don't have any pending activities that require your action. If there are scheduled classes or new proposals for the classes you created, etc...\nyou will find them here.",
             cardColor: AppColors.white,
-            isViewAllIcon: false,
-            viewAllOnTap: () => null,
-            buttonTap: () => null,
+            buttonTitle: 'Create Class',
+            buttonTap: () {
+
+            },
           ),
-          const SizedBox(
-            height: 20,
+           SizedBox(
+            height: 20.px,
           ),
           InfoCardViewHorizontal(
             heading: 'Upcoming Classes',
             isShowButton: true,
             title: 'Create new class and receive proposals from teachers',
             cardColor: AppColors.lightPurple,
-            isViewAllIcon: true,
-            viewAllOnTap: () => null,
-            buttonTap: () => null,
+            buttonTap: () {
+
+            },
           ),
           const SizedBox(height: 20),
           const SizedBox(height: 20),
@@ -45,7 +47,7 @@ class ActivitiesView extends StatelessWidget {
             height: 10,
           ),
           SizedBox(
-            height: 225,
+            height: 225.px,
             child: ListView.separated(
               padding: const EdgeInsets.only(
                   right: 15, top: 5, bottom: 20, left: 15),
@@ -85,7 +87,7 @@ class ActivitiesView extends StatelessWidget {
             height: 10,
           ),
           SizedBox(
-            height: 225,
+            height: 225.px,
             child: ListView.separated(
               padding: const EdgeInsets.only(
                   right: 15, top: 5, bottom: 20, left: 15),
@@ -119,8 +121,8 @@ class ActivitiesView extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-          const SizedBox(
-            height: 200,
+           SizedBox(
+            height: 200.px,
           )
         ],
       ),
