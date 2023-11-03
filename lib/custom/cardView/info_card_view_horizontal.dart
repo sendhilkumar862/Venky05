@@ -69,7 +69,7 @@ class InfoCardViewHorizontal extends StatelessWidget {
                     ),
                     if (isShowButton!) SizedBox(height: 13.px),
                     if (isShowButton!)
-                      AppButton(
+                      AppButton(isDisable: true,
                         height: 37.px,
                         title: 'Create New Class',
                         textStyle: TextStyle(

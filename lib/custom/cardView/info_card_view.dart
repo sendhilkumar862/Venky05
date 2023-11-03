@@ -57,7 +57,7 @@ class InfoCardVIew extends StatelessWidget {
               color: AppColors.appLightBlack),
           if (isShowButton??true) SizedBox(height: 13.px),
           if (isShowButton??true)
-            AppButton(
+            AppButton(isDisable: true,
               height: 42.px,
               title: buttonTitle??'',
               textStyle: TextStyle(

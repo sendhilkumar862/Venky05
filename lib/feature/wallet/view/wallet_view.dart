@@ -6,6 +6,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../../product/base/view/base_view.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
+import '../../../custom/amount/app_amount_view.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/cardView/heading_card_view.dart';
@@ -17,16 +18,10 @@ import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/wallet_view_model.dart';
 import 'view_all_view.dart';
-
-class ChartSampleData {
-  final String x;
-  final double y;
-
-  ChartSampleData({required this.x, required this.y});
-}
+import 'withdraw_view.dart';
 
 class WalletView extends StatefulWidget {
-  WalletView({super.key});
+  const WalletView({super.key});
 
   @override
   State<WalletView> createState() => _WalletViewState();
@@ -35,14 +30,6 @@ class WalletView extends StatefulWidget {
 class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    List<ChartSampleData> chartData = <ChartSampleData>[
-      ChartSampleData(x: 'Jan', y: 0.541),
-      ChartSampleData(x: 'Feb', y: 0.818),
-      ChartSampleData(x: 'March', y: 1.51),
-      ChartSampleData(x: 'April', y: 0),
-      ChartSampleData(x: 'May', y: 0),
-      ChartSampleData(x: 'June', y: 0),
-    ];
     return BaseView<WalletViewModel>(
       viewModel: WalletViewModel(),
       onModelReady: (WalletViewModel walletViewModel) {
@@ -70,23 +57,14 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                     fontWeight: FontWeight.w400,
                   ),
                   SizedBox(height: 5.px),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      AppText(
-                        '102',
-                        fontSize: 24.px,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      AppText(
-                        '.500 KWD',
-                        fontSize: 16.px,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ],
-                  ),
+                  AppAmountView(
+                      amount: '100.500 KWD',
+                      firstFontSize: 24.px,
+                      decimalSize: 16.px),
                   SizedBox(height: 14.px),
                   Container(
+                    alignment: Alignment.center,
+                    height: 68.px,
                     margin: EdgeInsets.symmetric(horizontal: 15.px),
                     padding: EdgeInsets.all(11.px),
                     decoration: BoxDecoration(
@@ -95,18 +73,30 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        balanceCardView(
-                            title: 'Pending Balance', amount: '.000 KWD'),
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 12.px),
-                          height: 40.px,
-                          width: 1.px,
-                          color: AppColors.appGrey,
-                        ),
-                        balanceCardView(
-                            title: 'Pending Balance', amount: '.000 KWD'),
-                      ],
+                      // from teachers and students view conditionally manage
+                      children: (true)
+                          ? <Widget>[
+                              balanceCardView(
+                                  title: 'Active Classes\nBooked',
+                                  amount: '100.000 KWD'),
+                              AppDivider(isVerticle: true),
+                              balanceCardView(
+                                  title: 'New Classes\nCreated',
+                                  amount: '100.000 KWD'),
+                              AppDivider(isVerticle: true),
+                              balanceCardView(
+                                  title: 'Pending\nPayment',
+                                  amount: '100.000 KWD'),
+                            ]
+                          : <Widget>[
+                              balanceCardView(
+                                  title: 'Pending Balance',
+                                  amount: '100.000 KWD'),
+                              AppDivider(isVerticle: true),
+                              balanceCardView(
+                                  title: 'Pending Withdraw',
+                                  amount: '100.000 KWD'),
+                            ],
                     ),
                   ),
                   SizedBox(height: 16.px),
@@ -135,53 +125,14 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                             icon: ImageConstants.walletIcon),
                         SizedBox(width: 15.px),
                         screenButton(
-                            onTap: () {
-                              showModalBottomSheet(
-                                context: context,
-                                constraints: const BoxConstraints(),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(25.px),
-                                    topLeft: Radius.circular(25.px),
-                                  ),
-                                ),
-                                builder: (BuildContext context) {
-                                  return const BookingBottomSheet();
-                                },
-                              );
-                            },
-                            title: 'Bank Accounts',
+                            onTap: () => AppRouter.push(const WithdrawView()),
+                            title: 'Withdraw',
                             icon: ImageConstants.walletIcon),
                       ],
                     ),
                   ),
                   SizedBox(height: 25.px),
-                  stateCardView(),
-                  SizedBox(height: 8.px),
-                  SizedBox(
-                    height: 200.px,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15.px),
-                      child: SfCartesianChart(
-                        plotAreaBorderWidth: 0,
-                        primaryXAxis: CategoryAxis(),
-                        series: <ColumnSeries<ChartSampleData, String>>[
-                          ColumnSeries<ChartSampleData, String>(
-                            isVisibleInLegend: true,
-                            width: 0.5,
-                            color: AppColors.appPurple,
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(5.px),
-                              topLeft: Radius.circular(5.px),
-                            ),
-                            dataSource: chartData,
-                            xValueMapper: (ChartSampleData sales, _) => sales.x,
-                            yValueMapper: (ChartSampleData sales, _) => sales.y,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  chartCardView(walletViewModel: walletViewModel),
                   SizedBox(height: 25.px),
                   HeadingCardView(
                     title: 'Last Invoices',
@@ -189,41 +140,76 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                     onTap: () => AppRouter.push(const ViewAllView()),
                   ),
                   SizedBox(height: 18.px),
-                  if (false)
-                    InfoCardVIew(
-                      title: 'No Invoices!',
-                      subTitle: 'Book classes or create new to see invoices.',
-                      buttonTitle: 'Create New Class',
-                      buttonTap: () {},
-                    )
-                  else
-                    SizedBox(
-                      height: 370.px,
-                      child: ListView.separated(
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (BuildContext context, int index) {
-                            return invoiceCardView(
-                              title: 'Class Fees',
-                              invoiceNumber: '#123456',
-                              amount: '.500 KWD',
-                              date: '',
-                              onTap: () {},
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return Padding(
-                                padding: EdgeInsets.only(left: 15.px),
-                                child: const AppDivider());
-                          },
-                          itemCount: 14),
-                    )
+                  SizedBox(
+                    height: 370.px,
+                    child: ListView.separated(
+                      itemCount: 14,
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        // if item is zero the condition will be menage//
+                        return (false)
+                            ? InfoCardVIew(
+                                title: 'No Invoices!',
+                                subTitle:
+                                    'Book classes or create new to see invoices.',
+                                buttonTitle: 'Create New Class',
+                                buttonTap: () {},
+                              )
+                            : invoiceCardView(
+                                title: 'Class Fees',
+                                invoiceNumber: '#123456',
+                                amount: '100.500 KWD',
+                                date: '',
+                                onTap: () {},
+                              );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Padding(
+                            padding: EdgeInsets.only(left: 15.px),
+                            child: AppDivider());
+                      },
+                    ),
+                  )
                 ],
               ),
             );
           },
         );
       },
+    );
+  }
+
+  Widget chartCardView({WalletViewModel? walletViewModel}) {
+    return Column(
+      children: <Widget>[
+        stateCardView(),
+        SizedBox(height: 8.px),
+        SizedBox(
+          height: 160.px,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15.px),
+            child: SfCartesianChart(
+              plotAreaBorderWidth: 0,
+              primaryXAxis: CategoryAxis(),
+              series: <ColumnSeries<ChartSampleData, String>>[
+                ColumnSeries<ChartSampleData, String>(
+                  isVisibleInLegend: true,
+                  width: 0.5,
+                  color: AppColors.appPurple,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(5.px),
+                    topLeft: Radius.circular(5.px),
+                  ),
+                  dataSource: walletViewModel!.chartData,
+                  xValueMapper: (ChartSampleData sales, _) => sales.x,
+                  yValueMapper: (ChartSampleData sales, _) => sales.y,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -288,19 +274,8 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                         ),
                         const Spacer(),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
-                            AppText(
-                              '102',
-                              fontSize: 14.px,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            AppText(
-                              amount ?? '',
-                              fontSize: 10.px,
-                              fontWeight: FontWeight.w700,
-                            ),
+                            AppAmountView(amount: amount),
                             const SizedBox(
                               width: 18,
                             ),
@@ -338,12 +313,12 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.px),
       child: Row(
-        children: [
+        children: <Widget>[
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Row(
-                children: [
+                children: <Widget>[
                   AppText(
                     'Total Gains',
                     color: AppColors.appGrey,
@@ -352,27 +327,14 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                   SizedBox(
                     width: 6.px,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      AppText(
-                        '100',
-                        fontSize: 14.px,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      AppText(
-                        '.500 KWD',
-                        fontSize: 10.px,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ],
-                  ),
+                  AppAmountView(
+                    amount: '100.000 KWD',
+                  )
                 ],
               ),
               SizedBox(height: 4.px),
               Row(
-                children: [
+                children: <Widget>[
                   Icon(
                     Icons.arrow_upward_outlined,
                     size: 12.px,
@@ -414,6 +376,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
 
   Widget balanceCardView({String? title, String? amount}) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         AppText(
           title ?? '',
@@ -423,19 +386,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
           color: AppColors.appGrey,
         ),
         SizedBox(height: 4.px),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            const AppText(
-              '100',
-            ),
-            AppText(
-              amount ?? '',
-              fontSize: 12.px,
-            ),
-          ],
-        ),
+        AppAmountView(amount: amount, fontWeight: FontWeight.w500),
       ],
     );
   }
@@ -473,6 +424,13 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
       ),
     );
   }
+}
+
+class ChartSampleData {
+  ChartSampleData({required this.x, required this.y});
+
+  final String x;
+  final double y;
 }
 
 class BookingBottomSheet extends StatelessWidget {
@@ -566,7 +524,7 @@ class BookingBottomSheet extends StatelessWidget {
               SizedBox(
                 height: 18.px,
               ),
-              const AppDivider(),
+              AppDivider(),
               SizedBox(
                 height: 18.px,
               ),

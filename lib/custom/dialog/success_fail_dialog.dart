@@ -58,7 +58,7 @@ class SuccessFailsInfoDialog extends StatelessWidget {
                 SizedBox(
                   height: 5.px,
                 ),
-                const AppDivider(),
+                 AppDivider(),
                 SizedBox(
                   height: 5.px,
                 ),

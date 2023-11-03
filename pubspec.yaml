@@ -47,6 +47,10 @@ dependencies:
   #rating bar:
   flutter_rating_bar: ^4.0.1
 
+  #charts:
+  syncfusion_flutter_charts: ^23.1.43
+  #UI responsive:
+  responsive_sizer: ^3.1.1
 
   # Cache
   shared_preferences: ^2.0.17

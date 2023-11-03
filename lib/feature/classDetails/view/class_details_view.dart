@@ -50,7 +50,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               ),
               body: ListView(
                 padding:
-                EdgeInsets.symmetric(horizontal: 15.px, vertical: 5.px),
+                    EdgeInsets.symmetric(horizontal: 15.px, vertical: 5.px),
                 children: <Widget>[
                   SizedBox(
                     height: 20.px,
@@ -99,7 +99,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                       horizontal: 6.px, vertical: 3.px),
                                   decoration: BoxDecoration(
                                       color: AppColors.lightPurple,
-                                      borderRadius: BorderRadius.circular(30.px)),
+                                      borderRadius:
+                                          BorderRadius.circular(30.px)),
                                   child: AppText('Grade',
                                       fontSize: 10.px,
                                       color: AppColors.appLightBlack),
@@ -146,7 +147,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                           ),
                         ),
                         builder: (BuildContext context) {
-                          return const StudentBottomSheet();
+                          return  StudentBottomSheet();
                         },
                       );
                     },
@@ -191,8 +192,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.px),
                       color: AppColors.lightPurple,
-                      border:
-                      Border.all(color: AppColors.lightPurple, width: 1.1.px),
+                      border: Border.all(
+                          color: AppColors.lightPurple, width: 1.1.px),
                     ),
                     child: Column(
                       children: <Widget>[
@@ -235,8 +236,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         Container(
                           height: 90.px,
                           width: double.infinity,
-                          decoration:
-                          BoxDecoration(color: AppColors.appWhite),
+                          decoration: BoxDecoration(color: AppColors.appWhite),
                         ),
                       ],
                     ),
@@ -290,54 +290,54 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(13.px),
         color:
-        (isPaying!) ? AppColors.appTransparent : AppColors.lightPurpleTwo,
+            (isPaying!) ? AppColors.appTransparent : AppColors.lightPurpleTwo,
       ),
       child: isPaying
           ? Row(children: <Widget>[
-        Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              AppText('Total amount to pay',
-                  color: AppColors.appGrey,
-                  fontSize: 12.px,
-                  fontWeight: FontWeight.w500),
-              SizedBox(height: 3.px),
-              Row(
-                children: <Widget>[
-                  AppText('27',
-                      fontSize: 16.px, fontWeight: FontWeight.w700),
-                  AppText('.500 KWD',
-                      fontSize: 12.px, fontWeight: FontWeight.w700),
-                ],
-              ),
-            ]),
-        Spacer(),
-        AppButton(
-          width: 150.px,
-          title: 'Book Now',
-          borderColor: AppColors.appBlue,
-          borderRadius: BorderRadius.circular(10.px),
-          onPressed: isPaying ? onTap! : () {},
-        )
-      ])
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    AppText('Total amount to pay',
+                        color: AppColors.appGrey,
+                        fontSize: 12.px,
+                        fontWeight: FontWeight.w500),
+                    SizedBox(height: 3.px),
+                    Row(
+                      children: <Widget>[
+                        AppText('27',
+                            fontSize: 16.px, fontWeight: FontWeight.w700),
+                        AppText('.500 KWD',
+                            fontSize: 12.px, fontWeight: FontWeight.w700),
+                      ],
+                    ),
+                  ]),
+              Spacer(),
+              AppButton(
+                width: 150.px,
+                title: 'Book Now',
+                borderColor: AppColors.appBlue,
+                borderRadius: BorderRadius.circular(10.px),
+                onPressed: isPaying ? onTap! : () {},
+              )
+            ])
           : Row(children: <Widget>[
-        AppImageAsset(
-          image: ImageConstants.infoIcon,
-          height: 23.px,
-        ),
-        SizedBox(
-          width: 10.px,
-        ),
-        SizedBox(
-          width: 260.px,
-          child: AppText(
-            'You wil pay after the class accepted by the teacher.',
-            fontSize: 12.px,
-            fontWeight: FontWeight.w400,
-          ),
-        )
-      ]),
+              AppImageAsset(
+                image: ImageConstants.infoIcon,
+                height: 23.px,
+              ),
+              SizedBox(
+                width: 10.px,
+              ),
+              SizedBox(
+                width: 260.px,
+                child: AppText(
+                  'You wil pay after the class accepted by the teacher.',
+                  fontSize: 12.px,
+                  fontWeight: FontWeight.w400,
+                ),
+              )
+            ]),
     );
   }
 

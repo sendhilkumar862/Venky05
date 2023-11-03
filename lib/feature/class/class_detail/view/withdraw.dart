@@ -21,9 +21,9 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HessaAppBar(
-        trailingText: 'Cancel',
-        titleText: 'Withdraw',
-        normalAppbar: true,
+        // trailingText: 'Cancel',
+        // titleText: 'Withdraw',
+        // normalAppbar: true,
       ),
       body: Form(
         key: formKey,

@@ -18,9 +18,9 @@ class _InvoiceDetailsState extends State<InvoiceDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HessaAppBar(
-        isBack: true,
-        normalAppbar: true,
-        titleText: 'Invoice Details',
+        // isBack: true,
+        // normalAppbar: true,
+        // titleText: 'Invoice Details',
       ),
       body: Column(
         children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/image/app_image_assets.dart';
@@ -7,16 +8,16 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 
 class StudentBottomSheet extends StatelessWidget {
-  const StudentBottomSheet({super.key});
+   const StudentBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.92,
-      decoration: const BoxDecoration(
+      decoration:  BoxDecoration(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30.px),
+          topRight: Radius.circular(30.px),
         ),
       ),
       child: Stack(
@@ -27,91 +28,91 @@ class StudentBottomSheet extends StatelessWidget {
               Navigator.pop(context);
             },
             child: Container(
-              margin: const EdgeInsets.only(top: 14,right: 15),
+              margin:  EdgeInsets.only(top: 14,right: 15),
               alignment: Alignment.center,
-              height: 25,
-              width: 25,
-              decoration: const BoxDecoration(
+              height: 25.px,
+              width: 25.px,
+              decoration:  BoxDecoration(
                   color: AppColors.appLightGrey, shape: BoxShape.circle),
-              child: const AppImageAsset(
+              child:  AppImageAsset(
                 image: ImageConstants.closeIcon,
-                height: 20,
+                height: 20.px,
               ),
             ),
           ),
           Column(
             children: <Widget>[
-              const SizedBox(
-                height: 25,
+               SizedBox(
+                height: 25.px,
               ),
-              const AppText('Students',
+               AppText('Students',
                   fontWeight: FontWeight.w700, fontSize: 14),
-              const SizedBox(
-                height: 30,
+               SizedBox(
+                height: 30.px,
               ),
-              SizedBox(height: 560,
+              Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  physics: const BouncingScrollPhysics(),
+                  padding:  EdgeInsets.symmetric(horizontal: 15),
+                  physics:  BouncingScrollPhysics(),
                   itemCount: 8,
                   shrinkWrap: true,
                   gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
+                       SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
                           childAspectRatio: 0.7),
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                      padding: const EdgeInsets.all(10),
+                      padding:  EdgeInsets.all(10.px),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.px),
                         border: Border.all(color: AppColors.appLightGrey),
                       ),
                       child: Stack(
                         alignment: Alignment.topRight,
                         children: <Widget>[
-                          const AppImageAsset(
+                           AppImageAsset(
                               image: ImageConstants.removeBookmark,
-                              height: 18),
+                              height: 18.px),
                           Column(
                             children: <Widget>[
-                              const SizedBox(
+                               SizedBox(
                                 height: 8,
                               ),
-                              const AppImageAsset(
+                               AppImageAsset(
                                 image: ImageConstants.avtar,
-                                height: 55,
+                                height: 55.px,
                               ),
-                              const SizedBox(
-                                height: 6,
+                               SizedBox(
+                                height: 6.px,
                               ),
-                              const AppText(
+                               AppText(
                                 'User Name',
                                 fontWeight: FontWeight.w700,
-                                fontSize: 12,
+                                fontSize: 12.px,
                               ),
-                              const SizedBox(
-                                height: 4,
+                               SizedBox(
+                                height: 4.px,
                               ),
-                              const AppText(
+                               AppText(
                                 'Grade 1 - 2 - 3',
-                                fontSize: 12,
+                                fontSize: 12.px,
                               ),
-                              const SizedBox(
-                                height: 10,
+                               SizedBox(
+                                height: 10.px,
                               ),
                               AppButton(
                                 title: 'Accept',
-                                height: 45,
+                                height: 45.px,
                                 borderColor: AppColors.appBlue,
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(10.px),
                                 onPressed: () {},
                               ),
-                              const SizedBox(height: 22),
-                              const AppText(
+                               SizedBox(height: 10),
+                               AppText(
                                 'Reject',
-                                fontSize: 14,
+                                fontSize: 14.px,
                                 color: AppColors.appLightRed,
                               )
                             ],
@@ -122,12 +123,15 @@ class StudentBottomSheet extends StatelessWidget {
                   },
                 ),
               ),
-              AppButton(padding: const EdgeInsets.symmetric(horizontal: 15),
-                title: 'Accept All Students',
-                height: 45,
-                borderRadius: BorderRadius.circular(10),
-                borderColor: AppColors.appBlue,
-                onPressed: () {},
+              Padding(
+                padding:  EdgeInsets.symmetric(horizontal: 15),
+                child: AppButton(
+                  title: 'Accept All Students',
+                  height: 45,
+                  borderRadius: BorderRadius.circular(10),
+                  borderColor: AppColors.appBlue,
+                  onPressed: () {},
+                ),
               ),
 
             ],

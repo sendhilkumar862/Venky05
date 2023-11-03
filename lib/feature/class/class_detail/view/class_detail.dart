@@ -84,10 +84,10 @@ class _ClassDetailState extends State<ClassDetail> {
             title: 'Flutter Demo',
             home: Scaffold(
               appBar: HessaAppBar(
-                isBack: true,
-                trailingText: 'Cancel',
-                titleText: 'Create class',
-                normalAppbar: true,
+                // isBack: true,
+                // trailingText: 'Cancel',
+                // titleText: 'Create class',
+                // normalAppbar: true,
               ),
               body: Form(
                 key: formKey,
@@ -378,7 +378,7 @@ class _ClassDetailState extends State<ClassDetail> {
                       iconButtonWidget(
                         icon: Icons.delete_outline_rounded,
                         padding: 8,
-                        bgColor: AppColors.secondaryRed,
+                        bgColor: AppColors.appRed,
                       ),
                       Padding(
                         padding: EdgeInsets.only(
