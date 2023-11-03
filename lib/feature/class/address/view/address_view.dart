@@ -48,10 +48,10 @@ class _AddressViewState extends State<AddressView> {
             title: 'Flutter Demo',
             home: Scaffold(
               appBar: HessaAppBar(
-                isBack: true,
-                trailingText: 'Cancel',
-                titleText: 'Create Class',
-                normalAppbar: true,
+                // isBack: true,
+                // trailingText: 'Cancel',
+                // titleText: 'Create Class',
+                // normalAppbar: true,
               ),
               body: SingleChildScrollView(
                 child: Padding(

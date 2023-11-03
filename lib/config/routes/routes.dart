@@ -37,7 +37,7 @@ class Routes {
 
   static final Map<String, RouteBuilder> _routesMap = {
     HomeScreenRoute: (_) => const HomeView(),
-    PrefrencesScreen: (_) => const PreferenceView(),
+  //  PrefrencesScreen: (_) => const PreferenceView(),
     RatingScreen: (_) => const RatingView(),
     NotFoundScreenRoute: (_) => const SizedBox.shrink(),
     AppStartupScreenRoute: (_) => const SizedBox.shrink(),

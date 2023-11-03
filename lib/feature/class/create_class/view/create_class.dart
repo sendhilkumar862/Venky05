@@ -80,9 +80,9 @@ class _CreateClassState extends State<CreateClass> {
             title: 'Flutter Demo',
             home: Scaffold(
               appBar: HessaAppBar(
-                trailingText: 'Cancel',
-                titleText: 'Create Class',
-                normalAppbar: true,
+                // trailingText: 'Cancel',
+                // titleText: 'Create Class',
+                // normalAppbar: true,
               ),
               body: SingleChildScrollView(
                 child: Padding(

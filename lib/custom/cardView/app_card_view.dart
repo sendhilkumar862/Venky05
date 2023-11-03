@@ -362,13 +362,15 @@ class AppCardView extends StatelessWidget {
               ],
             ),
           const Spacer(),
-          AppButton(
-            title: 'Book',
-            width: 60.px,
-            height: 35.px,
-            borderColor: AppColors.appBlue,
-            borderRadius: BorderRadius.circular(13.px),
-            onPressed: buttonTap!,
+          SizedBox(
+            child: AppButton(
+              title: 'Book',
+              width: 60.px,
+              height: 35.px,
+              borderColor: AppColors.appBlue,
+              borderRadius: BorderRadius.circular(13.px),
+              onPressed: buttonTap!,
+            ),
           )
         ],
       ),

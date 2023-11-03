@@ -5,6 +5,7 @@ import '../../../../custom/dialog/payment_dialog.dart';
 import '../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../custom/divider/divider.dart';
 import '../../../../custom/image/app_image_assets.dart';
+import '../../../../custom/switch/app_switch.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
@@ -125,14 +126,14 @@ class BookingBottomSheet extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {},
-                    child: customSwitch(true),
+                    child: AppSwitch(isActive: true),
                   ),
                 ],
               ),
               const SizedBox(
                 height: 15,
               ),
-              const AppDivider(),
+               AppDivider(),
               const SizedBox(
                 height: 15,
               ),
@@ -188,7 +189,7 @@ class BookingBottomSheet extends StatelessWidget {
                       color: AppColors.appGrey)
                 ],
               ),
-              const AppDivider(),
+               AppDivider(),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -240,7 +241,7 @@ class BookingBottomSheet extends StatelessWidget {
                   ),
                 ],
               ),
-              const AppDivider(),
+               AppDivider(),
               const SizedBox(
                 height: 5,
               ),
@@ -309,23 +310,5 @@ class BookingBottomSheet extends StatelessWidget {
   }
 
   // ignore: always_specify_types
-  Container customSwitch(isActive) {
-    return Container(
-      padding: const EdgeInsets.all(4),
-      alignment: isActive ? Alignment.centerRight : Alignment.centerLeft,
-      height: 19,
-      width: 35,
-      decoration: BoxDecoration(
-        color: isActive ? AppColors.appBlue : AppColors.appGrey,
-        borderRadius: BorderRadius.circular(27),
-      ),
-      child: Container(
-        height: 16,
-        width: 16,
-        decoration: BoxDecoration(
-            color: isActive ? AppColors.appWhite : AppColors.appWhite,
-            shape: BoxShape.circle),
-      ),
-    );
-  }
 }
+

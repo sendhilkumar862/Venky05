@@ -70,7 +70,7 @@ class SelectLocationBottomSheet extends StatelessWidget {
               const SizedBox(
                 height: 3,
               ),
-              const AppDivider(),
+               AppDivider(),
               const SizedBox(
                 height: 3,
               ),
@@ -90,7 +90,7 @@ class SelectLocationBottomSheet extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const AppDivider(),
+               AppDivider(),
               const SizedBox(
                 height: 25,
               ),

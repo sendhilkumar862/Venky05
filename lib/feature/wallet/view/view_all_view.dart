@@ -83,7 +83,7 @@ class _ViewAllViewState extends State<ViewAllView>
                         separatorBuilder: (BuildContext context, int index) {
                           return Padding(
                               padding: EdgeInsets.only(left: 15.px),
-                              child: const AppDivider());
+                              child:  AppDivider());
                         },
                         itemCount: 14),
                   )
