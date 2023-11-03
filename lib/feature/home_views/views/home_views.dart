@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../product/base/view/base_view.dart';
+import '../../../config/routes/app_router.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/image/app_image_assets.dart';
+import '../../../custom/sheet/show_bottom_sheet.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
+import '../../class/create_class/view/create_class.dart';
+import '../../preference/view/preference_view.dart';
 import '../viewsModel/home_views_model.dart';
 
 class HomeViews extends StatefulWidget {
@@ -55,7 +59,14 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
               appBar: HessaAppBar(
                   icon: ImageConstants.avtar,
                   title: 'Welcome!',
-                  subTitle: 'Abdullah Mohamed'),
+                  subTitle: 'Abdullah Mohamed',
+                  onProfileTap: () {
+                    showCommonBottomSheet(
+                        context: context, commonWidget: const PreferenceView());
+                  },
+                  onBellTap: () {
+                    AppRouter.push(const CreateClass());
+                  }),
               body: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[

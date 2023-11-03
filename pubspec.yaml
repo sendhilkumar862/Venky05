@@ -80,6 +80,13 @@ dependencies:
   another_flushbar: ^1.12.30
   intl: ^0.18.1
   hooks_riverpod: ^2.0.0-dev.7
+  form_field_validator: ^1.1.0
+  syncfusion_flutter_sliders: ^23.1.43
+  dotted_border: ^2.1.0
+  flutter_switch: ^0.3.2
+  country_picker: ^2.0.22
+  country_code_picker: ^3.0.0
+  flutter_share: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -111,8 +118,19 @@ flutter:
     - assets/images/
   fonts:
     - family: "OpenSans"
-      fonts:  
-        - asset: assets/fonts/OpenSans-Italic.ttf
+      fonts:
+        - asset: assets/fonts/OpenSans-Light.ttf
+          weight: 300
+        - asset: assets/fonts/OpenSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/OpenSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/OpenSans-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/OpenSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/OpenSans-ExtraBold.ttf
+          weight: 800
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
