@@ -264,7 +264,7 @@ class _CreateClassState extends State<CreateClass> {
                           onPressed: () {
                             AppRouter.push(const ClassDetail());
                           },
-                          isDisable: false)
+                          )
                     ],
                   ),
                 ),

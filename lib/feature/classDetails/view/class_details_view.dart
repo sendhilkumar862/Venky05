@@ -46,7 +46,6 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               appBar: HessaAppBar(
                 icon: ImageConstants.avtar,
                 title: 'Class Details',
-                isTitleOnly: true,
               ),
               body: ListView(
                 padding:

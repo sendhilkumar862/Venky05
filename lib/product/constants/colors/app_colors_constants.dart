@@ -30,6 +30,7 @@ class AppColors {
   static const Color appLightBlue= Color(0xff3D67FF);
   static const Color lightPurpleTwo= Color(0xffF0EFFF);
   static const Color greenBG= Color(0xffD0F7DB);
+  static const Color secondaryRed = Color(0xffff4956);
 
   static const Color appTextColor = Color(0xff051335);
   static const Color downArrowColor = Color(0xff303444);
@@ -43,6 +44,8 @@ class AppColors {
   static const Color appBorderColor = Color(0xffC5CEEE);
   static const Color darkPurple= Color(0xff05133580);
   static const Color appShadow= Color(0xffdddddd);
+  static const Color textWhite80Color = Color(0xFFf2f2f2);
+  static const Color isDisableColor = Color(0xFFC5D1FF);
 
   static List<BoxShadow> appBoxShadow = [
     BoxShadow(
@@ -76,7 +79,5 @@ class AppColors {
       color: appWhite.withOpacity(0.2),
       blurRadius: 2,
     ),
-  ];
-  static const Color textWhite80Color = Color(0xFFf2f2f2);
-  static const Color isDisableColor = Color(0xFFC5D1FF);
+  ]; 
 }

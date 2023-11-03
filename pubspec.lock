@@ -813,6 +813,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  responsive_sizer:
+    dependency: "direct main"
+    description:
+      name: responsive_sizer
+      sha256: "206d1f77f65ed8394ef2a526583e38e874ee36f036f3fe9aefb0f58ecba9bef9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.0"
   riverpod:
     dependency: transitive
     description:
@@ -1002,6 +1010,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "23.1.41"
+  syncfusion_flutter_charts:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_charts
+      sha256: "008961cf4e60ab3dd28e259182f9a74c971d04f0685f72bb2116046e4d9a0d48"
+      url: "https://pub.dev"
+    source: hosted
+    version: "23.1.43"
   syncfusion_flutter_core:
     dependency: transitive
     description:

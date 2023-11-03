@@ -44,7 +44,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                 icon: ImageConstants.avtar,
                 title: 'Welcome!',
                 subTitle: 'Abdullah Mohamed',
-                isPro: true,
+                // isPro: true,
               ),
               body: ListView(
                 children: <Widget>[
