@@ -7,11 +7,13 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'config/routes/app_router.dart';
 import 'feature/classDetails/view/class_details_view.dart';
 
+import 'config/routes/app_router.dart';
 import 'feature/home/view/home_view.dart';
 import 'feature/home_views/views/home_views.dart';
 import 'product/constants/app/app_constants.dart';
 import 'product/cache/locale_manager.dart';
 import 'product/lang/language_manager.dart';
+import 'product/navigation/navigation_router.dart';
 import 'product/notifier/app_provider.dart';
 import 'product/theme/theme_notifier.dart';
 
