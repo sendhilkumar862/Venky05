@@ -7,6 +7,7 @@ import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/extension/context_extension.dart';
 import '../../home_views/views/home_views.dart';
 import '../../preference/view/preference_view.dart';
+import '../../wallet/view/wallet_view.dart';
 import '../viewModel/home_view_model.dart';
 
 class HomeView extends StatelessWidget {
@@ -20,12 +21,6 @@ class HomeView extends StatelessWidget {
         model.setContext(context);
       },
       onPageBuilder: (BuildContext context, HomeViewModel value) =>  MaterialApp(
-      title: 'Flutter Demo',
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      //   visualDensity: VisualDensity.adaptivePlatformDensity,
-
-      // ),
       home: NavBar(
         color: Colors.white,
         showTitle: true,
@@ -40,8 +35,8 @@ class HomeView extends StatelessWidget {
           ),
           NavBarItem(
             iconData: Icons.account_circle,
-            title: 'Account',
-            page: const PreferenceView(),
+            title: 'Wallet',
+            page: WalletView(),
           ),
            NavBarItem(
             iconData: Icons.message_rounded,

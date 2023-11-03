@@ -36,6 +36,7 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //final double width = MediaQuery.of(context).size.width;
     var width = MediaQuery.of(context).size.width;
     return Align(
       child: GestureDetector(

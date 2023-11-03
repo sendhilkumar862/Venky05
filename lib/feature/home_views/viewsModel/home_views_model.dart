@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
-import '../views/classes_view.dart';
+import '../views/tabs/avtivities_view.dart';
+import '../views/tabs/classes_view.dart';
+import '../views/tabs/teachers_view.dart';
 
 part 'home_views_model.g.dart';
-
 
 class HomeViewsModel = _HomeViewsModelBase with _$HomeViewsModel;
 
@@ -17,15 +18,14 @@ abstract class _HomeViewsModelBase extends BaseViewModel with Store {
   @override
   void init() {}
 
-
   @observable
   int selectedIndex = 0;
 
   @observable
   List<Map<String, dynamic>> bottomBarItems = [
     {'title': 'Classes', 'screenName': const ClassesView()},
-    {'title': 'Activities', 'screenName': const SizedBox()},
-    {'title': 'Teachers', 'screenName': const SizedBox()},
+    {'title': 'Activities', 'screenName': const ActivitiesView()},
+    {'title': 'Teachers', 'screenName': const TeachersView()},
   ];
 
   // ignore: use_setters_to_change_properties
