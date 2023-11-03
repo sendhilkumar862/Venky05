@@ -68,9 +68,14 @@ dependencies:
 
   # Calendar
   syncfusion_flutter_calendar: ^23.1.41
+  syncfusion_flutter_charts:
 
   # storage
   flutter_secure_storage: ^5.0.2
+
+  # Responsive Sizer
+  responsive_sizer:
+
 
 
   # The following adds the Cupertino Icons font to your application.

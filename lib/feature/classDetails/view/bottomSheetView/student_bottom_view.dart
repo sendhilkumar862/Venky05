@@ -122,7 +122,8 @@ class StudentBottomSheet extends StatelessWidget {
                   },
                 ),
               ),
-              AppButton(padding: const EdgeInsets.symmetric(horizontal: 15),
+              AppButton(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 title: 'Accept All Students',
                 height: 45,
                 borderRadius: BorderRadius.circular(10),

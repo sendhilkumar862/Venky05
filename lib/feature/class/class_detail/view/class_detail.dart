@@ -467,7 +467,6 @@ class _ClassDetailState extends State<ClassDetail> {
               AppButton(
                 onPressed: () {},
                 title: 'Select',
-                isDisable: false,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10),

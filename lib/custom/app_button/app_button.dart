@@ -17,6 +17,7 @@ class AppButton extends StatelessWidget {
   final Color? borderColor;
   final bool isDisable;
   final double? top;
+  final EdgeInsets padding;
 
   const AppButton({
     super.key,
@@ -30,8 +31,9 @@ class AppButton extends StatelessWidget {
     this.showCopySnackbar = true,
     this.isBorderOnly,
     this.borderColor,
-    required this.isDisable,
-    this.top,
+    this.isDisable = false,
+    this.top, 
+    this.padding = const EdgeInsets.only(left: 2, right: 2, top: 10, bottom: 10),
   });
 
   @override
@@ -48,7 +50,7 @@ class AppButton extends StatelessWidget {
         },
         child: Padding(
           padding:
-              const EdgeInsets.only(left: 2, right: 2, top: 10, bottom: 10),
+              padding,
           child: Container(
             height: height ?? 50,
             width: width,
