@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:hessah/feature/wallet/view/withdraw.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -17,6 +18,7 @@ import '../../../custom/text/app_text.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/wallet_view_model.dart';
+import 'invoice_card_view.dart';
 import 'view_all_view.dart';
 import 'withdraw_view.dart';
 
@@ -28,6 +30,7 @@ class WalletView extends StatefulWidget {
 }
 
 class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
+  bool isStudent = false;
   @override
   Widget build(BuildContext context) {
     return BaseView<WalletViewModel>(
@@ -102,34 +105,42 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                   SizedBox(height: 16.px),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        screenButton(
+                    child: isStudent
+                        ? screenButton(
                             onTap: () {
-                              showModalBottomSheet(
-                                context: context,
-                                constraints: const BoxConstraints(),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(25.px),
-                                    topLeft: Radius.circular(25.px),
-                                  ),
-                                ),
-                                builder: (BuildContext context) {
-                                  return const BookingBottomSheet();
-                                },
-                              );
+                              AppRouter.push(const WithDrawScreen());
                             },
-                            title: 'Bank Accounts',
-                            icon: ImageConstants.walletIcon),
-                        SizedBox(width: 15.px),
-                        screenButton(
-                            onTap: () => AppRouter.push(const WithdrawView()),
-                            title: 'Withdraw',
-                            icon: ImageConstants.walletIcon),
-                      ],
-                    ),
+                            title: 'Top Up Wallet',
+                            icon: ImageConstants.walletIcon)
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              screenButton(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      constraints: const BoxConstraints(),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(25.px),
+                                          topLeft: Radius.circular(25.px),
+                                        ),
+                                      ),
+                                      builder: (BuildContext context) {
+                                        return const BookingBottomSheet();
+                                      },
+                                    );
+                                  },
+                                  title: 'Bank Accounts',
+                                  icon: ImageConstants.walletIcon),
+                              SizedBox(width: 15.px),
+                              screenButton(
+                                  onTap: () =>
+                                      AppRouter.push(const WithdrawView()),
+                                  title: 'Withdraw',
+                                  icon: ImageConstants.walletIcon),
+                            ],
+                          ),
                   ),
                   SizedBox(height: 25.px),
                   chartCardView(walletViewModel: walletViewModel),
@@ -156,13 +167,16 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                                 buttonTitle: 'Create New Class',
                                 buttonTap: () {},
                               )
-                            : invoiceCardView(
+                            : InvoiceCardView(
                                 title: 'Class Fees',
                                 invoiceNumber: '#123456',
-                                amount: '100.500 KWD',
+                                amount: '.500 KWD',
                                 date: '',
-                                onTap: () {},
+                                onTap: () {
+                                  AppRouter.pushNamed(Routes.invoiceDetails);
+                                },
                               );
+                        ;
                       },
                       separatorBuilder: (BuildContext context, int index) {
                         return Padding(
@@ -210,102 +224,6 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
           ),
         ),
       ],
-    );
-  }
-
-  Widget invoiceCardView({
-    String? date,
-    String? title,
-    String? invoiceNumber,
-    String? amount,
-    VoidCallback? onTap,
-  }) {
-    return Container(
-      margin: EdgeInsets.only(left: 15.px),
-      decoration: const BoxDecoration(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(
-            height: 4.px,
-          ),
-          if (date!.isNotEmpty)
-            AppText(
-              date,
-              textAlign: TextAlign.start,
-              color: AppColors.gray,
-              fontSize: 12.px,
-              fontWeight: FontWeight.w700,
-            ),
-          if (date!.isNotEmpty)
-            SizedBox(
-              height: 8.px,
-            ),
-          Row(
-            children: <Widget>[
-              if (title == 'Class Fees')
-                CircleAvatar(
-                    backgroundColor: AppColors.appLightRedTwo,
-                    radius: 23.px,
-                    child: AppImageAsset(
-                      image: ImageConstants.readBookIcon,
-                      height: 21.px,
-                    ))
-              else
-                CircleAvatar(
-                  backgroundColor: AppColors.greenBG,
-                  radius: 23.px,
-                  child: AppImageAsset(
-                    image: ImageConstants.walletIcon,
-                    height: 21.px,
-                  ),
-                ),
-              SizedBox(width: 15.px),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    width: 260.px,
-                    child: Row(
-                      children: <Widget>[
-                        AppText(
-                          title ?? '',
-                          fontSize: 14.px,
-                        ),
-                        const Spacer(),
-                        Row(
-                          children: <Widget>[
-                            AppAmountView(amount: amount),
-                            const SizedBox(
-                              width: 18,
-                            ),
-                            AppImageAsset(
-                              image: ImageConstants.forwardIcon,
-                              height: 14.px,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 4.px,
-                  ),
-                  AppText(
-                    'Invoice No. $invoiceNumber',
-                    fontSize: 10.px,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.appGrey,
-                  ),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 4.px,
-          ),
-        ],
-      ),
     );
   }
 

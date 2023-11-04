@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../../custom/appbar/appbar.dart';
-import '../../../../custom/text/app_text.dart';
-import '../../../../product/constants/colors/app_colors_constants.dart';
+import '../../../custom/appbar/appbar.dart';
+import '../../../custom/text/app_text.dart';
+import '../../../product/constants/colors/app_colors_constants.dart';
 
 class InvoiceDetails extends StatefulWidget {
   const InvoiceDetails({super.key});
@@ -18,9 +18,9 @@ class _InvoiceDetailsState extends State<InvoiceDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HessaAppBar(
-        // isBack: true,
-        // normalAppbar: true,
-        // titleText: 'Invoice Details',
+        isTitleOnly: true,
+        title: 'Invoice Details',
+        isBack: true,
       ),
       body: Column(
         children: [

@@ -84,9 +84,10 @@ class _ClassDetailState extends State<ClassDetail> {
             title: 'Flutter Demo',
             home: Scaffold(
               appBar: HessaAppBar(
+                isTitleOnly: true,
                 // isBack: true,
                 // trailingText: 'Cancel',
-                // titleText: 'Create class',
+                title: 'Create class',
                 // normalAppbar: true,
               ),
               body: Form(

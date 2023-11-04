@@ -6,6 +6,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
+import '../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../custom/text/country_picker.dart';
 import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
@@ -48,10 +49,10 @@ class _AddressViewState extends State<AddressView> {
             title: 'Flutter Demo',
             home: Scaffold(
               appBar: HessaAppBar(
-                // isBack: true,
-                // trailingText: 'Cancel',
-                // titleText: 'Create Class',
-                // normalAppbar: true,
+                isTitleOnly: true,
+                trailingText: 'Cancel',
+                title: 'Add New Address',
+                isBack: false,
               ),
               body: SingleChildScrollView(
                 child: Padding(
@@ -72,24 +73,21 @@ class _AddressViewState extends State<AddressView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 60),
-                          child: AppTextFormField(
-                            suffix: const Icon(Icons.keyboard_arrow_down),
-                            readOnly: true,
-                            hintText: 'Select City',
-                            title: 'City',
-                            controller: city,
-                            onTap: () {
-                              bottomSheetDropDownList();
-                            },
-                            validate: (p0) {
-                              if (p0 == null || p0.isEmpty) {
-                                return 'Please Select Your City';
-                              }
-                              return null;
-                            },
-                          ),
+                        AppTextFormField(
+                          suffix: const Icon(Icons.keyboard_arrow_down),
+                          readOnly: true,
+                          hintText: 'Select City',
+                          title: 'City',
+                          controller: city,
+                          onTap: () {
+                            bottomSheetDropDownList();
+                          },
+                          validate: (p0) {
+                            if (p0 == null || p0.isEmpty) {
+                              return 'Please Select Your City';
+                            }
+                            return null;
+                          },
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
@@ -170,7 +168,26 @@ class _AddressViewState extends State<AddressView> {
                           child: AppButton(
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
-                                  dialogAlert();
+                                  showModalBottomSheet(
+                                    context: context,
+                                    constraints: BoxConstraints(
+                                      maxWidth:
+                                          MediaQuery.of(context).size.width -
+                                              30,
+                                      // here increase or decrease in width
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    builder: (BuildContext context) {
+                                      return SuccessFailsInfoDialog(
+                                        title: 'Success',
+                                        buttonTitle: 'Done',
+                                        content:
+                                            'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
+                                      );
+                                    },
+                                  );
                                 }
                               },
                               title: 'Next for Class Details',
@@ -235,48 +252,6 @@ class _AddressViewState extends State<AddressView> {
               ),
             ],
           ),
-        );
-      },
-    );
-  }
-
-  void dialogAlert() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-          actions: [
-            Center(
-              child: Text('Success', style: openSans.get22.w500),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 30),
-              child: Center(
-                child: Icon(
-                  Icons.check_circle_outline_rounded,
-                  size: 100,
-                  color: AppColors.appBlue,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 30),
-              child: Text(
-                'You have successfully creates a new class.',
-                style: openSans.get17,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 15),
-              child: AppButton(
-                title: 'Done',
-                onPressed: () {},
-                isDisable: false,
-              ),
-            ),
-          ],
         );
       },
     );
