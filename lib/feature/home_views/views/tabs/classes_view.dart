@@ -25,10 +25,10 @@ class ClassesView extends StatelessWidget {
           SizedBox(
             height: 226.px,
             child: ListView.separated(
-              padding: const EdgeInsets.only(
-                  right: 15, top: 5, bottom: 20, left: 15),
+              padding: EdgeInsets.only(
+                  right: 15.px, top: 5.px, bottom: 20.px, left: 15.px),
               shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
+              physics: BouncingScrollPhysics(),
               itemCount: 3 ?? 0,
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
@@ -49,28 +49,28 @@ class ClassesView extends StatelessWidget {
                 );
               },
               separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(
-                  width: 15,
+                return SizedBox(
+                  width: 15.px,
                 );
               },
             ),
           ),
-          const SizedBox(
-            height: 5,
+          SizedBox(
+            height: 5.px,
           ),
           SizedBox(height: 20.px),
           HeadingCardView(
               title: 'Related Classes', onTap: () {}, totalItem: '3'),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: 10.px,
           ),
           SizedBox(
             height: 226.px,
             child: ListView.separated(
-              padding: const EdgeInsets.only(
-                  right: 15, top: 5, bottom: 20, left: 15),
+              padding: EdgeInsets.only(
+                  right: 15.px, top: 5.px, bottom: 20.px, left: 15.px),
               shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
+              physics: BouncingScrollPhysics(),
               itemCount: 3 ?? 0,
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
@@ -91,17 +91,17 @@ class ClassesView extends StatelessWidget {
                 );
               },
               separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(
-                  width: 15,
+                return SizedBox(
+                  width: 15.px,
                 );
               },
             ),
           ),
-          const SizedBox(
-            height: 5,
+          SizedBox(
+            height: 5.px,
           ),
-          const SizedBox(
-            height: 200,
+          SizedBox(
+            height: 200.px,
           )
         ],
       ),

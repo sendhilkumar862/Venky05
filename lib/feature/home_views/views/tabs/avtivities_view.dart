@@ -22,11 +22,11 @@ class ActivitiesView extends StatelessWidget {
             isShowButton: true,
             title: 'No Activities Found!',
             subTitle:
-                "You don't have any pending activities that require your action. If there are scheduled classes or new proposals for the classes you created, etc...\nyou will find them here.",
+            "You don't have any pending activities that require your action. If there are scheduled classes or new proposals for the classes you created, etc...\nyou will find them here.",
             cardColor: AppColors.white,
             buttonTitle: 'Create Class',
             buttonTap: () {
-              AppRouter.pushNamed(Routes.createClass);
+
             },
           ),
           SizedBox(
@@ -35,24 +35,24 @@ class ActivitiesView extends StatelessWidget {
           InfoCardViewHorizontal(
             heading: 'Upcoming Classes',
             isShowButton: true,
-            title: 'Create new class and receive proposals from teachers',
+            title: 'Create a new class and receive proposals from teachers',
             cardColor: AppColors.lightPurple,
             buttonTap: () {},
           ),
-          const SizedBox(height: 20),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.px),
+          SizedBox(height: 20.px),
           HeadingCardView(
               title: 'Related Classes', onTap: () {}, totalItem: '3'),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: 10.px,
           ),
           SizedBox(
             height: 225.px,
             child: ListView.separated(
-              padding: const EdgeInsets.only(
-                  right: 15, top: 5, bottom: 20, left: 15),
+              padding: EdgeInsets.only(
+                  right: 15.px, top: 5.px, bottom: 20.px, left: 15.px),
               shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
+              physics: BouncingScrollPhysics(),
               itemCount: 3,
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
@@ -72,27 +72,27 @@ class ActivitiesView extends StatelessWidget {
                 );
               },
               separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(
-                  width: 15,
+                return SizedBox(
+                  width: 15.px,
                 );
               },
             ),
           ),
-          const SizedBox(
-            height: 5,
+          SizedBox(
+            height: 5.px,
           ),
           HeadingCardView(
               title: 'Related Classes', onTap: () {}, totalItem: '3'),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: 10.px,
           ),
           SizedBox(
             height: 225.px,
             child: ListView.separated(
-              padding: const EdgeInsets.only(
-                  right: 15, top: 5, bottom: 20, left: 15),
+              padding: EdgeInsets.only(
+                  right: 15.px, top: 5.px, bottom: 20.px, left: 15.px),
               shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
+              physics: BouncingScrollPhysics(),
               itemCount: 3,
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
@@ -112,14 +112,14 @@ class ActivitiesView extends StatelessWidget {
                 );
               },
               separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(
-                  width: 15,
+                return SizedBox(
+                  width: 15.px,
                 );
               },
             ),
           ),
-          const SizedBox(
-            height: 5,
+          SizedBox(
+            height: 5.px,
           ),
           SizedBox(
             height: 200.px,

@@ -44,8 +44,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
             return Scaffold(
               backgroundColor: AppColors.appWhite,
               appBar: HessaAppBar(
-                icon: ImageConstants.avtar,
                 title: 'Class Details',
+                isTitleOnly: true,
               ),
               body: ListView(
                 padding:
@@ -146,7 +146,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                           ),
                         ),
                         builder: (BuildContext context) {
-                          return  StudentBottomSheet();
+                          return StudentBottomSheet();
                         },
                       );
                     },

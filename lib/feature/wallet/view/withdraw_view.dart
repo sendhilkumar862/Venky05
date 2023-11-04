@@ -105,8 +105,8 @@ class _WithdrawViewState extends State<WithdrawView>
                     validate: (String? value) {
                       return walletViewModel.withdrawAmountValidation(value!);
                     },
-                    suffix: const Padding(
-                      padding: EdgeInsets.only(top: 14),
+                    suffix:  Padding(
+                      padding: EdgeInsets.only(top: 14.px),
                       child: AppText(
                         'KWD',
                       ),

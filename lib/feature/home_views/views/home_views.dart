@@ -48,32 +48,32 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
               body: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  const SizedBox(
-                    height: 30,
+                   SizedBox(
+                    height: 30.px,
                   ),
                   Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 15),
+                    margin: EdgeInsets.symmetric(horizontal: 15.px),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         color: AppColors.lightPurple,
-                        borderRadius: BorderRadius.circular(30)),
+                        borderRadius: BorderRadius.circular(30.px)),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: List.generate(
                         homeViewsModel.bottomBarItems.length,
-                        (int index) => tabBarCardView(
+                            (int index) => tabBarCardView(
                             homeViewsModel.bottomBarItems[index],
                             index,
                             homeViewsModel),
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 2,
+                   SizedBox(
+                    height: 2.px,
                   ),
                   homeViewsModel.bottomBarItems[homeViewsModel.selectedIndex]
-                      ['screenName'],
+                  ['screenName'],
                 ],
               ),
             );
@@ -95,8 +95,8 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
           width: 100.px,
           decoration: BoxDecoration(
               color: isSelected ? AppColors.appWhite : AppColors.lightPurple,
-              borderRadius: BorderRadius.circular(30)),
-          height: 30,
+              borderRadius: BorderRadius.circular(30.px)),
+          height: 30.px,
           child: AppText(
             content['title'],
             color: isSelected
