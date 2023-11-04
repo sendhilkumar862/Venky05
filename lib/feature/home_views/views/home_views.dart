@@ -3,6 +3,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../product/base/view/base_view.dart';
+import '../../../config/routes/app_router.dart';
+import '../../../config/routes/routes.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/sheet/show_bottom_sheet.dart';
 import '../../../custom/text/app_text.dart';
@@ -35,6 +37,9 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
                 icon: ImageConstants.avtar,
                 title: 'Welcome!',
                 subTitle: 'Abdullah Mohamed',
+                onBellTap: () {
+                  AppRouter.pushNamed(Routes.personalInfo);
+                },
                 onProfileTap: () {
                   showCommonBottomSheet(
                       context: context, commonWidget: const PreferenceView());
