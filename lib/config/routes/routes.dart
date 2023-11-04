@@ -12,7 +12,8 @@ import '../../feature/home_views/views/home_views.dart';
 import '../../feature/pre_login/experience_Info.dart';
 import '../../feature/pre_login/financing_view.dart';
 import '../../feature/pre_login/personal_info.dart';
-import '../../feature/pre_login/teaching_info.dart';
+import '../../feature/pre_login/rest_password_link.dart';
+import '../../feature/pre_login/teachingInfo/view/teaching_info.dart';
 import '../../feature/preference/view/preference_view.dart';
 import '../../feature/rating/view/rating_view.dart';
 import '../../feature/tutorial/view/email_view.dart';
@@ -61,6 +62,7 @@ class Routes {
   static const String restPassword = '/reset-password-view';
   static const String passwordView = '/password-view';
   static const String homeViews = '/home-views';
+  static const String restPassword = '/rest-Password';
 
   /// The name of the route for unrecognized route screen
   static const String NotFoundScreenRoute = '/route-not-found-screen';
