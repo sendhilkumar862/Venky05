@@ -4,6 +4,13 @@ import 'package:flutter/material.dart';
 ///
 /// [NavBarItem] Base class for the bottom navigation bar items
 class NavBarItem {
+  NavBarItem({
+    this.iconData,
+    this.useImageIcon = false,
+    this.icon,
+    required this.title,
+    required this.page,
+  });
   /// IconData to display on the navbar e.g. Icons.home
   IconData? iconData;
 
@@ -16,11 +23,4 @@ class NavBarItem {
 
   /// The page that corresponds to this item
   Widget page;
-  NavBarItem({
-    this.iconData,
-    this.useImageIcon = false,
-    this.icon,
-    required this.title,
-    required this.page,
-  });
 }

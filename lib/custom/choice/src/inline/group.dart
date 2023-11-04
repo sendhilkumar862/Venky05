@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:hessah/custom/choice/selection.dart';
+import '../../selection.dart';
 import 'types.dart';
 
 abstract class ChoiceGroup {
-  static const defaultListPadding = EdgeInsets.symmetric(
+  static const EdgeInsets defaultListPadding = EdgeInsets.symmetric(
     vertical: 20,
   );
 
-  static const defaultHeaderPadding = EdgeInsets.symmetric(
+  static const EdgeInsets defaultHeaderPadding = EdgeInsets.symmetric(
     horizontal: 20.0,
   );
 
@@ -17,21 +17,21 @@ abstract class ChoiceGroup {
     ScrollPhysics? physics,
     EdgeInsetsGeometry? padding = defaultListPadding,
   }) {
-    return (itemBuilder, itemCount) {
+    return (itemBuilder, int itemCount) {
       return ListView.builder(
         primary: false,
         padding: padding,
         shrinkWrap: shrinkWrap,
         physics: physics,
         itemCount: itemCount,
-        itemBuilder: (context, i) => itemBuilder(i),
+        itemBuilder: (BuildContext context, int i) => itemBuilder(i),
       );
     };
   }
 
   /// Create default group item builder
   static ChoiceGroupItemBuilder createItem() {
-    return (header, choices) {
+    return (Widget header, Widget choices) {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[header, choices],
@@ -46,10 +46,10 @@ abstract class ChoiceGroup {
     EdgeInsetsGeometry? contentPadding = defaultHeaderPadding,
     bool hideCounter = false,
   }) {
-    return (name, indices) {
+    return (String name, List<int> indices) {
       return Builder(
-        builder: (context) {
-          final effectiveTextStyle =
+        builder: (BuildContext context) {
+          final TextStyle? effectiveTextStyle =
               textStyle ?? Theme.of(context).textTheme.titleSmall;
           return ListTile(
             dense: dense,
@@ -72,17 +72,17 @@ abstract class ChoiceGroup {
     bool hideCounter = false,
     required T Function(int i) valueResolver,
   }) {
-    return (name, indices) {
+    return (String name, List<int> indices) {
       return Builder(
-        builder: (context) {
-          final effectiveTextStyle =
+        builder: (BuildContext context) {
+          final TextStyle? effectiveTextStyle =
               textStyle ?? Theme.of(context).textTheme.titleSmall;
-          final values = indices.map(valueResolver).whereType<T>().toList();
-          return ChoiceConsumer<T>(builder: (state, _) {
+          final List<T> values = indices.map(valueResolver).whereType<T>().toList();
+          return ChoiceConsumer<T>(builder: (ChoiceController<T> state, _) {
             return ListTile(
               dense: dense,
               title: Row(
-                children: [
+                children: <Widget>[
                   Text(name),
                   if (!hideCounter) const Text(' - '),
                   if (!hideCounter) Text(indices.length.toString()),
@@ -109,13 +109,13 @@ abstract class ChoiceGroup {
 
 abstract class ChoiceGroupSort {
   /// Function to sort the group alphabetically by name in ascending order
-  static const asc = _asc;
+  static const int Function(String a, String b) asc = _asc;
   static int _asc(String a, String b) {
     return a.toLowerCase().compareTo(b.toLowerCase());
   }
 
   /// Function to sort the group alphabetically by name in descending order
-  static const desc = _desc;
+  static const int Function(String a, String b) desc = _desc;
   static int _desc(String a, String b) {
     return b.toLowerCase().compareTo(a.toLowerCase());
   }

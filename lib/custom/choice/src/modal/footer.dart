@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:hessah/custom/choice/selection.dart';
+import '../../selection.dart';
 
 class ChoiceModalFooter extends StatelessWidget {
   const ChoiceModalFooter({
@@ -25,7 +25,7 @@ class ChoiceModalFooter extends StatelessWidget {
     MainAxisAlignment mainAxisAlignment = MainAxisAlignment.end,
     required List<ChoiceStateBuilder> children,
   }) {
-    return (state) {
+    return (ChoiceController<T> state) {
       return ChoiceModalFooter(
         key: key,
         color: color,

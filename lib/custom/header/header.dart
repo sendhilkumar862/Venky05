@@ -29,18 +29,18 @@ class _HeaderPageState extends State<HeaderPage> with TickerProviderStateMixin {
       backgroundColor: Colors.blueGrey,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Lottie.asset(
             'assets/animations/building_animation.json',
             controller: _controller,
-            onLoaded: (composition) {
+            onLoaded: (LottieComposition composition) {
               _controller.duration = composition.duration;
             },
           ),
           const SizedBox(height: 50),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
+            children: <Widget>[
               ElevatedButton(
                   onPressed: () => _controller.stop(),
                   child: const Text('Pause')),

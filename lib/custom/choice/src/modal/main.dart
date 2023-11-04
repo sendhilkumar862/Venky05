@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hessah/custom/choice/selection.dart';
+import '../../selection.dart';
+
+import 'button.dart';
+import 'footer.dart';
 import 'header.dart';
 import 'search.dart';
-import 'footer.dart';
 import 'separator.dart';
-import 'button.dart';
 
 class ChoiceModal<T> extends StatelessWidget {
   const ChoiceModal({
@@ -85,11 +86,10 @@ class ChoiceModal<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: onWillClose,
-      child: ChoiceConsumer<T>(builder: (state, _) {
+      child: ChoiceConsumer<T>(builder: (ChoiceController<T> state, _) {
         return Column(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
+          children: <Widget?>[
             headerBuilder?.call(state),
             if (headerBuilder != null) separatorBuilder?.call(state),
             Flexible(fit: fit, child: bodyBuilder(state)),

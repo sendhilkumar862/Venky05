@@ -6,8 +6,8 @@ class ChoiceProvider<T> extends InheritedNotifier<ChoiceController<T>> {
   const ChoiceProvider({
     super.key,
     required ChoiceController<T> controller,
-    required Widget child,
-  }) : super(notifier: controller, child: child);
+    required super.child,
+  }) : super(notifier: controller);
 
   ChoiceProvider.builder({
     super.key,
@@ -17,21 +17,21 @@ class ChoiceProvider<T> extends InheritedNotifier<ChoiceController<T>> {
   }) : super(
           notifier: controller,
           child: Builder(
-            builder: (context) {
+            builder: (BuildContext context) {
               return builder(ChoiceProvider.of<T>(context), child);
             },
           ),
         );
 
   static ChoiceController<T> of<T>(BuildContext context) {
-    final provider =
+    final ChoiceProvider<T>? provider =
         context.dependOnInheritedWidgetOfExactType<ChoiceProvider<T>>();
     assert(provider != null, 'No ChoiceProvider found in context');
     return provider!.notifier!;
   }
 
   static ChoiceController<T>? maybeOf<T>(BuildContext context) {
-    final provider =
+    final ChoiceProvider<T>? provider =
         context.dependOnInheritedWidgetOfExactType<ChoiceProvider<T>>();
     return provider?.notifier;
   }

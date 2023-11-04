@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hessah/custom/choice/selection.dart';
+import '../../selection.dart';
 import 'search.dart';
 
 class ChoiceModalHeader extends AppBar {
@@ -34,19 +34,19 @@ class ChoiceModalHeader extends AppBar {
     ChoiceStateBuilder<T>? searchToggleBuilder,
     List<ChoiceStateBuilder<T>>? actionsBuilder,
   }) {
-    final effectiveSearchBuilder =
+    final Widget Function(ChoiceController<T> state) effectiveSearchBuilder =
         searchFieldBuilder ?? ChoiceSearchField.create<T>();
-    final effectiveSearchToggleBuilder =
+    final Widget Function(ChoiceController<T> state) effectiveSearchToggleBuilder =
         searchToggleBuilder ?? ChoiceSearchToggle.create<T>();
-    return (state) {
-      final searchable = state.searchable;
-      final searching = state.search?.active ?? false;
-      final searchWidget = effectiveSearchBuilder(state);
-      final effectiveTitle =
+    return (ChoiceController<T> state) {
+      final bool searchable = state.searchable;
+      final bool searching = state.search?.active ?? false;
+      final Widget searchWidget = effectiveSearchBuilder(state);
+      final Widget? effectiveTitle =
           title ?? (state.title != null ? Text(state.title!) : null);
-      final actions =
+      final Iterable<Widget>? actions =
           actionsBuilder?.map((actionBuilder) => actionBuilder(state));
-      final defaultLeading =
+      final Icon? defaultLeading =
           searchable && searching ? ChoiceSearchToggle.defaultIconShow : null;
       return ChoiceModalHeader(
         key: key,
@@ -61,7 +61,7 @@ class ChoiceModalHeader extends AppBar {
         leading: leading ?? defaultLeading,
         titleSpacing: searchable && searching ? 0 : null,
         title: searchable && searching ? searchWidget : effectiveTitle,
-        actions: [
+        actions: <Widget>[
           if (searchable) effectiveSearchToggleBuilder(state),
           if (!searching) ...?actions,
         ],

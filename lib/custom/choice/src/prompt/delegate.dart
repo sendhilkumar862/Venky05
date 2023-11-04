@@ -6,7 +6,7 @@ abstract class ChoicePrompt {
     Color? backgroundColor,
     Widget? header,
   }) {
-    return (context, modal) {
+    return (BuildContext context, Widget modal) {
       return Navigator.push(
         context,
         MaterialPageRoute(
@@ -42,7 +42,7 @@ abstract class ChoicePrompt {
     double? maxWidthFactor,
     double? maxHeightFactor,
   }) {
-    return (context, modal) {
+    return (BuildContext context, Widget modal) {
       return showDialog(
         context: context,
         useSafeArea: useSafeArea,
@@ -79,7 +79,7 @@ abstract class ChoicePrompt {
     ShapeBorder? shape,
     double maxHeightFactor = 0.6,
   }) {
-    return (context, modal) {
+    return (BuildContext context, Widget modal) {
       return showModalBottomSheet(
         context: context,
         shape: shape,

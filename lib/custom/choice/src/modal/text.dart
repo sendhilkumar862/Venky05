@@ -2,6 +2,16 @@ import 'package:flutter/widgets.dart';
 
 /// Text widget that supports highlight
 class ChoiceText extends StatelessWidget {
+
+  /// Default constructor
+  const ChoiceText(
+    this.text, {
+    super.key,
+    this.style,
+    this.highlight,
+    this.highlightColor,
+    this.caseSensitive = false,
+  });
   /// The text data string
   final String text;
 
@@ -17,16 +27,6 @@ class ChoiceText extends StatelessWidget {
   /// Whether the match is case sensitive or not
   final bool caseSensitive;
 
-  /// Default constructor
-  const ChoiceText(
-    this.text, {
-    Key? key,
-    this.style,
-    this.highlight,
-    this.highlightColor,
-    this.caseSensitive = false,
-  }) : super(key: key);
-
   /// Default highlight color
   ///
   /// Defaults to yellow
@@ -34,7 +34,7 @@ class ChoiceText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final q = highlight;
+    final String? q = highlight;
     if (q == null || q.isEmpty || text.isEmpty) {
       return Text(text, style: style);
     }
@@ -44,19 +44,19 @@ class ChoiceText extends StatelessWidget {
     final Pattern pattern = RegExp(q, caseSensitive: caseSensitive);
     int start = 0;
     int indexOfHighlight;
-    List<TextSpan> spans = [];
+    final List<TextSpan> spans = <TextSpan>[];
 
     do {
       indexOfHighlight = text.indexOf(pattern, start);
       if (indexOfHighlight < 0) {
         // no highlight
-        final content = text.substring(start, text.length);
+        final String content = text.substring(start, text.length);
         spans.add(_normalSpan(content, textStyle));
         break;
       }
       if (indexOfHighlight == start) {
         // start with highlight.
-        final highlightedText = text.substring(start, start + q.length);
+        final String highlightedText = text.substring(start, start + q.length);
         spans.add(_highlightSpan(highlightedText, textStyle));
         start += highlightedText.length;
       } else {

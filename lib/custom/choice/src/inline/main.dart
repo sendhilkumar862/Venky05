@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:hessah/custom/choice/selection.dart';
+import '../../selection.dart';
 import 'list.dart';
 import 'types.dart';
 
@@ -85,7 +85,7 @@ class InlineChoice<T> extends ChoiceList<T> {
   /// ```
   const InlineChoice({
     super.key,
-    this.value = const [],
+    this.value = const <Never>[],
     this.onChanged,
     this.multiple = false,
     this.clearable = false,
