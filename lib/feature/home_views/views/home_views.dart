@@ -6,13 +6,10 @@ import '../../../../product/base/view/base_view.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../custom/appbar/appbar.dart';
-import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/sheet/show_bottom_sheet.dart';
-
 import '../../../custom/text/app_text.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
-import '../../class/create_class/view/create_class.dart';
 import '../../preference/view/preference_view.dart';
 import '../viewsModel/home_views_model.dart';
 
@@ -37,12 +34,16 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
             return Scaffold(
               backgroundColor: AppColors.appWhite,
               appBar: HessaAppBar(
-
                 icon: ImageConstants.avtar,
                 title: 'Welcome!',
                 subTitle: 'Abdullah Mohamed',
-              onProfileTap: () => AppRouter.pushNamed(Routes.PrefrencesScreen
-              ),
+                onBellTap: () {
+                  AppRouter.pushNamed(Routes.personalInfo);
+                },
+                onProfileTap: () {
+                  showCommonBottomSheet(
+                      context: context, commonWidget: const PreferenceView());
+                },
               ),
               body: Column(
                 mainAxisSize: MainAxisSize.min,

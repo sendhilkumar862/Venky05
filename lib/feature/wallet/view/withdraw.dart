@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../../custom/app_button/app_button.dart';
-import '../../../../custom/app_textformfield/app_field.dart';
-import '../../../../custom/appbar/appbar.dart';
-import '../../../../product/utils/typography.dart';
-import '../../../../product/utils/validators.dart';
+import '../../../custom/app_button/app_button.dart';
+import '../../../custom/app_textformfield/app_field.dart';
+import '../../../custom/appbar/appbar.dart';
+import '../../../product/utils/typography.dart';
+import '../../../product/utils/validators.dart';
+import '../../classDetails/view/bottomSheetView/booking_bottom_view.dart';
 
 class WithDrawScreen extends StatefulWidget {
   const WithDrawScreen({super.key});
@@ -21,9 +23,9 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HessaAppBar(
-        // trailingText: 'Cancel',
-        // titleText: 'Withdraw',
-        // normalAppbar: true,
+        isTitleOnly: true,
+        title: 'Invoice Details',
+        isBack: true,
       ),
       body: Form(
         key: formKey,
@@ -54,7 +56,24 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
                 title: 'Top Up Amount',
                 hintText: 'Enter top up amount',
               ),
-              AppButton(title: 'Top Up', onPressed: () {}, isDisable: isDisable)
+              AppButton(
+                  title: 'Top Up',
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      constraints: const BoxConstraints(),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(25.px),
+                          topLeft: Radius.circular(25.px),
+                        ),
+                      ),
+                      builder: (BuildContext context) {
+                        return const BookingBottomSheet();
+                      },
+                    );
+                  },
+                  isDisable: isDisable)
             ],
           ),
         ),

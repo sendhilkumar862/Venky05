@@ -130,7 +130,8 @@ extension TextStyleExtensions on TextStyle {
   TextStyle get white => textColor(AppColors.white);
   TextStyle get gray => textColor(AppColors.gray);
   TextStyle get red => textColor(AppColors.red);
-  TextStyle get appColor => textColor(AppColors.appBlue);
+  TextStyle get appBlue => textColor(AppColors.appBlue);
+  TextStyle get appTextColor => textColor(AppColors.appTextColor);
 
 //==============================================================================
 // ** letterSpace **

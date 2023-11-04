@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/routes.dart';
 import '../../../../custom/cardView/app_card_view.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';
@@ -24,10 +26,10 @@ class ActivitiesView extends StatelessWidget {
             cardColor: AppColors.white,
             buttonTitle: 'Create Class',
             buttonTap: () {
-
+              AppRouter.pushNamed(Routes.createClass);
             },
           ),
-           SizedBox(
+          SizedBox(
             height: 20.px,
           ),
           InfoCardViewHorizontal(
@@ -35,9 +37,7 @@ class ActivitiesView extends StatelessWidget {
             isShowButton: true,
             title: 'Create new class and receive proposals from teachers',
             cardColor: AppColors.lightPurple,
-            buttonTap: () {
-
-            },
+            buttonTap: () {},
           ),
           const SizedBox(height: 20),
           const SizedBox(height: 20),
@@ -121,7 +121,7 @@ class ActivitiesView extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-           SizedBox(
+          SizedBox(
             height: 200.px,
           )
         ],

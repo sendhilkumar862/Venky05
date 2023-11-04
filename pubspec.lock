@@ -1034,6 +1034,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "23.1.41"
+  syncfusion_flutter_pdf:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_pdf
+      sha256: "967e95c92e101b03327544e1fb62dcab65f0b3f04409f9d62ac49c56f44818bc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "23.1.43"
   syncfusion_flutter_sliders:
     dependency: "direct main"
     description:

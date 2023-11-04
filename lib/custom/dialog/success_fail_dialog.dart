@@ -33,7 +33,7 @@ class SuccessFailsInfoDialog extends StatelessWidget {
           const SizedBox(
             height: 12,
           ),
-          if (title == 'success')
+          if (title == 'Success')
             const AppImageAsset(
               image: ImageConstants.successCircle,
               height: 63,
@@ -52,13 +52,13 @@ class SuccessFailsInfoDialog extends StatelessWidget {
             fontWeight: FontWeight.w500,
             textAlign: TextAlign.center,
           ),
-          if (tranId!.isNotEmpty && tranId != null)
+          if (tranId != null && tranId!.isNotEmpty)
             Column(
               children: <Widget>[
                 SizedBox(
                   height: 5.px,
                 ),
-                 AppDivider(),
+                AppDivider(),
                 SizedBox(
                   height: 5.px,
                 ),

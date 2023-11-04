@@ -80,9 +80,10 @@ class _CreateClassState extends State<CreateClass> {
             title: 'Flutter Demo',
             home: Scaffold(
               appBar: HessaAppBar(
-                // trailingText: 'Cancel',
-                // titleText: 'Create Class',
-                // normalAppbar: true,
+                isTitleOnly: true,
+                trailingText: 'Cancel',
+                title: 'Create Class',
+                isBack: false,
               ),
               body: SingleChildScrollView(
                 child: Padding(
@@ -90,13 +91,10 @@ class _CreateClassState extends State<CreateClass> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      const Padding(
-                        padding: EdgeInsets.only(top: 40),
-                        child: Text(
-                          'Class Info',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w700),
-                        ),
+                      const Text(
+                        'Class Info',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w700),
                       ),
                       const Padding(
                         padding: EdgeInsets.only(top: 15),
@@ -260,11 +258,11 @@ class _CreateClassState extends State<CreateClass> {
                         ),
                       ),
                       AppButton(
-                          title: 'Next for Class Details',
-                          onPressed: () {
-                            AppRouter.push(const ClassDetail());
-                          },
-                          )
+                        title: 'Next for Class Details',
+                        onPressed: () {
+                          AppRouter.push(const ClassDetail());
+                        },
+                      )
                     ],
                   ),
                 ),

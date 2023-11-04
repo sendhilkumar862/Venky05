@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:hessah/feature/wallet/view/set_bottom_sheet.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../product/base/view/base_view.dart';
@@ -13,6 +14,7 @@ import '../../../custom/switch/app_switch.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
+import '../../../product/utils/typography.dart';
 import '../viewModel/wallet_view_model.dart';
 import 'add_bank_view.dart';
 
@@ -25,6 +27,47 @@ class WithdrawView extends StatefulWidget {
 
 class _WithdrawViewState extends State<WithdrawView>
     with TickerProviderStateMixin {
+  List<CommonClass> bankAccount = [
+    CommonClass(
+      'Main Account',
+      'KW81CBKU0000000000001234560101',
+      'WARBA BANK',
+    ),
+    CommonClass(
+      'Secondary Account',
+      'KW81CBKU0000000000001234560101',
+      'WARBA BANK',
+    ),
+    CommonClass(
+      'Main Account',
+      'KW81CBKU0000000000001234560101',
+      'WARBA BANK',
+    ),
+    CommonClass(
+      'Secondary Account',
+      'KW81CBKU0000000000001234560101',
+      'WARBA BANK',
+    ),
+  ];
+  List<CommonClass> location = [
+    CommonClass(
+        'Home',
+        'City, Block No., Street Name, Street Name 2, HouseNo.,',
+        'Floor No., Apartment No.'),
+    CommonClass(
+        'Work',
+        'City, Block No., Street Name, Street Name 2, HouseNo.,',
+        'Floor No., Apartment No.'),
+    CommonClass(
+        'Home',
+        'City, Block No., Street Name, Street Name 2, HouseNo.,',
+        'Floor No., Apartment No.'),
+    CommonClass(
+        'Work',
+        'City, Block No., Street Name, Street Name 2, HouseNo.,',
+        'Floor No., Apartment No.'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return BaseView<WalletViewModel>(
@@ -84,20 +127,106 @@ class _WithdrawViewState extends State<WithdrawView>
                     ],
                   ),
                   SizedBox(height: 20.px),
-                  Container(
-                    alignment: Alignment.center,
-                    padding:
-                        EdgeInsets.symmetric(vertical: 10.px, horizontal: 5.px),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.px),
-                      border: Border.all(color: AppColors.lightPurple),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        AppText('Main Account', fontWeight: FontWeight.w400),
-                        Icon(Icons.arrow_drop_down)
-                      ],
+                  InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                          useSafeArea: true,
+                          isScrollControlled: true,
+                          context: context,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30),
+                            ),
+                          ),
+                          builder: (BuildContext context) {
+                            return StatefulBuilder(
+                                builder: (context, setState) {
+                              return Column(children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(20),
+                                  child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        Text('Bank Account',
+                                            style: openSans.get20.w700),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 70),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: AppColors.gray
+                                                      .withOpacity(0.3)),
+                                              child: const Padding(
+                                                padding: EdgeInsets.all(3),
+                                                child: Icon(Icons.close),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ]),
+                                ),
+                                Expanded(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        ListData(
+                                          commonList: bankAccount,
+                                          label: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 5),
+                                            child: Text('IBAN',
+                                                style: openSans.get12.w500
+                                                    .textColor(AppColors.gray)),
+                                          ),
+                                          image: Image.asset(
+                                            ImageConstants.ellipse1,
+                                            height: 24,
+                                            width: 24,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                AppButton(
+                                  onPressed: () {},
+                                  title: 'Select',
+                                  isDisable: false,
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: TextButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                        'Add New Account',
+                                        style: openSans.w700,
+                                      ),
+                                    ))
+                              ]);
+                            });
+                          });
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10.px, horizontal: 5.px),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.px),
+                        border: Border.all(color: AppColors.lightPurple),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AppText('Main Account', fontWeight: FontWeight.w400),
+                          Icon(Icons.arrow_drop_down)
+                        ],
+                      ),
                     ),
                   ),
                   noBankAccountCardView(),
