@@ -34,7 +34,7 @@ class TeachersView extends StatelessWidget {
             height: 5.px,
           ),
           SizedBox(
-            height: 210.px,
+            height: 220.px,
             child: ListView.builder(
               itemCount: 5,
               shrinkWrap: true,
@@ -62,7 +62,7 @@ class TeachersView extends StatelessWidget {
             height: 5.px,
           ),
           SizedBox(
-            height: 210.px,
+            height: 220.px,
             child: ListView.builder(
               itemCount: 5,
               shrinkWrap: true,

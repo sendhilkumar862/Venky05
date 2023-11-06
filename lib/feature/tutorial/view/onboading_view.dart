@@ -5,15 +5,14 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../config/routes/app_router.dart';
+import '../../../config/routes/routes.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/appbar/appBarOnBoard.dart';
-import '../../../custom/appbar/appbar.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
-import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/tutorial_view_model.dart';
-import 'join_app_view.dart';
+import 'email_view.dart';
 
 class OnBoardingView extends StatelessWidget {
   const OnBoardingView({super.key});
@@ -28,7 +27,8 @@ class OnBoardingView extends StatelessWidget {
         onPageBuilder:
             (BuildContext context, TutorialViewModel tutorialViewModel) {
           return Observer(builder: (BuildContext context) {
-            return Scaffold(backgroundColor: AppColors.appWhite,
+            return Scaffold(
+              backgroundColor: AppColors.appWhite,
               appBar: AppBarOnBoard(),
               body: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.px),
@@ -79,7 +79,7 @@ class OnBoardingView extends StatelessWidget {
                       effect: ExpandingDotsEffect(
                           spacing: 8.px,
                           radius: 10.px,
-                          dotWidth: 10.px,
+                          dotWidth: 8.px,
                           dotHeight: 8.px,
                           //paintStyle: PaintingStyle.stroke,
                           dotColor: AppColors.lightPurple,
@@ -95,17 +95,20 @@ class OnBoardingView extends StatelessWidget {
                       borderColor: AppColors.appBlue,
                       title: 'Join To Hessah',
                       onPressed: () {
-                        AppRouter.push(const JoinAppView());
+                        AppRouter.push(const EmailView());
                       },
                     ),
                     SizedBox(height: 15.px),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 10.px),
-                      child: AppText(
-                        'Login',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.px,
-                        color: AppColors.appBlue,
+                      child: GestureDetector(
+                        onTap: () => AppRouter.pushNamed(Routes.loginView),
+                        child: AppText(
+                          'Login',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14.px,
+                          color: AppColors.appBlue,
+                        ),
                       ),
                     ),
                     SizedBox(

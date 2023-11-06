@@ -19,13 +19,19 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
     Future.delayed(
       Duration(seconds: 2),
       () {
-        AppRouter.push(LanguageView());
+        AppRouter.push(const LanguageView());
       },
     );
   }
 
   @observable
   int selectedIndex = -1;
+
+  @observable
+  TextEditingController mobileController = TextEditingController();
+
+  @observable
+  TextEditingController emailController = TextEditingController();
 
   @observable
   List profileItems = <String>['Teacher', 'Parent/Student'];
@@ -61,11 +67,23 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   ];
 
   @observable
+  List<String> passWordCriteria = [
+    'Contain Minimum 8 Characters',
+    'Contain Numbers',
+    r'Contain Special characters (e.g., !, @, #, $)',
+    'Contain Uppercase letters',
+    'Contain Lowercase letters',
+    'New and Retype Passwords should be matches',
+  ];
+
+  @observable
+  List<bool> isPassWordCriteria = List.filled(6, false);
+
+  @observable
   List<String> filteredCountries = [];
 
   @observable
   PageController pageController = PageController();
-
 
   @observable
   List onboardingAnimation = [
@@ -73,7 +91,6 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
     ImageConstants.book,
     ImageConstants.education,
   ];
-
 
   @observable
   List onboardingTitle = [
@@ -96,8 +113,8 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
 
   @action
   void selectCountry(int index) {
-    print('enterd ${index}');
     selectedIndex = index;
+    print('Enterd ${selectedIndex}');
   }
 
   @action
@@ -111,5 +128,13 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
         .where((String country) =>
             country.toLowerCase().contains(query.toLowerCase()))
         .toList();
+  }
+
+  @observable
+  bool isActive = false;
+
+  @action
+  void onTapTermAndCondition() {
+    isActive = !isActive;
   }
 }

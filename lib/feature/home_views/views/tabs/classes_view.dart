@@ -23,7 +23,7 @@ class ClassesView extends StatelessWidget {
             height: 10.px,
           ),
           SizedBox(
-            height: 226.px,
+            height: 230.px,
             child: ListView.separated(
               padding: EdgeInsets.only(
                   right: 15.px, top: 5.px, bottom: 20.px, left: 15.px),
@@ -65,7 +65,7 @@ class ClassesView extends StatelessWidget {
             height: 10.px,
           ),
           SizedBox(
-            height: 226.px,
+            height: 230.px,
             child: ListView.separated(
               padding: EdgeInsets.only(
                   right: 15.px, top: 5.px, bottom: 20.px, left: 15.px),

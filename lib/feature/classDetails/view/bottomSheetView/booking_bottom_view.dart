@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_button/app_button.dart';
-import '../../../../custom/dialog/payment_dialog.dart';
 import '../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../custom/divider/divider.dart';
 import '../../../../custom/image/app_image_assets.dart';
@@ -17,12 +16,12 @@ class BookingBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 15, right: 15),
-      height: MediaQuery.of(context).size.height * 0.70,
+      padding: EdgeInsets.only(left: 15.px, right: 15.px),
+      height: MediaQuery.of(context).size.height * 0.72.px,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30.px),
+          topRight: Radius.circular(30.px),
         ),
       ),
       child: Stack(
@@ -33,11 +32,11 @@ class BookingBottomSheet extends StatelessWidget {
               Navigator.pop(context);
             },
             child: Container(
-              margin: EdgeInsets.only(top: 14),
+              margin: EdgeInsets.only(top: 14.px),
               alignment: Alignment.center,
               height: 25.px,
               width: 25.px,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   color: AppColors.appLightGrey, shape: BoxShape.circle),
               child: AppImageAsset(
                 image: ImageConstants.closeIcon,

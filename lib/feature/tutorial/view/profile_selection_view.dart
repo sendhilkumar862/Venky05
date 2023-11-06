@@ -12,11 +12,10 @@ import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/tutorial_view_model.dart';
-import 'language_view.dart';
 import 'onboading_view.dart';
 
-class SelectProfileView extends StatelessWidget {
-  const SelectProfileView({super.key});
+class ProfileSelectionView extends StatelessWidget {
+  const ProfileSelectionView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +27,9 @@ class SelectProfileView extends StatelessWidget {
         onPageBuilder:
             (BuildContext context, TutorialViewModel tutorialViewModel) {
           return Observer(builder: (BuildContext context) {
-            return Scaffold(backgroundColor: AppColors.appWhite,
-              appBar:AppBarOnBoard(),
+            return Scaffold(
+              backgroundColor: AppColors.appWhite,
+              appBar: AppBarOnBoard(),
               body: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.px),
                 child: Column(
