@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_share/flutter_share.dart';
 
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/text/app_text.dart';
@@ -52,9 +51,7 @@ class _InvoiceState extends State<Invoice> {
             ),
           ),
           ElevatedButton.icon(
-              onPressed: () {
-                FlutterShare.share(title: 'Check');
-              },
+              onPressed: () {},
               style: ButtonStyle(
                   shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)))),

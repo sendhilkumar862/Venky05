@@ -116,4 +116,6 @@ class ImageConstants {
 
   static const String unFillCircle =
       '${ApplicationConstants.iconPath}un_fill_circle.svg';
+  static const String warningIcon =
+      '${ApplicationConstants.iconPath}warning.png';
 }

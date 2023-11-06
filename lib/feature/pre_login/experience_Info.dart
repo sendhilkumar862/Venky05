@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
@@ -18,6 +21,8 @@ class ExperienceInfo extends StatefulWidget {
 }
 
 class _ExperienceInfoState extends State<ExperienceInfo> {
+  File? firstImage;
+  File? secondImage;
   bool isSwitch = false;
   @override
   Widget build(BuildContext context) {
@@ -113,25 +118,153 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                     style: openSans.get12.w400
                         .textColor(AppColors.appTextColor.withOpacity(0.5))),
               ),
-              SizedBox(
-                width: width,
-                height: 83,
-                child: DottedBorder(
-                    borderType: BorderType.RRect,
-                    radius: const Radius.circular(15),
-                    color: AppColors.appBlue,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        const Icon(Icons.cloud_upload_outlined,
-                            color: AppColors.appBlue),
-                        Center(
-                            child: Text(
-                          'Upload Your Cetificates',
-                          style: openSans.get14.w500.appBlue,
+              Center(
+                child: SizedBox(
+                  width: width * 0.89,
+                  child: InkWell(
+                    onTap: () {
+                      pickDocument();
+                    },
+                    child: DottedBorder(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        borderType: BorderType.RRect,
+                        radius: const Radius.circular(15),
+                        color: AppColors.appBlue,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                if (firstImage != null)
+                                  SizedBox(
+                                    width: 80,
+                                    height: 80,
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
+                                                    color: AppColors
+                                                        .appBorderColor
+                                                        .withOpacity(0.5))),
+                                            child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                child: Image.file(
+                                                  firstImage!,
+                                                  width: 80,
+                                                  height: 80,
+                                                  fit: BoxFit.cover,
+                                                ))),
+                                        Align(
+                                            alignment: Alignment.topRight,
+                                            child: InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  firstImage = null;
+                                                });
+                                              },
+                                              child: Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 5,
+                                                      horizontal: 5),
+                                                  padding: EdgeInsets.all(3),
+                                                  decoration: BoxDecoration(
+                                                      color: AppColors
+                                                          .downArrowColor
+                                                          .withOpacity(0.15),
+                                                      shape: BoxShape.circle),
+                                                  child: Icon(
+                                                    Icons.close,
+                                                    size: 20,
+                                                  )),
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                if (secondImage != null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: SizedBox(
+                                      width: 80,
+                                      height: 80,
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  border: Border.all(
+                                                      color: AppColors
+                                                          .appBorderColor
+                                                          .withOpacity(0.5))),
+                                              child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  child: Image.file(
+                                                    secondImage!,
+                                                    width: 80,
+                                                    height: 80,
+                                                    fit: BoxFit.cover,
+                                                  ))),
+                                          Align(
+                                              alignment: Alignment.topRight,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    secondImage = null;
+                                                  });
+                                                },
+                                                child: Container(
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 5,
+                                                            horizontal: 5),
+                                                    padding: EdgeInsets.all(3),
+                                                    decoration: BoxDecoration(
+                                                        color: AppColors
+                                                            .downArrowColor
+                                                            .withOpacity(0.15),
+                                                        shape: BoxShape.circle),
+                                                    child: Icon(
+                                                      Icons.close,
+                                                      size: 20,
+                                                    )),
+                                              ))
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                            if (secondImage == null || firstImage == null)
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: secondImage == null &&
+                                            firstImage == null
+                                        ? 0
+                                        : 15),
+                                child: Column(
+                                  children: <Widget>[
+                                    const Icon(Icons.cloud_upload_outlined,
+                                        color: AppColors.appBlue),
+                                    Center(
+                                        child: Text(
+                                      firstImage != null
+                                          ? 'Add More'
+                                          : 'Upload Civil ID',
+                                      style: openSans.get14.w500.appBlue,
+                                    )),
+                                  ],
+                                ),
+                              ),
+                          ],
                         )),
-                      ],
-                    )),
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 25),
@@ -170,5 +303,23 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
         ),
       ),
     );
+  }
+
+  Future<void> pickDocument() async {
+    final FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: <String>['pdf', 'png', 'jpeg', 'jpg'],
+    );
+    if (result != null) {
+      if (firstImage == null) {
+        setState(() {
+          firstImage = File(result.files.single.path ?? '');
+        });
+      } else {
+        setState(() {
+          secondImage = File(result.files.single.path ?? '');
+        });
+      }
+    }
   }
 }
