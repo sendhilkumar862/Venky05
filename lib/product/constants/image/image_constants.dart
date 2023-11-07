@@ -114,4 +114,8 @@ class ImageConstants {
   static const String checkboxSqureFilled = '${ApplicationConstants.iconPath}checkbox_suqare_filled.png';
   static const String faceId = '${ApplicationConstants.iconPath}face_lock.png';
 
+  static const String unFillCircle =
+      '${ApplicationConstants.iconPath}un_fill_circle.svg';
+  static const String warningIcon =
+      '${ApplicationConstants.iconPath}warning.png';
 }

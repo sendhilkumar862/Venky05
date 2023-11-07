@@ -25,6 +25,9 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   }
 
   @observable
+  String selectedItem = '';
+
+  @observable
   int selectedIndex = -1;
 
   @observable
@@ -44,6 +47,12 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
     'Saudi Arabia',
     'UEA',
   ];
+
+  void selectItem(String item) {
+    runInAction(() {
+      selectedItem = item;
+    });
+  }
 
   @observable
   List<String> countryLogo = [

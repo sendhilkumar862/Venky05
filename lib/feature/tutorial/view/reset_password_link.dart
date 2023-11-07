@@ -7,16 +7,14 @@ import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/utils/typography.dart';
 
-
-
-class RestPassword extends StatefulWidget {
-  const RestPassword({super.key});
+class ResetPassword extends StatefulWidget {
+  const ResetPassword({super.key});
 
   @override
-  State<RestPassword> createState() => _RestPasswordState();
+  State<ResetPassword> createState() => _ResetPasswordState();
 }
 
-class _RestPasswordState extends State<RestPassword> {
+class _ResetPasswordState extends State<ResetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -7,17 +7,24 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/image/app_image_assets.dart';
+import '../../../custom/sheet/country_bottom_sheet.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/tutorial_view_model.dart';
-import 'bottomSheets/country_bottom_sheet.dart';
 import 'bottomSheets/language_bottom_sheet.dart';
 
-class LanguageView extends StatelessWidget {
+class LanguageView extends StatefulWidget {
   const LanguageView({super.key});
 
+  @override
+  State<LanguageView> createState() => _LanguageViewState();
+}
+
+class _LanguageViewState extends State<LanguageView> {
+  TextEditingController nationalityController = TextEditingController();
+  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return BaseView<TutorialViewModel>(
@@ -62,9 +69,19 @@ class LanguageView extends StatelessWidget {
                           builder: (BuildContext context) {
                             return StatefulBuilder(
                               builder: (BuildContext context, setState) {
-                                return CountryBottomSheet(
-                                    tutorialViewModel: tutorialViewModel,
-                                    setState: setState);
+                                return Observer(builder: (_) {
+                                  return CountryBottomSheet(
+                                    countries: tutorialViewModel.countries,
+                                    selectedIndex: selectedIndex,
+                                    onTap: (int index) {
+                                      selectedIndex = index;
+                                      tutorialViewModel.selectItem(
+                                          tutorialViewModel.countries[index]);
+                                      nationalityController.text =
+                                          tutorialViewModel.selectedItem;
+                                    },
+                                  );
+                                });
                               },
                             );
                           },
