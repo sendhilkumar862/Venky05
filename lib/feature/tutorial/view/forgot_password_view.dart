@@ -12,7 +12,6 @@ import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/tutorial_view_model.dart';
-import 'otp_view.dart';
 
 class ForgotPassWordView extends StatelessWidget {
   const ForgotPassWordView({super.key});

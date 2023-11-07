@@ -14,7 +14,6 @@ import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/tutorial_view_model.dart';
 import 'mobile_view.dart';
-import 'otp_view.dart';
 
 class ExistingUserView extends StatelessWidget {
   const ExistingUserView({super.key});

@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
           supportedLocales: LanguageManager.instance.supportedLocales,
           navigatorKey: AppRouter.navigatorKey,
           theme: context.watch<ThemeNotifier>().currentTheme,
-          home: const LanguageView(),
+          home: const SplashView(),
         );
       },
     );

@@ -59,12 +59,14 @@ class PreLoginCommonButton extends StatelessWidget {
     this.onTap,
     this.title,
     this.height,
+    this.isDisable = true,
     super.key,
   });
 
   String? title;
   VoidCallback? onTap;
   double? height;
+  bool? isDisable;
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +80,7 @@ class PreLoginCommonButton extends StatelessWidget {
             borderColor: AppColors.appBlue,
             title: title ?? '',
             onPressed: onTap ?? () {},
+            //isDisable: isDisable,
           ),
         ),
         SizedBox(

@@ -16,7 +16,7 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
   @override
   void init() {
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 500),
       () {
         print('Enterd spplash');
         AppRouter.push(const LanguageView());
@@ -26,7 +26,6 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
 
   @override
   void didChangeDependencies() {
-
-
+    print('Enterd spplash');
   }
 }
