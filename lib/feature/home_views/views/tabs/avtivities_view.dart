@@ -25,7 +25,9 @@ class ActivitiesView extends StatelessWidget {
                 "You don't have any pending activities that require your action. If there are scheduled classes or new proposals for the classes you created, etc...\nyou will find them here.",
             cardColor: AppColors.white,
             buttonTitle: 'Create Class',
-            buttonTap: () {},
+            buttonTap: () {
+              AppRouter.pushNamed(Routes.createClass);
+            },
           ),
           SizedBox(
             height: 20.px,

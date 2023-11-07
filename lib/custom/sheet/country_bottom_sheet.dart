@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../../custom/divider/divider.dart';
-import '../../../../custom/image/app_image_assets.dart';
-import '../../../../custom/text/app_text.dart';
-import '../../../../product/constants/colors/app_colors_constants.dart';
-import '../../../../product/constants/image/image_constants.dart';
-import '../../viewModel/tutorial_view_model.dart';
+import '../../product/constants/colors/app_colors_constants.dart';
+import '../../product/constants/image/image_constants.dart';
+import '../divider/divider.dart';
+import '../image/app_image_assets.dart';
+import '../text/app_text.dart';
 
 class CountryBottomSheet extends StatelessWidget {
-  CountryBottomSheet({this.tutorialViewModel, this.setState, super.key});
+  CountryBottomSheet(
+      {this.countries, this.selectedIndex, required this.onTap, super.key});
 
-  TutorialViewModel? tutorialViewModel;
-  Function? setState;
+  List<String>? countries = [];
+  int? selectedIndex;
+  Function(int) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -57,36 +58,36 @@ class CountryBottomSheet extends StatelessWidget {
               ),
               Expanded(
                 child: ListView.separated(
-                  itemCount: tutorialViewModel!.countries.length,
+                  itemCount: countries!.length,
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
-                        tutorialViewModel!.selectCountry(index);
-                        setState!(() {});
+                        onTap(index);
                       },
-                      child: Container(color: AppColors.appWhite,
+                      child: Container(
+                        color: AppColors.appWhite,
                         margin: EdgeInsets.symmetric(horizontal: 15.px),
                         padding: EdgeInsets.symmetric(vertical: 8.px),
                         child: Row(
                           children: <Widget>[
                             AppImageAsset(
-                              image: tutorialViewModel!.countryLogo[index],
+                              image: ImageConstants.oman,
                               height: 20.px,
                             ),
                             SizedBox(
                               width: 10.px,
                             ),
                             AppText(
-                              tutorialViewModel!.countries[index],
+                              countries?[index] ?? '',
                               fontWeight: FontWeight.w400,
                             ),
                             const Spacer(),
                             AppImageAsset(
                               image: ImageConstants.acceptedStatus,
                               height: 23.px,
-                              color: (tutorialViewModel!.selectedIndex == index)
+                              color: (selectedIndex == index)
                                   ? AppColors.appBlue
                                   : AppColors.appWhite,
                             ),

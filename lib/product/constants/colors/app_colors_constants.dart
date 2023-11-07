@@ -47,6 +47,7 @@ class AppColors {
   static const Color textWhite80Color = Color(0xFFf2f2f2);
   static const Color isDisableColor = Color(0xFFC5D1FF);
   static const Color arsenic = Color(0xFF3C3C43);
+  static const Color tabColor = Color(0xffF0F5FF);
 
   static List<BoxShadow> appBoxShadow = [
     BoxShadow(
@@ -79,6 +80,14 @@ class AppColors {
       spreadRadius: 0.2,
       color: appWhite.withOpacity(0.2),
       blurRadius: 2,
+    ),
+  ];
+
+  static List<BoxShadow> searchCardBoxShadow = [
+    const BoxShadow(
+      offset: Offset(1, 6),
+      color: trans,
+      blurRadius: 5,
     ),
   ];
 }

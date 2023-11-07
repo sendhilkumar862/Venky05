@@ -13,20 +13,24 @@ class InfoCardVIew extends StatelessWidget {
   InfoCardVIew({
     this.isShowButton,
     this.title,
+    this.message,
     this.subTitle,
     this.cardColor,
-    this.buttonTap ,
+    this.buttonTap,
     this.buttonTitle,
     this.isPending,
+    this.isStatus,
     this.isSupport,
     super.key,
   });
 
   String? title;
   String? subTitle;
+  String? message;
   bool? isShowButton;
   Color? cardColor;
   String? buttonTitle;
+  bool? isStatus = false;
   VoidCallback? buttonTap;
   bool? isPending = false;
   bool? isSupport = false;
@@ -48,15 +52,10 @@ class InfoCardVIew extends StatelessWidget {
             image: ImageConstants.starSecondary,
             height: 55.px,
           ),
-          if (isPending == true)
+          if (isStatus ?? false)
             Padding(
               padding: const EdgeInsets.only(top: 15),
               child: StatusCardView(status: 'PENDING ACCOUNT'),
-            )
-          else
-            Padding(
-              padding: const EdgeInsets.only(top: 15),
-              child: StatusCardView(status: 'REJECTED'),
             ),
           SizedBox(height: 13.px),
           AppText(
@@ -64,7 +63,15 @@ class InfoCardVIew extends StatelessWidget {
             fontSize: 16.px,
             fontWeight: FontWeight.w700,
           ),
-          SizedBox(height: 5.px),
+          SizedBox(height: 2.px),
+          if (message != null)
+            AppText(
+              message ?? '',
+              fontSize: 12.px,
+              color: AppColors.appDarkBlack.withOpacity(0.25),
+              fontWeight: FontWeight.w400,
+            ),
+          if (message != null) SizedBox(height: 5.px),
           AppText(subTitle ?? '',
               textAlign: TextAlign.center,
               fontSize: 14.px,
@@ -96,7 +103,7 @@ class InfoCardVIew extends StatelessWidget {
               borderRadius: BorderRadius.circular(12.px),
               borderColor: AppColors.appBlue,
               isBorderOnly: true,
-              onPressed: buttonTap??(){},
+              onPressed: buttonTap ?? () {},
             )
         ],
       ),
