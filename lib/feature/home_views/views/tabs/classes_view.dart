@@ -23,13 +23,13 @@ class ClassesView extends StatelessWidget {
             height: 10.px,
           ),
           SizedBox(
-            height: 230.px,
+            height: MediaQuery.of(context).size.height * 0.290,
             child: ListView.separated(
               padding: EdgeInsets.only(
                   right: 15.px, top: 5.px, bottom: 20.px, left: 15.px),
               shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
-              itemCount: 3 ?? 0,
+              physics: const BouncingScrollPhysics(),
+              itemCount: 3,
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
                 return AppCardView(
@@ -55,22 +55,18 @@ class ClassesView extends StatelessWidget {
               },
             ),
           ),
-          SizedBox(
-            height: 5.px,
-          ),
-          SizedBox(height: 20.px),
           HeadingCardView(
               title: 'Related Classes', onTap: () {}, totalItem: '3'),
           SizedBox(
             height: 10.px,
           ),
           SizedBox(
-            height: 230.px,
+            height: MediaQuery.of(context).size.height * 0.290,
             child: ListView.separated(
               padding: EdgeInsets.only(
                   right: 15.px, top: 5.px, bottom: 20.px, left: 15.px),
               shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               itemCount: 3 ?? 0,
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {

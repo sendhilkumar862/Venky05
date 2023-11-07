@@ -32,7 +32,8 @@ class UserInfoView extends StatelessWidget {
                     children: [
                       SizedBox(height: 35.px),
                       const OnTapBack(),
-                      SizedBox(height: 100.px),
+                      SizedBox(height: 20.px),
+                      SizedBox(height: 80.px),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: AppText(

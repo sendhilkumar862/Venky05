@@ -22,12 +22,10 @@ class ActivitiesView extends StatelessWidget {
             isShowButton: true,
             title: 'No Activities Found!',
             subTitle:
-            "You don't have any pending activities that require your action. If there are scheduled classes or new proposals for the classes you created, etc...\nyou will find them here.",
+                "You don't have any pending activities that require your action. If there are scheduled classes or new proposals for the classes you created, etc...\nyou will find them here.",
             cardColor: AppColors.white,
             buttonTitle: 'Create Class',
-            buttonTap: () {
-
-            },
+            buttonTap: () {},
           ),
           SizedBox(
             height: 20.px,
@@ -47,7 +45,7 @@ class ActivitiesView extends StatelessWidget {
             height: 10.px,
           ),
           SizedBox(
-            height: 230.px,
+            height: MediaQuery.of(context).size.height * 0.290,
             child: ListView.separated(
               padding: EdgeInsets.only(
                   right: 15.px, top: 5.px, bottom: 20.px, left: 15.px),
@@ -77,9 +75,6 @@ class ActivitiesView extends StatelessWidget {
                 );
               },
             ),
-          ),
-          SizedBox(
-            height: 5.px,
           ),
           HeadingCardView(
               title: 'Related Classes', onTap: () {}, totalItem: '3'),
@@ -87,7 +82,7 @@ class ActivitiesView extends StatelessWidget {
             height: 10.px,
           ),
           SizedBox(
-            height: 230.px,
+            height: MediaQuery.of(context).size.height * 0.290,
             child: ListView.separated(
               padding: EdgeInsets.only(
                   right: 15.px, top: 5.px, bottom: 20.px, left: 15.px),
@@ -117,9 +112,6 @@ class ActivitiesView extends StatelessWidget {
                 );
               },
             ),
-          ),
-          SizedBox(
-            height: 5.px,
           ),
           SizedBox(
             height: 200.px,

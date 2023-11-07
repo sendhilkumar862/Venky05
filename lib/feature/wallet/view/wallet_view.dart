@@ -67,7 +67,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                   SizedBox(height: 14.px),
                   Container(
                     alignment: Alignment.center,
-                    height: 68.px,
+                    height: MediaQuery.of(context).size.height * 0.100,
                     margin: EdgeInsets.symmetric(horizontal: 15.px),
                     padding: EdgeInsets.all(11.px),
                     decoration: BoxDecoration(

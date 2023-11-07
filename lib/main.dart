@@ -8,6 +8,7 @@ import 'config/routes/app_router.dart';
 import 'feature/home/view/home_view.dart';
 import 'feature/splash/view/splash_view.dart';
 import 'feature/tutorial/view/language_view.dart';
+import 'feature/wallet/view/wallet_view.dart';
 import 'product/constants/app/app_constants.dart';
 import 'product/cache/locale_manager.dart';
 import 'product/constants/app/app_constants.dart';

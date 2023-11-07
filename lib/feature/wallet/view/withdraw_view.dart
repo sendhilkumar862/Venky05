@@ -81,9 +81,9 @@ class _WithdrawViewState extends State<WithdrawView>
             return Scaffold(
               backgroundColor: AppColors.appWhite,
               appBar: HessaAppBar(
-                icon: ImageConstants.avtar,
-                title: 'Withdraw',
                 isTitleOnly: true,
+                title: 'Withdraw',
+                isBack: true,
               ),
               body: ListView(
                 padding: EdgeInsets.symmetric(horizontal: 15.px),

@@ -19,7 +19,7 @@ class TeachersView extends StatelessWidget {
             isShowButton: true,
             title: 'No Activities Found!',
             subTitle:
-            "You don't have any pending activities that require your action. If there are scheduled classes or new proposals for the classes you created, etc...\nyou will find them here.",
+                "You don't have any pending activities that require your action. If there are scheduled classes or new proposals for the classes you created, etc...\nyou will find them here.",
             cardColor: AppColors.white,
             buttonTitle: 'Class Details',
             buttonTap: () => null,
@@ -34,11 +34,11 @@ class TeachersView extends StatelessWidget {
             height: 5.px,
           ),
           SizedBox(
-            height: 220.px,
+            height: MediaQuery.of(context).size.height * 0.300,
             child: ListView.builder(
               itemCount: 5,
               shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
                 return DetailsCardView(
@@ -62,11 +62,11 @@ class TeachersView extends StatelessWidget {
             height: 5.px,
           ),
           SizedBox(
-            height: 220.px,
+            height: MediaQuery.of(context).size.height * 0.300,
             child: ListView.builder(
               itemCount: 5,
               shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
                 return DetailsCardView(
