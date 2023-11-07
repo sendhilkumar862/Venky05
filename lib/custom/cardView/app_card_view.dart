@@ -43,58 +43,65 @@ class AppCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: context.paddingNormal,
-      width: 318.px,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: AppColors.appWhite,
-        border: Border.all(color: AppColors.lightPurple, width: 1.1),
-        boxShadow: AppColors.appCardShadow,
-      ),
-      child: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: context.paddingNormal,
+          width: 318.px,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: AppColors.appWhite,
+            border: Border.all(color: AppColors.lightPurple, width: 1.1),
+            boxShadow: AppColors.appCardShadow,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              AppText(
-                cardTitle!,
-                fontWeight: FontWeight.w800,
-                fontSize: 20.px,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  AppText(
+                    cardTitle!,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 20.px,
+                  ),
+                  StatusCardView(status: status)
+                ],
               ),
-              StatusCardView(status: status)
+              SizedBox(
+                height: 10.px,
+              ),
+              tagCardView(
+                title: 'Grade 2',
+              ),
+              SizedBox(
+                height: 10.px,
+              ),
+              Row(
+                children: <Widget>[
+                  infoCardView(ImageConstants.dateIcon, date!),
+                  infoCardView(ImageConstants.timerIcon, timer!),
+                  infoCardView(ImageConstants.moneyIcon, money!),
+                ],
+              ),
+              SizedBox(
+                height: 10.px,
+              ),
+              detailsCardView(
+                proposals: proposals,
+                isPro: isPro,
+                name: teacherName,
+                avtar: avtar,
+                country: countryName,
+                countyIcon: countryIcon,
+                reViewLength: reViewLength,
+                buttonTap: buttonTap,
+              )
             ],
           ),
-           SizedBox(
-            height: 10.px,
-          ),
-          tagCardView(
-            title: 'Grade 2',
-          ),
-           SizedBox(
-            height: 10.px,
-          ),
-          Row(
-            children: <Widget>[
-              infoCardView(ImageConstants.dateIcon, date!),
-              infoCardView(ImageConstants.timerIcon, timer!),
-              infoCardView(ImageConstants.moneyIcon, money!),
-            ],
-          ),
-           SizedBox(
-            height: 10.px,
-          ),
-          detailsCardView(
-              proposals: proposals,
-              isPro: isPro,
-              name: teacherName,
-              avtar: avtar,
-              country: countryName,
-              countyIcon: countryIcon,
-              reViewLength: reViewLength,
-              buttonTap: buttonTap)
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -107,7 +114,7 @@ class AppCardView extends StatelessWidget {
             image: icon ?? '',
             height: 12.px,
           ),
-           SizedBox(
+          SizedBox(
             width: 4.px,
           ),
           AppText(
@@ -132,7 +139,7 @@ class AppCardView extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
             return Container(
-              margin:  EdgeInsets.only(right: 5.px),
+              margin: EdgeInsets.only(right: 5.px),
               padding: EdgeInsets.symmetric(horizontal: 10.px, vertical: 5.px),
               decoration: BoxDecoration(
                 color: AppColors.lightPurple,
@@ -148,7 +155,7 @@ class AppCardView extends StatelessWidget {
                     ),
                   if (icon != null &&
                       icon.isNotEmpty) // Another check for spacing
-                     SizedBox(width: 4.px),
+                    SizedBox(width: 4.px),
                   AppText(
                     title ?? ''!,
                     fontSize: 10.px,
@@ -176,203 +183,205 @@ class AppCardView extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.px),
       alignment: Alignment.centerLeft,
-      height: 80.px,
       width: double.infinity,
       decoration: BoxDecoration(
         color: AppColors.lightPurple,
         borderRadius: BorderRadius.circular(10.px),
       ),
-      child: Row(
-        children: <Widget>[
-          if (proposals == 5)
-            Row(
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    AppImageAsset(
-                      image: avtar!,
-                      height: 40.px,
-                    ),
-                    SizedBox(
-                      height: 20.px,
-                      width: 50.px,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 5,
-                        itemBuilder: (BuildContext context, int index) {
-                          return AppImageAsset(
-                            image: (index < reViewLength!)
-                                ? ImageConstants.reviewStarPurple
-                                : ImageConstants.reviewStar,
-                            height: 10.px,
-                            width: 10.px,
-                          );
-                        },
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 6.px),
+        child: Row(
+          children: <Widget>[
+            if (proposals == 5)
+              Row(
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      AppImageAsset(
+                        image: avtar!,
+                        height: 40.px,
                       ),
-                    ),
-                  ],
-                ),
-                 SizedBox(
-                  width: 14.px,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        children: <InlineSpan>[
-                           TextSpan(
-                            text: 'Mr. ',
-                            style: TextStyle(
-                              color: AppColors.appDarkBlack,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.px,
-                            ),
-                          ),
-                          TextSpan(
-                            text: name ?? '',
-                            style:  TextStyle(
-                              color: AppColors.appDarkBlack,
-                              fontWeight: FontWeight.w700,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.px,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    if (isPro!)
-                       SizedBox(
-                        height: 4.px,
-                      ),
-                    if (isPro!)
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 3.px, horizontal: 8.px),
-                        decoration: BoxDecoration(
-                          color: AppColors.appDarkBlack,
-                          borderRadius: BorderRadius.circular(30.px),
-                        ),
-                        child:  Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            AppImageAsset(
-                              image: ImageConstants.proIcon,
+                      SizedBox(
+                        height: 20.px,
+                        width: 50.px,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 5,
+                          itemBuilder: (BuildContext context, int index) {
+                            return AppImageAsset(
+                              image: (index < reViewLength!)
+                                  ? ImageConstants.reviewStarPurple
+                                  : ImageConstants.reviewStar,
                               height: 10.px,
+                              width: 10.px,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 14.px,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          children: <InlineSpan>[
+                            TextSpan(
+                              text: 'Mr. ',
+                              style: TextStyle(
+                                color: AppColors.appDarkBlack,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 12.px,
+                              ),
                             ),
-                            SizedBox(
-                              width: 3.px,
-                            ),
-                            AppText(
-                              'Pro',
-                              fontSize: 10.px,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.appYellow,
-                            ),
+                            TextSpan(
+                              text: name ?? '',
+                              style: TextStyle(
+                                color: AppColors.appDarkBlack,
+                                fontWeight: FontWeight.w700,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 12.px,
+                              ),
+                            )
                           ],
                         ),
                       ),
-                     SizedBox(
-                      height: 4.px,
+                      if (isPro!)
+                        SizedBox(
+                          height: 4.px,
+                        ),
+                      if (isPro!)
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 3.px, horizontal: 8.px),
+                          decoration: BoxDecoration(
+                            color: AppColors.appDarkBlack,
+                            borderRadius: BorderRadius.circular(30.px),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              AppImageAsset(
+                                image: ImageConstants.proIcon,
+                                height: 10.px,
+                              ),
+                              SizedBox(
+                                width: 3.px,
+                              ),
+                              AppText(
+                                'Pro',
+                                fontSize: 10.px,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.appYellow,
+                              ),
+                            ],
+                          ),
+                        ),
+                      SizedBox(
+                        height: 4.px,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          AppImageAsset(
+                            image: countyIcon ?? ''!,
+                            height: 10.px,
+                          ),
+                          SizedBox(
+                            width: 4.px,
+                          ),
+                          AppText(
+                            country ?? ''!,
+                            fontSize: 12.px,
+                            fontWeight: FontWeight.w400,
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ],
+              )
+            else if (proposals == 0)
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 50.px,
+                      child: AppText('Proposals From',
+                          fontSize: 12.px, fontWeight: FontWeight.w500),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    SizedBox(
+                      width: 10.px,
+                    ),
+                    Stack(
+                      alignment: Alignment.centerLeft,
                       children: <Widget>[
                         AppImageAsset(
-                          image: countyIcon ?? ''!,
-                          height: 10.px,
+                          image: ImageConstants.teacherAvtar,
+                          height: 40.px,
                         ),
-                         SizedBox(
-                          width: 4.px,
+                        Padding(
+                          padding: EdgeInsets.only(left: 16.px),
+                          child: AppImageAsset(
+                            image: ImageConstants.avtar,
+                            height: 40.px,
+                          ),
                         ),
-                        AppText(
-                          country ?? ''!,
-                          fontSize: 12.px,
-                          fontWeight: FontWeight.w400,
+                        Padding(
+                          padding: EdgeInsets.only(left: 32.px),
+                          child: AppImageAsset(
+                            image: ImageConstants.avtar,
+                            height: 40.px,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 48.px),
+                          child: AppImageAsset(
+                            image: ImageConstants.avtar,
+                            height: 40.px,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 64.px),
+                          child: CircleAvatar(
+                            child: AppText('+5',
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.appWhite),
+                          ),
                         )
                       ],
                     )
-                  ],
-                ),
-              ],
-            )
-          else if (proposals == 0)
-             Row(
+                  ])
+            else
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(
-                    width: 50.px,
-                    child: AppText('Proposals From',
-                        fontSize: 12.px, fontWeight: FontWeight.w500),
+                    width: 27.px,
                   ),
-                  SizedBox(
-                    width: 10.px,
-                  ),
-                  Stack(
-                    alignment: Alignment.centerLeft,
-                    children: <Widget>[
-                      AppImageAsset(
-                        image: ImageConstants.teacherAvtar,
-                        height: 40.px,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 16.px),
-                        child: AppImageAsset(
-                          image: ImageConstants.avtar,
-                          height: 40.px,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 32.px),
-                        child: AppImageAsset(
-                          image: ImageConstants.avtar,
-                          height: 40.px,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 48.px),
-                        child: AppImageAsset(
-                          image: ImageConstants.avtar,
-                          height: 40.px,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 64.px),
-                        child: CircleAvatar(
-                          child: AppText('+5',
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.appWhite),
-                        ),
-                      )
-                    ],
-                  )
-                ])
-          else
-             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  width: 27.px,
-                ),
-                AppText('No proposals received',
-                    fontSize: 14.px, fontWeight: FontWeight.w700),
-              ],
-            ),
-          const Spacer(),
-          SizedBox(
-            child: AppButton(
-              title: 'Book',
-              width: 60.px,
-              height: 35.px,
-              borderColor: AppColors.appBlue,
-              borderRadius: BorderRadius.circular(13.px),
-              onPressed: buttonTap!,
-            ),
-          )
-        ],
+                  AppText('No proposals received',
+                      fontSize: 14.px, fontWeight: FontWeight.w700),
+                ],
+              ),
+            const Spacer(),
+            SizedBox(
+              child: AppButton(
+                title: 'Book',
+                width: 60.px,
+                height: 35.px,
+                borderColor: AppColors.appBlue,
+                borderRadius: BorderRadius.circular(13.px),
+                onPressed: buttonTap!,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

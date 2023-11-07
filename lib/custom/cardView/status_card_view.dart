@@ -115,7 +115,7 @@ class StatusCardView extends StatelessWidget {
         borderRadius: BorderRadius.circular(30.px),
         color: cardColor,
       ),
-      child: Row(
+      child: Row(mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           AppImageAsset(

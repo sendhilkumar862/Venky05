@@ -45,33 +45,31 @@ class _AddBankViewState extends State<AddBankView>
                     titleColor: (walletViewModel.accountError.isEmpty)
                         ? AppColors.appGrey
                         : ('valid' == walletViewModel.accountError)
-                            ? AppColors.appBlue
-                            : AppColors.appRed,
+                        ? AppColors.appBlue
+                        : AppColors.appRed,
                     controller: walletViewModel.accountNumberController,
                     title: 'Enter IBAN Number',
-                    height: 10,
+                    height: 10.px,
                     hintText: 'Enter IBAN Number',
                     validate: (String? value) {
                       return walletViewModel.accountNumberValidation(value!);
                     },
-
                   ),
                   SizedBox(height: 5.px),
                   AppTextFormField(
                     titleColor: (walletViewModel.nameError.isEmpty)
                         ? AppColors.appGrey
                         : ('valid' == walletViewModel.nameError)
-                            ? AppColors.appRed
-                            : AppColors.appBlue,
+                        ? AppColors.appRed
+                        : AppColors.appBlue,
                     controller: walletViewModel.nameController,
                     title: 'Bank Account Nickname',
-                    height: 10,
+                    height: 10.px,
                     keyboardType: TextInputType.text,
                     hintText: 'Enter nickname',
                     validate: (String? value) {
                       return walletViewModel.nameValidation(value!);
                     },
-
                   ),
                   SizedBox(height: 14.px),
                   Row(

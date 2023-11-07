@@ -67,7 +67,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                   SizedBox(height: 14.px),
                   Container(
                     alignment: Alignment.center,
-                    height: 68.px,
+                    height: MediaQuery.of(context).size.height * 0.100,
                     margin: EdgeInsets.symmetric(horizontal: 15.px),
                     padding: EdgeInsets.all(11.px),
                     decoration: BoxDecoration(
@@ -224,6 +224,102 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
           ),
         ),
       ],
+    );
+  }
+
+  Widget invoiceCardView({
+    String? date,
+    String? title,
+    String? invoiceNumber,
+    String? amount,
+    VoidCallback? onTap,
+  }) {
+    return Container(
+      margin: EdgeInsets.only(left: 15.px),
+      decoration: const BoxDecoration(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          SizedBox(
+            height: 4.px,
+          ),
+          if (date!.isNotEmpty)
+            AppText(
+              date,
+              textAlign: TextAlign.start,
+              color: AppColors.gray,
+              fontSize: 12.px,
+              fontWeight: FontWeight.w700,
+            ),
+          if (date!.isNotEmpty)
+            SizedBox(
+              height: 8.px,
+            ),
+          Row(
+            children: <Widget>[
+              if (title == 'Class Fees')
+                CircleAvatar(
+                    backgroundColor: AppColors.appLightRedTwo,
+                    radius: 23.px,
+                    child: AppImageAsset(
+                      image: ImageConstants.readBookIcon,
+                      height: 21.px,
+                    ))
+              else
+                CircleAvatar(
+                  backgroundColor: AppColors.greenBG,
+                  radius: 23.px,
+                  child: AppImageAsset(
+                    image: ImageConstants.walletIcon,
+                    height: 21.px,
+                  ),
+                ),
+              SizedBox(width: 15.px),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        AppText(
+                          title ?? '',
+                          fontSize: 14.px,
+                        ),
+                        const Spacer(),
+                        Row(
+                          children: <Widget>[
+                            AppAmountView(amount: amount),
+                            const SizedBox(
+                              width: 18,
+                            ),
+                            AppImageAsset(
+                              image: ImageConstants.forwardIcon,
+                              height: 14.px,
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: 18.px)
+                      ],
+                    ),
+                    SizedBox(
+                      height: 4.px,
+                    ),
+                    AppText(
+                      'Invoice No. $invoiceNumber',
+                      fontSize: 10.px,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.appGrey,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 4.px,
+          ),
+        ],
+      ),
     );
   }
 

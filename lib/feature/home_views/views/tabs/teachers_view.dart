@@ -24,17 +24,17 @@ class TeachersView extends StatelessWidget {
             buttonTitle: 'Class Details',
             buttonTap: () => null,
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.px),
           HeadingCardView(
               title: 'Favorites Teachers',
               totalItem: '5',
               onTap: () {},
               isViewAllIcon: true),
-          const SizedBox(
-            height: 5,
+          SizedBox(
+            height: 5.px,
           ),
           SizedBox(
-            height: 210.px,
+            height: MediaQuery.of(context).size.height * 0.300,
             child: ListView.builder(
               itemCount: 5,
               shrinkWrap: true,
@@ -58,11 +58,11 @@ class TeachersView extends StatelessWidget {
               totalItem: '5',
               onTap: () {},
               isViewAllIcon: true),
-          const SizedBox(
-            height: 5,
+          SizedBox(
+            height: 5.px,
           ),
           SizedBox(
-            height: 210.px,
+            height: MediaQuery.of(context).size.height * 0.300,
             child: ListView.builder(
               itemCount: 5,
               shrinkWrap: true,
@@ -81,8 +81,8 @@ class TeachersView extends StatelessWidget {
               },
             ),
           ),
-          const SizedBox(
-            height: 200,
+          SizedBox(
+            height: 200.px,
           )
         ],
       ),

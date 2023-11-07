@@ -44,8 +44,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
             return Scaffold(
               backgroundColor: AppColors.appWhite,
               appBar: HessaAppBar(
-                icon: ImageConstants.avtar,
                 title: 'Class Details',
+                isTitleOnly: true,
               ),
               body: ListView(
                 padding:
@@ -62,7 +62,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   SizedBox(
                     height: 10.px,
                   ),
-                  AppText(
+                  const AppText(
                     'Explore the world of math with interactive games, puzzles, and challenges. Join us for fun learning adventures and make math your favorite subject!',
                     fontWeight: FontWeight.w400,
                   ),
@@ -80,7 +80,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     height: 40.px,
                     child: ListView.separated(
                         scrollDirection: Axis.horizontal,
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
                           return SizedBox(
                             width: 80.px,
@@ -140,13 +140,13 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       showModalBottomSheet(
                         isScrollControlled: true,
                         context: context,
-                        shape: RoundedRectangleBorder(
+                        shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.vertical(
                             top: Radius.circular(25.0),
                           ),
                         ),
                         builder: (BuildContext context) {
-                          return  StudentBottomSheet();
+                          return const StudentBottomSheet();
                         },
                       );
                     },
@@ -159,7 +159,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     child: ListView.separated(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
                           return const StudentCardView();
                         },
@@ -204,7 +204,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                               fontWeight: FontWeight.w800,
                               fontSize: 16.px,
                             ),
-                            Spacer(),
+                            const Spacer(),
                             StatusCardView(status: 'PAYING'),
                           ],
                         ),
@@ -235,7 +235,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         Container(
                           height: 90.px,
                           width: double.infinity,
-                          decoration: BoxDecoration(color: AppColors.appWhite),
+                          decoration: const BoxDecoration(color: AppColors.appWhite),
                         ),
                       ],
                     ),
@@ -257,7 +257,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       showModalBottomSheet(
                         isScrollControlled: true,
                         context: context,
-                        shape: RoundedRectangleBorder(
+                        shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.vertical(
                             top: Radius.circular(25.0),
                           ),
@@ -311,7 +311,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       ],
                     ),
                   ]),
-              Spacer(),
+              const Spacer(),
               AppButton(
                 width: 150.px,
                 title: 'Book Now',
@@ -349,7 +349,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
           padding: EdgeInsets.only(right: 5.px),
           itemCount: 3,
           shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
             return Container(

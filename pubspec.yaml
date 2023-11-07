@@ -54,6 +54,9 @@ dependencies:
   #UI responsive:
   responsive_sizer: ^3.1.1
 
+  #page Indicator:
+  smooth_page_indicator: ^1.1.0
+
   # Cache
   shared_preferences: ^2.0.17
   cached_network_image: ^3.3.0

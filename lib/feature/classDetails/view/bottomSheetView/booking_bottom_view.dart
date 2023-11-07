@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_button/app_button.dart';
-import '../../../../custom/dialog/payment_dialog.dart';
 import '../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../custom/divider/divider.dart';
 import '../../../../custom/image/app_image_assets.dart';
@@ -10,19 +10,18 @@ import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 
-
 class BookingBottomSheet extends StatelessWidget {
   const BookingBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 15, right: 15),
-      height: MediaQuery.of(context).size.height * 0.70,
-      decoration: const BoxDecoration(
+      padding: EdgeInsets.only(left: 15.px, right: 15.px),
+      height: MediaQuery.of(context).size.height * 0.72.px,
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30.px),
+          topRight: Radius.circular(30.px),
         ),
       ),
       child: Stack(
@@ -33,96 +32,96 @@ class BookingBottomSheet extends StatelessWidget {
               Navigator.pop(context);
             },
             child: Container(
-              margin: const EdgeInsets.only(top: 14),
+              margin: EdgeInsets.only(top: 14.px),
               alignment: Alignment.center,
-              height: 25,
-              width: 25,
+              height: 25.px,
+              width: 25.px,
               decoration: const BoxDecoration(
                   color: AppColors.appLightGrey, shape: BoxShape.circle),
-              child: const AppImageAsset(
+              child: AppImageAsset(
                 image: ImageConstants.closeIcon,
-                height: 20,
+                height: 20.px,
               ),
             ),
           ),
           Column(
             children: <Widget>[
-              const SizedBox(
-                height: 28,
+              SizedBox(
+                height: 28.px,
               ),
-              const AppText(
+              AppText(
                 'Booking Confirmation',
-                fontSize: 14,
+                fontSize: 14.px,
                 fontWeight: FontWeight.w700,
               ),
-              const SizedBox(
-                height: 23,
+              SizedBox(
+                height: 23.px,
               ),
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
                 child: AppText(
                   'Payment Method',
-                  fontSize: 16,
+                  fontSize: 16.px,
                   textAlign: TextAlign.start,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(
-                height: 18,
-              ),
-              const Row(
-                children: <Widget>[
-                  AppImageAsset(
-                    image: ImageConstants.kNetLogo,
-                    height: 20,
-                  ),
-                  SizedBox(width: 8),
-                  AppImageAsset(
-                    image: ImageConstants.visaLogo,
-                    height: 12,
-                  ),
-                  SizedBox(width: 8),
-                  AppImageAsset(
-                    image: ImageConstants.mastercardLogo,
-                    height: 20,
-                  ),
-                  SizedBox(width: 8),
-                  AppImageAsset(
-                    image: ImageConstants.applePayLogo,
-                    height: 20,
-                  ),
-                  SizedBox(width: 8),
-                  AppImageAsset(
-                    image: ImageConstants.gPayLogo,
-                    height: 20,
-                  ),
-                  SizedBox(width: 8),
-                ],
-              ),
-              const SizedBox(
-                height: 18,
+              SizedBox(
+                height: 18.px,
               ),
               Row(
                 children: <Widget>[
-                  const AppText(
+                  AppImageAsset(
+                    image: ImageConstants.kNetLogo,
+                    height: 20.px,
+                  ),
+                  SizedBox(width: 8.px),
+                  AppImageAsset(
+                    image: ImageConstants.visaLogo,
+                    height: 12.px,
+                  ),
+                  SizedBox(width: 8.px),
+                  AppImageAsset(
+                    image: ImageConstants.mastercardLogo,
+                    height: 20.px,
+                  ),
+                  SizedBox(width: 8.px),
+                  AppImageAsset(
+                    image: ImageConstants.applePayLogo,
+                    height: 20.px,
+                  ),
+                  SizedBox(width: 8.px),
+                  AppImageAsset(
+                    image: ImageConstants.gPayLogo,
+                    height: 20.px,
+                  ),
+                  SizedBox(width: 8.px),
+                ],
+              ),
+              SizedBox(
+                height: 18.px,
+              ),
+              Row(
+                children: <Widget>[
+                  AppText(
                     'Use Wallet',
-                    fontSize: 12,
+                    fontSize: 12.px,
                     fontWeight: FontWeight.w500,
                     color: AppColors.appGrey,
                   ),
-                  const SizedBox(
-                    width: 5,
+                  SizedBox(
+                    width: 5.px,
                   ),
-                  const Row(
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      AppText('27', fontSize: 16, fontWeight: FontWeight.w700),
+                      AppText('27', fontSize: 16.px, fontWeight: FontWeight.w700),
                       AppText('.500 KWD',
-                          fontSize: 12, fontWeight: FontWeight.w700),
+                          fontSize: 12.px, fontWeight: FontWeight.w700),
                     ],
                   ),
-                  const SizedBox(
-                    width: 10,
+                  SizedBox(
+                    width: 10.px,
                   ),
                   InkWell(
                     onTap: () {},
@@ -130,31 +129,31 @@ class BookingBottomSheet extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 15,
+              SizedBox(
+                height: 15.px,
               ),
-               AppDivider(),
-              const SizedBox(
-                height: 15,
+              AppDivider(),
+              SizedBox(
+                height: 15.px,
               ),
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
                 child: AppText(
                   'Payment Summary',
-                  fontSize: 16,
+                  fontSize: 16.px,
                   textAlign: TextAlign.start,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(
-                height: 15,
+              SizedBox(
+                height: 15.px,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   AppText(
                     'Class Cost',
-                    fontSize: 12,
+                    fontSize: 12.px,
                     fontWeight: FontWeight.w500,
                     color: AppColors.appGrey,
                   ),
@@ -162,40 +161,40 @@ class BookingBottomSheet extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       AppText('27',
-                          fontSize: 16,
+                          fontSize: 16.px,
                           fontWeight: FontWeight.w700,
                           color: AppColors.appGrey),
                       AppText('.500 KWD',
-                          fontSize: 12,
+                          fontSize: 12.px,
                           fontWeight: FontWeight.w700,
                           color: AppColors.appGrey),
                     ],
                   )
                 ],
               ),
-              const SizedBox(height: 8),
-              const Row(
+              SizedBox(height: 8.px),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   AppText(
                     'Number of Sessions',
-                    fontSize: 12,
+                    fontSize: 12.px,
                     fontWeight: FontWeight.w500,
                     color: AppColors.appGrey,
                   ),
                   AppText('5',
-                      fontSize: 16,
+                      fontSize: 16.px,
                       fontWeight: FontWeight.w700,
                       color: AppColors.appGrey)
                 ],
               ),
-               AppDivider(),
-              const Row(
+              AppDivider(),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   AppText(
                     'Total Classes Cost',
-                    fontSize: 12,
+                    fontSize: 12.px,
                     fontWeight: FontWeight.w500,
                     color: AppColors.appGrey,
                   ),
@@ -203,26 +202,26 @@ class BookingBottomSheet extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       AppText('27',
-                          fontSize: 16,
+                          fontSize: 16.px,
                           fontWeight: FontWeight.w700,
                           color: AppColors.appGrey),
                       AppText('.500 KWD',
-                          fontSize: 12,
+                          fontSize: 12.px,
                           fontWeight: FontWeight.w700,
                           color: AppColors.appGrey),
                     ],
                   )
                 ],
               ),
-              const SizedBox(
-                height: 8,
+              SizedBox(
+                height: 8.px,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   AppText(
                     'Hessah Fees',
-                    fontSize: 12,
+                    fontSize: 12.px,
                     fontWeight: FontWeight.w500,
                     color: AppColors.appGrey,
                   ),
@@ -230,27 +229,27 @@ class BookingBottomSheet extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       AppText('27',
-                          fontSize: 16,
+                          fontSize: 16.px,
                           fontWeight: FontWeight.w700,
                           color: AppColors.appGrey),
                       AppText('.500 KWD',
-                          fontSize: 12,
+                          fontSize: 12.px,
                           fontWeight: FontWeight.w700,
                           color: AppColors.appGrey),
                     ],
                   ),
                 ],
               ),
-               AppDivider(),
-              const SizedBox(
-                height: 5,
+              AppDivider(),
+              SizedBox(
+                height: 5.px,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   AppText(
                     'Amount to pay',
-                    fontSize: 12,
+                    fontSize: 12.px,
                     fontWeight: FontWeight.w500,
                     color: AppColors.appGrey,
                   ),
@@ -259,34 +258,34 @@ class BookingBottomSheet extends StatelessWidget {
                     children: <Widget>[
                       AppText(
                         '27',
-                        fontSize: 16,
+                        fontSize: 16.px,
                         fontWeight: FontWeight.w700,
                       ),
                       AppText(
                         '.500 KWD',
-                        fontSize: 12,
+                        fontSize: 12.px,
                         fontWeight: FontWeight.w700,
                       ),
                     ],
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 25,
+              SizedBox(
+                height: 25.px,
               ),
               AppButton(
                 borderColor: AppColors.appBlue,
-                height: 45,
+                height: 45.px,
                 title: 'pay',
                 onPressed: () {
                   showModalBottomSheet(
                     context: context,
                     constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width - 30,
+                      maxWidth: MediaQuery.of(context).size.width - 30.px,
                       // here increase or decrease in width
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.px),
                     ),
                     builder: (BuildContext context) {
                       return SuccessFailsInfoDialog(
@@ -299,8 +298,8 @@ class BookingBottomSheet extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(
-                height: 30,
+              SizedBox(
+                height: 30.px,
               ),
             ],
           ),
@@ -308,7 +307,4 @@ class BookingBottomSheet extends StatelessWidget {
       ),
     );
   }
-
-  // ignore: always_specify_types
 }
-

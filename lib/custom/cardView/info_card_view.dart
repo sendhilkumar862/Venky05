@@ -14,7 +14,7 @@ class InfoCardVIew extends StatelessWidget {
     this.title,
     this.subTitle,
     this.cardColor,
-    this.buttonTap,
+    this.buttonTap ,
     this.buttonTitle,
     super.key,
   });
@@ -67,7 +67,7 @@ class InfoCardVIew extends StatelessWidget {
               borderRadius: BorderRadius.circular(12.px),
               borderColor: AppColors.appBlue,
               isBorderOnly: true,
-              onPressed: buttonTap!,
+              onPressed: buttonTap??(){},
             )
         ],
       ),

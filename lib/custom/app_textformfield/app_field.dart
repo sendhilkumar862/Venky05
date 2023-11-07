@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/utils/typography.dart';
@@ -29,6 +30,8 @@ class AppTextFormField extends StatelessWidget {
     this.hintFontSize,
     this.maxLines,
     this.minLines,
+    this.fillColor,
+    this.contentPadding,
   });
 
   final bool? readOnly;
@@ -53,6 +56,8 @@ class AppTextFormField extends StatelessWidget {
   final double? hintFontSize;
   final int? maxLines;
   final int? minLines;
+  final Color? fillColor;
+  final EdgeInsetsGeometry? contentPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +70,7 @@ class AppTextFormField extends StatelessWidget {
             title ?? hintText ?? '',
             style: TextStyle(
                 color: titleColor ?? AppColors.appTextColor.withOpacity(0.5),
-                fontSize: 12,
+                fontSize: 12.px,
                 fontWeight: FontWeight.w400),
           ),
         ),
@@ -84,11 +89,13 @@ class AppTextFormField extends StatelessWidget {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           cursorColor: AppColors.black,
           decoration: InputDecoration(
+              contentPadding:
+                  contentPadding ?? EdgeInsets.symmetric(horizontal: 15.px),
               // contentPadding:
               //     EdgeInsets.symmetric(vertical: height ?? 7, horizontal: 10),
               filled: true,
               prefixIcon: prefix,
-              fillColor: Colors.transparent,
+              fillColor: fillColor ?? Colors.transparent,
               counterText: '',
               hintText: hintText,
               hintStyle: openSans.w400

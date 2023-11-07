@@ -49,7 +49,7 @@ class DetailsCardView extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(top: 8.px),
-            child: Column(
+            child: Column(mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 AppImageAsset(
                   image: ImageConstants.teacherAvtar,

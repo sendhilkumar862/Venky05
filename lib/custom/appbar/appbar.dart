@@ -26,7 +26,7 @@ class HessaAppBar extends PreferredSize {
       this.icon})
       : super(
           child: Container(),
-          preferredSize: const Size.fromHeight(160),
+          preferredSize:  Size.fromHeight(160.px),
         );
   final String? icon;
   final String? title;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/dialog/success_fail_dialog.dart';
@@ -14,119 +15,118 @@ class SelectLocationBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 15, right: 15),
-      height: MediaQuery.of(context).size.height * 0.80,
-      decoration: const BoxDecoration(
+      padding: EdgeInsets.only(left: 15.px, right: 15.px),
+      height: (MediaQuery.of(context).size.height * 0.80).px,
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30.px),
+          topRight: Radius.circular(30.px),
         ),
       ),
       child: Stack(
         alignment: Alignment.topRight,
         children: <Widget>[
           InkWell(
-            onTap: () =>  Navigator.pop(context),
+            onTap: () => Navigator.pop(context),
             child: Container(
-              margin: const EdgeInsets.only(top: 14),
+              margin: EdgeInsets.only(top: 14.px),
               alignment: Alignment.center,
-              height: 25,
-              width: 25,
-              decoration: const BoxDecoration(
+              height: 25.px,
+              width: 25.px,
+              decoration: BoxDecoration(
                   color: AppColors.appLightGrey, shape: BoxShape.circle),
-              child: const AppImageAsset(
+              child: AppImageAsset(
                 image: ImageConstants.closeIcon,
-                height: 20,
+                height: 20.px,
               ),
             ),
           ),
           Column(
             children: <Widget>[
-              const SizedBox(
-                height: 28,
+              SizedBox(
+                height: 28.px,
               ),
-              const AppText(
+              AppText(
                 'Select Class Location',
-                fontSize: 14,
+                fontSize: 14.px,
                 fontWeight: FontWeight.w700,
               ),
-              const SizedBox(
-                height: 22,
+              SizedBox(
+                height: 22.px,
               ),
               Container(
-                height: 50,
-                padding: const EdgeInsets.only(left: 15),
+                height: 50.px,
+                padding: EdgeInsets.only(left: 15.px),
                 alignment: Alignment.centerLeft,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(width: 1.3, color: AppColors.lightPurple),
+                  borderRadius: BorderRadius.circular(12.px),
+                  border: Border.all(width: 1.3.px, color: AppColors.lightPurple),
                 ),
-                child: const AppText(
+                child: AppText(
                   'Keep at the teacher location',
-                  fontSize: 14,
+                  fontSize: 14.px,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(
-                height: 3,
+              SizedBox(
+                height: 3.px,
               ),
-               AppDivider(),
-              const SizedBox(
-                height: 3,
+              AppDivider(),
+              SizedBox(
+                height: 3.px,
               ),
               addressCardView(
                   title: 'Home',
                   subtitle:
                   'City, Block No., Street Name, Street Name 2, House No., Floor No., Apartment No.',
                   isDefault: true),
-              const SizedBox(
-                height: 13,
+              SizedBox(
+                height: 13.px,
               ),
               addressCardView(
                   title: 'Home',
                   subtitle:
                   'City, Block No., Street Name, Street Name 2, House No., Floor No., Apartment No.',
                   isDefault: false),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: 10.px,
               ),
-               AppDivider(),
-              const SizedBox(
-                height: 25,
+              AppDivider(),
+              SizedBox(
+                height: 25.px,
               ),
               AppButton(
                 borderColor: AppColors.appBlue,
-                height: 45,
+                height: 45.px,
                 title: 'Select',
                 onPressed: () {
                   showModalBottomSheet(
                     context: context,
                     constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width - 30,
-                      // here increase or decrease in width
+                      maxWidth: (MediaQuery.of(context).size.width - 30).px,
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.px),
                     ),
                     builder: (BuildContext context) {
                       return SuccessFailsInfoDialog(
                         title: 'Success',
                         buttonTitle: 'Done',
                         content:
-                        'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
+                        'You have successfully booked your class, and you will get a notification to pay after the teacher accepts the class.',
                       );
                     },
                   );
                 },
               ),
-              const SizedBox(
-                height: 30,
+              SizedBox(
+                height: 30.px,
               ),
               InkWell(
                 onTap: () {},
-                child: const AppText(
+                child: AppText(
                   'Add New Address',
-                  fontSize: 14,
+                  fontSize: 14.px,
                   fontWeight: FontWeight.w600,
                   color: AppColors.appBlue,
                 ),
@@ -138,32 +138,30 @@ class SelectLocationBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget circleButtonView({Widget? widget, Color? color, VoidCallback? onTap}) {
+  Widget circleButtonView(
+      {Widget? widget, Color? color, VoidCallback? onTap}) {
     return InkWell(
       onTap: onTap,
       child: Container(
         alignment: Alignment.center,
-        padding: const EdgeInsets.all(8),
-        height: 30,
+        padding: EdgeInsets.all(8.px),
+        height: 30.px,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30), color: color),
+            borderRadius: BorderRadius.circular(30.px), color: color),
         child: widget,
       ),
     );
   }
 
-  Widget addressCardView({
-    String? title,
-    String? subtitle,
-    bool? isDefault,
-  }) {
+  Widget addressCardView(
+      {String? title, String? subtitle, bool? isDefault}) {
     return Container(
-      padding: const EdgeInsets.all(15),
+      padding: EdgeInsets.all(15.px),
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.px),
         border: Border.all(
-            width: 1.3,
+            width: 1.3.px,
             color: (isDefault!) ? AppColors.appBlue : AppColors.lightPurple),
       ),
       child: Column(
@@ -172,84 +170,84 @@ class SelectLocationBottomSheet extends StatelessWidget {
             children: <Widget>[
               AppText(
                 title ?? '',
-                fontSize: 14,
+                fontSize: 14.px,
                 fontWeight: FontWeight.w700,
               ),
-              const SizedBox(
-                width: 4,
+              SizedBox(
+                width: 4.px,
               ),
               if (isDefault)
                 Container(
                   decoration: BoxDecoration(
                     color: AppColors.lightPurple,
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(30.px),
                   ),
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-                  child: const AppText(
+                  EdgeInsets.symmetric(horizontal: 5.px, vertical: 3.px),
+                  child: AppText(
                     'Default',
-                    fontSize: 10,
+                    fontSize: 10.px,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-              const Spacer(),
+              Spacer(),
               if (isDefault)
-                const AppImageAsset(
+                AppImageAsset(
                   image: ImageConstants.acceptedStatus,
-                  height: 22,
+                  height: 22.px,
                   color: AppColors.appBlue,
                 )
             ],
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: 10.px,
           ),
           Align(
             alignment: Alignment.centerLeft,
             child: SizedBox(
-              width: 260,
+              width: 260.px,
               child: AppText(
                 subtitle ?? '',
-                fontSize: 10,
+                fontSize: 10.px,
                 fontWeight: FontWeight.w500,
                 textAlign: TextAlign.start,
               ),
             ),
           ),
-          const SizedBox(
-            height: 15,
+          SizedBox(
+            height: 15.px,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               circleButtonView(
                   onTap: () {},
-                  widget: const AppImageAsset(
+                  widget: AppImageAsset(
                     image: ImageConstants.deleteIcon,
                   ),
                   color: AppColors.appBlue),
-              const SizedBox(
-                width: 11,
+              SizedBox(
+                width: 11.px,
               ),
               circleButtonView(
                   onTap: () {},
-                  widget: const AppImageAsset(
+                  widget: AppImageAsset(
                     image: ImageConstants.editIcon,
                   ),
                   color: AppColors.appLightRed),
               if (!isDefault)
-                const SizedBox(
-                  width: 11,
+                SizedBox(
+                  width: 11.px,
                 ),
               if (!isDefault)
                 circleButtonView(
                     onTap: () {},
-                    widget: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8),
+                    widget: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.px),
                       child: AppText('Set Default',
                           color: AppColors.appWhite,
                           fontWeight: FontWeight.w600,
-                          fontSize: 12),
+                          fontSize: 12.px),
                     ),
                     color: AppColors.appBlue),
             ],
