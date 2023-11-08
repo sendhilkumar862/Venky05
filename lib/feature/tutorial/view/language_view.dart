@@ -28,7 +28,8 @@ class LanguageView extends StatefulWidget {
 
 class _LanguageViewState extends State<LanguageView> {
   TextEditingController nationalityController = TextEditingController();
-  int countryIndex = 0;
+  int selectedIndex = -1;
+  int selectedLanguege = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -112,8 +113,22 @@ class _LanguageViewState extends State<LanguageView> {
                             return StatefulBuilder(
                               builder: (BuildContext context, setState) {
                                 return LanguageBottomSheet(
-                                    tutorialViewModel: tutorialViewModel,
-                                    setState: setState);
+                                  tutorialViewModel: tutorialViewModel,
+                                  setState: setState,
+                                  onTap: (int index) {
+                                    setState(() {
+                                      setState(() {
+                                        tutorialViewModel
+                                            .selectedLanguageIndex = index;
+                                        tutorialViewModel.selectLanguage(
+                                            tutorialViewModel.languages[index]);
+                                        LocaleManager.instance.setStringValue(
+                                            LocaleManager.language,
+                                            tutorialViewModel.languages[index]);
+                                      });
+                                    });
+                                  },
+                                );
                               },
                             );
                           },

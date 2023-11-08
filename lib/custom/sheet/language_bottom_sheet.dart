@@ -5,22 +5,21 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../custom/divider/divider.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
-import '../../../../product/cache/locale_manager.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-import '../../viewModel/tutorial_view_model.dart';
 import '../../feature/tutorial/viewModel/tutorial_view_model.dart';
-import '../../product/constants/colors/app_colors_constants.dart';
-import '../../product/constants/image/image_constants.dart';
-import '../divider/divider.dart';
-import '../image/app_image_assets.dart';
-import '../text/app_text.dart';
 
 class LanguageBottomSheet extends StatelessWidget {
-  LanguageBottomSheet({this.tutorialViewModel, super.key, this.setState});
+  LanguageBottomSheet({
+    this.tutorialViewModel,
+    super.key,
+    this.setState,
+    required this.onTap,
+  });
 
   TutorialViewModel? tutorialViewModel;
   Function? setState;
+  Function(int) onTap;
 
   @override
   Widget build(BuildContext context) {

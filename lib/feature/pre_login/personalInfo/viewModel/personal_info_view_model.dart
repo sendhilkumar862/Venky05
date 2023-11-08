@@ -16,7 +16,7 @@ abstract class _PersonalInfoViewModelBase extends BaseViewModel with Store {
   void init() {}
 
   @observable
-  String selectedItem = 'Kuwet';
+  String selectedItem = 'Kuweit';
 
   @observable
   String selectedLanguage = 'English';

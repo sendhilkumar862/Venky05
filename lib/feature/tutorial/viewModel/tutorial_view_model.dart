@@ -11,6 +11,9 @@ import '../../../product/constants/app/app_utils.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/utils/validators.dart';
 import '../../tutorial/view/language_view.dart';
+import '../../../product/cache/locale_manager.dart';
+import '../../../product/constants/app/app_utils.dart';
+import '../../../product/constants/image/image_constants.dart';
 
 part 'tutorial_view_model.g.dart';
 
@@ -24,13 +27,20 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   void init() {}
 
   @observable
-  String selectedItem = 'Kuwet';
+  String selectedItem = 'Kuweit';
+
+  @observable
+  String selectedLanguage = 'English';
 
   @observable
   int selectedIndex = -1;
 
   @observable
   int countryIndex = 0;
+  int selectedLanguageIndex = -1;
+
+  @observable
+  TextEditingController mobileController = TextEditingController();
 
   @observable
   int languageIndex = 0;
@@ -53,6 +63,12 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   void selectItem(String item) {
     runInAction(() {
       selectedItem = item;
+    });
+  }
+
+  void selectLanguage(String item) {
+    runInAction(() {
+      selectedLanguage = item;
     });
   }
 
@@ -94,6 +110,7 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
     logs('selected Country-->$countryIndex');
   }
 
+/*
   @action
   void selectLanguage(int index) {
     languageIndex = index;
@@ -101,6 +118,7 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
         .setStringValue(LocaleManager.country, languages[index]);
     logs('selected lang-->$languageIndex');
   }
+*/
 
   @action
   void filterCountries(String query, Function setState) {
