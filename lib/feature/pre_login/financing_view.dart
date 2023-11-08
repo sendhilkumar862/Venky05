@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../custom/app_button/app_button.dart';
 import '../../custom/app_textformfield/app_field.dart';
 import '../../custom/appbar/appbar.dart';
+import '../../custom/dialog/success_fail_dialog.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/utils/typography.dart';
 
@@ -80,11 +81,34 @@ class _FinancingViewState extends State<FinancingView> {
             ),
             AppButton(
                 title: 'Complete Your Profile',
-                onPressed: () {},
+                onPressed: () {
+                  successBottomSheet(context);
+                },
                 isDisable: false)
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> successBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width - 30,
+        // here increase or decrease in width
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      builder: (BuildContext context) {
+        return SuccessFailsInfoDialog(
+          title: 'Success',
+          buttonTitle: 'Done',
+          content:
+              "You have successfully submitted your profile information, and your account is pending for review.\n\nOnce approved, you'll be ready to commence teaching.\n\nWe'll notify you soon!.",
+        );
+      },
     );
   }
 }

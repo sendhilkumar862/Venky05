@@ -5,7 +5,6 @@ import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
 import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
-import 'heading_card_view.dart';
 
 class DetailsCardView extends StatelessWidget {
   DetailsCardView({
@@ -17,6 +16,8 @@ class DetailsCardView extends StatelessWidget {
     this.isPro,
     this.subjects,
     this.isBookmarked,
+    this.cardMargin,
+    this.boxShadow,
     super.key,
   });
 
@@ -28,12 +29,15 @@ class DetailsCardView extends StatelessWidget {
   String? countryIcon;
   String? countryName;
   String? subjects;
+  EdgeInsetsGeometry? cardMargin;
+  List<BoxShadow>? boxShadow;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10.px),
-      margin: EdgeInsets.only(left: 15.px, top: 10.px, bottom: 27.px),
+      margin:
+          cardMargin ?? EdgeInsets.only(left: 15.px, top: 10.px, bottom: 27.px),
       width: 140.px,
       decoration: BoxDecoration(
         color: AppColors.appWhite,
@@ -42,14 +46,14 @@ class DetailsCardView extends StatelessWidget {
           color: AppColors.appBorderColor.withOpacity(0.3),
           width: 1.2,
         ),
-        boxShadow: AppColors.infoBoxShadow,
+        boxShadow: boxShadow ?? AppColors.infoBoxShadow,
       ),
       child: Stack(
         alignment: Alignment.topRight,
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(top: 8.px),
-            child: Column(mainAxisSize: MainAxisSize.min,
+            child: Column(
               children: <Widget>[
                 AppImageAsset(
                   image: ImageConstants.teacherAvtar,

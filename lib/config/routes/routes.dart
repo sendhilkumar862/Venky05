@@ -1,30 +1,26 @@
 // ignore_for_file: constant_identifier_names
 import 'package:flutter/material.dart';
 
-// Screens
-
-// Helpers
-import '../../feature/auth/login/view/login_view.dart';
 import '../../feature/class/create_class/view/create_class.dart';
 import '../../feature/home/view/home_view.dart';
 // Helpers
 import '../../feature/home_views/views/home_views.dart';
 import '../../feature/pre_login/experience_Info.dart';
 import '../../feature/pre_login/financing_view.dart';
-import '../../feature/pre_login/personal_info.dart';
-import '../../feature/pre_login/teaching_info.dart';
+import '../../feature/pre_login/personalInfo/view/personal_info.dart';
+import '../../feature/pre_login/rest_password_link.dart';
+import '../../feature/pre_login/teachingInfo/view/teaching_info.dart';
 import '../../feature/preference/view/preference_view.dart';
 import '../../feature/rating/view/rating_view.dart';
 import '../../feature/tutorial/emailotp/email_otp_view.dart';
 import '../../feature/tutorial/emailotp/email_otp_view_model.dart';
 import '../../feature/tutorial/mobileotp/mobile_otp_view.dart';
+import '../../feature/search/view/search_view.dart';
 import '../../feature/tutorial/view/email_view.dart';
 import '../../feature/tutorial/view/forgot_password_view.dart';
 import '../../feature/tutorial/view/login_view.dart';
 import '../../feature/tutorial/view/mobile_view.dart';
 import '../../feature/tutorial/view/password_view.dart';
-import '../../feature/tutorial/view/reset_password_link.dart';
-import '../../feature/tutorial/view/reset_password_link.dart';
 import '../../feature/tutorial/view/user_info_view.dart';
 import '../../feature/wallet/view/invoice_details.dart';
 import '../../product/constants/typedefs.dart';
@@ -64,6 +60,8 @@ class Routes {
   static const String passwordView = '/password-view';
   static const String homeViews = '/home-views';
   static const String emailOtpView = '/email-otp-views';
+  static const String resetPassword = '/rest-Password';
+  static const String searchView = '/search';
 
   /// The name of the route for unrecognized route screen
   static const String NotFoundScreenRoute = '/route-not-found-screen';
@@ -90,6 +88,10 @@ class Routes {
     passwordView: (_) =>  const PasswordView(),
     homeViews: (_) =>  const HomeViews(),
     emailOtpView: (_) =>  const EmailOtpView(),
+    resetPassword: (_) => const RestPassword(),
+    passwordView: (_) => const PasswordView(),
+    homeViews: (_) => const HomeViews(),
+    searchView: (_) => const SearchView(),
   };
 
   static RouteBuilder getRoute(String? routeName) {
