@@ -70,7 +70,7 @@ class LoginView extends StatelessWidget {
                               //     : ('valid' == walletViewModel.nameError)
                               //     ? AppColors.appRed
                               //     : AppColors.appBlue,
-                              controller: tutorialViewModel.emailController,
+                            //  controller: tutorialViewModel.emailController,
                               title: 'Email Address',
                               keyboardType: TextInputType.text,
                               hintText: 'Enter your email address',
@@ -85,7 +85,7 @@ class LoginView extends StatelessWidget {
                               //     : ('valid' == walletViewModel.nameError)
                               //     ? AppColors.appRed
                               //     : AppColors.appBlue,
-                              controller: tutorialViewModel.emailController,
+                           //   controller: tutorialViewModel.emailController,
                               title: 'Password',
                               keyboardType: TextInputType.text,
                               hintText: 'Enter your password',

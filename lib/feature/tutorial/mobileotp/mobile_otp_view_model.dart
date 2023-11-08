@@ -8,24 +8,19 @@ import '../../../product/cache/locale_manager.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../tutorial/view/language_view.dart';
 
-part 'email_otp_view_model.g.dart';
+part 'mobile_otp_view_model.g.dart';
 
-class EmailOtpViewModel = _EmailOtpViewModelBase with _$EmailOtpViewModel;
+class MobileOtpViewModel = _MobileOtpViewModelBase with _$MobileOtpViewModel;
 
-abstract class _EmailOtpViewModelBase extends BaseViewModel with Store {
+abstract class _MobileOtpViewModelBase extends BaseViewModel with Store {
   @override
   void setContext(BuildContext context) => viewModelContext = context;
 
   @override
-  void init() {
-    currentProfile = LocaleManager.instance.getIntValue(LocaleManager.profile);
-  }
+  void init() {}
 
   @observable
-  String enteredMail = '';
-
-  @observable
-  int currentProfile = 0;
+  String enteredMobile = '';
 
   @observable
   bool isCorrect = true;
@@ -48,12 +43,7 @@ abstract class _EmailOtpViewModelBase extends BaseViewModel with Store {
   void onTapSubmit() {
     onChange(enteredOTP);
     if (enteredOTP == '1234') {
-      if (currentProfile == 0) {
-        AppRouter.pushNamed(Routes.mobileView);
-      } else {
-        AppRouter.pushNamed(Routes.userInfoView);
-      }
+      AppRouter.pushNamed(Routes.userInfoView);
     }
-    //enteredOTP = '';
   }
 }

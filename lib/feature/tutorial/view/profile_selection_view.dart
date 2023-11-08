@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:hessah/feature/tutorial/view/profile_view_model.dart';
@@ -43,7 +44,7 @@ class ProfileSelectionView extends StatelessWidget {
                       height: 15.px,
                     ),
                     AppText(
-                      'Select Your Profile',
+                      'selectYourProfile'.tr(),
                       textAlign: TextAlign.center,
                       fontSize: 24.px,
                       fontWeight: FontWeight.w800,
@@ -68,11 +69,9 @@ class ProfileSelectionView extends StatelessWidget {
                       height: 45.px,
                       borderRadius: BorderRadius.circular(10.px),
                       borderColor: AppColors.appBlue,
-                      title: 'Continue',
-                      isDisable: true,
-                      onPressed: () {
-                        AppRouter.push(const OnboardingView());
-                      },
+                      title: 'continue'.tr(),
+                      isDisable: !profileViewModel.isSelected(),
+                      onPressed: profileViewModel.onTapSubmit,
                     ),
                     SizedBox(
                       height: 20.px,

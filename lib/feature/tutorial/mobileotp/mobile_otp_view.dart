@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -13,24 +14,26 @@ import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/tutorial_view_model.dart';
+import 'mobile_otp_view_model.dart';
 
 class MobileOtpView extends StatelessWidget {
   const MobileOtpView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<TutorialViewModel>(
-        viewModel: TutorialViewModel(),
-        onModelReady: (TutorialViewModel tutorialViewModel) {
-          tutorialViewModel.setContext(context);
+    return BaseView<MobileOtpViewModel>(
+        viewModel: MobileOtpViewModel(),
+        onModelReady: (MobileOtpViewModel mobileOtpViewModel) {
+          mobileOtpViewModel.setContext(context);
+          mobileOtpViewModel.enteredMobile =
+              ModalRoute.of(context)!.settings.arguments.toString();
         },
         onPageBuilder:
-            (BuildContext context, TutorialViewModel tutorialViewModel) {
+            (BuildContext context, MobileOtpViewModel mobileOtpViewModel) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               body: PreLoginCustomBody(
                 widget: Expanded(
-
                   child: ListView(
                     physics: BouncingScrollPhysics(),
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
@@ -42,55 +45,54 @@ class MobileOtpView extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: AppText(
                           textAlign: TextAlign.start,
-                          'Verify Mobile Number',
+                          'verifyMobileNumber'.tr(),
                           fontSize: 24.px,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                       SizedBox(height: 15.px),
-                      const AppText(
+                       AppText(
                         textAlign: TextAlign.start,
-                        'Enter the verification code we sent to email address ending with **in',
+                        'enterTheCodeWe'.tr(),
                         fontWeight: FontWeight.w400,
                       ),
                       SizedBox(height: 20.px),
                       OtpTextField(
                         fieldWidth: 73.px,
                         borderRadius: BorderRadius.circular(8.px),
-                        //    numberOfFields: numberOfFields,
-                        borderColor: const Color(0xFF512DA8),
+                        //  numberOfFields: numberOfFields,
+                        borderColor: AppColors.appGrey,
+
+                        enabledBorderColor: (mobileOtpViewModel.isCorrect)
+                            ? AppColors.appLightGrey
+                            : AppColors.appRed,
                         //   focusedBorderColor: primaryColor,
                         // clearText: clearText,
                         showFieldAsBox: true,
-                        //  textStyle: theme.textTheme.subtitle1,
-                        onCodeChanged: (String value) {
-                          //Handle each value
-                        },
+                        textStyle: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 16.px),
+                        onCodeChanged: (String value) {},
                         handleControllers:
                             (List<TextEditingController?> controllers) {
-                          //get all textFields controller, if needed
-                          //   controls = controllers;
+                          //emailOtpViewModel.enteredOTP = controllers.toString();
                         },
+                        //clearText: !emailOtpViewModel.isCorrect,
                         onSubmit: (String verificationCode) {
-                          //set clear text to clear text from all fields
-                          //   clearText = true;
-                          //navigate to different screen code goes here
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const AppText('Verification Code'),
-                                content: AppText(
-                                    'Code entered is $verificationCode'),
-                              );
-                            },
-                          );
+                          mobileOtpViewModel.enteredOTP = verificationCode;
                         }, // end onSubmit
                       ),
+                      SizedBox(height: 10.px),
+                      if (!mobileOtpViewModel.isCorrect)
+                        AppText(
+                          'otpIncorrect'.tr(),
+                          fontSize: 12.px,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.appRed,
+                        ),
                       SizedBox(
                         height: 20.px,
                       ),
-                      AppText("Didn't receive the verification code?",
+                      AppText("sendAgain".tr(),
                           fontSize: 12.px,
                           textAlign: TextAlign.center,
                           fontWeight: FontWeight.w400,
@@ -114,7 +116,7 @@ class MobileOtpView extends StatelessWidget {
                                 height: 20.px),
                             SizedBox(width: 5.px),
                             AppText(
-                              'Resend Again',
+                              'sendAgain'.tr(),
                               fontSize: 13.px,
                               fontWeight: FontWeight.w600,
                               color: AppColors.appBlue,
@@ -127,8 +129,9 @@ class MobileOtpView extends StatelessWidget {
                 ),
               ),
               bottomNavigationBar: PreLoginCommonButton(
-                title: 'Continue',
+                title: 'continue'.tr(),
                 onTap: () => AppRouter.pushNamed(Routes.userInfoView),
+                isDisable: mobileOtpViewModel.enteredOTP.length != 4,
               ),
             );
           });

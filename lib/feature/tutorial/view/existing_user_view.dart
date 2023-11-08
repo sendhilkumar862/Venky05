@@ -13,7 +13,6 @@ import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/tutorial_view_model.dart';
-import 'mobile_view.dart';
 
 class ExistingUserView extends StatelessWidget {
   const ExistingUserView({super.key});
@@ -52,7 +51,7 @@ class ExistingUserView extends StatelessWidget {
                         //     : ('valid' == walletViewModel.nameError)
                         //     ? AppColors.appRed
                         //     : AppColors.appBlue,
-                        controller: tutorialViewModel.emailController,
+                        //controller: tutorialViewModel.emailController,
                         title: 'Email Address',
                         keyboardType: TextInputType.text,
                         hintText: 'Enter your email address',

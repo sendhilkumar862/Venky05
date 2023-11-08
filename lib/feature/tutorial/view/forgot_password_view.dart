@@ -69,7 +69,7 @@ class ForgotPassWordView extends StatelessWidget {
                               //     : ('valid' == walletViewModel.nameError)
                               //     ? AppColors.appRed
                               //     : AppColors.appBlue,
-                              controller: tutorialViewModel.emailController,
+                            //  controller: tutorialViewModel.emailController,
                               title: 'Email Address',
                               keyboardType: TextInputType.text,
                               hintText: 'Enter your email address',

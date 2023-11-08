@@ -13,9 +13,12 @@ class TextFormsField extends StatelessWidget {
   final String errorText;
   final String? title;
   final String? isValid;
+  final int? validate;
   final bool obscureText;
-  final String? suffixIcon;
+  final Widget? suffixIcon;
   final Widget? prefix;
+  final TextInputType? keyboardType;
+
   final GestureTapCallback? onSuffixTap;
   final GestureTapCallback? onPrefixTap;
   final ValueChanged<String>? onChanged;
@@ -29,9 +32,11 @@ class TextFormsField extends StatelessWidget {
     this.suffixIcon,
     this.prefix,
     this.onSuffixTap,
+    this.validate,
     this.onChanged,
     this.isValid = '',
     this.onPrefixTap,
+    this.keyboardType,
     this.title,
   });
 
@@ -43,15 +48,21 @@ class TextFormsField extends StatelessWidget {
         AppText(title ?? '',
             fontSize: 12.px,
             fontWeight: FontWeight.w400,
-            color: (errorText!.isEmpty) ? AppColors.appGrey : AppColors.appRed),
+            color: (validate == 1)
+                ? AppColors.appBlue
+                : (validate == 0)
+                    ? AppColors.appRed
+                    : AppColors.appGrey),
         SizedBox(height: 5.px),
         Container(
           height: 48,
           decoration: BoxDecoration(
             border: Border.all(
-                color: (errorText.isNotEmpty)
-                    ? AppColors.appRed
-                    : AppColors.lightPurple),
+                color: (validate == 1)
+                    ? AppColors.appBlue
+                    : (validate == 0)
+                        ? AppColors.appRed
+                        : AppColors.appGrey),
             color: AppColors.appWhite,
             borderRadius: BorderRadius.circular(8),
           ),
@@ -62,6 +73,7 @@ class TextFormsField extends StatelessWidget {
               ],
               Expanded(
                 child: TextFormField(
+                  keyboardType: keyboardType ?? TextInputType.text,
                   controller: controller,
                   obscureText: obscureText,
                   onChanged: onChanged,
@@ -82,8 +94,9 @@ class TextFormsField extends StatelessWidget {
               ),
               if (suffixIcon != null) ...[
                 InkWell(
-                    onTap: onSuffixTap,
-                    child: AppImageAsset(image: suffixIcon ?? '')),
+                  onTap: onSuffixTap,
+                  child: suffixIcon ?? const SizedBox(),
+                ),
                 const SizedBox(width: 12),
               ],
             ],
