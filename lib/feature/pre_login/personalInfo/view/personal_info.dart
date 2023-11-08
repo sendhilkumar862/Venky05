@@ -34,8 +34,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
   int genderListIndex = 0;
   int? isSelect;
   int? selectedIndex = 0;
+  int? languageIndex = 0;
   TextEditingController dateController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
+  TextEditingController languageController = TextEditingController();
 
   List<Gender> genderList = <Gender>[
     Gender(
@@ -94,12 +96,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                     countries: personalInfoViewModel.countries,
                                     selectedIndex: selectedIndex,
                                     onTap: (int index) {
-                                      selectedIndex = index;
-                                      personalInfoViewModel.selectItem(
-                                          personalInfoViewModel
-                                              .countries[index]);
-                                      nationalityController.text =
-                                          personalInfoViewModel.selectedItem;
+                                      setState(() {
+                                        selectedIndex = index;
+                                        personalInfoViewModel.selectItem(
+                                            personalInfoViewModel
+                                                .countries[index]);
+                                        nationalityController.text =
+                                            personalInfoViewModel.selectedItem;
+                                      });
                                     },
                                   );
                                 });
@@ -108,16 +112,52 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           },
                         );
                       },
+                      controller: nationalityController,
                       readOnly: true,
                       title: 'Nationality',
                       hintText: 'Select your nationality',
                       suffix: const Icon(Icons.keyboard_arrow_down_sharp),
                     ),
-                    const AppTextFormField(
+                    AppTextFormField(
                       readOnly: true,
                       title: 'Languages Spoken',
                       hintText: 'Select spoken languages',
                       suffix: Icon(Icons.keyboard_arrow_down_sharp),
+                      controller: languageController,
+                      onTap: () {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(25.0),
+                            ),
+                          ),
+                          builder: (BuildContext context) {
+                            return StatefulBuilder(
+                              builder: (BuildContext context, setState) {
+                                return Observer(builder: (_) {
+                                  return CountryBottomSheet(
+                                    countries: personalInfoViewModel.languages,
+                                    selectedIndex: languageIndex,
+                                    onTap: (int index) {
+                                      setState(() {
+                                        languageIndex = index;
+                                        personalInfoViewModel.selectLanguage(
+                                            personalInfoViewModel
+                                                .languages[index]);
+                                        languageController.text =
+                                            personalInfoViewModel
+                                                .selectedLanguage;
+                                      });
+                                    },
+                                  );
+                                });
+                              },
+                            );
+                          },
+                        );
+                      },
                     ),
                     AppTextFormField(
                       controller: dateController,

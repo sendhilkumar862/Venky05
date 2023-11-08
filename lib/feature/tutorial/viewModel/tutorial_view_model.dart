@@ -24,7 +24,7 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   void init() {}
 
   @observable
-  String selectedItem = '';
+  String selectedItem = 'Kuwet';
 
   @observable
   int selectedIndex = -1;

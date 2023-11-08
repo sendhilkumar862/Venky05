@@ -16,7 +16,10 @@ abstract class _PersonalInfoViewModelBase extends BaseViewModel with Store {
   void init() {}
 
   @observable
-  String selectedItem = '';
+  String selectedItem = 'Kuwet';
+
+  @observable
+  String selectedLanguage = 'English';
 
   @observable
   List<String> countries = [
@@ -26,6 +29,18 @@ abstract class _PersonalInfoViewModelBase extends BaseViewModel with Store {
     'Saudi Arabia',
     'UEA',
   ];
+
+  @observable
+  List<String> languages = [
+    'English',
+    'عربي',
+  ];
+
+  void selectLanguage(String item) {
+    runInAction(() {
+      selectedLanguage = item;
+    });
+  }
 
   void selectItem(String item) {
     runInAction(() {
