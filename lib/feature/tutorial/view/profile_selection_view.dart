@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:hessah/feature/tutorial/view/profile_view_model.dart';
 import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -9,23 +10,25 @@ import '../../../custom/appbar/appBarOnBoard.dart';
 import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
+import '../../../product/cache/locale_manager.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
+import '../onboarding/onboading_view.dart';
 import '../viewModel/tutorial_view_model.dart';
-import 'onboading_view.dart';
 
 class ProfileSelectionView extends StatelessWidget {
   const ProfileSelectionView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<TutorialViewModel>(
-        viewModel: TutorialViewModel(),
-        onModelReady: (TutorialViewModel tutorialViewModel) {
-          tutorialViewModel.setContext(context);
+    return BaseView<ProfileViewModel>(
+        viewModel: ProfileViewModel(),
+        onModelReady: (ProfileViewModel profileViewModel) {
+          profileViewModel.setContext(context);
+          profileViewModel.init();
         },
         onPageBuilder:
-            (BuildContext context, TutorialViewModel tutorialViewModel) {
+            (BuildContext context, ProfileViewModel profileViewModel) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               backgroundColor: AppColors.appWhite,
@@ -53,10 +56,10 @@ class ProfileSelectionView extends StatelessWidget {
                         2,
                         (index) => selectCardView(
                           icon: ImageConstants.graduateIcon,
-                          title: tutorialViewModel.profileItems[index],
-                          tutorialViewModel: tutorialViewModel,
+                          title: profileViewModel.profileItems[index],
+                          profileViewModel: profileViewModel,
                           index: index,
-                          onTap: () => tutorialViewModel.selectedItems(index),
+                          onTap: () => profileViewModel.selectProfile(index),
                         ),
                       ),
                     ),
@@ -66,8 +69,9 @@ class ProfileSelectionView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.px),
                       borderColor: AppColors.appBlue,
                       title: 'Continue',
+                      isDisable: true,
                       onPressed: () {
-                        AppRouter.push(const OnBoardingView());
+                        AppRouter.push(const OnboardingView());
                       },
                     ),
                     SizedBox(
@@ -85,7 +89,7 @@ class ProfileSelectionView extends StatelessWidget {
       {String? icon,
       String? title,
       VoidCallback? onTap,
-      TutorialViewModel? tutorialViewModel,
+      ProfileViewModel? profileViewModel,
       int? index}) {
     return Expanded(
       child: GestureDetector(
@@ -95,12 +99,12 @@ class ProfileSelectionView extends StatelessWidget {
           height: 88.px,
           padding: EdgeInsets.symmetric(horizontal: 15.px, vertical: 12.px),
           decoration: BoxDecoration(
-            color: index == tutorialViewModel!.selectedIndex
+            color: index == profileViewModel!.selectedIndex
                 ? AppColors.appBlue
                 : AppColors.white,
             borderRadius: BorderRadius.circular(12.px),
             border: Border.all(
-                color: index == tutorialViewModel!.selectedIndex
+                color: index == profileViewModel!.selectedIndex
                     ? AppColors.appBlue
                     : AppColors.lightPurple,
                 width: 1.5.px),
@@ -111,7 +115,7 @@ class ProfileSelectionView extends StatelessWidget {
               AppImageAsset(
                 image: icon!,
                 height: 25.px,
-                color: index != tutorialViewModel!.selectedIndex
+                color: index != profileViewModel!.selectedIndex
                     ? AppColors.appDarkBlack
                     : AppColors.white,
               ),
@@ -121,7 +125,7 @@ class ProfileSelectionView extends StatelessWidget {
               AppText(
                 title ?? '',
                 fontWeight: FontWeight.w400,
-                color: index != tutorialViewModel!.selectedIndex
+                color: index != profileViewModel!.selectedIndex
                     ? AppColors.appDarkBlack
                     : AppColors.white,
               ),

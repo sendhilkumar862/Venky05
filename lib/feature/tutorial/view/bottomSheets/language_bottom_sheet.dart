@@ -4,6 +4,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../custom/divider/divider.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
+import '../../../../product/cache/locale_manager.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../viewModel/tutorial_view_model.dart';
@@ -66,6 +67,9 @@ class LanguageBottomSheet extends StatelessWidget {
                         // ignore: avoid_dynamic_calls
                         setState!(() {
                           tutorialViewModel!.selectLanguage(index);
+                          LocaleManager.instance.setStringValue(
+                              LocaleManager.language,
+                              tutorialViewModel!.languages[index]);
                         });
                       },
                       child: Container(

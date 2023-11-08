@@ -5,15 +5,16 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../custom/app_textformfield/app_field.dart';
+import '../../../custom/app_textformfield/text_field.dart';
 import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
+import '../../../product/utils/validators.dart';
 import '../viewModel/tutorial_view_model.dart';
 import 'mobile_view.dart';
-import 'otp_view.dart';
 
 class EmailView extends StatelessWidget {
   const EmailView({super.key});
@@ -53,18 +54,13 @@ class EmailView extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                       SizedBox(height: 10.px),
-                      AppTextFormField(
-                        // titleColor: (walletViewModel.nameError.isEmpty)
-                        //     ? AppColors.appGrey
-                        //     : ('valid' == walletViewModel.nameError)
-                        //     ? AppColors.appRed
-                        //     : AppColors.appBlue,
-                        controller: tutorialViewModel.emailController,
+                      TextFormsField(
                         title: 'Email Address',
-                        keyboardType: TextInputType.text,
+                        controller: tutorialViewModel.emailController,
                         hintText: 'Enter your email address',
-                        validate: (String? value) {
-                          // return walletViewModel.nameValidation(value!);
+                        errorText: tutorialViewModel.emailErrorText!,
+                        onChanged: (String value) {
+                          tutorialViewModel.validateEmail(value!);
                         },
                       ),
                       SizedBox(
@@ -76,11 +72,12 @@ class EmailView extends StatelessWidget {
               ),
               bottomNavigationBar: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: <Widget>[
                   PreLoginCommonButton(
                     title: 'Continue',
-                    onTap: () => AppRouter.pushNamed(Routes.mobileView),
+                    onTap: () => AppRouter.pushNamed(Routes.emailOtpView),
                     height: 0,
+                   isDisable: tutorialViewModel.emailErrorText.isEmpty,
                   ),
                   SizedBox(height: 15.px),
                   AppText(

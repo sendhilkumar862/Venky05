@@ -20,6 +20,7 @@ class ImageConstants {
   static const String book = '${ApplicationConstants.animationPath}Book.json';
   static const String education = '${ApplicationConstants.animationPath}Education.json';
   static const String mailApproved = '${ApplicationConstants.animationPath}mail_approved.json';
+  static const String timetable = '${ApplicationConstants.animationPath}timetable.json';
 
 
 

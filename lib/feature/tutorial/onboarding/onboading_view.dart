@@ -11,21 +11,23 @@ import '../../../custom/appbar/appBarOnBoard.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
+import '../view/email_view.dart';
 import '../viewModel/tutorial_view_model.dart';
-import 'email_view.dart';
+import 'onboarding_view_model.dart';
 
-class OnBoardingView extends StatelessWidget {
-  const OnBoardingView({super.key});
+class OnboardingView extends StatelessWidget {
+  const OnboardingView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<TutorialViewModel>(
-        viewModel: TutorialViewModel(),
-        onModelReady: (TutorialViewModel tutorialViewModel) {
-          tutorialViewModel.setContext(context);
+    return BaseView<OnboardingViewModel>(
+        viewModel: OnboardingViewModel(),
+        onModelReady: (OnboardingViewModel onboardingViewModel) {
+          onboardingViewModel.setContext(context);
+          onboardingViewModel.init();
         },
         onPageBuilder:
-            (BuildContext context, TutorialViewModel tutorialViewModel) {
+            (BuildContext context, OnboardingViewModel onboardingViewModel) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               backgroundColor: AppColors.appWhite,
@@ -41,18 +43,22 @@ class OnBoardingView extends StatelessWidget {
                       height: 390.px,
                       child: PageView.builder(
                         physics: BouncingScrollPhysics(),
-                        controller: tutorialViewModel.pageController,
+                        controller: onboardingViewModel.pageController,
                         itemCount: 3,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: EdgeInsets.symmetric(horizontal: 20.px),
                             child: Column(
                               children: <Widget>[
-                                Lottie.asset(
-                                  tutorialViewModel.onboardingAnimation[index],
-                                ),
+                                (onboardingViewModel.currentProfile == 1)
+                                    ? Lottie.asset(onboardingViewModel
+                                        .studentAnimation[index])
+                                    : Lottie.asset(onboardingViewModel
+                                        .teacherAnimation[index]),
                                 AppText(
-                                  tutorialViewModel.onboardingTitle[index],
+                                  (onboardingViewModel.currentProfile == 1)
+                                      ? onboardingViewModel.studentTitle[index]
+                                      : onboardingViewModel.teacherTitle[index],
                                   textAlign: TextAlign.center,
                                   fontSize: 24.px,
                                   fontWeight: FontWeight.w800,
@@ -61,7 +67,11 @@ class OnBoardingView extends StatelessWidget {
                                   height: 10.px,
                                 ),
                                 AppText(
-                                  tutorialViewModel.onboardingSubtitle[index],
+                                  (onboardingViewModel.currentProfile == 1)
+                                      ? onboardingViewModel
+                                          .studentSubtitle[index]
+                                      : onboardingViewModel
+                                          .teacherSubtitle[index],
                                   textAlign: TextAlign.center,
                                   fontWeight: FontWeight.w400,
                                   color: AppColors.appGrey,
@@ -74,7 +84,7 @@ class OnBoardingView extends StatelessWidget {
                     ),
                     SizedBox(height: 18.px),
                     SmoothPageIndicator(
-                      controller: tutorialViewModel.pageController,
+                      controller: onboardingViewModel.pageController,
                       count: 3,
                       effect: ExpandingDotsEffect(
                           spacing: 8.px,

@@ -12,12 +12,14 @@ import '../../feature/pre_login/rest_password_link.dart';
 import '../../feature/pre_login/teachingInfo/view/teaching_info.dart';
 import '../../feature/preference/view/preference_view.dart';
 import '../../feature/rating/view/rating_view.dart';
+import '../../feature/tutorial/emailotp/email_otp_view.dart';
+import '../../feature/tutorial/emailotp/email_otp_view_model.dart';
+import '../../feature/tutorial/mobileotp/mobile_otp_view.dart';
 import '../../feature/search/view/search_view.dart';
 import '../../feature/tutorial/view/email_view.dart';
 import '../../feature/tutorial/view/forgot_password_view.dart';
 import '../../feature/tutorial/view/login_view.dart';
 import '../../feature/tutorial/view/mobile_view.dart';
-import '../../feature/tutorial/view/otp_view.dart';
 import '../../feature/tutorial/view/password_view.dart';
 import '../../feature/tutorial/view/user_info_view.dart';
 import '../../feature/wallet/view/invoice_details.dart';
@@ -48,7 +50,7 @@ class Routes {
   static const String experienceInfo = '/experience-info';
   static const String financingView = '/financing-view';
   static const String personalInfo = '/personal-info';
-  static const String otpView = '/otp-view';
+  static const String mobileOtpView = '/otp-view';
   static const String emailView = '/email-view';
   static const String mobileView = '/mobile-view';
   static const String userInfoView = '/user-info-view';
@@ -57,6 +59,7 @@ class Routes {
   static const String restPassword = '/reset-password-view';
   static const String passwordView = '/password-view';
   static const String homeViews = '/home-views';
+  static const String emailOtpView = '/email-otp-views';
   static const String resetPassword = '/rest-Password';
   static const String searchView = '/search';
 
@@ -75,12 +78,16 @@ class Routes {
     NotFoundScreenRoute: (_) => const SizedBox.shrink(),
     AppStartupScreenRoute: (_) => const SizedBox.shrink(),
     createClass: (_) => const CreateClass(),
-    otpView: (_) => const OtpView(),
+    mobileOtpView: (_) => const MobileOtpView(),
     emailView: (_) => const EmailView(),
     mobileView: (_) => const MobileView(),
     userInfoView: (_) => const UserInfoView(),
     loginView: (_) => const LoginView(),
     forgotPasswordView: (_) => const ForgotPassWordView(),
+    restPassword: (_) =>  const RestPassword(),
+    passwordView: (_) =>  const PasswordView(),
+    homeViews: (_) =>  const HomeViews(),
+    emailOtpView: (_) =>  const EmailOtpView(),
     resetPassword: (_) => const RestPassword(),
     passwordView: (_) => const PasswordView(),
     homeViews: (_) => const HomeViews(),

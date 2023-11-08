@@ -10,6 +10,7 @@ import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/sheet/country_bottom_sheet.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
+import '../../../product/cache/locale_manager.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/tutorial_view_model.dart';
@@ -25,6 +26,7 @@ class LanguageView extends StatefulWidget {
 class _LanguageViewState extends State<LanguageView> {
   TextEditingController nationalityController = TextEditingController();
   int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return BaseView<TutorialViewModel>(
@@ -74,11 +76,21 @@ class _LanguageViewState extends State<LanguageView> {
                                     countries: tutorialViewModel.countries,
                                     selectedIndex: selectedIndex,
                                     onTap: (int index) {
-                                      selectedIndex = index;
-                                      tutorialViewModel.selectItem(
-                                          tutorialViewModel.countries[index]);
-                                      nationalityController.text =
-                                          tutorialViewModel.selectedItem;
+                                      setState(
+                                        () {
+                                          selectedIndex = index;
+                                          tutorialViewModel.selectItem(
+                                              tutorialViewModel
+                                                  .countries[index]);
+                                          nationalityController.text =
+                                              tutorialViewModel.selectedItem;
+
+                                          LocaleManager.instance.setStringValue(
+                                              LocaleManager.country,
+                                              tutorialViewModel
+                                                  .countries[index]);
+                                        },
+                                      );
                                     },
                                   );
                                 });

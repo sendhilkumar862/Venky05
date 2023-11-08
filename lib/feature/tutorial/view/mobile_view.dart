@@ -7,6 +7,7 @@ import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/app_textformfield/app_field.dart';
+import '../../../custom/app_textformfield/text_field.dart';
 import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/otp/otp_text_field.dart';
 import '../../../custom/preLoginWidget/pre_login_widget.dart';
@@ -18,7 +19,6 @@ import '../../../product/constants/image/image_constants.dart';
 import '../../../product/utils/typography.dart';
 import '../viewModel/tutorial_view_model.dart';
 import 'email_view.dart';
-import 'otp_view.dart';
 
 class MobileView extends StatelessWidget {
   const MobileView({super.key});
@@ -57,11 +57,7 @@ class MobileView extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                       SizedBox(height: 10.px),
-                      AppTextFormField(
-                        controller: tutorialViewModel.mobileController,
-                        keyboardType: TextInputType.phone,
-                        title: 'Mobile Number',
-                        hintText: 'Enter your mobile number',
+                      TextFormsField(
                         prefix: CountryPicker(
                           flagDecoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(2)),
@@ -75,6 +71,13 @@ class MobileView extends StatelessWidget {
                           showDropDownButton: true,
                           textStyle: openSans.black.get12,
                         ),
+                        title: 'Mobile Number',
+                        controller: tutorialViewModel.emailController,
+                        hintText: 'Enter your mobile number',
+                        errorText: tutorialViewModel.emailErrorText!,
+                        onChanged: (String value) {
+                          tutorialViewModel.validateEmail(value!);
+                        },
                       ),
                       SizedBox(
                         height: 20.px,
@@ -85,7 +88,7 @@ class MobileView extends StatelessWidget {
               ),
               bottomNavigationBar: PreLoginCommonButton(
                 title: 'Continue',
-                onTap: () => AppRouter.pushNamed(Routes.otpView),
+                onTap: () => AppRouter.pushNamed(Routes.mobileOtpView),
               ),
             );
           });

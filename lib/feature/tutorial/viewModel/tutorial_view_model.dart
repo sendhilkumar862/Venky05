@@ -3,6 +3,8 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../config/routes/app_router.dart';
+import '../../../product/cache/locale_manager.dart';
+import '../../../product/constants/app/app_utils.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../tutorial/view/language_view.dart';
 
@@ -16,12 +18,7 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
 
   @override
   void init() {
-    Future.delayed(
-      Duration(seconds: 2),
-      () {
-        AppRouter.push(const LanguageView());
-      },
-    );
+    print('ented');
   }
 
   @observable
@@ -91,39 +88,15 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   @observable
   List<String> filteredCountries = [];
 
-  @observable
-  PageController pageController = PageController();
-
-  @observable
-  List onboardingAnimation = [
-    ImageConstants.onlineStudy,
-    ImageConstants.book,
-    ImageConstants.education,
-  ];
-
-  @observable
-  List onboardingTitle = [
-    'Explore Classes',
-    'Book Or Create Classes',
-    'Start Your Class'
-  ];
-
-  @observable
-  List onboardingSubtitle = [
-    'Explore classes or Teachers and Start your learning plan',
-    "Can't find your class? No worries!You can create your needs.",
-    'Book classes and start learning. Expand your classes to achieve your goals'
-  ];
-
   @action
-  void selectedItems(int index) {
+  void selectProfile(int index) {
     selectedIndex = index;
+    LocaleManager.instance.setIntValue(LocaleManager.profile, index);
   }
 
   @action
   void selectCountry(int index) {
     selectedIndex = index;
-    print('Enterd ${selectedIndex}');
   }
 
   @action
@@ -145,5 +118,39 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   @action
   void onTapTermAndCondition() {
     isActive = !isActive;
+  }
+
+  @observable
+  String emailErrorText = '';
+
+  @action
+  validateEmail(String value) {
+    if (value!.isEmpty) {
+      emailErrorText = 'Please enter Email';
+    } else if (Regexes.validateRegEx(
+        emailController.text, Regexes.emailRegex)) {
+      emailErrorText = 'Enter a valid email address (e.g., name@example.com)';
+    } else {
+      emailErrorText = '';
+      print('error--> ${emailErrorText}');
+    }
+  }
+
+  @observable
+  String mobileErrorText = '';
+
+  @action
+  void validateMobile(String value) {
+    if (value!.isEmpty) {
+      emailErrorText = 'Please enter Email';
+    } else if (8 > emailController.text.length) {
+      emailErrorText = 'Kuwaiti number should be 8 digits';
+    } else if (Regexes.validateRegEx(
+        emailController.text, Regexes.contactRegex)) {
+      emailErrorText = 'Kuwaiti number should be start with 4,5,6 and 9';
+    } else {
+      emailErrorText = '';
+      print('error--> ${emailErrorText}');
+    }
   }
 }

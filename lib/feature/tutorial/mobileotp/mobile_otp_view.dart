@@ -13,10 +13,9 @@ import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/tutorial_view_model.dart';
-import 'mobile_view.dart';
 
-class OtpView extends StatelessWidget {
-  const OtpView({super.key});
+class MobileOtpView extends StatelessWidget {
+  const MobileOtpView({super.key});
 
   @override
   Widget build(BuildContext context) {

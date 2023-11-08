@@ -119,6 +119,11 @@ class Regexes {
 
   /// The regular expression for validating credit card expiry in the app.
   static final RegExp otpDigitRegex = RegExp(r'^[0-9]{1}$');
+
+  static bool validateRegEx(String email, regExp) {
+    final RegExp emailRegex = regExp;
+    return !emailRegex.hasMatch(email);
+  }
 }
 
 /// A utility class that holds all the timings used throughout
