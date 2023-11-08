@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/app_textformfield/app_field.dart';
@@ -101,14 +101,14 @@ class _ForTeacherState extends State<ForTeacher> {
                     child: Row(
                       children: <Widget>[
                         Text(
-                          'Gender',
+                          'gender'.tr(),
                           style: openSans.get16.w700
                               .textColor(AppColors.appTextColor),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: Text(
-                            '(optional)',
+                            'optional'.tr(),
                             style: openSans.get12.w400.textColor(
                                 AppColors.appTextColor.withOpacity(0.5)),
                           ),
@@ -165,14 +165,14 @@ class _ForTeacherState extends State<ForTeacher> {
                     child: Row(
                       children: <Widget>[
                         Text(
-                          'Grade',
+                          'grade'.tr(),
                           style: openSans.get16.w700
                               .textColor(AppColors.appTextColor),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: Text(
-                            'Select 1 or more (optional)',
+                            'select1OrMoreOptional'.tr(),
                             style: openSans.get12.w400.textColor(
                                 AppColors.appTextColor.withOpacity(0.5)),
                           ),
@@ -228,14 +228,14 @@ class _ForTeacherState extends State<ForTeacher> {
                     child: Row(
                       children: <Widget>[
                         Text(
-                          'School',
+                          'school'.tr(),
                           style: openSans.get16.w700
                               .textColor(AppColors.appTextColor),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: Text(
-                            '(optional)',
+                            'optional'.tr(),
                             style: openSans.get12.w400.textColor(
                                 AppColors.appTextColor.withOpacity(0.5)),
                           ),
@@ -289,14 +289,14 @@ class _ForTeacherState extends State<ForTeacher> {
                     child: Row(
                       children: <Widget>[
                         Text(
-                          'Curriculum',
+                          'curriculum'.tr(),
                           style: openSans.get20.w700
                               .textColor(AppColors.appTextColor),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: Text(
-                            '(optional)',
+                            'optional'.tr(),
                             style: openSans.get12.w400.textColor(
                                 AppColors.appTextColor.withOpacity(0.5)),
                           ),
@@ -353,14 +353,14 @@ class _ForTeacherState extends State<ForTeacher> {
                     child: Row(
                       children: <Widget>[
                         Text(
-                          'Subject',
+                          'subject'.tr(),
                           style: openSans.get16.w700
                               .textColor(AppColors.appTextColor),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: Text(
-                            '(optional)',
+                            'optional'.tr(),
                             style: openSans.get12.w400.textColor(
                                 AppColors.appTextColor.withOpacity(0.5)),
                           ),
@@ -414,7 +414,7 @@ class _ForTeacherState extends State<ForTeacher> {
                     padding: const EdgeInsets.only(top: 20, bottom: 10),
                     child: Row(
                       children: [
-                        Text('Save Search', style: openSans.get14.w500),
+                        Text('saveSearch'.tr(), style: openSans.get14.w500),
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: FlutterSwitch(
@@ -435,8 +435,8 @@ class _ForTeacherState extends State<ForTeacher> {
                     ),
                   ),
                   if (isSwitch)
-                    const AppTextFormField(
-                      hintText: 'Enter search name',
+                    AppTextFormField(
+                      hintText: 'enterSearchName'.tr(),
                       top: 0,
                     )
                   else
@@ -445,8 +445,8 @@ class _ForTeacherState extends State<ForTeacher> {
                     padding: const EdgeInsets.only(bottom: 45, top: 30),
                     child: AppButton(
                       title: !isSwitch
-                          ? 'Next for calls Details'
-                          : 'Save Search and Show Results',
+                          ? 'nextForCallsDetails'.tr()
+                          : 'saveSearchAndShowResults'.tr(),
                       onPressed: () {
                         setState(() {
                           showResult = true;
@@ -463,7 +463,7 @@ class _ForTeacherState extends State<ForTeacher> {
               ),
             )
           : Padding(
-              padding: const EdgeInsets.only(left: 15,right: 15,top: 20),
+              padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 200,
@@ -477,13 +477,13 @@ class _ForTeacherState extends State<ForTeacher> {
                       reViewLength: 4,
                       boxShadow: AppColors.searchCardBoxShadow,
                       cardMargin: EdgeInsets.zero,
-                      name: 'User Name',
+                      name: 'userName'.tr(),
                       avatar: ImageConstants.teacherAvtar,
                       countryIcon: ImageConstants.countryIcon,
                       countryName: 'Kuwait',
                       isPro: true,
                       isBookmarked: true,
-                      subjects: 'Science - Accounta..');
+                      subjects: 'science'.tr());
                 },
               ),
             ),

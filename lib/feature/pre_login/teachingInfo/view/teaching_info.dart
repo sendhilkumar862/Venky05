@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
@@ -77,9 +78,8 @@ class _TeachingInfoState extends State<TeachingInfo> {
         onPageBuilder: (BuildContext context, TeachingInfoViewModel value) {
           return Scaffold(
             appBar: HessaAppBar(
-              isBack: true,
-              trailingText: 'Cancel',
-              title: 'Complete Profile',
+              trailingText: 'cancel'.tr(),
+              title: 'completeProfile'.tr(),
               isTitleOnly: true,
             ),
             body: Padding(
@@ -89,7 +89,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(top: 30),
-                    child: Text('Teaching Information',
+                    child: Text('teachingInformation'.tr(),
                         style: openSans.get20.w700.appTextColor),
                   ),
                   AppTextFormField(
@@ -108,8 +108,8 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     },
                     top: 10,
                     readOnly: true,
-                    title: 'Grade',
-                    hintText: 'Select grade/s',
+                    title: 'grade'.tr(),
+                    hintText: 'selectGrade/s'.tr(),
                     suffix: Icon(Icons.keyboard_arrow_down),
                   ),
                   AppTextFormField(
@@ -128,8 +128,8 @@ class _TeachingInfoState extends State<TeachingInfo> {
                       );
                     },
                     readOnly: true,
-                    title: 'Subject Taught',
-                    hintText: 'Select subject/s',
+                    title: 'subjectTaught'.tr(),
+                    hintText: 'selectSubject/s'.tr(),
                     suffix: Icon(Icons.keyboard_arrow_down),
                   ),
                   AppTextFormField(
@@ -149,8 +149,8 @@ class _TeachingInfoState extends State<TeachingInfo> {
                       );
                     },
                     readOnly: true,
-                    title: 'School Type',
-                    hintText: 'Select school type',
+                    title: 'schoolType'.tr(),
+                    hintText: 'selectSchoolType'.tr(),
                     suffix: Icon(Icons.keyboard_arrow_down),
                   ),
                   AppTextFormField(
@@ -170,9 +170,9 @@ class _TeachingInfoState extends State<TeachingInfo> {
                       );
                     },
                     readOnly: true,
-                    title: 'Curriculum',
-                    hintText: 'Select curriculum',
-                    suffix: Icon(Icons.keyboard_arrow_down),
+                    title: 'curriculum'.tr(),
+                    hintText: 'selectCurriculum'.tr(),
+                    suffix: const Icon(Icons.keyboard_arrow_down),
                   ),
                   AppTextFormField(
                     controller: classTypeController,
@@ -190,12 +190,12 @@ class _TeachingInfoState extends State<TeachingInfo> {
                       );
                     },
                     readOnly: true,
-                    title: 'Type Of Class',
-                    hintText: 'Select class type',
+                    title: 'typeOfClass'.tr(),
+                    hintText: 'selectClassType'.tr(),
                     suffix: Icon(Icons.keyboard_arrow_down),
                   ),
                   AppButton(
-                      title: 'Continue Experience Information',
+                      title: 'continueExperienceInformation'.tr(),
                       onPressed: () {
                         AppRouter.pushNamed(Routes.experienceInfo);
                       },

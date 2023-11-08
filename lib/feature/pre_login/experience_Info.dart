@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -29,9 +30,8 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
     final double width = MediaQuery.sizeOf(context).width;
     return Scaffold(
       appBar: HessaAppBar(
-        isBack: true,
-        trailingText: 'Cancel',
-        title: 'Complete Profile',
+        trailingText: 'cancel'.tr(),
+        title: 'completeProfile'.tr(),
         isTitleOnly: true,
       ),
       body: Padding(
@@ -42,19 +42,19 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 30),
-                child: Text('Experience Information',
+                child: Text('experienceInformation'.tr(),
                     style:
                         openSans.get20.w700.textColor(AppColors.appTextColor)),
               ),
               AppTextFormField(
-                title: 'Education',
-                hintText: 'Enter your education',
+                title: 'education'.tr(),
+                hintText: 'enterYourEducation'.tr(),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 30),
                 child: Row(
                   children: <Widget>[
-                    Text('Make it visible for users',
+                    Text('makeItVisibleForUsers'.tr(),
                         style: openSans.get14.w500
                             .textColor(AppColors.appTextColor)),
                     Padding(
@@ -76,21 +76,21 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                   ],
                 ),
               ),
-              const AppTextFormField(
+              AppTextFormField(
                 top: 0,
-                title: 'Experience Years',
-                hintText: 'Enter years of experience',
+                title: 'experienceYears'.tr(),
+                hintText: 'enterYearsOExperience'.tr(),
               ),
-              const AppTextFormField(
+              AppTextFormField(
                 maxLines: 3,
-                title: 'Experience Brief',
-                hintText: 'Enter experience brief',
+                title: 'experienceBrief'.tr(),
+                hintText: 'enterExperienceBrief'.tr(),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15),
                 child: Row(
                   children: <Widget>[
-                    Text('Make it visible for users',
+                    Text('makeItVisibleForUsers'.tr(),
                         style: openSans.get14.w500
                             .textColor(AppColors.appTextColor)),
                     Padding(
@@ -114,7 +114,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 15),
-                child: Text('Certificates',
+                child: Text('certificates'.tr(),
                     style: openSans.get12.w400
                         .textColor(AppColors.appTextColor.withOpacity(0.5))),
               ),
@@ -254,8 +254,8 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                                     Center(
                                         child: Text(
                                       firstImage != null
-                                          ? 'Add More'
-                                          : 'Upload Civil ID',
+                                          ? 'addMore'.tr()
+                                          : 'uploadCivilID'.tr(),
                                       style: openSans.get14.w500.appBlue,
                                     )),
                                   ],
@@ -270,7 +270,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                 padding: const EdgeInsets.only(top: 15, bottom: 25),
                 child: Row(
                   children: <Widget>[
-                    Text('Make it visible for users',
+                    Text('makeItVisibleForUsers'.tr(),
                         style: openSans.get14.w500
                             .textColor(AppColors.appTextColor)),
                     Padding(
@@ -293,7 +293,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                 ),
               ),
               AppButton(
-                  title: 'Continue To Teaching Information',
+                  title: 'continueToLastStep'.tr(),
                   onPressed: () {
                     AppRouter.pushNamed(Routes.financingView);
                   },

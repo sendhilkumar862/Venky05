@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../custom/appbar/appbar.dart';
@@ -20,15 +21,15 @@ class _RestPasswordState extends State<RestPassword> {
       ),
       body: Column(
         children: [
-          Text('Reset Password Link Sent',
+          Text('resetPasswordLinkSent'.tr(),
               style: openSans.get16.w700.appTextColor),
           Text(
-            'Password reset link sent! Please check your email and follow the instructions to reset your password.',
+            'passwordResetLink'.tr(),
             style: openSans.get14.w400
                 .textColor(AppColors.appTextColor.withOpacity(0.5)),
           ),
           Text(
-            "Didn't receive the link?",
+            "didn'tReceiveTheLink".tr(),
             style: openSans.get12.w400
                 .textColor(AppColors.appTextColor.withOpacity(0.5)),
           ),

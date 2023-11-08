@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../config/routes/app_router.dart';
@@ -32,17 +33,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             Padding(
                 padding: const EdgeInsets.only(top: 40),
                 child: Text(
-                  'Forgot Password!',
+                  'forgotPassword!'.tr(),
                   style: openSans.get24.w700.appTextColor,
                 )),
-            const AppTextFormField(
-              title: 'Email Address',
-              hintText: 'Enter your email address',
+            AppTextFormField(
+              title: 'emailAddress'.tr(),
+              hintText: 'enterYourEmailAddress'.tr(),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 150),
               child: AppButton(
-                title: 'Reset Password',
+                title: 'resetPassword'.tr(),
                 onPressed: () {},
                 isDisable: true,
               ),
@@ -53,7 +54,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       AppRouter.pushNamed(Routes.personalInfo);
                     },
                     child: Text(
-                      'Log In',
+                      'logIn'.tr(),
                       style: openSans.get14.w600,
                     )))
           ],

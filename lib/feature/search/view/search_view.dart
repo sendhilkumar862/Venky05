@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../custom/appbar/appbar.dart';
@@ -18,8 +19,8 @@ class _SearchViewState extends State<SearchView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: HessaAppBar(
-          trailingText: 'Cancel',
-          title: 'Search',
+          trailingText: 'cancel'.tr(),
+          title: 'search'.tr(),
           isTitleOnly: true,
         ),
         body: DefaultTabController(
@@ -66,12 +67,12 @@ class _SearchViewState extends State<SearchView> {
                                 borderRadius: BorderRadius.circular(50),
                                 color: AppColors.white),
                             onTap: (int index) {},
-                            tabs: const <Widget>[
+                            tabs: <Widget>[
                               Tab(
-                                text: 'Search For Classes',
+                                text: 'searchForClasses'.tr(),
                               ),
                               Tab(
-                                text: 'Search For Teacher',
+                                text: 'searchForTeacher'.tr(),
                               ),
                             ]),
                       ),

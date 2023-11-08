@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
-import 'package:country_picker/country_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -41,11 +41,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
   List<Gender> genderList = <Gender>[
     Gender(
-      gender: 'Male',
+      gender: 'male'.tr(),
       selected: false,
     ),
     Gender(
-      gender: 'Female',
+      gender: 'feMale'.tr(),
       selected: false,
     ),
   ];
@@ -62,8 +62,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
             PersonalInfoViewModel personalInfoViewModel) {
           return Scaffold(
             appBar: HessaAppBar(
-              trailingText: 'Cancel',
-              title: 'Complete Profile',
+              trailingText: 'cancel'.tr(),
+              title: 'completeProfile'.tr(),
               isTitleOnly: true,
             ),
             body: Padding(
@@ -74,7 +74,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(top: 30),
-                      child: Text('Personal Information',
+                      child: Text('personalInformation'.tr(),
                           style: openSans.get20.w700
                               .textColor(AppColors.appTextColor)),
                     ),
@@ -114,15 +114,15 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       },
                       controller: nationalityController,
                       readOnly: true,
-                      title: 'Nationality',
-                      hintText: 'Select your nationality',
+                      title: 'nationality'.tr(),
+                      hintText: 'selectYourNationality'.tr(),
                       suffix: const Icon(Icons.keyboard_arrow_down_sharp),
                     ),
                     AppTextFormField(
                       readOnly: true,
-                      title: 'Languages Spoken',
-                      hintText: 'Select spoken languages',
-                      suffix: Icon(Icons.keyboard_arrow_down_sharp),
+                      title: 'languageSpoken'.tr(),
+                      hintText: 'selectSpokenLanguages'.tr(),
+                      suffix: const Icon(Icons.keyboard_arrow_down_sharp),
                       controller: languageController,
                       onTap: () {
                         showModalBottomSheet(
@@ -165,15 +165,15 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         calender(context, dateController);
                       },
                       readOnly: true,
-                      title: 'Birthday',
-                      hintText: 'Select your birthday',
+                      title: 'birthday'.tr(),
+                      hintText: 'selectYourBirthday'.tr(),
                       suffix: const Icon(Icons.keyboard_arrow_down_sharp),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
                       child: Row(
                         children: <Widget>[
-                          Text('Make it visible for users',
+                          Text('makeItVisibleForUsers'.tr(),
                               style: openSans.get14.w500
                                   .textColor(AppColors.appTextColor)),
                           Padding(
@@ -198,7 +198,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     Padding(
                       padding: const EdgeInsets.only(top: 30, bottom: 15),
                       child: Text(
-                        'Gender',
+                        'gender'.tr(),
                         style: openSans.get12.w400
                             .textColor(AppColors.appTextColor.withOpacity(0.5)),
                       ),
@@ -206,7 +206,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     gridView(),
                     Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 15),
-                      child: Text('Civil ID',
+                      child: Text('civilID'.tr(),
                           style: openSans.get12.w400.textColor(
                               AppColors.appTextColor.withOpacity(0.5))),
                     ),
@@ -326,13 +326,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                                         });
                                                       },
                                                       child: Container(
-                                                          margin: EdgeInsets
-                                                              .symmetric(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .symmetric(
                                                                   vertical: 5,
                                                                   horizontal:
                                                                       5),
-                                                          padding:
-                                                              EdgeInsets.all(3),
+                                                          padding: EdgeInsets
+                                                              .all(3),
                                                           decoration: BoxDecoration(
                                                               color: AppColors
                                                                   .downArrowColor
@@ -340,7 +341,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                                                       0.15),
                                                               shape: BoxShape
                                                                   .circle),
-                                                          child: Icon(
+                                                          child: const Icon(
                                                             Icons.close,
                                                             size: 20,
                                                           )),
@@ -366,8 +367,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                           Center(
                                               child: Text(
                                             firstImage != null
-                                                ? 'Add More'
-                                                : 'Upload Civil ID',
+                                                ? 'addMore'.tr()
+                                                : 'uploadCivilID'.tr(),
                                             style: openSans.get14.w500.appBlue,
                                           )),
                                         ],
@@ -396,7 +397,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             ),
                             Expanded(
                               child: Text(
-                                'Civil ID for usage of app only, and we will not share this doc with anyone.',
+                                'civilIDForUsage'.tr(),
                                 style: openSans.get12.w400.appTextColor,
                                 overflow: TextOverflow.clip,
                               ),
@@ -406,7 +407,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       ),
                     ),
                     AppButton(
-                        title: 'Continue To Teaching Information',
+                        title: 'continueToTeachingInformation'.tr(),
                         onPressed: () {
                           AppRouter.pushNamed(Routes.teachingInfo);
                         })
@@ -552,56 +553,4 @@ class Gender {
 
   final String gender;
   final bool selected;
-}
-
-class CountrySelectionList extends StatefulWidget {
-  const CountrySelectionList({
-    super.key,
-    required this.countryList,
-    required this.onSelect,
-  });
-
-  final List<Country> countryList;
-  final Function(Country) onSelect;
-
-  @override
-  _CountrySelectionListState createState() => _CountrySelectionListState();
-}
-
-class _CountrySelectionListState extends State<CountrySelectionList> {
-  late List<bool> selectedCountries;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedCountries =
-        List.generate(widget.countryList.length, (int index) => false);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Select Countries'),
-      ),
-      body: ListView.builder(
-        itemCount: widget.countryList.length,
-        itemBuilder: (BuildContext context, int index) {
-          final Country country = widget.countryList[index];
-          return ListTile(
-            title: Text(country.name),
-            leading: Checkbox(
-              value: selectedCountries[index],
-              onChanged: (bool? value) {
-                setState(() {
-                  selectedCountries[index] = value ?? false;
-                  widget.onSelect(country);
-                });
-              },
-            ),
-          );
-        },
-      ),
-    );
-  }
 }
