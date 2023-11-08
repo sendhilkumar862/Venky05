@@ -47,6 +47,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
       selected: false,
     ),
   ];
+
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
@@ -508,6 +509,7 @@ class Gender {
     required this.gender,
     required this.selected,
   });
+
   final String gender;
   final bool selected;
 }
@@ -518,6 +520,7 @@ class CountrySelectionList extends StatefulWidget {
     required this.countryList,
     required this.onSelect,
   });
+
   final List<Country> countryList;
   final Function(Country) onSelect;
 

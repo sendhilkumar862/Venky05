@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 import '../constants/app/app_utils.dart';
@@ -33,4 +34,10 @@ class Validators {
     PatternValidator("^[A-Za-z\\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}\$",
         errorText: 'enter a valid name')
   ]);
+}
+
+void logs(String message) {
+  if (kDebugMode) {
+    print(message);
+  }
 }

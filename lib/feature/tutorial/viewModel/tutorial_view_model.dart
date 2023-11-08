@@ -140,7 +140,7 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   String mobileErrorText = '';
 
   @action
-  validateMobile(String value) {
+  void validateMobile(String value) {
     if (value!.isEmpty) {
       emailErrorText = 'Please enter Email';
     } else if (8 > emailController.text.length) {

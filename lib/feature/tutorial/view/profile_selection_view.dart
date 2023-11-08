@@ -69,8 +69,8 @@ class ProfileSelectionView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.px),
                       borderColor: AppColors.appBlue,
                       title: 'Continue',
+                      isDisable: true,
                       onPressed: () {
-
                         AppRouter.push(const OnboardingView());
                       },
                     ),

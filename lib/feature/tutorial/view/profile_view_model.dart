@@ -4,7 +4,6 @@ import 'package:mobx/mobx.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../product/cache/locale_manager.dart';
 
-
 part 'profile_view_model.g.dart';
 
 class ProfileViewModel = _ProfileViewModelBase with _$ProfileViewModel;
@@ -26,5 +25,14 @@ abstract class _ProfileViewModelBase extends BaseViewModel with Store {
   void selectProfile(int index) {
     selectedIndex = index;
     LocaleManager.instance.setIntValue(LocaleManager.profile, index);
+  }
+
+  @action
+  bool isSelected() {
+    if (selectedIndex == -1) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }
