@@ -1,5 +1,6 @@
 // ignore_for_file: always_specify_types, sort_constructors_first, avoid_dynamic_calls
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -65,10 +66,10 @@ class _ListDataState extends State<ListData> {
                                         borderRadius: BorderRadius.circular(25),
                                         color: const Color(0xfff0f5ff),
                                       ),
-                                      child: const Padding(
+                                      child:  Padding(
                                         padding: EdgeInsets.symmetric(
                                             vertical: 5, horizontal: 8),
-                                        child: Text('Default'),
+                                        child: Text('default'.tr()),
                                       )),
                                 ),
                             ],
@@ -138,7 +139,7 @@ class _ListDataState extends State<ListData> {
                                         AppColors.appBlue),
                                     shape: MaterialStatePropertyAll(
                                         StadiumBorder())),
-                                child: const Text('Set Default',
+                                child:  Text('setDefault'.tr(),
                                     style: TextStyle(color: AppColors.white)))
                         ]),
                   ],

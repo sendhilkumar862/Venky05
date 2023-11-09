@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -53,11 +54,11 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
                   padding: const EdgeInsets.only(top: 11),
                   child: Text('KWD', style: openSans.get16.w400),
                 ),
-                title: 'Top Up Amount',
-                hintText: 'Enter top up amount',
+                title: 'topUpAmount'.tr(),
+                hintText: 'enterTopUpAmount'.tr(),
               ),
               AppButton(
-                  title: 'Top Up',
+                  title: 'topUp'.tr(),
                   onPressed: () {
                     showModalBottomSheet(
                       context: context,

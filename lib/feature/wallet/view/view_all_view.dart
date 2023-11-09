@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -40,7 +41,7 @@ class _ViewAllViewState extends State<ViewAllView>
               backgroundColor: AppColors.appWhite,
               appBar: HessaAppBar(
                 icon: ImageConstants.avtar,
-                title: 'Invoices',
+                title: 'invoices'.tr(),
                 isTitleOnly: true,
               ),
               body: Column(
@@ -66,7 +67,7 @@ class _ViewAllViewState extends State<ViewAllView>
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           AppText(
-                            'Sort / Filter',
+                            'sort/Filter'.tr(),
                             fontSize: 14.px,
                             fontWeight: FontWeight.w600,
                             color: AppColors.appBlue,
@@ -95,7 +96,7 @@ class _ViewAllViewState extends State<ViewAllView>
                           itemBuilder: (BuildContext context, int index) {
 
                             return invoiceCardView(
-                              title: 'Class Fees',
+                              title: 'classFees'.tr(),
                               invoiceNumber: '#123456',
                               amount: '100.500 KWD',
                               date: '',
@@ -148,7 +149,7 @@ class _ViewAllViewState extends State<ViewAllView>
             ),
           Row(
             children: <Widget>[
-              if (title == 'Class Fees')
+              if (title == 'classFees'.tr())
                 CircleAvatar(
                     backgroundColor: AppColors.appLightRedTwo,
                     radius: 23.px,
@@ -196,7 +197,7 @@ class _ViewAllViewState extends State<ViewAllView>
                       height: 4.px,
                     ),
                     AppText(
-                      'Invoice No. $invoiceNumber',
+                      'invoiceNo. $invoiceNumber'.tr(),
                       fontSize: 10.px,
                       fontWeight: FontWeight.w400,
                       color: AppColors.appGrey,
