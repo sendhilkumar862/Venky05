@@ -15,6 +15,7 @@ import '../../../product/cache/locale_manager.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/tutorial_view_model.dart';
+import 'bottomSheets/country_bottom_sheet.dart';
 import 'bottomSheets/language_bottom_sheet.dart';
 
 class LanguageView extends StatefulWidget {
@@ -74,22 +75,14 @@ class _LanguageViewState extends State<LanguageView> {
                             return StatefulBuilder(
                               builder: (BuildContext context, setState) {
                                 return Observer(builder: (_) {
-                                  return CountryBottomSheet(
+                                  return CountryBottomsSheet(
+                                      setState: setState,
+                                      tutorialViewModel: tutorialViewModel);
+                                    CountryBottomSheet(
                                     countries: tutorialViewModel.countries,
                                     selectedIndex: countryIndex,
                                     onTap: (int index) {
-                                      setState(
-                                        () {
-                                          countryIndex = index;
-                                          tutorialViewModel.selectItem(
-                                              tutorialViewModel
-                                                  .countries[index]);
-                                          nationalityController.text =
-                                              tutorialViewModel.selectedItem;
-                                          tutorialViewModel
-                                              .selectCountry(index);
-                                        },
-                                      );
+
                                     },
                                   );
                                 });

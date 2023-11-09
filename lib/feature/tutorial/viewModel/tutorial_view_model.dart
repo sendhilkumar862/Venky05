@@ -39,6 +39,9 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   List profileItems = <String>['Teacher', 'Parent/Student'];
 
   @observable
+  TextEditingController countryController = TextEditingController();
+
+  @observable
   List<String> countries = [
     'Oman',
     'Bahrain',
@@ -100,11 +103,13 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   }
 
   @action
-  void filterCountries(String query) {
+  void filterCountries(String query, Function setState) {
     filteredCountries = countries
         .where((String country) =>
             country.toLowerCase().contains(query.toLowerCase()))
         .toList();
+    setState(() {});
+    logs('filtered Country List --> $filteredCountries');
   }
 
   @observable
