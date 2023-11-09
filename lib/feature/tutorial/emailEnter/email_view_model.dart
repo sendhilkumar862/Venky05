@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -6,8 +7,10 @@ import '../../../../product/base/model/base_view_model.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../product/constants/app/app_utils.dart';
+import '../../../product/network/networking/api_service.dart';
+import '../../../product/network/networking/dio_service.dart';
 import '../../../product/utils/validators.dart';
-import '../../tutorial/view/language_view.dart';
+import '../language/country_model.dart';
 
 part 'email_view_model.g.dart';
 
@@ -19,6 +22,21 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
 
   @override
   void init() {
+    getCounties();
+  }
+
+  @action
+  Future<void> getCounties() async {
+    var dio = Dio();
+    dio.options =
+        BaseOptions(method: 'GET', baseUrl: 'http://167.99.93.83/api/v1');
+    final ApiService apiService = ApiService(DioService(dioClient: dio));
+    var response = await apiService.getCollectionData(
+        endpoint: '/users/email/send-otp',
+        converter: Country.fromJson,
+        requiresAuthToken: false);
+    logs('Response --> ${response}');
+
   }
 
   //========email========//

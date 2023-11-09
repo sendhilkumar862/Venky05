@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 
-class AppImageAsset extends StatelessWidget {
+import '../../product/constants/colors/app_colors_constants.dart';
 
+class AppImageAsset extends StatelessWidget {
   const AppImageAsset({
     super.key,
     required this.image,
@@ -17,6 +18,7 @@ class AppImageAsset extends StatelessWidget {
     this.color,
     this.isFile = false,
   });
+
   final String image;
   final double? height;
   final double? width;
@@ -32,15 +34,20 @@ class AppImageAsset extends StatelessWidget {
             height: height,
             width: width,
             fit: fit ?? BoxFit.cover,
-            placeholder: (BuildContext context, String url) => const CircularProgressIndicator(color: Colors.red),
-            errorWidget: (BuildContext context, String url, Object error) => const Icon(Icons.error, color: Colors.red),
+            placeholder: (BuildContext context, String url) =>
+                const CircularProgressIndicator(color: AppColors.appBlue),
+            errorWidget: (BuildContext context, String url, Object error) =>
+                const Icon(Icons.error, color: Colors.red),
           )
         : image.contains('json')
             ? Lottie.asset(image, height: height, width: width, fit: fit)
             : isFile
-                ? Image.file(File(image), height: height, width: width, color: color, fit: fit)
+                ? Image.file(File(image),
+                    height: height, width: width, color: color, fit: fit)
                 : image.split('.').last != 'svg'
-                    ? Image.asset(image, fit: fit, height: height, width: width, color: color)
-                    : SvgPicture.asset(image, height: height, width: width, color: color);
+                    ? Image.asset(image,
+                        fit: fit, height: height, width: width, color: color)
+                    : SvgPicture.asset(image,
+                        height: height, width: width, color: color);
   }
 }

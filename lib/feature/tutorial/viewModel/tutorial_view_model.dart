@@ -9,8 +9,8 @@ import '../../../config/routes/routes.dart';
 import '../../../product/cache/locale_manager.dart';
 import '../../../product/constants/app/app_utils.dart';
 import '../../../product/constants/image/image_constants.dart';
+import '../../../product/network/networking/interceptors/refresh_token_interceptor.dart';
 import '../../../product/utils/validators.dart';
-import '../../tutorial/view/language_view.dart';
 
 part 'tutorial_view_model.g.dart';
 
@@ -21,95 +21,21 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   void setContext(BuildContext context) => viewModelContext = context;
 
   @override
-  void init() {}
-
-  @observable
-  String selectedItem = '';
+  void init() {
+    logs('Entred');
+    RestServices.instance.getRestCall();
+  }
 
   @observable
   int selectedIndex = -1;
 
   @observable
-  int countryIndex = 0;
-
-  @observable
-  int languageIndex = 0;
-
-  @observable
   List profileItems = <String>['Teacher', 'Parent/Student'];
-
-  @observable
-  TextEditingController countryController = TextEditingController();
-
-  @observable
-  List<String> countries = [
-    'Oman',
-    'Bahrain',
-    'Qatar',
-    'Saudi Arabia',
-    'UEA',
-  ];
-
-  void selectItem(String item) {
-    runInAction(() {
-      selectedItem = item;
-    });
-  }
-
-  @observable
-  List<String> countryLogo = [
-    ImageConstants.oman,
-    ImageConstants.bahrain,
-    ImageConstants.qatar,
-    ImageConstants.saudiArabia,
-    ImageConstants.uae,
-  ];
-
-  @observable
-  List<String> languages = [
-    'English',
-    'عربي',
-  ];
-
-  @observable
-  List<String> languageIcon = [
-    ImageConstants.usIcon,
-    ImageConstants.saudiArabia,
-  ];
-
-  @observable
-  List<String> filteredCountries = [];
 
   @action
   void selectProfile(int index) {
     selectedIndex = index;
     LocaleManager.instance.setIntValue(LocaleManager.profile, index);
-  }
-
-  @action
-  void selectCountry(int index) {
-    countryIndex = index;
-    LocaleManager.instance
-        .setStringValue(LocaleManager.country, countries[index]);
-    logs('selected Country-->$countryIndex');
-  }
-
-  @action
-  void selectLanguage(int index) {
-    languageIndex = index;
-    LocaleManager.instance
-        .setStringValue(LocaleManager.country, languages[index]);
-    logs('selected lang-->$languageIndex');
-  }
-
-  @action
-  void filterCountries(String query, Function setState) {
-    filteredCountries = countries
-        .where((String country) =>
-            country.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-    setState(() {});
-    logs('filtered Country List --> $filteredCountries');
   }
 
   @observable

@@ -3,7 +3,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../config/routes/app_router.dart';
-import '../../tutorial/view/language_view.dart';
+import '../../tutorial/language/language_view.dart';
 import '../view/splash_first.dart';
 import '../view/splash_second.dart';
 
@@ -20,7 +20,7 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
     Future.delayed(
       const Duration(milliseconds: 3000),
       () {
-        AppRouter.push(const LanguageView());
+        AppRouter.push(const SplashSecond());
       },
     );
   }

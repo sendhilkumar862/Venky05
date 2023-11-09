@@ -9,12 +9,13 @@ import '../../../../custom/text/app_text.dart';
 import '../../../../product/cache/locale_manager.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../language/language_view_model.dart';
 import '../../viewModel/tutorial_view_model.dart';
 
 class CountryBottomsSheet extends StatelessWidget {
-  CountryBottomsSheet({this.tutorialViewModel, super.key, this.setState});
+  CountryBottomsSheet({this.languageViewModel, super.key, this.setState});
 
-  TutorialViewModel? tutorialViewModel;
+  LanguageViewModel? languageViewModel;
   Function? setState;
 
   @override
@@ -69,10 +70,10 @@ class CountryBottomsSheet extends StatelessWidget {
                       color: AppColors.appGrey,
                     ),
                   ),
-                  controller: tutorialViewModel!.countryController,
+                  controller: languageViewModel!.countryController,
                   hintText: 'Search',
                   onChanged: (String value) {
-                    tutorialViewModel!.filterCountries(value, setState!);
+                    languageViewModel!.filterCountries(value, setState!);
                   },
                 ),
               ),
@@ -81,9 +82,9 @@ class CountryBottomsSheet extends StatelessWidget {
               ),
               Expanded(
                 child: ListView.separated(
-                  itemCount: tutorialViewModel!.filteredCountries.isNotEmpty
-                      ? tutorialViewModel!.filteredCountries.length
-                      : tutorialViewModel!.countries.length,
+                  itemCount: languageViewModel!.filteredCountries.isNotEmpty
+                      ? languageViewModel!.filteredCountries.length
+                      : languageViewModel!.countries.length,
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
@@ -91,7 +92,7 @@ class CountryBottomsSheet extends StatelessWidget {
                       onTap: () {
                         setState!(
                           () {
-                            tutorialViewModel!.selectCountry(index);
+                            languageViewModel!.selectCountry(index);
                           },
                         );
                       },
@@ -101,24 +102,30 @@ class CountryBottomsSheet extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 8.px),
                         child: Row(
                           children: <Widget>[
-                            AppImageAsset(
-                              image: tutorialViewModel!.countryLogo[index],
-                              height: 20.px,
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(700),
+                              child: AppImageAsset(
+                                image: languageViewModel!.countryLogo[index],
+                                fit: BoxFit.cover,
+                                height: 20.px,
+                                width: 20,
+                              ),
                             ),
                             SizedBox(
                               width: 10.px,
                             ),
                             AppText(
-                              tutorialViewModel!.filteredCountries.isNotEmpty
-                                  ? tutorialViewModel!.filteredCountries[index]
-                                  : tutorialViewModel!.filteredCountries[index],
+                              languageViewModel!.filteredCountries.isNotEmpty
+                                  ? languageViewModel!.filteredCountries[index]
+                                  : languageViewModel!.filteredCountries[index],
                               fontWeight: FontWeight.w400,
+                              overflow: TextOverflow.ellipsis,
                             ),
                             const Spacer(),
                             AppImageAsset(
                               image: ImageConstants.acceptedStatus,
                               height: 23.px,
-                              color: (tutorialViewModel!.countryIndex == index)
+                              color: (languageViewModel!.countryIndex == index)
                                   ? AppColors.appBlue
                                   : AppColors.appWhite,
                             ),

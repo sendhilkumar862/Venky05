@@ -7,7 +7,6 @@ import '../../../custom/image/app_image_assets.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
-import '../../tutorial/view/language_view.dart';
 import '../viewModel/splash_view_model.dart';
 
 

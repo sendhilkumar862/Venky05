@@ -6,7 +6,6 @@ import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../product/cache/locale_manager.dart';
 import '../../../product/constants/image/image_constants.dart';
-import '../../tutorial/view/language_view.dart';
 
 part 'mobile_otp_view_model.g.dart';
 

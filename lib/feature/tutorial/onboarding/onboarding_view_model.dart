@@ -6,7 +6,6 @@ import '../../../../product/base/model/base_view_model.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../product/cache/locale_manager.dart';
 import '../../../product/constants/image/image_constants.dart';
-import '../../tutorial/view/language_view.dart';
 
 part 'onboarding_view_model.g.dart';
 
