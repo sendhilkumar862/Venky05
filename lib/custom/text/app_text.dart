@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../product/constants/colors/app_colors_constants.dart';
+import '../../product/utils/typography.dart';
 
 
 class AppText extends StatelessWidget {
@@ -42,7 +43,7 @@ class AppText extends StatelessWidget {
       maxLines: maxLines,
       style: TextStyle(
         color: color ?? AppColors.appDarkBlack,
-        fontFamily: fontFamily,
+        fontFamily:  fontFamily??TextFontFamily.openSans,
         fontWeight: fontWeight ?? FontWeight.w500,
         fontSize: fontSize ?? 16,
         height: height,

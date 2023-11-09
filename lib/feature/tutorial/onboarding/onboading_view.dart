@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lottie/lottie.dart';
@@ -11,8 +12,8 @@ import '../../../custom/appbar/appBarOnBoard.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
-import '../view/email_view.dart';
-import '../viewModel/tutorial_view_model.dart';
+import '../../../product/constants/image/image_constants.dart';
+import '../emailEnter/email_view.dart';
 import 'onboarding_view_model.dart';
 
 class OnboardingView extends StatelessWidget {
@@ -31,16 +32,14 @@ class OnboardingView extends StatelessWidget {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               backgroundColor: AppColors.appWhite,
-              appBar: AppBarOnBoard(),
+              appBar: AppBarOnBoard(title: 'exploreApp'.tr(),icon: ImageConstants.layersIcon,),
               body: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.px),
                 child: Column(
                   children: <Widget>[
+
                     SizedBox(
-                      height: 40.px,
-                    ),
-                    SizedBox(
-                      height: 390.px,
+                      height:400.px,
                       child: PageView.builder(
                         physics: BouncingScrollPhysics(),
                         controller: onboardingViewModel.pageController,
@@ -50,11 +49,12 @@ class OnboardingView extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 20.px),
                             child: Column(
                               children: <Widget>[
-                                (onboardingViewModel.currentProfile == 1)
-                                    ? Lottie.asset(onboardingViewModel
-                                        .studentAnimation[index])
-                                    : Lottie.asset(onboardingViewModel
-                                        .teacherAnimation[index]),
+                                if (onboardingViewModel.currentProfile == 1)
+                                  Lottie.asset(onboardingViewModel
+                                      .studentAnimation[index])
+                                else
+                                  Lottie.asset(onboardingViewModel
+                                      .teacherAnimation[index]),
                                 AppText(
                                   (onboardingViewModel.currentProfile == 1)
                                       ? onboardingViewModel.studentTitle[index]
@@ -103,7 +103,8 @@ class OnboardingView extends StatelessWidget {
                       height: 45.px,
                       borderRadius: BorderRadius.circular(10.px),
                       borderColor: AppColors.appBlue,
-                      title: 'Join To Hessah',
+                      title: 'join'.tr(),
+                      isDisable: false,
                       onPressed: () {
                         AppRouter.push(const EmailView());
                       },
@@ -114,7 +115,7 @@ class OnboardingView extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () => AppRouter.pushNamed(Routes.loginView),
                         child: AppText(
-                          'Login',
+                          'login'.tr(),
                           fontWeight: FontWeight.w600,
                           fontSize: 14.px,
                           color: AppColors.appBlue,

@@ -20,4 +20,5 @@ class Config {
     'BASE_URL',
     defaultValue: 'localhost:3000/api/v1',
   );
+
 }

@@ -3,6 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
+import '../app_textformfield/text_field.dart';
 import '../divider/divider.dart';
 import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
@@ -54,7 +55,14 @@ class CountryBottomSheet extends StatelessWidget {
               AppText('Change Country',
                   fontWeight: FontWeight.w700, fontSize: 14.px),
               SizedBox(
-                height: 30.px,
+                height: 10.px,
+              ),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.px),
+                  child: TextFormsField(
+                      controller: TextEditingController(), hintText: 'Search')),
+              SizedBox(
+                height: 15.px,
               ),
               Expanded(
                 child: ListView.separated(

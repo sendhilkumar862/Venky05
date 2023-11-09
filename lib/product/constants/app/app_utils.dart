@@ -79,7 +79,6 @@ class AppUtils {
       duration: const Duration(seconds: 3),
     ).show(context);
   }
-
 }
 
 /// A utility class that holds commonly used regular expressions
@@ -119,11 +118,21 @@ class Regexes {
 
   /// The regular expression for validating credit card expiry in the app.
   static final RegExp otpDigitRegex = RegExp(r'^[0-9]{1}$');
+  static final RegExp digitRegExp = RegExp(r'\d');
+  static final RegExp specialCharRegExp = RegExp(r'[!@#\$%^&*(),.?":{}|<>]');
+  static final RegExp uppercaseRegExp = RegExp(r'[A-Z]');
+  static final RegExp lowercaseRegExp = RegExp(r'[a-z]');
 
-  static bool validateRegEx(String email, regExp) {
-    final RegExp emailRegex = regExp;
-    return !emailRegex.hasMatch(email);
+  static bool validateRegEx(String text, regExp) {
+    final RegExp regex = regExp;
+    return !regex.hasMatch(text);
   }
+
+  static bool validate(String text, regExp) {
+    final RegExp regex = regExp;
+    return regex.hasMatch(text);
+  }
+
 }
 
 /// A utility class that holds all the timings used throughout

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:hessah/feature/tutorial/view/profile_selection_view.dart';
@@ -14,6 +15,7 @@ import '../../../product/cache/locale_manager.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/tutorial_view_model.dart';
+import 'bottomSheets/country_bottom_sheet.dart';
 import 'bottomSheets/language_bottom_sheet.dart';
 
 class LanguageView extends StatefulWidget {
@@ -25,7 +27,7 @@ class LanguageView extends StatefulWidget {
 
 class _LanguageViewState extends State<LanguageView> {
   TextEditingController nationalityController = TextEditingController();
-  int selectedIndex = 0;
+  int countryIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class _LanguageViewState extends State<LanguageView> {
                       height: 15.px,
                     ),
                     AppText(
-                      'Choose your Country and Language',
+                      'chooseLang'.tr(),
                       textAlign: TextAlign.center,
                       fontSize: 24.px,
                       fontWeight: FontWeight.w800,
@@ -58,7 +60,8 @@ class _LanguageViewState extends State<LanguageView> {
                     ),
                     selectCardView(
                       icon: ImageConstants.countryIcon,
-                      title: 'Kuwait',
+                      title: tutorialViewModel
+                          .countries[tutorialViewModel.countryIndex],
                       onTap: () {
                         showModalBottomSheet(
                           isScrollControlled: true,
@@ -72,25 +75,14 @@ class _LanguageViewState extends State<LanguageView> {
                             return StatefulBuilder(
                               builder: (BuildContext context, setState) {
                                 return Observer(builder: (_) {
-                                  return CountryBottomSheet(
+                                  return CountryBottomsSheet(
+                                      setState: setState,
+                                      tutorialViewModel: tutorialViewModel);
+                                    CountryBottomSheet(
                                     countries: tutorialViewModel.countries,
-                                    selectedIndex: selectedIndex,
+                                    selectedIndex: countryIndex,
                                     onTap: (int index) {
-                                      setState(
-                                        () {
-                                          selectedIndex = index;
-                                          tutorialViewModel.selectItem(
-                                              tutorialViewModel
-                                                  .countries[index]);
-                                          nationalityController.text =
-                                              tutorialViewModel.selectedItem;
 
-                                          LocaleManager.instance.setStringValue(
-                                              LocaleManager.country,
-                                              tutorialViewModel
-                                                  .countries[index]);
-                                        },
-                                      );
                                     },
                                   );
                                 });
@@ -102,8 +94,10 @@ class _LanguageViewState extends State<LanguageView> {
                     ),
                     SizedBox(height: 15.px),
                     selectCardView(
-                      icon: ImageConstants.usIcon,
-                      title: 'English',
+                      icon: tutorialViewModel
+                          .languageIcon[tutorialViewModel.languageIndex],
+                      title: tutorialViewModel
+                          .languages[tutorialViewModel.languageIndex],
                       onTap: () {
                         showModalBottomSheet(
                           isScrollControlled: true,
@@ -130,7 +124,8 @@ class _LanguageViewState extends State<LanguageView> {
                       height: 45.px,
                       borderRadius: BorderRadius.circular(10.px),
                       borderColor: AppColors.appBlue,
-                      title: 'Continue',
+                      title: 'continue'.tr(),
+                      isDisable: false,
                       onPressed: () {
                         AppRouter.push(const ProfileSelectionView());
                       },
@@ -150,6 +145,7 @@ class _LanguageViewState extends State<LanguageView> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        height: 50.px,
         padding: EdgeInsets.symmetric(horizontal: 15.px, vertical: 12.px),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.px),
@@ -171,7 +167,7 @@ class _LanguageViewState extends State<LanguageView> {
             const Spacer(),
             AppImageAsset(
               image: ImageConstants.downIcon,
-              height: 20.px,
+              height: 16.px,
               color: AppColors.appGrey,
             ),
           ],

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
@@ -42,30 +43,18 @@ abstract class _OnboardingViewModelBase extends BaseViewModel with Store {
   ];
 
   @observable
-  List studentTitle = [
-    'Explore Classes',
-    'Book Or Create Classes',
-    'Start Your Class'
-  ];
+  List studentTitle = ['exploreApp'.tr(), 'book'.tr(), 'startClass'.tr()];
 
   @observable
-  List teacherTitle = [
-    'Submit Proposals',
-    'Start Your Class',
-    'Set Available Times'
-  ];
+  List teacherTitle = ['submitProposalTeacher'.tr(), 'startClass'.tr(), 'setAvailableTimes'];
 
   @observable
-  List studentSubtitle = [
-    'Explore classes or Teachers and Start your learning plan',
-    "Can't find your class? No worries!You can create your needs.",
-    'Book classes and start learning. Expand your classes to achieve your goals'
-  ];
+  List studentSubtitle = ['explore'.tr(), 'cantFind'.tr(), 'bookClasses'.tr()];
 
   @observable
   List teacherSubtitle = [
-    'Explore classes created by students and submit your proposals.',
-    "Create classes and start your teaching journey",
-    'Set your free times, and give the students the ability to book their favorite times'
+    'exploreClasses'.tr(),
+    "createAndClasses".tr(),
+    'setAndGive'.tr()
   ];
 }

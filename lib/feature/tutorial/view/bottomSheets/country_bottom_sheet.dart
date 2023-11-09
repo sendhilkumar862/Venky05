@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/divider/divider.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
@@ -10,8 +11,8 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../viewModel/tutorial_view_model.dart';
 
-class LanguageBottomSheet extends StatelessWidget {
-  LanguageBottomSheet({this.tutorialViewModel, super.key, this.setState});
+class CountryBottomsSheet extends StatelessWidget {
+  CountryBottomsSheet({this.tutorialViewModel, super.key, this.setState});
 
   TutorialViewModel? tutorialViewModel;
   Function? setState;
@@ -19,7 +20,7 @@ class LanguageBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: (MediaQuery.of(context).size.height * 0.30).px,
+      height: (MediaQuery.of(context).size.height * 0.80).px,
       decoration: BoxDecoration(
         color: AppColors.appWhite,
         borderRadius: BorderRadius.only(
@@ -52,32 +53,47 @@ class LanguageBottomSheet extends StatelessWidget {
               SizedBox(
                 height: 25.px,
               ),
-              AppText('Change Language',
+              AppText('Change Country',
                   fontWeight: FontWeight.w700, fontSize: 14.px),
               SizedBox(
-                height: 30.px,
+                height: 10.px,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.px),
+                child: TextFormsField(
+                  prefix: Padding(
+                    padding: EdgeInsets.only(left: 15.px),
+                    child: AppImageAsset(
+                      image: ImageConstants.searchIcon,
+                      height: 20.px,
+                      color: AppColors.appGrey,
+                    ),
+                  ),
+                  controller: tutorialViewModel!.countryController,
+                  hintText: 'Search',
+                  onChanged: (String value) {
+                    tutorialViewModel!.filterCountries(value, setState!);
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 15.px,
               ),
               Expanded(
                 child: ListView.separated(
-                  itemCount: tutorialViewModel!.languages.length,
+                  itemCount: tutorialViewModel!.filteredCountries.isNotEmpty
+                      ? tutorialViewModel!.filteredCountries.length
+                      : tutorialViewModel!.countries.length,
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
-                        setState!(() {
-                          tutorialViewModel!.selectLanguage(index);
-                          LocaleManager.instance.setStringValue(
-                              LocaleManager.language,
-                              tutorialViewModel!.languages[index]);
-                          if (index == 0) {
-                            context.setLocale(const Locale('en-US'));
-                          } else {
-                          //  context.setLocale(const Locale('er-AR'));
-                            context.setLocale(const Locale('en-US'));
-
-                          }
-                        });
+                        setState!(
+                          () {
+                            tutorialViewModel!.selectCountry(index);
+                          },
+                        );
                       },
                       child: Container(
                         color: AppColors.appTransparent,
@@ -86,21 +102,23 @@ class LanguageBottomSheet extends StatelessWidget {
                         child: Row(
                           children: <Widget>[
                             AppImageAsset(
-                              image: tutorialViewModel!.languageIcon[index],
+                              image: tutorialViewModel!.countryLogo[index],
                               height: 20.px,
                             ),
                             SizedBox(
                               width: 10.px,
                             ),
                             AppText(
-                              tutorialViewModel!.languages[index],
+                              tutorialViewModel!.filteredCountries.isNotEmpty
+                                  ? tutorialViewModel!.filteredCountries[index]
+                                  : tutorialViewModel!.filteredCountries[index],
                               fontWeight: FontWeight.w400,
                             ),
                             const Spacer(),
                             AppImageAsset(
                               image: ImageConstants.acceptedStatus,
                               height: 23.px,
-                              color: (tutorialViewModel!.languageIndex == index)
+                              color: (tutorialViewModel!.countryIndex == index)
                                   ? AppColors.appBlue
                                   : AppColors.appWhite,
                             ),

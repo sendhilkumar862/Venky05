@@ -1,44 +1,42 @@
-import 'package:country_code_picker/country_code_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
-import '../../../custom/app_button/app_button.dart';
 import '../../../custom/app_textformfield/app_field.dart';
 import '../../../custom/app_textformfield/text_field.dart';
 import '../../../custom/image/app_image_assets.dart';
-import '../../../custom/otp/otp_text_field.dart';
 import '../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../custom/text/app_text.dart';
-import '../../../custom/text/country_picker.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
-import '../../../product/utils/typography.dart';
+import '../../../product/utils/validators.dart';
 import '../viewModel/tutorial_view_model.dart';
-import 'email_view.dart';
+import 'email_view_model.dart';
 
-class MobileView extends StatelessWidget {
-  const MobileView({super.key});
+class EmailView extends StatelessWidget {
+  const EmailView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<TutorialViewModel>(
-        viewModel: TutorialViewModel(),
-        onModelReady: (TutorialViewModel tutorialViewModel) {
-          tutorialViewModel.setContext(context);
+    return BaseView<EmailViewModel>(
+        viewModel: EmailViewModel(),
+        onModelReady: (EmailViewModel emailViewModel) {
+          emailViewModel.setContext(context);
         },
         onPageBuilder:
-            (BuildContext context, TutorialViewModel tutorialViewModel) {
+            (BuildContext context, EmailViewModel emailViewModel) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               body: PreLoginCustomBody(
                 widget: Expanded(
                   child: ListView(
+                    physics: PageScrollPhysics(),
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
-                    children: [
+                    children: <Widget>[
                       SizedBox(height: 35.px),
                       const OnTapBack(),
                       SizedBox(height: 80.px),
@@ -52,31 +50,19 @@ class MobileView extends StatelessWidget {
                       SizedBox(height: 28.px),
                       AppText(
                         textAlign: TextAlign.start,
-                        'Join To Hessah',
+                        'join'.tr(),
                         fontSize: 24.px,
                         fontWeight: FontWeight.w700,
                       ),
                       SizedBox(height: 10.px),
                       TextFormsField(
-                        prefix: CountryPicker(
-                          flagDecoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(2)),
-                          padding: EdgeInsets.zero,
-                          onChanged: (CountryCode countryCode) {},
-                          alignLeft: false,
-                          dialogSize: const Size.square(550),
-                          dialogTextStyle: openSans.w500.get16,
-                          initialSelection: 'IN',
-                          favorite: ['+91', 'IN'],
-                          showDropDownButton: true,
-                          textStyle: openSans.black.get12,
-                        ),
-                        title: 'Mobile Number',
-                        controller: tutorialViewModel.emailController,
-                        hintText: 'Enter your mobile number',
-                        errorText: tutorialViewModel.emailErrorText!,
+                        title: 'emailAdd'.tr(),
+                        validate: emailViewModel.emailValid,
+                        controller: emailViewModel.emailController,
+                        hintText: 'enterEmail'.tr(),
+                        errorText: emailViewModel.emailErrorText!,
                         onChanged: (String value) {
-                          tutorialViewModel.validateEmail(value!);
+                          emailViewModel.validateEmail(value!);
                         },
                       ),
                       SizedBox(
@@ -86,9 +72,26 @@ class MobileView extends StatelessWidget {
                   ),
                 ),
               ),
-              bottomNavigationBar: PreLoginCommonButton(
-                title: 'Continue',
-                onTap: () => AppRouter.pushNamed(Routes.mobileOtpView),
+              bottomNavigationBar: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  PreLoginCommonButton(
+                    title: 'continue'.tr(),
+                    onTap: () => emailViewModel.onTapEmailSubmit(),
+                    height: 0,
+                    isDisable: emailViewModel.emailValid != 1,
+                  ),
+                  SizedBox(height: 15.px),
+                  AppText(
+                    'alreadyLogin'.tr(),
+                    fontSize: 14.px,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.appBlue,
+                  ),
+                  SizedBox(
+                    height: 40.px,
+                  ),
+                ],
               ),
             );
           });

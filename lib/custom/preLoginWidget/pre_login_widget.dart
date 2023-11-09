@@ -80,7 +80,7 @@ class PreLoginCommonButton extends StatelessWidget {
             borderColor: AppColors.appBlue,
             title: title ?? '',
             onPressed: onTap ?? () {},
-            //isDisable: isDisable,
+          isDisable: isDisable,
           ),
         ),
         SizedBox(

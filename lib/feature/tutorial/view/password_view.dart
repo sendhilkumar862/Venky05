@@ -1,10 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../../config/routes/app_router.dart';
-import '../../../config/routes/routes.dart';
-import '../../../custom/app_button/app_button.dart';
-import '../../../custom/app_textformfield/app_field.dart';
+import '../../../custom/app_textformfield/text_field.dart';
 import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../custom/sheet/app_bottom_sheet.dart';
@@ -35,11 +33,14 @@ class PasswordView extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SizedBox(height: 35.px),
-                      const OnTapBack(),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10.px),
+                        child: const OnTapBack(),
+                      ),
                       SizedBox(height: 20.px),
                       Expanded(
                         child: ListView(
-                          physics:BouncingScrollPhysics(),
+                          physics: BouncingScrollPhysics(),
                           padding: EdgeInsets.symmetric(horizontal: 15.px),
                           children: <Widget>[
                             SizedBox(height: 45.px),
@@ -47,67 +48,76 @@ class PasswordView extends StatelessWidget {
                               alignment: Alignment.centerLeft,
                               child: AppText(
                                 textAlign: TextAlign.start,
-                                'Create Password',
+                                'createPassword'.tr(),
                                 fontSize: 24.px,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
                             SizedBox(height: 20.px),
-                            AppTextFormField(
-                              title: 'Password',
-                              hintText: 'Enter yourPassword',
-                              fillColor: AppColors.appWhite,
-                              suffix: Padding(
-                                padding: EdgeInsets.all(13.px),
-                                child: AppImageAsset(
-                                  image: ImageConstants.eyeCross,
-                                  height: 10.px,
-                                ),
+                            TextFormsField(
+                              title: 'password'.tr(),
+                              controller: tutorialViewModel.passwordController,
+                              hintText: 'enterYourPassword'.tr(),
+                              suffixIcon: AppImageAsset(
+                                image: ImageConstants.eyeCross,
+                                height: 22.px,
                               ),
+                              onChanged: (String value) {
+                                tutorialViewModel.validatePassword(value!);
+                              },
                             ),
-                            AppTextFormField(
-                              title: 'Retype Password',
-                              hintText: 'Enter your password again',
-                              fillColor: AppColors.appWhite,
-                              suffix: Padding(
-                                padding: EdgeInsets.all(13.px),
-                                child: AppImageAsset(
-                                  image: ImageConstants.eyeCross,
-                                  height: 10.px,
-                                ),
+                            SizedBox(height: 10.px),
+                            TextFormsField(
+                              title: 'retypePassword'.tr(),
+                              controller:
+                                  tutorialViewModel.retypePasswordController,
+                              hintText: 'enterYourPasswordAgain'.tr(),
+                              suffixIcon: AppImageAsset(
+                                image: ImageConstants.eyeCross,
+                                height: 22.px,
                               ),
+                              onChanged: (String value) {
+                                tutorialViewModel
+                                    .validateRetypePassword(value!);
+                              },
                             ),
                             SizedBox(height: 18.px),
                             AppText(
-                              'Password Criteria:',
+                              'passwordCriteria'.tr(),
                               fontSize: 14.px,
                             ),
                             SizedBox(height: 5.px),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: List.generate(
-                                  tutorialViewModel.passWordCriteria.length,
-                                  (int index) {
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 4.px),
-                                  child: Row(
-                                    children: <Widget>[
-                                      AppImageAsset(
-                                        image: (true)
-                                            ? ImageConstants.checkbox
-                                            : ImageConstants.checkbox,
-                                        height: 18.px,
+                            Observer(
+                              builder: (context) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: List.generate(
+                                      tutorialViewModel.passWordCriteria.length,
+                                      (int index) {
+                                    return Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 4.px),
+                                      child: Row(
+                                        children: <Widget>[
+                                          AppImageAsset(
+                                            image: (!tutorialViewModel
+                                                    .isPassWordCriteria[index])
+                                                ? ImageConstants.checkbox
+                                                : ImageConstants.checkboxFilled,
+                                            height: 18.px,
+                                          ),
+                                          SizedBox(width: 8.px),
+                                          AppText(
+                                            tutorialViewModel
+                                                .passWordCriteria[index],
+                                            fontSize: 12.px,
+                                          )
+                                        ],
                                       ),
-                                      SizedBox(width: 8.px),
-                                      AppText(
-                                        tutorialViewModel
-                                            .passWordCriteria[index],
-                                        fontSize: 12.px,
-                                      )
-                                    ],
-                                  ),
+                                    );
+                                  }),
                                 );
-                              }),
+                              },
                             )
                           ],
                         ),
@@ -134,7 +144,7 @@ class PasswordView extends StatelessWidget {
                       ),
                       SizedBox(width: 6.px),
                       AppText(
-                        'I have read and accept',
+                        'iHaveRead'.tr(),
                         fontSize: 14.px,
                       ),
                       SizedBox(width: 5.px),
@@ -143,7 +153,7 @@ class PasswordView extends StatelessWidget {
                             commonWidget: TermAndConditionBottomSheet(),
                             context: context),
                         child: AppText(
-                          'Terms & Conditions',
+                          't&c'.tr(),
                           fontSize: 14.px,
                           color: AppColors.appBlue,
                         ),
@@ -153,8 +163,10 @@ class PasswordView extends StatelessWidget {
                 ),
                 SizedBox(height: 15.px),
                 PreLoginCommonButton(
-                  title: 'Continue',
-                  onTap: () => AppRouter.pushNamed(Routes.homeViews),
+                  title: 'continue'.tr(),
+                  onTap: () => tutorialViewModel.onTapSubmitPassword,
+                  isDisable:
+                      tutorialViewModel.isPassWordCriteria.contains(false),
                 )
               ]),
             );

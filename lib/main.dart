@@ -16,10 +16,10 @@ import 'product/lang/language_manager.dart';
 import 'product/notifier/app_provider.dart';
 import 'product/theme/theme_notifier.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Initialize the Flutter binding
   LocaleManager.prefrencesInit();
-
+  await EasyLocalization.ensureInitialized();
   runApp(
     MultiProvider(
       providers: <SingleChildWidget>[
@@ -47,7 +47,6 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           localizationsDelegates: context.localizationDelegates,
           onGenerateRoute: AppRouter.generateRoute,
-          // Localization
           locale: LanguageManager.instance.enLocale,
           supportedLocales: LanguageManager.instance.supportedLocales,
           navigatorKey: AppRouter.navigatorKey,

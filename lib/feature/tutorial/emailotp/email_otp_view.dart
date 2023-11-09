@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -12,6 +13,7 @@ import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
+import '../../../product/utils/validators.dart';
 import '../viewModel/tutorial_view_model.dart';
 import 'email_otp_view_model.dart';
 
@@ -24,6 +26,9 @@ class EmailOtpView extends StatelessWidget {
         viewModel: EmailOtpViewModel(),
         onModelReady: (EmailOtpViewModel emailOtpViewModel) {
           emailOtpViewModel.setContext(context);
+          emailOtpViewModel.init();
+          emailOtpViewModel.enteredMail =
+              ModalRoute.of(context)!.settings.arguments.toString();
         },
         onPageBuilder:
             (BuildContext context, EmailOtpViewModel emailOtpViewModel) {
@@ -42,15 +47,15 @@ class EmailOtpView extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: AppText(
                           textAlign: TextAlign.start,
-                          'Verify Email Address',
+                          'verifyEmailAddress'.tr(),
                           fontSize: 24.px,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                       SizedBox(height: 15.px),
-                      const AppText(
+                      AppText(
                         textAlign: TextAlign.start,
-                        'Enter the verification code we sent to email address ending with **in',
+                        'enterTheVerification'.tr(),
                         fontWeight: FontWeight.w400,
                       ),
                       SizedBox(height: 20.px),
@@ -71,7 +76,7 @@ class EmailOtpView extends StatelessWidget {
                         onCodeChanged: (String value) {},
                         handleControllers:
                             (List<TextEditingController?> controllers) {
-                          //  controls = controllers;
+                          //emailOtpViewModel.enteredOTP = controllers.toString();
                         },
                         //clearText: !emailOtpViewModel.isCorrect,
                         onSubmit: (String verificationCode) {
@@ -81,7 +86,7 @@ class EmailOtpView extends StatelessWidget {
                       SizedBox(height: 10.px),
                       if (!emailOtpViewModel.isCorrect)
                         AppText(
-                          'OTP incorrect.',
+                          'otpIncorrect'.tr(),
                           fontSize: 12.px,
                           fontWeight: FontWeight.w400,
                           color: AppColors.appRed,
@@ -89,7 +94,7 @@ class EmailOtpView extends StatelessWidget {
                       SizedBox(
                         height: 20.px,
                       ),
-                      AppText("Didn't receive the verification code?",
+                      AppText("didn'tReceived".tr(),
                           fontSize: 12.px,
                           textAlign: TextAlign.center,
                           fontWeight: FontWeight.w400,
@@ -113,7 +118,7 @@ class EmailOtpView extends StatelessWidget {
                                 height: 20.px),
                             SizedBox(width: 5.px),
                             AppText(
-                              'Resend Again',
+                              'reSend'.tr(),
                               fontSize: 13.px,
                               fontWeight: FontWeight.w600,
                               color: AppColors.appBlue,
@@ -126,8 +131,9 @@ class EmailOtpView extends StatelessWidget {
                 ),
               ),
               bottomNavigationBar: PreLoginCommonButton(
-                title: 'Continue',
+                title: 'continue'.tr(),
                 onTap: emailOtpViewModel.onTapSubmit,
+                isDisable: emailOtpViewModel.enteredOTP.length != 4,
               ),
             );
           });
