@@ -48,6 +48,7 @@ class AppColors {
   static const Color isDisableColor = Color(0xFFC5D1FF);
   static const Color arsenic = Color(0xFF3C3C43);
   static const Color tabColor = Color(0xffF0F5FF);
+  static const Color darkCyan = Color(0xff006685);
 
   static List<BoxShadow> appBoxShadow = [
     BoxShadow(

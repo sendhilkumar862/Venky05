@@ -19,7 +19,12 @@ class LocaleManager {
   static String profile = 'profile';
   static String country = 'country';
   static String language = 'language';
-
+  static String isLoggedIn = 'is_logged_in';
+  static String userId = 'user_id';
+  static String accessToken = 'access_token';
+  static String refreshToken = 'refresh_token';
+  static String email = 'email';
+  static String password = 'password';
 
   static Future prefrencesInit() async {
     instance._preferences ??= await SharedPreferences.getInstance();
@@ -33,13 +38,18 @@ class LocaleManager {
     await _preferences!.setString(key, value);
   }
 
+  Future<void> setBoolValue(String key, bool value) async {
+    await _preferences!.setBool(key, value);
+  }
+
   Future<void> setIntValue(String key, int value) async {
     await _preferences!.setInt(key, value);
   }
 
-  String getStringValue(PreferencesKeys key) =>
+  String getStringValue(String key) =>
       _preferences?.getString(key.toString()) ?? '';
 
-  int getIntValue(String key) =>
-      _preferences?.getInt(key) ?? 0;
+  bool getBoolValue(String key) => _preferences?.getBool(key) ?? false;
+
+  int getIntValue(String key) => _preferences?.getInt(key) ?? 0;
 }

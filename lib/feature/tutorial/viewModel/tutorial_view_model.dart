@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'package:pdf/widgets.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../config/routes/app_router.dart';
@@ -10,10 +9,6 @@ import '../../../product/cache/locale_manager.dart';
 import '../../../product/constants/app/app_utils.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/utils/validators.dart';
-import '../../tutorial/view/language_view.dart';
-import '../../../product/cache/locale_manager.dart';
-import '../../../product/constants/app/app_utils.dart';
-import '../../../product/constants/image/image_constants.dart';
 
 part 'tutorial_view_model.g.dart';
 
@@ -41,6 +36,12 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
 
   @observable
   TextEditingController mobileController = TextEditingController();
+
+  @observable
+  TextEditingController forgotEmailController = TextEditingController();
+
+  @observable
+  TextEditingController emailController = TextEditingController();
 
   @observable
   int languageIndex = 0;

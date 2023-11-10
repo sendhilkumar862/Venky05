@@ -8,8 +8,12 @@ import '../../../custom/app_button/app_button.dart';
 import '../../../custom/app_textformfield/app_field.dart';
 import '../../../custom/cardView/warning_card_view.dart';
 import '../../../custom/image/app_image_assets.dart';
+import '../../../custom/loader/easy_loader.dart';
 import '../../../custom/text/app_text.dart';
+import '../../../data/repo/repo.dart';
+import '../../../models/arg_model/login_arg_model.dart';
 import '../../../product/base/view/base_view.dart';
+import '../../../product/cache/locale_manager.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/tutorial_view_model.dart';
@@ -70,7 +74,7 @@ class LoginView extends StatelessWidget {
                               //     : ('valid' == walletViewModel.nameError)
                               //     ? AppColors.appRed
                               //     : AppColors.appBlue,
-                            //  controller: tutorialViewModel.emailController,
+                              controller: tutorialViewModel.emailController,
                               title: 'Email Address',
                               keyboardType: TextInputType.text,
                               hintText: 'Enter your email address',
@@ -85,7 +89,7 @@ class LoginView extends StatelessWidget {
                               //     : ('valid' == walletViewModel.nameError)
                               //     ? AppColors.appRed
                               //     : AppColors.appBlue,
-                           //   controller: tutorialViewModel.emailController,
+                              controller: tutorialViewModel.passwordController,
                               title: 'Password',
                               keyboardType: TextInputType.text,
                               hintText: 'Enter your password',
@@ -126,8 +130,34 @@ class LoginView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10.px),
                           borderColor: AppColors.appBlue,
                           title: 'Login',
-                          onPressed: () {
-                            AppRouter.pushNamed(Routes.mobileView);
+                          onPressed: () async {
+                            showLoading();
+                            var data = UserLoginArgModel(
+                                    email: tutorialViewModel
+                                        .emailController.text
+                                        .trim(),
+                                    password: tutorialViewModel
+                                        .passwordController.text)
+                                .toJson();
+                            await UserRepo.getInstance()
+                                .getUserLogin(data: data)
+                                .then((response) {
+                              response.fold((l) {
+                                hideLoading();
+                              }, (r) async {
+                                await LocaleManager.instance.setStringValue(
+                                    LocaleManager.accessToken,
+                                    r.data?.item?.accessToken ?? '');
+                                await LocaleManager.instance.setStringValue(
+                                    LocaleManager.refreshToken,
+                                    r.data?.item?.refreshToken ?? '');
+                                await LocaleManager.instance.setBoolValue(
+                                    LocaleManager.isLoggedIn, true);
+                                hideLoading();
+                                AppRouter.pushNamed(Routes.homeViews);
+                              });
+                            });
+                            hideLoading();
                           },
                         ),
                       ),

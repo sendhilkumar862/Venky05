@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -7,15 +8,26 @@ import '../../../config/routes/routes.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/app_textformfield/app_field.dart';
 import '../../../custom/image/app_image_assets.dart';
+import '../../../custom/loader/easy_loader.dart';
 import '../../../custom/text/app_text.dart';
+import '../../../data/repo/repo.dart';
+import '../../../models/arg_model/reset_email_arg_model.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
+import '../../../product/network/networking/api_service.dart';
+import '../../../product/network/networking/dio_service.dart';
 import '../viewModel/tutorial_view_model.dart';
 
-class ForgotPassWordView extends StatelessWidget {
+class ForgotPassWordView extends StatefulWidget {
   const ForgotPassWordView({super.key});
 
+  @override
+  State<ForgotPassWordView> createState() => _ForgotPassWordViewState();
+}
+
+class _ForgotPassWordViewState extends State<ForgotPassWordView> {
+  final ApiService _apiService = ApiService(DioService(dioClient: Dio()));
   @override
   Widget build(BuildContext context) {
     return BaseView<TutorialViewModel>(
@@ -69,7 +81,8 @@ class ForgotPassWordView extends StatelessWidget {
                               //     : ('valid' == walletViewModel.nameError)
                               //     ? AppColors.appRed
                               //     : AppColors.appBlue,
-                            //  controller: tutorialViewModel.emailController,
+                              controller:
+                                  tutorialViewModel.forgotEmailController,
                               title: 'Email Address',
                               keyboardType: TextInputType.text,
                               hintText: 'Enter your email address',
@@ -90,8 +103,23 @@ class ForgotPassWordView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10.px),
                           borderColor: AppColors.appBlue,
                           title: 'Reset Password',
-                          onPressed: () {
-                            AppRouter.pushNamed(Routes.restPassword);
+                          onPressed: () async {
+                            showLoading();
+                            var data = EmailArgModel(
+                                    email: tutorialViewModel
+                                        .forgotEmailController.text)
+                                .toJson();
+                            await UserRepo.getInstance()
+                                .getUserResetPassEmail(data: data)
+                                .then((response) {
+                              response.fold((l) {
+                                hideLoading();
+                              }, (r) {
+                                hideLoading();
+                                AppRouter.pushNamed(Routes.restPassword);
+                              });
+                            });
+                            hideLoading();
                           },
                         ),
                       ),
