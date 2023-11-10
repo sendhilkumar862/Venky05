@@ -66,18 +66,9 @@ class LanguageBottomSheet extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
+
                         setState!(() {
                           languageViewModel!.selectLanguage(index);
-                          LocaleManager.instance.setStringValue(
-                              LocaleManager.language,
-                              languageViewModel!.languages[index]);
-                          if (index == 0) {
-                            context.setLocale(const Locale('en-US'));
-                          } else {
-                          //  context.setLocale(const Locale('er-AR'));
-                            context.setLocale(const Locale('en-US'));
-
-                          }
                         });
                       },
                       child: Container(

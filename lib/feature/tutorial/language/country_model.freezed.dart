@@ -20,8 +20,8 @@ Country _$CountryFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Country {
-  String get name => throw _privateConstructorUsedError;
-  String get flag_url => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get flag_url => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,7 +33,7 @@ abstract class $CountryCopyWith<$Res> {
   factory $CountryCopyWith(Country value, $Res Function(Country) then) =
       _$CountryCopyWithImpl<$Res, Country>;
   @useResult
-  $Res call({String name, String flag_url});
+  $Res call({String? name, String? flag_url});
 }
 
 /// @nodoc
@@ -49,18 +49,18 @@ class _$CountryCopyWithImpl<$Res, $Val extends Country>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? flag_url = null,
+    Object? name = freezed,
+    Object? flag_url = freezed,
   }) {
     return _then(_value.copyWith(
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      flag_url: null == flag_url
+              as String?,
+      flag_url: freezed == flag_url
           ? _value.flag_url
           : flag_url // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -72,7 +72,7 @@ abstract class _$$CountryImplCopyWith<$Res> implements $CountryCopyWith<$Res> {
       __$$CountryImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String flag_url});
+  $Res call({String? name, String? flag_url});
 }
 
 /// @nodoc
@@ -86,18 +86,18 @@ class __$$CountryImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? flag_url = null,
+    Object? name = freezed,
+    Object? flag_url = freezed,
   }) {
     return _then(_$CountryImpl(
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      flag_url: null == flag_url
+              as String?,
+      flag_url: freezed == flag_url
           ? _value.flag_url
           : flag_url // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -111,9 +111,9 @@ class _$CountryImpl implements _Country {
       _$$CountryImplFromJson(json);
 
   @override
-  final String name;
+  final String? name;
   @override
-  final String flag_url;
+  final String? flag_url;
 
   @override
   String toString() {
@@ -150,15 +150,15 @@ class _$CountryImpl implements _Country {
 
 abstract class _Country implements Country {
   const factory _Country(
-      {required final String name,
-      required final String flag_url}) = _$CountryImpl;
+      {required final String? name,
+      required final String? flag_url}) = _$CountryImpl;
 
   factory _Country.fromJson(Map<String, dynamic> json) = _$CountryImpl.fromJson;
 
   @override
-  String get name;
+  String? get name;
   @override
-  String get flag_url;
+  String? get flag_url;
   @override
   @JsonKey(ignore: true)
   _$$CountryImplCopyWith<_$CountryImpl> get copyWith =>

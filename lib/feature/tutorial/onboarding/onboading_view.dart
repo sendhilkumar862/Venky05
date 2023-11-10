@@ -32,14 +32,16 @@ class OnboardingView extends StatelessWidget {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               backgroundColor: AppColors.appWhite,
-              appBar: AppBarOnBoard(title: 'exploreApp'.tr(),icon: ImageConstants.layersIcon,),
+              appBar: AppBarOnBoard(
+                  title: 'exploreApp'.tr(),
+                  icon: ImageConstants.layersIcon,
+                  onTap: () => AppRouter.pushNamed(Routes.HomeScreenRoute)),
               body: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.px),
                 child: Column(
                   children: <Widget>[
-
                     SizedBox(
-                      height:400.px,
+                      height: 400.px,
                       child: PageView.builder(
                         physics: BouncingScrollPhysics(),
                         controller: onboardingViewModel.pageController,
@@ -49,14 +51,16 @@ class OnboardingView extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 20.px),
                             child: Column(
                               children: <Widget>[
-                                if (onboardingViewModel.currentProfile == 1)
+                                if (onboardingViewModel.currentProfile ==
+                                    'Student')
                                   Lottie.asset(onboardingViewModel
                                       .studentAnimation[index])
                                 else
                                   Lottie.asset(onboardingViewModel
                                       .teacherAnimation[index]),
                                 AppText(
-                                  (onboardingViewModel.currentProfile == 1)
+                                  (onboardingViewModel.currentProfile ==
+                                          'Student')
                                       ? onboardingViewModel.studentTitle[index]
                                       : onboardingViewModel.teacherTitle[index],
                                   textAlign: TextAlign.center,
@@ -67,7 +71,8 @@ class OnboardingView extends StatelessWidget {
                                   height: 10.px,
                                 ),
                                 AppText(
-                                  (onboardingViewModel.currentProfile == 1)
+                                  (onboardingViewModel.currentProfile ==
+                                          'Student')
                                       ? onboardingViewModel
                                           .studentSubtitle[index]
                                       : onboardingViewModel

@@ -9,6 +9,8 @@ import '../../../config/routes/app_router.dart';
 import '../../../product/cache/locale_manager.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/network/all_providers.dart';
+import '../../../product/network/local/key_value_storage_base.dart';
+import '../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/network/networking/api_endpoint.dart';
 import '../../../product/network/networking/api_service.dart';
 import '../../../product/network/networking/dio_service.dart';
@@ -27,11 +29,36 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
 
   @override
   void init() {
-    // getCounties();
+    //getCounties();
+    fetchData();
+    KeyValueStorageBase.init();
   }
 
   @observable
-  List<Country> response = <Country>[];
+  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+
+  @observable
+  List<Country> countries = [];
+
+  void fetchData() async {
+    Dio dio = Dio();
+    try {
+      Response response =
+          await dio.get('http://167.99.93.83/api/v1/public/countries');
+
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        final List<dynamic> countriesJson = response.data['data']['items'];
+        countries =
+            countriesJson.map((json) => Country.fromJson(json)).toList();
+      } else {
+        print('Failed to load data: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error: $error');
+      // Handle the error
+    }
+  }
 
   @observable
   int countryIndex = 0;
@@ -44,9 +71,6 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
 
   @observable
   TextEditingController countryController = TextEditingController();
-
-  @observable
-  List<String> countries = [];
 
   @action
   void selectItem(String item) {
@@ -71,46 +95,39 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   ];
 
   @observable
-  List<String> filteredCountries = [];
+  List<Country> filteredCountries = [];
 
-  //@action
-  // Future<void> getCounties() async {
-  //   final _apiService = ref.watch(apiServiceProvider);
-  //
-  //       BaseOptions(method: 'GET', baseUrl: 'http://167.99.93.83/api/v1');
-  //   final ApiService apiService = ApiService(DioService(dioClient: dio));
-  //   response = await apiService.getCollectionData(
-  //       endpoint: '/public/countries',
-  //       converter: Country.fromJson,
-  //       requiresAuthToken: false);
-  //   logs('Response --> ${response}');
-  //   response.forEach((Country element) {
-  //     countries.add(element.name);
-  //     countryLogo.add(element.flag_url);
-  //   });
-  // }
+
 
   @action
   void selectCountry(int index) {
     countryIndex = index;
-    LocaleManager.instance
-        .setStringValue(LocaleManager.country, countries[index]);
+    keyValueStorageBase.setCommon(
+        KeyValueStorageService.country, countries[index].name);
     logs('selected Country-->$countryIndex');
   }
 
   @action
   void selectLanguage(int index) {
     languageIndex = index;
-    LocaleManager.instance
-        .setStringValue(LocaleManager.country, languages[index]);
+
+    if (languages[index] == 0) {
+      keyValueStorageBase.setCommon(KeyValueStorageService.language, 'en');
+    } else {
+      keyValueStorageBase.setCommon(KeyValueStorageService.language, 'ar');
+    }
+
     logs('selected lang-->$languageIndex');
   }
 
   @action
   void filterCountries(String query, Function setState) {
     filteredCountries = countries
-        .where((String country) =>
-            country.toLowerCase().contains(query.toLowerCase()))
+        .where((Country country) =>
+            country.name?.toLowerCase().contains(query.toLowerCase()) ??
+            false ||
+                country.flag_url!.toLowerCase().contains(query.toLowerCase()) ??
+            false)
         .toList();
     setState(() {});
   }

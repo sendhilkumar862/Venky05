@@ -6,6 +6,8 @@ import '../../../../product/base/model/base_view_model.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../product/cache/locale_manager.dart';
 import '../../../product/constants/image/image_constants.dart';
+import '../../../product/network/local/key_value_storage_base.dart';
+import '../../../product/network/local/key_value_storage_service.dart';
 
 part 'onboarding_view_model.g.dart';
 
@@ -17,12 +19,13 @@ abstract class _OnboardingViewModelBase extends BaseViewModel with Store {
 
   @override
   void init() {
-    currentProfile = LocaleManager.instance.getIntValue(LocaleManager.profile);
+    KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+    currentProfile = keyValueStorageBase.getCommon(KeyValueStorageService.profile);
     print('current profile--> $currentProfile');
   }
 
   @observable
-  int currentProfile = 0;
+  String currentProfile = '';
 
   @observable
   PageController pageController = PageController();
@@ -42,7 +45,7 @@ abstract class _OnboardingViewModelBase extends BaseViewModel with Store {
   ];
 
   @observable
-  List studentTitle = ['exploreApp'.tr(), 'book'.tr(), 'startClass'.tr()];
+  List studentTitle = ['exploreClasses'.tr(), 'book'.tr(), 'startClass'.tr()];
 
   @observable
   List teacherTitle = ['submitProposalTeacher'.tr(), 'startClass'.tr(), 'setAvailableTimes'];
@@ -52,8 +55,8 @@ abstract class _OnboardingViewModelBase extends BaseViewModel with Store {
 
   @observable
   List teacherSubtitle = [
-    'exploreClasses'.tr(),
-    "createAndClasses".tr(),
+    'exploreClassesCreated'.tr(),
+    'createAndClasses'.tr(),
     'setAndGive'.tr()
   ];
 }

@@ -55,9 +55,18 @@ class LanguageView extends StatelessWidget {
                           height: 25.px,
                         ),
                         selectCardView(
-                          icon: ImageConstants.countryIcon,
-                          title: languageViewModel
-                              .countries[languageViewModel.countryIndex],
+                          icon: languageViewModel!
+                              .filteredCountries.isNotEmpty!
+                              ? languageViewModel!
+                              .filteredCountries[languageViewModel.countryIndex].flag_url!
+                              : languageViewModel!
+                              .countries[languageViewModel.countryIndex].flag_url!,
+                          title: languageViewModel!
+                              .filteredCountries.isNotEmpty!
+                              ? languageViewModel!
+                              .filteredCountries[languageViewModel.countryIndex].name!
+                              : languageViewModel!
+                              .countries[languageViewModel.countryIndex].name!,
                           onTap: () {
                             showModalBottomSheet(
                               isScrollControlled: true,
@@ -140,9 +149,13 @@ class LanguageView extends StatelessWidget {
         ),
         child: Row(
           children: <Widget>[
-            AppImageAsset(
-              image: icon!,
-              height: 20.px,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(700),
+              child: AppImageAsset(
+                image: icon!,
+                height: 20.px,
+                width: 20.px,
+              ),
             ),
             SizedBox(
               width: 12.px,

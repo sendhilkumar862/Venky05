@@ -1,15 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'package:pdf/widgets.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../product/cache/locale_manager.dart';
 import '../../../product/constants/app/app_utils.dart';
-import '../../../product/constants/image/image_constants.dart';
-import '../../../product/network/networking/interceptors/refresh_token_interceptor.dart';
 import '../../../product/utils/validators.dart';
 
 part 'tutorial_view_model.g.dart';
@@ -22,8 +19,6 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
 
   @override
   void init() {
-    logs('Entred');
-    RestServices.instance.getRestCall();
   }
 
   @observable
@@ -32,11 +27,6 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   @observable
   List profileItems = <String>['Teacher', 'Parent/Student'];
 
-  @action
-  void selectProfile(int index) {
-    selectedIndex = index;
-    LocaleManager.instance.setIntValue(LocaleManager.profile, index);
-  }
 
   @observable
   bool isActive = false;

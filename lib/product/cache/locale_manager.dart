@@ -16,9 +16,7 @@ class LocaleManager {
   static LocaleManager get instance => _instance;
 
   // keyys
-  static String profile = 'profile';
-  static String country = 'country';
-  static String language = 'language';
+
 
 
   static Future prefrencesInit() async {

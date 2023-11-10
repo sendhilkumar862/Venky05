@@ -34,6 +34,7 @@ class KeyValueStorageBase {
     _secureStorage ??= const FlutterSecureStorage();
   }
 
+
   /// Reads the value for the key from common preferences storage
   T? getCommon<T>(String key) {
     try {
