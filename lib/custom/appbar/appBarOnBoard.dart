@@ -10,7 +10,7 @@ import '../sheet/show_bottom_sheet.dart';
 import '../text/app_text.dart';
 
 class AppBarOnBoard extends PreferredSize {
-  AppBarOnBoard({this.title, this.icon, super.key})
+  AppBarOnBoard({this.title, this.icon,this.onTap, super.key})
       : super(
           child: Container(),
           preferredSize: const Size.fromHeight(60),
@@ -18,6 +18,7 @@ class AppBarOnBoard extends PreferredSize {
 
   String? title;
   String? icon;
+  VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class AppBarOnBoard extends PreferredSize {
               ),
               SizedBox(width: 6.px),
               InkWell(
-                onTap: () {
+                onTap: onTap??() {
                   showModalBottomSheet(
                     context: context,
                     constraints: const BoxConstraints(),

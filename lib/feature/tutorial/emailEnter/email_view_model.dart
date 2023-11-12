@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -6,8 +7,10 @@ import '../../../../product/base/model/base_view_model.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../product/constants/app/app_utils.dart';
+import '../../../product/network/local/key_value_storage_base.dart';
+import '../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/validators.dart';
-import '../../tutorial/view/language_view.dart';
+import 'model/email_enter_model.dart';
 
 part 'email_view_model.g.dart';
 
@@ -19,12 +22,78 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
 
   @override
   void init() {
+    KeyValueStorageBase.init();
   }
+
+  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+
+  @observable
+  Map<String, dynamic> arguments = {
+    'id': '',
+    'otp_id': '',
+  };
+  @action
+  Future<void> registerMail() async {
+    Dio dio = Dio();
+    try {
+      Map body = {
+        'email': emailController.text,
+        'role': keyValueStorageBase.getCommon(KeyValueStorageService.profile),
+      };
+      logs(body.toString());
+      Response response = await dio.post(
+        'http://167.99.93.83/api/v1/users/register/email',
+        data: body,
+      );
+
+      if (response.statusCode == 200) {
+        final EmailEnterModel data = EmailEnterModel.fromJson(response.data);
+        if (data.status.type == 'success') {
+          logs('registered ${data.status.type}');
+          arguments['id'] = data.data.item.userId;
+          sendOTP(data.data.item.userId.toString());
+        }
+      } else {
+        logs('error not response');
+      }
+    } catch (error) {
+      logs('error');
+    }
+  }
+
+  @action
+  Future<void> sendOTP(String id) async {
+    Dio dio = Dio();
+    try {
+      Map body = {
+        'userId': id,
+      };
+      logs('body--> $body');
+      final response = await dio.post(
+        'http://167.99.93.83/api/v1/users/email/send-otp',
+        data: body,
+      );
+      logs('status Code --> ${response.statusCode}');
+      if (response.statusCode == 200) {
+        logs('status Code --> ${response.data['status']['type']}');
+        logs('status Code --> ${response.data['data']['item']['otp_id']}');
+        arguments['otp_id'] = response.data['data']['item']['otp_id'];
+        AppRouter.pushNamed(Routes.emailOtpView, args: arguments);
+
+      } else {
+        logs('error not response');
+      }
+    } catch (error) {
+      logs('error');
+    }
+  }
+
+
 
   //========email========//
   @observable
-  TextEditingController emailController = TextEditingController();
-
+  TextEditingController emailController =
+      TextEditingController(text: 'abc@mailinator.com');
 
   @observable
   String emailErrorText = '';
@@ -51,8 +120,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
   @action
   void onTapEmailSubmit() {
     if (emailValid == 1) {
-      AppRouter.pushNamed(Routes.emailOtpView, args: emailController.text);
+      registerMail();
     }
   }
-
 }

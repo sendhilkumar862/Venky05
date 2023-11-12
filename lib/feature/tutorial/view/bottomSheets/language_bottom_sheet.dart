@@ -8,12 +8,13 @@ import '../../../../custom/text/app_text.dart';
 import '../../../../product/cache/locale_manager.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../language/language_view_model.dart';
 import '../../viewModel/tutorial_view_model.dart';
 
 class LanguageBottomSheet extends StatelessWidget {
-  LanguageBottomSheet({this.tutorialViewModel, super.key, this.setState});
+  LanguageBottomSheet({this.languageViewModel, super.key, this.setState});
 
-  TutorialViewModel? tutorialViewModel;
+  LanguageViewModel? languageViewModel;
   Function? setState;
 
   @override
@@ -59,24 +60,15 @@ class LanguageBottomSheet extends StatelessWidget {
               ),
               Expanded(
                 child: ListView.separated(
-                  itemCount: tutorialViewModel!.languages.length,
+                  itemCount: languageViewModel!.languages.length,
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
-                        setState!(() {
-                          tutorialViewModel!.selectLanguage(index);
-                          LocaleManager.instance.setStringValue(
-                              LocaleManager.language,
-                              tutorialViewModel!.languages[index]);
-                          if (index == 0) {
-                            context.setLocale(const Locale('en-US'));
-                          } else {
-                          //  context.setLocale(const Locale('er-AR'));
-                            context.setLocale(const Locale('en-US'));
 
-                          }
+                        setState!(() {
+                          languageViewModel!.selectLanguage(index);
                         });
                       },
                       child: Container(
@@ -86,21 +78,21 @@ class LanguageBottomSheet extends StatelessWidget {
                         child: Row(
                           children: <Widget>[
                             AppImageAsset(
-                              image: tutorialViewModel!.languageIcon[index],
+                              image: languageViewModel!.languageIcon[index],
                               height: 20.px,
                             ),
                             SizedBox(
                               width: 10.px,
                             ),
                             AppText(
-                              tutorialViewModel!.languages[index],
+                              languageViewModel!.languages[index],
                               fontWeight: FontWeight.w400,
                             ),
                             const Spacer(),
                             AppImageAsset(
                               image: ImageConstants.acceptedStatus,
                               height: 23.px,
-                              color: (tutorialViewModel!.languageIndex == index)
+                              color: (languageViewModel!.languageIndex == index)
                                   ? AppColors.appBlue
                                   : AppColors.appWhite,
                             ),

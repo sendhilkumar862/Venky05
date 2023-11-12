@@ -6,8 +6,9 @@ import '../../../../product/base/model/base_view_model.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../product/cache/locale_manager.dart';
+import '../../../product/network/local/key_value_storage_base.dart';
+import '../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/validators.dart';
-import '../../tutorial/view/language_view.dart';
 
 part 'mobile_view_model.g.dart';
 
@@ -19,13 +20,12 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
 
   @override
   void init() {
-    var currentProfile = LocaleManager.instance.getIntValue(LocaleManager.profile);
-
+    KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+    var currentProfile =
+        keyValueStorageBase.getCommon(KeyValueStorageService.profile);
   }
 
   //========mobile========//
-
-
 
   @observable
   TextEditingController mobileController = TextEditingController();
@@ -41,7 +41,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     if (value!.isEmpty) {
       mobileValid = 0;
       mobileErrorText = 'pleaseEnterMobile'.tr();
-    } else if ( mobileController.text.length !=8) {
+    } else if (mobileController.text.length != 8) {
       mobileValid = 0;
       mobileErrorText = 'kuwaitiNumber'.tr();
     }

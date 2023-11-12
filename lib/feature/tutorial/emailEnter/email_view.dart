@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -16,6 +17,7 @@ import '../../../product/constants/image/image_constants.dart';
 import '../../../product/utils/validators.dart';
 import '../viewModel/tutorial_view_model.dart';
 import 'email_view_model.dart';
+import 'model/email_enter_model.dart';
 
 class EmailView extends StatelessWidget {
   const EmailView({super.key});
@@ -98,3 +100,4 @@ class EmailView extends StatelessWidget {
         });
   }
 }
+

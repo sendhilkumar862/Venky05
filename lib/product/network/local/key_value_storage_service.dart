@@ -1,4 +1,3 @@
-
 // Models
 
 // Helpers
@@ -14,6 +13,12 @@ class KeyValueStorageService {
 
   /// The name of user password key
   static const _authPasswordKey = 'authPasswordKey';
+
+  /// The name of user password key
+
+  static String profile = 'profile';
+  static String country = 'country';
+  static String language = 'language';
 
   /// The name of user model key
   static const _authUserKey = 'authUserKey';
@@ -37,7 +42,6 @@ class KeyValueStorageService {
   void setAuthPassword(String password) {
     _keyValueStorage.setEncrypted(_authPasswordKey, password);
   }
-
 
   /// Sets the authentication token to this value. Even though this method is
   /// asynchronous, we don't care about it's completion which is why we don't

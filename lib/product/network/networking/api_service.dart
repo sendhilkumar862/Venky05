@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 // Services
+import '../../utils/validators.dart';
 import './api_interface.dart';
 import './custom_exception.dart';
 import './dio_service.dart';
@@ -132,6 +133,7 @@ class ApiService implements ApiInterface {
 
       body = data.body;
     } on Exception catch (ex) {
+      logs('Ex --> ${ex}');
       throw CustomException.fromDioException(ex);
     }
 

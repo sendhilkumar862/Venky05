@@ -5,6 +5,8 @@ import 'package:mobx/mobx.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../product/cache/locale_manager.dart';
+import '../../../product/network/local/key_value_storage_base.dart';
+import '../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/validators.dart';
 import '../onboarding/onboading_view.dart';
 
@@ -19,7 +21,12 @@ abstract class _ProfileViewModelBase extends BaseViewModel with Store {
   @override
   void init() {
     isSelected();
+    KeyValueStorageBase.init();
+
   }
+
+  @observable
+  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
 
   @observable
   int selectedIndex = -1;
@@ -30,9 +37,16 @@ abstract class _ProfileViewModelBase extends BaseViewModel with Store {
   @action
   void selectProfile(int index) {
     selectedIndex = index;
-    LocaleManager.instance.setIntValue(LocaleManager.profile, index);
+    if (index == 0) {
+      keyValueStorageBase.setCommon(KeyValueStorageService.profile, 'Teacher');
+    } else {
+      keyValueStorageBase.setCommon(KeyValueStorageService.profile, 'Tutor');
+    }
+
     isSelected();
     logs(isSelected().toString());
+    logs(
+        'storage get -- > ${keyValueStorageBase.getCommon(KeyValueStorageService.profile)}');
   }
 
   @action

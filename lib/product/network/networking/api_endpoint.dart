@@ -38,6 +38,13 @@ class ApiEndpoint {
     }
   }
 
+  static String country(Public endpoint) {
+    const String path = '/public';
+    switch (endpoint) {
+      case Public.COUNTRY: return '$path/countries';
+    }
+  }
+
   /// Returns the path for a student [endpoint].
   ///
   /// Specify student [erp] to get the path for a specific student.
@@ -94,5 +101,11 @@ enum StudentEndpoint {
 enum TeacherEndpoint {
   /// An endpoint for teacgers' collection requests.
   BASE,
+
+}
+
+enum Public {
+  /// An endpoint for teacgers' collection requests.
+  COUNTRY,
 
 }

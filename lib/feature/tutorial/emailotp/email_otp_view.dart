@@ -27,8 +27,9 @@ class EmailOtpView extends StatelessWidget {
         onModelReady: (EmailOtpViewModel emailOtpViewModel) {
           emailOtpViewModel.setContext(context);
           emailOtpViewModel.init();
-          emailOtpViewModel.enteredMail =
-              ModalRoute.of(context)!.settings.arguments.toString();
+          emailOtpViewModel.enteredMail = (ModalRoute.of(context)!.settings.arguments!  as Map)!;
+          logs('argues --> ${emailOtpViewModel.enteredMail}');
+
         },
         onPageBuilder:
             (BuildContext context, EmailOtpViewModel emailOtpViewModel) {
@@ -37,9 +38,9 @@ class EmailOtpView extends StatelessWidget {
               body: PreLoginCustomBody(
                 widget: Expanded(
                   child: ListView(
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
-                    children: [
+                    children: <Widget>[
                       SizedBox(height: 35.px),
                       const OnTapBack(),
                       SizedBox(height: 100.px),
@@ -112,7 +113,7 @@ class EmailOtpView extends StatelessWidget {
                         onTap: () => CountdownController(),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: <Widget>[
                             AppImageAsset(
                                 image: ImageConstants.arrowRotate,
                                 height: 20.px),
