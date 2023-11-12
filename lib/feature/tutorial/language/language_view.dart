@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:hessah/feature/tutorial/view/profile_selection_view.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -18,14 +19,18 @@ import '../../../product/network/networking/interceptors/refresh_token_intercept
 import '../view/bottomSheets/country_bottom_sheet.dart';
 import '../view/bottomSheets/language_bottom_sheet.dart';
 import '../viewModel/tutorial_view_model.dart';
+import 'language_repository.dart';
 import 'language_view_model.dart';
 
 class LanguageView extends StatelessWidget {
   const LanguageView({super.key});
 
+  @override
   Widget build(BuildContext context) {
+   final ProviderContainer container = ProviderContainer();
+
     return BaseView<LanguageViewModel>(
-        viewModel: LanguageViewModel(),
+        viewModel: LanguageViewModel(container.read(languageRepositoryProvider)),
         onModelReady: (LanguageViewModel languageViewModel) {
           languageViewModel.setContext(context);
           languageViewModel.init();
@@ -55,18 +60,11 @@ class LanguageView extends StatelessWidget {
                           height: 25.px,
                         ),
                         selectCardView(
-                          icon: languageViewModel!
-                              .filteredCountries.isNotEmpty!
-                              ? languageViewModel!
-                              .filteredCountries[languageViewModel.countryIndex].flag_url!
-                              : languageViewModel!
-                              .countries[languageViewModel.countryIndex].flag_url!,
-                          title: languageViewModel!
-                              .filteredCountries.isNotEmpty!
-                              ? languageViewModel!
-                              .filteredCountries[languageViewModel.countryIndex].name!
-                              : languageViewModel!
-                              .countries[languageViewModel.countryIndex].name!,
+                          icon: languageViewModel
+                              .filteredCountries.isNotEmpty? languageViewModel.filteredCountries[languageViewModel.countryIndex].flag_url 
+                              : languageViewModel.countries[languageViewModel.countryIndex].flag_url,
+                          title: languageViewModel.filteredCountries.isNotEmpty? languageViewModel.filteredCountries[languageViewModel.countryIndex].name
+                              : languageViewModel.countries[languageViewModel.countryIndex].name,
                           onTap: () {
                             showModalBottomSheet(
                               isScrollControlled: true,

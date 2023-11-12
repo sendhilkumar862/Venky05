@@ -111,7 +111,7 @@ class CountryBottomsSheet extends StatelessWidget {
                                         .filteredCountries[index].flag_url!
                                     : languageViewModel!
                                         .countries[index].flag_url!,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                                 height: 20.px,
                                 width: 20,
                               ),

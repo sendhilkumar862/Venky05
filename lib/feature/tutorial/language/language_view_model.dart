@@ -24,6 +24,11 @@ part 'language_view_model.g.dart';
 class LanguageViewModel = _LanguageViewModelBase with _$LanguageViewModel;
 
 abstract class _LanguageViewModelBase extends BaseViewModel with Store {
+
+  _LanguageViewModelBase(this._languageRepository);
+
+ final LanguageRepository _languageRepository;
+
   @override
   void setContext(BuildContext context) => viewModelContext = context;
 
@@ -41,23 +46,25 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   List<Country> countries = [];
 
   void fetchData() async {
-    Dio dio = Dio();
-    try {
-      Response response =
-          await dio.get('http://167.99.93.83/api/v1/public/countries');
+     final List<Country> data = await _languageRepository.fetchAll(queryParameters: <String, String>{});
+     countries = data;
+    // Dio dio = Dio();
+    // try {
+    //   Response response =
+    //       await dio.get('http://167.99.93.83/api/v1/public/countries');
 
-      print(response.statusCode);
-      if (response.statusCode == 200) {
-        final List<dynamic> countriesJson = response.data['data']['items'];
-        countries =
-            countriesJson.map((json) => Country.fromJson(json)).toList();
-      } else {
-        print('Failed to load data: ${response.statusCode}');
-      }
-    } catch (error) {
-      print('Error: $error');
-      // Handle the error
-    }
+    //   print(response.statusCode);
+    //   if (response.statusCode == 200) {
+    //     final List<dynamic> countriesJson = response.data['data']['items'];
+    //     countries =
+    //         countriesJson.map((json) => Country.fromJson(json)).toList();
+    //   } else {
+    //     print('Failed to load data: ${response.statusCode}');
+    //   }
+    // } catch (error) {
+    //   print('Error: $error');
+    //   // Handle the error
+    // }
   }
 
   @observable
@@ -126,8 +133,7 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
         .where((Country country) =>
             country.name?.toLowerCase().contains(query.toLowerCase()) ??
             false ||
-                country.flag_url!.toLowerCase().contains(query.toLowerCase()) ??
-            false)
+                country.flag_url!.toLowerCase().contains(query.toLowerCase()))
         .toList();
     setState(() {});
   }

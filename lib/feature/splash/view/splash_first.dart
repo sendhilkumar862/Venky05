@@ -63,7 +63,3 @@ class SplashFirst extends StatelessWidget {
         });
   }
 }
-
-
-
-
