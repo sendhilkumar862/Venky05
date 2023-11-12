@@ -26,6 +26,7 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
     return BaseView<HomeViewsModel>(
       viewModel: HomeViewsModel(),
       onModelReady: (HomeViewsModel homeViewModel) {
+        homeViewModel.init();
         homeViewModel.setContext(context);
       },
       onPageBuilder: (BuildContext context, HomeViewsModel homeViewsModel) {
@@ -37,8 +38,9 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
                 icon: ImageConstants.avtar,
                 title: 'Welcome!',
                 subTitle: 'Abdullah Mohamed',
-                onBellTap: () {
-                  AppRouter.pushNamed(Routes.personalInfo);
+                onBellTap: () {},
+                onSearchTap: () {
+                  AppRouter.pushNamed(Routes.searchView);
                 },
                 onProfileTap: () {
                   showCommonBottomSheet(
@@ -48,7 +50,7 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
               body: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                   SizedBox(
+                  SizedBox(
                     height: 30.px,
                   ),
                   Container(
@@ -62,18 +64,18 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: List.generate(
                         homeViewsModel.bottomBarItems.length,
-                            (int index) => tabBarCardView(
+                        (int index) => tabBarCardView(
                             homeViewsModel.bottomBarItems[index],
                             index,
                             homeViewsModel),
                       ),
                     ),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 2.px,
                   ),
                   homeViewsModel.bottomBarItems[homeViewsModel.selectedIndex]
-                  ['screenName'],
+                      ['screenName'],
                 ],
               ),
             );

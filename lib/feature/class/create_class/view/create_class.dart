@@ -1,5 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:hessah/product/base/view/base_view.dart';
 
 import '../../../../config/routes/app_router.dart';
 import '../../../../custom/app_button/app_button.dart';
@@ -8,6 +8,7 @@ import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/choice/src/inline/list.dart';
 import '../../../../custom/choice/src/inline/main.dart';
 import '../../../../custom/choice/src/selection/controller/main.dart';
+import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
 import '../../class_detail/view/class_detail.dart';
@@ -77,12 +78,11 @@ class _CreateClassState extends State<CreateClass> {
         },
         onPageBuilder: (BuildContext context, CreateClassViewModel value) {
           return MaterialApp(
-            title: 'Flutter Demo',
             home: Scaffold(
               appBar: HessaAppBar(
                 isTitleOnly: true,
-                trailingText: 'Cancel',
-                title: 'Create Class',
+                trailingText: 'cancel'.tr(),
+                title: 'createClass'.tr(),
                 isBack: false,
               ),
               body: SingleChildScrollView(
@@ -91,14 +91,14 @@ class _CreateClassState extends State<CreateClass> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      const Text(
-                        'Class Info',
+                      Text(
+                        'classInfo'.tr(),
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w700),
                       ),
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(top: 15),
-                        child: Text('Grade',
+                        child: Text('grade'.tr(),
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w700)),
                       ),
@@ -147,7 +147,7 @@ class _CreateClassState extends State<CreateClass> {
                         listBuilder: ChoiceList.createWrapped(),
                       ),
                       const Divider(),
-                      const Text('School',
+                      Text('school'.tr(),
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w700)),
                       InlineChoice<String>(
@@ -191,9 +191,9 @@ class _CreateClassState extends State<CreateClass> {
                         listBuilder: ChoiceList.createWrapped(),
                       ),
                       const Divider(),
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Text('Subject',
+                        child: Text('subject'.tr(),
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w700)),
                       ),
@@ -238,13 +238,13 @@ class _CreateClassState extends State<CreateClass> {
                         listBuilder: ChoiceList.createWrapped(),
                       ),
                       const Divider(),
-                      const AppTextFormField(
+                      AppTextFormField(
                         minLines: 4,
                         maxLines: 10,
-                        hintText: 'Class Summary',
+                        hintText: 'classSummary'.tr(),
                         borderColor: AppColors.appBlue,
                         titleColor: AppColors.appBlue,
-                        title: 'Class Summary',
+                        title: 'classSummary'.tr(),
                         top: 0,
                         height: 30,
                       ),
@@ -258,7 +258,7 @@ class _CreateClassState extends State<CreateClass> {
                         ),
                       ),
                       AppButton(
-                        title: 'Next for Class Details',
+                        title: 'nextForClassDetails'.tr(),
                         onPressed: () {
                           AppRouter.push(const ClassDetail());
                         },

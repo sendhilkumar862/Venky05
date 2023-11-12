@@ -1,13 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../custom/app_button/app_button.dart';
 import '../../custom/app_textformfield/app_field.dart';
 import '../../custom/appbar/appbar.dart';
+import '../../custom/dialog/success_fail_dialog.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/utils/typography.dart';
 
 class FinancingView extends StatefulWidget {
-  const FinancingView({Key? key}) : super(key: key);
+  const FinancingView({super.key});
 
   @override
   State<FinancingView> createState() => _FinancingViewState();
@@ -19,9 +21,8 @@ class _FinancingViewState extends State<FinancingView> {
     final double width = MediaQuery.sizeOf(context).width;
     return Scaffold(
       appBar: HessaAppBar(
-        isBack: true,
-        trailingText: 'Cancel',
-        title: 'Complete Profile',
+        trailingText: 'cancel'.tr(),
+        title: 'completeProfile'.tr(),
         isTitleOnly: true,
       ),
       body: Padding(
@@ -35,17 +36,17 @@ class _FinancingViewState extends State<FinancingView> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 30),
-                      child: Text('Financing',
+                      child: Text('financing'.tr(),
                           style: openSans.get20.w700
                               .textColor(AppColors.appTextColor)),
                     ),
-                    const AppTextFormField(
-                      title: 'Enter IBAN Number',
-                      hintText: 'Enter IBAN Number',
+                    AppTextFormField(
+                      title: 'enterIBANNumber'.tr(),
+                      hintText: 'enterIBANNumber'.tr(),
                     ),
-                    const AppTextFormField(
-                      title: 'Bank Account Nickname',
-                      hintText: 'Enter nickname',
+                    AppTextFormField(
+                      title: 'bankAccountNickname'.tr(),
+                      hintText: 'enterNickname'.tr(),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
@@ -65,7 +66,7 @@ class _FinancingViewState extends State<FinancingView> {
                             ),
                             Expanded(
                               child: Text(
-                                'IBAN number is needed to receive your classes income.',
+                                'IBANNumberIsNeeded'.tr(),
                                 style: openSans.get12.w400.appTextColor,
                                 overflow: TextOverflow.clip,
                               ),
@@ -79,12 +80,34 @@ class _FinancingViewState extends State<FinancingView> {
               ),
             ),
             AppButton(
-                title: 'Complete Your Profile',
-                onPressed: () {},
+                title: 'completeYourProfile'.tr(),
+                onPressed: () {
+                  successBottomSheet(context);
+                },
                 isDisable: false)
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> successBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width - 30,
+        // here increase or decrease in width
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      builder: (BuildContext context) {
+        return SuccessFailsInfoDialog(
+          title: 'success'.tr(),
+          buttonTitle: 'done'.tr(),
+          content: 'successMsg'.tr(),
+        );
+      },
     );
   }
 }

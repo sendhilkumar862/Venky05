@@ -1,24 +1,23 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:hessah/product/constants/colors/app_colors_constants.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'config/routes/app_router.dart';
-import 'feature/home/view/home_view.dart';
-import 'feature/splash/view/splash_view.dart';
-import 'feature/tutorial/view/language_view.dart';
-import 'product/constants/app/app_constants.dart';
+import 'feature/splash/view/splash_first.dart';
 import 'product/cache/locale_manager.dart';
 import 'product/constants/app/app_constants.dart';
 import 'product/lang/language_manager.dart';
 import 'product/notifier/app_provider.dart';
 import 'product/theme/theme_notifier.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Initialize the Flutter binding
   LocaleManager.prefrencesInit();
-
+  await EasyLocalization.ensureInitialized();
   runApp(
     MultiProvider(
       providers: <SingleChildWidget>[
@@ -46,14 +45,35 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           localizationsDelegates: context.localizationDelegates,
           onGenerateRoute: AppRouter.generateRoute,
-          // Localization
           locale: LanguageManager.instance.enLocale,
           supportedLocales: LanguageManager.instance.supportedLocales,
           navigatorKey: AppRouter.navigatorKey,
           theme: context.watch<ThemeNotifier>().currentTheme,
-          home: const LanguageView(),
+          builder: EasyLoading.init(
+            builder: (buildContext, Widget? widget) {
+              return widget!;
+            },
+          ),
+          home: const SplashFirst(),
         );
       },
     );
   }
+}
+
+void configLoading() {
+  EasyLoading.instance
+    ..displayDuration = const Duration(milliseconds: 2000)
+    ..loadingStyle = EasyLoadingStyle.custom
+    ..indicatorSize = 45
+    ..textColor = AppColors.black
+    ..radius = 5
+    ..backgroundColor = AppColors.white
+    ..maskColor = AppColors.darkCyan
+    ..indicatorColor = AppColors.black
+    ..userInteractions = false
+    ..dismissOnTap = false
+    ..boxShadow = <BoxShadow>[]
+    ..toastPosition = EasyLoadingToastPosition.bottom
+    ..indicatorType = EasyLoadingIndicatorType.circle;
 }

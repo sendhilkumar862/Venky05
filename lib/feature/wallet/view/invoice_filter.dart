@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../custom/app_button/app_button.dart';
@@ -52,10 +53,10 @@ class _InvoiceFilterState extends State<InvoiceFilter> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    const Expanded(
+                     Expanded(
                       child: Align(
                         alignment: Alignment.centerRight,
-                        child: AppText('Sort / Filter',
+                        child: AppText('sort/Filter'.tr(),
                             fontWeight: FontWeight.w700,
                             fontSize: 14,
                             color: AppColors.appTextColor),
@@ -81,9 +82,9 @@ class _InvoiceFilterState extends State<InvoiceFilter> {
                     ),
                   ]),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 15, bottom: 2),
-              child: AppText('Sort by',
+             Padding(
+              padding: const EdgeInsets.only(top: 15, bottom: 2),
+              child: AppText('sortBy'.tr(),
                   fontWeight: FontWeight.w700,
                   fontSize: 16,
                   color: AppColors.appTextColor),
@@ -130,9 +131,9 @@ class _InvoiceFilterState extends State<InvoiceFilter> {
               listBuilder: ChoiceList.createWrapped(),
             ),
             AppDivider(),
-            const Padding(
-              padding: EdgeInsets.only(top: 20, bottom: 10),
-              child: AppText('Filter by',
+             Padding(
+              padding: const EdgeInsets.only(top: 20, bottom: 10),
+              child: AppText('filterBy'.tr(),
                   fontWeight: FontWeight.w700,
                   fontSize: 16,
                   color: AppColors.appTextColor),
@@ -183,7 +184,7 @@ class _InvoiceFilterState extends State<InvoiceFilter> {
               padding: const EdgeInsets.only(top: 25),
               child: AppButton(
                 onPressed: () {},
-                title: 'Clear Selections',
+                title: 'clearSelections'.tr(),
                 isDisable:
                     shortBy.isNotEmpty || filterBy.isNotEmpty ? false : true,
               ),

@@ -1,9 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:hessah/feature/wallet/view/withdraw.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
 import '../../../../product/base/view/base_view.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
@@ -20,6 +19,7 @@ import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/wallet_view_model.dart';
 import 'invoice_card_view.dart';
 import 'view_all_view.dart';
+import 'withdraw.dart';
 import 'withdraw_view.dart';
 
 class WalletView extends StatefulWidget {
@@ -45,15 +45,15 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
               backgroundColor: AppColors.appWhite,
               appBar: HessaAppBar(
                 icon: ImageConstants.avtar,
-                title: 'Welcome!',
-                subTitle: 'Abdullah Mohamed',
+                title: 'welcome!'.tr(),
+                subTitle: 'abdullahMohamed'.tr(),
                 // isPro: true,
               ),
               body: ListView(
                 children: <Widget>[
                   SizedBox(height: 30.px),
                   AppText(
-                    'Available Balance',
+                    'availableBalance'.tr(),
                     textAlign: TextAlign.center,
                     color: AppColors.appGrey,
                     fontSize: 12.px,
@@ -67,7 +67,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                   SizedBox(height: 14.px),
                   Container(
                     alignment: Alignment.center,
-                    height: 68.px,
+                    height: MediaQuery.of(context).size.height * 0.100,
                     margin: EdgeInsets.symmetric(horizontal: 15.px),
                     padding: EdgeInsets.all(11.px),
                     decoration: BoxDecoration(
@@ -80,15 +80,15 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                       children: (true)
                           ? <Widget>[
                               balanceCardView(
-                                  title: 'Active Classes\nBooked',
+                                  title: 'activeClassesBooked'.tr(),
                                   amount: '100.000 KWD'),
                               AppDivider(isVerticle: true),
                               balanceCardView(
-                                  title: 'New Classes\nCreated',
+                                  title: 'newClassesCreated'.tr(),
                                   amount: '100.000 KWD'),
                               AppDivider(isVerticle: true),
                               balanceCardView(
-                                  title: 'Pending\nPayment',
+                                  title: 'pendingPayment'.tr(),
                                   amount: '100.000 KWD'),
                             ]
                           : <Widget>[
@@ -110,7 +110,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                             onTap: () {
                               AppRouter.push(const WithDrawScreen());
                             },
-                            title: 'Top Up Wallet',
+                            title: 'topUpWallet'.tr(),
                             icon: ImageConstants.walletIcon)
                         : Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -131,13 +131,13 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                                       },
                                     );
                                   },
-                                  title: 'Bank Accounts',
+                                  title: 'bankAccounts'.tr(),
                                   icon: ImageConstants.walletIcon),
                               SizedBox(width: 15.px),
                               screenButton(
                                   onTap: () =>
                                       AppRouter.push(const WithdrawView()),
-                                  title: 'Withdraw',
+                                  title: 'withdraw'.tr(),
                                   icon: ImageConstants.walletIcon),
                             ],
                           ),
@@ -146,7 +146,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                   chartCardView(walletViewModel: walletViewModel),
                   SizedBox(height: 25.px),
                   HeadingCardView(
-                    title: 'Last Invoices',
+                    title: 'lastInvoices'.tr(),
                     isViewAllIcon: true,
                     onTap: () => AppRouter.push(const ViewAllView()),
                   ),
@@ -168,7 +168,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                                 buttonTap: () {},
                               )
                             : InvoiceCardView(
-                                title: 'Class Fees',
+                                title: 'classFees'.tr(),
                                 invoiceNumber: '#123456',
                                 amount: '.500 KWD',
                                 date: '',
@@ -257,7 +257,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
             ),
           Row(
             children: <Widget>[
-              if (title == 'Class Fees')
+              if (title == 'classFees'.tr())
                 CircleAvatar(
                     backgroundColor: AppColors.appLightRedTwo,
                     radius: 23.px,
@@ -305,7 +305,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                       height: 4.px,
                     ),
                     AppText(
-                      'Invoice No. $invoiceNumber',
+                      'invoiceNo. $invoiceNumber'.tr(),
                       fontSize: 10.px,
                       fontWeight: FontWeight.w400,
                       color: AppColors.appGrey,
@@ -334,7 +334,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
               Row(
                 children: <Widget>[
                   AppText(
-                    'Total Gains',
+                    'totalGains'.tr(),
                     color: AppColors.appGrey,
                     fontSize: 12.px,
                   ),
@@ -360,7 +360,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                       color: AppColors.appGreen,
                       fontWeight: FontWeight.w700),
                   AppText(
-                    'vs last Month',
+                    'vsLastMonth'.tr(),
                     fontSize: 12.px,
                     fontWeight: FontWeight.w700,
                   )
@@ -487,7 +487,7 @@ class BookingBottomSheet extends StatelessWidget {
                 height: 28.px,
               ),
               AppText(
-                'Booking Confirmation',
+                'bookingConfirmation'.tr(),
                 fontSize: 14.px,
                 fontWeight: FontWeight.w700,
               ),
@@ -497,7 +497,7 @@ class BookingBottomSheet extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: AppText(
-                  'Payment Method',
+                  'paymentMethod'.tr(),
                   fontSize: 16.px,
                   textAlign: TextAlign.start,
                   fontWeight: FontWeight.w700,
@@ -545,7 +545,7 @@ class BookingBottomSheet extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: AppText(
-                  'Payment Method',
+                  'paymentMethod'.tr(),
                   fontSize: 16.px,
                   textAlign: TextAlign.start,
                   fontWeight: FontWeight.w700,
@@ -556,7 +556,7 @@ class BookingBottomSheet extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   AppText(
-                    'Amount to pay',
+                    'amountToPay'.tr(),
                     fontSize: 12.px,
                     color: AppColors.appGrey,
                   ),
@@ -577,7 +577,7 @@ class BookingBottomSheet extends StatelessWidget {
               ),
               AppButton(
                 height: 45.px,
-                title: 'Pay',
+                title: 'pay'.tr(),
                 borderColor: AppColors.appBlue,
                 borderRadius: BorderRadius.circular(10.px),
                 onPressed: () {},

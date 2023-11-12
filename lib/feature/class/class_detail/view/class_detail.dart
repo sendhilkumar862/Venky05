@@ -81,13 +81,12 @@ class _ClassDetailState extends State<ClassDetail> {
         },
         onPageBuilder: (BuildContext context, ClassDetailViewModel value) {
           return MaterialApp(
-            title: 'Flutter Demo',
             home: Scaffold(
               appBar: HessaAppBar(
                 isTitleOnly: true,
                 // isBack: true,
                 // trailingText: 'Cancel',
-                title: 'Create class',
+                title: 'createClass'.tr(),
                 // normalAppbar: true,
               ),
               body: Form(
@@ -112,7 +111,7 @@ class _ClassDetailState extends State<ClassDetail> {
                           Padding(
                             padding: const EdgeInsets.only(top: 20),
                             child: Text(
-                              'Class Details',
+                              'classDetails'.tr(),
                               style: openSans.get20.w700
                                   .textColor(AppColors.appTextColor),
                             ),
@@ -120,7 +119,7 @@ class _ClassDetailState extends State<ClassDetail> {
                           Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
-                              'participators',
+                              'participators'.tr(),
                               style: openSans.get12.w400.textColor(
                                   AppColors.appTextColor.withOpacity(0.5)),
                             ),
@@ -139,10 +138,10 @@ class _ClassDetailState extends State<ClassDetail> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Minimum',
+                              Text('minimum'.tr(),
                                   style: openSans.get10.w400.textColor(
                                       AppColors.appTextColor.withOpacity(0.5))),
-                              Text('Maximum',
+                              Text('maximum'.tr(),
                                   style: openSans.get10.w400.textColor(
                                       AppColors.appTextColor.withOpacity(0.5))),
                             ],
@@ -154,14 +153,15 @@ class _ClassDetailState extends State<ClassDetail> {
                             validate: Validators.requiredValidator.call,
                             suffix: Padding(
                               padding: const EdgeInsets.only(top: 12),
-                              child: Text('KWD', style: openSans.get16.w400),
+                              child:
+                                  Text('kwd'.tr(), style: openSans.get16.w400),
                             ),
-                            hintText: 'Class Cost',
+                            hintText: 'classCost'.tr(),
                           ),
                           AppTextFormField(
                             controller: numberOfSession,
                             validate: Validators.requiredValidator.call,
-                            hintText: 'Number Of Sessions',
+                            hintText: 'numberOfSessions'.tr(),
                           ),
                           AppTextFormField(
                             validate: Validators.requiredValidator.call,
@@ -169,19 +169,19 @@ class _ClassDetailState extends State<ClassDetail> {
                             onTap: () {
                               selectDate(context, dateController);
                             },
-                            hintText: 'select Date and Time',
+                            hintText: 'selectDateAndTime'.tr(),
                             readOnly: true,
                             suffix: const Icon(Icons.keyboard_arrow_down_sharp,
                                 color: AppColors.downArrowColor),
                           ),
                           AppTextFormField(
                             validate: Validators.requiredValidator.call,
-                            hintText: 'select Class 2 Date and Time',
+                            hintText: 'selectClass2DateAndTime'.tr(),
                             controller: class2DateController,
                             onTap: () {
                               selectDate(context, class2DateController);
                             },
-                            title: 'Class 2 Date and Time',
+                            title: 'class2DateAndTime'.tr(),
                             readOnly: true,
                             suffix: const Icon(Icons.keyboard_arrow_down_sharp,
                                 color: AppColors.downArrowColor),
@@ -190,8 +190,8 @@ class _ClassDetailState extends State<ClassDetail> {
                             validate: Validators.requiredValidator.call,
                             suffix: const Icon(Icons.keyboard_arrow_down_sharp,
                                 color: AppColors.downArrowColor),
-                            hintText: 'Class Duration',
-                            title: 'Class Duration',
+                            hintText: 'classDuration'.tr(),
+                            title: 'classDuration'.tr(),
                             readOnly: true,
                             controller: classDurationController,
                             onTap: () {
@@ -201,7 +201,7 @@ class _ClassDetailState extends State<ClassDetail> {
                           Padding(
                             padding: const EdgeInsets.only(top: 20, bottom: 7),
                             child: Text(
-                              'Select Location',
+                              'selectLocation'.tr(),
                               style: TextStyle(
                                   color:
                                       const Color(0xff051335).withOpacity(0.5),
@@ -222,7 +222,7 @@ class _ClassDetailState extends State<ClassDetail> {
                                     children: [
                                       Center(
                                           child: Text(
-                                        'No Address Found!',
+                                        'noAddressFound!'.tr(),
                                         style: openSans.get16.w700,
                                       )),
                                       Padding(
@@ -238,7 +238,7 @@ class _ClassDetailState extends State<ClassDetail> {
                                                 fontWeight: FontWeight.w600),
                                             height: 45,
                                             width: width,
-                                            title: 'Add Address Found',
+                                            title: 'addAddressFound'.tr(),
                                             onPressed: () {
                                               locationModalBottomSheet(context);
                                             },
@@ -253,12 +253,12 @@ class _ClassDetailState extends State<ClassDetail> {
                             child: Row(
                               children: <Widget>[
                                 Text(
-                                  'Other Participators',
+                                  'otherParticipators'.tr(),
                                   style: openSans.get20.w700
                                       .textColor(AppColors.appTextColor),
                                 ),
                                 Text(
-                                  '(optional)',
+                                  'optional'.tr(),
                                   style: openSans.get12.w400.textColor(
                                       AppColors.appTextColor.withOpacity(0.5)),
                                 ),
@@ -269,29 +269,29 @@ class _ClassDetailState extends State<ClassDetail> {
                             top: 0,
                             controller: participators2,
                             validate: emailValidator.call,
-                            title: 'participators 2',
-                            hintText: 'Enter email address',
+                            title: 'participators2'.tr(),
+                            hintText: 'enterEmailAddress'.tr(),
                           ),
                           AppTextFormField(
                             controller: participators3,
                             validate: emailValidator.call,
-                            title: 'participators 3',
-                            hintText: 'Enter email address',
+                            title: 'participators3'.tr(),
+                            hintText: 'enterEmailAddress'.tr(),
                           ),
                           AppTextFormField(
                             controller: participators4,
                             validate: emailValidator.call,
-                            title: 'participators 4',
-                            hintText: 'Enter email address',
+                            title: 'participators4'.tr(),
+                            hintText: 'enterEmailAddress'.tr(),
                           ),
                           AppTextFormField(
                             controller: participators5,
                             validate: emailValidator.call,
-                            title: 'participators 5',
-                            hintText: 'Enter email address',
+                            title: 'participators5'.tr(),
+                            hintText: 'enterEmailAddress'.tr(),
                           ),
                           AppButton(
-                            title: 'Next for calls Details',
+                            title: 'nextForCallsDetails'.tr(),
                             onPressed: () {
                               if (formKey.currentState!.validate()) {}
                             },

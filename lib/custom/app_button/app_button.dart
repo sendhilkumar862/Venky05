@@ -31,7 +31,7 @@ class AppButton extends StatelessWidget {
     this.showCopySnackbar = true,
     this.isBorderOnly = false,
     this.borderColor,
-    this.isDisable = false,
+    this.isDisable = true,
     this.top, 
     this.padding = const EdgeInsets.only(left: 2, right: 2, top: 10, bottom: 10),
   });

@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:hessah/feature/tutorial/view/profile_view_model.dart';
 import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -9,27 +11,29 @@ import '../../../custom/appbar/appBarOnBoard.dart';
 import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
+import '../../../product/cache/locale_manager.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
+import '../onboarding/onboading_view.dart';
 import '../viewModel/tutorial_view_model.dart';
-import 'language_view.dart';
-import 'onboading_view.dart';
 
-class SelectProfileView extends StatelessWidget {
-  const SelectProfileView({super.key});
+class ProfileSelectionView extends StatelessWidget {
+  const ProfileSelectionView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<TutorialViewModel>(
-        viewModel: TutorialViewModel(),
-        onModelReady: (TutorialViewModel tutorialViewModel) {
-          tutorialViewModel.setContext(context);
+    return BaseView<ProfileViewModel>(
+        viewModel: ProfileViewModel(),
+        onModelReady: (ProfileViewModel profileViewModel) {
+          profileViewModel.setContext(context);
+          profileViewModel.init();
         },
         onPageBuilder:
-            (BuildContext context, TutorialViewModel tutorialViewModel) {
+            (BuildContext context, ProfileViewModel profileViewModel) {
           return Observer(builder: (BuildContext context) {
-            return Scaffold(backgroundColor: AppColors.appWhite,
-              appBar:AppBarOnBoard(),
+            return Scaffold(
+              backgroundColor: AppColors.appWhite,
+              appBar: AppBarOnBoard(),
               body: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.px),
                 child: Column(
@@ -40,7 +44,7 @@ class SelectProfileView extends StatelessWidget {
                       height: 15.px,
                     ),
                     AppText(
-                      'Select Your Profile',
+                      'selectYourProfile'.tr(),
                       textAlign: TextAlign.center,
                       fontSize: 24.px,
                       fontWeight: FontWeight.w800,
@@ -53,10 +57,10 @@ class SelectProfileView extends StatelessWidget {
                         2,
                         (index) => selectCardView(
                           icon: ImageConstants.graduateIcon,
-                          title: tutorialViewModel.profileItems[index],
-                          tutorialViewModel: tutorialViewModel,
+                          title: profileViewModel.profileItems[index],
+                          profileViewModel: profileViewModel,
                           index: index,
-                          onTap: () => tutorialViewModel.selectedItems(index),
+                          onTap: () => profileViewModel.selectProfile(index),
                         ),
                       ),
                     ),
@@ -65,10 +69,9 @@ class SelectProfileView extends StatelessWidget {
                       height: 45.px,
                       borderRadius: BorderRadius.circular(10.px),
                       borderColor: AppColors.appBlue,
-                      title: 'Continue',
-                      onPressed: () {
-                        AppRouter.push(const OnBoardingView());
-                      },
+                      title: 'continue'.tr(),
+                      isDisable: !profileViewModel.isSelected(),
+                      onPressed: profileViewModel.onTapSubmit,
                     ),
                     SizedBox(
                       height: 20.px,
@@ -85,7 +88,7 @@ class SelectProfileView extends StatelessWidget {
       {String? icon,
       String? title,
       VoidCallback? onTap,
-      TutorialViewModel? tutorialViewModel,
+      ProfileViewModel? profileViewModel,
       int? index}) {
     return Expanded(
       child: GestureDetector(
@@ -95,12 +98,12 @@ class SelectProfileView extends StatelessWidget {
           height: 88.px,
           padding: EdgeInsets.symmetric(horizontal: 15.px, vertical: 12.px),
           decoration: BoxDecoration(
-            color: index == tutorialViewModel!.selectedIndex
+            color: index == profileViewModel!.selectedIndex
                 ? AppColors.appBlue
                 : AppColors.white,
             borderRadius: BorderRadius.circular(12.px),
             border: Border.all(
-                color: index == tutorialViewModel!.selectedIndex
+                color: index == profileViewModel!.selectedIndex
                     ? AppColors.appBlue
                     : AppColors.lightPurple,
                 width: 1.5.px),
@@ -111,7 +114,7 @@ class SelectProfileView extends StatelessWidget {
               AppImageAsset(
                 image: icon!,
                 height: 25.px,
-                color: index != tutorialViewModel!.selectedIndex
+                color: index != profileViewModel!.selectedIndex
                     ? AppColors.appDarkBlack
                     : AppColors.white,
               ),
@@ -121,7 +124,7 @@ class SelectProfileView extends StatelessWidget {
               AppText(
                 title ?? '',
                 fontWeight: FontWeight.w400,
-                color: index != tutorialViewModel!.selectedIndex
+                color: index != profileViewModel!.selectedIndex
                     ? AppColors.appDarkBlack
                     : AppColors.white,
               ),

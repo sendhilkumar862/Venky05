@@ -8,8 +8,8 @@ import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/splash_view_model.dart';
 
-class SplashView extends StatelessWidget {
-  const SplashView({super.key});
+class SplashSecond extends StatelessWidget {
+  const SplashSecond({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +17,7 @@ class SplashView extends StatelessWidget {
         viewModel: SplashViewModel(),
         onModelReady: (SplashViewModel splashViewModel) {
           splashViewModel.setContext(context);
+          splashViewModel.init();
         },
         onPageBuilder: (BuildContext context, SplashViewModel homeViewsModel) {
           return Observer(builder: (BuildContext context) {
@@ -25,19 +26,13 @@ class SplashView extends StatelessWidget {
                 decoration: const BoxDecoration(color: AppColors.appBlue),
                 child: Stack(
                   alignment: Alignment.center,
-                  children: [
-                    if (false)
-                      AppImageAsset(
-                        image: ImageConstants.starWhite,
-                        height: 100.px,
-                      )
-                    else
-                      AppImageAsset(
-                        image: ImageConstants.primaryLogo,
-                        height: 50.px,
-                      ),
+                  children: <Widget>[
+                    AppImageAsset(
+                      image: ImageConstants.primaryLogo,
+                      height: 50.px,
+                    ),
                     const Column(
-                      children: [
+                      children: <Widget>[
                         Expanded(
                           child: AppImageAsset(
                             image: ImageConstants.splashBG,

@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:hessah/feature/wallet/view/set_bottom_sheet.dart';
@@ -81,9 +82,9 @@ class _WithdrawViewState extends State<WithdrawView>
             return Scaffold(
               backgroundColor: AppColors.appWhite,
               appBar: HessaAppBar(
-                icon: ImageConstants.avtar,
-                title: 'Withdraw',
                 isTitleOnly: true,
+                title: 'withdraw'.tr(),
+                isBack: true,
               ),
               body: ListView(
                 padding: EdgeInsets.symmetric(horizontal: 15.px),
@@ -94,21 +95,21 @@ class _WithdrawViewState extends State<WithdrawView>
                   AppTextFormField(
                     titleColor: (walletViewModel.amountError.isEmpty)
                         ? AppColors.appGrey
-                        : ('valid' == walletViewModel.amountError)
+                        : ('valid'.tr() == walletViewModel.amountError)
                             ? AppColors.appRed
                             : AppColors.appBlue,
                     controller: walletViewModel.withdrawController,
-                    title: 'Withdraw Amount',
+                    title: 'withdrawAmount'.tr(),
                     height: 10,
                     keyboardType: TextInputType.number,
-                    hintText: 'Enter withdraw amount',
+                    hintText: 'enterWithdrawAmount'.tr(),
                     validate: (String? value) {
                       return walletViewModel.withdrawAmountValidation(value!);
                     },
                     suffix:  Padding(
                       padding: EdgeInsets.only(top: 14.px),
                       child: AppText(
-                        'KWD',
+                        'kwd'.tr(),
                       ),
                     ),
                   ),
@@ -116,7 +117,7 @@ class _WithdrawViewState extends State<WithdrawView>
                   Row(
                     children: <Widget>[
                       AppText(
-                        'Withdraw All Balance',
+                        'withdrawAllBalance'.tr(),
                         fontSize: 14.px,
                         fontWeight: FontWeight.w500,
                       ),
@@ -148,7 +149,7 @@ class _WithdrawViewState extends State<WithdrawView>
                                   child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
-                                        Text('Bank Account',
+                                        Text('bankAccount'.tr(),
                                             style: openSans.get20.w700),
                                         GestureDetector(
                                           onTap: () {
@@ -180,7 +181,7 @@ class _WithdrawViewState extends State<WithdrawView>
                                           label: Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 5),
-                                            child: Text('IBAN',
+                                            child: Text('iban'.tr(),
                                                 style: openSans.get12.w500
                                                     .textColor(AppColors.gray)),
                                           ),
@@ -196,7 +197,7 @@ class _WithdrawViewState extends State<WithdrawView>
                                 ),
                                 AppButton(
                                   onPressed: () {},
-                                  title: 'Select',
+                                  title: 'select'.tr(),
                                   isDisable: false,
                                 ),
                                 Padding(
@@ -204,7 +205,7 @@ class _WithdrawViewState extends State<WithdrawView>
                                     child: TextButton(
                                       onPressed: () {},
                                       child: Text(
-                                        'Add New Account',
+                                        'addNewAccount'.tr(),
                                         style: openSans.w700,
                                       ),
                                     ))
@@ -220,10 +221,10 @@ class _WithdrawViewState extends State<WithdrawView>
                         borderRadius: BorderRadius.circular(8.px),
                         border: Border.all(color: AppColors.lightPurple),
                       ),
-                      child: const Row(
+                      child:  Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          AppText('Main Account', fontWeight: FontWeight.w400),
+                          AppText('mainAccount'.tr(), fontWeight: FontWeight.w400),
                           Icon(Icons.arrow_drop_down)
                         ],
                       ),
@@ -232,9 +233,9 @@ class _WithdrawViewState extends State<WithdrawView>
                   noBankAccountCardView(),
                   SizedBox(height: 160.px),
                   AppButton(
-                    title: 'Withdraw',
+                    title: 'withdraw'.tr(),
                     borderColor: AppColors.appBlue,
-                    onPressed: (walletViewModel.amountError == 'valid')
+                    onPressed: (walletViewModel.amountError == 'valid'.tr())
                         ? () {}
                         : () {},
                   )
@@ -251,7 +252,7 @@ class _WithdrawViewState extends State<WithdrawView>
     return Column(
       children: [
         AppText(
-          'Bank Account',
+          'bankAccount'.tr(),
           fontSize: 12.px,
           fontWeight: FontWeight.w400,
           color: AppColors.appGrey,
@@ -270,13 +271,13 @@ class _WithdrawViewState extends State<WithdrawView>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const AppText(
-                  'No Bank Accounts Found!',
+                 AppText(
+                  'noBankAccountsFound!'.tr(),
                   fontWeight: FontWeight.w700,
                 ),
                 SizedBox(height: 10.px),
                 AppButton(
-                  title: 'Add New Bank Account',
+                  title: 'addNewBankAccount'.tr(),
                   height: 45.px,
                   borderRadius: BorderRadius.circular(10.px),
                   borderColor: AppColors.appBlue,
@@ -301,7 +302,7 @@ class _WithdrawViewState extends State<WithdrawView>
       child: Row(
         children: <Widget>[
           AppText(
-            'Available Balance',
+            'availableBalance'.tr(),
             fontSize: 12.px,
             fontWeight: FontWeight.w500,
             color: AppColors.appGrey,

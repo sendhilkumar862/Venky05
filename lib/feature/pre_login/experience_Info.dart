@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
@@ -18,15 +22,16 @@ class ExperienceInfo extends StatefulWidget {
 }
 
 class _ExperienceInfoState extends State<ExperienceInfo> {
+  File? firstImage;
+  File? secondImage;
   bool isSwitch = false;
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
     return Scaffold(
       appBar: HessaAppBar(
-        isBack: true,
-        trailingText: 'Cancel',
-        title: 'Complete Profile',
+        trailingText: 'cancel'.tr(),
+        title: 'completeProfile'.tr(),
         isTitleOnly: true,
       ),
       body: Padding(
@@ -37,19 +42,19 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 30),
-                child: Text('Experience Information',
+                child: Text('experienceInformation'.tr(),
                     style:
                         openSans.get20.w700.textColor(AppColors.appTextColor)),
               ),
               AppTextFormField(
-                title: 'Education',
-                hintText: 'Enter your education',
+                title: 'education'.tr(),
+                hintText: 'enterYourEducation'.tr(),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 30),
                 child: Row(
                   children: <Widget>[
-                    Text('Make it visible for users',
+                    Text('makeItVisibleForUsers'.tr(),
                         style: openSans.get14.w500
                             .textColor(AppColors.appTextColor)),
                     Padding(
@@ -71,21 +76,21 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                   ],
                 ),
               ),
-              const AppTextFormField(
+              AppTextFormField(
                 top: 0,
-                title: 'Experience Years',
-                hintText: 'Enter years of experience',
+                title: 'experienceYears'.tr(),
+                hintText: 'enterYearsOExperience'.tr(),
               ),
-              const AppTextFormField(
+              AppTextFormField(
                 maxLines: 3,
-                title: 'Experience Brief',
-                hintText: 'Enter experience brief',
+                title: 'experienceBrief'.tr(),
+                hintText: 'enterExperienceBrief'.tr(),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15),
                 child: Row(
                   children: <Widget>[
-                    Text('Make it visible for users',
+                    Text('makeItVisibleForUsers'.tr(),
                         style: openSans.get14.w500
                             .textColor(AppColors.appTextColor)),
                     Padding(
@@ -109,35 +114,163 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 15),
-                child: Text('Certificates',
+                child: Text('certificates'.tr(),
                     style: openSans.get12.w400
                         .textColor(AppColors.appTextColor.withOpacity(0.5))),
               ),
-              SizedBox(
-                width: width,
-                height: 83,
-                child: DottedBorder(
-                    borderType: BorderType.RRect,
-                    radius: const Radius.circular(15),
-                    color: AppColors.appBlue,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        const Icon(Icons.cloud_upload_outlined,
-                            color: AppColors.appBlue),
-                        Center(
-                            child: Text(
-                          'Upload Your Cetificates',
-                          style: openSans.get14.w500.appBlue,
+              Center(
+                child: SizedBox(
+                  width: width * 0.89,
+                  child: InkWell(
+                    onTap: () {
+                      pickDocument();
+                    },
+                    child: DottedBorder(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        borderType: BorderType.RRect,
+                        radius: const Radius.circular(15),
+                        color: AppColors.appBlue,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                if (firstImage != null)
+                                  SizedBox(
+                                    width: 80,
+                                    height: 80,
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
+                                                    color: AppColors
+                                                        .appBorderColor
+                                                        .withOpacity(0.5))),
+                                            child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                child: Image.file(
+                                                  firstImage!,
+                                                  width: 80,
+                                                  height: 80,
+                                                  fit: BoxFit.cover,
+                                                ))),
+                                        Align(
+                                            alignment: Alignment.topRight,
+                                            child: InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  firstImage = null;
+                                                });
+                                              },
+                                              child: Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 5,
+                                                      horizontal: 5),
+                                                  padding: EdgeInsets.all(3),
+                                                  decoration: BoxDecoration(
+                                                      color: AppColors
+                                                          .downArrowColor
+                                                          .withOpacity(0.15),
+                                                      shape: BoxShape.circle),
+                                                  child: Icon(
+                                                    Icons.close,
+                                                    size: 20,
+                                                  )),
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                if (secondImage != null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: SizedBox(
+                                      width: 80,
+                                      height: 80,
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  border: Border.all(
+                                                      color: AppColors
+                                                          .appBorderColor
+                                                          .withOpacity(0.5))),
+                                              child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  child: Image.file(
+                                                    secondImage!,
+                                                    width: 80,
+                                                    height: 80,
+                                                    fit: BoxFit.cover,
+                                                  ))),
+                                          Align(
+                                              alignment: Alignment.topRight,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    secondImage = null;
+                                                  });
+                                                },
+                                                child: Container(
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 5,
+                                                            horizontal: 5),
+                                                    padding: EdgeInsets.all(3),
+                                                    decoration: BoxDecoration(
+                                                        color: AppColors
+                                                            .downArrowColor
+                                                            .withOpacity(0.15),
+                                                        shape: BoxShape.circle),
+                                                    child: Icon(
+                                                      Icons.close,
+                                                      size: 20,
+                                                    )),
+                                              ))
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                            if (secondImage == null || firstImage == null)
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: secondImage == null &&
+                                            firstImage == null
+                                        ? 0
+                                        : 15),
+                                child: Column(
+                                  children: <Widget>[
+                                    const Icon(Icons.cloud_upload_outlined,
+                                        color: AppColors.appBlue),
+                                    Center(
+                                        child: Text(
+                                      firstImage != null
+                                          ? 'addMore'.tr()
+                                          : 'uploadCivilID'.tr(),
+                                      style: openSans.get14.w500.appBlue,
+                                    )),
+                                  ],
+                                ),
+                              ),
+                          ],
                         )),
-                      ],
-                    )),
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 25),
                 child: Row(
                   children: <Widget>[
-                    Text('Make it visible for users',
+                    Text('makeItVisibleForUsers'.tr(),
                         style: openSans.get14.w500
                             .textColor(AppColors.appTextColor)),
                     Padding(
@@ -160,7 +293,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                 ),
               ),
               AppButton(
-                  title: 'Continue To Teaching Information',
+                  title: 'continueToLastStep'.tr(),
                   onPressed: () {
                     AppRouter.pushNamed(Routes.financingView);
                   },
@@ -170,5 +303,23 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
         ),
       ),
     );
+  }
+
+  Future<void> pickDocument() async {
+    final FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: <String>['pdf', 'png', 'jpeg', 'jpg'],
+    );
+    if (result != null) {
+      if (firstImage == null) {
+        setState(() {
+          firstImage = File(result.files.single.path ?? '');
+        });
+      } else {
+        setState(() {
+          secondImage = File(result.files.single.path ?? '');
+        });
+      }
+    }
   }
 }

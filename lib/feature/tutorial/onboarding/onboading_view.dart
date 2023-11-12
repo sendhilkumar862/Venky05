@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lottie/lottie.dart';
@@ -5,54 +6,59 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../config/routes/app_router.dart';
+import '../../../config/routes/routes.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/appbar/appBarOnBoard.dart';
-import '../../../custom/appbar/appbar.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
-import '../viewModel/tutorial_view_model.dart';
-import 'join_app_view.dart';
+import '../emailEnter/email_view.dart';
+import 'onboarding_view_model.dart';
 
-class OnBoardingView extends StatelessWidget {
-  const OnBoardingView({super.key});
+class OnboardingView extends StatelessWidget {
+  const OnboardingView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<TutorialViewModel>(
-        viewModel: TutorialViewModel(),
-        onModelReady: (TutorialViewModel tutorialViewModel) {
-          tutorialViewModel.setContext(context);
+    return BaseView<OnboardingViewModel>(
+        viewModel: OnboardingViewModel(),
+        onModelReady: (OnboardingViewModel onboardingViewModel) {
+          onboardingViewModel.setContext(context);
+          onboardingViewModel.init();
         },
         onPageBuilder:
-            (BuildContext context, TutorialViewModel tutorialViewModel) {
+            (BuildContext context, OnboardingViewModel onboardingViewModel) {
           return Observer(builder: (BuildContext context) {
-            return Scaffold(backgroundColor: AppColors.appWhite,
-              appBar: AppBarOnBoard(),
+            return Scaffold(
+              backgroundColor: AppColors.appWhite,
+              appBar: AppBarOnBoard(title: 'exploreApp'.tr(),icon: ImageConstants.layersIcon,),
               body: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.px),
                 child: Column(
                   children: <Widget>[
+
                     SizedBox(
-                      height: 40.px,
-                    ),
-                    SizedBox(
-                      height: 390.px,
+                      height:400.px,
                       child: PageView.builder(
                         physics: BouncingScrollPhysics(),
-                        controller: tutorialViewModel.pageController,
+                        controller: onboardingViewModel.pageController,
                         itemCount: 3,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: EdgeInsets.symmetric(horizontal: 20.px),
                             child: Column(
                               children: <Widget>[
-                                Lottie.asset(
-                                  tutorialViewModel.onboardingAnimation[index],
-                                ),
+                                if (onboardingViewModel.currentProfile == 1)
+                                  Lottie.asset(onboardingViewModel
+                                      .studentAnimation[index])
+                                else
+                                  Lottie.asset(onboardingViewModel
+                                      .teacherAnimation[index]),
                                 AppText(
-                                  tutorialViewModel.onboardingTitle[index],
+                                  (onboardingViewModel.currentProfile == 1)
+                                      ? onboardingViewModel.studentTitle[index]
+                                      : onboardingViewModel.teacherTitle[index],
                                   textAlign: TextAlign.center,
                                   fontSize: 24.px,
                                   fontWeight: FontWeight.w800,
@@ -61,7 +67,11 @@ class OnBoardingView extends StatelessWidget {
                                   height: 10.px,
                                 ),
                                 AppText(
-                                  tutorialViewModel.onboardingSubtitle[index],
+                                  (onboardingViewModel.currentProfile == 1)
+                                      ? onboardingViewModel
+                                          .studentSubtitle[index]
+                                      : onboardingViewModel
+                                          .teacherSubtitle[index],
                                   textAlign: TextAlign.center,
                                   fontWeight: FontWeight.w400,
                                   color: AppColors.appGrey,
@@ -74,12 +84,12 @@ class OnBoardingView extends StatelessWidget {
                     ),
                     SizedBox(height: 18.px),
                     SmoothPageIndicator(
-                      controller: tutorialViewModel.pageController,
+                      controller: onboardingViewModel.pageController,
                       count: 3,
                       effect: ExpandingDotsEffect(
                           spacing: 8.px,
                           radius: 10.px,
-                          dotWidth: 10.px,
+                          dotWidth: 8.px,
                           dotHeight: 8.px,
                           //paintStyle: PaintingStyle.stroke,
                           dotColor: AppColors.lightPurple,
@@ -93,19 +103,23 @@ class OnBoardingView extends StatelessWidget {
                       height: 45.px,
                       borderRadius: BorderRadius.circular(10.px),
                       borderColor: AppColors.appBlue,
-                      title: 'Join To Hessah',
+                      title: 'join'.tr(),
+                      isDisable: false,
                       onPressed: () {
-                        AppRouter.push(const JoinAppView());
+                        AppRouter.push(const EmailView());
                       },
                     ),
                     SizedBox(height: 15.px),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 10.px),
-                      child: AppText(
-                        'Login',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.px,
-                        color: AppColors.appBlue,
+                      child: GestureDetector(
+                        onTap: () => AppRouter.pushNamed(Routes.loginView),
+                        child: AppText(
+                          'login'.tr(),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14.px,
+                          color: AppColors.appBlue,
+                        ),
                       ),
                     ),
                     SizedBox(

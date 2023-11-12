@@ -19,6 +19,8 @@ class ImageConstants {
   static const String onlineStudy = '${ApplicationConstants.animationPath}online_study.json';
   static const String book = '${ApplicationConstants.animationPath}Book.json';
   static const String education = '${ApplicationConstants.animationPath}Education.json';
+  static const String mailApproved = '${ApplicationConstants.animationPath}mail_approved.json';
+  static const String timetable = '${ApplicationConstants.animationPath}timetable.json';
 
 
 
@@ -107,5 +109,14 @@ class ImageConstants {
   static const String saudiArabia = '${ApplicationConstants.iconPath}saudi_arabia.png';
   static const String uae = '${ApplicationConstants.iconPath}uae.png';
   static const String infoRoundCircle = '${ApplicationConstants.iconPath}infornation.png';
+  static const String checkbox = '${ApplicationConstants.iconPath}checkbox_circle.png';
+  static const String checkboxFilled = '${ApplicationConstants.iconPath}checkbox_circle_filled.png';
+  static const String checkboxSqure = '${ApplicationConstants.iconPath}checkbox_sqare.png';
+  static const String checkboxSqureFilled = '${ApplicationConstants.iconPath}checkbox_suqare_filled.png';
+  static const String faceId = '${ApplicationConstants.iconPath}face_lock.png';
 
+  static const String unFillCircle =
+      '${ApplicationConstants.iconPath}un_fill_circle.svg';
+  static const String warningIcon =
+      '${ApplicationConstants.iconPath}warning.png';
 }

@@ -157,6 +157,12 @@ extension TextStyleExtensions on TextStyle {
   TextStyle get space09 => letterSpace(0.9);
 
 //==============================================================================
+// ** Underline **
+//==============================================================================
+
+  TextStyle get underline => textDecoration(TextDecoration.underline);
+
+//==============================================================================
 // ** TextHeight **
 //==============================================================================
   TextStyle textHeight(double v) => copyWith(height: v);

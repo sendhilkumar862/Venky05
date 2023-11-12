@@ -1,7 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../../../product/base/view/base_view.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/app_textformfield/app_field.dart';
@@ -35,7 +35,7 @@ class _AddBankViewState extends State<AddBankView>
               backgroundColor: AppColors.appWhite,
               appBar: HessaAppBar(
                 icon: ImageConstants.avtar,
-                title: 'Add Bank Account',
+                title: 'addBankAccount'.tr(),
                 isTitleOnly: true,
               ),
               body: ListView(
@@ -44,13 +44,13 @@ class _AddBankViewState extends State<AddBankView>
                   AppTextFormField(
                     titleColor: (walletViewModel.accountError.isEmpty)
                         ? AppColors.appGrey
-                        : ('valid' == walletViewModel.accountError)
+                        : ('valid'.tr() == walletViewModel.accountError)
                         ? AppColors.appBlue
                         : AppColors.appRed,
                     controller: walletViewModel.accountNumberController,
-                    title: 'Enter IBAN Number',
+                    title: 'enterIBANNumber'.tr(),
                     height: 10.px,
-                    hintText: 'Enter IBAN Number',
+                    hintText: 'enterIBANNumber'.tr(),
                     validate: (String? value) {
                       return walletViewModel.accountNumberValidation(value!);
                     },
@@ -59,14 +59,14 @@ class _AddBankViewState extends State<AddBankView>
                   AppTextFormField(
                     titleColor: (walletViewModel.nameError.isEmpty)
                         ? AppColors.appGrey
-                        : ('valid' == walletViewModel.nameError)
+                        : ('valid'.tr() == walletViewModel.nameError)
                         ? AppColors.appRed
                         : AppColors.appBlue,
                     controller: walletViewModel.nameController,
-                    title: 'Bank Account Nickname',
+                    title: 'bankAccountNickname'.tr(),
                     height: 10.px,
                     keyboardType: TextInputType.text,
-                    hintText: 'Enter nickname',
+                    hintText: 'enterNickname'.tr(),
                     validate: (String? value) {
                       return walletViewModel.nameValidation(value!);
                     },
@@ -75,19 +75,20 @@ class _AddBankViewState extends State<AddBankView>
                   Row(
                     children: <Widget>[
                       AppText(
-                        'Set as Default Account',
+                        'setAsDefaultAccount'.tr(),
                         fontSize: 14.px,
                         fontWeight: FontWeight.w500,
                       ),
                       SizedBox(width: 8.px),
                       AppSwitch(
                           onTap: () => walletViewModel.onTapSwitch(),
-                          isActive: walletViewModel.isActive)
+                          isActive: walletViewModel.isActive
+                      )
                     ],
                   ),
                   SizedBox(height: 280.px),
                   AppButton(
-                    title: 'Add Bank Account',
+                    title: 'addBankAccount'.tr(),
                     borderColor: AppColors.appBlue,
                     onPressed: () {},
                   ),

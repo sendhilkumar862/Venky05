@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -48,7 +49,7 @@ class InvoiceCardView extends StatelessWidget {
               ),
             Row(
               children: <Widget>[
-                if (title == 'Class Fees')
+                if (title == 'classFees'.tr())
                   CircleAvatar(
                       backgroundColor: AppColors.appLightRedTwo,
                       radius: 23.px,

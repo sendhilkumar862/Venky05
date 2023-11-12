@@ -28,6 +28,20 @@ class StatusCardView extends StatelessWidget {
           cardColor: AppColors.appGreen,
           iconColor: AppColors.appWhite,
         );
+      case 'ACTION NEEDED':
+        return customStatusView(
+          title: 'Action Needed',
+          icon: ImageConstants.warningIcon,
+          cardColor: AppColors.appOrange,
+          iconColor: AppColors.appWhite,
+        );
+      case 'REJECTED':
+        return customStatusView(
+          title: 'Rejected',
+          icon: ImageConstants.inCompletedStatus,
+          cardColor: AppColors.secondaryRed,
+          iconColor: AppColors.appWhite,
+        );
 
       case 'ACCEPTED':
         return customStatusView(
@@ -40,6 +54,13 @@ class StatusCardView extends StatelessWidget {
       case 'PENDING':
         return customStatusView(
           title: 'Pending',
+          icon: ImageConstants.pendingStatus,
+          cardColor: AppColors.appYellow,
+          iconColor: AppColors.appDarkBlack,
+        );
+      case 'PENDING ACCOUNT':
+        return customStatusView(
+          title: 'Pending Account',
           icon: ImageConstants.pendingStatus,
           cardColor: AppColors.appYellow,
           iconColor: AppColors.appDarkBlack,
@@ -116,6 +137,7 @@ class StatusCardView extends StatelessWidget {
         color: cardColor,
       ),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           AppImageAsset(

@@ -1,15 +1,16 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:hessah/feature/tutorial/view/password_view.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../config/routes/app_router.dart';
-import '../../../custom/app_button/app_button.dart';
+import '../../../config/routes/routes.dart';
 import '../../../custom/app_textformfield/app_field.dart';
-import '../../../custom/image/app_image_assets.dart';
+import '../../../custom/app_textformfield/text_field.dart';
+import '../../../custom/preLoginWidget/pre_login_widget.dart';
+import '../../../custom/switch/app_switch.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
-import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/tutorial_view_model.dart';
 
 class UserInfoView extends StatelessWidget {
@@ -26,80 +27,72 @@ class UserInfoView extends StatelessWidget {
             (BuildContext context, TutorialViewModel tutorialViewModel) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
-              body: Stack(
-                alignment: Alignment.topCenter,
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      SizedBox(height: 50.px),
-                      InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
+              body: PreLoginCustomBody(
+                widget: Expanded(
+                  child: ListView(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.symmetric(horizontal: 15.px),
+                    children: [
+                      SizedBox(height: 35.px),
+                      const OnTapBack(),
+                      SizedBox(height: 20.px),
+                      SizedBox(height: 80.px),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: AppText(
+                          textAlign: TextAlign.start,
+                          'userInfo'.tr(),
+                          fontSize: 24.px,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      SizedBox(height: 20.px),
+                      TextFormsField(
+                        keyboardType: TextInputType.text,
+                        title: 'firstName'.tr(),
+                        validate: tutorialViewModel.firstNameValid,
+                        controller: tutorialViewModel.firstNameController,
+                        hintText: 'enterYourFirstName'.tr(),
+                        errorText: tutorialViewModel.firstNameErrorText!,
+                        onChanged: (String value) {
+                          tutorialViewModel.validateFirstName(value!);
                         },
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15.px),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: AppImageAsset(
-                              image: ImageConstants.backIcon,
-                              height: 25.px,
-                            ),
+                      ),
+                      SizedBox(height: 20.px),
+                      TextFormsField(
+                        keyboardType: TextInputType.text,
+                        title: 'lastName'.tr(),
+                        validate: tutorialViewModel.lastNameValid,
+                        controller: tutorialViewModel.lastNameController,
+                        hintText: 'enterYourLastName'.tr(),
+                        errorText: tutorialViewModel.lastNameErrorText!,
+                        onChanged: (String value) {
+                          tutorialViewModel.validateLastName(value!);
+                        },
+                      ),
+                      SizedBox(height: 20.px),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          AppText(
+                            'makeItVisible'.tr(),
+                            fontSize: 14.px,
                           ),
-                        ),
-                      ),
-                      SizedBox(height: 10.px),
-                      Expanded(
-                        child: ListView(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.symmetric(horizontal: 15.px),
-                          children: [
-                            SizedBox(height: 100.px),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: AppText(
-                                textAlign: TextAlign.start,
-                                'User Information',
-                                fontSize: 24.px,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            SizedBox(height: 20.px),
-                            const AppTextFormField(
-                              title: 'First Name',
-                              hintText: 'Enter your first name',
-                              fillColor: AppColors.appWhite,
-                            ),
-                            const AppTextFormField(
-                              title: 'Last Name',
-                              hintText: 'Enter your last name',
-                              fillColor: AppColors.appWhite,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15.px),
-                        child: AppButton(
-                          height: 45.px,
-                          borderRadius: BorderRadius.circular(10.px),
-                          borderColor: AppColors.appBlue,
-                          title: 'Continue',
-                          onPressed: () {
-                            AppRouter.push(const PasswordView());
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30.px,
-                      ),
+                          SizedBox(width: 10.px),
+                          AppSwitch(
+                            isActive: tutorialViewModel.isActiveSwitch,
+                            onTap: () => tutorialViewModel.onTapSwitch,
+                          )
+                        ],
+                      )
                     ],
                   ),
-                  const AppImageAsset(
-                    image: ImageConstants.splashBG,
-                    fit: BoxFit.fill,
-                  ),
-                ],
+                ),
               ),
+              bottomNavigationBar: PreLoginCommonButton(
+                  title: 'continue'.tr(),
+                  onTap: () => tutorialViewModel.onTapSubmitUserInfo(),
+                  isDisable: tutorialViewModel.isDisableUserInfoSubmit()),
             );
           });
         });

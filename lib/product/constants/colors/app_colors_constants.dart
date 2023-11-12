@@ -22,14 +22,14 @@ class AppColors {
   static const Color appErrorColor = Color(0xFFd92d20);
   static const Color appBrown = Color(0xFF856404);
   static const Color appPurple = Color(0xFF9185FF);
-  static const Color lightPurple= Color(0xffE9EEFF);
-  static const Color appGreen= Color(0xff07B53B);
-  static const Color appLightRed= Color(0xffFF4956);
-  static const Color appLightRedTwo= Color(0xffFFEDEE);
-  static const Color appOrange= Color(0xffF28602);
-  static const Color appLightBlue= Color(0xff3D67FF);
-  static const Color lightPurpleTwo= Color(0xffF0EFFF);
-  static const Color greenBG= Color(0xffD0F7DB);
+  static const Color lightPurple = Color(0xffE9EEFF);
+  static const Color appGreen = Color(0xff07B53B);
+  static const Color appLightRed = Color(0xffFF4956);
+  static const Color appLightRedTwo = Color(0xffFFEDEE);
+  static const Color appOrange = Color(0xffF28602);
+  static const Color appLightBlue = Color(0xff3D67FF);
+  static const Color lightPurpleTwo = Color(0xffF0EFFF);
+  static const Color greenBG = Color(0xffD0F7DB);
   static const Color secondaryRed = Color(0xffff4956);
 
   static const Color appTextColor = Color(0xff051335);
@@ -42,10 +42,13 @@ class AppColors {
   static const Color white = Colors.white;
   //static const Color appBlue = Color(0xff002BC7);
   static const Color appBorderColor = Color(0xffC5CEEE);
-  static const Color darkPurple= Color(0xff05133580);
-  static const Color appShadow= Color(0xffdddddd);
+  static const Color darkPurple = Color(0xff05133580);
+  static const Color appShadow = Color(0xffdddddd);
   static const Color textWhite80Color = Color(0xFFf2f2f2);
   static const Color isDisableColor = Color(0xFFC5D1FF);
+  static const Color arsenic = Color(0xFF3C3C43);
+  static const Color tabColor = Color(0xffF0F5FF);
+  static const Color darkCyan = Color(0xff006685);
 
   static List<BoxShadow> appBoxShadow = [
     BoxShadow(
@@ -57,7 +60,7 @@ class AppColors {
   ];
 
   static List<BoxShadow> infoBoxShadow = [
-     BoxShadow(
+    BoxShadow(
       offset: const Offset(1, 6),
       color: appShadow.withOpacity(0.5),
       blurRadius: 5,
@@ -69,7 +72,7 @@ class AppColors {
         color: AppColors.appShadow,
         offset: Offset(-1, 8),
         blurRadius: 15,
-    spreadRadius: -4),
+        spreadRadius: -4),
   ];
 
   static List<BoxShadow> appDarkBoxShadow = [
@@ -79,5 +82,13 @@ class AppColors {
       color: appWhite.withOpacity(0.2),
       blurRadius: 2,
     ),
-  ]; 
+  ];
+
+  static List<BoxShadow> searchCardBoxShadow = [
+    const BoxShadow(
+      offset: Offset(1, 6),
+      color: trans,
+      blurRadius: 5,
+    ),
+  ];
 }

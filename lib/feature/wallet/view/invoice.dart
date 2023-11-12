@@ -1,6 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_share/flutter_share.dart';
-
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
@@ -22,7 +21,7 @@ class _InvoiceState extends State<Invoice> {
           // titleText: 'Invoice Details',
           ),
       body: Column(
-        children: [
+        children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
             child: Container(
@@ -32,17 +31,17 @@ class _InvoiceState extends State<Invoice> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 child: Column(
-                  children: [
+                  children: <Widget>[
                     userDataRow(
-                        title: 'Transaction Date', data: '11/10/2023 11:23 AM'),
+                        title: 'transactionDate'.tr(), data: '11/10/2023 11:23 AM'),
                     userDataRow(
-                        title: 'Transaction Number', data: '#1232132132323'),
+                        title: 'transactionNumber'.tr(), data: '#1232132132323'),
                     userDataRow(
-                        title: 'Transaction Type', data: 'Top Up Wallet'),
-                    userDataRow(title: 'Payment Method', data: 'KNET/CREDIT'),
+                        title: 'transactionType'.tr(), data: 'Top Up Wallet'),
+                    userDataRow(title: 'paymentMethod'.tr(), data: 'KNET/CREDIT'),
                     const Divider(),
                     userDataRow(
-                        title: 'Top Up Amount',
+                        title: 'topUpAmount'.tr(),
                         data: '25',
                         data1: '.000 KWD',
                         weight: FontWeight.w700),
@@ -52,9 +51,7 @@ class _InvoiceState extends State<Invoice> {
             ),
           ),
           ElevatedButton.icon(
-              onPressed: () {
-                FlutterShare.share(title: 'Check');
-              },
+              onPressed: () {},
               style: ButtonStyle(
                   shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)))),
@@ -62,7 +59,7 @@ class _InvoiceState extends State<Invoice> {
                 Icons.file_download_outlined,
                 color: AppColors.white,
               ),
-              label: const AppText('Download Invoice', color: AppColors.white))
+              label:  AppText('downloadInvoice'.tr(), color: AppColors.white))
         ],
       ),
     );
@@ -77,7 +74,7 @@ class _InvoiceState extends State<Invoice> {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
           AppText(
             title ?? '',
             maxLines: 1,
@@ -87,7 +84,7 @@ class _InvoiceState extends State<Invoice> {
             color: AppColors.gray,
           ),
           Row(
-            children: [
+            children: <Widget>[
               AppText(
                 data,
                 maxLines: 1,
