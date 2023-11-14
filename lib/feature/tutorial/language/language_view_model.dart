@@ -25,9 +25,10 @@ class LanguageViewModel = _LanguageViewModelBase with _$LanguageViewModel;
 
 abstract class _LanguageViewModelBase extends BaseViewModel with Store {
 
-  _LanguageViewModelBase(this._languageRepository);
+  _LanguageViewModelBase(this._ref);
 
- final LanguageRepository _languageRepository;
+ LanguageRepository _languageRepository;
+ final Ref<Object?>  _ref;
 
   @override
   void setContext(BuildContext context) => viewModelContext = context;
@@ -46,6 +47,7 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   List<Country> countries = [];
 
   void fetchData() async {
+    _languageRepository = _ref.watch(languageRepositoryProvider);
      final List<Country> data = await _languageRepository.fetchAll(queryParameters: <String, String>{});
      countries = data;
     // Dio dio = Dio();

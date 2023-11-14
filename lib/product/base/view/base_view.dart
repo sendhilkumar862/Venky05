@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 
 class BaseView<T extends Store> extends StatefulWidget {
   const BaseView({
@@ -30,12 +31,20 @@ class _BaseViewState<T extends Store> extends State<BaseView<T>> {
   @override
   void dispose() {
     super.dispose();
-    if (widget.onDispose != null) widget.onDispose?.call();
+    if (widget.onDispose != null) {
+      widget.onDispose?.call();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.onPageBuilder(context, model);
+    return Provider<T>(
+      create: (BuildContext context) => model,
+      child: Consumer<T>(
+        builder: (BuildContext context, model, _) {
+          return widget.onPageBuilder(context, model);
+        },
+      ),
+    );
   }
-
 }

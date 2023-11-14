@@ -1,36 +1,33 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:hessah/feature/tutorial/view/profile_selection_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../config/routes/app_router.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/image/app_image_assets.dart';
-import '../../../custom/sheet/country_bottom_sheet.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
-import '../../../product/network/networking/api_endpoint.dart';
-import '../../../product/network/networking/interceptors/refresh_token_interceptor.dart';
 import '../view/bottomSheets/country_bottom_sheet.dart';
 import '../view/bottomSheets/language_bottom_sheet.dart';
-import '../viewModel/tutorial_view_model.dart';
+import '../view/profile_selection_view.dart';
 import 'language_repository.dart';
 import 'language_view_model.dart';
 
-class LanguageView extends StatelessWidget {
+class LanguageView extends ConsumerWidget {
   const LanguageView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-   final ProviderContainer container = ProviderContainer();
+  Widget build(BuildContext context, WidgetRef ref) {
+  //  final ProviderContainer container = ProviderContainer();
 
     return BaseView<LanguageViewModel>(
-        viewModel: LanguageViewModel(container.read(languageRepositoryProvider)),
+        viewModel: LanguageViewModel(ref as Ref<Object?>),
         onModelReady: (LanguageViewModel languageViewModel) {
           languageViewModel.setContext(context);
           languageViewModel.init();
