@@ -22,6 +22,7 @@ class PasswordView extends StatelessWidget {
         viewModel: TutorialViewModel(),
         onModelReady: (TutorialViewModel tutorialViewModel) {
           tutorialViewModel.setContext(context);
+          tutorialViewModel.data = (ModalRoute.of(context)!.settings.arguments!  as Map)!;
         },
         onPageBuilder:
             (BuildContext context, TutorialViewModel tutorialViewModel) {
@@ -58,6 +59,7 @@ class PasswordView extends StatelessWidget {
                               title: 'password'.tr(),
                               controller: tutorialViewModel.passwordController,
                               hintText: 'enterYourPassword'.tr(),
+                              obscureText: true,
                               suffixIcon: AppImageAsset(
                                 image: ImageConstants.eyeCross,
                                 height: 22.px,
@@ -72,6 +74,7 @@ class PasswordView extends StatelessWidget {
                               controller:
                                   tutorialViewModel.retypePasswordController,
                               hintText: 'enterYourPasswordAgain'.tr(),
+                               obscureText: true,
                               suffixIcon: AppImageAsset(
                                 image: ImageConstants.eyeCross,
                                 height: 22.px,
@@ -164,7 +167,7 @@ class PasswordView extends StatelessWidget {
                 SizedBox(height: 15.px),
                 PreLoginCommonButton(
                   title: 'continue'.tr(),
-                  onTap: () => tutorialViewModel.onTapSubmitPassword,
+                  onTap: () => tutorialViewModel.onTapSubmitPassword(),
                   isDisable:
                       tutorialViewModel.isPassWordCriteria.contains(false),
                 )

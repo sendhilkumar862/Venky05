@@ -40,7 +40,7 @@ abstract class _ProfileViewModelBase extends BaseViewModel with Store {
     if (index == 0) {
       keyValueStorageBase.setCommon(KeyValueStorageService.profile, 'Teacher');
     } else {
-      keyValueStorageBase.setCommon(KeyValueStorageService.profile, 'Tutor');
+      keyValueStorageBase.setCommon(KeyValueStorageService.profile, 'Student');
     }
 
     isSelected();

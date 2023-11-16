@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
+import '../../../custom/countdown_timer/timer_count_down.dart';
 import '../../../product/cache/locale_manager.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/network/local/key_value_storage_base.dart';
@@ -19,6 +21,9 @@ part 'email_otp_view_model.g.dart';
 class EmailOtpViewModel = _EmailOtpViewModelBase with _$EmailOtpViewModel;
 
 abstract class _EmailOtpViewModelBase extends BaseViewModel with Store {
+  @observable
+  CountdownController controller = CountdownController(autoStart: true);
+
   @override
   void setContext(BuildContext context) => viewModelContext = context;
 
@@ -28,6 +33,7 @@ abstract class _EmailOtpViewModelBase extends BaseViewModel with Store {
     currentProfile =
         keyValueStorageBase.getCommon(KeyValueStorageService.profile);
     logs('current profile --> $currentProfile');
+    controller.start();
   }
 
   @observable
@@ -44,6 +50,7 @@ abstract class _EmailOtpViewModelBase extends BaseViewModel with Store {
 
   @action
   Future<void> verifyOtp() async {
+     EasyLoading.show(status: 'loading...',  maskType: EasyLoadingMaskType.black);
     Dio dio = Dio();
     try {
       Map<String, dynamic> body = {
@@ -59,6 +66,7 @@ abstract class _EmailOtpViewModelBase extends BaseViewModel with Store {
       );
 
       if (response.statusCode == 200) {
+         EasyLoading.dismiss();
         logs(response.data.toString());
 
         otpModel = OtpModel.fromJson(response.data);
@@ -73,16 +81,21 @@ abstract class _EmailOtpViewModelBase extends BaseViewModel with Store {
           if (currentProfile == 'Teacher') {
             AppRouter.pushNamed(Routes.mobileView);
           } else {
-            AppRouter.pushNamed(Routes.userInfoView);
+            final Map<String, dynamic> arguments = <String, dynamic>{
+              'userId': "${enteredMail['id']}",
+            };
+            AppRouter.pushNamed(Routes.userInfoView, args: arguments);
           }
         }
 
         logs('isCorrect--> $isCorrect');
         enteredOTP = '';
       } else {
+         EasyLoading.dismiss();
         logs('Error: ${response.statusCode}');
       }
     } catch (error) {
+       EasyLoading.dismiss();
       logs('Error: $error');
     }
   }

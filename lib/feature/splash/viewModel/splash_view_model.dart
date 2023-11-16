@@ -18,9 +18,9 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
   @override
   void init() {
     Future.delayed(
-      const Duration(milliseconds: 3000),
+      const Duration(milliseconds: 5000),
       () {
-        AppRouter.push(const SplashSecond());
+        AppRouter.push(const LanguageView());
       },
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../config/routes/app_router.dart';
@@ -29,10 +30,11 @@ class SplashFirst extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.center,
                   children: <Widget>[
-                    AppImageAsset(
-                      image: ImageConstants.starWhite,
-                      height: 100.px,
-                    ),
+                     Lottie.asset(ImageConstants.splash, height: 400.px),
+                    // AppImageAsset(
+                    //   image: ImageConstants.starWhite,
+                    //   height: 100.px,
+                    // ),
                     const Column(
                       children: <Widget>[
                         Expanded(
@@ -63,7 +65,3 @@ class SplashFirst extends StatelessWidget {
         });
   }
 }
-
-
-
-

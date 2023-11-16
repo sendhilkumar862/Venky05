@@ -5,6 +5,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
+import '../../../custom/countdown_timer/timer_controller.dart';
 import '../../../custom/countdown_timer/timer_count_down.dart';
 import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/otp/otp_text_field.dart';
@@ -101,13 +102,25 @@ class EmailOtpView extends StatelessWidget {
                           fontWeight: FontWeight.w400,
                           color: AppColors.appGrey),
                       SizedBox(height: 12.px),
-                      AppText(
-                        '00:30',
+                     Countdown(
+              controller: emailOtpViewModel.controller,
+              seconds: 180,
+              build: (_, double time) => AppText(
+                        time.toInt().toString(),
                         color: AppColors.appPurple,
                         fontWeight: FontWeight.w700,
                         fontSize: 24.px,
                         textAlign: TextAlign.center,
                       ),
+              interval: Duration(seconds: 1),
+              onFinished: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Timer is done!'),
+                  ),
+                );
+              },
+            ),
                       SizedBox(height: 12.px),
                       GestureDetector(
                         onTap: () => CountdownController(),

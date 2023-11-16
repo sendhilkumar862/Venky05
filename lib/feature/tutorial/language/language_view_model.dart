@@ -126,8 +126,7 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
         .where((Country country) =>
             country.name?.toLowerCase().contains(query.toLowerCase()) ??
             false ||
-                country.flag_url!.toLowerCase().contains(query.toLowerCase()) ??
-            false)
+                country.flag_url!.toLowerCase().contains(query.toLowerCase()))
         .toList();
     setState(() {});
   }

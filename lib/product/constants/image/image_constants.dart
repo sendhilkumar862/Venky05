@@ -21,6 +21,7 @@ class ImageConstants {
   static const String education = '${ApplicationConstants.animationPath}Education.json';
   static const String mailApproved = '${ApplicationConstants.animationPath}mail_approved.json';
   static const String timetable = '${ApplicationConstants.animationPath}timetable.json';
+  static const String splash = '${ApplicationConstants.animationPath}Hassa.json';
 
 
 

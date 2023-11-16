@@ -41,9 +41,9 @@ class OnboardingView extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     SizedBox(
-                      height: 400.px,
+                      height: 480.px,
                       child: PageView.builder(
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         controller: onboardingViewModel.pageController,
                         itemCount: 3,
                         itemBuilder: (BuildContext context, int index) {

@@ -22,6 +22,7 @@ class UserInfoView extends StatelessWidget {
         viewModel: TutorialViewModel(),
         onModelReady: (TutorialViewModel tutorialViewModel) {
           tutorialViewModel.setContext(context);
+           tutorialViewModel.data = (ModalRoute.of(context)!.settings.arguments!  as Map)!;
         },
         onPageBuilder:
             (BuildContext context, TutorialViewModel tutorialViewModel) {

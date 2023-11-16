@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
@@ -34,6 +35,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
   };
   @action
   Future<void> registerMail() async {
+    EasyLoading.show(status: 'loading...',  maskType: EasyLoadingMaskType.black);
     Dio dio = Dio();
     try {
       Map body = {
@@ -54,6 +56,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
           sendOTP(data.data.item.userId.toString());
         }
       } else {
+         EasyLoading.dismiss();
         logs('error not response');
       }
     } catch (error) {
@@ -63,6 +66,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
 
   @action
   Future<void> sendOTP(String id) async {
+    // viewModelContext.loaderOverlay.show();
     Dio dio = Dio();
     try {
       Map body = {
@@ -75,12 +79,14 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
       );
       logs('status Code --> ${response.statusCode}');
       if (response.statusCode == 200) {
+        EasyLoading.dismiss();
         logs('status Code --> ${response.data['status']['type']}');
         logs('status Code --> ${response.data['data']['item']['otp_id']}');
         arguments['otp_id'] = response.data['data']['item']['otp_id'];
         AppRouter.pushNamed(Routes.emailOtpView, args: arguments);
 
       } else {
+        EasyLoading.dismiss();
         logs('error not response');
       }
     } catch (error) {

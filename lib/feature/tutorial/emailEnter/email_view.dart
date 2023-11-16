@@ -36,7 +36,7 @@ class EmailView extends StatelessWidget {
               body: PreLoginCustomBody(
                 widget: Expanded(
                   child: ListView(
-                    physics: PageScrollPhysics(),
+                    physics: const PageScrollPhysics(),
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
                     children: <Widget>[
                       SizedBox(height: 35.px),
@@ -100,4 +100,3 @@ class EmailView extends StatelessWidget {
         });
   }
 }
-

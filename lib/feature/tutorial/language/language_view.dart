@@ -55,18 +55,21 @@ class LanguageView extends StatelessWidget {
                           height: 25.px,
                         ),
                         selectCardView(
-                          icon: languageViewModel!
-                              .filteredCountries.isNotEmpty!
-                              ? languageViewModel!
-                              .filteredCountries[languageViewModel.countryIndex].flag_url!
-                              : languageViewModel!
-                              .countries[languageViewModel.countryIndex].flag_url!,
-                          title: languageViewModel!
-                              .filteredCountries.isNotEmpty!
-                              ? languageViewModel!
-                              .filteredCountries[languageViewModel.countryIndex].name!
-                              : languageViewModel!
-                              .countries[languageViewModel.countryIndex].name!,
+  icon: languageViewModel.filteredCountries.isNotEmpty
+      ? (languageViewModel.countryIndex < languageViewModel.filteredCountries.length
+          ? languageViewModel.filteredCountries[languageViewModel.countryIndex].flag_url
+          : null)
+      : (languageViewModel.countryIndex < languageViewModel.countries.length
+          ? languageViewModel.countries[languageViewModel.countryIndex].flag_url
+          : null),
+  title: languageViewModel.filteredCountries.isNotEmpty
+      ? (languageViewModel.countryIndex < languageViewModel.filteredCountries.length
+          ? languageViewModel.filteredCountries[languageViewModel.countryIndex].name
+          : null)
+      : (languageViewModel.countryIndex < languageViewModel.countries.length
+          ? languageViewModel.countries[languageViewModel.countryIndex].name
+          : null),
+  
                           onTap: () {
                             showModalBottomSheet(
                               isScrollControlled: true,
@@ -152,7 +155,7 @@ class LanguageView extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(700),
               child: AppImageAsset(
-                image: icon!,
+                image: icon ?? ImageConstants.globe,
                 height: 20.px,
                 width: 20.px,
               ),

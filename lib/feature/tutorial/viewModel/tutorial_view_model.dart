@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
@@ -19,6 +21,7 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
 
   @override
   void init() {
+   
   }
 
   @observable
@@ -27,6 +30,9 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   @observable
   List profileItems = <String>['Teacher', 'Parent/Student'];
 
+
+ @observable
+  Map data = <String, dynamic>{};
 
   @observable
   bool isActive = false;
@@ -102,7 +108,12 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   @action
   void onTapSubmitUserInfo() {
     if (firstNameValid == 1 && lastNameValid == 1) {
-      AppRouter.pushNamed(Routes.passwordView);
+  final Map<String, dynamic> arguments = <String, dynamic>{
+    'userId': data['userId'],
+    'firstName': firstNameController.text,
+    'lastName': lastNameController.text,
+  };
+      AppRouter.pushNamed(Routes.passwordView, args: arguments);
     }
   }
 
@@ -118,7 +129,7 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   //========password========//
 
   @observable
-  List<String> passWordCriteria = [
+  List<String> passWordCriteria = <String>[
     'minCharacters'.tr(),
     'containNumbers'.tr(),
     'containSpecialChars'.tr(),
@@ -127,8 +138,11 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
     'matchPasswords'.tr(),
   ];
 
+  // @observable
+  // List<bool> isPassWordCriteria = List.filled(6, false);
   @observable
-  List<bool> isPassWordCriteria = List.filled(6, false);
+  ObservableList<bool> isPassWordCriteria = ObservableList<bool>.of(List.filled(6, false));
+
 
   @observable
   TextEditingController passwordController = TextEditingController();
@@ -139,9 +153,11 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   @action
   void validatePassword(String value) {
     if (value.length >= 8) {
-      isPassWordCriteria[0] = true;
+      setCriteria(0, true);
+      //isPassWordCriteria[0] = true;
     } else {
-      isPassWordCriteria[0] = false;
+       setCriteria(0, false);
+      // isPassWordCriteria[0] = false;
     }
 
     if (Regexes.validate(value, Regexes.digitRegExp)) {
@@ -174,16 +190,40 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   @action
   void validateRetypePassword(String value) {
     if (value == passwordController.text) {
-      isPassWordCriteria[5] = false;
+      isPassWordCriteria[5] = true;
     } else {
       isPassWordCriteria[5] = false;
     }
   }
 
   @action
-  void onTapSubmitPassword() {
-    if (isPassWordCriteria.contains(false) && isActive) {
-      AppRouter.pushNamed(Routes.homeViews);
+  Future<void> onTapSubmitPassword() async {
+     EasyLoading.show(status: 'loading...',  maskType: EasyLoadingMaskType.black);
+   final Dio dio = Dio();
+    try {
+       data['password'] = passwordController.text;
+       data['isTermsAccepted'] = true;
+      final Response response =
+          await dio.post('http://167.99.93.83/api/v1/users/register', data:data);
+
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+         EasyLoading.dismiss();
+        AppRouter.pushNamed(Routes.homeViews);
+      } else {
+         EasyLoading.dismiss();
+        print('Failed to load data: ${response.statusCode}');
+      }
+    } catch (error) {
+       EasyLoading.dismiss();
+      print('Error: $error');
+      // Handle the error
     }
   }
+
+  @action
+  void setCriteria(int index, bool value) {
+    isPassWordCriteria[index] = value;
+  }
+
 }

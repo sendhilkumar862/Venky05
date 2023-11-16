@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
           navigatorKey: AppRouter.navigatorKey,
           theme: context.watch<ThemeNotifier>().currentTheme,
           home: const SplashFirst(),
+          builder: EasyLoading.init(),
         );
       },
     );

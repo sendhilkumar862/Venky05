@@ -14,7 +14,6 @@ import '../../feature/preference/view/preference_view.dart';
 import '../../feature/rating/view/rating_view.dart';
 import '../../feature/tutorial/emailEnter/email_view.dart';
 import '../../feature/tutorial/emailotp/email_otp_view.dart';
-import '../../feature/tutorial/emailotp/email_otp_view_model.dart';
 import '../../feature/tutorial/mobileEnter/mobile_view.dart';
 import '../../feature/tutorial/mobileotp/mobile_otp_view.dart';
 import '../../feature/search/view/search_view.dart';
