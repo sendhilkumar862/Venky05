@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'viewModel/language_view_model.dart';
+import '../view/profile_selection_view.dart';
 import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -177,11 +178,15 @@ class LanguageView extends StatelessWidget {
             SizedBox(
               width: 12.px,
             ),
-            AppText(
-              title ?? '',
-              fontWeight: FontWeight.w400,
+            Expanded(
+              child: AppText(
+                title ?? '',
+                fontWeight: FontWeight.w400,
+              ),
             ),
-            const Spacer(),
+            SizedBox(
+              width: 12.px,
+            ),
             AppImageAsset(
               image: ImageConstants.downIcon,
               height: 16.px,

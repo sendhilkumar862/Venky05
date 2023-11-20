@@ -133,7 +133,6 @@ class CountryBottomsSheet extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            const Spacer(),
                             AppImageAsset(
                               image: ImageConstants.acceptedStatus,
                               height: 23.px,

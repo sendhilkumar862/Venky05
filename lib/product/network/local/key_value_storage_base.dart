@@ -10,6 +10,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// - Sensitive keys using [FlutterSecureStorage]
 /// - Insensitive keys using [SharedPreferences]
 class KeyValueStorageBase {
+  /// Get instance of this class
+  factory KeyValueStorageBase() => _instance ?? const KeyValueStorageBase._();
+
+  /// Private constructor
+  const KeyValueStorageBase._();
+
   /// Instance of shared preferences
   static SharedPreferences? _sharedPrefs;
 
@@ -18,12 +24,6 @@ class KeyValueStorageBase {
 
   /// Singleton instance of KeyValueStorage Helper
   static KeyValueStorageBase? _instance;
-
-  /// Get instance of this class
-  factory KeyValueStorageBase() => _instance ?? const KeyValueStorageBase._();
-
-  /// Private constructor
-  const KeyValueStorageBase._();
 
   /// Initializer for shared prefs and flutter secure storage
   /// Should be called in main before runApp and
@@ -34,21 +34,20 @@ class KeyValueStorageBase {
     _secureStorage ??= const FlutterSecureStorage();
   }
 
-
   /// Reads the value for the key from common preferences storage
   T? getCommon<T>(String key) {
     try {
       switch (T) {
         case String:
-          return _sharedPrefs!.getString(key) as T?;
+          return _sharedPrefs?.getString(key) as T?;
         case int:
-          return _sharedPrefs!.getInt(key) as T?;
+          return _sharedPrefs?.getInt(key) as T?;
         case bool:
-          return _sharedPrefs!.getBool(key) as T?;
+          return _sharedPrefs?.getBool(key) as T?;
         case double:
-          return _sharedPrefs!.getDouble(key) as T?;
+          return _sharedPrefs?.getDouble(key) as T?;
         default:
-          return _sharedPrefs!.get(key) as T?;
+          return _sharedPrefs?.get(key) as T?;
       }
     } on Exception catch (ex) {
       debugPrint('$ex');

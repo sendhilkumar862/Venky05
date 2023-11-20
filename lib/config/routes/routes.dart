@@ -22,6 +22,10 @@ import '../../feature/tutorial/mobileEnter/view/mobile_view.dart';
 import '../../feature/tutorial/mobileotp/view/mobile_otp_view.dart';
 import '../../feature/tutorial/password/view/password_view.dart';
 import '../../feature/tutorial/userInfo/view/user_info_view.dart';
+import '../../feature/tutorial/emailEnter/email_view.dart';
+import '../../feature/tutorial/emailotp/email_otp_view.dart';
+import '../../feature/tutorial/mobileEnter/mobile_view.dart';
+import '../../feature/tutorial/mobileotp/mobile_otp_view.dart';
 import '../../feature/tutorial/view/forgot_password_view.dart';
 import '../../feature/wallet/view/invoice_details.dart';
 import '../../product/constants/typedefs.dart';
@@ -70,7 +74,7 @@ class Routes {
   /// The name of the route for unrecognized route screen
   static const String NotFoundScreenRoute = '/route-not-found-screen';
 
-  static final Map<String, RouteBuilder> _routesMap = {
+  static final Map<String, RouteBuilder> _routesMap = <String, RouteBuilder>{
     HomeScreenRoute: (_) => const HomeView(),
     PrefrencesScreen: (_) => const PreferenceView(),
     invoiceDetails: (_) => const InvoiceDetails(),
@@ -93,8 +97,6 @@ class Routes {
     homeViews: (_) => const HomeViews(),
     emailOtpView: (_) => const EmailOtpView(),
     resetPassword: (_) => const RestPassword(),
-    passwordView: (_) => const PasswordView(),
-    homeViews: (_) => const HomeViews(),
     searchView: (_) => const SearchView(),
     messageView: (_) => const MessageView(),
     notificationView: (_) => const NotificationView(),

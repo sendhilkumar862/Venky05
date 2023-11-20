@@ -36,9 +36,9 @@ class EmailView extends StatelessWidget {
                     physics: const PageScrollPhysics(),
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
                     children: <Widget>[
-                      SizedBox(height: 35.px),
-                      const OnTapBack(),
-                      SizedBox(height: 80.px),
+                      SizedBox(height: 10.px),
+                      const SafeArea(bottom: false, child: OnTapBack()),
+                      SizedBox(height: 30.px),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: AppImageAsset(
@@ -59,9 +59,10 @@ class EmailView extends StatelessWidget {
                         validate: emailViewModel.emailValid,
                         controller: emailViewModel.emailController,
                         hintText: 'enterEmail'.tr(),
-                        errorText: emailViewModel.emailErrorText!,
-                        onChanged: (String value) =>
-                            emailViewModel.validateEmail(value!),
+                        errorText: emailViewModel.emailErrorText,
+                        onChanged: (String value) {
+                          emailViewModel.validateEmail(value);
+                        },
                       ),
                       SizedBox(
                         height: 25.px,

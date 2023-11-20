@@ -27,7 +27,7 @@ abstract class _EmailOtpViewModelBase extends BaseViewModel with Store {
 
   @override
   void init() {
-    KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+    final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
     currentProfile =
         keyValueStorageBase.getCommon(KeyValueStorageService.profile);
     logs('current profile --> $currentProfile');
@@ -52,14 +52,14 @@ abstract class _EmailOtpViewModelBase extends BaseViewModel with Store {
 
     Dio dio = Dio();
     try {
-      Map<String, dynamic> body = {
+      final Map<String, dynamic> body = <String, dynamic>{
         'userId': "${enteredMail['id']}",
         'otpId': "${enteredMail['otp_id']}",
         'otp': enteredOTP
       };
 
       logs('body -->$body');
-      final response = await dio.post(
+      final Response response = await dio.post(
         'http://167.99.93.83/api/v1/users/email/verify-otp',
         data: body,
       );

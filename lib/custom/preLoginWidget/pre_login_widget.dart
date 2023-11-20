@@ -75,7 +75,7 @@ class PreLoginCommonButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [
+      children: <Widget>[
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.px),
           child: AppButton(

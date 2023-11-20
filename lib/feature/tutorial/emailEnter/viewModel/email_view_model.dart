@@ -30,16 +30,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
 
   @observable
-  bool registerWarning = false;
-
-  @observable
-  String registerWarningMessage = '';
-
-  @observable
-  EmailEnterModel data = const EmailEnterModel();
-
-  @observable
-  Map<String, dynamic> arguments = {
+  Map<String, dynamic> arguments = <String, dynamic>{
     'id': '',
     'otp_id': '',
   };
@@ -49,12 +40,12 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     Dio dio = Dio();
     try {
-      Map body = {
+      final Map<String, dynamic> body = <String, dynamic>{
         'email': emailController.text,
         'role': keyValueStorageBase.getCommon(KeyValueStorageService.profile),
       };
-      logs('boyd--> $body');
-      Response response = await dio.post(
+      logs(body.toString());
+      final Response response = await dio.post(
         'http://167.99.93.83/api/v1/users/register/email',
         data: body,
       );
@@ -83,14 +74,14 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
 
   @action
   Future<void> sendOTP(String id) async {
-    logs('Entered SendOtp');
-    Dio dio = Dio();
+    // viewModelContext.loaderOverlay.show();
+    final Dio dio = Dio();
     try {
-      Map body = {
+      final Map body = <String, dynamic>{
         'userId': id,
       };
       logs('body--> $body');
-      final response = await dio.post(
+      final Response response = await dio.post(
         'http://167.99.93.83/api/v1/users/email/send-otp',
         data: body,
       );
