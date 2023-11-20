@@ -30,10 +30,9 @@ class UserInfoView extends StatelessWidget {
                   child: ListView(
                     shrinkWrap: true,
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
-                    children: [
-                      SizedBox(height: 35.px),
-                      const OnTapBack(),
-                      SizedBox(height: 20.px),
+                    children: <Widget>[
+                      SizedBox(height: 10.px),
+                      const SafeArea(bottom: false, child: OnTapBack()),
                       SizedBox(height: 80.px),
                       Align(
                         alignment: Alignment.centerLeft,
@@ -70,8 +69,7 @@ class UserInfoView extends StatelessWidget {
                       ),
                       SizedBox(height: 20.px),
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
+                        children: <Widget>[
                           AppText(
                             'makeItVisible'.tr(),
                             fontSize: 14.px,

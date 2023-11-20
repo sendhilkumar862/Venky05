@@ -9,10 +9,10 @@ import 'key_value_storage_base.dart';
 /// from common or secure storage.
 class KeyValueStorageService {
   /// The name of auth token key
-  static const _authTokenKey = 'authToken';
+  static const String _authTokenKey = 'authToken';
 
   /// The name of user password key
-  static const _authPasswordKey = 'authPasswordKey';
+  static const String _authPasswordKey = 'authPasswordKey';
 
   /// The name of user password key
 
@@ -23,10 +23,10 @@ class KeyValueStorageService {
   static String token = 'token';
 
   /// The name of user model key
-  static const _authUserKey = 'authUserKey';
+  static const String _authUserKey = 'authUserKey';
 
   /// Instance of key-value storage base class
-  final _keyValueStorage = KeyValueStorageBase();
+  final KeyValueStorageBase _keyValueStorage = KeyValueStorageBase();
 
   /// Returns logged in user password
   Future<String> getAuthPassword() async {
