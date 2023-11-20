@@ -101,6 +101,7 @@ class CountryBottomsSheet extends StatelessWidget {
                             );
                           },
                         );
+                        Navigator.pop(context);
                       },
                       child: Container(
                         color: AppColors.appTransparent,

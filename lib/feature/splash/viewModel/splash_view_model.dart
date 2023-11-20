@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
@@ -21,6 +23,8 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
   @override
   void init() {
+    log('Splash country selected${keyValueStorageBase.getCommon(KeyValueStorageService.country)}');
+    log('Splash language selected${keyValueStorageBase.getCommon(KeyValueStorageService.language)}');
     if (keyValueStorageBase.getCommon(KeyValueStorageService.country) == null ||
         keyValueStorageBase.getCommon(KeyValueStorageService.language) ==
             null) {

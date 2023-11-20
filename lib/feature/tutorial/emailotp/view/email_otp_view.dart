@@ -40,9 +40,9 @@ class EmailOtpView extends StatelessWidget {
                     physics: const BouncingScrollPhysics(),
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
                     children: <Widget>[
-                      SizedBox(height: 35.px),
-                      const OnTapBack(),
-                      SizedBox(height: 100.px),
+                      SizedBox(height: 10.px),
+                      const SafeArea(bottom: false, child: OnTapBack()),
+                      SizedBox(height: 50.px),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: AppText(
