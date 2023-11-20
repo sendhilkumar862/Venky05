@@ -154,7 +154,7 @@ class MobileOtpView extends StatelessWidget {
               ),
               bottomNavigationBar: PreLoginCommonButton(
                 title: 'continue'.tr(),
-                onTap: () => AppRouter.pushNamed(Routes.userInfoView),
+                onTap: () => mobileOtpViewModel.verifyOtp(),
                 isDisable: mobileOtpViewModel.enteredOTP.length != 4,
               ),
             );

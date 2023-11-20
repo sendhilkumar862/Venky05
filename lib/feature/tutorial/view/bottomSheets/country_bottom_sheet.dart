@@ -86,21 +86,16 @@ class CountryBottomsSheet extends StatelessWidget {
                       : languageViewModel!.countries.length,
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
+                  itemBuilder: (BuildContext context, int index) { 
                     return GestureDetector(
                       onTap: () {
                         // ignore: avoid_dynamic_calls
                         setState!(
                           () {
-                            languageViewModel!.selectCountry(index);
-                            Future.delayed(
-                              const Duration(milliseconds: 200),
-                              () {
-                                AppRouter.pop();
-                              },
-                            );
-                          },
-                        );
+                            languageViewModel!.selectedCoutry(languageViewModel!.filteredCountries.isNotEmpty
+                      ? languageViewModel!.filteredCountries[index]
+                      : languageViewModel!.countries[index]);
+                          });
                         Navigator.pop(context);
                       },
                       child: Container(
@@ -134,10 +129,18 @@ class CountryBottomsSheet extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            AppImageAsset(
+                          if (languageViewModel!.filteredCountries.isNotEmpty) AppImageAsset(
                               image: ImageConstants.acceptedStatus,
                               height: 23.px,
-                              color: (languageViewModel!.countryIndex == index)
+
+                              color: (languageViewModel?.selectedCountry?.name == languageViewModel?.filteredCountries[index].name)
+                                  ? AppColors.appBlue
+                                  : AppColors.appWhite,
+                            ) else AppImageAsset(
+                              image: ImageConstants.acceptedStatus,
+                              height: 23.px,
+
+                              color: (languageViewModel?.selectedCountry?.name  == languageViewModel?.countries[index].name)
                                   ? AppColors.appBlue
                                   : AppColors.appWhite,
                             ),

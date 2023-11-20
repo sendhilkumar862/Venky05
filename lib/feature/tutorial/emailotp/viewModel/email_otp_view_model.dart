@@ -65,7 +65,7 @@ abstract class _EmailOtpViewModelBase extends BaseViewModel with Store {
     Dio dio = Dio();
     try {
       final Map<String, dynamic> body = <String, dynamic>{
-        'userId': "${enteredMail['id']}",
+        'userId': "${enteredMail['userId']}",
         'otpId': "${enteredMail['otp_id']}",
         'otp': enteredOTP
       };

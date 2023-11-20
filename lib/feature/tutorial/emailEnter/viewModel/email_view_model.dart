@@ -13,6 +13,14 @@ import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 
 import '../model/email_enter_model.dart';
+import '../../../config/routes/app_router.dart';
+import '../../../config/routes/routes.dart';
+import '../../../product/constants/app/app_utils.dart';
+import '../../../product/constants/enums/app_register_status_enums.dart';
+import '../../../product/network/local/key_value_storage_base.dart';
+import '../../../product/network/local/key_value_storage_service.dart';
+import '../../../product/utils/validators.dart';
+import 'model/email_enter_model.dart';
 
 part 'email_view_model.g.dart';
 
@@ -31,7 +39,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
 
   @observable
   Map<String, dynamic> arguments = <String, dynamic>{
-    'id': '',
+    'userId': '',
     'otp_id': '',
   };
 
@@ -52,13 +60,21 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
       );
 
       if (response.statusCode == 200) {
-        data = EmailEnterModel.fromJson(response.data);
-        if (data.status!.type == 'success') {
-          arguments['id'] = data.data!.item!.userId;
-          registerWarning = data.status!.type == 'error';
-          logs('user id --> ${data.data!.item!.userId}');
-          logs('registered ${data.status!.type}');
-          sendOTP(data.data!.item!.userId.toString());
+        final EmailEnterModel data = EmailEnterModel.fromJson(response.data);
+        if (data.status.type == 'success') {
+          logs('registered ${data.status.type}');
+          arguments['userId'] = data.data.item.userId;
+          final String status = data.data.item.status;
+          if (status == RegistrationStatus.MOBILE.value) {
+            EasyLoading.dismiss();
+            AppRouter.pushNamed(Routes.mobileView, args: arguments);
+          } else if(status == RegistrationStatus.EMAIL.value) {
+              sendOTP(data.data.item.userId.toString());    
+          } else if (status == RegistrationStatus.PROFILE_INCOMPLETE.value) {
+              EasyLoading.dismiss();
+              // redirect to last step of registration....
+              AppRouter.pushNamed(Routes.userInfoView, args: arguments);
+          }
         }
       } else {
         EasyLoading.dismiss();
@@ -114,7 +130,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
 
   @observable
   TextEditingController emailController =
-      TextEditingController(text: 'abc@mailinator.com');
+      TextEditingController();
 
   @observable
   String emailErrorText = '';

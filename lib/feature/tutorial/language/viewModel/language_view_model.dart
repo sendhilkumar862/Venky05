@@ -65,6 +65,9 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   int countryIndex = 118;
 
   @observable
+  Country? selectedCountry;
+
+  @observable
   String selectedItem = '';
 
   @observable
@@ -108,6 +111,11 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
     logs('selected Country-->$countryIndex');
     logs(
         'selected Country-->${keyValueStorageBase.getCommon(String, KeyValueStorageService.country)}');
+  }
+
+@action
+  void selectedCoutry(Country country) {
+     selectedCountry = country;
   }
 
   @action

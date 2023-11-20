@@ -67,7 +67,7 @@ abstract class _MobileOtpViewModelBase extends BaseViewModel with Store {
     final Dio dio = Dio();
     try {
       final Map<String, dynamic> body = <String, dynamic>{
-        'userId': "${enteredMobile['id']}",
+        'userId': "${enteredMobile['userId']}",
         'otpId': "${enteredMobile['otp_id']}",
         'otp': enteredOTP
       };
@@ -91,7 +91,7 @@ abstract class _MobileOtpViewModelBase extends BaseViewModel with Store {
         isCorrect = otpModel.status!.type == 'success';
 
         if (otpModel.status!.type == 'success') {
-          AppRouter.pushNamed(Routes.userInfoView);
+          AppRouter.pushNamed(Routes.userInfoView, args: enteredMobile);
         }
 
         logs('isCorrect--> $isCorrect');
