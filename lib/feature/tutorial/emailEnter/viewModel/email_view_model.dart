@@ -91,7 +91,14 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
         EasyLoading.dismiss();
         registerWarning = response!.data['status']['type'] == 'error';
         arguments['otp_id'] = response.data['data']['item']['otp_id'];
+
         AppRouter.pushNamed(Routes.emailOtpView, args: arguments);
+        AppUtils.showFlushBar(
+          icon: Icons.check_circle_outline_rounded,
+          iconColor: Colors.green,
+          context: AppRouter.navigatorKey.currentContext!,
+          message: response.data['status']['message'] ?? 'Error occured',
+        );
       } else {
         EasyLoading.dismiss();
         logs('error not response');

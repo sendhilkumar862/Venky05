@@ -42,8 +42,6 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
   }
 
   Future<void> setRoute() async {
-    log('Splash country selected${keyValueStorageBase.getCommon(String, KeyValueStorageService.country)}');
-    log('Splash language selected${keyValueStorageBase.getCommon(String, KeyValueStorageService.language)}');
     if (selectedCountry == null || selectedLanguage == null) {
       navigation(const LanguageView());
     } else if (selectedProfile == null) {

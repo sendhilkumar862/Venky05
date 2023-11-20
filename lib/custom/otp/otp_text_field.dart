@@ -152,6 +152,7 @@ class _OtpTextFieldState extends State<OtpTextField> {
                 counterText: '',
                 filled: widget.filled,
                 fillColor: widget.fillColor,
+                contentPadding: const EdgeInsets.symmetric(vertical: 5),
                 focusedBorder: widget.showFieldAsBox
                     ? outlineBorder(widget.focusedBorderColor)
                     : underlineInputBorder(widget.focusedBorderColor),

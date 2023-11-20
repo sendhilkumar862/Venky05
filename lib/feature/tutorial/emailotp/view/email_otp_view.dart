@@ -42,7 +42,7 @@ class EmailOtpView extends StatelessWidget {
                     children: <Widget>[
                       SizedBox(height: 10.px),
                       const SafeArea(bottom: false, child: OnTapBack()),
-                      SizedBox(height: 50.px),
+                      SizedBox(height: 45.px),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: AppText(
@@ -60,7 +60,7 @@ class EmailOtpView extends StatelessWidget {
                       ),
                       SizedBox(height: 20.px),
                       OtpTextField(
-                        fieldWidth: 73.px,
+                        fieldWidth: MediaQuery.of(context).size.width / 5,
                         borderRadius: BorderRadius.circular(8.px),
                         //  numberOfFields: numberOfFields,
                         borderColor: AppColors.appGrey,
@@ -71,6 +71,7 @@ class EmailOtpView extends StatelessWidget {
                         //   focusedBorderColor: primaryColor,
                         // clearText: clearText,
                         showFieldAsBox: true,
+
                         textStyle: TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 16.px),
                         onCodeChanged: (String value) {
