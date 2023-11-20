@@ -2,14 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../../config/routes/app_router.dart';
 import '../../../../custom/divider/divider.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
-import '../../../../product/cache/locale_manager.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-import '../../language/language_view_model.dart';
-import '../../viewModel/tutorial_view_model.dart';
+import '../../language/viewModel/language_view_model.dart';
 
 class LanguageBottomSheet extends StatelessWidget {
   LanguageBottomSheet({this.languageViewModel, super.key, this.setState});
@@ -66,9 +65,15 @@ class LanguageBottomSheet extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
-
+                        // ignore: avoid_dynamic_calls
                         setState!(() {
                           languageViewModel!.selectLanguage(index);
+                          Future.delayed(
+                            const Duration(milliseconds: 200),
+                            () {
+                              AppRouter.pop();
+                            },
+                          );
                         });
                       },
                       child: Container(

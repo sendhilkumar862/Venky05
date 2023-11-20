@@ -10,7 +10,7 @@ import '../sheet/show_bottom_sheet.dart';
 import '../text/app_text.dart';
 
 class AppBarOnBoard extends PreferredSize {
-  AppBarOnBoard({this.title, this.icon,this.onTap, super.key})
+  AppBarOnBoard({this.title, this.icon, this.onTap, super.key})
       : super(
           child: Container(),
           preferredSize: const Size.fromHeight(60),
@@ -44,21 +44,7 @@ class AppBarOnBoard extends PreferredSize {
               ),
               SizedBox(width: 6.px),
               InkWell(
-                onTap: onTap??() {
-                  showModalBottomSheet(
-                    context: context,
-                    constraints: const BoxConstraints(),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(25.px),
-                        topLeft: Radius.circular(25.px),
-                      ),
-                    ),
-                    builder: (BuildContext context) {
-                      return AboutAppBottomSheet();
-                    },
-                  );
-                },
+                onTap: onTap ?? () {},
                 child: AppImageAsset(
                   image: icon ?? ImageConstants.infoRoundCircle,
                   height: 18.px,

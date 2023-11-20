@@ -6,12 +6,14 @@ import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../password/view/password_view.dart';
+import '../../password/viewModel/password_view_model.dart';
 import '../../viewModel/tutorial_view_model.dart';
 
 class TermAndConditionBottomSheet extends StatelessWidget {
-  TermAndConditionBottomSheet({this.tutorialViewModel, super.key});
+  TermAndConditionBottomSheet({this.passwordViewModel, super.key});
 
-  TutorialViewModel? tutorialViewModel;
+  PasswordViewModel? passwordViewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class TermAndConditionBottomSheet extends StatelessWidget {
       ),
       child: Stack(
         alignment: Alignment.topRight,
-        children: [
+        children: <Widget>[
           ListView(
             children: <Widget>[
               SizedBox(
@@ -45,25 +47,31 @@ class TermAndConditionBottomSheet extends StatelessWidget {
               SizedBox(
                 height: 30.px,
               ),
-              const AppText(
-                'Title',
-                fontWeight: FontWeight.w700,
-                textAlign: TextAlign.start,
-              ),
-              const AppText(
-                'description',
-                textAlign: TextAlign.start,
-              ),
-              SizedBox(height: 15.px),
-              const AppText(
-                'Title',
-                fontWeight: FontWeight.w700,
-                textAlign: TextAlign.start,
-              ),
-              const AppText(
-                'description',
-                textAlign: TextAlign.start,
-              )
+              ListView.separated(
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(
+                      children: <Widget>[
+                        AppText(
+                          passwordViewModel!
+                              .termAndConditionModel.data!.items![index].title
+                              .toString(),
+                          fontWeight: FontWeight.w700,
+                          textAlign: TextAlign.start,
+                        ),
+                        AppText(
+                          passwordViewModel!
+                              .termAndConditionModel.data!.items![index].content
+                              .toString(),
+                          textAlign: TextAlign.start,
+                        ),
+                      ],
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(height: 10.px);
+                  },
+                  itemCount: passwordViewModel!
+                      .termAndConditionModel.data!.items!.length)
             ],
           ),
           InkWell(

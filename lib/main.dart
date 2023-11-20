@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mobx/mobx.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -13,6 +14,10 @@ import 'product/notifier/app_provider.dart';
 import 'product/theme/theme_notifier.dart';
 
 Future<void> main() async {
+  mainContext.config = mainContext.config
+      .clone(isSpyEnabled: true, disableErrorBoundaries: false);
+
+  mainContext.spy(print);
   WidgetsFlutterBinding.ensureInitialized(); // Initialize the Flutter binding
   LocaleManager.prefrencesInit();
   await EasyLocalization.ensureInitialized();

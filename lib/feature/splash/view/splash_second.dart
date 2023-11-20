@@ -6,6 +6,7 @@ import '../../../custom/image/app_image_assets.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
+import '../../../product/utils/validators.dart';
 import '../viewModel/splash_second_view_model.dart';
 import '../viewModel/splash_view_model.dart';
 
@@ -14,6 +15,7 @@ class SplashSecond extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    logs('Current Screen--> $runtimeType');
     return BaseView<SplashSecondViewModel>(
         viewModel: SplashSecondViewModel(),
         onModelReady: (SplashSecondViewModel splashSecondViewModel) {
