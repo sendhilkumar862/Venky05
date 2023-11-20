@@ -45,9 +45,9 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
     if (selectedCountry == null || selectedLanguage == null) {
       navigation(const LanguageView());
     } else if (selectedProfile == null) {
-      navigation(const ProfileSelectionView());
+      navigation(const ProfileSelectionView(continueRegistration: true));
     } else {
-      navigation(const OnboardingView());
+      navigation(const OnboardingView(continueRegistration: true));
     }
   }
 

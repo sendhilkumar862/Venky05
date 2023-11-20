@@ -17,8 +17,8 @@ import '../../emailEnter/view/email_view.dart';
 import '../viewModel/onboarding_view_model.dart';
 
 class OnboardingView extends StatelessWidget {
-  const OnboardingView({super.key});
-
+  const OnboardingView({super.key, this.continueRegistration});
+  final bool? continueRegistration;
   @override
   Widget build(BuildContext context) {
     return BaseView<OnboardingViewModel>(
@@ -34,6 +34,7 @@ class OnboardingView extends StatelessWidget {
               backgroundColor: AppColors.appWhite,
               appBar: AppBarOnBoard(
                   title: 'exploreApp'.tr(),
+                  backNavigate: !(continueRegistration ?? false),
                   icon: ImageConstants.layersIcon,
                   onTap: () => AppRouter.pushNamed(Routes.HomeScreenRoute)),
               body: Padding(

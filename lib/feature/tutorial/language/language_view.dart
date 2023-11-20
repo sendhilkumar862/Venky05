@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'viewModel/language_view_model.dart';
+import '../../../product/network/local/key_value_storage_base.dart';
+import '../../../product/network/local/key_value_storage_service.dart';
 import '../view/profile_selection_view.dart';
 import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -141,6 +143,25 @@ class LanguageView extends StatelessWidget {
                           title: 'continue'.tr(),
                           isDisable: false,
                           onPressed: () {
+                            final KeyValueStorageBase keyValueStorageBase =
+                                KeyValueStorageBase();
+                            final String? selectedCountry =
+                                keyValueStorageBase.getCommon(
+                                    String, KeyValueStorageService.country);
+
+                            final String? selectedLanguage =
+                                keyValueStorageBase.getCommon(
+                                    String, KeyValueStorageService.language);
+
+                            if (selectedCountry == null) {
+                              keyValueStorageBase.setCommon(
+                                  KeyValueStorageService.country,
+                                  languageViewModel.countries[0].name);
+                            }
+                            if (selectedLanguage == null) {
+                              keyValueStorageBase.setCommon(
+                                  KeyValueStorageService.language, 'en');
+                            }
                             AppRouter.push(const ProfileSelectionView());
                           },
                         ),
