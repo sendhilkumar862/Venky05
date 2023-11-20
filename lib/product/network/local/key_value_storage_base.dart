@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -35,9 +36,9 @@ class KeyValueStorageBase {
   }
 
   /// Reads the value for the key from common preferences storage
-  T? getCommon<T>(String key) {
+  T? getCommon<T>(Type varType, String key) {
     try {
-      switch (T) {
+      switch (varType) {
         case String:
           return _sharedPrefs?.getString(key) as T?;
         case int:
@@ -67,7 +68,7 @@ class KeyValueStorageBase {
 
   /// Sets the value for the key to common preferences storage
   Future<bool> setCommon<T>(String key, T value) {
-    switch (T) {
+    switch (value.runtimeType) {
       case String:
         return _sharedPrefs!.setString(key, value as String);
       case int:

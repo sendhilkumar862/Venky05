@@ -21,28 +21,40 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
   @override
   void setContext(BuildContext context) => viewModelContext = context;
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+  String? selectedCountry;
+  String? selectedLanguage;
+  String? selectedProfile;
   @override
   void init() {
-    log('Splash country selected${keyValueStorageBase.getCommon(KeyValueStorageService.country)}');
-    log('Splash language selected${keyValueStorageBase.getCommon(KeyValueStorageService.language)}');
-    if (keyValueStorageBase.getCommon(KeyValueStorageService.country) == null ||
-        keyValueStorageBase.getCommon(KeyValueStorageService.language) ==
-            null) {
-      Future.delayed(
-        const Duration(milliseconds: 5000),
-        () => AppRouter.push(const LanguageView()),
-      );
-    } else if (keyValueStorageBase.getCommon(KeyValueStorageService.profile) ==
-        null) {
-      Future.delayed(
-        const Duration(milliseconds: 5000),
-        () => AppRouter.push(const ProfileSelectionView()),
-      );
+    checkTheStatus().whenComplete(() async => setRoute());
+  }
+
+  Future<void> checkTheStatus() async {
+    await KeyValueStorageBase.init();
+    selectedCountry =
+        keyValueStorageBase.getCommon(String, KeyValueStorageService.country);
+
+    selectedLanguage =
+        keyValueStorageBase.getCommon(String, KeyValueStorageService.language);
+
+    selectedProfile =
+        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
+  }
+
+  Future<void> setRoute() async {
+    log('Splash country selected${keyValueStorageBase.getCommon(String, KeyValueStorageService.country)}');
+    log('Splash language selected${keyValueStorageBase.getCommon(String, KeyValueStorageService.language)}');
+    if (selectedCountry == null || selectedLanguage == null) {
+      navigation(const LanguageView());
+    } else if (selectedProfile == null) {
+      navigation(const ProfileSelectionView());
     } else {
-      Future.delayed(
-        const Duration(milliseconds: 5000),
-        () => AppRouter.push(const OnboardingView()),
-      );
+      navigation(const OnboardingView());
     }
   }
+
+  Future<void> navigation(Widget page) async => Future<void>.delayed(
+        const Duration(milliseconds: 5000),
+        () async => AppRouter.push(page),
+      );
 }

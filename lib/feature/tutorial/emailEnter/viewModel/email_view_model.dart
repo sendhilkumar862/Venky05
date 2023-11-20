@@ -42,7 +42,8 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
     try {
       final Map<String, dynamic> body = <String, dynamic>{
         'email': emailController.text,
-        'role': keyValueStorageBase.getCommon(KeyValueStorageService.profile),
+        'role': keyValueStorageBase.getCommon(
+            String, KeyValueStorageService.profile),
       };
       logs(body.toString());
       final Response response = await dio.post(

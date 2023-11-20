@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+import 'language_repository.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
@@ -32,7 +34,7 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
 
   @observable
-  List<Country> countries = [];
+  List<Country> countries = <Country>[];
 
   @observable
   List<Country> filteredCountries = [];
@@ -79,9 +81,12 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   }
 
   @observable
+  List<String> countryLogo = <String>[];
+
+  @observable
   List<String> languages = <String>[
-    'عربي',
     'English',
+    'عربي',
   ];
 
   @observable
@@ -89,6 +94,9 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
     ImageConstants.countryIcon,
     ImageConstants.usIcon,
   ];
+
+  @observable
+  List<Country> filteredCountries = <Country>[];
 
   @action
   void selectCountry(int index) {
@@ -98,19 +106,23 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
     keyValueStorageBase.setCommon(KeyValueStorageService.countryCodeAndIDD,
         '${countries[index].code},${countries[index].idd_code}');
     logs('selected Country-->$countryIndex');
+    logs(
+        'selected Country-->${keyValueStorageBase.getCommon(String, KeyValueStorageService.country)}');
   }
 
   @action
   void selectLanguage(int index) {
     languageIndex = index;
 
-    if (languages[index] == 0) {
+    if (index == 0) {
       keyValueStorageBase.setCommon(KeyValueStorageService.language, 'en');
     } else {
       keyValueStorageBase.setCommon(KeyValueStorageService.language, 'ar');
     }
 
     logs('selected lang-->$languageIndex');
+    logs(
+        'selected lang-->${keyValueStorageBase.getCommon(String, KeyValueStorageService.language)}');
   }
 
   @action

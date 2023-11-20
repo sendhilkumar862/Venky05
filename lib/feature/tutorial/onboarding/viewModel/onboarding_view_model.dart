@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -20,8 +22,8 @@ abstract class _OnboardingViewModelBase extends BaseViewModel with Store {
   void init() {
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
     currentProfile =
-        keyValueStorageBase.getCommon(KeyValueStorageService.profile);
-    print('current profile--> $currentProfile');
+        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
+    log('current profile--> $currentProfile');
   }
 
   @observable

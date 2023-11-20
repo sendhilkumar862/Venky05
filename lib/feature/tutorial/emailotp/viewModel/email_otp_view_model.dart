@@ -41,7 +41,7 @@ abstract class _EmailOtpViewModelBase extends BaseViewModel with Store {
   void init() {
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
     currentProfile =
-        keyValueStorageBase.getCommon(KeyValueStorageService.profile);
+        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
     logs('current profile --> $currentProfile');
     controller.start();
   }
