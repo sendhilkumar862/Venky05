@@ -31,23 +31,26 @@ class ForgotPassWordView extends StatelessWidget {
                 alignment: Alignment.topCenter,
                 children: <Widget>[
                   Column(
-                    children: [
+                    children: <Widget>[
                       Expanded(
                         child: ListView(
                           padding: EdgeInsets.symmetric(horizontal: 15.px),
-                          children: [
-                            SizedBox(height: 35.px),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: GestureDetector(
-                                onTap: () => Navigator.pop(context),
-                                child: AppImageAsset(
-                                  image: ImageConstants.backIcon,
-                                  height: 25.px,
+                          children: <Widget>[
+                            SizedBox(height: 10.px),
+                            SafeArea(
+                              bottom: false,
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: GestureDetector(
+                                  onTap: () => Navigator.pop(context),
+                                  child: AppImageAsset(
+                                    image: ImageConstants.backIcon,
+                                    height: 25.px,
+                                  ),
                                 ),
                               ),
                             ),
-                            SizedBox(height: 80.px),
+                            SizedBox(height: 60.px),
                             Align(
                               alignment: Alignment.centerLeft,
                               child: AppImageAsset(
@@ -69,11 +72,13 @@ class ForgotPassWordView extends StatelessWidget {
                               //     : ('valid' == walletViewModel.nameError)
                               //     ? AppColors.appRed
                               //     : AppColors.appBlue,
-                            //  controller: tutorialViewModel.emailController,
+                              //  controller: tutorialViewModel.emailController,
                               title: 'Email Address',
                               keyboardType: TextInputType.text,
                               hintText: 'Enter your email address',
                               validate: (String? value) {
+                                return null;
+
                                 // return walletViewModel.nameValidation(value!);
                               },
                             ),

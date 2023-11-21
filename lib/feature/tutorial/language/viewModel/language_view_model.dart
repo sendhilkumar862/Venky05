@@ -30,15 +30,15 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
 
   @observable
-  List<Country> countries = [];
+  List<Country> countries = <Country>[];
 
   @observable
-  List<Country> filteredCountries = [];
+  List<Country> filteredCountries = <Country>[];
 
   Future<void> fetchData() async {
-    Dio dio = Dio();
+    final Dio dio = Dio();
     try {
-      Response response =
+      final Response response =
           await dio.get('http://167.99.93.83/api/v1/public/countries');
 
       if (response.statusCode == 200) {
@@ -82,8 +82,8 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
 
   @observable
   List<String> languageIcon = <String>[
-    ImageConstants.usIcon,
-    ImageConstants.saudiArabia,
+    ImageConstants.usIconNew,
+    ImageConstants.saudiArabiaNew,
   ];
 
   @action
@@ -115,7 +115,7 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
             false ||
                 country.flag_url!.toLowerCase().contains(query.toLowerCase()))
         .toList();
-    logs('filteredCountries.toString()--> ${filteredCountries.toString()}');
+    logs('filteredCountries.toString()--> $filteredCountries');
     setState(() {});
   }
 }

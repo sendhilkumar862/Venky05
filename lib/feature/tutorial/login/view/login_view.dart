@@ -37,14 +37,14 @@ class LoginView extends StatelessWidget {
                     fit: BoxFit.fill,
                   ),
                   Column(
-                    children: [
+                    children: <Widget>[
                       Expanded(
                         child: ListView(
                           padding: EdgeInsets.symmetric(horizontal: 15.px),
-                          children: [
-                            SizedBox(height: 40.px),
-                            const OnTapBack(),
-                            SizedBox(height: 80.px),
+                          children: <Widget>[
+                            SizedBox(height: 10.px),
+                            const SafeArea(bottom: false, child: OnTapBack()),
+                            SizedBox(height: 60.px),
                             Align(
                               alignment: Alignment.centerLeft,
                               child: AppImageAsset(
@@ -65,14 +65,14 @@ class LoginView extends StatelessWidget {
                               validate: loginViewModel.emailValid,
                               controller: loginViewModel.emailController,
                               hintText: 'enterEmail'.tr(),
-                              errorText: loginViewModel.emailErrorText!,
+                              errorText: loginViewModel.emailErrorText,
                               onChanged: (String value) {
-                                loginViewModel.validateEmail(value!);
+                                loginViewModel.validateEmail(value);
                               },
                             ),
                             SizedBox(height: 10.px),
                             StatefulBuilder(
-                              builder: (context, setState) {
+                              builder: (BuildContext context, setState) {
                                 return TextFormsField(
                                   title: 'password'.tr(),
                                   controller: loginViewModel.passwordController,
@@ -86,7 +86,8 @@ class LoginView extends StatelessWidget {
                                     loginViewModel.onPasswordChanged(value);
                                     setState(() {});
                                   },
-                                  onSaved: (String value) => loginViewModel.login(),
+                                  onSaved: (String value) =>
+                                      loginViewModel.login(),
                                 );
                               },
                             ),
@@ -117,7 +118,7 @@ class LoginView extends StatelessWidget {
               ),
               bottomNavigationBar: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: <Widget>[
                   PreLoginCommonButton(
                     onTap: () => loginViewModel.onTapLoginSubmit(),
                     title: 'login'.tr(),

@@ -109,24 +109,24 @@ class CountryBottomsSheet extends StatelessWidget {
                         child: Row(
                           children: <Widget>[
                             ClipRRect(
-                              borderRadius: BorderRadius.circular(700),
+                              borderRadius: BorderRadius.circular(5),
                               child: AppImageAsset(
                                 image: languageViewModel!
-                                        .filteredCountries.isNotEmpty!
+                                        .filteredCountries.isNotEmpty
                                     ? languageViewModel!
                                         .filteredCountries[index].flag_url!
                                     : languageViewModel!
                                         .countries[index].flag_url!,
                                 fit: BoxFit.cover,
                                 height: 20.px,
-                                width: 20,
+                                width: 30.px,
                               ),
                             ),
                             SizedBox(
                               width: 10.px,
                             ),
                             AppText(
-                              languageViewModel!.filteredCountries.isNotEmpty!
+                              languageViewModel!.filteredCountries.isNotEmpty
                                   ? languageViewModel!
                                       .filteredCountries[index].name!
                                   : languageViewModel!.countries[index].name!,
