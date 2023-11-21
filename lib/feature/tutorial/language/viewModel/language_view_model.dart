@@ -62,9 +62,6 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   }
 
   @observable
-  int countryIndex = 118;
-
-  @observable
   Country? selectedCountry;
 
   @observable
@@ -94,28 +91,17 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
 
   @observable
   List<String> languageIcon = <String>[
-    ImageConstants.countryIcon,
-    ImageConstants.usIcon,
+    ImageConstants.usIconNew,
+    ImageConstants.saudiArabiaNew,
   ];
 
   @observable
   List<Country> filteredCountries = <Country>[];
 
   @action
-  void selectCountry(int index) {
-    countryIndex = index;
-    keyValueStorageBase.setCommon(
-        KeyValueStorageService.country, countries[index].name);
-    keyValueStorageBase.setCommon(KeyValueStorageService.countryCodeAndIDD,
-        '${countries[index].code},${countries[index].idd_code}');
-    logs('selected Country-->$countryIndex');
-    logs(
-        'selected Country-->${keyValueStorageBase.getCommon(String, KeyValueStorageService.country)}');
-  }
-
-@action
-  void selectedCoutry(Country country) {
-     selectedCountry = country;
+  void selectCountry(Country country) {
+    selectedCountry = country;
+    keyValueStorageBase.setCommon(KeyValueStorageService.country, country.name);
   }
 
   @action

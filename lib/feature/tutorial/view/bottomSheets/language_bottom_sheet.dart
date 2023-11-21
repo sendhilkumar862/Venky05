@@ -82,9 +82,13 @@ class LanguageBottomSheet extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 8.px),
                         child: Row(
                           children: <Widget>[
-                            AppImageAsset(
-                              image: languageViewModel!.languageIcon[index],
-                              height: 20.px,
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: AppImageAsset(
+                                image: languageViewModel!.languageIcon[index],
+                                height: 20.px,
+                                width: 30.px,
+                              ),
                             ),
                             SizedBox(
                               width: 10.px,
