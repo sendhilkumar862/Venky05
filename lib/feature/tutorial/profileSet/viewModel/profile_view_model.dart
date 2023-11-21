@@ -72,13 +72,16 @@ abstract class _ProfileViewModelBase extends BaseViewModel with Store {
 
   @action
   Future<void> fetchData() async {
+    logs('Entred');
     Dio dio = Dio();
     try {
       Response response =
           await dio.get('http://167.99.93.83/api/v1/content/about_hessah');
+      logs('status code--> ${response.statusCode}');
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
         aboutModel = AboutModel.fromJson(response.data);
+        logs('about hessah --> $aboutModel');
       } else {
         logs('Failed to load data: ${response.statusCode}');
       }

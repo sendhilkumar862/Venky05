@@ -11,10 +11,10 @@ import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/utils/validators.dart';
 import '../model/term_and_condition_model.dart';
 
-
 part 'password_view_model.g.dart';
 
 class PasswordViewModel = _PasswordViewModelBase with _$PasswordViewModel;
+
 abstract class _PasswordViewModelBase extends BaseViewModel with Store {
   @override
   void setContext(BuildContext context) => viewModelContext = context;
@@ -33,7 +33,6 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
   @observable
   TermAndConditionModel termAndConditionModel = TermAndConditionModel();
 
-
   //========password========//
 
   @observable
@@ -50,7 +49,7 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
   // List<bool> isPassWordCriteria = List.filled(6, false);
   @observable
   ObservableList<bool> isPassWordCriteria =
-  ObservableList<bool>.of(List.filled(6, false));
+      ObservableList<bool>.of(List.filled(6, false));
 
   @observable
   bool isButtonActive = false;
@@ -62,16 +61,16 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
   TextEditingController retypePasswordController = TextEditingController();
 
   @action
-
   @action
   Future<void> fetchData() async {
     Dio dio = Dio();
     try {
       Response response =
-      await dio.get('http://167.99.93.83/api/v1/content/terms_conditions');
+          await dio.get('http://167.99.93.83/api/v1/content/terms_conditions');
+      logs('statusCode -- > ${response.statusCode}');
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
-         termAndConditionModel = TermAndConditionModel.fromJson(response.data);
+        termAndConditionModel = TermAndConditionModel.fromJson(response.data);
       } else {
         logs('Failed to load data: ${response.statusCode}');
       }

@@ -37,5 +37,6 @@ class Status with _$Status {
      String? message,
   }) = _Status;
 
-  factory Status.fromJson(Map<String, dynamic> json) => _$StatusFromJson(json);
+  factory Status.fromJson(Map<String, dynamic> json) =>
+      _$StatusFromJson(json);
 }

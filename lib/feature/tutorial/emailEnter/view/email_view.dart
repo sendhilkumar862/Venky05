@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_textformfield/text_field.dart';
+import '../../../../custom/cardView/warning_card_view.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/text/app_text.dart';
@@ -12,8 +13,6 @@ import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../viewModel/email_view_model.dart';
-
-
 
 class EmailView extends StatelessWidget {
   const EmailView({super.key});
@@ -26,8 +25,7 @@ class EmailView extends StatelessWidget {
           emailViewModel.setContext(context);
           emailViewModel.init();
         },
-        onPageBuilder:
-            (BuildContext context, EmailViewModel emailViewModel) {
+        onPageBuilder: (BuildContext context, EmailViewModel emailViewModel) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               body: PreLoginCustomBody(
@@ -65,8 +63,12 @@ class EmailView extends StatelessWidget {
                         },
                       ),
                       SizedBox(
-                        height: 20.px,
+                        height: 25.px,
                       ),
+                      if (emailViewModel.registerWarning)
+                        WarningCardView(
+                            color: AppColors.lightPurple,
+                            error: 'Email already existing'),
                     ],
                   ),
                 ),

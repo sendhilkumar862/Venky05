@@ -9,7 +9,7 @@ import '../../../../config/routes/routes.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/utils/validators.dart';
-import '../model/login_Model.dart';
+import '../model/login_model.dart';
 
 part 'login_view_model.g.dart';
 
@@ -30,7 +30,16 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
   String emailErrorText = '';
 
   @observable
+  String loginError = '';
+
+  @observable
+  LoginModel loginModel = LoginModel();
+
+  @observable
   int emailValid = 2;
+
+  @observable
+  bool isButtonDisabled = true;
 
   @action
   void validateEmail(String value) {
@@ -44,45 +53,71 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
     } else {
       emailValid = 1;
       emailErrorText = '';
+      FocusManager.instance.primaryFocus?.unfocus();
       logs('error--> $emailValid');
+    }
+
+    if (emailValid != 1) {
+      isButtonDisabled = true;
+    } else if (passwordController.text.isEmpty) {
+      isButtonDisabled = true;
+    } else if (loginModel.status!.type == null || loginModel.status!.type == 'error') {
+      isButtonDisabled = true;
+    } else {
+      isButtonDisabled = false;
     }
   }
 
   @action
   void onTapLoginSubmit() {
-    if (emailValid == 1) {
-      login();
+    // its test mode condition will change
+    if (isButtonDisabled) {
+      AppRouter.pushNamed(
+        Routes.HomeScreenRoute,
+      );
+    }
+  }
+
+  @action
+  void onPasswordChanged(String value) {
+    if (emailValid != 1) {
+      isButtonDisabled = true;
+    } else if (value.isEmpty) {
+      isButtonDisabled = true;
+    } else if (loginModel.status!.type != null &&
+        loginModel.status!.type == 'error') {
+      isButtonDisabled = true;
+    } else {
+      isButtonDisabled = false;
     }
   }
 
   @action
   Future<void> login() async {
-    Dio dio = Dio();
+    final Dio dio = Dio();
     try {
-      Map body = {
+      final Map<String, dynamic> body = <String, dynamic>{
         'email': emailController.text,
         'password': passwordController.text,
       };
       logs('body--> $body');
-      final response = await dio.post(
+      final Response response = await dio.post(
         'http://167.99.93.83/api/v1/users/login',
         data: body,
       );
       logs('status Code --> ${response.statusCode}');
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
-        LoginModel loginModel = LoginModel.fromJson(response.data);
-        logs('ress--> ${loginModel}');
-
-        AppRouter.pushNamed(
-          Routes.HomeScreenRoute,
-        );
+        loginModel = LoginModel.fromJson(response.data);
+        logs('ress--> $loginModel');
       } else {
         EasyLoading.dismiss();
         logs('error not response');
       }
-    } catch (error) {
-      logs('error');
+    } on DioException catch (error) {
+      loginModel = LoginModel.fromJson(error.response!.data);
+      loginError = loginModel.status!.message!;
+      logs('data --> ${loginModel.status!.message}');
     }
   }
 }

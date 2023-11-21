@@ -18,6 +18,7 @@ class TextFormsField extends StatelessWidget {
   final Widget? suffixIcon;
   final Widget? prefix;
   final TextInputType? keyboardType;
+  final ValueChanged<String>? onSaved;
 
   final GestureTapCallback? onSuffixTap;
   final GestureTapCallback? onPrefixTap;
@@ -38,6 +39,7 @@ class TextFormsField extends StatelessWidget {
     this.onPrefixTap,
     this.keyboardType,
     this.title,
+    this.onSaved,
   });
 
   @override
@@ -62,7 +64,7 @@ class TextFormsField extends StatelessWidget {
                     ? AppColors.appBlue
                     : (validate == 0)
                         ? AppColors.appRed
-                        : AppColors.appGrey),
+                        : AppColors.lightPurple),
             color: AppColors.appWhite,
             borderRadius: BorderRadius.circular(8),
           ),
@@ -73,6 +75,7 @@ class TextFormsField extends StatelessWidget {
               ],
               Expanded(
                 child: TextFormField(
+                  onFieldSubmitted: onSaved ?? (String value) {},
                   keyboardType: keyboardType ?? TextInputType.text,
                   controller: controller,
                   obscureText: obscureText,

@@ -30,6 +30,9 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
 
   @observable
+  bool registerWarning = false;
+
+  @observable
   Map<String, dynamic> arguments = {
     'id': '',
     'otp_id': '',
@@ -68,7 +71,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
 
   @action
   Future<void> sendOTP(String id) async {
-    // viewModelContext.loaderOverlay.show();
+    logs('Entered SendOtp');
     Dio dio = Dio();
     try {
       Map body = {
@@ -82,7 +85,8 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
       logs('status Code --> ${response.statusCode}');
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
-        logs('status Code --> ${response.data['status']['type']}');
+        registerWarning = response.data['status']['type'] == 'error';
+        logs('status status --> ${response.data['status']['type']}');
         logs('status Code --> ${response.data['data']['item']['otp_id']}');
         arguments['otp_id'] = response.data['data']['item']['otp_id'];
         AppRouter.pushNamed(Routes.emailOtpView, args: arguments);
@@ -90,8 +94,11 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
         EasyLoading.dismiss();
         logs('error not response');
       }
-    } catch (error) {
-      logs('error');
+    } on DioException catch (error) {
+      EasyLoading.dismiss();
+      registerWarning = error.response!.data['status']['type'] == 'error';
+      logs('error message--> ${error.response!.data['status']['message']}');
+      logs('SendOtp error');
     }
   }
 
@@ -107,6 +114,8 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
 
   @action
   void validateEmail(String value) {
+    registerWarning = false;
+
     if (value!.isEmpty) {
       emailValid = 0;
       emailErrorText = 'pleaseEnter'.tr();

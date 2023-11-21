@@ -47,7 +47,7 @@ class TermAndConditionBottomSheet extends StatelessWidget {
               SizedBox(
                 height: 30.px,
               ),
-              ListView.separated(
+              ListView.separated(shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return Column(
                       children: <Widget>[
@@ -70,7 +70,7 @@ class TermAndConditionBottomSheet extends StatelessWidget {
                   separatorBuilder: (BuildContext context, int index) {
                     return SizedBox(height: 10.px);
                   },
-                  itemCount: passwordViewModel!
+                  itemCount:passwordViewModel!
                       .termAndConditionModel.data!.items!.length)
             ],
           ),

@@ -26,6 +26,9 @@ abstract class _MobileOtpViewModelBase extends BaseViewModel with Store {
   @observable
   String enteredOTP = '';
 
+  @observable
+  Map<String, dynamic> arguments = <String, dynamic>{'userId': ''};
+
   @action
   bool onChange(String value) {
     if (value == '1234') {
@@ -41,7 +44,7 @@ abstract class _MobileOtpViewModelBase extends BaseViewModel with Store {
   void onTapSubmit() {
     onChange(enteredOTP);
     if (enteredOTP == '1234') {
-      AppRouter.pushNamed(Routes.userInfoView);
+      AppRouter.pushNamed(Routes.userInfoView,args: arguments);
     }
   }
 }
