@@ -5,8 +5,8 @@ import '../../../product/constants/typedefs.dart';
 import '../../../product/network/all_providers.dart';
 import '../../../product/network/networking/api_endpoint.dart';
 import '../../../product/network/networking/api_service.dart';
-import 'country_model.dart';
-import 'language_view_model.dart';
+import 'model/country_model.dart';
+
 
 final languageRepositoryProvider = Provider<LanguageRepository>((ref) {
   final _apiService = ref.watch(apiServiceProvider);

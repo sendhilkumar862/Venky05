@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:hessah/feature/tutorial/view/profile_selection_view.dart';
+import 'package:hessah/feature/tutorial/language/viewModel/language_view_model.dart';
 import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -15,10 +15,10 @@ import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/network/networking/api_endpoint.dart';
 import '../../../product/network/networking/interceptors/refresh_token_interceptor.dart';
+import '../profileSet/view/profile_selection_view.dart';
 import '../view/bottomSheets/country_bottom_sheet.dart';
 import '../view/bottomSheets/language_bottom_sheet.dart';
 import '../viewModel/tutorial_view_model.dart';
-import 'language_view_model.dart';
 
 class LanguageView extends StatelessWidget {
   const LanguageView({super.key});

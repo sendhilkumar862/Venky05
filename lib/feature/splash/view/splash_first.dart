@@ -8,14 +8,16 @@ import '../../../custom/image/app_image_assets.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
+import '../../../product/utils/validators.dart';
 import '../viewModel/splash_view_model.dart';
-
 
 class SplashFirst extends StatelessWidget {
   const SplashFirst({super.key});
 
   @override
   Widget build(BuildContext context) {
+    logs('Current Screen--> $runtimeType');
+
     return BaseView<SplashViewModel>(
         viewModel: SplashViewModel(),
         onModelReady: (SplashViewModel splashViewModel) {
@@ -30,11 +32,7 @@ class SplashFirst extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.center,
                   children: <Widget>[
-                     Lottie.asset(ImageConstants.splash, height: 400.px),
-                    // AppImageAsset(
-                    //   image: ImageConstants.starWhite,
-                    //   height: 100.px,
-                    // ),
+                    Lottie.asset(ImageConstants.splash, height: 400.px),
                     const Column(
                       children: <Widget>[
                         Expanded(

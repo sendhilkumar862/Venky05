@@ -4,6 +4,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
+import '../../product/utils/validators.dart';
 import '../app_button/app_button.dart';
 import '../image/app_image_assets.dart';
 
@@ -42,6 +43,7 @@ class OnTapBack extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.pop(context);
+        logs('back tapped');
       },
       child: const Align(
         alignment: Alignment.centerLeft,

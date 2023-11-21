@@ -3,7 +3,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../config/routes/app_router.dart';
-import '../../tutorial/language/language_view.dart';
+import '../../tutorial/language/view/language_view.dart';
 
 part 'splash_second_view_model.g.dart';
 

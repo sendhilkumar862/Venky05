@@ -6,12 +6,13 @@ import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../profileSet/viewModel/profile_view_model.dart';
 import '../../viewModel/tutorial_view_model.dart';
 
 class AboutAppBottomSheet extends StatelessWidget {
-  AboutAppBottomSheet({this.tutorialViewModel, super.key});
+  AboutAppBottomSheet({this.profileViewModel, super.key});
 
-  TutorialViewModel? tutorialViewModel;
+  ProfileViewModel? profileViewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,6 @@ class AboutAppBottomSheet extends StatelessWidget {
       child: Stack(
         alignment: Alignment.topRight,
         children: [
-
           ListView(
             padding: EdgeInsets.symmetric(horizontal: 15.px),
             children: <Widget>[
@@ -47,25 +47,10 @@ class AboutAppBottomSheet extends StatelessWidget {
               SizedBox(
                 height: 30.px,
               ),
-              const AppText(
-                'Title',
-                fontWeight: FontWeight.w700,
+              AppText(
+                profileViewModel!.aboutModel.data.toString(),
                 textAlign: TextAlign.start,
               ),
-              const AppText(
-                'description',
-                textAlign: TextAlign.start,
-              ),
-              SizedBox(height: 15.px),
-              const AppText(
-                'Title',
-                fontWeight: FontWeight.w700,
-                textAlign: TextAlign.start,
-              ),
-              const AppText(
-                'description',
-                textAlign: TextAlign.start,
-              )
             ],
           ),
           InkWell(
