@@ -7,6 +7,7 @@ import '../../../config/routes/routes.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/app_textformfield/app_field.dart';
 import '../../../custom/image/app_image_assets.dart';
+import '../../../custom/loader/easy_loader.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
@@ -69,7 +70,7 @@ class ForgotPassWordView extends StatelessWidget {
                               //     : ('valid' == walletViewModel.nameError)
                               //     ? AppColors.appRed
                               //     : AppColors.appBlue,
-                            //  controller: tutorialViewModel.emailController,
+                              //  controller: tutorialViewModel.emailController,
                               title: 'Email Address',
                               keyboardType: TextInputType.text,
                               hintText: 'Enter your email address',
@@ -91,7 +92,8 @@ class ForgotPassWordView extends StatelessWidget {
                           borderColor: AppColors.appBlue,
                           title: 'Reset Password',
                           onPressed: () {
-                            AppRouter.pushNamed(Routes.restPassword);
+                            showLoading();
+                            tutorialViewModel.forgotPassword();
                           },
                         ),
                       ),
