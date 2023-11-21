@@ -58,9 +58,8 @@ class EmailView extends StatelessWidget {
                         controller: emailViewModel.emailController,
                         hintText: 'enterEmail'.tr(),
                         errorText: emailViewModel.emailErrorText!,
-                        onChanged: (String value) {
-                          emailViewModel.validateEmail(value!);
-                        },
+                        onChanged: (String value) =>
+                            emailViewModel.validateEmail(value!),
                       ),
                       SizedBox(
                         height: 25.px,

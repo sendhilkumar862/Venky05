@@ -86,20 +86,16 @@ class LoginView extends StatelessWidget {
                                     loginViewModel.onPasswordChanged(value);
                                     setState(() {});
                                   },
-                                  onSaved: (String value) => loginViewModel.login(),
                                 );
                               },
                             ),
                             SizedBox(
                               height: 20.px,
                             ),
-                            if (loginViewModel.loginError.isNotEmpty)
+                            if (loginViewModel.loginStatus ==
+                                'error')
                               WarningCardView(
-                                  color:
-                                      (loginViewModel.loginModel.status!.type ==
-                                              'error')
-                                          ? AppColors.appLightRedTwo
-                                          : AppColors.lightPurple,
+                                  color:AppColors.appLightRedTwo,
                                   error: loginViewModel
                                       .loginModel.status!.message),
                             SizedBox(height: 20.px),

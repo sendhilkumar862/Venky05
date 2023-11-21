@@ -22,15 +22,19 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
   @override
   void init() {}
   @observable
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordController =
+      TextEditingController(text: 'Test@123');
   TextEditingController emailController =
-      TextEditingController(text: 'abc@mailinator.com');
+      TextEditingController(text: 'avaiyakirtib1@gmail.com');
 
   @observable
   String emailErrorText = '';
 
   @observable
   String loginError = '';
+
+  @observable
+  String loginStatus = '';
 
   @observable
   LoginModel loginModel = LoginModel();
@@ -43,6 +47,8 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
 
   @action
   void validateEmail(String value) {
+    loginStatus = '';
+
     if (value!.isEmpty) {
       emailValid = 0;
       emailErrorText = 'pleaseEnter'.tr();
@@ -61,9 +67,7 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
       isButtonDisabled = true;
     } else if (passwordController.text.isEmpty) {
       isButtonDisabled = true;
-    } else if (loginModel.status!.type == null || loginModel.status!.type == 'error') {
-      isButtonDisabled = true;
-    } else {
+    }  else {
       isButtonDisabled = false;
     }
   }
@@ -71,23 +75,20 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
   @action
   void onTapLoginSubmit() {
     // its test mode condition will change
-    if (isButtonDisabled) {
-      AppRouter.pushNamed(
-        Routes.HomeScreenRoute,
-      );
+    if (loginStatus != 'success') {
+      login();
     }
   }
 
   @action
   void onPasswordChanged(String value) {
+    loginStatus = '';
+
     if (emailValid != 1) {
       isButtonDisabled = true;
     } else if (value.isEmpty) {
       isButtonDisabled = true;
-    } else if (loginModel.status!.type != null &&
-        loginModel.status!.type == 'error') {
-      isButtonDisabled = true;
-    } else {
+    }  else {
       isButtonDisabled = false;
     }
   }
@@ -109,7 +110,19 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
         loginModel = LoginModel.fromJson(response.data);
-        logs('ress--> $loginModel');
+        AppRouter.pushNamed(
+          Routes.HomeScreenRoute,
+        );
+        logs('ress--> ${loginModel.status?.type}');
+        loginStatus = loginModel.status!.type!;
+        if (emailValid != 1) {
+          isButtonDisabled = true;
+        } else if (passwordController.text.isEmpty) {
+          isButtonDisabled = true;
+
+        } else {
+          isButtonDisabled = false;
+        }
       } else {
         EasyLoading.dismiss();
         logs('error not response');
@@ -117,7 +130,9 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
     } on DioException catch (error) {
       loginModel = LoginModel.fromJson(error.response!.data);
       loginError = loginModel.status!.message!;
+      loginStatus = loginModel.status!.type!;
       logs('data --> ${loginModel.status!.message}');
+      logs('data status --> ${loginStatus}');
     }
   }
 }
