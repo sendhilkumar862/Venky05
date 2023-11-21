@@ -7,6 +7,7 @@ import '../../../config/routes/routes.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/app_textformfield/app_field.dart';
 import '../../../custom/image/app_image_assets.dart';
+import '../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
@@ -37,19 +38,7 @@ class ForgotPassWordView extends StatelessWidget {
                           padding: EdgeInsets.symmetric(horizontal: 15.px),
                           children: <Widget>[
                             SizedBox(height: 10.px),
-                            SafeArea(
-                              bottom: false,
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: GestureDetector(
-                                  onTap: () => Navigator.pop(context),
-                                  child: AppImageAsset(
-                                    image: ImageConstants.backIcon,
-                                    height: 25.px,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            const SafeArea(bottom: false, child: OnTapBack()),
                             SizedBox(height: 60.px),
                             Align(
                               alignment: Alignment.centerLeft,
