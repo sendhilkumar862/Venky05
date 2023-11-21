@@ -24,6 +24,7 @@ import '../../../custom/otp/otp_text_field.dart';
 import '../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
+import '../../../product/constants/app/app_utils.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../viewModel/tutorial_view_model.dart';
@@ -105,17 +106,19 @@ class MobileOtpView extends StatelessWidget {
                       SizedBox(
                         height: 20.px,
                       ),
-                      AppText('sendAgain'.tr(),
-                          fontSize: 12.px,
-                          textAlign: TextAlign.center,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.appGrey),
+                      AppText(
+                        'didntReceived'.tr(),
+                        fontSize: 12.px,
+                        textAlign: TextAlign.center,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.appGrey,
+                      ),
                       SizedBox(height: 12.px),
                       Countdown(
                         controller: mobileOtpViewModel.controller,
                         seconds: 30,
                         build: (_, double time) => AppText(
-                          time.toInt().toString(),
+                          AppUtils.formatTimer(time.toInt()),
                           color: AppColors.appPurple,
                           fontWeight: FontWeight.w700,
                           fontSize: 24.px,
@@ -136,8 +139,9 @@ class MobileOtpView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             AppImageAsset(
-                                image: ImageConstants.arrowRotate,
-                                height: 20.px),
+                              image: ImageConstants.arrowRotate,
+                              height: 20.px,
+                            ),
                             SizedBox(width: 5.px),
                             AppText(
                               'sendAgain'.tr(),

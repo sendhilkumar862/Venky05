@@ -6,7 +6,6 @@ import 'timer_count_down.dart';
 /// Countdown timer
 ///
 class Countdown extends StatefulWidget {
-
   ///
   /// Countdown timer
   ///
@@ -18,6 +17,7 @@ class Countdown extends StatefulWidget {
     this.onFinished,
     this.controller,
   });
+
   /// Length of the timer
   final int seconds;
 
@@ -63,7 +63,7 @@ class _CountdownState extends State<Countdown> {
     widget.controller?.setOnRestart(_onTimerRestart);
     widget.controller?.isCompleted = false;
 
-    if (widget.controller == null || widget.controller!.autoStart == true) {
+    if (widget.controller == null || widget.controller!.autoStart) {
       _startTimer();
     }
 
@@ -147,6 +147,7 @@ class _CountdownState extends State<Countdown> {
             if (widget.onFinished != null) {
               widget.onFinished!();
               _onFinishedExecuted = true;
+              setState(() {});
             }
             widget.controller?.isCompleted = true;
           } else {

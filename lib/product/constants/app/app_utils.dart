@@ -37,10 +37,16 @@ class AppUtils {
     return date.toDateString('yyyy-MM-dd HH:mm:ss');
   }
 
+  static String formatTimer(int seconds) {
+    final int sec = seconds % 60;
+    final int min = (seconds / 60).floor();
+    return "${min.toString().padLeft(2, '0')}:${sec.toString().padLeft(2, '0')}";
+  }
+
   /// A utility method to convert JSON 24hr time string
   /// to a [TimeOfDay] object
   static TimeOfDay timeFromJson(String time) {
-    final dateTime = DateFormat.Hms().parse(time);
+    final DateTime dateTime = DateFormat.Hms().parse(time);
     return TimeOfDay.fromDateTime(dateTime);
   }
 
@@ -132,7 +138,6 @@ class Regexes {
     final RegExp regex = regExp;
     return regex.hasMatch(text);
   }
-
 }
 
 /// A utility class that holds all the timings used throughout
@@ -143,10 +148,10 @@ class Regexes {
 class Durations {
   const Durations._();
 
-  static const fastest = Duration(milliseconds: 150);
-  static const fast = Duration(milliseconds: 250);
-  static const normal = Duration(milliseconds: 300);
-  static const medium = Duration(milliseconds: 500);
-  static const slow = Duration(milliseconds: 700);
-  static const slower = Duration(milliseconds: 1000);
+  static const Duration fastest = Duration(milliseconds: 150);
+  static const Duration fast = Duration(milliseconds: 250);
+  static const Duration normal = Duration(milliseconds: 300);
+  static const Duration medium = Duration(milliseconds: 500);
+  static const Duration slow = Duration(milliseconds: 700);
+  static const Duration slower = Duration(milliseconds: 1000);
 }

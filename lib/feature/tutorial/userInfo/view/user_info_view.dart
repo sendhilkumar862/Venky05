@@ -68,19 +68,20 @@ class UserInfoView extends StatelessWidget {
                         },
                       ),
                       SizedBox(height: 20.px),
-                      Row(
-                        children: <Widget>[
-                          AppText(
-                            'makeItVisible'.tr(),
-                            fontSize: 14.px,
-                          ),
-                          SizedBox(width: 10.px),
-                          AppSwitch(
-                            isActive: userInfoViewModel.isActiveSwitch,
-                            onTap: () => userInfoViewModel.onTapSwitch(),
-                          )
-                        ],
-                      )
+                      if (userInfoViewModel.isActiveSwitch)
+                        Row(
+                          children: <Widget>[
+                            AppText(
+                              'makeItVisible'.tr(),
+                              fontSize: 14.px,
+                            ),
+                            SizedBox(width: 10.px),
+                            AppSwitch(
+                              isActive: userInfoViewModel.isActiveSwitch,
+                              onTap: () => userInfoViewModel.onTapSwitch,
+                            )
+                          ],
+                        )
                     ],
                   ),
                 ),
