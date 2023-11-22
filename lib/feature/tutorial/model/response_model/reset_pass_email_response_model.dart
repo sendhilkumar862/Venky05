@@ -42,7 +42,7 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        item: json["item"],
+        item: json["item"].length > 0 ? json["item"] : '',
       );
 
   Map<String, dynamic> toJson() => {

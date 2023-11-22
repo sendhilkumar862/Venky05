@@ -1,10 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
+import '../../../config/routes/app_router.dart';
+import '../../../config/routes/routes.dart';
 import '../../../custom/loader/easy_loader.dart';
+import '../../../product/constants/app/app_utils.dart';
 import '../../../product/utils/validators.dart';
 import '../model/response_model/reset_pass_email_response_model.dart';
 
@@ -44,6 +47,36 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   @observable
   List profileItems = <String>['Teacher', 'Parent/Student'];
 
+  @observable
+  bool isButtonDisabled = true;
+
+  @observable
+  int emailValid = 2;
+
+  @observable
+  String emailErrorText = '';
+
+  @action
+  void validateEmail(String value) {
+    if (value.isEmpty) {
+      emailValid = 0;
+      emailErrorText = 'pleaseEnter'.tr();
+    } else if (Regexes.validateRegEx(
+        forgotEmailController.text, Regexes.emailRegex)) {
+      emailValid = 0;
+      emailErrorText = 'enterValidEmail'.tr();
+    } else {
+      emailValid = 1;
+      emailErrorText = '';
+    }
+
+    if (emailValid != 1) {
+      isButtonDisabled = true;
+    } else {
+      isButtonDisabled = false;
+    }
+  }
+
   @action
   Future<void> forgotPassword() async {
     showLoading();
@@ -58,18 +91,21 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
         data: body,
       );
       logs('status Code --> ${response.statusCode}');
+      logs('status Code --> ${response.data}');
       if (response.statusCode == 200) {
         hideLoading();
         resetPassEmailResponseModel =
             ResetPassEmailResponseModel.fromJson(response.data);
+        AppRouter.pushNamed(Routes.restPassword);
       } else {
-        EasyLoading.dismiss();
+        hideLoading();
       }
     } on DioException catch (error) {
       hideLoading();
       resetPassEmailResponseModel =
           ResetPassEmailResponseModel.fromJson(error.response!.data);
       errors = resetPassEmailResponseModel.status!.message!;
+
       logs('data --> ${resetPassEmailResponseModel.status!.message}');
     }
   }
