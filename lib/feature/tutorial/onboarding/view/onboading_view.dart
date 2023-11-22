@@ -40,7 +40,6 @@ class OnboardingView extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 15.px),
                 child: Column(
                   children: <Widget>[
-
                     Container(
                       alignment: Alignment.center,
                       height: 400.px,
@@ -53,13 +52,14 @@ class OnboardingView extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 20.px),
                             child: Column(
                               children: <Widget>[
-                                if (onboardingViewModel.currentProfile ==
-                                    'Student')
-                                  Lottie.asset(onboardingViewModel
-                                      .studentAnimation[index])
-                                else
-                                  Lottie.asset(onboardingViewModel
-                                      .teacherAnimation[index]),
+                                Expanded(
+                                  child: onboardingViewModel.currentProfile ==
+                                          'Student'
+                                      ? Lottie.asset(onboardingViewModel
+                                          .studentAnimation[index])
+                                      : Lottie.asset(onboardingViewModel
+                                          .teacherAnimation[index]),
+                                ),
                                 AppText(
                                   (onboardingViewModel.currentProfile ==
                                           'Student')

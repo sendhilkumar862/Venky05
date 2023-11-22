@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:hessah/feature/tutorial/language/viewModel/language_view_model.dart';
+import 'viewModel/language_view_model.dart';
 import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -23,6 +23,7 @@ import '../viewModel/tutorial_view_model.dart';
 class LanguageView extends StatelessWidget {
   const LanguageView({super.key});
 
+  @override
   Widget build(BuildContext context) {
     return BaseView<LanguageViewModel>(
         viewModel: LanguageViewModel(),
@@ -55,21 +56,34 @@ class LanguageView extends StatelessWidget {
                           height: 25.px,
                         ),
                         selectCardView(
-  icon: languageViewModel.filteredCountries.isNotEmpty
-      ? (languageViewModel.countryIndex < languageViewModel.filteredCountries.length
-          ? languageViewModel.filteredCountries[languageViewModel.countryIndex].flag_url
-          : null)
-      : (languageViewModel.countryIndex < languageViewModel.countries.length
-          ? languageViewModel.countries[languageViewModel.countryIndex].flag_url
-          : null),
-  title: languageViewModel.filteredCountries.isNotEmpty
-      ? (languageViewModel.countryIndex < languageViewModel.filteredCountries.length
-          ? languageViewModel.filteredCountries[languageViewModel.countryIndex].name
-          : null)
-      : (languageViewModel.countryIndex < languageViewModel.countries.length
-          ? languageViewModel.countries[languageViewModel.countryIndex].name
-          : null),
-  
+                          icon: languageViewModel.filteredCountries.isNotEmpty
+                              ? (languageViewModel.countryIndex <
+                                      languageViewModel.filteredCountries.length
+                                  ? languageViewModel
+                                      .filteredCountries[
+                                          languageViewModel.countryIndex]
+                                      .flag_url
+                                  : null)
+                              : (languageViewModel.countryIndex <
+                                      languageViewModel.countries.length
+                                  ? languageViewModel
+                                      .countries[languageViewModel.countryIndex]
+                                      .flag_url
+                                  : null),
+                          title: languageViewModel.filteredCountries.isNotEmpty
+                              ? (languageViewModel.countryIndex <
+                                      languageViewModel.filteredCountries.length
+                                  ? languageViewModel
+                                      .filteredCountries[
+                                          languageViewModel.countryIndex]
+                                      .name
+                                  : null)
+                              : (languageViewModel.countryIndex <
+                                      languageViewModel.countries.length
+                                  ? languageViewModel
+                                      .countries[languageViewModel.countryIndex]
+                                      .name
+                                  : null),
                           onTap: () {
                             showModalBottomSheet(
                               isScrollControlled: true,
@@ -153,11 +167,11 @@ class LanguageView extends StatelessWidget {
         child: Row(
           children: <Widget>[
             ClipRRect(
-              borderRadius: BorderRadius.circular(700),
+              borderRadius: BorderRadius.circular(5),
               child: AppImageAsset(
                 image: icon ?? ImageConstants.globe,
                 height: 20.px,
-                width: 20.px,
+                width: 30.px,
               ),
             ),
             SizedBox(

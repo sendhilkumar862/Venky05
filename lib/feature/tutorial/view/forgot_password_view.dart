@@ -9,6 +9,7 @@ import '../../../custom/app_button/app_button.dart';
 import '../../../custom/app_textformfield/text_field.dart';
 import '../../../custom/cardView/warning_card_view.dart';
 import '../../../custom/image/app_image_assets.dart';
+import '../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../custom/loader/easy_loader.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
@@ -38,25 +39,14 @@ class ForgotPassWordView extends StatelessWidget {
                     fit: BoxFit.fill,
                   ),
                   Column(
-                    children: [
+                    children: <Widget>[
                       Expanded(
                         child: ListView(
                           padding: EdgeInsets.symmetric(horizontal: 15.px),
-                          children: [
-                            SizedBox(height: 35.px),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: GestureDetector(
-                                onTap: () {
-                                  AppRouter.pop();
-                                },
-                                child: AppImageAsset(
-                                  image: ImageConstants.backIcon,
-                                  height: 25.px,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 80.px),
+                          children: <Widget>[
+                            SizedBox(height: 10.px),
+                            const SafeArea(bottom: false, child: OnTapBack()),
+                            SizedBox(height: 60.px),
                             Align(
                               alignment: Alignment.centerLeft,
                               child: AppImageAsset(
@@ -72,13 +62,21 @@ class ForgotPassWordView extends StatelessWidget {
                               fontWeight: FontWeight.w700,
                             ),
                             SizedBox(height: 10.px),
-                            TextFormsField(
-                              title: 'emailAdd'.tr(),
-                              validate: tutorialViewModel.emailValid,
-                              controller:
-                                  tutorialViewModel.forgotEmailController,
-                              hintText: 'enterEmail'.tr(),
-                              errorText: tutorialViewModel.emailErrorText!,
+                            AppTextFormField(
+                              // titleColor: (walletViewModel.nameError.isEmpty)
+                              //     ? AppColors.appGrey
+                              //     : ('valid' == walletViewModel.nameError)
+                              //     ? AppColors.appRed
+                              //     : AppColors.appBlue,
+                              //  controller: tutorialViewModel.emailController,
+                              title: 'Email Address',
+                              keyboardType: TextInputType.text,
+                              hintText: 'Enter your email address',
+                              validate: (String? value) {
+                                return null;
+
+                                // return walletViewModel.nameValidation(value!);
+                                },
                               onChanged: (String value) {
                                 tutorialViewModel.validateEmail(value);
                               },
