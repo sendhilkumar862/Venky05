@@ -83,17 +83,6 @@ class ForgotPassWordView extends StatelessWidget {
                                 tutorialViewModel.validateEmail(value);
                               },
                             ),
-                            /*                TextFormsField(
-                              title: 'emailAdd'.tr(),
-                              keyboardType: TextInputType.text,
-                              hintText: 'Enter your email address',
-                              controller:
-                                  tutorialViewModel.forgotEmailController,
-                              errorText: loginViewModel.emailErrorText!,
-                              onChanged: (String value) {
-                                tutorialViewModel.validateEmail(value);
-                              },
-                            ),*/
                             SizedBox(
                               height: 20.px,
                             ),

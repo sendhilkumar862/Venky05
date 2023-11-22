@@ -90,8 +90,6 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
         'http://167.99.93.83/api/v1/users/request-reset',
         data: body,
       );
-      logs('status Code --> ${response.statusCode}');
-      logs('status Code --> ${response.data}');
       if (response.statusCode == 200) {
         hideLoading();
         resetPassEmailResponseModel =
