@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -5,8 +6,10 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../custom/app_button/app_button.dart';
-import '../../../custom/app_textformfield/app_field.dart';
+import '../../../custom/app_textformfield/text_field.dart';
+import '../../../custom/cardView/warning_card_view.dart';
 import '../../../custom/image/app_image_assets.dart';
+import '../../../custom/loader/easy_loader.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
@@ -30,6 +33,10 @@ class ForgotPassWordView extends StatelessWidget {
               body: Stack(
                 alignment: Alignment.topCenter,
                 children: <Widget>[
+                  const AppImageAsset(
+                    image: ImageConstants.splashBG,
+                    fit: BoxFit.fill,
+                  ),
                   Column(
                     children: [
                       Expanded(
@@ -40,7 +47,9 @@ class ForgotPassWordView extends StatelessWidget {
                             Align(
                               alignment: Alignment.centerLeft,
                               child: GestureDetector(
-                                onTap: () => Navigator.pop(context),
+                                onTap: () {
+                                  AppRouter.pop();
+                                },
                                 child: AppImageAsset(
                                   image: ImageConstants.backIcon,
                                   height: 25.px,
@@ -63,23 +72,31 @@ class ForgotPassWordView extends StatelessWidget {
                               fontWeight: FontWeight.w700,
                             ),
                             SizedBox(height: 10.px),
-                            AppTextFormField(
-                              // titleColor: (walletViewModel.nameError.isEmpty)
-                              //     ? AppColors.appGrey
-                              //     : ('valid' == walletViewModel.nameError)
-                              //     ? AppColors.appRed
-                              //     : AppColors.appBlue,
-                            //  controller: tutorialViewModel.emailController,
-                              title: 'Email Address',
-                              keyboardType: TextInputType.text,
-                              hintText: 'Enter your email address',
-                              validate: (String? value) {
-                                // return walletViewModel.nameValidation(value!);
+                            TextFormsField(
+                              title: 'emailAdd'.tr(),
+                              validate: tutorialViewModel.emailValid,
+                              controller:
+                                  tutorialViewModel.forgotEmailController,
+                              hintText: 'enterEmail'.tr(),
+                              errorText: tutorialViewModel.emailErrorText!,
+                              onChanged: (String value) {
+                                tutorialViewModel.validateEmail(value);
                               },
                             ),
                             SizedBox(
                               height: 20.px,
                             ),
+                            if (tutorialViewModel.errors.isNotEmpty)
+                              WarningCardView(
+                                  color: (tutorialViewModel
+                                              .resetPassEmailResponseModel
+                                              .status!
+                                              .type ==
+                                          'error')
+                                      ? AppColors.appLightRedTwo
+                                      : AppColors.lightPurple,
+                                  error: tutorialViewModel.errors),
+                            SizedBox(height: 20.px),
                           ],
                         ),
                       ),
@@ -89,9 +106,13 @@ class ForgotPassWordView extends StatelessWidget {
                           height: 45.px,
                           borderRadius: BorderRadius.circular(10.px),
                           borderColor: AppColors.appBlue,
+                          isDisable: tutorialViewModel.isButtonDisabled,
                           title: 'Reset Password',
                           onPressed: () {
-                            AppRouter.pushNamed(Routes.restPassword);
+                            if (!tutorialViewModel.isButtonDisabled) {
+                              showLoading();
+                              tutorialViewModel.forgotPassword();
+                            }
                           },
                         ),
                       ),
@@ -109,10 +130,6 @@ class ForgotPassWordView extends StatelessWidget {
                         height: 40.px,
                       )
                     ],
-                  ),
-                  const AppImageAsset(
-                    image: ImageConstants.splashBG,
-                    fit: BoxFit.fill,
                   ),
                 ],
               ),
