@@ -63,21 +63,13 @@ abstract class _EmailOtpViewModelBase extends BaseViewModel with Store {
         'http://167.99.93.83/api/v1/users/email/verify-otp',
         data: body,
       );
-
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
         logs(response.data.toString());
-
         otpModel = OtpModel.fromJson(response.data);
 
-        // Now you can access the parsed data using the otpModel object
-        logs('Parsed ID: ${otpModel.data!.item!.id}');
-        logs('Status Type: ${otpModel.status!.type}');
-        logs('Status Message: ${otpModel.status!.message}');
         isCorrect = otpModel.status!.type == 'success';
-        final Map<String, dynamic> arguments = <String, dynamic>{
-          'userId': "${enteredMail['id']}",
-        };
+        final Map<String, dynamic> arguments = <String, dynamic>{'userId': "${enteredMail['id']}"};
         if (otpModel.status!.type == 'success') {
           if (currentProfile == 'Tutor') {
             AppRouter.pushNamed(Routes.mobileView, args: arguments);
@@ -93,6 +85,7 @@ abstract class _EmailOtpViewModelBase extends BaseViewModel with Store {
       }
     } catch (error) {
       EasyLoading.dismiss();
+      isCorrect = false;
       logs('Error: $error');
     }
   }

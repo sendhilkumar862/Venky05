@@ -9,6 +9,8 @@ abstract class Country with _$Country {
   const factory Country({
     required String? name,
     required String? flag_url,
+    required String? code,
+    required String? idd_code,
   }) = _Country;
 
   factory Country.fromJson(Map<String, dynamic> json) =>

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/cardView/warning_card_view.dart';
 import '../../../../custom/image/app_image_assets.dart';
@@ -67,7 +69,7 @@ class EmailView extends StatelessWidget {
                       if (emailViewModel.registerWarning)
                         WarningCardView(
                             color: AppColors.lightPurple,
-                            error: 'Email already existing'),
+                            error: emailViewModel.registerWarningMessage),
                     ],
                   ),
                 ),
@@ -82,11 +84,14 @@ class EmailView extends StatelessWidget {
                     isDisable: emailViewModel.emailValid != 1,
                   ),
                   SizedBox(height: 15.px),
-                  AppText(
-                    'alreadyLogin'.tr(),
-                    fontSize: 14.px,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.appBlue,
+                  GestureDetector(
+                    onTap: () => AppRouter.pushNamed(Routes.loginView),
+                    child: AppText(
+                      'alreadyLogin'.tr(),
+                      fontSize: 14.px,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.appBlue,
+                    ),
                   ),
                   SizedBox(
                     height: 40.px,

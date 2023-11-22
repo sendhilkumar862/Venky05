@@ -58,17 +58,16 @@ class MobileView extends StatelessWidget {
                       TextFormsField(
                         prefix: CountryPicker(
                           flagDecoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(2)),
+                              borderRadius: BorderRadius.circular(30)),
                           padding: EdgeInsets.zero,
                           onChanged: (CountryCode countryCode) {
-                            mobileViewModel.selectedCountry =
-                                countryCode.toString();
+                            mobileViewModel.selectedCountry = countryCode.toString();
                           },
                           alignLeft: false,
                           dialogSize: const Size.square(550),
                           dialogTextStyle: openSans.w500.get16,
-                          initialSelection: 'AR',
-                          favorite: ['+1', 'AR'],
+                          initialSelection: mobileViewModel.countryCode.first,
+                          favorite: [mobileViewModel.countryCode.last, mobileViewModel.countryCode.first],
                           showDropDownButton: true,
                           textStyle: openSans.black.get12,
                         ),

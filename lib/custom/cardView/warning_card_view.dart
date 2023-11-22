@@ -19,7 +19,7 @@ class WarningCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 15.px),
+      padding: EdgeInsets.symmetric(vertical: 15.px,horizontal: 5.px),
       decoration: BoxDecoration(
         color: color ?? AppColors.lightPurple,
         borderRadius: BorderRadius.circular(10),
@@ -36,10 +36,12 @@ class WarningCardView extends StatelessWidget {
         SizedBox(
           width: 10.px,
         ),
-        AppText(
-          error ?? '',
-          fontSize: 12.px,
-          fontWeight: FontWeight.w400,
+        Expanded(
+          child: AppText(
+            error ?? '',
+            fontSize: 12.px,
+            fontWeight: FontWeight.w400,
+          ),
         )
       ]),
     );

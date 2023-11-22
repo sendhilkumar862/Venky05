@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'login_model.dart';
+part of 'password_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,37 +14,37 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-LoginModel _$LoginModelFromJson(Map<String, dynamic> json) {
-  return _LoginModel.fromJson(json);
+PasswordModel _$PasswordModelFromJson(Map<String, dynamic> json) {
+  return _PasswordModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$LoginModel {
-  Data? get data => throw _privateConstructorUsedError;
-  Status? get status => throw _privateConstructorUsedError;
+mixin _$PasswordModel {
+  Data get data => throw _privateConstructorUsedError;
+  Status get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $LoginModelCopyWith<LoginModel> get copyWith =>
+  $PasswordModelCopyWith<PasswordModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $LoginModelCopyWith<$Res> {
-  factory $LoginModelCopyWith(
-          LoginModel value, $Res Function(LoginModel) then) =
-      _$LoginModelCopyWithImpl<$Res, LoginModel>;
+abstract class $PasswordModelCopyWith<$Res> {
+  factory $PasswordModelCopyWith(
+          PasswordModel value, $Res Function(PasswordModel) then) =
+      _$PasswordModelCopyWithImpl<$Res, PasswordModel>;
   @useResult
-  $Res call({Data? data, Status? status});
+  $Res call({Data data, Status status});
 
-  $DataCopyWith<$Res>? get data;
-  $StatusCopyWith<$Res>? get status;
+  $DataCopyWith<$Res> get data;
+  $StatusCopyWith<$Res> get status;
 }
 
 /// @nodoc
-class _$LoginModelCopyWithImpl<$Res, $Val extends LoginModel>
-    implements $LoginModelCopyWith<$Res> {
-  _$LoginModelCopyWithImpl(this._value, this._then);
+class _$PasswordModelCopyWithImpl<$Res, $Val extends PasswordModel>
+    implements $PasswordModelCopyWith<$Res> {
+  _$PasswordModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -54,112 +54,104 @@ class _$LoginModelCopyWithImpl<$Res, $Val extends LoginModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
-    Object? status = freezed,
+    Object? data = null,
+    Object? status = null,
   }) {
     return _then(_value.copyWith(
-      data: freezed == data
+      data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Data?,
-      status: freezed == status
+              as Data,
+      status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as Status?,
+              as Status,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $DataCopyWith<$Res>? get data {
-    if (_value.data == null) {
-      return null;
-    }
-
-    return $DataCopyWith<$Res>(_value.data!, (value) {
+  $DataCopyWith<$Res> get data {
+    return $DataCopyWith<$Res>(_value.data, (value) {
       return _then(_value.copyWith(data: value) as $Val);
     });
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $StatusCopyWith<$Res>? get status {
-    if (_value.status == null) {
-      return null;
-    }
-
-    return $StatusCopyWith<$Res>(_value.status!, (value) {
+  $StatusCopyWith<$Res> get status {
+    return $StatusCopyWith<$Res>(_value.status, (value) {
       return _then(_value.copyWith(status: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$LoginModelImplCopyWith<$Res>
-    implements $LoginModelCopyWith<$Res> {
-  factory _$$LoginModelImplCopyWith(
-          _$LoginModelImpl value, $Res Function(_$LoginModelImpl) then) =
-      __$$LoginModelImplCopyWithImpl<$Res>;
+abstract class _$$PasswordModelImplCopyWith<$Res>
+    implements $PasswordModelCopyWith<$Res> {
+  factory _$$PasswordModelImplCopyWith(
+          _$PasswordModelImpl value, $Res Function(_$PasswordModelImpl) then) =
+      __$$PasswordModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Data? data, Status? status});
+  $Res call({Data data, Status status});
 
   @override
-  $DataCopyWith<$Res>? get data;
+  $DataCopyWith<$Res> get data;
   @override
-  $StatusCopyWith<$Res>? get status;
+  $StatusCopyWith<$Res> get status;
 }
 
 /// @nodoc
-class __$$LoginModelImplCopyWithImpl<$Res>
-    extends _$LoginModelCopyWithImpl<$Res, _$LoginModelImpl>
-    implements _$$LoginModelImplCopyWith<$Res> {
-  __$$LoginModelImplCopyWithImpl(
-      _$LoginModelImpl _value, $Res Function(_$LoginModelImpl) _then)
+class __$$PasswordModelImplCopyWithImpl<$Res>
+    extends _$PasswordModelCopyWithImpl<$Res, _$PasswordModelImpl>
+    implements _$$PasswordModelImplCopyWith<$Res> {
+  __$$PasswordModelImplCopyWithImpl(
+      _$PasswordModelImpl _value, $Res Function(_$PasswordModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
-    Object? status = freezed,
+    Object? data = null,
+    Object? status = null,
   }) {
-    return _then(_$LoginModelImpl(
-      data: freezed == data
+    return _then(_$PasswordModelImpl(
+      data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Data?,
-      status: freezed == status
+              as Data,
+      status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as Status?,
+              as Status,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$LoginModelImpl implements _LoginModel {
-  const _$LoginModelImpl({this.data, this.status});
+class _$PasswordModelImpl implements _PasswordModel {
+  const _$PasswordModelImpl({required this.data, required this.status});
 
-  factory _$LoginModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$LoginModelImplFromJson(json);
+  factory _$PasswordModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PasswordModelImplFromJson(json);
 
   @override
-  final Data? data;
+  final Data data;
   @override
-  final Status? status;
+  final Status status;
 
   @override
   String toString() {
-    return 'LoginModel(data: $data, status: $status)';
+    return 'PasswordModel(data: $data, status: $status)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LoginModelImpl &&
+            other is _$PasswordModelImpl &&
             (identical(other.data, data) || other.data == data) &&
             (identical(other.status, status) || other.status == status));
   }
@@ -171,31 +163,32 @@ class _$LoginModelImpl implements _LoginModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$LoginModelImplCopyWith<_$LoginModelImpl> get copyWith =>
-      __$$LoginModelImplCopyWithImpl<_$LoginModelImpl>(this, _$identity);
+  _$$PasswordModelImplCopyWith<_$PasswordModelImpl> get copyWith =>
+      __$$PasswordModelImplCopyWithImpl<_$PasswordModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LoginModelImplToJson(
+    return _$$PasswordModelImplToJson(
       this,
     );
   }
 }
 
-abstract class _LoginModel implements LoginModel {
-  const factory _LoginModel({final Data? data, final Status? status}) =
-      _$LoginModelImpl;
+abstract class _PasswordModel implements PasswordModel {
+  const factory _PasswordModel(
+      {required final Data data,
+      required final Status status}) = _$PasswordModelImpl;
 
-  factory _LoginModel.fromJson(Map<String, dynamic> json) =
-      _$LoginModelImpl.fromJson;
+  factory _PasswordModel.fromJson(Map<String, dynamic> json) =
+      _$PasswordModelImpl.fromJson;
 
   @override
-  Data? get data;
+  Data get data;
   @override
-  Status? get status;
+  Status get status;
   @override
   @JsonKey(ignore: true)
-  _$$LoginModelImplCopyWith<_$LoginModelImpl> get copyWith =>
+  _$$PasswordModelImplCopyWith<_$PasswordModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -205,7 +198,7 @@ Data _$DataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Data {
-  Item? get item => throw _privateConstructorUsedError;
+  Item get item => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -217,9 +210,9 @@ abstract class $DataCopyWith<$Res> {
   factory $DataCopyWith(Data value, $Res Function(Data) then) =
       _$DataCopyWithImpl<$Res, Data>;
   @useResult
-  $Res call({Item? item});
+  $Res call({Item item});
 
-  $ItemCopyWith<$Res>? get item;
+  $ItemCopyWith<$Res> get item;
 }
 
 /// @nodoc
@@ -235,24 +228,20 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? item = freezed,
+    Object? item = null,
   }) {
     return _then(_value.copyWith(
-      item: freezed == item
+      item: null == item
           ? _value.item
           : item // ignore: cast_nullable_to_non_nullable
-              as Item?,
+              as Item,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $ItemCopyWith<$Res>? get item {
-    if (_value.item == null) {
-      return null;
-    }
-
-    return $ItemCopyWith<$Res>(_value.item!, (value) {
+  $ItemCopyWith<$Res> get item {
+    return $ItemCopyWith<$Res>(_value.item, (value) {
       return _then(_value.copyWith(item: value) as $Val);
     });
   }
@@ -265,10 +254,10 @@ abstract class _$$DataImplCopyWith<$Res> implements $DataCopyWith<$Res> {
       __$$DataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Item? item});
+  $Res call({Item item});
 
   @override
-  $ItemCopyWith<$Res>? get item;
+  $ItemCopyWith<$Res> get item;
 }
 
 /// @nodoc
@@ -281,13 +270,13 @@ class __$$DataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? item = freezed,
+    Object? item = null,
   }) {
     return _then(_$DataImpl(
-      item: freezed == item
+      item: null == item
           ? _value.item
           : item // ignore: cast_nullable_to_non_nullable
-              as Item?,
+              as Item,
     ));
   }
 }
@@ -295,13 +284,13 @@ class __$$DataImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$DataImpl implements _Data {
-  const _$DataImpl({this.item});
+  const _$DataImpl({required this.item});
 
   factory _$DataImpl.fromJson(Map<String, dynamic> json) =>
       _$$DataImplFromJson(json);
 
   @override
-  final Item? item;
+  final Item item;
 
   @override
   String toString() {
@@ -335,12 +324,12 @@ class _$DataImpl implements _Data {
 }
 
 abstract class _Data implements Data {
-  const factory _Data({final Item? item}) = _$DataImpl;
+  const factory _Data({required final Item item}) = _$DataImpl;
 
   factory _Data.fromJson(Map<String, dynamic> json) = _$DataImpl.fromJson;
 
   @override
-  Item? get item;
+  Item get item;
   @override
   @JsonKey(ignore: true)
   _$$DataImplCopyWith<_$DataImpl> get copyWith =>
@@ -353,8 +342,8 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Item {
-  Token? get token => throw _privateConstructorUsedError;
-  String? get status => throw _privateConstructorUsedError;
+  Token get token => throw _privateConstructorUsedError;
+  String get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -366,9 +355,9 @@ abstract class $ItemCopyWith<$Res> {
   factory $ItemCopyWith(Item value, $Res Function(Item) then) =
       _$ItemCopyWithImpl<$Res, Item>;
   @useResult
-  $Res call({Token? token, String? status});
+  $Res call({Token token, String status});
 
-  $TokenCopyWith<$Res>? get token;
+  $TokenCopyWith<$Res> get token;
 }
 
 /// @nodoc
@@ -384,29 +373,25 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? token = freezed,
-    Object? status = freezed,
+    Object? token = null,
+    Object? status = null,
   }) {
     return _then(_value.copyWith(
-      token: freezed == token
+      token: null == token
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
-              as Token?,
-      status: freezed == status
+              as Token,
+      status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $TokenCopyWith<$Res>? get token {
-    if (_value.token == null) {
-      return null;
-    }
-
-    return $TokenCopyWith<$Res>(_value.token!, (value) {
+  $TokenCopyWith<$Res> get token {
+    return $TokenCopyWith<$Res>(_value.token, (value) {
       return _then(_value.copyWith(token: value) as $Val);
     });
   }
@@ -419,10 +404,10 @@ abstract class _$$ItemImplCopyWith<$Res> implements $ItemCopyWith<$Res> {
       __$$ItemImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Token? token, String? status});
+  $Res call({Token token, String status});
 
   @override
-  $TokenCopyWith<$Res>? get token;
+  $TokenCopyWith<$Res> get token;
 }
 
 /// @nodoc
@@ -435,18 +420,18 @@ class __$$ItemImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? token = freezed,
-    Object? status = freezed,
+    Object? token = null,
+    Object? status = null,
   }) {
     return _then(_$ItemImpl(
-      token: freezed == token
+      token: null == token
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
-              as Token?,
-      status: freezed == status
+              as Token,
+      status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -454,15 +439,15 @@ class __$$ItemImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ItemImpl implements _Item {
-  const _$ItemImpl({this.token, this.status});
+  const _$ItemImpl({required this.token, required this.status});
 
   factory _$ItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$ItemImplFromJson(json);
 
   @override
-  final Token? token;
+  final Token token;
   @override
-  final String? status;
+  final String status;
 
   @override
   String toString() {
@@ -497,14 +482,15 @@ class _$ItemImpl implements _Item {
 }
 
 abstract class _Item implements Item {
-  const factory _Item({final Token? token, final String? status}) = _$ItemImpl;
+  const factory _Item(
+      {required final Token token, required final String status}) = _$ItemImpl;
 
   factory _Item.fromJson(Map<String, dynamic> json) = _$ItemImpl.fromJson;
 
   @override
-  Token? get token;
+  Token get token;
   @override
-  String? get status;
+  String get status;
   @override
   @JsonKey(ignore: true)
   _$$ItemImplCopyWith<_$ItemImpl> get copyWith =>
@@ -517,10 +503,10 @@ Token _$TokenFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Token {
-  String? get accessToken => throw _privateConstructorUsedError;
-  int? get accessTokenExpiryTime => throw _privateConstructorUsedError;
-  String? get refreshToken => throw _privateConstructorUsedError;
-  int? get refreshTokenExpiryTime => throw _privateConstructorUsedError;
+  String get accessToken => throw _privateConstructorUsedError;
+  int get accessTokenExpiryTime => throw _privateConstructorUsedError;
+  String get refreshToken => throw _privateConstructorUsedError;
+  int get refreshTokenExpiryTime => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -533,10 +519,10 @@ abstract class $TokenCopyWith<$Res> {
       _$TokenCopyWithImpl<$Res, Token>;
   @useResult
   $Res call(
-      {String? accessToken,
-      int? accessTokenExpiryTime,
-      String? refreshToken,
-      int? refreshTokenExpiryTime});
+      {String accessToken,
+      int accessTokenExpiryTime,
+      String refreshToken,
+      int refreshTokenExpiryTime});
 }
 
 /// @nodoc
@@ -552,28 +538,28 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? accessToken = freezed,
-    Object? accessTokenExpiryTime = freezed,
-    Object? refreshToken = freezed,
-    Object? refreshTokenExpiryTime = freezed,
+    Object? accessToken = null,
+    Object? accessTokenExpiryTime = null,
+    Object? refreshToken = null,
+    Object? refreshTokenExpiryTime = null,
   }) {
     return _then(_value.copyWith(
-      accessToken: freezed == accessToken
+      accessToken: null == accessToken
           ? _value.accessToken
           : accessToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      accessTokenExpiryTime: freezed == accessTokenExpiryTime
+              as String,
+      accessTokenExpiryTime: null == accessTokenExpiryTime
           ? _value.accessTokenExpiryTime
           : accessTokenExpiryTime // ignore: cast_nullable_to_non_nullable
-              as int?,
-      refreshToken: freezed == refreshToken
+              as int,
+      refreshToken: null == refreshToken
           ? _value.refreshToken
           : refreshToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      refreshTokenExpiryTime: freezed == refreshTokenExpiryTime
+              as String,
+      refreshTokenExpiryTime: null == refreshTokenExpiryTime
           ? _value.refreshTokenExpiryTime
           : refreshTokenExpiryTime // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
     ) as $Val);
   }
 }
@@ -586,10 +572,10 @@ abstract class _$$TokenImplCopyWith<$Res> implements $TokenCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String? accessToken,
-      int? accessTokenExpiryTime,
-      String? refreshToken,
-      int? refreshTokenExpiryTime});
+      {String accessToken,
+      int accessTokenExpiryTime,
+      String refreshToken,
+      int refreshTokenExpiryTime});
 }
 
 /// @nodoc
@@ -603,28 +589,28 @@ class __$$TokenImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? accessToken = freezed,
-    Object? accessTokenExpiryTime = freezed,
-    Object? refreshToken = freezed,
-    Object? refreshTokenExpiryTime = freezed,
+    Object? accessToken = null,
+    Object? accessTokenExpiryTime = null,
+    Object? refreshToken = null,
+    Object? refreshTokenExpiryTime = null,
   }) {
     return _then(_$TokenImpl(
-      accessToken: freezed == accessToken
+      accessToken: null == accessToken
           ? _value.accessToken
           : accessToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      accessTokenExpiryTime: freezed == accessTokenExpiryTime
+              as String,
+      accessTokenExpiryTime: null == accessTokenExpiryTime
           ? _value.accessTokenExpiryTime
           : accessTokenExpiryTime // ignore: cast_nullable_to_non_nullable
-              as int?,
-      refreshToken: freezed == refreshToken
+              as int,
+      refreshToken: null == refreshToken
           ? _value.refreshToken
           : refreshToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      refreshTokenExpiryTime: freezed == refreshTokenExpiryTime
+              as String,
+      refreshTokenExpiryTime: null == refreshTokenExpiryTime
           ? _value.refreshTokenExpiryTime
           : refreshTokenExpiryTime // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
     ));
   }
 }
@@ -633,22 +619,22 @@ class __$$TokenImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TokenImpl implements _Token {
   const _$TokenImpl(
-      {this.accessToken,
-      this.accessTokenExpiryTime,
-      this.refreshToken,
-      this.refreshTokenExpiryTime});
+      {required this.accessToken,
+      required this.accessTokenExpiryTime,
+      required this.refreshToken,
+      required this.refreshTokenExpiryTime});
 
   factory _$TokenImpl.fromJson(Map<String, dynamic> json) =>
       _$$TokenImplFromJson(json);
 
   @override
-  final String? accessToken;
+  final String accessToken;
   @override
-  final int? accessTokenExpiryTime;
+  final int accessTokenExpiryTime;
   @override
-  final String? refreshToken;
+  final String refreshToken;
   @override
-  final int? refreshTokenExpiryTime;
+  final int refreshTokenExpiryTime;
 
   @override
   String toString() {
@@ -691,21 +677,21 @@ class _$TokenImpl implements _Token {
 
 abstract class _Token implements Token {
   const factory _Token(
-      {final String? accessToken,
-      final int? accessTokenExpiryTime,
-      final String? refreshToken,
-      final int? refreshTokenExpiryTime}) = _$TokenImpl;
+      {required final String accessToken,
+      required final int accessTokenExpiryTime,
+      required final String refreshToken,
+      required final int refreshTokenExpiryTime}) = _$TokenImpl;
 
   factory _Token.fromJson(Map<String, dynamic> json) = _$TokenImpl.fromJson;
 
   @override
-  String? get accessToken;
+  String get accessToken;
   @override
-  int? get accessTokenExpiryTime;
+  int get accessTokenExpiryTime;
   @override
-  String? get refreshToken;
+  String get refreshToken;
   @override
-  int? get refreshTokenExpiryTime;
+  int get refreshTokenExpiryTime;
   @override
   @JsonKey(ignore: true)
   _$$TokenImplCopyWith<_$TokenImpl> get copyWith =>
@@ -718,8 +704,8 @@ Status _$StatusFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Status {
-  String? get type => throw _privateConstructorUsedError;
-  String? get message => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
+  String get message => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -731,7 +717,7 @@ abstract class $StatusCopyWith<$Res> {
   factory $StatusCopyWith(Status value, $Res Function(Status) then) =
       _$StatusCopyWithImpl<$Res, Status>;
   @useResult
-  $Res call({String? type, String? message});
+  $Res call({String type, String message});
 }
 
 /// @nodoc
@@ -747,18 +733,18 @@ class _$StatusCopyWithImpl<$Res, $Val extends Status>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
-    Object? message = freezed,
+    Object? type = null,
+    Object? message = null,
   }) {
     return _then(_value.copyWith(
-      type: freezed == type
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String?,
-      message: freezed == message
+              as String,
+      message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 }
@@ -770,7 +756,7 @@ abstract class _$$StatusImplCopyWith<$Res> implements $StatusCopyWith<$Res> {
       __$$StatusImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? type, String? message});
+  $Res call({String type, String message});
 }
 
 /// @nodoc
@@ -784,18 +770,18 @@ class __$$StatusImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
-    Object? message = freezed,
+    Object? type = null,
+    Object? message = null,
   }) {
     return _then(_$StatusImpl(
-      type: freezed == type
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String?,
-      message: freezed == message
+              as String,
+      message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -803,15 +789,15 @@ class __$$StatusImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$StatusImpl implements _Status {
-  const _$StatusImpl({this.type, this.message});
+  const _$StatusImpl({required this.type, required this.message});
 
   factory _$StatusImpl.fromJson(Map<String, dynamic> json) =>
       _$$StatusImplFromJson(json);
 
   @override
-  final String? type;
+  final String type;
   @override
-  final String? message;
+  final String message;
 
   @override
   String toString() {
@@ -846,15 +832,16 @@ class _$StatusImpl implements _Status {
 }
 
 abstract class _Status implements Status {
-  const factory _Status({final String? type, final String? message}) =
-      _$StatusImpl;
+  const factory _Status(
+      {required final String type,
+      required final String message}) = _$StatusImpl;
 
   factory _Status.fromJson(Map<String, dynamic> json) = _$StatusImpl.fromJson;
 
   @override
-  String? get type;
+  String get type;
   @override
-  String? get message;
+  String get message;
   @override
   @JsonKey(ignore: true)
   _$$StatusImplCopyWith<_$StatusImpl> get copyWith =>

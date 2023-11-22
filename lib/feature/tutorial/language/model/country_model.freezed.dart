@@ -22,6 +22,8 @@ Country _$CountryFromJson(Map<String, dynamic> json) {
 mixin _$Country {
   String? get name => throw _privateConstructorUsedError;
   String? get flag_url => throw _privateConstructorUsedError;
+  String? get code => throw _privateConstructorUsedError;
+  String? get idd_code => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,7 +35,7 @@ abstract class $CountryCopyWith<$Res> {
   factory $CountryCopyWith(Country value, $Res Function(Country) then) =
       _$CountryCopyWithImpl<$Res, Country>;
   @useResult
-  $Res call({String? name, String? flag_url});
+  $Res call({String? name, String? flag_url, String? code, String? idd_code});
 }
 
 /// @nodoc
@@ -51,6 +53,8 @@ class _$CountryCopyWithImpl<$Res, $Val extends Country>
   $Res call({
     Object? name = freezed,
     Object? flag_url = freezed,
+    Object? code = freezed,
+    Object? idd_code = freezed,
   }) {
     return _then(_value.copyWith(
       name: freezed == name
@@ -60,6 +64,14 @@ class _$CountryCopyWithImpl<$Res, $Val extends Country>
       flag_url: freezed == flag_url
           ? _value.flag_url
           : flag_url // ignore: cast_nullable_to_non_nullable
+              as String?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
+      idd_code: freezed == idd_code
+          ? _value.idd_code
+          : idd_code // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -72,7 +84,7 @@ abstract class _$$CountryImplCopyWith<$Res> implements $CountryCopyWith<$Res> {
       __$$CountryImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? name, String? flag_url});
+  $Res call({String? name, String? flag_url, String? code, String? idd_code});
 }
 
 /// @nodoc
@@ -88,6 +100,8 @@ class __$$CountryImplCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? flag_url = freezed,
+    Object? code = freezed,
+    Object? idd_code = freezed,
   }) {
     return _then(_$CountryImpl(
       name: freezed == name
@@ -98,6 +112,14 @@ class __$$CountryImplCopyWithImpl<$Res>
           ? _value.flag_url
           : flag_url // ignore: cast_nullable_to_non_nullable
               as String?,
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
+      idd_code: freezed == idd_code
+          ? _value.idd_code
+          : idd_code // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -105,7 +127,11 @@ class __$$CountryImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$CountryImpl implements _Country {
-  const _$CountryImpl({required this.name, required this.flag_url});
+  const _$CountryImpl(
+      {required this.name,
+      required this.flag_url,
+      required this.code,
+      required this.idd_code});
 
   factory _$CountryImpl.fromJson(Map<String, dynamic> json) =>
       _$$CountryImplFromJson(json);
@@ -114,10 +140,14 @@ class _$CountryImpl implements _Country {
   final String? name;
   @override
   final String? flag_url;
+  @override
+  final String? code;
+  @override
+  final String? idd_code;
 
   @override
   String toString() {
-    return 'Country(name: $name, flag_url: $flag_url)';
+    return 'Country(name: $name, flag_url: $flag_url, code: $code, idd_code: $idd_code)';
   }
 
   @override
@@ -127,12 +157,15 @@ class _$CountryImpl implements _Country {
             other is _$CountryImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.flag_url, flag_url) ||
-                other.flag_url == flag_url));
+                other.flag_url == flag_url) &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.idd_code, idd_code) ||
+                other.idd_code == idd_code));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, flag_url);
+  int get hashCode => Object.hash(runtimeType, name, flag_url, code, idd_code);
 
   @JsonKey(ignore: true)
   @override
@@ -151,7 +184,9 @@ class _$CountryImpl implements _Country {
 abstract class _Country implements Country {
   const factory _Country(
       {required final String? name,
-      required final String? flag_url}) = _$CountryImpl;
+      required final String? flag_url,
+      required final String? code,
+      required final String? idd_code}) = _$CountryImpl;
 
   factory _Country.fromJson(Map<String, dynamic> json) = _$CountryImpl.fromJson;
 
@@ -159,6 +194,10 @@ abstract class _Country implements Country {
   String? get name;
   @override
   String? get flag_url;
+  @override
+  String? get code;
+  @override
+  String? get idd_code;
   @override
   @JsonKey(ignore: true)
   _$$CountryImplCopyWith<_$CountryImpl> get copyWith =>

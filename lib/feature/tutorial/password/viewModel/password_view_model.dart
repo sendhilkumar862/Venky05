@@ -8,7 +8,10 @@ import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
+import '../../../../product/network/local/key_value_storage_base.dart';
+import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
+import '../model/password_model.dart';
 import '../model/term_and_condition_model.dart';
 
 part 'password_view_model.g.dart';
@@ -21,11 +24,12 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
 
   @override
   void init() {
+    KeyValueStorageBase.init();
     fetchData();
   }
 
   @observable
-  Map data = <String, dynamic>{};
+  Map arguments = <String, dynamic>{};
 
   @observable
   bool isActive = false;
@@ -61,7 +65,6 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
   TextEditingController retypePasswordController = TextEditingController();
 
   @action
-  @action
   Future<void> fetchData() async {
     Dio dio = Dio();
     try {
@@ -75,6 +78,42 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
         logs('Failed to load data: ${response.statusCode}');
       }
     } catch (error) {
+      logs('Error: $error');
+    }
+  }
+
+  @action
+  Future<void> registerUser() async {
+    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+    final Dio dio = Dio();
+    try {
+      final Map<String, dynamic> body = {
+        'userId': arguments['userId'],
+        'password': passwordController.text,
+        'isTermsAccepted': isActive,
+        'firstName': arguments['firstName'],
+        'lastName': arguments['lastName'],
+      };
+
+      logs('password set body--> $body');
+      final Response response = await dio
+          .post('http://167.99.93.83/api/v1/users/register', data: body);
+
+      logs(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        final PasswordModel passwordModel =
+            PasswordModel.fromJson(response.data);
+        logs('token--> ${passwordModel.data.item.token}');
+        final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
+        keyValueStorageService.setAuthToken(passwordModel.data.item.token.toString());
+        EasyLoading.dismiss();
+        AppRouter.pushNamed(Routes.HomeScreenRoute);
+      } else {
+        EasyLoading.dismiss();
+        logs('Failed to load data: ${response.statusCode}');
+      }
+    } catch (error) {
+      EasyLoading.dismiss();
       logs('Error: $error');
     }
   }
@@ -119,25 +158,10 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
 
   @action
   Future<void> onTapSubmitPassword() async {
-    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    final Dio dio = Dio();
-    try {
-      data['password'] = passwordController.text;
-      data['isTermsAccepted'] = true;
-      final Response response = await dio.post('http://167.99.93.83/api/v1/users/register', data: data);
-
-      logs(response.statusCode.toString());
-      if (response.statusCode == 200) {
-        EasyLoading.dismiss();
-        AppRouter.pushNamed(Routes.homeViews);
-      } else {
-        EasyLoading.dismiss();
-        logs('Failed to load data: ${response.statusCode}');
+    if(isButtonActive)
+      {
+        registerUser();
       }
-    } catch (error) {
-      EasyLoading.dismiss();
-      logs('Error: $error');
-    }
   }
 
   @action

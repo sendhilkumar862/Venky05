@@ -22,9 +22,15 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
 
   @override
   void init() {
+    KeyValueStorageBase.init();
     KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
     var currentProfile =
         keyValueStorageBase.getCommon(KeyValueStorageService.profile);
+    countryCode = keyValueStorageBase
+        .getCommon(KeyValueStorageService.countryCodeAndIDD)
+        .toString()
+        .split(',');
+    logs('countryCode--> $countryCode');
   }
 
   @observable
@@ -43,6 +49,9 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   int mobileValid = 2;
 
   @observable
+  List<String> countryCode = <String>[];
+
+  @observable
   Map<String, dynamic> arguments = {
     'id': '',
     'otp_id': '',
@@ -53,9 +62,10 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     // viewModelContext.loaderOverlay.show();
     Dio dio = Dio();
     final String mobile = '$selectedCountry${mobileController.text}';
+    logs('mobile--> $mobile');
     try {
       Map body = <String, dynamic>{'userId': data['userId'], 'mobile': mobile};
-      logs('body--> $body');
+      logs('send mobile body--> $body');
       final response = await dio.post(
         'http://167.99.93.83/api/v1/users/mobile/send-otp',
         data: body,
@@ -100,8 +110,8 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   @action
   void onTapMobileSubmit() {
     if (mobileValid == 1) {
-      AppRouter.pushNamed(Routes.mobileOtpView, args: arguments);
-      //sendOTP();
+     // AppRouter.pushNamed(Routes.mobileOtpView, args: arguments);
+      sendOTP();
     }
   }
 }

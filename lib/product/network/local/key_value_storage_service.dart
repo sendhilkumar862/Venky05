@@ -18,7 +18,9 @@ class KeyValueStorageService {
 
   static String profile = 'profile';
   static String country = 'country';
+  static String countryCodeAndIDD = 'countryCode';
   static String language = 'language';
+  static String token = 'token';
 
   /// The name of user model key
   static const _authUserKey = 'authUserKey';

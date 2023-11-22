@@ -8,6 +8,7 @@ import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
+import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 import '../model/login_model.dart';
 
@@ -37,7 +38,7 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
   String loginStatus = '';
 
   @observable
-  LoginModel loginModel = LoginModel();
+  LoginModel loginModel = const LoginModel();
 
   @observable
   int emailValid = 2;
@@ -59,7 +60,6 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
     } else {
       emailValid = 1;
       emailErrorText = '';
-      FocusManager.instance.primaryFocus?.unfocus();
       logs('error--> $emailValid');
     }
 
@@ -83,7 +83,6 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
   @action
   void onPasswordChanged(String value) {
     loginStatus = '';
-
     if (emailValid != 1) {
       isButtonDisabled = true;
     } else if (value.isEmpty) {
@@ -95,6 +94,8 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
 
   @action
   Future<void> login() async {
+    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+
     final Dio dio = Dio();
     try {
       final Map<String, dynamic> body = <String, dynamic>{
@@ -114,6 +115,8 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
           Routes.HomeScreenRoute,
         );
         logs('ress--> ${loginModel.status?.type}');
+        final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
+        keyValueStorageService.setAuthToken(loginModel.data!.item!.token.toString());
         loginStatus = loginModel.status!.type!;
         if (emailValid != 1) {
           isButtonDisabled = true;
@@ -123,6 +126,8 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
         } else {
           isButtonDisabled = false;
         }
+        EasyLoading.dismiss();
+
       } else {
         EasyLoading.dismiss();
         logs('error not response');
@@ -132,7 +137,9 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
       loginError = loginModel.status!.message!;
       loginStatus = loginModel.status!.type!;
       logs('data --> ${loginModel.status!.message}');
-      logs('data status --> ${loginStatus}');
+      logs('data status --> $loginStatus');
+      EasyLoading.dismiss();
+
     }
   }
 }

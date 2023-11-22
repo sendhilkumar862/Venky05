@@ -6,8 +6,8 @@ part 'email_enter_model.g.dart';
 @freezed
 abstract class EmailEnterModel with _$EmailEnterModel {
   const factory EmailEnterModel({
-    required Data data,
-    required Status status,
+     Data? data,
+     Status? status,
   }) = _EmailEnterModel;
 
   factory EmailEnterModel.fromJson(Map<String, dynamic> json) =>
@@ -17,7 +17,7 @@ abstract class EmailEnterModel with _$EmailEnterModel {
 @freezed
 abstract class Data with _$Data {
   const factory Data({
-    required Item item,
+     Item? item,
   }) = _Data;
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
@@ -26,8 +26,8 @@ abstract class Data with _$Data {
 @freezed
 abstract class Item with _$Item {
   const factory Item({
-    required int userId,
-    required String status,
+     dynamic? userId,
+     String? status,
   }) = _Item;
 
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
@@ -36,8 +36,8 @@ abstract class Item with _$Item {
 @freezed
 abstract class Status with _$Status {
   const factory Status({
-    required String type,
-    required String message,
+     String? type,
+     String? message,
   }) = _Status;
 
   factory Status.fromJson(Map<String, dynamic> json) => _$StatusFromJson(json);

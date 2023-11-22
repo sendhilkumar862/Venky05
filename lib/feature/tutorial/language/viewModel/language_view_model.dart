@@ -21,9 +21,11 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
 
   @override
   void init() {
-    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     fetchData();
     KeyValueStorageBase.init();
+    // KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+    // keyValueStorageBase.setCommon(
+    //    KeyValueStorageService.countryCodeAndIDD, 'KW,+965');
   }
 
   @observable
@@ -36,33 +38,35 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   List<Country> filteredCountries = [];
 
   Future<void> fetchData() async {
+    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+    logs('entered Fetch country data');
     Dio dio = Dio();
     try {
       Response response =
-          await dio.get('http://167.99.93.83/api/v1/public/countries');
+          await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
+      logs('Status code--> ${response.statusCode}');
 
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
-
         final List<dynamic> countriesJson = response.data['data']['items'];
         countries =
             countriesJson.map((json) => Country.fromJson(json)).toList();
-      } else {
-        logs('Failed to load data: ${response.statusCode}');
       }
     } catch (error) {
+      EasyLoading.dismiss();
+
       logs('Error: $error');
     }
   }
 
   @observable
-  int countryIndex = 0;
+  int countryIndex = 118;
 
   @observable
   String selectedItem = '';
 
   @observable
-  int languageIndex = 0;
+  int languageIndex = 1;
 
   @observable
   TextEditingController countryController = TextEditingController();
@@ -76,14 +80,14 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
 
   @observable
   List<String> languages = <String>[
-    'English',
     'عربي',
+    'English',
   ];
 
   @observable
   List<String> languageIcon = <String>[
+    ImageConstants.countryIcon,
     ImageConstants.usIcon,
-    ImageConstants.saudiArabia,
   ];
 
   @action
@@ -91,6 +95,8 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
     countryIndex = index;
     keyValueStorageBase.setCommon(
         KeyValueStorageService.country, countries[index].name);
+    keyValueStorageBase.setCommon(KeyValueStorageService.countryCodeAndIDD,
+        '${countries[index].code},${countries[index].idd_code}');
     logs('selected Country-->$countryIndex');
   }
 

@@ -40,7 +40,6 @@ class OnboardingView extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 15.px),
                 child: Column(
                   children: <Widget>[
-
                     Container(
                       alignment: Alignment.center,
                       height: 400.px,
