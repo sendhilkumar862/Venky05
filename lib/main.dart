@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'config/routes/app_router.dart';
 import 'feature/splash/view/splash_first.dart';
+import 'feature/student_profile/view/student_profile.dart';
 import 'product/constants/app/app_constants.dart';
 import 'product/cache/locale_manager.dart';
 import 'product/lang/language_manager.dart';
@@ -52,7 +53,7 @@ class MyApp extends StatelessWidget {
           supportedLocales: LanguageManager.instance.supportedLocales,
           navigatorKey: AppRouter.navigatorKey,
           theme: context.watch<ThemeNotifier>().currentTheme,
-          home: const SplashFirst(),
+          home: const StudentProfileView(),
           builder: EasyLoading.init(),
         );
       },

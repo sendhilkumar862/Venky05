@@ -95,7 +95,6 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
   @action
   Future<void> login() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-
     final Dio dio = Dio();
     try {
       final Map<String, dynamic> body = <String, dynamic>{
@@ -122,12 +121,10 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
           isButtonDisabled = true;
         } else if (passwordController.text.isEmpty) {
           isButtonDisabled = true;
-
         } else {
           isButtonDisabled = false;
         }
         EasyLoading.dismiss();
-
       } else {
         EasyLoading.dismiss();
         logs('error not response');
@@ -139,7 +136,6 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
       logs('data --> ${loginModel.status!.message}');
       logs('data status --> $loginStatus');
       EasyLoading.dismiss();
-
     }
   }
 }

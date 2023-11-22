@@ -33,7 +33,7 @@ class LanguageView extends StatelessWidget {
               warnWhenNoObservables: false,
               builder: (BuildContext context) {
                 if (languageViewModel == null) {
-                  return Container(); // Return loading or any Other error widget you want
+                  return Container();
                 }
                 return Scaffold(
                   body: ListView(
