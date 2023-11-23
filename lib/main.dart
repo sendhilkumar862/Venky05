@@ -53,7 +53,8 @@ class MyApp extends StatelessWidget {
           supportedLocales: LanguageManager.instance.supportedLocales,
           navigatorKey: AppRouter.navigatorKey,
           theme: context.watch<ThemeNotifier>().currentTheme,
-          home: const SplashFirst(),
+          // home: const SplashFirst(),
+          home: StudentProfileView(),
           builder: EasyLoading.init(),
         );
       },
