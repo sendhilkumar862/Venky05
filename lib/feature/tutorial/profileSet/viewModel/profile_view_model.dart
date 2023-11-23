@@ -37,7 +37,7 @@ abstract class _ProfileViewModelBase extends BaseViewModel with Store {
   List profileItems = <String>['teacher'.tr(), 'parent'.tr()];
 
   @observable
-  AboutModel aboutModel = const AboutModel();
+  AboutModel aboutModel =  AboutModel();
 
   @action
   void selectProfile(int index) {
@@ -76,7 +76,7 @@ abstract class _ProfileViewModelBase extends BaseViewModel with Store {
     Dio dio = Dio();
     try {
       Response response =
-          await dio.get('http://167.99.93.83/api/v1/content/about_hessah');
+          await dio.get('http://167.99.93.83/api/v1/content/role/tutor/type/about_us');
       logs('status code--> ${response.statusCode}');
       if (response.statusCode == 200) {
         EasyLoading.dismiss();

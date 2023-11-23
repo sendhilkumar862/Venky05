@@ -93,7 +93,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     if (value!.isEmpty) {
       mobileValid = 0;
       mobileErrorText = 'pleaseEnterMobile'.tr();
-    } else if (mobileController.text.length != 10) {
+    } else if (mobileController.text.length < 8) {
       mobileValid = 0;
       mobileErrorText = 'kuwaitiNumber'.tr();
     }

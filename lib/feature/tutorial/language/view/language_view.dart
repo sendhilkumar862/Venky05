@@ -75,11 +75,8 @@ class LanguageView extends StatelessWidget {
                           showModalBottomSheet(
                             isScrollControlled: true,
                             context: context,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(25.0),
-                              ),
-                            ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100)),
                             builder: (BuildContext context) {
                               return StatefulBuilder(
                                 builder: (BuildContext context, setState) {
@@ -102,11 +99,8 @@ class LanguageView extends StatelessWidget {
                           showModalBottomSheet(
                             isScrollControlled: true,
                             context: context,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(25.0),
-                              ),
-                            ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100)),
                             builder: (BuildContext context) {
                               return StatefulBuilder(
                                 builder: (BuildContext context, setState) {
@@ -143,17 +137,14 @@ class LanguageView extends StatelessWidget {
         ),
         child: Row(
           children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(5),
+            ClipOval(
               child: AppImageAsset(
                 image: icon!,
                 height: 20.px,
-                width: 30.px,
+                width: 20.px,
               ),
             ),
-            SizedBox(
-              width: 12.px,
-            ),
+            SizedBox(width: 12.px),
             AppText(
               title ?? '',
               fontWeight: FontWeight.w400,

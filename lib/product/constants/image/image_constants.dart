@@ -65,6 +65,7 @@ class ImageConstants {
   static const String primaryLogoBlue =
       '${ApplicationConstants.imagePath}primary_logo_blue.png';
   static const String patter = '${ApplicationConstants.imagePath}patters.png';
+  static const String certificates = '${ApplicationConstants.imagePath}certificates.png';
 
   //     ======================= Icon Images =======================     //
 
@@ -169,4 +170,5 @@ class ImageConstants {
       '${ApplicationConstants.iconPath}un_fill_circle.svg';
   static const String warningIcon =
       '${ApplicationConstants.iconPath}warning.png';
+  static const String eye = '${ApplicationConstants.iconPath}eye.svg';
 }

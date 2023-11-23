@@ -47,10 +47,30 @@ class AboutAppBottomSheet extends StatelessWidget {
               SizedBox(
                 height: 30.px,
               ),
-              AppText(
-                profileViewModel!.aboutModel.data.toString(),
-                textAlign: TextAlign.start,
-              ),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: profileViewModel!.aboutModel.data!.items!.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppText(
+                        profileViewModel!.aboutModel.data!.items![index].title
+                            .toString(),
+                        textAlign: TextAlign.start,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      AppText(
+                        profileViewModel!.aboutModel.data!.items![index].content
+                            .toString(),
+                        textAlign: TextAlign.start,
+                      ),
+                    ],
+                  );
+                },
+              )
             ],
           ),
           InkWell(

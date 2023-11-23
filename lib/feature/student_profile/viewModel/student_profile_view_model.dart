@@ -18,4 +18,9 @@ abstract class StudentProfileViewModelBase  with Store {
   {
     b++;
   }
+  @observable
+  TextEditingController dateController = TextEditingController();
+
 }
+
+
