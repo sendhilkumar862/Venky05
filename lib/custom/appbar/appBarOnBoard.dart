@@ -35,24 +35,24 @@ class AppBarOnBoard extends PreferredSize {
       actions: [
         Align(
           alignment: Alignment.center,
-          child: Row(
-            children: [
-              AppText(
-                title ?? 'about'.tr(),
-                color: AppColors.appBlue,
-                fontSize: 14.px,
-              ),
-              SizedBox(width: 6.px),
-              InkWell(
-                onTap: onTap ?? () {},
-                child: AppImageAsset(
+          child: InkWell(
+            onTap: onTap ?? () {},
+            child: Row(
+              children: [
+                AppText(
+                  title ?? 'about'.tr(),
+                  color: AppColors.appBlue,
+                  fontSize: 14.px,
+                ),
+                SizedBox(width: 6.px),
+                AppImageAsset(
                   image: icon ?? ImageConstants.infoRoundCircle,
                   height: 18.px,
                   color: AppColors.appBlue,
                 ),
-              ),
-              SizedBox(width: 10.px),
-            ],
+                SizedBox(width: 10.px),
+              ],
+            ),
           ),
         )
       ],
