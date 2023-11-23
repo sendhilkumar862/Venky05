@@ -6,3 +6,5 @@ class ApplicationConstants {
   static const String iconPath = 'assets/icons/';
   static const String animationPath = 'assets/animations/';
 }
+
+String emptyString = '';

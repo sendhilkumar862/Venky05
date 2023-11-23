@@ -20,6 +20,7 @@ import '../viewModel/language_view_model.dart';
 class LanguageView extends StatelessWidget {
   const LanguageView({super.key});
 
+  @override
   Widget build(BuildContext context) {
     return BaseView<LanguageViewModel>(
         viewModel: LanguageViewModel(),
@@ -54,20 +55,20 @@ class LanguageView extends StatelessWidget {
                         height: 25.px,
                       ),
                       selectCardView(
-                        icon: languageViewModel!.filteredCountries.isNotEmpty!
-                            ? languageViewModel!
+                        icon: languageViewModel.filteredCountries.isNotEmpty
+                            ? languageViewModel
                                 .filteredCountries[
                                     languageViewModel.countryIndex]
                                 .flag_url!
-                            : languageViewModel!
+                            : languageViewModel
                                 .countries[languageViewModel.countryIndex]
                                 .flag_url!,
-                        title: languageViewModel!.filteredCountries.isNotEmpty!
-                            ? languageViewModel!
+                        title: languageViewModel.filteredCountries.isNotEmpty
+                            ? languageViewModel
                                 .filteredCountries[
                                     languageViewModel.countryIndex]
                                 .name!
-                            : languageViewModel!
+                            : languageViewModel
                                 .countries[languageViewModel.countryIndex]
                                 .name!,
                         onTap: () {
@@ -143,11 +144,11 @@ class LanguageView extends StatelessWidget {
         child: Row(
           children: <Widget>[
             ClipRRect(
-              borderRadius: BorderRadius.circular(700),
+              borderRadius: BorderRadius.circular(5),
               child: AppImageAsset(
                 image: icon!,
                 height: 20.px,
-                width: 20.px,
+                width: 30.px,
               ),
             ),
             SizedBox(
