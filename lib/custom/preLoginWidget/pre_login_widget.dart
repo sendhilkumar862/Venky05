@@ -42,6 +42,7 @@ class OnTapBack extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
         Navigator.pop(context);
         logs('back tapped');
       },
@@ -82,7 +83,7 @@ class PreLoginCommonButton extends StatelessWidget {
             borderColor: AppColors.appBlue,
             title: title ?? '',
             onPressed: onTap ?? () {},
-          isDisable: isDisable,
+            isDisable: isDisable,
           ),
         ),
         SizedBox(
@@ -92,4 +93,3 @@ class PreLoginCommonButton extends StatelessWidget {
     );
   }
 }
-

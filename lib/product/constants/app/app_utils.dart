@@ -90,7 +90,7 @@ class Regexes {
 
   /// The regular expression for validating emails in the app.
   static RegExp emailRegex = RegExp(
-    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z\.]+\.(com|pk)+",
+    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z]",
   );
 
   /// The regular expression for validating contacts in the app.

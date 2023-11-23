@@ -1,4 +1,3 @@
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -8,11 +7,10 @@ import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/text/app_text.dart';
-import '../../../../custom/text/country_picker.dart';
 import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/image/image_constants.dart';
-import '../../../../product/utils/typography.dart';
 import '../../../../product/utils/validators.dart';
+import '../../view/bottomSheets/country_code_bottom_sheet.dart';
 import '../viewModel/mobile_view_model.dart';
 
 class MobileView extends StatelessWidget {
@@ -30,7 +28,12 @@ class MobileView extends StatelessWidget {
           mobileViewModel.init();
         },
         onPageBuilder: (BuildContext context, MobileViewModel mobileViewModel) {
-          return Observer(builder: (BuildContext context) {
+          return Observer(
+              //warnWhenNoObservables: false,
+              builder: (BuildContext context) {
+            if (mobileViewModel == null) {
+              return Container();
+            }
             return Scaffold(
               body: PreLoginCustomBody(
                 widget: Expanded(
@@ -56,22 +59,65 @@ class MobileView extends StatelessWidget {
                       ),
                       SizedBox(height: 10.px),
                       TextFormsField(
-                        prefix: CountryPicker(
-                          flagDecoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(2)),
-                          padding: EdgeInsets.zero,
-                          onChanged: (CountryCode countryCode) {
-                            mobileViewModel.selectedCountry =
-                                countryCode.toString();
-                          },
-                          alignLeft: false,
-                          dialogSize: const Size.square(550),
-                          dialogTextStyle: openSans.w500.get16,
-                          initialSelection: 'AR',
-                          favorite: ['+1', 'AR'],
-                          showDropDownButton: true,
-                          textStyle: openSans.black.get12,
-                        ),
+                        prefix: (mobileViewModel!.countries.isNotEmpty ||
+                                mobileViewModel!.filteredCountries.isNotEmpty)
+                            ? GestureDetector(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(25.0),
+                                      ),
+                                    ),
+                                    builder: (BuildContext context) {
+                                      return StatefulBuilder(
+                                        builder:
+                                            (BuildContext context, setState) {
+                                          return CountryCodeBottomsSheet(
+                                              setState: setState,
+                                              mobileViewModel: mobileViewModel);
+                                        },
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 6.px),
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(700),
+                                      child: AppImageAsset(
+                                        image: mobileViewModel!
+                                                .filteredCountries.isNotEmpty!
+                                            ? mobileViewModel!
+                                                .filteredCountries[
+                                                    mobileViewModel
+                                                        .countryIndex]
+                                                .flag_url!
+                                            : mobileViewModel!
+                                                .countries[mobileViewModel
+                                                    .countryIndex]
+                                                .flag_url!,
+                                        height: 16.px,
+                                        width: 16.px,
+                                      ),
+                                    ),
+                                    SizedBox(width: 6.px),
+                                    AppText(
+                                      mobileViewModel
+                                          .countries[
+                                              mobileViewModel.countryIndex]
+                                          .idd_code
+                                          .toString(),
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14.px,
+                                    )
+                                  ],
+                                ),
+                              )
+                            : SizedBox(),
                         title: 'mobileNumber'.tr(),
                         keyboardType: TextInputType.number,
                         controller: mobileViewModel.mobileController,

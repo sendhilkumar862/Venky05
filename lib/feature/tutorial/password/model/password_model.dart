@@ -1,24 +1,24 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'login_model.freezed.dart';
-part 'login_model.g.dart';
+part 'password_model.freezed.dart';
+part 'password_model.g.dart';
 
 @freezed
-class LoginModel with _$LoginModel {
-  const factory LoginModel({
-     Data? data,
-     Status? status,
-  }) = _LoginModel;
+class PasswordModel with _$PasswordModel {
+  const factory PasswordModel({
+    required Data data,
+    required Status status,
+  }) = _PasswordModel;
 
-  factory LoginModel.fromJson(Map<String, dynamic> json) =>
-      _$LoginModelFromJson(json);
+  factory PasswordModel.fromJson(Map<String, dynamic> json) =>
+      _$PasswordModelFromJson(json);
 }
 
 @freezed
 class Data with _$Data {
   const factory Data({
-     Item? item,
+    required Item item,
   }) = _Data;
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
@@ -27,8 +27,8 @@ class Data with _$Data {
 @freezed
 class Item with _$Item {
   const factory Item({
-     Token? token,
-     String? status,
+    required Token token,
+    required String status,
   }) = _Item;
 
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
@@ -37,10 +37,10 @@ class Item with _$Item {
 @freezed
 class Token with _$Token {
   const factory Token({
-     String? accessToken,
-     int? accessTokenExpiryTime,
-     String? refreshToken,
-     int? refreshTokenExpiryTime,
+    required String accessToken,
+    required int accessTokenExpiryTime,
+    required String refreshToken,
+    required int refreshTokenExpiryTime,
   }) = _Token;
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
@@ -49,8 +49,8 @@ class Token with _$Token {
 @freezed
 class Status with _$Status {
   const factory Status({
-     String? type,
-     String? message,
+    required String type,
+    required String message,
   }) = _Status;
 
   factory Status.fromJson(Map<String, dynamic> json) => _$StatusFromJson(json);

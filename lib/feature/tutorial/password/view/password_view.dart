@@ -25,10 +25,10 @@ class PasswordView extends StatelessWidget {
         onModelReady: (PasswordViewModel passwordViewModel) {
           passwordViewModel.setContext(context);
           passwordViewModel.init();
-          passwordViewModel.data =
+          passwordViewModel.arguments =
               (ModalRoute.of(context)!.settings.arguments! as Map)??{};
 
-          logs('argue--> ${passwordViewModel.data}');
+          logs('argue--> ${passwordViewModel.arguments}');
         },
         onPageBuilder:
             (BuildContext context, PasswordViewModel passwordViewModel) {

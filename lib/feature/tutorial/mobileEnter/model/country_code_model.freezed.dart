@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'country_model.dart';
+part of 'country_code_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Country _$CountryFromJson(Map<String, dynamic> json) {
-  return _Country.fromJson(json);
+CountryCodeModel _$CountryCodeModelFromJson(Map<String, dynamic> json) {
+  return _CountryCodeModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Country {
+mixin _$CountryCodeModel {
   String? get name => throw _privateConstructorUsedError;
   String? get flag_url => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
@@ -27,21 +27,23 @@ mixin _$Country {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CountryCopyWith<Country> get copyWith => throw _privateConstructorUsedError;
+  $CountryCodeModelCopyWith<CountryCodeModel> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CountryCopyWith<$Res> {
-  factory $CountryCopyWith(Country value, $Res Function(Country) then) =
-      _$CountryCopyWithImpl<$Res, Country>;
+abstract class $CountryCodeModelCopyWith<$Res> {
+  factory $CountryCodeModelCopyWith(
+          CountryCodeModel value, $Res Function(CountryCodeModel) then) =
+      _$CountryCodeModelCopyWithImpl<$Res, CountryCodeModel>;
   @useResult
   $Res call({String? name, String? flag_url, String? code, String? idd_code});
 }
 
 /// @nodoc
-class _$CountryCopyWithImpl<$Res, $Val extends Country>
-    implements $CountryCopyWith<$Res> {
-  _$CountryCopyWithImpl(this._value, this._then);
+class _$CountryCodeModelCopyWithImpl<$Res, $Val extends CountryCodeModel>
+    implements $CountryCodeModelCopyWith<$Res> {
+  _$CountryCodeModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -78,21 +80,22 @@ class _$CountryCopyWithImpl<$Res, $Val extends Country>
 }
 
 /// @nodoc
-abstract class _$$CountryImplCopyWith<$Res> implements $CountryCopyWith<$Res> {
-  factory _$$CountryImplCopyWith(
-          _$CountryImpl value, $Res Function(_$CountryImpl) then) =
-      __$$CountryImplCopyWithImpl<$Res>;
+abstract class _$$CountryCodeModelImplCopyWith<$Res>
+    implements $CountryCodeModelCopyWith<$Res> {
+  factory _$$CountryCodeModelImplCopyWith(_$CountryCodeModelImpl value,
+          $Res Function(_$CountryCodeModelImpl) then) =
+      __$$CountryCodeModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? name, String? flag_url, String? code, String? idd_code});
 }
 
 /// @nodoc
-class __$$CountryImplCopyWithImpl<$Res>
-    extends _$CountryCopyWithImpl<$Res, _$CountryImpl>
-    implements _$$CountryImplCopyWith<$Res> {
-  __$$CountryImplCopyWithImpl(
-      _$CountryImpl _value, $Res Function(_$CountryImpl) _then)
+class __$$CountryCodeModelImplCopyWithImpl<$Res>
+    extends _$CountryCodeModelCopyWithImpl<$Res, _$CountryCodeModelImpl>
+    implements _$$CountryCodeModelImplCopyWith<$Res> {
+  __$$CountryCodeModelImplCopyWithImpl(_$CountryCodeModelImpl _value,
+      $Res Function(_$CountryCodeModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -103,7 +106,7 @@ class __$$CountryImplCopyWithImpl<$Res>
     Object? code = freezed,
     Object? idd_code = freezed,
   }) {
-    return _then(_$CountryImpl(
+    return _then(_$CountryCodeModelImpl(
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -126,15 +129,15 @@ class __$$CountryImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CountryImpl implements _Country {
-  const _$CountryImpl(
+class _$CountryCodeModelImpl implements _CountryCodeModel {
+  const _$CountryCodeModelImpl(
       {required this.name,
       required this.flag_url,
       required this.code,
       required this.idd_code});
 
-  factory _$CountryImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CountryImplFromJson(json);
+  factory _$CountryCodeModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CountryCodeModelImplFromJson(json);
 
   @override
   final String? name;
@@ -147,14 +150,14 @@ class _$CountryImpl implements _Country {
 
   @override
   String toString() {
-    return 'Country(name: $name, flag_url: $flag_url, code: $code, idd_code: $idd_code)';
+    return 'CountryCodeModel(name: $name, flag_url: $flag_url, code: $code, idd_code: $idd_code)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CountryImpl &&
+            other is _$CountryCodeModelImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.flag_url, flag_url) ||
                 other.flag_url == flag_url) &&
@@ -170,25 +173,27 @@ class _$CountryImpl implements _Country {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CountryImplCopyWith<_$CountryImpl> get copyWith =>
-      __$$CountryImplCopyWithImpl<_$CountryImpl>(this, _$identity);
+  _$$CountryCodeModelImplCopyWith<_$CountryCodeModelImpl> get copyWith =>
+      __$$CountryCodeModelImplCopyWithImpl<_$CountryCodeModelImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CountryImplToJson(
+    return _$$CountryCodeModelImplToJson(
       this,
     );
   }
 }
 
-abstract class _Country implements Country {
-  const factory _Country(
+abstract class _CountryCodeModel implements CountryCodeModel {
+  const factory _CountryCodeModel(
       {required final String? name,
       required final String? flag_url,
       required final String? code,
-      required final String? idd_code}) = _$CountryImpl;
+      required final String? idd_code}) = _$CountryCodeModelImpl;
 
-  factory _Country.fromJson(Map<String, dynamic> json) = _$CountryImpl.fromJson;
+  factory _CountryCodeModel.fromJson(Map<String, dynamic> json) =
+      _$CountryCodeModelImpl.fromJson;
 
   @override
   String? get name;
@@ -200,6 +205,6 @@ abstract class _Country implements Country {
   String? get idd_code;
   @override
   @JsonKey(ignore: true)
-  _$$CountryImplCopyWith<_$CountryImpl> get copyWith =>
+  _$$CountryCodeModelImplCopyWith<_$CountryCodeModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -33,6 +33,9 @@ class LanguageView extends StatelessWidget {
           return Observer(
               warnWhenNoObservables: false,
               builder: (BuildContext context) {
+                if (languageViewModel == null) {
+                  return Container();
+                }
                 return Scaffold(
                   body: ListView(
                     padding: EdgeInsets.symmetric(horizontal: 15.px),

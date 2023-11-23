@@ -33,6 +33,12 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
   bool registerWarning = false;
 
   @observable
+  String registerWarningMessage = '';
+
+  @observable
+  EmailEnterModel data = const EmailEnterModel();
+
+  @observable
   Map<String, dynamic> arguments = {
     'id': '',
     'otp_id': '',
@@ -47,25 +53,31 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
         'email': emailController.text,
         'role': keyValueStorageBase.getCommon(KeyValueStorageService.profile),
       };
-      logs(body.toString());
+      logs('boyd--> $body');
       Response response = await dio.post(
         'http://167.99.93.83/api/v1/users/register/email',
         data: body,
       );
 
       if (response.statusCode == 200) {
-        final EmailEnterModel data = EmailEnterModel.fromJson(response.data);
-        if (data.status.type == 'success') {
-          logs('registered ${data.status.type}');
-          arguments['id'] = data.data.item.userId;
-          sendOTP(data.data.item.userId.toString());
+        data = EmailEnterModel.fromJson(response.data);
+        if (data.status!.type == 'success') {
+          arguments['id'] = data.data!.item!.userId;
+          registerWarning = data.status!.type == 'error';
+          logs('user id --> ${data.data!.item!.userId}');
+          logs('registered ${data.status!.type}');
+          sendOTP(data.data!.item!.userId.toString());
         }
       } else {
         EasyLoading.dismiss();
         logs('error not response');
       }
-    } catch (error) {
-      logs('error');
+    } on DioException catch (error) {
+      EasyLoading.dismiss();
+      data = EmailEnterModel.fromJson(error.response!.data);
+      registerWarning = data.status!.type == 'error';
+      registerWarningMessage = data.status!.message!;
+      logs('registerMail error --> ${registerWarning}');
     }
   }
 
@@ -85,9 +97,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
       logs('status Code --> ${response.statusCode}');
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
-        registerWarning = response.data['status']['type'] == 'error';
-        logs('status status --> ${response.data['status']['type']}');
-        logs('status Code --> ${response.data['data']['item']['otp_id']}');
+        registerWarning = response!.data['status']['type'] == 'error';
         arguments['otp_id'] = response.data['data']['item']['otp_id'];
         AppRouter.pushNamed(Routes.emailOtpView, args: arguments);
       } else {
@@ -96,7 +106,8 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
       }
     } on DioException catch (error) {
       EasyLoading.dismiss();
-      registerWarning = error.response!.data['status']['type'] == 'error';
+      registerWarning = error.response!.data['status']['type'] =='error';
+      registerWarningMessage = error.response!.data['status']['message'];
       logs('error message--> ${error.response!.data['status']['message']}');
       logs('SendOtp error');
     }

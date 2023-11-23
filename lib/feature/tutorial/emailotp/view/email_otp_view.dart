@@ -73,7 +73,9 @@ class EmailOtpView extends StatelessWidget {
                         showFieldAsBox: true,
                         textStyle: TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 16.px),
-                        onCodeChanged: (String value) {},
+                        onCodeChanged: (String value) {
+                          emailOtpViewModel.isCorrect = true;
+                        },
                         handleControllers:
                             (List<TextEditingController?> controllers) {
                           //emailOtpViewModel.enteredOTP = controllers.toString();
