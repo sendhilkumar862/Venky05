@@ -61,5 +61,15 @@
     "matchPasswords": "New and Retype Passwords should match",
     "setAvailableTimes": "Set Available Times",
     "exploreApp": "Explore App",
-    "setAndGive": "Set your free times, and give the students the ability to book their favorite times"
+    "setAndGive": "Set your free times, and give the students the ability to book their favorite times",
+    "customization": "Customization",
+    "msgCustomization": "Tailor your education journey by selecting preferences for a personalized experience",
+    "msgCustomizationNow": "Customize your education journey now!",
+    "grade": "Grade",
+    "selectMore": "Select 1 or more",
+    "school": "School",
+    "optional": "(optional)",
+    "curriculum": "Curriculum",
+    "subject": "Subject",
+    "saveMyPreferences": "Save My Preferences"
 }
