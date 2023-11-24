@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -82,13 +80,15 @@ class CountryCodeBottomsSheet extends StatelessWidget {
               ),
               Expanded(
                 child: ListView.separated(
-                  itemCount: mobileViewModel!.countries.length,
+                  itemCount: mobileViewModel!.filteredCountries.isNotEmpty
+                      ? mobileViewModel!.filteredCountries.length
+                      : mobileViewModel!.countries.length,
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
-                    log('mobileViewModel!.countries.length${mobileViewModel!.countries.length}');
                     return GestureDetector(
                       onTap: () {
+                        // ignore: avoid_dynamic_calls
                         setState!(
                               () {
                             mobileViewModel!.selectCountry(index);
@@ -111,6 +111,10 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                               borderRadius: BorderRadius.circular(700),
                               child: AppImageAsset(
                                 image: mobileViewModel!
+                                    .filteredCountries.isNotEmpty!
+                                    ? mobileViewModel!
+                                    .filteredCountries[index].flag_url!
+                                    : mobileViewModel!
                                     .countries[index].flag_url!,
                                 fit: BoxFit.cover,
                                 height: 20.px,
@@ -121,12 +125,19 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                               width: 10.px,
                             ),
                             AppText(
-                              mobileViewModel!.countries[index].idd_code!,
+                              mobileViewModel!.filteredCountries.isNotEmpty!
+                                  ? mobileViewModel!
+                                  .filteredCountries[index].idd_code!
+                                  : mobileViewModel!.countries[index].idd_code!,
                               fontWeight: FontWeight.w400,
                               overflow: TextOverflow.ellipsis,
                             ),
                             SizedBox(width: 6.px),
-                            AppText(mobileViewModel!.countries[index].name!,
+                            AppText(
+                              mobileViewModel!.filteredCountries.isNotEmpty!
+                                  ? mobileViewModel!
+                                  .filteredCountries[index].name!
+                                  : mobileViewModel!.countries[index].name!,
                               fontWeight: FontWeight.w400,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -144,84 +155,6 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                   },
                 ),
               )
-              // Expanded(
-              //   child: ListView.separated(
-              //     itemCount: mobileViewModel!.filteredCountries.isNotEmpty
-              //         ? mobileViewModel!.filteredCountries.length
-              //         : mobileViewModel!.countries.length,
-              //     physics: const BouncingScrollPhysics(),
-              //     shrinkWrap: true,
-              //     itemBuilder: (BuildContext context, int index) {
-              //       log('mobileViewModel!.filteredCountries.length-->${mobileViewModel!.filteredCountries.length}');
-              //       log('mobileViewModel!.countries.length${mobileViewModel!.countries.length}');
-              //       return GestureDetector(
-              //         onTap: () {
-              //           setState!(
-              //                 () {
-              //               mobileViewModel!.selectCountry(index);
-              //               Future.delayed(
-              //                 const Duration(milliseconds: 200),
-              //                     () {
-              //                   AppRouter.pop();
-              //                 },
-              //               );
-              //             },
-              //           );
-              //         },
-              //         child: Container(
-              //           color: AppColors.appTransparent,
-              //           margin: EdgeInsets.symmetric(horizontal: 15.px),
-              //           padding: EdgeInsets.symmetric(vertical: 8.px),
-              //           child: Row(
-              //             children: <Widget>[
-              //               ClipRRect(
-              //                 borderRadius: BorderRadius.circular(700),
-              //                 child: AppImageAsset(
-              //                   image: mobileViewModel!
-              //                       .filteredCountries.isNotEmpty!
-              //                       ? mobileViewModel!
-              //                       .filteredCountries[index].flag_url!
-              //                       : mobileViewModel!
-              //                       .countries[index].flag_url!,
-              //                   fit: BoxFit.cover,
-              //                   height: 20.px,
-              //                   width: 20,
-              //                 ),
-              //               ),
-              //               SizedBox(
-              //                 width: 10.px,
-              //               ),
-              //               AppText(
-              //                 mobileViewModel!.filteredCountries.isNotEmpty!
-              //                     ? mobileViewModel!
-              //                     .filteredCountries[index].idd_code!
-              //                     : mobileViewModel!.countries[index].idd_code!,
-              //                 fontWeight: FontWeight.w400,
-              //                 overflow: TextOverflow.ellipsis,
-              //               ),
-              //               SizedBox(width: 6.px),
-              //               AppText(
-              //                 mobileViewModel!.filteredCountries.isNotEmpty!
-              //                     ? mobileViewModel!
-              //                     .filteredCountries[index].name!
-              //                     : mobileViewModel!.countries[index].name!,
-              //                 fontWeight: FontWeight.w400,
-              //                 overflow: TextOverflow.ellipsis,
-              //               ),
-              //
-              //             ],
-              //           ),
-              //         ),
-              //       );
-              //     },
-              //     separatorBuilder: (BuildContext context, int index) {
-              //       return Padding(
-              //         padding: EdgeInsets.symmetric(horizontal: 15.px),
-              //         child: AppDivider(),
-              //       );
-              //     },
-              //   ),
-              // )
             ],
           )
         ],

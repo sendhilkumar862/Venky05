@@ -171,9 +171,4 @@ class ImageConstants {
   static const String warningIcon =
       '${ApplicationConstants.iconPath}warning.png';
   static const String eye = '${ApplicationConstants.iconPath}eye.svg';
-  static const String filterSort = '${ApplicationConstants.iconPath}filter-sort.svg';
-  static const String documentBox = '${ApplicationConstants.iconPath}archivedocumentsbox.svg';
-  static const String doneMessage = '${ApplicationConstants.iconPath}done_message_status.svg';
-  static const String phoneCall = '${ApplicationConstants.iconPath}phone-call.svg';
-  static const String warning = '${ApplicationConstants.iconPath}warning-circle.svg';
 }

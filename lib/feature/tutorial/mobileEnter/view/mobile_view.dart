@@ -31,6 +31,9 @@ class MobileView extends StatelessWidget {
           return Observer(
               //warnWhenNoObservables: false,
               builder: (BuildContext context) {
+            if (mobileViewModel == null) {
+              return Container();
+            }
             return Scaffold(
               body: PreLoginCustomBody(
                 widget: Expanded(
@@ -56,7 +59,8 @@ class MobileView extends StatelessWidget {
                       ),
                       SizedBox(height: 10.px),
                       TextFormsField(
-                        prefix: (mobileViewModel.countries.isNotEmpty)
+                        prefix: (mobileViewModel!.countries.isNotEmpty ||
+                                mobileViewModel!.filteredCountries.isNotEmpty)
                             ? GestureDetector(
                                 onTap: () {
                                   showModalBottomSheet(
@@ -85,21 +89,17 @@ class MobileView extends StatelessWidget {
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(700),
                                       child: AppImageAsset(
-                                        image : mobileViewModel
-                                          .countries[mobileViewModel
-                                          .countryIndex]
-                                          .flag_url!,
-                                        // mobileViewModel!
-                                        //         .filteredCountries.isNotEmpty!
-                                        //     ? mobileViewModel!
-                                        //         .filteredCountries[
-                                        //             mobileViewModel
-                                        //                 .countryIndex]
-                                        //         .flag_url!
-                                        //     : mobileViewModel!
-                                        //         .countries[mobileViewModel
-                                        //             .countryIndex]
-                                        //         .flag_url!,
+                                        image: mobileViewModel!
+                                                .filteredCountries.isNotEmpty!
+                                            ? mobileViewModel!
+                                                .filteredCountries[
+                                                    mobileViewModel
+                                                        .countryIndex]
+                                                .flag_url!
+                                            : mobileViewModel!
+                                                .countries[mobileViewModel
+                                                    .countryIndex]
+                                                .flag_url!,
                                         height: 16.px,
                                         width: 16.px,
                                       ),
@@ -123,12 +123,14 @@ class MobileView extends StatelessWidget {
                         controller: mobileViewModel.mobileController,
                         hintText: 'enterMobileAgain'.tr(),
                         validate: mobileViewModel.mobileValid,
-                        errorText: mobileViewModel.mobileErrorText,
+                        errorText: mobileViewModel.mobileErrorText!,
                         onChanged: (String value) {
-                          mobileViewModel.validateMobile(value);
+                          mobileViewModel.validateMobile(value!);
                         },
                       ),
-                      SizedBox(height: 20.px),
+                      SizedBox(
+                        height: 20.px,
+                      ),
                     ],
                   ),
                 ),

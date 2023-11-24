@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +42,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   TextEditingController mobileController = TextEditingController();
 
   @observable
-  String selectedCountry = '1';
+  String selectedCountry = '+1';
 
   @observable
   String mobileErrorText = '';
@@ -67,8 +65,8 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     Dio dio = Dio();
     final String mobile = '$selectedCountry${mobileController.text}';
     logs('mobile--> $mobile');
-
-      Map body = <String, dynamic>{'userId': data['userId'], 'mobile': mobile,'selectedCountry':selectedCountry};
+    try {
+      Map body = <String, dynamic>{'userId': data['userId'], 'mobile': mobile};
       logs('send mobile body--> $body');
       final response = await dio.post(
         'http://167.99.93.83/api/v1/users/mobile/send-otp',
@@ -85,6 +83,9 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
         EasyLoading.dismiss();
         logs('error not response');
       }
+    } catch (error) {
+      logs('error');
+    }
   }
 
   @action
@@ -112,15 +113,12 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   void onTapMobileSubmit() {
     if (mobileValid == 1) {
       AppRouter.pushNamed(Routes.mobileOtpView, args: arguments);
-      sendOTP();
+      // sendOTP();
     }
   }
 
   @observable
   List<CountryCodeModel> countries = [];
-
-  @observable
-  List<CountryCodeModel> tempList = [];
 
   @observable
   List<CountryCodeModel> filteredCountries = [];
@@ -138,9 +136,6 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
         EasyLoading.dismiss();
         final List<dynamic> countriesJson = response.data['data']['items'];
         countries = countriesJson
-            .map((json) => CountryCodeModel.fromJson(json))
-            .toList();
-        tempList = countriesJson
             .map((json) => CountryCodeModel.fromJson(json))
             .toList();
       }
@@ -172,11 +167,6 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
 
   @action
   void filterCountries(String query, Function setState) {
-    if(query.isEmpty){
-      log('-------> is Enter');
-      countries.clear();
-      countries = tempList;
-    }
     filteredCountries = countries
         .where((CountryCodeModel country) =>
             country.name?.toLowerCase().contains(query.toLowerCase()) ??
@@ -184,7 +174,6 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
                 country.flag_url!.toLowerCase().contains(query.toLowerCase()))
         .toList();
     logs('filteredCountries.toString()--> ${filteredCountries.toString()}');
-    countries = filteredCountries;
     setState(() {});
   }
 }

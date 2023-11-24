@@ -7,7 +7,6 @@ import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/extension/context_extension.dart';
 import '../../home_views/views/home_views.dart';
 import '../../preference/view/preference_view.dart';
-import '../../tutorial/messages/view/message_view.dart';
 import '../../wallet/view/wallet_view.dart';
 import '../viewModel/home_view_model.dart';
 
@@ -42,7 +41,7 @@ class HomeView extends StatelessWidget {
            NavBarItem(
             iconData: Icons.message_rounded,
             title: 'Message',
-            page: MessageView(),
+            page: Container(),
           )
         ],
         hapticFeedback: true,
