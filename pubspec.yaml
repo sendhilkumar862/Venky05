@@ -61,6 +61,9 @@ dependencies:
   shared_preferences: ^2.0.17
   cached_network_image: ^3.3.0
 
+  #Slide
+  flutter_slidable: ^3.0.1
+
   # Network
   dio: 
   dio_cache_interceptor: ^3.2.7
