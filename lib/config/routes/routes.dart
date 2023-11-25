@@ -5,6 +5,7 @@ import '../../feature/class/create_class/view/create_class.dart';
 import '../../feature/home/view/home_view.dart';
 // Helpers
 import '../../feature/home_views/views/home_views.dart';
+import '../../feature/notification/view/notification.dart';
 import '../../feature/pre_login/experience_Info.dart';
 import '../../feature/pre_login/financing_view.dart';
 import '../../feature/pre_login/personalInfo/view/personal_info.dart';
@@ -63,6 +64,8 @@ class Routes {
   static const String resetPassword = '/rest-Password';
   static const String searchView = '/search';
   static const String messageView = '/message';
+  static const String notificationView = '/notification-view';
+
 
   /// The name of the route for unrecognized route screen
   static const String NotFoundScreenRoute = '/route-not-found-screen';
@@ -85,15 +88,17 @@ class Routes {
     userInfoView: (_) => const UserInfoView(),
     loginView: (_) => const LoginView(),
     forgotPasswordView: (_) => const ForgotPassWordView(),
-    restPassword: (_) =>  const RestPassword(),
-    passwordView: (_) =>  const PasswordView(),
-    homeViews: (_) =>  const HomeViews(),
-    emailOtpView: (_) =>  const EmailOtpView(),
+    restPassword: (_) => const RestPassword(),
+    passwordView: (_) => const PasswordView(),
+    homeViews: (_) => const HomeViews(),
+    emailOtpView: (_) => const EmailOtpView(),
     resetPassword: (_) => const RestPassword(),
     passwordView: (_) => const PasswordView(),
     homeViews: (_) => const HomeViews(),
     searchView: (_) => const SearchView(),
-    messageView: (_) => const MessageView()
+    messageView: (_) => const MessageView(),
+    notificationView: (_) => const NotificationView(),
+
   };
 
   static RouteBuilder getRoute(String? routeName) {

@@ -67,7 +67,7 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
       isButtonDisabled = true;
     } else if (passwordController.text.isEmpty) {
       isButtonDisabled = true;
-    }  else {
+    } else {
       isButtonDisabled = false;
     }
   }
@@ -87,7 +87,7 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
       isButtonDisabled = true;
     } else if (value.isEmpty) {
       isButtonDisabled = true;
-    }  else {
+    } else {
       isButtonDisabled = false;
     }
   }
@@ -108,14 +108,18 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
       );
       logs('status Code --> ${response.statusCode}');
       if (response.statusCode == 200) {
+        logs('Login response  --> ${response.data.toString()}');
         EasyLoading.dismiss();
         loginModel = LoginModel.fromJson(response.data);
         AppRouter.pushNamed(
           Routes.HomeScreenRoute,
         );
         logs('ress--> ${loginModel.status?.type}');
-        final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
-        keyValueStorageService.setAuthToken(loginModel.data!.item!.token.toString());
+        final KeyValueStorageService keyValueStorageService =
+            KeyValueStorageService();
+        keyValueStorageService
+            .setAuthToken(response.data['data']['item']['accessToken']);
+
         loginStatus = loginModel.status!.type!;
         if (emailValid != 1) {
           isButtonDisabled = true;

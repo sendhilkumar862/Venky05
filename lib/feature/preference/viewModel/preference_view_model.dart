@@ -4,14 +4,32 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../custom/loader/easy_loader.dart';
+import '../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/validators.dart';
+import '../../tutorial/model/response_model/response_model.dart';
 import '../model/preference_model.dart';
+import '../model/preference_request.dart';
 
 part 'preference_view_model.g.dart';
 
 class PreferenceViewModel = _PreferenceViewModelBase with _$PreferenceViewModel;
 
 abstract class _PreferenceViewModelBase extends BaseViewModel with Store {
+  @observable
+  List<String> selectedGrade = <String>[];
+
+  @observable
+  List<String> selectedSchool = <String>[];
+
+  @observable
+  List<String> selectedSchoolIndices = <String>[];
+
+  @observable
+  List<String> selectedCurriculumIndices = <String>[];
+
+  @observable
+  List<String> selectedSubjectIndices = <String>[];
+
   @observable
   List<Curriculum>? grade;
 
@@ -28,7 +46,13 @@ abstract class _PreferenceViewModelBase extends BaseViewModel with Store {
   PreferenceModel preferenceModel = PreferenceModel();
 
   @observable
+  ResponseSuccessModel responseSuccessModel = ResponseSuccessModel();
+
+  @observable
   String errors = '';
+
+  @observable
+  String setPreferenceErrors = '';
 
   @override
   void setContext(BuildContext context) => viewModelContext = context;
@@ -38,12 +62,14 @@ abstract class _PreferenceViewModelBase extends BaseViewModel with Store {
     getUserPreference();
   }
 
-  Options _headers() {
+  Future<Options> _headers() async {
+    final KeyValueStorageService keyValueStorageService =
+        KeyValueStorageService();
+    final String token = await keyValueStorageService.getAuthToken();
     return Options(
       headers: {
-        'Content-Type': ' application/json',
-        'X-Auth-Token':
-            'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5Iiwicm9sZSI6IlN0dWRlbnQiLCJqdGkiOiJiOWJjYzc0Ni05ZDlkLTQ3MDYtYTNlYS05NjlhNTRhYmU3ODMiLCJpYXQiOjE3MDA2NDQ3NjcsImV4cCI6MTcwMDczMTE2NywiYXVkIjoiOSIsImlzcyI6Imhlc3NhIn0.TSAXXQqhDq3Mme1u8I4GPAc5LK3_mHNlxeks-xN4N1_XiukDsPbqxHpxGGEL1805fexYevkIWq1On3VN20yBj4GW2XA6CKOysfaXRFg_WKW7AnYMieQIREEqgH3VCcvuAxkhRINLhM_hRl_0S3PRHBZVfhQ2gzP8O3j7ud513LNPd14R0ojD8sHBcVE5NXr-EUYnX4F67Ljfcaavcimv4F3x5f88mM912ufpswrbF400s3tPJwD71mewKSAs2Jtb7I5E3aiIQPNGpKE3RUbltD9BFOGROtNYJCn_ugaYPkSR6nIiVdBGoKRhPxkbSzkVnoz6KfyNcaPaNlvK2z_4Ow',
+        'Content-Type': 'application/json',
+        'X-Auth-Token': token,
       },
     );
   }
@@ -53,18 +79,19 @@ abstract class _PreferenceViewModelBase extends BaseViewModel with Store {
     showLoading();
     final Dio dio = Dio();
     try {
-      final Response response = await dio.post(
+      final Response response = await dio.get(
         'http://167.99.93.83/api/v1/users/preference',
-        options: _headers(),
+        options: await _headers(),
       );
       if (response.statusCode == 200) {
         hideLoading();
         preferenceModel = PreferenceModel.fromJson(response.data);
         runInAction(() {
-          grade = preferenceModel.data?.item?.grade;
-          schoolType = preferenceModel.data?.item?.schoolType;
-          curriculum = preferenceModel.data?.item?.curriculum;
-          subject = preferenceModel.data?.item?.subject;
+          grade = preferenceModel.data?.item?.grade ?? [];
+          schoolType = preferenceModel.data?.item?.schoolType ?? [];
+          curriculum = preferenceModel.data?.item?.curriculum ?? [];
+          subject = preferenceModel.data?.item?.subject ?? [];
+          setPreferenceData();
         });
       } else {
         hideLoading();
@@ -76,5 +103,60 @@ abstract class _PreferenceViewModelBase extends BaseViewModel with Store {
 
       logs('data --> ${preferenceModel.status!.message}');
     }
+  }
+
+  @action
+  Future<void> setUserPreference() async {
+    showLoading();
+    final Dio dio = Dio();
+    try {
+      final Response response =
+          await dio.post('http://167.99.93.83/api/v1/users/preference',
+              options: await _headers(),
+              data: preferenceRequestToJson(PreferenceRequest(
+                grade: selectedGrade,
+                schoolType: selectedSchoolIndices,
+                curriculum: selectedCurriculumIndices,
+                subject: selectedSubjectIndices,
+              )));
+      if (response.statusCode == 200) {
+        responseSuccessModel = ResponseSuccessModel.fromJson(response.data);
+        hideLoading();
+      } else {
+        hideLoading();
+      }
+    } on DioException catch (error) {
+      hideLoading();
+      responseSuccessModel =
+          ResponseSuccessModel.fromJson(error.response!.data);
+      setPreferenceErrors = responseSuccessModel.status!.message!;
+
+      logs('data --> ${responseSuccessModel.status!.message}');
+    }
+  }
+
+  void setPreferenceData() {
+    runInAction(() {
+      for (int i = 0; i < grade!.length; i++) {
+        if (grade![i].isEnabled ?? false) {
+          selectedGrade.add(grade![i].value ?? '');
+        }
+      }
+      for (int i = 0; i < schoolType!.length; i++) {
+        if (schoolType![i].isEnabled ?? false) {
+          selectedSchoolIndices.add(schoolType![i].value ?? '');
+        }
+      }
+      for (int i = 0; i < curriculum!.length; i++) {
+        if (curriculum![i].isEnabled ?? false) {
+          selectedCurriculumIndices.add(curriculum![i].value ?? '');
+        }
+      }
+      for (int i = 0; i < subject!.length; i++) {
+        if (subject![i].isEnabled ?? false) {
+          selectedSubjectIndices.add(subject![i].value ?? '');
+        }
+      }
+    });
   }
 }
