@@ -21,6 +21,9 @@ abstract class StudentProfileViewModelBase  with Store {
   @observable
   TextEditingController dateController = TextEditingController();
 
+@observable
+  bool isTeacherView = false;
+
 }
 
 

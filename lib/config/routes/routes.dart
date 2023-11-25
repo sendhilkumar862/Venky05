@@ -17,6 +17,7 @@ import '../../feature/search/view/search_view.dart';
 import '../../feature/tutorial/emailEnter/view/email_view.dart';
 import '../../feature/tutorial/emailotp/view/email_otp_view.dart';
 import '../../feature/tutorial/login/view/login_view.dart';
+import '../../feature/tutorial/messages/view/message_view.dart';
 import '../../feature/tutorial/mobileEnter/view/mobile_view.dart';
 import '../../feature/tutorial/mobileotp/view/mobile_otp_view.dart';
 import '../../feature/tutorial/password/view/password_view.dart';
@@ -62,7 +63,9 @@ class Routes {
   static const String emailOtpView = '/email-otp-views';
   static const String resetPassword = '/rest-Password';
   static const String searchView = '/search';
+  static const String messageView = '/message';
   static const String notificationView = '/notification-view';
+
 
   /// The name of the route for unrecognized route screen
   static const String NotFoundScreenRoute = '/route-not-found-screen';
@@ -93,7 +96,9 @@ class Routes {
     passwordView: (_) => const PasswordView(),
     homeViews: (_) => const HomeViews(),
     searchView: (_) => const SearchView(),
+    messageView: (_) => const MessageView(),
     notificationView: (_) => const NotificationView(),
+
   };
 
   static RouteBuilder getRoute(String? routeName) {
