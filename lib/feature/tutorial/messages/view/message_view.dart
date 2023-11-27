@@ -43,24 +43,6 @@ class MessageView extends StatelessWidget {
                 title: 'Messages',
                 isBack: false,
               ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    shape: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    context: context,
-                    builder: (context) {
-                      return ConfirmationButton(
-                        title: 'Delete Confirmation',
-                        titleDescription:
-                            'Are you sure you want to delete selected messages?',
-                        buttonText: 'No, Keep it',
-                        buttonTextDiscript: 'Yes, Delete',
-                      );
-                    },
-                  );
-                },
-              ),
               body: Observer(
                 builder: (context) {
                   return ListView(
@@ -199,11 +181,28 @@ class TeacherList extends StatelessWidget {
               foregroundColor: AppColors.appWhite,
               image: const AppImageAsset(image: ImageConstants.delete),
               label: 'Delete',
-              onPressed: (BuildContext context) {},
+              onPressed: (BuildContext context) {
+                showModalBottomSheet(
+                  shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  context: context,
+                  builder: (context) {
+                    return ConfirmationButton(
+                      title: 'Delete Confirmation',
+                      titleDescription:
+                          'Are you sure you want to delete selected messages?',
+                      buttonText: 'No, Keep it',
+                      buttonTextDiscript: 'Yes, Delete',
+                    );
+                  },
+                );
+              },
             ),
           ]),
           child: InkWell(
-            onTap: () => AppRouter.push(ChatView()),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return ChatView();
+            },)),
             child: Row(
               children: [
                 // RadioMenuButton(
@@ -211,6 +210,13 @@ class TeacherList extends StatelessWidget {
                 //     groupValue: 'h',
                 //     onChanged: (value) {},
                 //     child: SizedBox()),
+                Container(
+                    height: 20,
+                    width: 20,
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    )),
                 Container(
                   height: 50,
                   decoration: const BoxDecoration(shape: BoxShape.circle),
@@ -223,22 +229,31 @@ class TeacherList extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const AppText('Mr.User Name',
-                            fontSize: 14, fontWeight: FontWeight.w500),
+                        const AppText(
+                          'Mr.User Name',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
                         const SizedBox(width: 5),
                         Container(
                           padding: EdgeInsets.all(4.px),
                           decoration: BoxDecoration(
-                              color: AppColors.black,
-                              borderRadius: BorderRadius.circular(20.px)),
+                            color: AppColors.black,
+                            borderRadius: BorderRadius.circular(20.px),
+                          ),
                           child: Row(children: [
                             AppImageAsset(
-                                image: ImageConstants.proIcon, height: 12.px),
+                              image: ImageConstants.proIcon,
+                              height: 12.px,
+                            ),
                             const SizedBox(
                               width: 4,
                             ),
-                            AppText('Pro',
-                                color: AppColors.appYellow, fontSize: 10.px)
+                            AppText(
+                              'Pro',
+                              color: AppColors.appYellow,
+                              fontSize: 10.px,
+                            )
                           ]),
                         ),
                       ],

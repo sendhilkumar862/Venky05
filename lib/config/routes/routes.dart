@@ -97,7 +97,6 @@ class Routes {
     searchView: (_) => const SearchView(),
     messageView: (_) => const MessageView(),
     notificationView: (_) => const NotificationView(),
-
     chatView: (_) =>  const ChatView(),
   };
 

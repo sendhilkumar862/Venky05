@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:grouped_list/grouped_list.dart';
-import 'package:lottie/lottie.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:pdf/pdf.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
-import '../../../../custom/app_button/app_button.dart';
-import '../../../../custom/app_textformfield/app_field.dart';
+import 'package:swipe_to/swipe_to.dart';
 import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/image/app_image_assets.dart';
@@ -39,394 +37,559 @@ class ChatView extends StatelessWidget {
                   isBack: true,
                   showSuffix: true,
                 ),
-                body: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      ListView(shrinkWrap: true, children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                ChatBubble(
-                                  clipper: ChatBubbleClipper5(
-                                      type: BubbleType.sendBubble),
-                                  alignment: Alignment.topRight,
-                                  backGroundColor: AppColors.appBlue,
-                                  child: Container(
-                                    constraints: BoxConstraints(
-                                      maxWidth:
-                                          MediaQuery.of(context).size.width *
-                                              0.7,
-                                    ),
-                                    child: const AppText(
-                                      'Hii, Ahmed How Are You',
-                                      color: AppColors.appWhite,
-                                      fontSize: 14,
-                                    ),
+                body: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: chatViewModel.message.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return (chatViewModel.message[index].isCheck!)
+                              ? Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 3),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: <Widget>[
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: <Widget>[
+                                          SwipeTo(
+                                            onLeftSwipe: (details) {
+                                              logs('swipe to reply------>');
+                                            },
+                                            child: ChatBubble(
+                                              clipper: ChatBubbleClipper5(
+                                                type: BubbleType.sendBubble,
+                                              ),
+                                              alignment: Alignment.topRight,
+                                              backGroundColor:
+                                                  AppColors.appBlue,
+                                              child: Container(
+                                                constraints: BoxConstraints(
+                                                  maxWidth:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.7,
+                                                ),
+                                                child: AppText(
+                                                  '${chatViewModel.message[index].mess}',
+                                                  color: AppColors.appWhite,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 3),
+                                          const Row(
+                                            children: <Widget>[
+                                              AppText('12:24 AM',
+                                                  fontSize: 10,
+                                                  color: AppColors.appGrey),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              AppImageAsset(
+                                                  image: ImageConstants
+                                                      .doneMessage),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            right: 10, bottom: 16),
+                                        height: 20,
+                                        child: const AppImageAsset(
+                                            image: ImageConstants.avtar),
+                                      ),
+                                    ],
                                   ),
+                                )
+                              : Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 3),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: <Widget>[
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            left: 10, bottom: 16),
+                                        height: 20,
+                                        child: const AppImageAsset(
+                                            image: ImageConstants.teacherAvtar),
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          SwipeTo(
+                                            onLeftSwipe:
+                                                (DragUpdateDetails details) {},
+                                            child: ChatBubble(
+                                              clipper: ChatBubbleClipper5(
+                                                  type: BubbleType
+                                                      .receiverBubble),
+                                              alignment: Alignment.topLeft,
+                                              backGroundColor: Colors.white,
+                                              child: Container(
+                                                constraints: BoxConstraints(
+                                                  maxWidth:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.7,
+                                                ),
+                                                child: AppText(
+                                                  '${chatViewModel.message[index].mess}',
+                                                  fontSize: 14.px,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5, width: 3),
+                                          const AppText('12:24 AM',
+                                              fontSize: 10,
+                                              color: AppColors.appGrey),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                        },
+                      ),
+                      // ChatMessageUi(chatViewModel.message),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            if (chatViewModel.isOnTapMic)
+                              InkWell(
+                                onTap: () {
+                                  chatViewModel.isOnTapMic = false;
+                                },
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                        color: AppColors.red.withOpacity(0.2),
+                                        shape: BoxShape.circle),
+                                    child: const AppImageAsset(
+                                        image: ImageConstants.messageDelete)),
+                              ),
+                            const SizedBox(width: 5),
+                            if (!chatViewModel.isOnTapMic)
+                              Expanded(
+                                child: TextFormsField(
+                                  controller: chatViewModel.chatController,
+                                  hintText: 'Write your message',
+                                  onChanged: (String value) {},
                                 ),
-                                const SizedBox(height: 5),
-                                Row(
-                                  children: [
-                                    const AppText('12:24 AM',
-                                        fontSize: 10, color: AppColors.appGrey),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Container(
+                              )
+                            else
+                              buildAudioSendView(),
+                            const SizedBox(width: 5),
+                            Container(
+                              alignment: Alignment.center,
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                  color: AppColors.appBlue.withOpacity(0.2),
+                                  shape: BoxShape.circle),
+                              child: (chatViewModel
+                                      .chatController.text.isNotEmpty)
+                                  ? InkWell(
+                                      onTap: () {
+                                        chatViewModel.message.add(Demo(
+                                            chatViewModel.chatController.text,
+                                            true));
+                                        logs(
+                                            'chatViewModel.message[0].mess-->${chatViewModel.message.length}');
+                                        // chatViewModel.message.forEach((element) {
+                                        //   logs('element --> ${element.mess}');
+                                        // });
+                                        chatViewModel.chatController.clear();
+                                      },
                                       child: const AppImageAsset(
-                                          image: ImageConstants.doneMessage),
+                                          image: ImageConstants.sendMessage),
+                                    )
+                                  : InkWell(
+                                      onTap: () {
+                                        chatViewModel.isOnTapMic =
+                                            !chatViewModel.isOnTapMic;
+                                        logs(
+                                            'isOnatap-->${chatViewModel.isOnTapMic}');
+                                      },
+                                      child: AppImageAsset(
+                                        image: (chatViewModel.isOnTapMic)
+                                            ? ImageConstants.sendMessage
+                                            : ImageConstants.microPhone,
+                                      ),
                                     ),
-                                  ],
-                                ),
-                              ],
                             ),
-                            const SizedBox(width: 4),
-                            const SizedBox(
-                              height: 20,
-                              child: AppImageAsset(
-                                  image: ImageConstants.avtar),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const SizedBox(
-                              height: 20,
-                              child: AppImageAsset(
-                                  image: ImageConstants.teacherAvtar),
-                            ),
-                            const SizedBox(width: 4),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ChatBubble(
-                                  clipper: ChatBubbleClipper5(
-                                      type: BubbleType.receiverBubble),
-                                  alignment: Alignment.topLeft,
-                                  backGroundColor: Colors.white,
-                                  child: Container(
-                                    constraints: BoxConstraints(
-                                      maxWidth:
-                                          MediaQuery.of(context).size.width *
-                                              0.7,
+                            const SizedBox(width: 5),
+                            if (!chatViewModel.isOnTapMic)
+                              InkWell(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(25.0),
+                                      ),
                                     ),
-                                    child: AppText(
-                                      'Hii,Ahmed,How Are You',
-                                      fontSize: 14.px,
-                                    ),
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                        padding: EdgeInsets.only(
+                                            left: 15.px, right: 15.px),
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.40.px,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(30.px),
+                                            topRight: Radius.circular(30.px),
+                                          ),
+                                        ),
+                                        child: Stack(
+                                          alignment: Alignment.topRight,
+                                          children: <Widget>[
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Container(
+                                                margin:
+                                                    EdgeInsets.only(top: 14.px),
+                                                alignment: Alignment.center,
+                                                height: 25.px,
+                                                width: 25.px,
+                                                decoration: const BoxDecoration(
+                                                    color:
+                                                        AppColors.appLightGrey,
+                                                    shape: BoxShape.circle),
+                                                child: AppImageAsset(
+                                                  image:
+                                                      ImageConstants.closeIcon,
+                                                  height: 20.px,
+                                                ),
+                                              ),
+                                            ),
+                                            Column(
+                                              children: <Widget>[
+                                                SizedBox(
+                                                  height: 28.px,
+                                                ),
+                                                AppText(
+                                                  'Add Image',
+                                                  fontSize: 14.px,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                                SizedBox(height: 23.px),
+                                                SizedBox(
+                                                  height: 50,
+                                                  child: InkWell(
+                                                    onTap: () {},
+                                                    child: const Row(
+                                                      children: <Widget>[
+                                                        AppImageAsset(
+                                                            image: ImageConstants
+                                                                .cameraIcon),
+                                                        SizedBox(width: 20),
+                                                        AppText('Take Photo'),
+                                                        Spacer(),
+                                                        AppImageAsset(
+                                                            image: ImageConstants
+                                                                .forwardIcon)
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                const Divider(),
+                                                const SizedBox(
+                                                  height: 50,
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      AppImageAsset(
+                                                          image: ImageConstants
+                                                              .imageIcon),
+                                                      SizedBox(width: 20),
+                                                      AppText('Add Image'),
+                                                      Spacer(),
+                                                      AppImageAsset(
+                                                          image: ImageConstants
+                                                              .forwardIcon)
+                                                    ],
+                                                  ),
+                                                ),
+                                                const Divider(),
+                                                SizedBox(
+                                                  height: 50,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      showModalBottomSheet(
+                                                        context: context,
+                                                        shape:
+                                                            const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .vertical(
+                                                            top:
+                                                                Radius.circular(
+                                                                    25.0),
+                                                          ),
+                                                        ),
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return const SizedBox();
+                                                        },
+                                                      );
+                                                    },
+                                                    child: const Row(
+                                                      children: <Widget>[
+                                                        AppImageAsset(
+                                                            image: ImageConstants
+                                                                .documentFileClip),
+                                                        SizedBox(width: 20),
+                                                        AppText('Add File'),
+                                                        Spacer(),
+                                                        AppImageAsset(
+                                                            image: ImageConstants
+                                                                .forwardIcon)
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                const Divider(),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                      color: AppColors.appBlue.withOpacity(0.2),
+                                      shape: BoxShape.circle),
+                                  child: const AppImageAsset(
+                                    image: ImageConstants.plusIcon,
                                   ),
                                 ),
-                                const SizedBox(height: 5, width: 3),
-                                const AppText('12:24 AM',
-                                    fontSize: 10, color: AppColors.appGrey),
-                              ],
-                            ),
+                              ),
                           ],
-                        ),
-                      ]),
-                      const BuildTextFormField()
-                    ],
-                  ),
+                        ))
+                  ],
                 ));
           });
         });
   }
 }
 
-class BuildTextFormField extends StatefulWidget {
-  const BuildTextFormField({super.key});
+// class ChatMessageUi extends StatelessWidget {
+//   List<Demo> message;
+//
+//   ChatMessageUi(this.message, {super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     logs('messagelength-->${message.length}');
+//     return ListView.builder(
+//       itemCount: message.length,
+//       itemBuilder: (BuildContext context, int index) {
+//         return (message[index].isCheck == !false)
+//             ? Row(
+//                 mainAxisAlignment: MainAxisAlignment.end,
+//                 crossAxisAlignment: CrossAxisAlignment.end,
+//                 children: <Widget>[
+//                   Column(
+//                     crossAxisAlignment: CrossAxisAlignment.end,
+//                     children: <Widget>[
+//                       SwipeTo(
+//                         onLeftSwipe: (details) {
+//                           logs('swipe to reply------>');
+//                         },
+//                         child: ChatBubble(
+//                           clipper: ChatBubbleClipper5(
+//                             type: BubbleType.sendBubble,
+//                           ),
+//                           alignment: Alignment.topRight,
+//                           backGroundColor: AppColors.appBlue,
+//                           child: Container(
+//                             constraints: BoxConstraints(
+//                               maxWidth: MediaQuery.of(context).size.width * 0.7,
+//                             ),
+//                             child: AppText(
+//                               '${message[index].mess}',
+//                               color: AppColors.appWhite,
+//                               fontSize: 14,
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                       const SizedBox(height: 3),
+//                       Row(
+//                         children: <Widget>[
+//                           const AppText('12:24 AM',
+//                               fontSize: 10, color: AppColors.appGrey),
+//                           const SizedBox(
+//                             width: 5,
+//                           ),
+//                           Container(
+//                             child: const AppImageAsset(
+//                                 image: ImageConstants.doneMessage),
+//                           ),
+//                         ],
+//                       ),
+//                     ],
+//                   ),
+//                   const SizedBox(width: 4),
+//                   const SizedBox(
+//                     height: 20,
+//                     child: AppImageAsset(image: ImageConstants.avtar),
+//                   ),
+//                 ],
+//               )
+//             : Row(
+//                 crossAxisAlignment: CrossAxisAlignment.end,
+//                 children: <Widget>[
+//                   const SizedBox(
+//                     height: 20,
+//                     child: AppImageAsset(image: ImageConstants.teacherAvtar),
+//                   ),
+//                   const SizedBox(width: 4),
+//                   Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: <Widget>[
+//                       SwipeTo(
+//                         onLeftSwipe: (DragUpdateDetails details) {},
+//                         child: ChatBubble(
+//                           clipper: ChatBubbleClipper5(
+//                               type: BubbleType.receiverBubble),
+//                           alignment: Alignment.topLeft,
+//                           backGroundColor: Colors.white,
+//                           child: Container(
+//                             constraints: BoxConstraints(
+//                               maxWidth: MediaQuery.of(context).size.width * 0.7,
+//                             ),
+//                             child: AppText(
+//                               '${message[index].mess}',
+//                               fontSize: 14.px,
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                       const SizedBox(height: 5, width: 3),
+//                       const AppText('12:24 AM',
+//                           fontSize: 10, color: AppColors.appGrey),
+//                     ],
+//                   ),
+//                 ],
+//               );
+//       },
+//     );
+//   }
+// }
 
-  @override
-  State<BuildTextFormField> createState() => _BuildTextFormFieldState();
-}
-
-class _BuildTextFormFieldState extends State<BuildTextFormField> {
+buildAudioSendView() {
   ChatViewModel chatViewModel = ChatViewModel();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        if (chatViewModel.isOnTapMic)
-          InkWell(
-            onTap: () {
-              chatViewModel.isOnTapMic = false;
-              setState(() {});
-            },
-            child: Container(
-                alignment: Alignment.center,
-                height: 40,
-                width: 40,
-                decoration: BoxDecoration(
-                    color: AppColors.red.withOpacity(0.2),
-                    shape: BoxShape.circle),
-                child:
-                    const AppImageAsset(image: ImageConstants.messageDelete)),
-          ),
-        const SizedBox(width: 5),
-        if (!chatViewModel.isOnTapMic)
-          Expanded(
-            child: TextFormsField(
-              controller: chatViewModel.chatController,
-              hintText: 'Write your message',
-            ),
-          )
-        else
-          builsAudioSendView(),
-        const SizedBox(width: 5),
-        Container(
-          alignment: Alignment.center,
-          height: 40,
-          width: 40,
-          decoration: BoxDecoration(
-              color: AppColors.appBlue.withOpacity(0.2),
-              shape: BoxShape.circle),
-          child: (chatViewModel.chatController.text.isNotEmpty)
-              ? const AppImageAsset(
-                  image: ImageConstants.sendMessage,
-                )
-              : InkWell(
-                  onTap: () {
-                    chatViewModel.isOnTapMic = !chatViewModel.isOnTapMic;
-                    logs('isOnatap-->${chatViewModel.isOnTapMic}');
-                    setState(() {});
-                  },
-                  child: AppImageAsset(
-                    image: (!chatViewModel.isOnTapMic)
-                        ? ImageConstants.microPhone
-                        : ImageConstants.sendMessage,
-                  ),
-                ),
-        ),
-        const SizedBox(width: 5),
-        if (!chatViewModel.isOnTapMic)
-          InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(25.0),
-                  ),
-                ),
-                builder: (context) {
-                  return buildAddImageBottomSheet();
-                },
-              );
-            },
-            child: Container(
-              alignment: Alignment.center,
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                  color: AppColors.appBlue.withOpacity(0.2),
-                  shape: BoxShape.circle),
-              child: const AppImageAsset(
-                image: ImageConstants.plusIcon,
-              ),
-            ),
-          ),
-      ],
-    );
-  }
-
-  builsAudioSendView() {
-    return Expanded(
-      child: Container(
-        alignment: Alignment.center,
-        height: 40,
-        decoration: BoxDecoration(
-          color: AppColors.appLightBlack,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const AppText(
-              '00:12',
-              color: Colors.red,
-            ),
-            const AppText(
-              '00:12',
-              color: Colors.red,
-            ),
-            // AppImageAsset(image: ImageConstants.audioWaves,),
-            InkWell(
-                onTap: () {
-                  chatViewModel.isOnTapPause = !chatViewModel.isOnTapPause;
-                  setState(() {});
-                  logs('isOntapPause-->${chatViewModel.isOnTapPause}');
-                },
-                child: AppImageAsset(
-                    image: (chatViewModel.isOnTapPause)
-                        ? ImageConstants.pauseButton
-                        : ImageConstants.recordButton))
-          ],
-        ),
-      ),
-    );
-  }
-
-  buildAddImageBottomSheet(){
-    return Container(
-      padding: EdgeInsets.only(left: 15.px, right: 15.px),
-      height: MediaQuery.of(context).size.height * 0.40.px,
+  return Expanded(
+    child: Container(
+      alignment: Alignment.center,
+      height: 45,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.px),
-          topRight: Radius.circular(30.px),
-        ),
+        color: AppColors.appLightBlack,
+        borderRadius: BorderRadius.circular(30),
       ),
-      child: Stack(
-        alignment: Alignment.topRight,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
+          AppText(
+            '00:12',
+            color:
+                (chatViewModel.isOnTapPause) ? AppColors.red : AppColors.white,
+          ),
+          if (chatViewModel.isOnTapPause)
+            const AppImageAsset(
+              height: 20,
+              width: 70,
+              image: ImageConstants.audioWaves,
+              fit: BoxFit.fill,
+            )
+          else
+            const AppText('Paused', color: AppColors.appWhite),
           InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Container(
-              margin: EdgeInsets.only(top: 14.px),
-              alignment: Alignment.center,
-              height: 25.px,
-              width: 25.px,
-              decoration: const BoxDecoration(
-                  color: AppColors.appLightGrey,
-                  shape: BoxShape.circle),
+              onTap: () {
+                chatViewModel.isOnTapPause = !chatViewModel.isOnTapPause;
+                logs('isOntapPause-->${chatViewModel.isOnTapPause}');
+              },
               child: AppImageAsset(
-                image: ImageConstants.closeIcon,
-                height: 20.px,
-              ),
-            ),
-          ),
-          Column(
-            children: <Widget>[
-              SizedBox(
-                height: 28.px,
-              ),
-              AppText(
-                'Add Image',
-                fontSize: 14.px,
-                fontWeight: FontWeight.w700,
-              ),
-              SizedBox(height: 23.px),
-              const SizedBox(
-                height: 50,
-                child: Row(
-                  children: [
-                    AppImageAsset(image: ImageConstants.cameraIcon),
-                    SizedBox(width: 20,),
-                    AppText('Take Photo'),
-                    Spacer(),
-                    AppImageAsset(image: ImageConstants.forwardIcon)
-                  ],
-                ),
-              ),
-              const Divider(),
-              const SizedBox(
-                height: 50,
-                child: Row(
-                  children: [
-                    AppImageAsset(image: ImageConstants.imageIcon),
-                    SizedBox(width: 20,),
-                    AppText('Add Image'),
-                    Spacer(),
-                    AppImageAsset(image: ImageConstants.forwardIcon)
-                  ],
-                ),
-              ),
-              const Divider(),
-               SizedBox(
-                height: 50,
-                child: InkWell(onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(25.0),
-                      ),
-                    ),
-                    builder: (context) {
-                      return buildAddFileBottomSheet();
-                    },
-                  );
-                },
-                  child: Row(
-                    children: [
-                      AppImageAsset(
-                          image: ImageConstants.documentFileClip),
-                      SizedBox(width: 20,),
-                      AppText('Add File'),
-                      Spacer(),
-                      AppImageAsset(image: ImageConstants.forwardIcon)
-                    ],
-                  ),
-                ),
-              ),
-              const Divider(),
-            ],
-          ),
+                  image: (chatViewModel.isOnTapPause)
+                      ? ImageConstants.pauseButton
+                      : ImageConstants.recordButton))
         ],
       ),
-    );
-  }
-  buildAddFileBottomSheet(){
-    return Container(
-      padding: EdgeInsets.only(left: 15.px, right: 15.px),
-      height: MediaQuery.of(context).size.height * 0.40.px,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.px),
-          topRight: Radius.circular(30.px),
-        ),
-      ),
-      child: Stack(
-        alignment: Alignment.topRight,
-        children: <Widget>[
-          InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Container(
-              margin: EdgeInsets.only(top: 14.px),
-              alignment: Alignment.center,
-              height: 25.px,
-              width: 25.px,
-              decoration: const BoxDecoration(
-                  color: AppColors.appLightGrey,
-                  shape: BoxShape.circle),
-              child: AppImageAsset(
-                image: ImageConstants.closeIcon,
-                height: 20.px,
-              ),
-            ),
-          ),
-          Column(
-            children: <Widget>[
-              SizedBox(
-                height: 28.px,
-              ),
-              AppText(
-                'Add Image',
-                fontSize: 14.px,
-                fontWeight: FontWeight.w700,
-              ),
-              SizedBox(height: 23.px),
-              Divider(),
-            ],
-          ),
-        ],
-      ),
-    );
-
-  }
+    ),
+  );
 }
+
+// buildAddFileBottomSheet() {
+//   return Container(
+//     padding: EdgeInsets.only(left: 15.px, right: 15.px),
+//     height: MediaQuery.of(context).size.height * 40.px,
+//     decoration: BoxDecoration(
+//       borderRadius: BorderRadius.only(
+//         topLeft: Radius.circular(30.px),
+//         topRight: Radius.circular(30.px),
+//       ),
+//     ),
+//     child: Stack(
+//       alignment: Alignment.topRight,
+//       children: <Widget>[
+//         InkWell(
+//           onTap: () {
+//             Navigator.pop(context);
+//           },
+//           child: Container(
+//             margin: EdgeInsets.only(top: 14.px),
+//             alignment: Alignment.center,
+//             height: 25.px,
+//             width: 25.px,
+//             decoration: const BoxDecoration(
+//                 color: AppColors.appLightGrey, shape: BoxShape.circle),
+//             child: AppImageAsset(
+//               image: ImageConstants.closeIcon,
+//               height: 20.px,
+//             ),
+//           ),
+//         ),
+//         Column(
+//           children: <Widget>[
+//             SizedBox(
+//               height: 28.px,
+//             ),
+//             AppText(
+//               'Add Image',
+//               fontSize: 14.px,
+//               fontWeight: FontWeight.w700,
+//             ),
+//             SizedBox(height: 23.px),
+//             const Divider(),
+//           ],
+//         ),
+//       ],
+//     ),
+//   );
+// }

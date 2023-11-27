@@ -32,4 +32,7 @@ abstract class _MessageViewModelBase extends BaseViewModel with Store {
 
   @observable
   List newStatus = <String>['New to Old', 'Old to View'];
+
+  @observable
+  int? formattedDate;
 }

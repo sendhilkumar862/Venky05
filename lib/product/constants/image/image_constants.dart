@@ -184,7 +184,7 @@ class ImageConstants {
   static const String plusIcon = '${ApplicationConstants.iconPath}plus-medium.svg';
   static const String microPhone = '${ApplicationConstants.iconPath}microphone-mic-rec-circle-solid.svg';
   static const String messageDelete = '${ApplicationConstants.iconPath}message_delete.svg';
-  static const String audioWaves = '${ApplicationConstants.iconPath}audio_waves.svg';
+  static const String audioWaves = '${ApplicationConstants.iconPath}audio_waves.png';
   static const String pauseButton = '${ApplicationConstants.iconPath}pause.svg';
   static const String recordButton = '${ApplicationConstants.iconPath}record-button-circle-solid.svg';
   static const String cameraIcon = '${ApplicationConstants.iconPath}camera-photo.svg';
