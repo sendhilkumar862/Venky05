@@ -32,7 +32,7 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
 
   @observable
-  List<Country> countries = [];
+  List<Country> countries = <Country>[];
 
   @observable
   List<Country> filteredCountries = [];
@@ -60,7 +60,7 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   }
 
   @observable
-  int countryIndex = 118;
+  Country? selectedCountry;
 
   @observable
   String selectedItem = '';
@@ -79,38 +79,40 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   }
 
   @observable
+  List<String> countryLogo = <String>[];
+
+  @observable
   List<String> languages = <String>[
-    'عربي',
     'English',
+    'عربي',
   ];
 
   @observable
   List<String> languageIcon = <String>[
-    ImageConstants.countryIcon,
-    ImageConstants.usIcon,
+    ImageConstants.usIconNew,
+    ImageConstants.saudiArabiaNew,
   ];
 
+
   @action
-  void selectCountry(int index) {
-    countryIndex = index;
-    keyValueStorageBase.setCommon(
-        KeyValueStorageService.country, countries[index].name);
-    keyValueStorageBase.setCommon(KeyValueStorageService.countryCodeAndIDD,
-        '${countries[index].code},${countries[index].idd_code}');
-    logs('selected Country-->$countryIndex');
+  void selectCountry(Country country) {
+    selectedCountry = country;
+    keyValueStorageBase.setCommon(KeyValueStorageService.country, country.name);
   }
 
   @action
   void selectLanguage(int index) {
     languageIndex = index;
 
-    if (languages[index] == 0) {
+    if (index == 0) {
       keyValueStorageBase.setCommon(KeyValueStorageService.language, 'en');
     } else {
       keyValueStorageBase.setCommon(KeyValueStorageService.language, 'ar');
     }
 
     logs('selected lang-->$languageIndex');
+    logs(
+        'selected lang-->${keyValueStorageBase.getCommon(String, KeyValueStorageService.language)}');
   }
 
   @action

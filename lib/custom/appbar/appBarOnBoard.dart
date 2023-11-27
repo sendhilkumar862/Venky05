@@ -6,11 +6,10 @@ import '../../feature/tutorial/view/bottomSheets/about_app_bottom_view.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
 import '../image/app_image_assets.dart';
-import '../sheet/show_bottom_sheet.dart';
 import '../text/app_text.dart';
 
 class AppBarOnBoard extends PreferredSize {
-  AppBarOnBoard({this.title, this.icon, this.onTap, super.key})
+  AppBarOnBoard({this.title, this.icon, super.key})
       : super(
           child: Container(),
           preferredSize: const Size.fromHeight(60),
@@ -18,7 +17,6 @@ class AppBarOnBoard extends PreferredSize {
 
   String? title;
   String? icon;
-  VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -35,24 +33,38 @@ class AppBarOnBoard extends PreferredSize {
       actions: [
         Align(
           alignment: Alignment.center,
-          child: InkWell(
-            onTap: onTap ?? () {},
-            child: Row(
-              children: [
-                AppText(
-                  title ?? 'about'.tr(),
-                  color: AppColors.appBlue,
-                  fontSize: 14.px,
-                ),
-                SizedBox(width: 6.px),
-                AppImageAsset(
+          child: Row(
+            children: [
+              AppText(
+                title ?? 'about'.tr(),
+                color: AppColors.appBlue,
+                fontSize: 14.px,
+              ),
+              SizedBox(width: 6.px),
+              InkWell(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    constraints: const BoxConstraints(),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(25.px),
+                        topLeft: Radius.circular(25.px),
+                      ),
+                    ),
+                    builder: (BuildContext context) {
+                      return AboutAppBottomSheet();
+                    },
+                  );
+                },
+                child: AppImageAsset(
                   image: icon ?? ImageConstants.infoRoundCircle,
                   height: 18.px,
                   color: AppColors.appBlue,
                 ),
-                SizedBox(width: 10.px),
-              ],
-            ),
+              ),
+              SizedBox(width: 10.px),
+            ],
           ),
         )
       ],

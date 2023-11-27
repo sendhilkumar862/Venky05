@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -18,9 +20,10 @@ abstract class _OnboardingViewModelBase extends BaseViewModel with Store {
 
   @override
   void init() {
-    KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-    currentProfile = keyValueStorageBase.getCommon(KeyValueStorageService.profile);
-    print('current profile--> $currentProfile');
+    final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+    currentProfile =
+        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
+    log('current profile--> $currentProfile');
   }
 
   @observable
@@ -30,30 +33,38 @@ abstract class _OnboardingViewModelBase extends BaseViewModel with Store {
   PageController pageController = PageController();
 
   @observable
-  List studentAnimation = [
+  List studentAnimation = <String>[
     ImageConstants.onlineStudy,
     ImageConstants.book,
     ImageConstants.education,
   ];
 
   @observable
-  List teacherAnimation = [
+  List teacherAnimation = <String>[
     ImageConstants.onlineStudy,
     ImageConstants.education,
     ImageConstants.timetable,
   ];
 
   @observable
-  List studentTitle = ['exploreClasses'.tr(), 'book'.tr(), 'startClass'.tr()];
+  List studentTitle = <String>[
+    'exploreClasses'.tr(),
+    'book'.tr(),
+    'startClass'.tr()
+  ];
 
   @observable
   List teacherTitle = ['submitProposalTeacher'.tr(), 'startClass'.tr(), 'setAvailableTimes'.tr()];
 
   @observable
-  List studentSubtitle = ['explore'.tr(), 'cantFind'.tr(), 'bookClasses'.tr()];
+  List studentSubtitle = <String>[
+    'explore'.tr(),
+    'cantFind'.tr(),
+    'bookClasses'.tr()
+  ];
 
   @observable
-  List teacherSubtitle = [
+  List teacherSubtitle = <String>[
     'exploreClassesCreated'.tr(),
     'createAndClasses'.tr(),
     'setAndGive'.tr()

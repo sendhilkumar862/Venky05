@@ -28,10 +28,10 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     fetchData();
     KeyValueStorageBase.init();
     KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-    var currentProfile =
-        keyValueStorageBase.getCommon(KeyValueStorageService.profile);
+    // var currentProfile =
+    //     keyValueStorageBase.getCommon(KeyValueStorageService.profile);
     countryCode = keyValueStorageBase
-        .getCommon(KeyValueStorageService.countryCodeAndIDD)
+        .getCommon(List<String>,KeyValueStorageService.countryCodeAndIDD)
         .toString()
         .split(',');
     logs('countryCode--> $countryCode');
@@ -44,7 +44,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   TextEditingController mobileController = TextEditingController();
 
   @observable
-  String selectedCountry = '1';
+  String selectedCountry = '965';
 
   @observable
   String mobileErrorText = '';
@@ -65,10 +65,10 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   Future<void> sendOTP() async {
     // viewModelContext.loaderOverlay.show();
     Dio dio = Dio();
-    final String mobile = '$selectedCountry${mobileController.text}';
+    final String mobile = mobileController.text;
     logs('mobile--> $mobile');
 
-      Map body = <String, dynamic>{'userId': data['userId'], 'mobile': mobile,'selectedCountry':selectedCountry};
+      Map body = <String, dynamic>{'userId': data['userId'], 'mobile': mobile,'countryCode':selectedCountry};
       logs('send mobile body--> $body');
       final response = await dio.post(
         'http://167.99.93.83/api/v1/users/mobile/send-otp',

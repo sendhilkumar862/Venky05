@@ -70,7 +70,7 @@ class Routes {
   /// The name of the route for unrecognized route screen
   static const String NotFoundScreenRoute = '/route-not-found-screen';
 
-  static final Map<String, RouteBuilder> _routesMap = {
+  static final Map<String, RouteBuilder> _routesMap = <String, RouteBuilder>{
     HomeScreenRoute: (_) => const HomeView(),
     PrefrencesScreen: (_) => const PreferenceView(),
     invoiceDetails: (_) => const InvoiceDetails(),
@@ -93,8 +93,6 @@ class Routes {
     homeViews: (_) => const HomeViews(),
     emailOtpView: (_) => const EmailOtpView(),
     resetPassword: (_) => const RestPassword(),
-    passwordView: (_) => const PasswordView(),
-    homeViews: (_) => const HomeViews(),
     searchView: (_) => const SearchView(),
     messageView: (_) => const MessageView(),
     notificationView: (_) => const NotificationView(),

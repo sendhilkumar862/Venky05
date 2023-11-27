@@ -89,18 +89,13 @@ class CountryBottomsSheet extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
-                        // ignore: avoid_dynamic_calls
-                        setState!(
-                          () {
-                            languageViewModel!.selectCountry(index);
-                            Future.delayed(
-                              const Duration(milliseconds: 200),
-                              () {
-                                AppRouter.pop();
-                              },
-                            );
-                          },
-                        );
+                        setState!(() {
+                          languageViewModel!.selectCountry(
+                              languageViewModel!.filteredCountries.isNotEmpty
+                                  ? languageViewModel!.filteredCountries[index]
+                                  : languageViewModel!.countries[index]);
+                        });
+                        Navigator.pop(context);
                       },
                       child: Container(
                         color: AppColors.appTransparent,
@@ -109,7 +104,7 @@ class CountryBottomsSheet extends StatelessWidget {
                         child: Row(
                           children: <Widget>[
                             ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
+                              borderRadius: BorderRadius.circular(5),
                               child: AppImageAsset(
                                 image: languageViewModel!
                                         .filteredCountries.isNotEmpty
@@ -118,7 +113,7 @@ class CountryBottomsSheet extends StatelessWidget {
                                     : languageViewModel!
                                         .countries[index].flag_url!,
                                 fit: BoxFit.cover,
-                                height: 30.px,
+                                height: 20.px,
                                 width: 30.px,
                               ),
                             ),
@@ -133,14 +128,28 @@ class CountryBottomsSheet extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            const Spacer(),
-                            AppImageAsset(
-                              image: ImageConstants.acceptedStatus,
-                              height: 23.px,
-                              color: (languageViewModel!.countryIndex == index)
-                                  ? AppColors.appBlue
-                                  : AppColors.appWhite,
-                            ),
+                            if (languageViewModel!.filteredCountries.isNotEmpty)
+                              AppImageAsset(
+                                image: ImageConstants.acceptedStatus,
+                                height: 23.px,
+                                color:
+                                    (languageViewModel?.selectedCountry?.name ==
+                                            languageViewModel
+                                                ?.filteredCountries[index].name)
+                                        ? AppColors.appBlue
+                                        : AppColors.appWhite,
+                              )
+                            else
+                              AppImageAsset(
+                                image: ImageConstants.acceptedStatus,
+                                height: 23.px,
+                                color:
+                                    (languageViewModel?.selectedCountry?.name ==
+                                            languageViewModel
+                                                ?.countries[index].name)
+                                        ? AppColors.appBlue
+                                        : AppColors.appWhite,
+                              ),
                             SizedBox(
                               width: 5.px,
                             )

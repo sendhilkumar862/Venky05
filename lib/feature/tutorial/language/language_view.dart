@@ -1,24 +1,22 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'viewModel/language_view_model.dart';
 import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../config/routes/app_router.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/image/app_image_assets.dart';
-import '../../../custom/sheet/country_bottom_sheet.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
-import '../../../product/network/networking/api_endpoint.dart';
-import '../../../product/network/networking/interceptors/refresh_token_interceptor.dart';
+import '../../../product/network/local/key_value_storage_base.dart';
+import '../../../product/network/local/key_value_storage_service.dart';
 import '../profileSet/view/profile_selection_view.dart';
 import '../view/bottomSheets/country_bottom_sheet.dart';
 import '../view/bottomSheets/language_bottom_sheet.dart';
-import '../viewModel/tutorial_view_model.dart';
+import 'viewModel/language_view_model.dart';
 
 class LanguageView extends StatelessWidget {
   const LanguageView({super.key});
@@ -56,34 +54,8 @@ class LanguageView extends StatelessWidget {
                           height: 25.px,
                         ),
                         selectCardView(
-                          icon: languageViewModel.filteredCountries.isNotEmpty
-                              ? (languageViewModel.countryIndex <
-                                      languageViewModel.filteredCountries.length
-                                  ? languageViewModel
-                                      .filteredCountries[
-                                          languageViewModel.countryIndex]
-                                      .flag_url
-                                  : null)
-                              : (languageViewModel.countryIndex <
-                                      languageViewModel.countries.length
-                                  ? languageViewModel
-                                      .countries[languageViewModel.countryIndex]
-                                      .flag_url
-                                  : null),
-                          title: languageViewModel.filteredCountries.isNotEmpty
-                              ? (languageViewModel.countryIndex <
-                                      languageViewModel.filteredCountries.length
-                                  ? languageViewModel
-                                      .filteredCountries[
-                                          languageViewModel.countryIndex]
-                                      .name
-                                  : null)
-                              : (languageViewModel.countryIndex <
-                                      languageViewModel.countries.length
-                                  ? languageViewModel
-                                      .countries[languageViewModel.countryIndex]
-                                      .name
-                                  : null),
+                          icon: languageViewModel.selectedCountry?.flag_url,
+                          title: languageViewModel.selectedCountry?.name,
                           onTap: () {
                             showModalBottomSheet(
                               isScrollControlled: true,
@@ -138,8 +110,27 @@ class LanguageView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10.px),
                           borderColor: AppColors.appBlue,
                           title: 'continue'.tr(),
-                          isDisable: false,
+                          isDisable: languageViewModel.selectedCountry == null,
                           onPressed: () {
+                            final KeyValueStorageBase keyValueStorageBase =
+                                KeyValueStorageBase();
+                            final String? selectedCountry =
+                                keyValueStorageBase.getCommon(
+                                    String, KeyValueStorageService.country);
+
+                            final String? selectedLanguage =
+                                keyValueStorageBase.getCommon(
+                                    String, KeyValueStorageService.language);
+
+                            if (selectedCountry == null) {
+                              keyValueStorageBase.setCommon(
+                                  KeyValueStorageService.country,
+                                  languageViewModel.countries[0].name);
+                            }
+                            if (selectedLanguage == null) {
+                              keyValueStorageBase.setCommon(
+                                  KeyValueStorageService.language, 'en');
+                            }
                             AppRouter.push(const ProfileSelectionView());
                           },
                         ),
@@ -167,21 +158,25 @@ class LanguageView extends StatelessWidget {
         child: Row(
           children: <Widget>[
             ClipRRect(
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(5),
               child: AppImageAsset(
                 image: icon ?? ImageConstants.globe,
-                height: 25.px,
-                width: 25.px,
+                height: 20.px,
+                width: 30.px,
               ),
             ),
             SizedBox(
               width: 12.px,
             ),
-            AppText(
-              title ?? '',
-              fontWeight: FontWeight.w400,
+            Expanded(
+              child: AppText(
+                title ?? 'Select',
+                fontWeight: FontWeight.w400,
+              ),
             ),
-            const Spacer(),
+            SizedBox(
+              width: 12.px,
+            ),
             AppImageAsset(
               image: ImageConstants.downIcon,
               height: 16.px,

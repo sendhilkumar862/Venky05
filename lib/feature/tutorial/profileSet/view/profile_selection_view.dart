@@ -12,12 +12,11 @@ import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 
-import '../../view/bottomSheets/about_app_bottom_view.dart';
 import '../viewModel/profile_view_model.dart';
 
 class ProfileSelectionView extends StatelessWidget {
-  const ProfileSelectionView({super.key});
-
+  const ProfileSelectionView({super.key, this.continueRegistration});
+  final bool? continueRegistration;
   @override
   Widget build(BuildContext context) {
     return BaseView<ProfileViewModel>(
@@ -31,25 +30,27 @@ class ProfileSelectionView extends StatelessWidget {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               backgroundColor: AppColors.appWhite,
-              appBar: AppBarOnBoard(onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  constraints: const BoxConstraints(),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(25.px),
-                      topLeft: Radius.circular(25.px),
-                    ),
-                  ),
-                  builder: (BuildContext context) {
-                    return AboutAppBottomSheet(profileViewModel: profileViewModel,);
-                  },
-                );
-              },),
+              appBar: AppBarOnBoard(
+              //   onTap: () {
+              //   showModalBottomSheet(
+              //     context: context,
+              //     constraints: const BoxConstraints(),
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.only(
+              //         topRight: Radius.circular(25.px),
+              //         topLeft: Radius.circular(25.px),
+              //       ),
+              //     ),
+              //     builder: (BuildContext context) {
+              //       return AboutAppBottomSheet(profileViewModel: profileViewModel,);
+              //     },
+              //   );
+              // },
+              ),
               body: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.px),
                 child: Column(
-                  children: [
+                  children: <Widget>[
                     SizedBox(height: 80.px),
                     Lottie.asset(ImageConstants.profileManager, height: 210.px),
                     SizedBox(
@@ -67,7 +68,7 @@ class ProfileSelectionView extends StatelessWidget {
                     Row(
                       children: List.generate(
                         2,
-                        (index) => selectCardView(
+                        (int index) => selectCardView(
                           icon: ImageConstants.graduateIcon,
                           title: profileViewModel.profileItems[index],
                           profileViewModel: profileViewModel,
@@ -115,18 +116,18 @@ class ProfileSelectionView extends StatelessWidget {
                 : AppColors.white,
             borderRadius: BorderRadius.circular(12.px),
             border: Border.all(
-                color: index == profileViewModel!.selectedIndex
+                color: index == profileViewModel.selectedIndex
                     ? AppColors.appBlue
                     : AppColors.lightPurple,
                 width: 1.5.px),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
+            children: <Widget>[
               AppImageAsset(
                 image: icon!,
                 height: 25.px,
-                color: index != profileViewModel!.selectedIndex
+                color: index != profileViewModel.selectedIndex
                     ? AppColors.appDarkBlack
                     : AppColors.white,
               ),
@@ -136,7 +137,7 @@ class ProfileSelectionView extends StatelessWidget {
               AppText(
                 title ?? '',
                 fontWeight: FontWeight.w400,
-                color: index != profileViewModel!.selectedIndex
+                color: index != profileViewModel.selectedIndex
                     ? AppColors.appDarkBlack
                     : AppColors.white,
               ),
