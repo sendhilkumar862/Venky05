@@ -172,22 +172,40 @@ class ImageConstants {
   static const String warningIcon =
       '${ApplicationConstants.iconPath}warning.png';
   static const String eye = '${ApplicationConstants.iconPath}eye.svg';
-  static const String filterSort = '${ApplicationConstants.iconPath}filter-sort.svg';
-  static const String documentBox = '${ApplicationConstants.iconPath}archivedocumentsbox.svg';
-  static const String doneMessage = '${ApplicationConstants.iconPath}done_message_status.svg';
-  static const String phoneCall = '${ApplicationConstants.iconPath}phone-call.svg';
-  static const String warning = '${ApplicationConstants.iconPath}warning-circle.svg';
+  static const String filterSort =
+      '${ApplicationConstants.iconPath}filter-sort.svg';
+  static const String documentBox =
+      '${ApplicationConstants.iconPath}archivedocumentsbox.svg';
+  static const String doneMessage =
+      '${ApplicationConstants.iconPath}done_message_status.svg';
+  static const String phoneCall =
+      '${ApplicationConstants.iconPath}phone-call.svg';
+  static const String warning =
+      '${ApplicationConstants.iconPath}warning-circle.svg';
   static const String upDownArrow =
       '${ApplicationConstants.iconPath}up_down_arrow.svg';
-  static const String messageSeen = '${ApplicationConstants.iconPath}Message Status.svg';
-  static const String sendMessage = '${ApplicationConstants.iconPath}send-message-solid.svg';
-  static const String plusIcon = '${ApplicationConstants.iconPath}plus-medium.svg';
-  static const String microPhone = '${ApplicationConstants.iconPath}microphone-mic-rec-circle-solid.svg';
-  static const String messageDelete = '${ApplicationConstants.iconPath}message_delete.svg';
-  static const String audioWaves = '${ApplicationConstants.iconPath}audio_waves.svg';
+  static const String messageSeen =
+      '${ApplicationConstants.iconPath}Message Status.svg';
+  static const String sendMessage =
+      '${ApplicationConstants.iconPath}send-message-solid.svg';
+  static const String plusIcon =
+      '${ApplicationConstants.iconPath}plus-medium.svg';
+  static const String microPhone =
+      '${ApplicationConstants.iconPath}microphone-mic-rec-circle-solid.svg';
+  static const String messageDelete =
+      '${ApplicationConstants.iconPath}message_delete.svg';
+  static const String audioWaves =
+      '${ApplicationConstants.iconPath}audio_waves.svg';
   static const String pauseButton = '${ApplicationConstants.iconPath}pause.svg';
-  static const String recordButton = '${ApplicationConstants.iconPath}record-button-circle-solid.svg';
-  static const String cameraIcon = '${ApplicationConstants.iconPath}camera-photo.svg';
-  static const String imageIcon = '${ApplicationConstants.iconPath}image-picture-square.svg';
-  static const String documentFileClip = '${ApplicationConstants.iconPath}document-file-clip.svg';
+  static const String recordButton =
+      '${ApplicationConstants.iconPath}record-button-circle-solid.svg';
+  static const String cameraIcon =
+      '${ApplicationConstants.iconPath}camera-photo.svg';
+  static const String imageIcon =
+      '${ApplicationConstants.iconPath}image-picture-square.svg';
+  static const String documentFileClip =
+      '${ApplicationConstants.iconPath}document-file-clip.svg';
+  static const String read = '${ApplicationConstants.iconPath}read.svg';
+  static const String wallet = '${ApplicationConstants.iconPath}wallet.svg';
+  static const String alert = '${ApplicationConstants.iconPath}alert.svg';
 }
