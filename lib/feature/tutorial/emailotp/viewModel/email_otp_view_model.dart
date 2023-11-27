@@ -8,23 +8,12 @@ import '../../../../config/routes/routes.dart';
 import '../../../../custom/countdown_timer/timer_count_down.dart';
 import '../../../../product/base/model/base_view_model.dart';
 
+import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 
 import '../model/otp_model.dart';
-import '../../../config/routes/app_router.dart';
-import '../../../config/routes/routes.dart';
-import '../../../custom/countdown_timer/timer_count_down.dart';
-import '../../../product/cache/locale_manager.dart';
-import '../../../product/constants/app/app_utils.dart';
-import '../../../product/constants/image/image_constants.dart';
-import '../../../product/network/local/key_value_storage_base.dart';
-import '../../../product/network/local/key_value_storage_service.dart';
-import '../../../product/network/networking/api_service.dart';
-import '../../../product/network/networking/dio_service.dart';
-import '../../../product/utils/validators.dart';
-import 'model/otp_model.dart';
 
 part 'email_otp_view_model.g.dart';
 

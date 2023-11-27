@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'profile_view_model.dart';
 import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -13,7 +12,6 @@ import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 
-import '../../view/bottomSheets/about_app_bottom_view.dart';
 import '../viewModel/profile_view_model.dart';
 
 class ProfileSelectionView extends StatelessWidget {
@@ -32,21 +30,23 @@ class ProfileSelectionView extends StatelessWidget {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               backgroundColor: AppColors.appWhite,
-              appBar: AppBarOnBoard(onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  constraints: const BoxConstraints(),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(25.px),
-                      topLeft: Radius.circular(25.px),
-                    ),
-                  ),
-                  builder: (BuildContext context) {
-                    return AboutAppBottomSheet(profileViewModel: profileViewModel,);
-                  },
-                );
-              },),
+              appBar: AppBarOnBoard(
+              //   onTap: () {
+              //   showModalBottomSheet(
+              //     context: context,
+              //     constraints: const BoxConstraints(),
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.only(
+              //         topRight: Radius.circular(25.px),
+              //         topLeft: Radius.circular(25.px),
+              //       ),
+              //     ),
+              //     builder: (BuildContext context) {
+              //       return AboutAppBottomSheet(profileViewModel: profileViewModel,);
+              //     },
+              //   );
+              // },
+              ),
               body: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.px),
                 child: Column(

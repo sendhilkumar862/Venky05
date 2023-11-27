@@ -354,7 +354,7 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Item {
-  dynamic? get userId => throw _privateConstructorUsedError;
+  int? get userId => throw _privateConstructorUsedError;
   String? get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -367,7 +367,7 @@ abstract class $ItemCopyWith<$Res> {
   factory $ItemCopyWith(Item value, $Res Function(Item) then) =
       _$ItemCopyWithImpl<$Res, Item>;
   @useResult
-  $Res call({dynamic? userId, String? status});
+  $Res call({int? userId, String? status});
 }
 
 /// @nodoc
@@ -390,7 +390,7 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
       userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as int?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -406,7 +406,7 @@ abstract class _$$ItemImplCopyWith<$Res> implements $ItemCopyWith<$Res> {
       __$$ItemImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({dynamic? userId, String? status});
+  $Res call({int? userId, String? status});
 }
 
 /// @nodoc
@@ -426,7 +426,7 @@ class __$$ItemImplCopyWithImpl<$Res>
       userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as int?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -444,7 +444,7 @@ class _$ItemImpl implements _Item {
       _$$ItemImplFromJson(json);
 
   @override
-  final dynamic? userId;
+  final int? userId;
   @override
   final String? status;
 
@@ -458,14 +458,13 @@ class _$ItemImpl implements _Item {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ItemImpl &&
-            const DeepCollectionEquality().equals(other.userId, userId) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.status, status) || other.status == status));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(userId), status);
+  int get hashCode => Object.hash(runtimeType, userId, status);
 
   @JsonKey(ignore: true)
   @override
@@ -482,13 +481,12 @@ class _$ItemImpl implements _Item {
 }
 
 abstract class _Item implements Item {
-  const factory _Item({final dynamic? userId, final String? status}) =
-      _$ItemImpl;
+  const factory _Item({final int? userId, final String? status}) = _$ItemImpl;
 
   factory _Item.fromJson(Map<String, dynamic> json) = _$ItemImpl.fromJson;
 
   @override
-  dynamic? get userId;
+  int? get userId;
   @override
   String? get status;
   @override

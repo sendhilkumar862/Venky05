@@ -3,32 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../../config/routes/app_router.dart';
-import '../../../../config/routes/routes.dart';
+import '../../../../custom/countdown_timer/timer_controller.dart';
 import '../../../../custom/countdown_timer/timer_count_down.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/otp/otp_text_field.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/base/view/base_view.dart';
+import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 
 import '../viewModel/mobile_otp_view_model.dart';
-import '../../../config/routes/app_router.dart';
-import '../../../config/routes/routes.dart';
-import '../../../custom/countdown_timer/timer_controller.dart';
-import '../../../custom/countdown_timer/timer_count_down.dart';
-import '../../../custom/image/app_image_assets.dart';
-import '../../../custom/otp/otp_text_field.dart';
-import '../../../custom/preLoginWidget/pre_login_widget.dart';
-import '../../../custom/text/app_text.dart';
-import '../../../product/base/view/base_view.dart';
-import '../../../product/constants/app/app_utils.dart';
-import '../../../product/constants/colors/app_colors_constants.dart';
-import '../../../product/constants/image/image_constants.dart';
-import '../viewModel/tutorial_view_model.dart';
-import 'mobile_otp_view_model.dart';
+
 
 class MobileOtpView extends StatelessWidget {
   const MobileOtpView({super.key});
@@ -39,8 +26,8 @@ class MobileOtpView extends StatelessWidget {
         viewModel: MobileOtpViewModel(),
         onModelReady: (MobileOtpViewModel mobileOtpViewModel) {
           mobileOtpViewModel.setContext(context);
-          mobileOtpViewModel.enteredMobile =
-              ModalRoute.of(context)!.settings.arguments! as Map;
+          mobileOtpViewModel.arguments =
+              ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
         },
         onPageBuilder:
             (BuildContext context, MobileOtpViewModel mobileOtpViewModel) {

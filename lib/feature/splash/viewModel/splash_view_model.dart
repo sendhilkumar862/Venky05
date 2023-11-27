@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
@@ -8,10 +6,8 @@ import '../../../config/routes/app_router.dart';
 import '../../../product/network/local/key_value_storage_base.dart';
 import '../../../product/network/local/key_value_storage_service.dart';
 import '../../tutorial/language/language_view.dart';
-import '../../tutorial/onboarding/onboading_view.dart';
-import '../../tutorial/view/profile_selection_view.dart';
-import '../view/splash_first.dart';
-import '../view/splash_second.dart';
+import '../../tutorial/onboarding/view/onboading_view.dart';
+import '../../tutorial/profileSet/view/profile_selection_view.dart';
 
 part 'splash_view_model.g.dart';
 

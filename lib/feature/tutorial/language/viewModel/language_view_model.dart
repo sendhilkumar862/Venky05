@@ -2,8 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-import 'language_repository.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
@@ -95,8 +93,6 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
     ImageConstants.saudiArabiaNew,
   ];
 
-  @observable
-  List<Country> filteredCountries = <Country>[];
 
   @action
   void selectCountry(Country country) {

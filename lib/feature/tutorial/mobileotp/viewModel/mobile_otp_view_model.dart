@@ -5,18 +5,14 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
+import '../../../../custom/countdown_timer/timer_count_down.dart';
 import '../../../../product/base/model/base_view_model.dart';
+import '../../../../product/constants/app/app_utils.dart';
+import '../../../../product/network/local/key_value_storage_base.dart';
+import '../../../../product/network/local/key_value_storage_service.dart';
+import '../../../../product/utils/validators.dart';
+import '../../emailotp/model/otp_model.dart';
 
-import '../../../config/routes/app_router.dart';
-import '../../../config/routes/routes.dart';
-import '../../../custom/countdown_timer/timer_count_down.dart';
-import '../../../product/cache/locale_manager.dart';
-import '../../../product/constants/app/app_utils.dart';
-import '../../../product/constants/image/image_constants.dart';
-import '../../../product/network/local/key_value_storage_base.dart';
-import '../../../product/network/local/key_value_storage_service.dart';
-import '../../../product/utils/validators.dart';
-import '../emailotp/model/otp_model.dart';
 
 part 'mobile_otp_view_model.g.dart';
 
@@ -67,8 +63,8 @@ abstract class _MobileOtpViewModelBase extends BaseViewModel with Store {
     final Dio dio = Dio();
     try {
       final Map<String, dynamic> body = <String, dynamic>{
-        'userId': "${enteredMobile['userId']}",
-        'otpId': "${enteredMobile['otp_id']}",
+        'userId': "${arguments['userId']}",
+        'otpId': "${arguments['otp_id']}",
         'otp': enteredOTP
       };
 
@@ -91,7 +87,7 @@ abstract class _MobileOtpViewModelBase extends BaseViewModel with Store {
         isCorrect = otpModel.status!.type == 'success';
 
         if (otpModel.status!.type == 'success') {
-          AppRouter.pushNamed(Routes.userInfoView, args: enteredMobile);
+          AppRouter.pushNamed(Routes.userInfoView, args: arguments);
         }
 
         logs('isCorrect--> $isCorrect');

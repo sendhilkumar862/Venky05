@@ -8,19 +8,13 @@ import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
+import '../../../../product/constants/enums/app_register_status_enums.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 
 import '../model/email_enter_model.dart';
-import '../../../config/routes/app_router.dart';
-import '../../../config/routes/routes.dart';
-import '../../../product/constants/app/app_utils.dart';
-import '../../../product/constants/enums/app_register_status_enums.dart';
-import '../../../product/network/local/key_value_storage_base.dart';
-import '../../../product/network/local/key_value_storage_service.dart';
-import '../../../product/utils/validators.dart';
-import 'model/email_enter_model.dart';
+
 
 part 'email_view_model.g.dart';
 
@@ -43,6 +37,9 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
     'otp_id': '',
   };
 
+  @observable
+  
+
   @action
   Future<void> registerMail() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
@@ -60,16 +57,16 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
       );
 
       if (response.statusCode == 200) {
-        final EmailEnterModel data = EmailEnterModel.fromJson(response.data);
-        if (data.status.type == 'success') {
-          logs('registered ${data.status.type}');
-          arguments['userId'] = data.data.item.userId;
-          final String status = data.data.item.status;
+        final EmailEnterModel emailEnterModel = EmailEnterModel.fromJson(response.data);
+        if (emailEnterModel.status?.type == 'success') {
+          logs('registered ${emailEnterModel.status?.type}');
+          arguments['userId'] = emailEnterModel.data?.item?.userId.toString();
+          final String status = emailEnterModel.data?.item?.status ?? '';
           if (status == RegistrationStatus.MOBILE.value) {
             EasyLoading.dismiss();
             AppRouter.pushNamed(Routes.mobileView, args: arguments);
           } else if(status == RegistrationStatus.EMAIL.value) {
-              sendOTP(data.data.item.userId.toString());    
+              sendOTP(emailEnterModel.data!.item!.userId.toString());    
           } else if (status == RegistrationStatus.PROFILE_INCOMPLETE.value) {
               EasyLoading.dismiss();
               // redirect to last step of registration....
@@ -82,10 +79,10 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
       }
     } on DioException catch (error) {
       EasyLoading.dismiss();
-      data = EmailEnterModel.fromJson(error.response!.data);
-      registerWarning = data.status!.type == 'error';
-      registerWarningMessage = data.status!.message!;
-      logs('registerMail error --> ${registerWarning}');
+      final EmailEnterModel emailEnterModel = EmailEnterModel.fromJson(error.response!.data);
+      registerWarning = emailEnterModel.status!.type == 'error';
+      registerWarningMessage = emailEnterModel.status!.message!;
+      logs('registerMail error --> $registerWarning');
     }
   }
 
@@ -137,6 +134,12 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
 
   @observable
   int emailValid = 2;
+
+  @observable
+  bool registerWarning = false;
+
+  @observable
+  String registerWarningMessage = '';
 
   @action
   void validateEmail(String value) {

@@ -26,7 +26,7 @@ abstract class Data with _$Data {
 @freezed
 abstract class Item with _$Item {
   const factory Item({
-     dynamic? userId,
+     int? userId,
      String? status,
   }) = _Item;
 

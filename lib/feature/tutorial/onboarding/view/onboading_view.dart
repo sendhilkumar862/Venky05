@@ -34,9 +34,10 @@ class OnboardingView extends StatelessWidget {
               backgroundColor: AppColors.appWhite,
               appBar: AppBarOnBoard(
                   title: 'exploreApp'.tr(),
-                  backNavigate: !(continueRegistration ?? false),
+                  // backNavigate: !(continueRegistration ?? false),
                   icon: ImageConstants.layersIcon,
-                  onTap: () => AppRouter.pushNamed(Routes.HomeScreenRoute)),
+                  // onTap: () => AppRouter.pushNamed(Routes.HomeScreenRoute)
+                  ),
               body: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.px),
                 child: Column(

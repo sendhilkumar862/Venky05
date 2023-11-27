@@ -10,26 +10,11 @@ import '../../../../custom/otp/otp_text_field.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/base/view/base_view.dart';
+import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/utils/validators.dart';
-
 import '../viewModel/email_otp_view_model.dart';
-import '../../../config/routes/app_router.dart';
-import '../../../config/routes/routes.dart';
-import '../../../custom/countdown_timer/timer_controller.dart';
-import '../../../custom/countdown_timer/timer_count_down.dart';
-import '../../../custom/image/app_image_assets.dart';
-import '../../../custom/otp/otp_text_field.dart';
-import '../../../custom/preLoginWidget/pre_login_widget.dart';
-import '../../../custom/text/app_text.dart';
-import '../../../product/base/view/base_view.dart';
-import '../../../product/constants/app/app_utils.dart';
-import '../../../product/constants/colors/app_colors_constants.dart';
-import '../../../product/constants/image/image_constants.dart';
-import '../../../product/utils/validators.dart';
-import '../viewModel/tutorial_view_model.dart';
-import 'email_otp_view_model.dart';
 
 class EmailOtpView extends StatelessWidget {
   const EmailOtpView({super.key});
