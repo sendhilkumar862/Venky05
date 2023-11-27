@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../../config/routes/app_router.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/app_textformfield/text_field.dart';
@@ -17,6 +18,7 @@ import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/utils/validators.dart';
+import '../../chat/view/chat_view.dart';
 import '../viewmodel/message_view_model.dart';
 
 class MessageView extends StatelessWidget {
@@ -48,7 +50,13 @@ class MessageView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20)),
                     context: context,
                     builder: (context) {
-                      return ConfirmationButton();
+                      return ConfirmationButton(
+                        title: 'Delete Confirmation',
+                        titleDescription:
+                            'Are you sure you want to delete selected messages?',
+                        buttonText: 'No, Keep it',
+                        buttonTextDiscript: 'Yes, Delete',
+                      );
                     },
                   );
                 },
@@ -57,18 +65,17 @@ class MessageView extends StatelessWidget {
                 builder: (context) {
                   return ListView(
                     children: <Widget>[
-                      SizedBox(height: 60.px),
-                      InfoCardVIew(
-                        isPending: false,
-                        isShowButton: true,
-                        isSupport: false,
-                        isStatus: false,
-                        title: 'No Messages!',
-                        message: 'Start Conversation With Teacher',
-                        cardColor: AppColors.white,
-                        buttonTitle: 'Search About Teacher',
-                        buttonTap: () {},
-                      ),
+                      // InfoCardVIew(
+                      //   isPending: false,
+                      //   isShowButton: true,
+                      //   isSupport: false,
+                      //   isStatus: false,
+                      //   title: 'No Messages!',
+                      //   message: 'Start Conversation With Teacher',
+                      //   cardColor: AppColors.white,
+                      //   buttonTitle: 'Search About Teacher',
+                      //   buttonTap: () {},
+                      // ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Column(
@@ -141,7 +148,7 @@ class MessageView extends StatelessWidget {
                                 separatorBuilder: (context, index) {
                                   return const Divider();
                                 },
-                                itemCount: 20)
+                                itemCount: 10)
                           ],
                         ),
                       )
@@ -165,87 +172,92 @@ class TeacherList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppText('Today',
+        const AppText('Today',
             fontSize: 12,
             fontWeight: FontWeight.w700,
             color: AppColors.appGrey),
         const SizedBox(height: 10),
         Slidable(
           closeOnScroll: true,
-          endActionPane: ActionPane(motion: ScrollMotion(), children: [
+          endActionPane: ActionPane(motion: const ScrollMotion(), children: [
             SlidableAction(
               backgroundColor: AppColors.appLightBlue.withOpacity(0.3),
               foregroundColor: AppColors.appBlue,
-              icon: Icons.archive,
+              image: const AppImageAsset(image: ImageConstants.documentBox),
               label: 'Archive',
               onPressed: (BuildContext context) {},
             ),
             SlidableAction(
               backgroundColor: AppColors.appLightBlue.withOpacity(0.3),
               foregroundColor: AppColors.appBlue,
-              icon: Icons.call,
+              image: const AppImageAsset(image: ImageConstants.phoneCall),
               label: 'Call',
               onPressed: (BuildContext context) {},
             ),
             SlidableAction(
               backgroundColor: AppColors.red,
               foregroundColor: AppColors.appWhite,
-              icon: Icons.delete,
+              image: const AppImageAsset(image: ImageConstants.delete),
               label: 'Delete',
               onPressed: (BuildContext context) {},
             ),
           ]),
-          child: Row(
-            children: [
-              // RadioMenuButton(
-              //     value: 0,
-              //     groupValue: 'h',
-              //     onChanged: (value) {},
-              //     child: SizedBox()),
-              Container(
-                height: 50,
-                decoration: const BoxDecoration(shape: BoxShape.circle),
-                child: const AppImageAsset(image: ImageConstants.teacherAvtar),
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const AppText('Mr.User Name',
-                          fontSize: 14, fontWeight: FontWeight.w500),
-                      const SizedBox(width: 5),
-                      Container(
-                        padding: EdgeInsets.all(4.px),
-                        decoration: BoxDecoration(
-                            color: AppColors.black,
-                            borderRadius: BorderRadius.circular(20.px)),
-                        child: Row(children: [
-                          AppImageAsset(
-                              image: ImageConstants.proIcon, height: 12.px),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          AppText('Pro',
-                              color: AppColors.appYellow, fontSize: 10.px)
-                        ]),
-                      ),
-                    ],
-                  ),
-                  const AppText('Hii Ahmed',
-                      fontSize: 10, fontWeight: FontWeight.w400),
-                ],
-              ),
-              const Spacer(),
-              const Row(
-                children: [
-                  AppText('12:00 Am', fontSize: 10),
-                  SizedBox(width: 4),
-                  AppImageAsset(image: ImageConstants.doneMessage)
-                ],
-              )
-            ],
+          child: InkWell(
+            onTap: () => AppRouter.push(ChatView()),
+            child: Row(
+              children: [
+                // RadioMenuButton(
+                //     value: 0,
+                //     groupValue: 'h',
+                //     onChanged: (value) {},
+                //     child: SizedBox()),
+                Container(
+                  height: 50,
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  child:
+                      const AppImageAsset(image: ImageConstants.teacherAvtar),
+                ),
+                const SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const AppText('Mr.User Name',
+                            fontSize: 14, fontWeight: FontWeight.w500),
+                        const SizedBox(width: 5),
+                        Container(
+                          padding: EdgeInsets.all(4.px),
+                          decoration: BoxDecoration(
+                              color: AppColors.black,
+                              borderRadius: BorderRadius.circular(20.px)),
+                          child: Row(children: [
+                            AppImageAsset(
+                                image: ImageConstants.proIcon, height: 12.px),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            AppText('Pro',
+                                color: AppColors.appYellow, fontSize: 10.px)
+                          ]),
+                        ),
+                      ],
+                    ),
+                    const AppText('Hii Ahmed',
+                        fontSize: 10, fontWeight: FontWeight.w400),
+                  ],
+                ),
+                const Spacer(),
+                const Row(
+                  children: [
+                    AppText('12:00 Am', fontSize: 10),
+                    SizedBox(width: 4),
+                    // AppImageAsset(image: ImageConstants.doneMessage),
+                    AppImageAsset(image: ImageConstants.messageSeen),
+                  ],
+                )
+              ],
+            ),
           ),
         )
       ],
@@ -316,15 +328,11 @@ class _SortBottomSheetState extends State<SortBottomSheet> {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              SizedBox(
-                height: 18.px,
-              ),
+              SizedBox(height: 18.px),
               Row(
                 children: [
                   const AppText('Date', color: AppColors.appGrey),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  const SizedBox(width: 10),
                   sortList(
                     title: messageViewModel.newStatus,
                     selected: messageViewModel.isSelectNewStatus,
@@ -343,8 +351,8 @@ class _SortBottomSheetState extends State<SortBottomSheet> {
                   const SizedBox(height: 10),
                 ],
               ),
-              SizedBox(height: 20),
-              Divider(
+              const SizedBox(height: 20),
+              const Divider(
                 color: AppColors.appGrey,
               )
             ],
@@ -368,7 +376,6 @@ class _SortBottomSheetState extends State<SortBottomSheet> {
             return GestureDetector(
               onTap: () {
                 selected[index] = !selected[index];
-                logs('Sekebasg-->${selected[index]}');
                 setState(() {});
               },
               child: Container(
@@ -379,7 +386,10 @@ class _SortBottomSheetState extends State<SortBottomSheet> {
                   color: (selected![index])
                       ? AppColors.appBlue
                       : AppColors.appWhite,
-                  border: Border.all(color: AppColors.appLightGrey),
+                  border: Border.all(
+                      color: (selected[index])
+                          ? AppColors.appBlue
+                          : AppColors.appLightGrey),
                   borderRadius: BorderRadius.circular(30.px),
                 ),
                 child: Row(
@@ -406,12 +416,25 @@ class _SortBottomSheetState extends State<SortBottomSheet> {
 }
 
 class ConfirmationButton extends StatelessWidget {
-  const ConfirmationButton({super.key});
+  String? title;
+  String? titleDescription;
+  String? buttonText;
+  String? buttonTextDiscript;
+  Color? buttonTextDisColor;
+
+  ConfirmationButton({
+    this.title,
+    this.titleDescription,
+    this.buttonText,
+    this.buttonTextDiscript,
+    this.buttonTextDisColor,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 15.px, right: 15.px),
+      padding: EdgeInsets.symmetric(horizontal: 15.px),
       height: MediaQuery.of(context).size.height * 0.40.px,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -442,27 +465,32 @@ class ConfirmationButton extends StatelessWidget {
           Column(
             children: <Widget>[
               SizedBox(height: 28.px),
-              AppImageAsset(image: ImageConstants.warning),
+              const AppImageAsset(image: ImageConstants.warning),
               SizedBox(height: 20.px),
               Align(
                 alignment: Alignment.center,
                 child: AppText(
-                  'Delete Confirmation',
+                  title ?? '',
                   fontSize: 16.px,
                   textAlign: TextAlign.start,
                   fontWeight: FontWeight.w700,
                 ),
               ),
               SizedBox(height: 18.px),
-              const AppText('Are You Sure you want to delete selected message?',
+              AppText(titleDescription ?? '',
                   color: AppColors.appGrey, fontSize: 12),
               const SizedBox(height: 20),
               AppButton(
-                title: 'No, Keep it',
+                title: buttonText ?? '',
+                height: 45.px,
+                borderRadius: BorderRadius.circular(12.px),
+                borderColor: AppColors.appBlue,
                 onPressed: () {},
+                isDisable: false,
               ),
-              SizedBox(height: 20),
-              AppText('Yes,Delete', color: AppColors.appRed),
+              const SizedBox(height: 20),
+              AppText(buttonTextDiscript ?? '',
+                  color: buttonTextDisColor ?? AppColors.appRed),
             ],
           ),
         ],

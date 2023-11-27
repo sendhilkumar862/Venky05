@@ -23,10 +23,11 @@ class HessaAppBar extends PreferredSize {
       this.trailingTap,
       this.isPro = false,
       this.isBack = true,
+      this.onCallTap,
       this.icon})
       : super(
           child: Container(),
-          preferredSize:  Size.fromHeight(160.px),
+          preferredSize: Size.fromHeight(160.px),
         );
   final String? icon;
   final String? title;
@@ -41,6 +42,7 @@ class HessaAppBar extends PreferredSize {
   final GestureTapCallback? onProfileTap;
   final GestureTapCallback? onSearchTap;
   final GestureTapCallback? onBellTap;
+  final GestureTapCallback? onCallTap;
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +84,7 @@ class HessaAppBar extends PreferredSize {
                     titleSpacing: 2,
                     leading: const SizedBox.shrink(),
                     title: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         if (isBack)
                           Padding(
@@ -99,19 +102,24 @@ class HessaAppBar extends PreferredSize {
                                 )),
                           )
                         else
-                          const SizedBox(
-                            width: 15,
-                          ),
+                          const SizedBox(width: 15),
                         Text(title ?? '', style: openSans.get16.w700.black),
+                        Spacer(),
+                        if (showSuffix)
+                          GestureDetector(
+                            onTap: onCallTap,
+                            child: const AppImageAsset(
+                              image: ImageConstants.phoneCall,
+                              height: 20,
+                            ),
+                          ),
                       ],
                     ),
                     backgroundColor: AppColors.trans,
                   )
                 : Row(
                     children: <Widget>[
-                      const SizedBox(
-                        width: 15,
-                      ),
+                      const SizedBox(width: 15),
                       Container(
                         height: 55,
                         width: 55,
@@ -145,9 +153,7 @@ class HessaAppBar extends PreferredSize {
                             title ?? '',
                             fontSize: 14,
                           ),
-                          const SizedBox(
-                            height: 4,
-                          ),
+                          const SizedBox(height: 4),
                           SizedBox(
                             width: 160,
                             child: AppText(
@@ -158,10 +164,7 @@ class HessaAppBar extends PreferredSize {
                               fontSize: 18,
                             ),
                           ),
-                          if (isPro!)
-                            const SizedBox(
-                              height: 4,
-                            ),
+                          if (isPro!) const SizedBox(height: 4),
                           if (isPro!)
                             Container(
                               padding: EdgeInsets.symmetric(

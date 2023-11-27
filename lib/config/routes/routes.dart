@@ -14,6 +14,7 @@ import '../../feature/pre_login/teachingInfo/view/teaching_info.dart';
 import '../../feature/preference/view/preference_view.dart';
 import '../../feature/rating/view/rating_view.dart';
 import '../../feature/search/view/search_view.dart';
+import '../../feature/tutorial/chat/view/chat_view.dart';
 import '../../feature/tutorial/emailEnter/view/email_view.dart';
 import '../../feature/tutorial/emailotp/view/email_otp_view.dart';
 import '../../feature/tutorial/login/view/login_view.dart';
@@ -65,7 +66,7 @@ class Routes {
   static const String searchView = '/search';
   static const String messageView = '/message';
   static const String notificationView = '/notification-view';
-
+  static const String chatView = '/chatView';
 
   /// The name of the route for unrecognized route screen
   static const String NotFoundScreenRoute = '/route-not-found-screen';
@@ -97,6 +98,7 @@ class Routes {
     messageView: (_) => const MessageView(),
     notificationView: (_) => const NotificationView(),
 
+    chatView: (_) =>  const ChatView(),
   };
 
   static RouteBuilder getRoute(String? routeName) {

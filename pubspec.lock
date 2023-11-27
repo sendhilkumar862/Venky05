@@ -374,6 +374,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.1"
+  flutter_chat_bubble:
+    dependency: "direct main"
+    description:
+      name: flutter_chat_bubble
+      sha256: ede33df7237fea3d89464c8493bfa0bee2f94f50fd097ebd30c517c3c0d4fcf9
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   flutter_easyloading:
     dependency: "direct main"
     description:
@@ -486,10 +494,9 @@ packages:
   flutter_slidable:
     dependency: "direct main"
     description:
-      name: flutter_slidable
-      sha256: "19ed4813003a6ff4e9c6bcce37e792a2a358919d7603b2b31ff200229191e44c"
-      url: "https://pub.dev"
-    source: hosted
+      path: "flutter_slidable-3.0.1"
+      relative: true
+    source: path
     version: "3.0.1"
   flutter_spinkit:
     dependency: transitive
@@ -621,6 +628,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.1"
+  grouped_list:
+    dependency: "direct main"
+    description:
+      name: grouped_list
+      sha256: fef106470186081c32636aa055492eee7fc7fe8bf0921a48d31ded24821af19f
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.2"
   hive:
     dependency: transitive
     description:
