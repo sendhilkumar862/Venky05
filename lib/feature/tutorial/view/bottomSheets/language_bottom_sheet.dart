@@ -83,10 +83,10 @@ class LanguageBottomSheet extends StatelessWidget {
                         child: Row(
                           children: <Widget>[
                             ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
+                              borderRadius: BorderRadius.circular(40),
                               child: AppImageAsset(
                                 image: languageViewModel!.languageIcon[index],
-                                height: 20.px,
+                                height: 30.px,
                                 width: 30.px,
                               ),
                             ),

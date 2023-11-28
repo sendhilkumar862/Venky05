@@ -49,9 +49,6 @@ abstract class _ProfileViewModelBase extends BaseViewModel with Store {
     // }
 
     isSelected();
-    // logs(isSelected().toString());
-    // logs(
-    //     'storage get -- > ${keyValueStorageBase.getCommon(String, KeyValueStorageService.profile)}');
   }
 
   @action
