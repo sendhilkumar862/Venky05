@@ -208,4 +208,8 @@ class ImageConstants {
   static const String read = '${ApplicationConstants.iconPath}read.svg';
   static const String wallet = '${ApplicationConstants.iconPath}wallet.svg';
   static const String alert = '${ApplicationConstants.iconPath}alert.svg';
+  static const String attach = '${ApplicationConstants.iconPath}attach.svg';
+  static const String camera = '${ApplicationConstants.iconPath}camera.svg';
+  static const String pictureSquare =
+      '${ApplicationConstants.iconPath}picture_square.svg';
 }
