@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../custom/image/app_image_assets.dart';
@@ -7,22 +8,22 @@ import '../../../product/base/view/base_view.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/utils/validators.dart';
-import '../viewModel/splash_second_view_model.dart';
 import '../viewModel/splash_view_model.dart';
 
-class SplashSecond extends StatelessWidget {
-  const SplashSecond({super.key});
+class SplashView extends StatelessWidget {
+  const SplashView({super.key});
 
   @override
   Widget build(BuildContext context) {
     logs('Current Screen--> $runtimeType');
-    return BaseView<SplashSecondViewModel>(
-        viewModel: SplashSecondViewModel(),
-        onModelReady: (SplashSecondViewModel splashSecondViewModel) {
-          splashSecondViewModel.setContext(context);
-          splashSecondViewModel.init();
+
+    return BaseView<SplashViewModel>(
+        viewModel: SplashViewModel(),
+        onModelReady: (SplashViewModel splashViewModel) {
+          splashViewModel.setContext(context);
+          splashViewModel.init();
         },
-        onPageBuilder: (BuildContext context, SplashSecondViewModel homeViewsModel) {
+        onPageBuilder: (BuildContext context, SplashViewModel homeViewsModel) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               body: Container(
@@ -30,10 +31,7 @@ class SplashSecond extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.center,
                   children: <Widget>[
-                    AppImageAsset(
-                      image: ImageConstants.primaryLogo,
-                      height: 50.px,
-                    ),
+                    Lottie.asset(ImageConstants.splash, height: 400.px),
                     const Column(
                       children: <Widget>[
                         Expanded(

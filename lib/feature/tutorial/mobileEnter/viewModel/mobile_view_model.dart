@@ -111,7 +111,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   @action
   void onTapMobileSubmit() {
     if (mobileValid == 1) {
-      AppRouter.pushNamed(Routes.mobileOtpView, args: arguments);
+      // AppRouter.pushNamed(Routes.mobileOtpView, args: arguments);
       sendOTP();
     }
   }

@@ -110,6 +110,7 @@ dependencies:
   file_picker: ^6.1.1
   calendar_date_picker2: ^0.5.3
   flutter_easyloading:
+  nested: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -14,12 +14,16 @@ part 'splash_view_model.g.dart';
 class SplashViewModel = _SplashViewModelBase with _$SplashViewModel;
 
 abstract class _SplashViewModelBase extends BaseViewModel with Store {
+
   @override
   void setContext(BuildContext context) => viewModelContext = context;
+  
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+
   String? selectedCountry;
   String? selectedLanguage;
   String? selectedProfile;
+
   @override
   void init() {
     checkTheStatus().whenComplete(() async => setRoute());
