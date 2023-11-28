@@ -34,7 +34,7 @@ abstract class _ProfileViewModelBase extends BaseViewModel with Store {
   int selectedIndex = -1;
 
   @observable
-  List profileItems = <String>['teacher'.tr(), 'parent'.tr()];
+  List<String> profileItems = <String>['teacher'.tr(), 'parent'.tr()];
 
   @observable
   AboutModel aboutModel =  AboutModel();
@@ -42,15 +42,13 @@ abstract class _ProfileViewModelBase extends BaseViewModel with Store {
   @action
   void selectProfile(int index) {
     selectedIndex = index;
-    if (index == 0) {
-      keyValueStorageBase.setCommon(KeyValueStorageService.profile, 'Tutor');
-    } else {
-      keyValueStorageBase.setCommon(KeyValueStorageService.profile, 'Student');
-    }
+    // if (index == 0) {
+    //   keyValueStorageBase.setCommon(KeyValueStorageService.profile, 'Tutor');
+    // } else {
+    //   keyValueStorageBase.setCommon(KeyValueStorageService.profile, 'Student');
+    // }
 
     isSelected();
-    logs(isSelected().toString());
-    logs('storage get -- > ${keyValueStorageBase.getCommon(String, KeyValueStorageService.profile)}');
   }
 
   @action
@@ -65,6 +63,7 @@ abstract class _ProfileViewModelBase extends BaseViewModel with Store {
   @action
   void onTapSubmit() {
     if (isSelected()) {
+      keyValueStorageBase.setCommon(KeyValueStorageService.profile,  selectedIndex == 0 ? 'Tutor' : 'Student');
       AppRouter.push(const OnboardingView());
     }
   }
@@ -72,10 +71,10 @@ abstract class _ProfileViewModelBase extends BaseViewModel with Store {
   @action
   Future<void> fetchData() async {
     logs('Entred');
-    Dio dio = Dio();
+    final Dio dio = Dio();
     try {
-      Response response =
-          await dio.get('http://167.99.93.83/api/v1/content/role/tutor/type/about_us');
+      final Response response =
+          await dio.get('http://167.99.93.83/api/v1/content/role/common/type/about_us');
       logs('status code--> ${response.statusCode}');
       if (response.statusCode == 200) {
         EasyLoading.dismiss();

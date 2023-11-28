@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/image/app_image_assets.dart';
@@ -7,7 +6,6 @@ import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../profileSet/viewModel/profile_view_model.dart';
-import '../../viewModel/tutorial_view_model.dart';
 
 class AboutAppBottomSheet extends StatelessWidget {
   AboutAppBottomSheet({this.profileViewModel, super.key});
@@ -50,7 +48,7 @@ class AboutAppBottomSheet extends StatelessWidget {
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: profileViewModel!.aboutModel.data!.items!.length,
-                itemBuilder: (context, index) {
+                itemBuilder: (BuildContext context, int index) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -59,7 +57,7 @@ class AboutAppBottomSheet extends StatelessWidget {
                             .toString(),
                         textAlign: TextAlign.start,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       AppText(

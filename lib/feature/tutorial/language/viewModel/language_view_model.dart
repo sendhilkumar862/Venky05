@@ -4,11 +4,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:mobx/mobx.dart';
 
+import '../../../../config/routes/app_router.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
+import '../../profileSet/view/profile_selection_view.dart';
 import '../model/country_model.dart';
 
 part 'language_view_model.g.dart';
@@ -97,22 +99,11 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   @action
   void selectCountry(Country country) {
     selectedCountry = country;
-    keyValueStorageBase.setCommon(KeyValueStorageService.country, country.name);
   }
 
   @action
   void selectLanguage(int index) {
     languageIndex = index;
-
-    if (index == 0) {
-      keyValueStorageBase.setCommon(KeyValueStorageService.language, 'en');
-    } else {
-      keyValueStorageBase.setCommon(KeyValueStorageService.language, 'ar');
-    }
-
-    logs('selected lang-->$languageIndex');
-    logs(
-        'selected lang-->${keyValueStorageBase.getCommon(String, KeyValueStorageService.language)}');
   }
 
   @action
@@ -125,5 +116,12 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
         .toList();
     logs('filteredCountries.toString()--> ${filteredCountries.toString()}');
     setState(() {});
+  }
+
+  @action
+  void onPressedContinue() {
+    keyValueStorageBase.setCommon(KeyValueStorageService.country, selectedCountry?.name ?? '');
+    keyValueStorageBase.setCommon(KeyValueStorageService.language, languageIndex == 0 ? 'en': 'ar');
+     AppRouter.push(const ProfileSelectionView());
   }
 }
