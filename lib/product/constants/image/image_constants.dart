@@ -190,4 +190,5 @@ class ImageConstants {
   static const String cameraIcon = '${ApplicationConstants.iconPath}camera-photo.svg';
   static const String imageIcon = '${ApplicationConstants.iconPath}image-picture-square.svg';
   static const String documentFileClip = '${ApplicationConstants.iconPath}document-file-clip.svg';
+  static const String doneCheckSingle = '${ApplicationConstants.iconPath}done_check_single.svg';
 }

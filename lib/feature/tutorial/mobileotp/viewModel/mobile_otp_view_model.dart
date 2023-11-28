@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:hessah/feature/tutorial/verify_otp/model/otp_model.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -11,7 +12,6 @@ import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
-import '../../emailotp/model/otp_model.dart';
 
 
 part 'mobile_otp_view_model.g.dart';
@@ -46,16 +46,16 @@ abstract class _MobileOtpViewModelBase extends BaseViewModel with Store {
   @observable
   Map<String, dynamic> arguments = <String, dynamic>{'userId': ''};
 
-  @action
-  bool onChange(String value) {
-    if (value == enteredOTP) {
-      isCorrect = true;
-      return isCorrect;
-    } else {
-      isCorrect = false;
-      return isCorrect;
-    }
-  }
+  // @action
+  // bool onChange(String value) {
+  //   if (value == enteredOTP) {
+  //     isCorrect = true;
+  //     return isCorrect;
+  //   } else {
+  //     isCorrect = false;
+  //     return isCorrect;
+  //   }
+  // }
 
   @action
   Future<void> verifyOtp() async {
@@ -78,7 +78,7 @@ abstract class _MobileOtpViewModelBase extends BaseViewModel with Store {
         EasyLoading.dismiss();
         logs(response.data.toString());
 
-        otpModel = OtpModel.fromJson(response.data);
+        // otpModel = otpModel.fromJson(response.data);
 
         // Now you can access the parsed data using the otpModel object
         logs('Parsed ID: ${otpModel.data!.item!.id}');

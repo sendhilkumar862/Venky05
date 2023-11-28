@@ -34,5 +34,11 @@ abstract class _MessageViewModelBase extends BaseViewModel with Store {
   List newStatus = <String>['New to Old', 'Old to View'];
 
   @observable
+  bool teacherLongPress = false;
+
+  @observable
+  bool isselect = false;
+
+  @observable
   int? formattedDate;
 }

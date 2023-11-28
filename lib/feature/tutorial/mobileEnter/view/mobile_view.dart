@@ -42,10 +42,7 @@ class MobileView extends StatelessWidget {
                       SizedBox(height: 80.px),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: AppImageAsset(
-                          image: ImageConstants.primaryLogoBlue,
-                          height: 45.px,
-                        ),
+                        child: AppImageAsset(image: ImageConstants.primaryLogoBlue, height: 45.px),
                       ),
                       SizedBox(height: 28.px),
                       AppText(
@@ -56,7 +53,7 @@ class MobileView extends StatelessWidget {
                       ),
                       SizedBox(height: 10.px),
                       TextFormsField(
-                        prefix: (mobileViewModel.countries.isNotEmpty)
+                        prefix: (mobileViewModel.countries.isNotEmpty || mobileViewModel.filteredCountries.isNotEmpty)
                             ? GestureDetector(
                                 onTap: () {
                                   showModalBottomSheet(
@@ -69,11 +66,8 @@ class MobileView extends StatelessWidget {
                                     ),
                                     builder: (BuildContext context) {
                                       return StatefulBuilder(
-                                        builder:
-                                            (BuildContext context, setState) {
-                                          return CountryCodeBottomsSheet(
-                                              setState: setState,
-                                              mobileViewModel: mobileViewModel);
+                                        builder: (BuildContext context, setState) {
+                                          return CountryCodeBottomsSheet(setState: setState, mobileViewModel: mobileViewModel);
                                         },
                                       );
                                     },
@@ -85,10 +79,9 @@ class MobileView extends StatelessWidget {
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(700),
                                       child: AppImageAsset(
-                                        image : mobileViewModel
-                                          .countries[mobileViewModel
-                                          .countryIndex]
-                                          .flag_url!,
+                                        image: mobileViewModel.filteredCountries.isNotEmpty
+                                            ? mobileViewModel.filteredCountries[mobileViewModel.countryIndex].flag_url!
+                                            : mobileViewModel.countries[mobileViewModel.countryIndex].flag_url!,
                                         // mobileViewModel!
                                         //         .filteredCountries.isNotEmpty!
                                         //     ? mobileViewModel!
@@ -106,11 +99,7 @@ class MobileView extends StatelessWidget {
                                     ),
                                     SizedBox(width: 6.px),
                                     AppText(
-                                      mobileViewModel
-                                          .countries[
-                                              mobileViewModel.countryIndex]
-                                          .idd_code
-                                          .toString(),
+                                      mobileViewModel.countries[mobileViewModel.countryIndex].idd_code.toString(),
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14.px,
                                     )

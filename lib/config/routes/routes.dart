@@ -16,13 +16,12 @@ import '../../feature/rating/view/rating_view.dart';
 import '../../feature/search/view/search_view.dart';
 import '../../feature/tutorial/chat/view/chat_view.dart';
 import '../../feature/tutorial/emailEnter/view/email_view.dart';
-import '../../feature/tutorial/emailotp/view/email_otp_view.dart';
 import '../../feature/tutorial/login/view/login_view.dart';
 import '../../feature/tutorial/messages/view/message_view.dart';
 import '../../feature/tutorial/mobileEnter/view/mobile_view.dart';
-import '../../feature/tutorial/mobileotp/view/mobile_otp_view.dart';
 import '../../feature/tutorial/password/view/password_view.dart';
 import '../../feature/tutorial/userInfo/view/user_info_view.dart';
+import '../../feature/tutorial/verify_otp/verify_otp_view/verify_otp_view.dart';
 import '../../feature/tutorial/view/forgot_password_view.dart';
 import '../../feature/wallet/view/invoice_details.dart';
 import '../../product/constants/typedefs.dart';
@@ -52,7 +51,6 @@ class Routes {
   static const String experienceInfo = '/experience-info';
   static const String financingView = '/financing-view';
   static const String personalInfo = '/personal-info';
-  static const String mobileOtpView = '/otp-view';
   static const String emailView = '/email-view';
   static const String mobileView = '/mobile-view';
   static const String userInfoView = '/user-info-view';
@@ -61,12 +59,12 @@ class Routes {
   static const String restPassword = '/reset-password-view';
   static const String passwordView = '/password-view';
   static const String homeViews = '/home-views';
-  static const String emailOtpView = '/email-otp-views';
   static const String resetPassword = '/rest-Password';
   static const String searchView = '/search';
   static const String messageView = '/message';
   static const String notificationView = '/notification-view';
   static const String chatView = '/chatView';
+  static const String verifyOtpView = '/verifyOtpView';
 
   /// The name of the route for unrecognized route screen
   static const String NotFoundScreenRoute = '/route-not-found-screen';
@@ -83,7 +81,7 @@ class Routes {
     NotFoundScreenRoute: (_) => const SizedBox.shrink(),
     AppStartupScreenRoute: (_) => const SizedBox.shrink(),
     createClass: (_) => const CreateClass(),
-    mobileOtpView: (_) => const MobileOtpView(),
+    // mobileOtpView: (_) => const MobileOtpView(),
     emailView: (_) => const EmailView(),
     mobileView: (_) => const MobileView(),
     userInfoView: (_) => const UserInfoView(),
@@ -92,12 +90,12 @@ class Routes {
     restPassword: (_) => const RestPassword(),
     passwordView: (_) => const PasswordView(),
     homeViews: (_) => const HomeViews(),
-    emailOtpView: (_) => const EmailOtpView(),
     resetPassword: (_) => const RestPassword(),
     searchView: (_) => const SearchView(),
     messageView: (_) => const MessageView(),
     notificationView: (_) => const NotificationView(),
     chatView: (_) =>  const ChatView(),
+    verifyOtpView: (_) =>  const VerifyOtpView(),
   };
 
   static RouteBuilder getRoute(String? routeName) {

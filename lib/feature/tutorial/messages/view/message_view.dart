@@ -74,6 +74,54 @@ class MessageView extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 10),
+
+                            /// message Screen in sort archived ///
+                            if (messageViewModel.teacherLongPress)
+                              Row(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                          height: 18,
+                                          width: 18,
+                                          child: const AppImageAsset(
+                                            image:
+                                                ImageConstants.doneCheckSingle,
+                                            color: AppColors.appWhite,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.appBlue,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: AppColors.appGrey),
+                                          )),
+                                      SizedBox(width: 8),
+                                      AppText('Select All',
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColors.appBlue),
+                                    ],
+                                  ),
+                                  Spacer(),
+                                  AppText('Archive',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.appBlue),
+                                  SizedBox(
+                                    width: 6,
+                                  ),
+                                  AppImageAsset(
+                                      image: ImageConstants.documentBox),
+                                  SizedBox(width: 8),
+                                  AppText('Delete',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.red),
+                                  SizedBox(width: 6),
+                                  AppImageAsset(
+                                      image: ImageConstants.messageDelete)
+                                ],
+                              ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -116,10 +164,11 @@ class MessageView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 7),
+                            SizedBox(height: 7),
                             const Divider(
                               color: AppColors.appGrey,
                             ),
+                            const SizedBox(height: 7),
                             ListView.separated(
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
@@ -128,7 +177,9 @@ class MessageView extends StatelessWidget {
                                   return TeacherList();
                                 },
                                 separatorBuilder: (context, index) {
-                                  return const Divider();
+                                  return const Divider(
+                                    height: 30,
+                                  );
                                 },
                                 itemCount: 10)
                           ],
@@ -144,9 +195,14 @@ class MessageView extends StatelessWidget {
   }
 }
 
-class TeacherList extends StatelessWidget {
+class TeacherList extends StatefulWidget {
   TeacherList({super.key});
 
+  @override
+  State<TeacherList> createState() => _TeacherListState();
+}
+
+class _TeacherListState extends State<TeacherList> {
   MessageViewModel messageViewModel = MessageViewModel();
 
   @override
@@ -167,7 +223,23 @@ class TeacherList extends StatelessWidget {
               foregroundColor: AppColors.appBlue,
               image: const AppImageAsset(image: ImageConstants.documentBox),
               label: 'Archive',
-              onPressed: (BuildContext context) {},
+              onPressed: (BuildContext context) {
+                showModalBottomSheet(
+                  shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  context: context,
+                  builder: (context) {
+                    return ConfirmationButton(
+                      title: 'Archive Confirmation',
+                      titleDescription:
+                          'Are you sure you want to archive selected messages?',
+                      buttonText: 'Yes, Archive',
+                      buttonTextDiscript: 'No, Keep It',
+                      buttonTextDisColor: AppColors.appBlue,
+                    );
+                  },
+                );
+              },
             ),
             SlidableAction(
               backgroundColor: AppColors.appLightBlue.withOpacity(0.3),
@@ -199,24 +271,47 @@ class TeacherList extends StatelessWidget {
               },
             ),
           ]),
-          child: InkWell(
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return ChatView();
-            },)),
+          child: GestureDetector(
+            onTap: () => Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return const ChatView();
+              },
+            )),
+            onLongPress: () {
+              messageViewModel.teacherLongPress =
+                  !messageViewModel.teacherLongPress;
+              logs('longpress-->${messageViewModel.teacherLongPress}');
+              setState(() {});
+            },
             child: Row(
               children: [
-                // RadioMenuButton(
-                //     value: 0,
-                //     groupValue: 'h',
-                //     onChanged: (value) {},
-                //     child: SizedBox()),
-                Container(
-                    height: 20,
-                    width: 20,
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
-                    )),
+                if (messageViewModel.teacherLongPress)
+                  InkWell(
+                    onTap: () {
+                      messageViewModel.isselect = !messageViewModel.isselect;
+                      logs('isSelect-->${messageViewModel.isselect}');
+                      setState(() {});
+                    },
+                    child: Container(
+                        height: 18,
+                        width: 18,
+                        child: (messageViewModel.isselect)
+                            ? AppImageAsset(
+                                image: ImageConstants.doneCheckSingle,
+                                color: AppColors.appWhite,
+                              )
+                            : SizedBox(),
+                        decoration: BoxDecoration(
+                          color: (messageViewModel.isselect)
+                              ? AppColors.appBlue
+                              : AppColors.appWhite,
+                          shape: BoxShape.circle,
+                          border: (messageViewModel.isselect)
+                              ? Border.all(color: AppColors.appBlue)
+                              : Border.all(color: AppColors.appGrey),
+                        )),
+                  ),
+                if (messageViewModel.teacherLongPress) SizedBox(width: 14),
                 Container(
                   height: 50,
                   decoration: const BoxDecoration(shape: BoxShape.circle),
@@ -263,12 +358,20 @@ class TeacherList extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                const Row(
+                Row(
                   children: [
                     AppText('12:00 Am', fontSize: 10),
                     SizedBox(width: 4),
-                    // AppImageAsset(image: ImageConstants.doneMessage),
-                    AppImageAsset(image: ImageConstants.messageSeen),
+                    // AppImageAsset(image: ImageConstants.doneCheckSingle),
+                    AppImageAsset(image: ImageConstants.doneMessage),
+                    // AppImageAsset(image: ImageConstants.messageSeen),
+                    if (messageViewModel.teacherLongPress)
+                      Container(
+                        height: 8.px,
+                        width: 8.px,
+                        decoration: BoxDecoration(
+                            color: AppColors.appBlue, shape: BoxShape.circle),
+                      )
                   ],
                 )
               ],

@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -15,9 +18,14 @@ import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/utils/validators.dart';
 import '../view_model/chat_view_model.dart';
 
-class ChatView extends StatelessWidget {
+class ChatView extends StatefulWidget {
   const ChatView({super.key});
 
+  @override
+  State<ChatView> createState() => _ChatViewState();
+}
+
+class _ChatViewState extends State<ChatView> {
   @override
   Widget build(BuildContext context) {
     logs('Current Screen--> $runtimeType');
@@ -44,6 +52,8 @@ class ChatView extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: chatViewModel.message.length,
                         itemBuilder: (BuildContext context, int index) {
+                          logs(
+                              'chatViewModel.message[index].mess-->${chatViewModel.message[index].mess}');
                           return (chatViewModel.message[index].isCheck!)
                               ? Padding(
                                   padding:
@@ -59,6 +69,7 @@ class ChatView extends StatelessWidget {
                                           SwipeTo(
                                             onLeftSwipe: (details) {
                                               logs('swipe to reply------>');
+                                              setState(() {});
                                             },
                                             child: ChatBubble(
                                               clipper: ChatBubbleClipper5(
@@ -191,7 +202,9 @@ class ChatView extends StatelessWidget {
                                 child: TextFormsField(
                                   controller: chatViewModel.chatController,
                                   hintText: 'Write your message',
-                                  onChanged: (String value) {},
+                                  onChanged: (String value) {
+                                    setState(() {});
+                                  },
                                 ),
                               )
                             else
@@ -211,12 +224,11 @@ class ChatView extends StatelessWidget {
                                         chatViewModel.message.add(Demo(
                                             chatViewModel.chatController.text,
                                             true));
-                                        logs(
-                                            'chatViewModel.message[0].mess-->${chatViewModel.message.length}');
-                                        // chatViewModel.message.forEach((element) {
-                                        //   logs('element --> ${element.mess}');
-                                        // });
+                                         logs(
+                                          'message length-->${chatViewModel.message.length}',
+                                        );
                                         chatViewModel.chatController.clear();
+                                        setState(() {});
                                       },
                                       child: const AppImageAsset(
                                           image: ImageConstants.sendMessage),
@@ -225,6 +237,7 @@ class ChatView extends StatelessWidget {
                                       onTap: () {
                                         chatViewModel.isOnTapMic =
                                             !chatViewModel.isOnTapMic;
+                                        setState(() {});
                                         logs(
                                             'isOnatap-->${chatViewModel.isOnTapMic}');
                                       },
@@ -297,7 +310,14 @@ class ChatView extends StatelessWidget {
                                                 SizedBox(
                                                   height: 50,
                                                   child: InkWell(
-                                                    onTap: () {},
+                                                    onTap: () {
+                                                       final imagepick = ImagePicker().pickImage(source: ImageSource.camera);
+                                                      logs('imagepick-->$imagepick');
+                                                       if (imagepick != null) {
+                                                         logs('imagepick123-->${imagepick.toString()}');
+                                                         setState(() {});
+                                                       }
+                                                    },
                                                     child: const Row(
                                                       children: <Widget>[
                                                         AppImageAsset(
@@ -532,8 +552,9 @@ buildAudioSendView() {
             const AppText('Paused', color: AppColors.appWhite),
           InkWell(
               onTap: () {
-                chatViewModel.isOnTapPause = !chatViewModel.isOnTapPause;
+                chatViewModel.isOnTapPause =!chatViewModel.isOnTapPause;
                 logs('isOntapPause-->${chatViewModel.isOnTapPause}');
+
               },
               child: AppImageAsset(
                   image: (chatViewModel.isOnTapPause)
