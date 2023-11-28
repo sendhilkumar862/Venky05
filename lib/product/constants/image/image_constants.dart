@@ -172,13 +172,27 @@ class ImageConstants {
   static const String warningIcon =
       '${ApplicationConstants.iconPath}warning.png';
   static const String eye = '${ApplicationConstants.iconPath}eye.svg';
-  static const String filterSort = '${ApplicationConstants.iconPath}filter-sort.svg';
-  static const String documentBox = '${ApplicationConstants.iconPath}archivedocumentsbox.svg';
-  static const String doneMessage = '${ApplicationConstants.iconPath}done_message_status.svg';
-  static const String phoneCall = '${ApplicationConstants.iconPath}phone-call.svg';
-  static const String warning = '${ApplicationConstants.iconPath}warning-circle.svg';
+  static const String filterSort =
+      '${ApplicationConstants.iconPath}filter-sort.svg';
+  static const String documentBox =
+      '${ApplicationConstants.iconPath}archivedocumentsbox.svg';
+  static const String doneMessage =
+      '${ApplicationConstants.iconPath}done_message_status.svg';
+  static const String phoneCall =
+      '${ApplicationConstants.iconPath}phone-call.svg';
+  static const String warning =
+      '${ApplicationConstants.iconPath}warning-circle.svg';
   static const String upDownArrow =
       '${ApplicationConstants.iconPath}up_down_arrow.svg';
+
+  static const String read = '${ApplicationConstants.iconPath}read.svg';
+  static const String wallet = '${ApplicationConstants.iconPath}wallet.svg';
+  static const String alert = '${ApplicationConstants.iconPath}alert.svg';
+  static const String attach = '${ApplicationConstants.iconPath}attach.svg';
+  static const String camera = '${ApplicationConstants.iconPath}camera.svg';
+  static const String pictureSquare =
+      '${ApplicationConstants.iconPath}picture_square.svg';
+
   static const String messageSeen = '${ApplicationConstants.iconPath}Message Status.svg';
   static const String sendMessage = '${ApplicationConstants.iconPath}send-message-solid.svg';
   static const String plusIcon = '${ApplicationConstants.iconPath}plus-medium.svg';

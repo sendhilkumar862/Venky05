@@ -39,7 +39,9 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
                   icon: ImageConstants.avtar,
                   title: 'Welcome!',
                   subTitle: 'Abdullah Mohamed',
-                  onBellTap: () {},
+                  onBellTap: () {
+                    AppRouter.pushNamed(Routes.notificationView);
+                  },
                   onSearchTap: () {
                     AppRouter.pushNamed(Routes.searchView);
                   },
