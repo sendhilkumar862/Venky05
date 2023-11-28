@@ -65,12 +65,12 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   Future<void> sendOTP() async {
     // viewModelContext.loaderOverlay.show();
     Dio dio = Dio();
-    final String mobile = mobileController.text;
+    final String mobile = '$selectedCountry${mobileController.text}';
     logs('mobile--> $mobile');
-
-      Map body = <String, dynamic>{'userId': data['userId'], 'mobile': mobile,'countryCode':selectedCountry};
+    try {
+      Map body = <String, dynamic>{'userId': data['userId'], 'mobile': mobileController.text, 'countryCode': selectedCountry};
       logs('send mobile body--> $body');
-      final response = await dio.post(
+      final Response response = await dio.post(
         'http://167.99.93.83/api/v1/users/mobile/send-otp',
         data: body,
       );
@@ -80,11 +80,14 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
         final EnterMobileModel data = EnterMobileModel.fromJson(response.data);
         logs('status Code --> ${data.status.type}');
         arguments['otp_id'] = response.data['data']['item']['otp_id'];
-        AppRouter.pushNamed(Routes.mobileOtpView, args: arguments);
+        AppRouter.pushNamed(Routes.verifyOtpView, args: arguments);
       } else {
         EasyLoading.dismiss();
         logs('error not response');
       }
+    } catch (error) {
+      logs('error');
+    }
   }
 
   @action
@@ -111,19 +114,19 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   @action
   void onTapMobileSubmit() {
     if (mobileValid == 1) {
-      AppRouter.pushNamed(Routes.mobileOtpView, args: arguments);
+      // AppRouter.pushNamed(Routes.mobileOtpView, args: arguments);
       sendOTP();
     }
   }
 
   @observable
-  List<CountryCodeModel> countries = [];
+  List<CountryCodeModel> countries = <CountryCodeModel>[];
 
   @observable
-  List<CountryCodeModel> tempList = [];
+  List<CountryCodeModel> tempList = <CountryCodeModel>[];
 
   @observable
-  List<CountryCodeModel> filteredCountries = [];
+  List<CountryCodeModel> filteredCountries = <CountryCodeModel>[];
 
   Future<void> fetchData() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
@@ -165,26 +168,20 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
 
   @action
   void selectCountry(int index) {
-    countryIndex = index;
-    selectedCountry = countries[countryIndex].idd_code.toString();
-    logs('selected Country-->$countryIndex');
+    // countryIndex = index;
+    // selectedCountry = countries[countryIndex].idd_code.toString();
+    // logs('selected Country-->$countryIndex');
   }
 
   @action
   void filterCountries(String query, Function setState) {
-    if(query.isEmpty){
-      log('-------> is Enter');
-      countries.clear();
-      countries = tempList;
-    }
     filteredCountries = countries
         .where((CountryCodeModel country) =>
             country.name?.toLowerCase().contains(query.toLowerCase()) ??
-            false ||
-                country.flag_url!.toLowerCase().contains(query.toLowerCase()))
+            false || country.flag_url!.toLowerCase().contains(query.toLowerCase()))
         .toList();
-    logs('filteredCountries.toString()--> ${filteredCountries.toString()}');
-    countries = filteredCountries;
+    logs('filteredCountries.toString()--> ${filteredCountries.length}');
+    logs('filteredCountries.toString()--> ${countryIndex}');
     setState(() {});
   }
 }

@@ -14,25 +14,24 @@ import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/utils/validators.dart';
-import '../viewModel/email_otp_view_model.dart';
+import '../verify_otp_view_model/verify_otp_view_model.dart';
 
-class EmailOtpView extends StatelessWidget {
-  const EmailOtpView({super.key});
+class VerifyOtpView extends StatelessWidget {
+  const VerifyOtpView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<EmailOtpViewModel>(
-        viewModel: EmailOtpViewModel(),
-        onModelReady: (EmailOtpViewModel emailOtpViewModel) {
-          emailOtpViewModel.setContext(context);
-          emailOtpViewModel.init();
-          emailOtpViewModel.enteredMail =
-              (ModalRoute.of(context)!.settings.arguments! as Map)!;
-          logs('argues --> ${emailOtpViewModel.enteredMail}');
+    return BaseView<VerifyOtpViewModel>(
+        viewModel: VerifyOtpViewModel(),
+        onModelReady: (VerifyOtpViewModel VerifyOtpViewModel) {
+          VerifyOtpViewModel.setContext(context);
+          VerifyOtpViewModel.init();
+          VerifyOtpViewModel.arguments = ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
+          logs('arguments --> ${VerifyOtpViewModel.arguments}');
         },
-        onPageBuilder:
-            (BuildContext context, EmailOtpViewModel emailOtpViewModel) {
+        onPageBuilder: (BuildContext context, VerifyOtpViewModel verifyOtpViewModel) {
           return Observer(builder: (BuildContext context) {
+            logs('verifyOtpViewModel.isMobileNumber-->${verifyOtpViewModel.isMobileNumber}');
             return Scaffold(
               body: PreLoginCustomBody(
                 widget: Expanded(
@@ -47,7 +46,9 @@ class EmailOtpView extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: AppText(
                           textAlign: TextAlign.start,
-                          'verifyEmailAddress'.tr(),
+                          (verifyOtpViewModel.arguments['isScreen'])
+                              ? 'verifyEmailAddress'.tr()
+                              : 'verifyMobileNumber'.tr(),
                           fontSize: 24.px,
                           fontWeight: FontWeight.w700,
                         ),
@@ -55,7 +56,9 @@ class EmailOtpView extends StatelessWidget {
                       SizedBox(height: 15.px),
                       AppText(
                         textAlign: TextAlign.start,
-                        'enterTheVerification'.tr(),
+                        (verifyOtpViewModel.arguments['isScreen'])
+                            ? 'enterTheVerification'.tr()
+                            : 'enterTheCodeWe'.tr(),
                         fontWeight: FontWeight.w400,
                       ),
                       SizedBox(height: 20.px),
@@ -64,39 +67,31 @@ class EmailOtpView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8.px),
                         //  numberOfFields: numberOfFields,
                         borderColor: AppColors.appGrey,
-
-                        enabledBorderColor: (emailOtpViewModel.isCorrect)
-                            ? AppColors.appLightGrey
-                            : AppColors.appRed,
+                        enabledBorderColor: (verifyOtpViewModel.isCorrect) ? AppColors.appLightGrey : AppColors.appRed,
                         //   focusedBorderColor: primaryColor,
                         // clearText: clearText,
                         showFieldAsBox: true,
-
-                        textStyle: TextStyle(
-                            fontWeight: FontWeight.w700, fontSize: 16.px),
+                        textStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: 16.px),
                         onCodeChanged: (String value) {
-                          emailOtpViewModel.isCorrect = true;
+                          verifyOtpViewModel.isCorrect = true;
                         },
-                        handleControllers:
-                            (List<TextEditingController?> controllers) {
-                          //emailOtpViewModel.enteredOTP = controllers.toString();
+                        handleControllers: (List<TextEditingController?> controllers) {
+                          //VerifyOtpViewModel.enteredOTP = controllers.toString();
                         },
-                        //clearText: !emailOtpViewModel.isCorrect,
+                        //clearText: !VerifyOtpViewModel.isCorrect,
                         onSubmit: (String verificationCode) {
-                          emailOtpViewModel.enteredOTP = verificationCode;
+                          verifyOtpViewModel.enteredOTP = verificationCode;
                         }, // end onSubmit
                       ),
                       SizedBox(height: 10.px),
-                      if (!emailOtpViewModel.isCorrect)
+                      if (!verifyOtpViewModel.isCorrect)
                         AppText(
                           'otpIncorrect'.tr(),
                           fontSize: 12.px,
                           fontWeight: FontWeight.w400,
                           color: AppColors.appRed,
                         ),
-                      SizedBox(
-                        height: 20.px,
-                      ),
+                      SizedBox(height: 20.px),
                       AppText(
                         'didntReceived'.tr(),
                         fontSize: 12.px,
@@ -106,7 +101,7 @@ class EmailOtpView extends StatelessWidget {
                       ),
                       SizedBox(height: 12.px),
                       Countdown(
-                        controller: emailOtpViewModel.controller,
+                        controller: verifyOtpViewModel.controller,
                         seconds: 180,
                         build: (_, double time) => AppText(
                           AppUtils.formatTimer(time.toInt()),
@@ -150,8 +145,8 @@ class EmailOtpView extends StatelessWidget {
               ),
               bottomNavigationBar: PreLoginCommonButton(
                 title: 'continue'.tr(),
-                onTap: emailOtpViewModel.onTapSubmit,
-                isDisable: emailOtpViewModel.enteredOTP.length != 4,
+                onTap: () => verifyOtpViewModel.onTapSubmit(),
+                isDisable: verifyOtpViewModel.enteredOTP.length != 4,
               ),
             );
           });

@@ -104,8 +104,9 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
         EasyLoading.dismiss();
         registerWarning = response!.data['status']['type'] == 'error';
         arguments['otp_id'] = response.data['data']['item']['otp_id'];
+        arguments['isScreen'] = true;
 
-        AppRouter.pushNamed(Routes.emailOtpView, args: arguments);
+        AppRouter.pushNamed(Routes.verifyOtpView, args: arguments);
         AppUtils.showFlushBar(
           icon: Icons.check_circle_outline_rounded,
           iconColor: Colors.green,

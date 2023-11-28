@@ -184,27 +184,7 @@ class ImageConstants {
       '${ApplicationConstants.iconPath}warning-circle.svg';
   static const String upDownArrow =
       '${ApplicationConstants.iconPath}up_down_arrow.svg';
-  static const String messageSeen =
-      '${ApplicationConstants.iconPath}Message Status.svg';
-  static const String sendMessage =
-      '${ApplicationConstants.iconPath}send-message-solid.svg';
-  static const String plusIcon =
-      '${ApplicationConstants.iconPath}plus-medium.svg';
-  static const String microPhone =
-      '${ApplicationConstants.iconPath}microphone-mic-rec-circle-solid.svg';
-  static const String messageDelete =
-      '${ApplicationConstants.iconPath}message_delete.svg';
-  static const String audioWaves =
-      '${ApplicationConstants.iconPath}audio_waves.svg';
-  static const String pauseButton = '${ApplicationConstants.iconPath}pause.svg';
-  static const String recordButton =
-      '${ApplicationConstants.iconPath}record-button-circle-solid.svg';
-  static const String cameraIcon =
-      '${ApplicationConstants.iconPath}camera-photo.svg';
-  static const String imageIcon =
-      '${ApplicationConstants.iconPath}image-picture-square.svg';
-  static const String documentFileClip =
-      '${ApplicationConstants.iconPath}document-file-clip.svg';
+
   static const String read = '${ApplicationConstants.iconPath}read.svg';
   static const String wallet = '${ApplicationConstants.iconPath}wallet.svg';
   static const String alert = '${ApplicationConstants.iconPath}alert.svg';
@@ -212,4 +192,17 @@ class ImageConstants {
   static const String camera = '${ApplicationConstants.iconPath}camera.svg';
   static const String pictureSquare =
       '${ApplicationConstants.iconPath}picture_square.svg';
+
+  static const String messageSeen = '${ApplicationConstants.iconPath}Message Status.svg';
+  static const String sendMessage = '${ApplicationConstants.iconPath}send-message-solid.svg';
+  static const String plusIcon = '${ApplicationConstants.iconPath}plus-medium.svg';
+  static const String microPhone = '${ApplicationConstants.iconPath}microphone-mic-rec-circle-solid.svg';
+  static const String messageDelete = '${ApplicationConstants.iconPath}message_delete.svg';
+  static const String audioWaves = '${ApplicationConstants.iconPath}audio_waves.png';
+  static const String pauseButton = '${ApplicationConstants.iconPath}pause.svg';
+  static const String recordButton = '${ApplicationConstants.iconPath}record-button-circle-solid.svg';
+  static const String cameraIcon = '${ApplicationConstants.iconPath}camera-photo.svg';
+  static const String imageIcon = '${ApplicationConstants.iconPath}image-picture-square.svg';
+  static const String documentFileClip = '${ApplicationConstants.iconPath}document-file-clip.svg';
+  static const String doneCheckSingle = '${ApplicationConstants.iconPath}done_check_single.svg';
 }

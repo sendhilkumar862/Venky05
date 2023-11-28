@@ -111,28 +111,7 @@ class LanguageView extends StatelessWidget {
                           borderColor: AppColors.appBlue,
                           title: 'continue'.tr(),
                           isDisable: languageViewModel.selectedCountry == null,
-                          onPressed: () {
-                            final KeyValueStorageBase keyValueStorageBase =
-                                KeyValueStorageBase();
-                            final String? selectedCountry =
-                                keyValueStorageBase.getCommon(
-                                    String, KeyValueStorageService.country);
-
-                            final String? selectedLanguage =
-                                keyValueStorageBase.getCommon(
-                                    String, KeyValueStorageService.language);
-
-                            if (selectedCountry == null) {
-                              keyValueStorageBase.setCommon(
-                                  KeyValueStorageService.country,
-                                  languageViewModel.countries[0].name);
-                            }
-                            if (selectedLanguage == null) {
-                              keyValueStorageBase.setCommon(
-                                  KeyValueStorageService.language, 'en');
-                            }
-                            AppRouter.push(const ProfileSelectionView());
-                          },
+                          onPressed: languageViewModel.onPressedContinue
                         ),
                         SizedBox(
                           height: 20.px,

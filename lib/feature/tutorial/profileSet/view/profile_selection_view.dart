@@ -12,6 +12,7 @@ import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 
+import '../../view/bottomSheets/about_app_bottom_view.dart';
 import '../viewModel/profile_view_model.dart';
 
 class ProfileSelectionView extends StatelessWidget {
@@ -31,21 +32,22 @@ class ProfileSelectionView extends StatelessWidget {
             return Scaffold(
               backgroundColor: AppColors.appWhite,
               appBar: AppBarOnBoard(
-              //   onTap: () {
-              //   showModalBottomSheet(
-              //     context: context,
-              //     constraints: const BoxConstraints(),
-              //     shape: RoundedRectangleBorder(
-              //       borderRadius: BorderRadius.only(
-              //         topRight: Radius.circular(25.px),
-              //         topLeft: Radius.circular(25.px),
-              //       ),
-              //     ),
-              //     builder: (BuildContext context) {
-              //       return AboutAppBottomSheet(profileViewModel: profileViewModel,);
-              //     },
-              //   );
-              // },
+                backNavigate: !(continueRegistration ?? false),
+                onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  constraints: const BoxConstraints(),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(25.px),
+                      topLeft: Radius.circular(25.px),
+                    ),
+                  ),
+                  builder: (BuildContext context) {
+                    return AboutAppBottomSheet(profileViewModel: profileViewModel);
+                  },
+                );
+              },
               ),
               body: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.px),
@@ -66,7 +68,7 @@ class ProfileSelectionView extends StatelessWidget {
                       height: 25.px,
                     ),
                     Row(
-                      children: List.generate(
+                      children: List<Widget>.generate(
                         2,
                         (int index) => selectCardView(
                           icon: ImageConstants.graduateIcon,
