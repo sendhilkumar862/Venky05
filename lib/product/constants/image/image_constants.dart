@@ -202,12 +202,18 @@ class ImageConstants {
   static const String pictureSquare =
       '${ApplicationConstants.iconPath}picture_square.svg';
 
-  static const String messageSeen = '${ApplicationConstants.iconPath}Message Status.svg';
-  static const String sendMessage = '${ApplicationConstants.iconPath}send-message-solid.svg';
-  static const String plusIcon = '${ApplicationConstants.iconPath}plus-medium.svg';
-  static const String microPhone = '${ApplicationConstants.iconPath}microphone-mic-rec-circle-solid.svg';
-  static const String messageDelete = '${ApplicationConstants.iconPath}message_delete.svg';
-  static const String audioWaves = '${ApplicationConstants.iconPath}audio_waves.png';
+  static const String messageSeen =
+      '${ApplicationConstants.iconPath}Message Status.svg';
+  static const String sendMessage =
+      '${ApplicationConstants.iconPath}send-message-solid.svg';
+  static const String plusIcon =
+      '${ApplicationConstants.iconPath}plus-medium.svg';
+  static const String microPhone =
+      '${ApplicationConstants.iconPath}microphone-mic-rec-circle-solid.svg';
+  static const String messageDelete =
+      '${ApplicationConstants.iconPath}message_delete.svg';
+  static const String audioWaves =
+      '${ApplicationConstants.iconPath}audio_waves.png';
   static const String pauseButton = '${ApplicationConstants.iconPath}pause.svg';
   static const String recordButton = '${ApplicationConstants.iconPath}record-button-circle-solid.svg';
   static const String cameraIcon = '${ApplicationConstants.iconPath}camera-photo.svg';
@@ -216,4 +222,12 @@ class ImageConstants {
   static const String doneCheckSingle = '${ApplicationConstants.iconPath}done_check_single.svg';
   static const String pauseIcon = '${ApplicationConstants.iconPath}pause.png';
   static const String playIcon = '${ApplicationConstants.iconPath}play.png';
+  static const String filterSettings =
+      '${ApplicationConstants.iconPath}filter_settings.svg';
+  static const String clip = '${ApplicationConstants.iconPath}clip.svg';
+  static const String cancel = '${ApplicationConstants.iconPath}cancel.svg';
+  static const String done = '${ApplicationConstants.iconPath}star.svg';
+  static const String inProgress =
+      '${ApplicationConstants.iconPath}Iclock_time.svg';
+  static const String check = '${ApplicationConstants.iconPath}check.svg';
 }

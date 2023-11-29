@@ -9,7 +9,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../config/routes/app_router.dart';
+import '../../../custom/app_button/app_button.dart';
 import '../../../custom/appbar/appbar.dart';
+import '../../../custom/choice/src/modal/button.dart';
 import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/sheet/show_bottom_sheet.dart';
 import '../../../custom/switch/app_switch.dart';
@@ -19,8 +21,11 @@ import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/utils/typography.dart';
 import '../../tutorial/language/viewModel/language_view_model.dart';
+import '../../tutorial/mobileEnter/view/mobile_view.dart';
+import '../../tutorial/password/view/password_view.dart';
 import '../../tutorial/view/bottomSheets/country_bottom_sheet.dart';
 import '../../tutorial/view/bottomSheets/language_bottom_sheet.dart';
+import 'app_support_view.dart';
 import 'change_name_view.dart';
 
 class SettingView extends StatefulWidget {
@@ -31,6 +36,17 @@ class SettingView extends StatefulWidget {
 }
 
 class _SettingViewState extends State<SettingView> {
+  int? selectedIndex;
+  List<Address> location = <Address>[
+    Address('Home', 'City, Block No., Street Name, Street Name 2, HouseNo.,',
+        'Floor No., Apartment No.'),
+    Address('Work', 'City, Block No., Street Name, Street Name 2, HouseNo.,',
+        'Floor No., Apartment No.'),
+    Address('Home', 'City, Block No., Street Name, Street Name 2, HouseNo.,',
+        'Floor No., Apartment No.'),
+    Address('Work', 'City, Block No., Street Name, Street Name 2, HouseNo.,',
+        'Floor No., Apartment No.'),
+  ];
   List<ProfileList> profileListData = <ProfileList>[
     ProfileList(text: 'Take Photo', icon: ImageConstants.camera),
     ProfileList(text: 'Add Image', icon: ImageConstants.pictureSquare),
@@ -75,7 +91,7 @@ class _SettingViewState extends State<SettingView> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.of(context).size.width;
     return BaseView<LanguageViewModel>(
         viewModel: LanguageViewModel(),
         onModelReady: (LanguageViewModel languageViewModel) {
@@ -93,7 +109,7 @@ class _SettingViewState extends State<SettingView> {
                     isTitleOnly: true,
                   ),
                   body: ListView(
-                    children: [
+                    children: <Widget>[
                       SizedBox(
                         width: width,
                         child: Column(children: [
@@ -111,7 +127,7 @@ class _SettingViewState extends State<SettingView> {
                                           fit: BoxFit.cover,
                                         )
                                       : Image.network(
-                                          "https://img.freepik.com/premium-photo/portrait-male-delivery-man-holding-cargo-box_296537-1507.jpg",
+                                          'https://img.freepik.com/premium-photo/portrait-male-delivery-man-holding-cargo-box_296537-1507.jpg',
                                           fit: BoxFit.cover,
                                         ),
                                 ),
@@ -163,133 +179,232 @@ class _SettingViewState extends State<SettingView> {
                                           AppColors.appTextColor,
                                         )),
                                   ),
-                                  Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10, horizontal: 10),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                              color: AppColors.appBorderColor
-                                                  .withOpacity(0.5))),
-                                      child: ListView.builder(
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemCount: data.listDetail.length,
-                                        itemBuilder: (context, i) {
-                                          var response = data.listDetail[i];
-                                          return Column(
-                                            children: <Widget>[
-                                              InkWell(
-                                                onTap: () {
-                                                  if (data.listDetail[i]
-                                                          .title ==
-                                                      'Change Name') {
-                                                    AppRouter.push(
-                                                        ChangeNameView());
-                                                  } else if (data.listDetail[i]
-                                                          .title ==
-                                                      'Change Country') {
-                                                    showModalBottomSheet(
-                                                      isScrollControlled: true,
-                                                      context: context,
-                                                      shape:
-                                                          const RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .vertical(
-                                                          top: Radius.circular(
-                                                              25.0),
-                                                        ),
-                                                      ),
-                                                      builder: (BuildContext
-                                                          context) {
-                                                        return StatefulBuilder(
+                                  Stack(
+                                    children: [
+                                      Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 10),
+                                          width: 343,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              border: Border.all(
+                                                  color: AppColors
+                                                      .appBorderColor
+                                                      .withOpacity(0.5))),
+                                          child: ListView.builder(
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            shrinkWrap: true,
+                                            itemCount: data.listDetail.length,
+                                            itemBuilder: (context, i) {
+                                              var response = data.listDetail[i];
+                                              return Column(
+                                                children: <Widget>[
+                                                  InkWell(
+                                                    onTap: () {
+                                                      if (data.listDetail[i]
+                                                              .title ==
+                                                          'Change Name') {
+                                                        AppRouter.push(
+                                                            ChangeNameView());
+                                                      } else if (data
+                                                              .listDetail[i]
+                                                              .title ==
+                                                          'Change Country') {
+                                                        showModalBottomSheet(
+                                                          isScrollControlled:
+                                                              true,
+                                                          context: context,
+                                                          shape:
+                                                              const RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .vertical(
+                                                              top: Radius
+                                                                  .circular(
+                                                                      25.0),
+                                                            ),
+                                                          ),
                                                           builder: (BuildContext
-                                                                  context,
-                                                              setState) {
-                                                            return CountryBottomsSheet(
-                                                                setState:
-                                                                    setState,
-                                                                languageViewModel:
-                                                                    languageViewModel);
+                                                              context) {
+                                                            return StatefulBuilder(
+                                                              builder:
+                                                                  (BuildContext
+                                                                          context,
+                                                                      setState) {
+                                                                return CountryBottomsSheet(
+                                                                    setState:
+                                                                        setState,
+                                                                    languageViewModel:
+                                                                        languageViewModel);
+                                                              },
+                                                            );
                                                           },
                                                         );
-                                                      },
-                                                    );
-                                                  } else if (data.listDetail[i]
-                                                          .title ==
-                                                      'Language') {
-                                                    showModalBottomSheet(
-                                                      isScrollControlled: true,
-                                                      context: context,
-                                                      shape:
-                                                          RoundedRectangleBorder(
+                                                      } else if (data
+                                                              .listDetail[i]
+                                                              .title ==
+                                                          'Language') {
+                                                        showModalBottomSheet(
+                                                          isScrollControlled:
+                                                              true,
+                                                          context: context,
+                                                          shape: RoundedRectangleBorder(
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
                                                                           100)),
-                                                      builder: (BuildContext
-                                                          context) {
-                                                        return StatefulBuilder(
                                                           builder: (BuildContext
-                                                                  context,
-                                                              setState) {
-                                                            return LanguageBottomSheet(
-                                                                languageViewModel:
-                                                                    languageViewModel,
-                                                                setState:
-                                                                    setState);
+                                                              context) {
+                                                            return StatefulBuilder(
+                                                              builder:
+                                                                  (BuildContext
+                                                                          context,
+                                                                      setState) {
+                                                                return LanguageBottomSheet(
+                                                                    languageViewModel:
+                                                                        languageViewModel,
+                                                                    setState:
+                                                                        setState);
+                                                              },
+                                                            );
                                                           },
                                                         );
-                                                      },
-                                                    );
-                                                  }
-                                                },
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    SvgPicture.asset(
-                                                        response.surfixImage),
-                                                    Expanded(
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(left: 10),
-                                                        child: Text(
-                                                          response.title,
-                                                          style: openSans
-                                                              .get14.w400
-                                                              .textColor(AppColors
-                                                                  .appDarkBlack),
+                                                      } else if (data
+                                                              .listDetail[i]
+                                                              .title ==
+                                                          'Add Mobile Number') {
+                                                        AppRouter.push(
+                                                            const MobileView(
+                                                          simpleAppBar: true,
+                                                        ));
+                                                      } else if (data
+                                                              .listDetail[i]
+                                                              .title ==
+                                                          'Manage Address') {
+                                                        return locationModalBottomSheet(
+                                                            context);
+                                                      } else if (data
+                                                              .listDetail[i]
+                                                              .title ==
+                                                          'Change Password') {
+                                                        AppRouter.push(
+                                                            PasswordView());
+                                                      } else if (data
+                                                              .listDetail[i]
+                                                              .title ==
+                                                          'App Support') {
+                                                        AppRouter.push(
+                                                            AppSupportView());
+                                                      }
+                                                    },
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        SvgPicture.asset(
+                                                            response
+                                                                .surfixImage),
+                                                        Expanded(
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    left: 10),
+                                                            child: Text(
+                                                              response.title,
+                                                              style: openSans
+                                                                  .get14.w400
+                                                                  .textColor(
+                                                                      AppColors
+                                                                          .appDarkBlack),
+                                                            ),
+                                                          ),
                                                         ),
-                                                      ),
+                                                        // if (data.listDetail[i]
+                                                        //         .title ==
+                                                        //     'Change Country')
+                                                        // Container(
+                                                        //   width: 90,
+                                                        //   height: 50,
+                                                        //   child:
+                                                        //       selectCardView(
+                                                        //     icon: languageViewModel
+                                                        //             .filteredCountries
+                                                        //             .isNotEmpty
+                                                        //         ? languageViewModel
+                                                        //             .filteredCountries[
+                                                        //                 languageViewModel
+                                                        //                     .countryIndex]
+                                                        //             .flag_url!
+                                                        //         : languageViewModel
+                                                        //             .countries[
+                                                        //                 languageViewModel
+                                                        //                     .countryIndex]
+                                                        //             .flag_url!,
+                                                        //     title: languageViewModel
+                                                        //             .filteredCountries
+                                                        //             .isNotEmpty
+                                                        //         ? languageViewModel
+                                                        //             .filteredCountries[
+                                                        //                 languageViewModel
+                                                        //                     .countryIndex]
+                                                        //             .name!
+                                                        //         : languageViewModel
+                                                        //             .countries[
+                                                        //                 languageViewModel
+                                                        //                     .countryIndex]
+                                                        //             .name!,
+                                                        //   ),
+                                                        // )
+                                                        // else
+                                                        //   SizedBox(),
+                                                        if (data.listDetail[i]
+                                                                .title ==
+                                                            'Language')
+                                                          Container(
+                                                              width: 90,
+                                                              height: 50,
+                                                              child:
+                                                                  selectCardView(
+                                                                icon: languageViewModel
+                                                                        .languageIcon[
+                                                                    languageViewModel
+                                                                        .languageIndex],
+                                                                title: languageViewModel
+                                                                        .languages[
+                                                                    languageViewModel
+                                                                        .languageIndex],
+                                                              ))
+                                                        else
+                                                          SizedBox(),
+                                                        if (data.listDetail[i]
+                                                                .title ==
+                                                            'Login With Biometric')
+                                                          AppSwitch(
+                                                            isActive: false,
+                                                          )
+                                                        else
+                                                          const Icon(Icons
+                                                              .arrow_forward_ios_rounded)
+                                                      ],
                                                     ),
-                                                    if (data.listDetail[i]
-                                                            .title ==
-                                                        'Login With Biometric')
-                                                      AppSwitch(
-                                                        isActive: false,
-                                                      )
-                                                    else
-                                                      const Icon(Icons
-                                                          .arrow_forward_ios_rounded)
-                                                  ],
-                                                ),
-                                              ),
-                                              if (i <
-                                                  data.listDetail.length - 1)
-                                                Divider(
-                                                  height: 30,
-                                                  thickness: 1,
-                                                  color: AppColors
-                                                      .appBorderColor
-                                                      .withOpacity(0.5),
-                                                )
-                                            ],
-                                          );
-                                        },
-                                      )),
+                                                  ),
+                                                  if (i <
+                                                      data.listDetail.length -
+                                                          1)
+                                                    Divider(
+                                                      height: 30,
+                                                      thickness: 1,
+                                                      color: AppColors
+                                                          .appBorderColor
+                                                          .withOpacity(0.5),
+                                                    )
+                                                ],
+                                              );
+                                            },
+                                          )),
+                                    ],
+                                  ),
                                 ],
                               );
                             }),
@@ -301,41 +416,221 @@ class _SettingViewState extends State<SettingView> {
         });
   }
 
+  Widget iconButtonWidget(
+      {Color? bgColor,
+      required IconData icon,
+      double? iconSize,
+      double? padding,
+      void Function()? onPress}) {
+    return GestureDetector(
+      onTap: onPress,
+      child: Container(
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: bgColor ?? AppColors.secondaryColor),
+          child: Icon(
+            icon,
+            size: iconSize ?? 23,
+            color: AppColors.white,
+          )),
+    );
+  }
+
+  Widget listData(int index, Address data, StateSetter setState) {
+    return Padding(
+        padding: const EdgeInsets.all(8),
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(
+                color: selectedIndex == index
+                    ? AppColors.appBlue
+                    : AppColors.gray.withOpacity(0.25),
+              ),
+              borderRadius: BorderRadius.circular(20)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: [
+                          Text(data.heading, style: openSans.get17.w700),
+                          if (selectedIndex == index)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    color: const Color(0xfff0f5ff),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 8),
+                                    child: Text('Default'),
+                                  )),
+                            ),
+                        ],
+                      ),
+                      if (selectedIndex == index)
+                        const ChoiceConfirmButton(
+                          icon: Icon(
+                            Icons.check_circle,
+                            color: AppColors.appBlue,
+                          ),
+                        )
+                      else
+                        ChoiceConfirmButton(
+                            icon: Icon(
+                          Icons.circle_outlined,
+                          color: AppColors.gray.withOpacity(0.25),
+                        ))
+                      // if (selectedIndex == index)
+                      //   iconButtonWidget(
+                      //       icon: Icons.done,
+                      //       bgColor: AppColors.appColor,
+                      //       iconSize: 18),
+                    ]),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5, bottom: 13),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(data.address1),
+                      Text(data.address2),
+                    ],
+                  ),
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      iconButtonWidget(
+                        icon: Icons.delete_outline_rounded,
+                        padding: 8,
+                        bgColor: AppColors.appRed,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 10, right: selectedIndex != index ? 10 : 0),
+                        child: iconButtonWidget(
+                          icon: Icons.edit,
+                          padding: 8,
+                          bgColor: AppColors.appBlue,
+                        ),
+                      ),
+                      if (selectedIndex != index)
+                        ElevatedButton(
+                            onPressed: () {
+                              setState(() {});
+                              selectedIndex = index;
+                              print('selectedIndex:-- $selectedIndex');
+                            },
+                            style: const ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(AppColors.appBlue),
+                                shape:
+                                    MaterialStatePropertyAll(StadiumBorder())),
+                            child: const Text('Set Default',
+                                style: TextStyle(color: AppColors.white)))
+                    ]),
+              ],
+            ),
+          ),
+        ));
+  }
+
+  void locationModalBottomSheet(context) {
+    showModalBottomSheet(
+        backgroundColor: Colors.white,
+        isScrollControlled: true,
+        // showDragHandle: true,
+        useSafeArea: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(30), topLeft: Radius.circular(30))),
+        context: context,
+        builder: (BuildContext bc) {
+          return StatefulBuilder(builder: (context, setState) {
+            return Column(children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Text('Class Location', style: openSans.get20.w700),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 80),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color:
+                                    AppColors.downArrowColor.withOpacity(0.15)),
+                            child: const Padding(
+                              padding: EdgeInsets.all(3),
+                              child: Icon(Icons.close),
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ListView.builder(
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: location.length,
+                          itemBuilder: (context, index) {
+                            final data = location[index];
+                            return listData(index, data, setState);
+                          }),
+                    ],
+                  ),
+                ),
+              ),
+              AppButton(
+                onPressed: () {},
+                title: 'Add New Address',
+              ),
+            ]);
+          });
+        });
+  }
+
   Widget selectCardView({String? icon, String? title, VoidCallback? onTap}) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        height: 50.px,
-        padding: EdgeInsets.symmetric(horizontal: 15.px, vertical: 12.px),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.px),
-          border: Border.all(color: AppColors.lightPurple, width: 1.5.px),
-        ),
-        child: Row(
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(25),
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Container(
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+              ),
               child: AppImageAsset(
                 image: icon ?? ImageConstants.globe,
-                height: 25.px,
-                width: 25.px,
+                height: 16.px,
+                width: 16.px,
               ),
             ),
-            SizedBox(
-              width: 12.px,
-            ),
-            AppText(
-              title ?? '',
-              fontWeight: FontWeight.w400,
-            ),
-            const Spacer(),
-            AppImageAsset(
-              image: ImageConstants.downIcon,
-              height: 16.px,
-              color: AppColors.appGrey,
-            ),
-          ],
-        ),
+          ),
+          AppText(
+            title ?? '',
+            fontWeight: FontWeight.w400,
+            fontSize: 12,
+          ),
+          const Spacer(),
+        ],
       ),
     );
   }
@@ -548,4 +843,12 @@ class SettingData {
 
   final String surfixImage;
   final String title;
+}
+
+class Address {
+  Address(this.heading, this.address1, this.address2);
+
+  String heading;
+  String address1;
+  String address2;
 }
