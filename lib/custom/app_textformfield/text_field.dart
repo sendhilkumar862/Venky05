@@ -14,6 +14,7 @@ class TextFormsField extends StatelessWidget {
   final String? title;
   final String? isValid;
   final int? validate;
+  final int? maxLines;
   final bool obscureText;
   final Widget? suffixIcon;
   final Widget? prefix;
@@ -40,6 +41,7 @@ class TextFormsField extends StatelessWidget {
     this.keyboardType,
     this.title,
     this.onSaved,
+    this.maxLines
   });
 
   @override
@@ -74,7 +76,7 @@ class TextFormsField extends StatelessWidget {
                 InkWell(onTap: onPrefixTap, child: prefix),
               ],
               Expanded(
-                child: TextFormField(
+                child: TextFormField(maxLines: maxLines ,minLines: 1,
                   onFieldSubmitted: onSaved ?? (String value) {},
                   keyboardType: keyboardType ?? TextInputType.text,
                   controller: controller,

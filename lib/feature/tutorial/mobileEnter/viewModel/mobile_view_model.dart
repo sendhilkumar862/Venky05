@@ -30,10 +30,8 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
     // var currentProfile =
     //     keyValueStorageBase.getCommon(KeyValueStorageService.profile);
-    countryCode = keyValueStorageBase
-        .getCommon(List<String>,KeyValueStorageService.countryCodeAndIDD)
-        .toString()
-        .split(',');
+    countryCode =
+        keyValueStorageBase.getCommon(List<String>, KeyValueStorageService.countryCodeAndIDD).toString().split(',');
     logs('countryCode--> $countryCode');
   }
 
@@ -68,7 +66,11 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     final String mobile = '$selectedCountry${mobileController.text}';
     logs('mobile--> $mobile');
     try {
-      Map body = <String, dynamic>{'userId': data['userId'], 'mobile': mobileController.text, 'countryCode': selectedCountry};
+      Map body = <String, dynamic>{
+        'userId': data['userId'],
+        'mobile': mobileController.text,
+        'countryCode': selectedCountry
+      };
       logs('send mobile body--> $body');
       final Response response = await dio.post(
         'http://167.99.93.83/api/v1/users/mobile/send-otp',
@@ -125,27 +127,20 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   @observable
   List<CountryCodeModel> tempList = <CountryCodeModel>[];
 
-  @observable
-  List<CountryCodeModel> filteredCountries = <CountryCodeModel>[];
 
   Future<void> fetchData() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     logs('entered Fetch country data');
     Dio dio = Dio();
     try {
-      Response response =
-          await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
+      Response response = await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
       logs('Status code--> ${response.statusCode}');
 
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
         final List<dynamic> countriesJson = response.data['data']['items'];
-        countries = countriesJson
-            .map((json) => CountryCodeModel.fromJson(json))
-            .toList();
-        tempList = countriesJson
-            .map((json) => CountryCodeModel.fromJson(json))
-            .toList();
+        countries = countriesJson.map((json) => CountryCodeModel.fromJson(json)).toList();
+        tempList = countriesJson.map((json) => CountryCodeModel.fromJson(json)).toList();
       }
     } catch (error) {
       EasyLoading.dismiss();
@@ -175,13 +170,16 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
 
   @action
   void filterCountries(String query, Function setState) {
-    filteredCountries = countries
+    countryIndex = 0;
+    countries = countries
         .where((CountryCodeModel country) =>
             country.name?.toLowerCase().contains(query.toLowerCase()) ??
             false || country.flag_url!.toLowerCase().contains(query.toLowerCase()))
         .toList();
-    logs('filteredCountries.toString()--> ${filteredCountries.length}');
-    logs('filteredCountries.toString()--> ${countryIndex}');
+    if (countryController.text.isEmpty) {
+      countries = tempList;
+    }
+    logs('filteredCountries.toString()--> $countryIndex');
     setState(() {});
   }
 }

@@ -41,38 +41,39 @@ class AppBarOnBoard extends PreferredSize {
           : const SizedBox(),
       actions: <Widget>[
         Align(
-          child: Row(
-            children: [
-              AppText(
-                title ?? 'about'.tr(),
-                color: AppColors.appBlue,
-                fontSize: 14.px,
-              ),
-               SizedBox(width: 6.px),
-               InkWell(
-                onTap: onTap ?? () {
-                   showModalBottomSheet(
-                        context: context,
-                        constraints: const BoxConstraints(),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(25.px),
-                            topLeft: Radius.circular(25.px),
-                          ),
-                        ),
-                        builder: (BuildContext context) {
-                          return AboutAppBottomSheet();
-                        },
-                      );
+          child: InkWell(
+            onTap: onTap ??
+                () {
+                  showModalBottomSheet(
+                    context: context,
+                    constraints: const BoxConstraints(),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(25.px),
+                        topLeft: Radius.circular(25.px),
+                      ),
+                    ),
+                    builder: (BuildContext context) {
+                      return AboutAppBottomSheet();
+                    },
+                  );
                 },
-                child: AppImageAsset(
+            child: Row(
+              children: [
+                AppText(
+                  title ?? 'about'.tr(),
+                  color: AppColors.appBlue,
+                  fontSize: 14.px,
+                ),
+                SizedBox(width: 6.px),
+                AppImageAsset(
                   image: icon ?? ImageConstants.infoRoundCircle,
                   height: 18.px,
                   color: AppColors.appBlue,
                 ),
-               ),
-               SizedBox(width: 10.px),
-            ],
+                SizedBox(width: 10.px),
+              ],
+            ),
           ),
         )
       ],

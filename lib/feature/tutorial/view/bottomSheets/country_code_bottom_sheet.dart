@@ -84,15 +84,13 @@ class CountryCodeBottomsSheet extends StatelessWidget {
               ),
               Expanded(
                 child: ListView.separated(
-                  itemCount: mobileViewModel!.filteredCountries.isNotEmpty ? mobileViewModel!.filteredCountries.length : mobileViewModel!.countries.length,
+                  itemCount: mobileViewModel!.countries.length,
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
-                        final CountryCodeModel countryCodeModel = mobileViewModel!.filteredCountries.isNotEmpty
-                            ? mobileViewModel!.filteredCountries[index]
-                            : mobileViewModel!.countries[index];
+                        final CountryCodeModel countryCodeModel = mobileViewModel!.countries[index];
                         logs('Selected country --> ${countryCodeModel.toJson()}');
                         final int selectedIndex = mobileViewModel!.countries.indexOf(countryCodeModel);
                         mobileViewModel!.countryIndex = selectedIndex;
@@ -100,7 +98,7 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                         logs('Selected index --> $selectedIndex');
                         setState!(
                           () {
-                            mobileViewModel?.filteredCountries.clear();
+                        //    mobileViewModel?.filteredCountries.clear();
                             // mobileViewModel!.selectCountry(selectedIndex);
                             Future.delayed(
                               const Duration(milliseconds: 200),
@@ -118,9 +116,7 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(700),
                               child: AppImageAsset(
-                                image: mobileViewModel!.filteredCountries.isNotEmpty
-                                    ? mobileViewModel!.filteredCountries[index].flag_url!
-                                    : mobileViewModel!.countries[index].flag_url!,
+                                image: mobileViewModel!.countries[index].flag_url!,
                                 fit: BoxFit.cover,
                                 height: 20.px,
                                 width: 20,
@@ -129,16 +125,12 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                             SizedBox(
                               width: 10.px,
                             ),
-                            AppText(
-                              mobileViewModel!.filteredCountries.isNotEmpty? mobileViewModel!.filteredCountries[index].idd_code!
-                                  : mobileViewModel!.countries[index].idd_code!,
+                            AppText( mobileViewModel!.countries[index].idd_code!,
                               fontWeight: FontWeight.w400,
                               overflow: TextOverflow.ellipsis,
                             ),
                             SizedBox(width: 6.px),
-                            AppText(
-                              mobileViewModel!.filteredCountries.isNotEmpty? mobileViewModel!.filteredCountries[index].name!
-                                  : mobileViewModel!.countries[index].name!,
+                            AppText(mobileViewModel!.countries[index].name!,
                               fontWeight: FontWeight.w400,
                               overflow: TextOverflow.ellipsis,
                             ),

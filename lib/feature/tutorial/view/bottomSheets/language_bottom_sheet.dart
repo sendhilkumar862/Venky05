@@ -88,6 +88,7 @@ class LanguageBottomSheet extends StatelessWidget {
                                 image: languageViewModel!.languageIcon[index],
                                 height: 30.px,
                                 width: 30.px,
+                                fit: BoxFit.fill,
                               ),
                             ),
                             SizedBox(

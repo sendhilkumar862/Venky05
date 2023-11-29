@@ -22,8 +22,7 @@ class MobileView extends StatelessWidget {
         viewModel: MobileViewModel(),
         onModelReady: (MobileViewModel mobileViewModel) {
           mobileViewModel.setContext(context);
-          mobileViewModel.data =
-              ModalRoute.of(context)!.settings.arguments! as Map;
+          mobileViewModel.data = ModalRoute.of(context)!.settings.arguments! as Map;
           logs('argue--> ${mobileViewModel.data}');
           mobileViewModel.init();
         },
@@ -53,7 +52,7 @@ class MobileView extends StatelessWidget {
                       ),
                       SizedBox(height: 10.px),
                       TextFormsField(
-                        prefix: (mobileViewModel.countries.isNotEmpty || mobileViewModel.filteredCountries.isNotEmpty)
+                        prefix: (mobileViewModel.countries.isNotEmpty )
                             ? GestureDetector(
                                 onTap: () {
                                   showModalBottomSheet(
@@ -67,7 +66,8 @@ class MobileView extends StatelessWidget {
                                     builder: (BuildContext context) {
                                       return StatefulBuilder(
                                         builder: (BuildContext context, setState) {
-                                          return CountryCodeBottomsSheet(setState: setState, mobileViewModel: mobileViewModel);
+                                          return CountryCodeBottomsSheet(
+                                              setState: setState, mobileViewModel: mobileViewModel);
                                         },
                                       );
                                     },
@@ -79,20 +79,7 @@ class MobileView extends StatelessWidget {
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(700),
                                       child: AppImageAsset(
-                                        image: mobileViewModel.filteredCountries.isNotEmpty
-                                            ? mobileViewModel.filteredCountries[mobileViewModel.countryIndex].flag_url!
-                                            : mobileViewModel.countries[mobileViewModel.countryIndex].flag_url!,
-                                        // mobileViewModel!
-                                        //         .filteredCountries.isNotEmpty!
-                                        //     ? mobileViewModel!
-                                        //         .filteredCountries[
-                                        //             mobileViewModel
-                                        //                 .countryIndex]
-                                        //         .flag_url!
-                                        //     : mobileViewModel!
-                                        //         .countries[mobileViewModel
-                                        //             .countryIndex]
-                                        //         .flag_url!,
+                                        image:mobileViewModel!.countries[mobileViewModel.countryIndex].flag_url!,
                                         height: 16.px,
                                         width: 16.px,
                                       ),
@@ -106,7 +93,7 @@ class MobileView extends StatelessWidget {
                                   ],
                                 ),
                               )
-                            : SizedBox(),
+                            : const SizedBox(),
                         title: 'mobileNumber'.tr(),
                         keyboardType: TextInputType.number,
                         controller: mobileViewModel.mobileController,
