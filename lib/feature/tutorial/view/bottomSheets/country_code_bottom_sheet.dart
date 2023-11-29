@@ -1,8 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:hessah/feature/tutorial/mobileEnter/model/country_code_model.dart';
-import 'package:hessah/product/utils/validators.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -12,6 +8,8 @@ import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../../../product/utils/validators.dart';
+import '../../mobileEnter/model/country_code_model.dart';
 import '../../mobileEnter/viewModel/mobile_view_model.dart';
 
 class CountryCodeBottomsSheet extends StatelessWidget {
@@ -94,10 +92,10 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                             ? mobileViewModel!.filteredCountries[index]
                             : mobileViewModel!.countries[index];
                         logs('Selected country --> ${countryCodeModel.toJson()}');
-                        final int selectedIndex = mobileViewModel!.countries.indexOf(countryCodeModel);
-                        mobileViewModel!.countryIndex = selectedIndex;
-                        mobileViewModel!.selectedCountry = countryCodeModel.idd_code ?? '';
-                        logs('Selected index --> $selectedIndex');
+                        // final int selectedIndex = mobileViewModel!.countries.indexOf(countryCodeModel);
+                        mobileViewModel!.selectedCountry = countryCodeModel;
+                        mobileViewModel!.selectedCountryCode = countryCodeModel.idd_code ?? '';
+                        // logs('Selected index --> $selectedIndex');
                         setState!(
                           () {
                             mobileViewModel?.filteredCountries.clear();
@@ -121,7 +119,7 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                                 image: mobileViewModel!.filteredCountries.isNotEmpty
                                     ? mobileViewModel!.filteredCountries[index].flag_url!
                                     : mobileViewModel!.countries[index].flag_url!,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                                 height: 20.px,
                                 width: 20,
                               ),
@@ -156,84 +154,6 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                   },
                 ),
               )
-              // Expanded(
-              //   child: ListView.separated(
-              //     itemCount: mobileViewModel!.filteredCountries.isNotEmpty
-              //         ? mobileViewModel!.filteredCountries.length
-              //         : mobileViewModel!.countries.length,
-              //     physics: const BouncingScrollPhysics(),
-              //     shrinkWrap: true,
-              //     itemBuilder: (BuildContext context, int index) {
-              //       log('mobileViewModel!.filteredCountries.length-->${mobileViewModel!.filteredCountries.length}');
-              //       log('mobileViewModel!.countries.length${mobileViewModel!.countries.length}');
-              //       return GestureDetector(
-              //         onTap: () {
-              //           setState!(
-              //                 () {
-              //               mobileViewModel!.selectCountry(index);
-              //               Future.delayed(
-              //                 const Duration(milliseconds: 200),
-              //                     () {
-              //                   AppRouter.pop();
-              //                 },
-              //               );
-              //             },
-              //           );
-              //         },
-              //         child: Container(
-              //           color: AppColors.appTransparent,
-              //           margin: EdgeInsets.symmetric(horizontal: 15.px),
-              //           padding: EdgeInsets.symmetric(vertical: 8.px),
-              //           child: Row(
-              //             children: <Widget>[
-              //               ClipRRect(
-              //                 borderRadius: BorderRadius.circular(700),
-              //                 child: AppImageAsset(
-              //                   image: mobileViewModel!
-              //                       .filteredCountries.isNotEmpty!
-              //                       ? mobileViewModel!
-              //                       .filteredCountries[index].flag_url!
-              //                       : mobileViewModel!
-              //                       .countries[index].flag_url!,
-              //                   fit: BoxFit.cover,
-              //                   height: 20.px,
-              //                   width: 20,
-              //                 ),
-              //               ),
-              //               SizedBox(
-              //                 width: 10.px,
-              //               ),
-              //               AppText(
-              //                 mobileViewModel!.filteredCountries.isNotEmpty!
-              //                     ? mobileViewModel!
-              //                     .filteredCountries[index].idd_code!
-              //                     : mobileViewModel!.countries[index].idd_code!,
-              //                 fontWeight: FontWeight.w400,
-              //                 overflow: TextOverflow.ellipsis,
-              //               ),
-              //               SizedBox(width: 6.px),
-              //               AppText(
-              //                 mobileViewModel!.filteredCountries.isNotEmpty!
-              //                     ? mobileViewModel!
-              //                     .filteredCountries[index].name!
-              //                     : mobileViewModel!.countries[index].name!,
-              //                 fontWeight: FontWeight.w400,
-              //                 overflow: TextOverflow.ellipsis,
-              //               ),
-              //
-              //             ],
-              //           ),
-              //         ),
-              //       );
-              //     },
-              //     separatorBuilder: (BuildContext context, int index) {
-              //       return Padding(
-              //         padding: EdgeInsets.symmetric(horizontal: 15.px),
-              //         child: AppDivider(),
-              //       );
-              //     },
-              //   ),
-              // )
             ],
           )
         ],

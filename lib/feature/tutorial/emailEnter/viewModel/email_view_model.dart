@@ -127,8 +127,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
   }
 
   @observable
-  TextEditingController emailController =
-      TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
   @observable
   String emailErrorText = '';
@@ -146,7 +145,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
   void validateEmail(String value) {
     registerWarning = false;
 
-    if (value!.isEmpty) {
+    if (value.isEmpty) {
       emailValid = 0;
       emailErrorText = 'pleaseEnter'.tr();
     } else if (Regexes.validateRegEx(

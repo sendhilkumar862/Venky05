@@ -47,7 +47,7 @@ class VerifyOtpView extends StatelessWidget {
                         child: AppText(
                           textAlign: TextAlign.start,
                           (verifyOtpViewModel.arguments['isScreen'])
-                              ? 'verifyEmailAddress'.tr()
+                          ? 'verifyEmailAddress'.tr()
                               : 'verifyMobileNumber'.tr(),
                           fontSize: 24.px,
                           fontWeight: FontWeight.w700,

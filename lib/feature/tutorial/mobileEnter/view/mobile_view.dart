@@ -79,9 +79,10 @@ class MobileView extends StatelessWidget {
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(700),
                                       child: AppImageAsset(
-                                        image: mobileViewModel.filteredCountries.isNotEmpty
-                                            ? mobileViewModel.filteredCountries[mobileViewModel.countryIndex].flag_url!
-                                            : mobileViewModel.countries[mobileViewModel.countryIndex].flag_url!,
+                                        image: mobileViewModel.selectedCountry?.flag_url ?? ImageConstants.globe,
+                                        fit: BoxFit.fill,
+                                            // ? mobileViewModel.filteredCountries[mobileViewModel.countryIndex].flag_url!
+                                            // : mobileViewModel.countries[mobileViewModel.countryIndex].flag_url!,
                                         // mobileViewModel!
                                         //         .filteredCountries.isNotEmpty!
                                         //     ? mobileViewModel!
@@ -99,14 +100,14 @@ class MobileView extends StatelessWidget {
                                     ),
                                     SizedBox(width: 6.px),
                                     AppText(
-                                      mobileViewModel.countries[mobileViewModel.countryIndex].idd_code.toString(),
+                                      mobileViewModel.selectedCountry?.idd_code?.toString() ?? 'select',
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14.px,
                                     )
                                   ],
                                 ),
                               )
-                            : SizedBox(),
+                            : const SizedBox(),
                         title: 'mobileNumber'.tr(),
                         keyboardType: TextInputType.number,
                         controller: mobileViewModel.mobileController,

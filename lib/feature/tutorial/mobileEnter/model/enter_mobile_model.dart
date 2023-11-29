@@ -25,7 +25,9 @@ class Data with _$Data {
 
 @freezed
 class Item with _$Item {
-  const factory Item() = _Item;
+  const factory Item({
+     required int otpId,
+  }) = _Item;
 
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
 }
@@ -35,7 +37,6 @@ class Status with _$Status {
   const factory Status({
     required String type,
     required String message,
-    required String description,
   }) = _Status;
 
   factory Status.fromJson(Map<String, dynamic> json) =>

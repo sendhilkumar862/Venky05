@@ -25,9 +25,6 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   void init() {
     fetchData();
     KeyValueStorageBase.init();
-    // KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-    // keyValueStorageBase.setCommon(
-    //    KeyValueStorageService.countryCodeAndIDD, 'KW,+965');
   }
 
   @observable
