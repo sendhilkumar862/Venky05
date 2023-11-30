@@ -68,8 +68,8 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
   Future<void> fetchData() async {
     Dio dio = Dio();
     try {
-      Response response =
-          await dio.get('http://167.99.93.83/api/v1/content/terms_conditions');
+      Response response = await dio
+          .get('http://167.99.93.83/api/v1/content/role/student/type/about_us');
       logs('statusCode -- > ${response.statusCode}');
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
@@ -104,8 +104,10 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
         final PasswordModel passwordModel =
             PasswordModel.fromJson(response.data);
         logs('token--> ${passwordModel.data.item.token}');
-        final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
-        keyValueStorageService.setAuthToken(passwordModel.data.item.token.toString());
+        final KeyValueStorageService keyValueStorageService =
+            KeyValueStorageService();
+        keyValueStorageService
+            .setAuthToken(passwordModel.data.item.token.toString());
         EasyLoading.dismiss();
         AppRouter.pushNamed(Routes.HomeScreenRoute);
       } else {
@@ -158,10 +160,9 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
 
   @action
   Future<void> onTapSubmitPassword() async {
-    if(isButtonActive)
-      {
-        registerUser();
-      }
+    if (isButtonActive) {
+      registerUser();
+    }
   }
 
   @action

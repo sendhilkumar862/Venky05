@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../config/routes/app_router.dart';
-import '../../../custom/app_button/app_button.dart';
-import '../../../custom/appbar/appbar.dart';
-import '../../../custom/cardView/status_card_view.dart';
-import '../../../custom/choice/src/inline/list.dart';
-import '../../../custom/choice/src/inline/main.dart';
-import '../../../custom/choice/src/selection/controller/main.dart';
-import '../../../custom/image/app_image_assets.dart';
-import '../../../custom/sheet/show_bottom_sheet.dart';
-import '../../../custom/text/app_text.dart';
-import '../../../product/constants/colors/app_colors_constants.dart';
-import '../../../product/constants/image/image_constants.dart';
-import '../../../product/utils/typography.dart';
-import 'new_ticket_view.dart';
+import '../../../../config/routes/app_router.dart';
+import '../../../../custom/app_button/app_button.dart';
+import '../../../../custom/appbar/appbar.dart';
+import '../../../../custom/cardView/status_card_view.dart';
+import '../../../../custom/choice/src/inline/list.dart';
+import '../../../../custom/choice/src/inline/main.dart';
+import '../../../../custom/choice/src/selection/controller/main.dart';
+import '../../../../custom/image/app_image_assets.dart';
+import '../../../../custom/sheet/show_bottom_sheet.dart';
+import '../../../../custom/text/app_text.dart';
+import '../../../../product/constants/colors/app_colors_constants.dart';
+import '../../../../product/constants/image/image_constants.dart';
+import '../../../../product/utils/typography.dart';
+import 'app_support/new_ticket_view.dart';
 
 class AppSupportView extends StatefulWidget {
   const AppSupportView({super.key});

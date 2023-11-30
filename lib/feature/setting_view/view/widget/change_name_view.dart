@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../custom/app_button/app_button.dart';
-import '../../../custom/app_textformfield/app_field.dart';
-import '../../../custom/appbar/appbar.dart';
-import '../../../custom/dialog/success_fail_dialog.dart';
-import '../../../product/utils/validators.dart';
+import '../../../../custom/app_button/app_button.dart';
+import '../../../../custom/app_textformfield/app_field.dart';
+import '../../../../custom/appbar/appbar.dart';
+import '../../../../custom/dialog/success_fail_dialog.dart';
+import '../../../../product/utils/validators.dart';
 
 class ChangeNameView extends StatefulWidget {
   const ChangeNameView({super.key});
