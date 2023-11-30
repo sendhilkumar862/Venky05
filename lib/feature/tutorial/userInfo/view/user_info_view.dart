@@ -2,12 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+
 import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/switch/app_switch.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/base/view/base_view.dart';
-
 import '../viewModel/user_info_view_model.dart';
 
 class UserInfoView extends StatelessWidget {
@@ -19,7 +19,8 @@ class UserInfoView extends StatelessWidget {
         viewModel: UserInfoViewModel(),
         onModelReady: (UserInfoViewModel userInfoViewModel) {
           userInfoViewModel.setContext(context);
-           userInfoViewModel.data = ModalRoute.of(context)!.settings.arguments!  as Map;
+          userInfoViewModel.data =
+              ModalRoute.of(context)!.settings.arguments! as Map;
         },
         onPageBuilder:
             (BuildContext context, UserInfoViewModel userInfoViewModel) {
@@ -68,20 +69,19 @@ class UserInfoView extends StatelessWidget {
                         },
                       ),
                       SizedBox(height: 20.px),
-                      if (userInfoViewModel.isActiveSwitch)
-                        Row(
-                          children: <Widget>[
-                            AppText(
-                              'makeItVisible'.tr(),
-                              fontSize: 14.px,
-                            ),
-                            SizedBox(width: 10.px),
-                            AppSwitch(
-                              isActive: userInfoViewModel.isActiveSwitch,
-                              onTap: () => userInfoViewModel.onTapSwitch,
-                            )
-                          ],
-                        )
+                      Row(
+                        children: <Widget>[
+                          AppText(
+                            'makeItVisible'.tr(),
+                            fontSize: 14.px,
+                          ),
+                          SizedBox(width: 10.px),
+                          AppSwitch(
+                            isActive: userInfoViewModel.isActiveSwitch,
+                            onTap: () => userInfoViewModel.onTapSwitch,
+                          )
+                        ],
+                      )
                     ],
                   ),
                 ),

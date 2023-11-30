@@ -113,7 +113,34 @@ class StatusCardView extends StatelessWidget {
           cardColor: AppColors.appOrange,
           iconColor: AppColors.appWhite,
         );
-
+      case 'NEW':
+        return customStatusView(
+          title: 'New',
+          icon: ImageConstants.done,
+          cardColor: AppColors.appLightBlue,
+          iconColor: AppColors.appWhite,
+        );
+      case 'IN PROGRESS':
+        return customStatusView(
+          title: 'Inprogress',
+          icon: ImageConstants.inProgress,
+          cardColor: AppColors.appOrange,
+          iconColor: AppColors.appWhite,
+        );
+      case 'SOLVED':
+        return customStatusView(
+          title: 'Solved',
+          icon: ImageConstants.check,
+          cardColor: AppColors.appGreen,
+          iconColor: AppColors.appWhite,
+        );
+      case 'CANCEL':
+        return customStatusView(
+          title: 'Cancelled',
+          icon: ImageConstants.cancel,
+          cardColor: AppColors.xFFBFC8E4,
+          iconColor: AppColors.appTextColor,
+        );
       default:
         return customStatusView(
           title: 'Completed',

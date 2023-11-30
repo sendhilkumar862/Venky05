@@ -11,17 +11,24 @@ import '../text/app_text.dart';
 // ignore: must_be_immutable
 class SuccessFailsInfoDialog extends StatelessWidget {
   SuccessFailsInfoDialog(
-      {this.content, this.title, this.buttonTitle, this.tranId, super.key});
+      {this.content,
+      this.title,
+      this.buttonTitle,
+      this.tranId,
+      this.verticalPadding,
+      super.key});
 
   String? content;
   String? title;
   String? buttonTitle;
   String? tranId;
+  double? verticalPadding;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
+      padding:
+          EdgeInsets.symmetric(vertical: verticalPadding ?? 25, horizontal: 15),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[

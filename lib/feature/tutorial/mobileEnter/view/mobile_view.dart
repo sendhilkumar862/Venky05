@@ -22,7 +22,8 @@ class MobileView extends StatelessWidget {
         viewModel: MobileViewModel(),
         onModelReady: (MobileViewModel mobileViewModel) {
           mobileViewModel.setContext(context);
-          mobileViewModel.data = ModalRoute.of(context)!.settings.arguments! as Map;
+          mobileViewModel.data =
+              ModalRoute.of(context)!.settings.arguments! as Map;
           logs('argue--> ${mobileViewModel.data}');
           mobileViewModel.init();
         },
@@ -41,7 +42,9 @@ class MobileView extends StatelessWidget {
                       SizedBox(height: 80.px),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: AppImageAsset(image: ImageConstants.primaryLogoBlue, height: 45.px),
+                        child: AppImageAsset(
+                            image: ImageConstants.primaryLogoBlue,
+                            height: 45.px),
                       ),
                       SizedBox(height: 28.px),
                       AppText(
@@ -52,7 +55,8 @@ class MobileView extends StatelessWidget {
                       ),
                       SizedBox(height: 10.px),
                       TextFormsField(
-                        prefix: (mobileViewModel.countries.isNotEmpty )
+                        prefix: (mobileViewModel.countries.isNotEmpty ||
+                                mobileViewModel.filteredCountries.isNotEmpty)
                             ? GestureDetector(
                                 onTap: () {
                                   showModalBottomSheet(
@@ -65,9 +69,11 @@ class MobileView extends StatelessWidget {
                                     ),
                                     builder: (BuildContext context) {
                                       return StatefulBuilder(
-                                        builder: (BuildContext context, setState) {
+                                        builder:
+                                            (BuildContext context, setState) {
                                           return CountryCodeBottomsSheet(
-                                              setState: setState, mobileViewModel: mobileViewModel);
+                                              setState: setState,
+                                              mobileViewModel: mobileViewModel);
                                         },
                                       );
                                     },
@@ -78,11 +84,13 @@ class MobileView extends StatelessWidget {
                                     SizedBox(width: 6.px),
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(700),
-   
-                                        image: mobileViewModel.selectedCountry?.flag_url ?? ImageConstants.globe,
+                                      child: AppImageAsset(
+                                        image: mobileViewModel
+                                                .selectedCountry?.flag_url ??
+                                            ImageConstants.globe,
                                         fit: BoxFit.fill,
-                                            // ? mobileViewModel.filteredCountries[mobileViewModel.countryIndex].flag_url!
-                                            // : mobileViewModel.countries[mobileViewModel.countryIndex].flag_url!,
+                                        // ? mobileViewModel.filteredCountries[mobileViewModel.countryIndex].flag_url!
+                                        // : mobileViewModel.countries[mobileViewModel.countryIndex].flag_url!,
                                         // mobileViewModel!
                                         //         .filteredCountries.isNotEmpty!
                                         //     ? mobileViewModel!
@@ -93,14 +101,16 @@ class MobileView extends StatelessWidget {
                                         //     : mobileViewModel!
                                         //         .countries[mobileViewModel
                                         //             .countryIndex]
-              
+                                        //         .flag_url!,
                                         height: 16.px,
                                         width: 16.px,
                                       ),
                                     ),
                                     SizedBox(width: 6.px),
                                     AppText(
-                                      mobileViewModel.selectedCountry?.idd_code?.toString() ?? 'select',
+                                      mobileViewModel.selectedCountry?.idd_code
+                                              ?.toString() ??
+                                          'select',
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14.px,
                                     )
