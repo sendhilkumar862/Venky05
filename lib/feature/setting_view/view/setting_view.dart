@@ -276,9 +276,7 @@ class _SettingViewState extends State<SettingView> {
                                                               .title ==
                                                           'Add Mobile Number') {
                                                         AppRouter.push(
-                                                            const MobileView(
-                                                          simpleAppBar: true,
-                                                        ));
+                                                            const MobileView());
                                                       } else if (data
                                                               .listDetail[i]
                                                               .title ==
