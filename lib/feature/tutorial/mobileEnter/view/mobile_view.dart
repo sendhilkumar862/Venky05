@@ -78,15 +78,29 @@ class MobileView extends StatelessWidget {
                                     SizedBox(width: 6.px),
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(700),
-                                      child: AppImageAsset(
-                                        image:mobileViewModel!.countries[mobileViewModel.countryIndex].flag_url!,
+   
+                                        image: mobileViewModel.selectedCountry?.flag_url ?? ImageConstants.globe,
+                                        fit: BoxFit.fill,
+                                            // ? mobileViewModel.filteredCountries[mobileViewModel.countryIndex].flag_url!
+                                            // : mobileViewModel.countries[mobileViewModel.countryIndex].flag_url!,
+                                        // mobileViewModel!
+                                        //         .filteredCountries.isNotEmpty!
+                                        //     ? mobileViewModel!
+                                        //         .filteredCountries[
+                                        //             mobileViewModel
+                                        //                 .countryIndex]
+                                        //         .flag_url!
+                                        //     : mobileViewModel!
+                                        //         .countries[mobileViewModel
+                                        //             .countryIndex]
+              
                                         height: 16.px,
                                         width: 16.px,
                                       ),
                                     ),
                                     SizedBox(width: 6.px),
                                     AppText(
-                                      mobileViewModel.countries[mobileViewModel.countryIndex].idd_code.toString(),
+                                      mobileViewModel.selectedCountry?.idd_code?.toString() ?? 'select',
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14.px,
                                     )

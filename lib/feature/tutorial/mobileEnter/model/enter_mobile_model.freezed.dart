@@ -343,13 +343,19 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Item {
+  int get otpId => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ItemCopyWith<Item> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $ItemCopyWith<$Res> {
   factory $ItemCopyWith(Item value, $Res Function(Item) then) =
       _$ItemCopyWithImpl<$Res, Item>;
+  @useResult
+  $Res call({int otpId});
 }
 
 /// @nodoc
@@ -361,13 +367,29 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? otpId = null,
+  }) {
+    return _then(_value.copyWith(
+      otpId: null == otpId
+          ? _value.otpId
+          : otpId // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$ItemImplCopyWith<$Res> {
+abstract class _$$ItemImplCopyWith<$Res> implements $ItemCopyWith<$Res> {
   factory _$$ItemImplCopyWith(
           _$ItemImpl value, $Res Function(_$ItemImpl) then) =
       __$$ItemImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int otpId});
 }
 
 /// @nodoc
@@ -376,30 +398,54 @@ class __$$ItemImplCopyWithImpl<$Res>
     implements _$$ItemImplCopyWith<$Res> {
   __$$ItemImplCopyWithImpl(_$ItemImpl _value, $Res Function(_$ItemImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? otpId = null,
+  }) {
+    return _then(_$ItemImpl(
+      otpId: null == otpId
+          ? _value.otpId
+          : otpId // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$ItemImpl implements _Item {
-  const _$ItemImpl();
+  const _$ItemImpl({required this.otpId});
 
   factory _$ItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$ItemImplFromJson(json);
 
   @override
+  final int otpId;
+
+  @override
   String toString() {
-    return 'Item()';
+    return 'Item(otpId: $otpId)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ItemImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$ItemImpl &&
+            (identical(other.otpId, otpId) || other.otpId == otpId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, otpId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ItemImplCopyWith<_$ItemImpl> get copyWith =>
+      __$$ItemImplCopyWithImpl<_$ItemImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -410,9 +456,16 @@ class _$ItemImpl implements _Item {
 }
 
 abstract class _Item implements Item {
-  const factory _Item() = _$ItemImpl;
+  const factory _Item({required final int otpId}) = _$ItemImpl;
 
   factory _Item.fromJson(Map<String, dynamic> json) = _$ItemImpl.fromJson;
+
+  @override
+  int get otpId;
+  @override
+  @JsonKey(ignore: true)
+  _$$ItemImplCopyWith<_$ItemImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 Status _$StatusFromJson(Map<String, dynamic> json) {
@@ -423,7 +476,6 @@ Status _$StatusFromJson(Map<String, dynamic> json) {
 mixin _$Status {
   String get type => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -435,7 +487,7 @@ abstract class $StatusCopyWith<$Res> {
   factory $StatusCopyWith(Status value, $Res Function(Status) then) =
       _$StatusCopyWithImpl<$Res, Status>;
   @useResult
-  $Res call({String type, String message, String description});
+  $Res call({String type, String message});
 }
 
 /// @nodoc
@@ -453,7 +505,6 @@ class _$StatusCopyWithImpl<$Res, $Val extends Status>
   $Res call({
     Object? type = null,
     Object? message = null,
-    Object? description = null,
   }) {
     return _then(_value.copyWith(
       type: null == type
@@ -463,10 +514,6 @@ class _$StatusCopyWithImpl<$Res, $Val extends Status>
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -479,7 +526,7 @@ abstract class _$$StatusImplCopyWith<$Res> implements $StatusCopyWith<$Res> {
       __$$StatusImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String type, String message, String description});
+  $Res call({String type, String message});
 }
 
 /// @nodoc
@@ -495,7 +542,6 @@ class __$$StatusImplCopyWithImpl<$Res>
   $Res call({
     Object? type = null,
     Object? message = null,
-    Object? description = null,
   }) {
     return _then(_$StatusImpl(
       type: null == type
@@ -506,10 +552,6 @@ class __$$StatusImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
@@ -517,8 +559,7 @@ class __$$StatusImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$StatusImpl implements _Status {
-  const _$StatusImpl(
-      {required this.type, required this.message, required this.description});
+  const _$StatusImpl({required this.type, required this.message});
 
   factory _$StatusImpl.fromJson(Map<String, dynamic> json) =>
       _$$StatusImplFromJson(json);
@@ -527,12 +568,10 @@ class _$StatusImpl implements _Status {
   final String type;
   @override
   final String message;
-  @override
-  final String description;
 
   @override
   String toString() {
-    return 'Status(type: $type, message: $message, description: $description)';
+    return 'Status(type: $type, message: $message)';
   }
 
   @override
@@ -541,14 +580,12 @@ class _$StatusImpl implements _Status {
         (other.runtimeType == runtimeType &&
             other is _$StatusImpl &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.message, message) || other.message == message) &&
-            (identical(other.description, description) ||
-                other.description == description));
+            (identical(other.message, message) || other.message == message));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, type, message, description);
+  int get hashCode => Object.hash(runtimeType, type, message);
 
   @JsonKey(ignore: true)
   @override
@@ -567,8 +604,7 @@ class _$StatusImpl implements _Status {
 abstract class _Status implements Status {
   const factory _Status(
       {required final String type,
-      required final String message,
-      required final String description}) = _$StatusImpl;
+      required final String message}) = _$StatusImpl;
 
   factory _Status.fromJson(Map<String, dynamic> json) = _$StatusImpl.fromJson;
 
@@ -576,8 +612,6 @@ abstract class _Status implements Status {
   String get type;
   @override
   String get message;
-  @override
-  String get description;
   @override
   @JsonKey(ignore: true)
   _$$StatusImplCopyWith<_$StatusImpl> get copyWith =>

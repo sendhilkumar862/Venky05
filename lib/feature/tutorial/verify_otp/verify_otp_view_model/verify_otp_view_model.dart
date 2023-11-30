@@ -87,7 +87,7 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
         otpModel = OtpModel.fromJson(response.data);
 
         isCorrect = otpModel.status!.type == 'success';
-        final Map<String, dynamic> arguments = <String, dynamic>{'userId': "${enteredMail['id']}"};
+        // final Map<String, dynamic> arguments = <String, dynamic>{'userId': "${arguments['id']}"};
         if (otpModel.status!.type == 'success') {
           if (currentProfile == 'Tutor') {
             AppRouter.pushNamed(Routes.mobileView, args: arguments);
@@ -115,63 +115,67 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
     }
   }
 
-  // @action
-  // Future<void> verifyOtpMobile() async {
-  //   EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-  //   final Dio dio = Dio();
-  //   try {
-  //     final Map<String, dynamic> body = <String, dynamic>{
-  //       'userId': "${arguments['userId']}",
-  //       'otpId': "${arguments['otp_id']}",
-  //       'otp': enteredOTP
-  //     };
-  //
-  //     logs('body -->$body');
-  //     final Response response = await dio.post(
-  //       'http://167.99.93.83/api/v1/users/mobile/verify-otp',
-  //       data: body,
-  //     );
-  //
-  //     if (response.statusCode == 200) {
-  //       EasyLoading.dismiss();
-  //       logs(response.data.toString());
-  //
-  //       otpModel = OtpModel.fromJson(response.data);
-  //
-  //       // Now you can access the parsed data using the otpModel object
-  //       logs('Parsed ID: ${otpModel.data!.item!.id}');
-  //       logs('Status Type: ${otpModel.status!.type}');
-  //       logs('Status Message: ${otpModel.status!.message}');
-  //       isCorrect = otpModel.status!.type == 'success';
-  //
-  //       if (otpModel.status!.type == 'success') {
-  //         AppRouter.pushNamed(Routes.userInfoView, args: arguments);
-  //       }
-  //
-  //       logs('isCorrect--> $isCorrect');
-  //       enteredOTP = '';
-  //     } else {
-  //       EasyLoading.dismiss();
-  //       logs('Error: ${response.statusCode}');
-  //     }
-  //   } on DioException catch (error) {
-  //     EasyLoading.dismiss();
-  //     AppUtils.showFlushBar(
-  //       context: AppRouter.navigatorKey.currentContext!,
-  //       message: error.response?.data['status']['message'] ?? 'Error occured',
-  //     );
-  //     logs('Error: $error');
-  //   } catch (error) {
-  //     EasyLoading.dismiss();
-  //     logs('Error: $error');
-  //   }
-  // }
+  @action
+  Future<void> verifyOtpMobile() async {
+    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+    final Dio dio = Dio();
+    try {
+      final Map<String, dynamic> body = <String, dynamic>{
+        'userId': "${arguments['userId']}",
+        'otpId': "${arguments['otp_id']}",
+        'otp': enteredOTP
+      };
+  
+      logs('body -->$body');
+      final Response response = await dio.post(
+        'http://167.99.93.83/api/v1/users/mobile/verify-otp',
+        data: body,
+      );
+  
+      if (response.statusCode == 200) {
+        EasyLoading.dismiss();
+        logs(response.data.toString());
+  
+        otpModel = OtpModel.fromJson(response.data);
+  
+        // Now you can access the parsed data using the otpModel object
+        logs('Parsed ID: ${otpModel.data!.item!.id}');
+        logs('Status Type: ${otpModel.status!.type}');
+        logs('Status Message: ${otpModel.status!.message}');
+        isCorrect = otpModel.status!.type == 'success';
+  
+        if (otpModel.status!.type == 'success') {
+          AppRouter.pushNamed(Routes.userInfoView, args: arguments);
+        }
+  
+        logs('isCorrect--> $isCorrect');
+        enteredOTP = '';
+      } else {
+        EasyLoading.dismiss();
+        logs('Error: ${response.statusCode}');
+      }
+    } on DioException catch (error) {
+      EasyLoading.dismiss();
+      AppUtils.showFlushBar(
+        context: AppRouter.navigatorKey.currentContext!,
+        message: error.response?.data['status']['message'] ?? 'Error occured',
+      );
+      logs('Error: $error');
+    } catch (error) {
+      EasyLoading.dismiss();
+      logs('Error: $error');
+    }
+  }
 
   @observable
   OtpModel otpModel = const OtpModel();
 
   @action
   void onTapSubmit() {
-    verifyOtp();
+    if (arguments['isScreen']) {
+      verifyOtp();
+    } else {
+      verifyOtpMobile();
+    }
   }
 }

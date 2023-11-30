@@ -27,7 +27,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   void init() {
     fetchData();
     KeyValueStorageBase.init();
-    KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+    final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
     // var currentProfile =
     //     keyValueStorageBase.getCommon(KeyValueStorageService.profile);
     countryCode =
@@ -42,7 +42,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   TextEditingController mobileController = TextEditingController();
 
   @observable
-  String selectedCountry = '965';
+  String selectedCountryCode = '965';
 
   @observable
   String mobileErrorText = '';
@@ -63,14 +63,10 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   Future<void> sendOTP() async {
     // viewModelContext.loaderOverlay.show();
     Dio dio = Dio();
-    final String mobile = '$selectedCountry${mobileController.text}';
+    final String mobile = '$selectedCountryCode${mobileController.text}';
     logs('mobile--> $mobile');
-    try {
-      Map body = <String, dynamic>{
-        'userId': data['userId'],
-        'mobile': mobileController.text,
-        'countryCode': selectedCountry
-      };
+ 
+      Map body = <String, dynamic>{'userId': data['userId'], 'mobile': mobileController.text, 'countryCode': selectedCountryCode};
       logs('send mobile body--> $body');
       final Response response = await dio.post(
         'http://167.99.93.83/api/v1/users/mobile/send-otp',
@@ -79,9 +75,11 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
       logs('status Codee --> ${response.statusCode}');
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
-        final EnterMobileModel data = EnterMobileModel.fromJson(response.data);
-        logs('status Code --> ${data.status.type}');
-        arguments['otp_id'] = response.data['data']['item']['otp_id'];
+        final EnterMobileModel enterMobileModel = EnterMobileModel.fromJson(response.data);
+        logs('status Code --> ${enterMobileModel.status.type}');
+        arguments['userId'] = data['userId'].toString();
+        arguments['isScreen'] = false;
+        arguments['otp_id'] = enterMobileModel.data.item.otpId.toString();
         AppRouter.pushNamed(Routes.verifyOtpView, args: arguments);
       } else {
         EasyLoading.dismiss();
@@ -137,10 +135,14 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
       logs('Status code--> ${response.statusCode}');
 
       if (response.statusCode == 200) {
-        EasyLoading.dismiss();
-        final List<dynamic> countriesJson = response.data['data']['items'];
-        countries = countriesJson.map((json) => CountryCodeModel.fromJson(json)).toList();
-        tempList = countriesJson.map((json) => CountryCodeModel.fromJson(json)).toList();
+        EasyLoading.dismiss(
+        countries = countriesJson
+            .map((json) => CountryCodeModel.fromJson(json))
+            .toList();
+        tempList = countriesJson
+            .map((json) => CountryCodeModel.fromJson(json))
+            .toList();
+        selectedCountry = countries.firstWhere((CountryCodeModel element) => element.idd_code == '+965');
       }
     } catch (error) {
       EasyLoading.dismiss();
@@ -150,7 +152,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   }
 
   @observable
-  int countryIndex = 118;
+  CountryCodeModel? selectedCountry;
 
   @observable
   String selectedItem = '';
@@ -174,12 +176,9 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     countries = countries
         .where((CountryCodeModel country) =>
             country.name?.toLowerCase().contains(query.toLowerCase()) ??
-            false || country.flag_url!.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-    if (countryController.text.isEmpty) {
-      countries = tempList;
-    }
-    logs('filteredCountries.toString()--> $countryIndex');
+            false || country.flag_url!.toLowerCase().contains(query.toLowerCase())
+    logs('filteredCountries.toString()--> ${filteredCountries.length}');
+    // logs('filteredCountries.toString()--> ${countryIndex}');
     setState(() {});
   }
 }
