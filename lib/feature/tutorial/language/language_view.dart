@@ -133,11 +133,11 @@ class LanguageView extends StatelessWidget {
         child: Row(
           children: <Widget>[
             ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: AppImageAsset(
+              borderRadius: BorderRadius.circular(500),
+              child: AppImageAsset(fit: BoxFit.fill,
                 image: icon ?? ImageConstants.globe,
                 height: 20.px,
-                width: 30.px,
+                width: 20.px,
               ),
             ),
             SizedBox(

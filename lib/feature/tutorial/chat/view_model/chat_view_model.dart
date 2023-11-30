@@ -2,11 +2,9 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
-import '../../../../product/utils/validators.dart';
 
 part 'chat_view_model.g.dart';
 
@@ -32,14 +30,13 @@ abstract class _ChatViewModelBase extends BaseViewModel with Store {
   File? selectedImage;
 
   @observable
-  List<Demo> message = <Demo>[];
+  List<Chat> message = <Chat>[];
 
   @action
   getChatTimeFormate(int time) {
     final int millisecondsSinceEpoch = time; // Example timestamp
 
-    final DateTime dateTime =
-        DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
+    final DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
     final String formattedTime = DateFormat('HH:mm').format(dateTime);
 
     return formattedTime;
@@ -52,9 +49,9 @@ abstract class _ChatViewModelBase extends BaseViewModel with Store {
   }
 }
 
-class Demo {
-  Demo(this.mess, this.isCheck);
+class Chat {
+  Chat(this.message, this.isCheck);
 
-  String? mess;
+  String? message;
   bool? isCheck;
 }

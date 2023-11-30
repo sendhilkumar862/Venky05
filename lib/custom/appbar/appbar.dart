@@ -24,6 +24,7 @@ class HessaAppBar extends PreferredSize {
       this.isPro = false,
       this.isBack = true,
       this.onCallTap,
+      this.trailingWidget,
       this.icon})
       : super(
           child: Container(),
@@ -37,6 +38,7 @@ class HessaAppBar extends PreferredSize {
   final bool showSuffix;
   final bool? isPro;
   final bool isBack;
+  final Widget? trailingWidget;
   final void Function()? leadingTap;
   final void Function()? trailingTap;
   final GestureTapCallback? onProfileTap;
@@ -72,13 +74,16 @@ class HessaAppBar extends PreferredSize {
                             padding: const EdgeInsets.symmetric(horizontal: 4),
                             child: TextButton(
                               child: Text(trailingText ?? '',
-                                  style: openSans.get12.w600
-                                      .textColor(AppColors.appTextColor)),
+                                  style: openSans.get12.w600.textColor(AppColors.appTextColor)),
                               onPressed: () {
                                 AppRouter.pop();
                               },
                             ),
                           )),
+                      Padding(
+                        padding: EdgeInsets.only(right: 20.px),
+                        child: InkWell(onTap: trailingTap, child: trailingWidget ?? SizedBox()),
+                      )
                     ],
                     leadingWidth: 0,
                     titleSpacing: 2,
@@ -167,8 +172,7 @@ class HessaAppBar extends PreferredSize {
                           if (isPro!) const SizedBox(height: 4),
                           if (isPro!)
                             Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 3.px, horizontal: 8.px),
+                              padding: EdgeInsets.symmetric(vertical: 3.px, horizontal: 8.px),
                               decoration: BoxDecoration(
                                 color: AppColors.appDarkBlack,
                                 borderRadius: BorderRadius.circular(30.px),

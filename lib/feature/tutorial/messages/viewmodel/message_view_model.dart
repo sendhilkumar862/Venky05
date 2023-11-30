@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
+import '../../../../product/utils/validators.dart';
 
 part 'message_view_model.g.dart';
 
@@ -12,8 +13,7 @@ abstract class _MessageViewModelBase extends BaseViewModel with Store {
   void setContext(BuildContext context) => viewModelContext = context;
 
   @override
-  void init() {
-  }
+  void init() {}
 
   @observable
   TextEditingController searchTeacherController = TextEditingController();
@@ -22,10 +22,10 @@ abstract class _MessageViewModelBase extends BaseViewModel with Store {
   int selectedIndex = 1;
 
   @observable
-  List<bool> isSelectReadStatus = [false,false];
+  List<bool> isSelectReadStatus = [false, false];
 
   @observable
-  List<bool> isSelectNewStatus = [false,false];
+  List<bool> isSelectNewStatus = [false, false];
 
   @observable
   List readStatus = <String>['Read', 'Unread'];
@@ -37,8 +37,33 @@ abstract class _MessageViewModelBase extends BaseViewModel with Store {
   bool teacherLongPress = false;
 
   @observable
-  bool isselect = false;
+  bool isSelect = false;
+
+  @observable
+  bool selectAll = false;
 
   @observable
   int? formattedDate;
+
+  @observable
+  List selectedItems = [];
+
+  @observable
+  List isSelected = List.filled(50, false);
+
+  @action
+  void onSelected(int index) {
+    isSelected[index] = !isSelected[index];
+  }
+
+  @action
+  void onSelectAll(Function setState) {
+    selectAll = !selectAll;
+    if (selectAll) {
+      isSelected = List.filled(50, true);
+    } else {
+      isSelected = List.filled(50, false);
+    }
+    setState(() {});
+  }
 }

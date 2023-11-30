@@ -67,11 +67,20 @@ class ImageConstants {
   static const String patter = '${ApplicationConstants.imagePath}patters.png';
   static const String certificates =
       '${ApplicationConstants.imagePath}certificates.png';
+  static const String document =
+      '${ApplicationConstants.imagePath}document.png';
+  static const String dummyImage =
+      '${ApplicationConstants.imagePath}dummy_image.png';
 
   //     ======================= Icon Images =======================     //
 
   static const String messageIcon =
       '${ApplicationConstants.iconPath}message_icon.png';
+  static const String circleGrey =
+      '${ApplicationConstants.iconPath}circle_grey.png';
+
+  static const String checkBox =
+      '${ApplicationConstants.iconPath}checkbox_circles.png';
   static const String saveIcon =
       '${ApplicationConstants.iconPath}save_icon.png';
   static const String searchIcon =
@@ -205,4 +214,6 @@ class ImageConstants {
   static const String imageIcon = '${ApplicationConstants.iconPath}image-picture-square.svg';
   static const String documentFileClip = '${ApplicationConstants.iconPath}document-file-clip.svg';
   static const String doneCheckSingle = '${ApplicationConstants.iconPath}done_check_single.svg';
+  static const String pauseIcon = '${ApplicationConstants.iconPath}pause.png';
+  static const String playIcon = '${ApplicationConstants.iconPath}play.png';
 }
