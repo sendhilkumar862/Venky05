@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../config/routes/app_router.dart';
+import '../../../../product/base/model/base_model.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
@@ -34,22 +35,22 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   List<Country> countries = <Country>[];
 
   @observable
-  List<Country> filteredCountries = [];
+  List<Country> filteredCountries = <Country>[];
 
   Future<void> fetchData() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     logs('entered Fetch country data');
-    Dio dio = Dio();
+    final Dio dio = Dio();
     try {
-      Response response =
+      final Response response =
           await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
       logs('Status code--> ${response.statusCode}');
 
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
-        final List<dynamic> countriesJson = response.data['data']['items'];
-        countries =
-            countriesJson.map((json) => Country.fromJson(json)).toList();
+        final BaseResponse<Country> baseResponse = BaseResponse<Country>.fromJson(response.data as Map<String, dynamic>, Country.fromJson);
+        countries = baseResponse.data.items ?? <Country>[];
+        logs('count: ${baseResponse.data.count}');
       }
     } catch (error) {
       EasyLoading.dismiss();
