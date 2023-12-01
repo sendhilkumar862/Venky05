@@ -32,7 +32,7 @@ class StudentBottomSheet extends StatelessWidget {
               alignment: Alignment.center,
               height: 25.px,
               width: 25.px,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   color: AppColors.appLightGrey, shape: BoxShape.circle),
               child: AppImageAsset(
                 image: ImageConstants.closeIcon,
@@ -60,7 +60,7 @@ class StudentBottomSheet extends StatelessWidget {
                       crossAxisCount: 2,
                       crossAxisSpacing: 10.px,
                       mainAxisSpacing: 10.px,
-                      childAspectRatio: 0.7),
+                      childAspectRatio: 0.65),
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       padding: EdgeInsets.all(10.px),

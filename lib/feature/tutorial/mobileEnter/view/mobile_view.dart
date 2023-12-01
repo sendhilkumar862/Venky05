@@ -19,19 +19,23 @@ class MobileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView<MobileViewModel>(
-        viewModel: MobileViewModel(),
-        onModelReady: (MobileViewModel mobileViewModel) {
-          mobileViewModel.setContext(context);
-          mobileViewModel.data =
-              ModalRoute.of(context)!.settings.arguments! as Map;
-          logs('argue--> ${mobileViewModel.data}');
-          mobileViewModel.init();
-        },
-        onPageBuilder: (BuildContext context, MobileViewModel mobileViewModel) {
-          return Observer(
-              //warnWhenNoObservables: false,
-              builder: (BuildContext context) {
+      viewModel: MobileViewModel(),
+      onModelReady: (MobileViewModel mobileViewModel) {
+        mobileViewModel.setContext(context);
+        mobileViewModel.data = ModalRoute.of(context)!.settings.arguments! as Map;
+        logs('argue--> ${mobileViewModel.data}');
+        mobileViewModel.init();
+      },
+      onPageBuilder: (BuildContext context, MobileViewModel mobileViewModel) {
+        return Observer(
+          //warnWhenNoObservables: false,
+          builder: (BuildContext context) {
             return Scaffold(
+              bottomNavigationBar: PreLoginCommonButton(
+                title: 'continue'.tr(),
+                onTap: () => mobileViewModel.onTapMobileSubmit(),
+                isDisable: mobileViewModel.mobileValid != 1,
+              ),
               body: PreLoginCustomBody(
                 widget: Expanded(
                   child: ListView(
@@ -42,9 +46,7 @@ class MobileView extends StatelessWidget {
                       SizedBox(height: 80.px),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: AppImageAsset(
-                            image: ImageConstants.primaryLogoBlue,
-                            height: 45.px),
+                        child: AppImageAsset(image: ImageConstants.primaryLogoBlue, height: 45.px),
                       ),
                       SizedBox(height: 28.px),
                       AppText(
@@ -55,8 +57,7 @@ class MobileView extends StatelessWidget {
                       ),
                       SizedBox(height: 10.px),
                       TextFormsField(
-                        prefix: (mobileViewModel.countries.isNotEmpty ||
-                                mobileViewModel.filteredCountries.isNotEmpty)
+                        prefix: (mobileViewModel.countries.isNotEmpty)
                             ? GestureDetector(
                                 onTap: () {
                                   showModalBottomSheet(
@@ -69,11 +70,9 @@ class MobileView extends StatelessWidget {
                                     ),
                                     builder: (BuildContext context) {
                                       return StatefulBuilder(
-                                        builder:
-                                            (BuildContext context, setState) {
+                                        builder: (BuildContext context, setState) {
                                           return CountryCodeBottomsSheet(
-                                              setState: setState,
-                                              mobileViewModel: mobileViewModel);
+                                              setState: setState, mobileViewModel: mobileViewModel);
                                         },
                                       );
                                     },
@@ -85,32 +84,16 @@ class MobileView extends StatelessWidget {
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(700),
                                       child: AppImageAsset(
-                                        image: mobileViewModel
-                                                .selectedCountry?.flag_url ??
+                                        image: mobileViewModel.countries[mobileViewModel.countryIndex]?.flag_url ??
                                             ImageConstants.globe,
                                         fit: BoxFit.fill,
-                                        // ? mobileViewModel.filteredCountries[mobileViewModel.countryIndex].flag_url!
-                                        // : mobileViewModel.countries[mobileViewModel.countryIndex].flag_url!,
-                                        // mobileViewModel!
-                                        //         .filteredCountries.isNotEmpty!
-                                        //     ? mobileViewModel!
-                                        //         .filteredCountries[
-                                        //             mobileViewModel
-                                        //                 .countryIndex]
-                                        //         .flag_url!
-                                        //     : mobileViewModel!
-                                        //         .countries[mobileViewModel
-                                        //             .countryIndex]
-                                        //         .flag_url!,
                                         height: 16.px,
                                         width: 16.px,
                                       ),
                                     ),
                                     SizedBox(width: 6.px),
                                     AppText(
-                                      mobileViewModel.selectedCountry?.idd_code
-                                              ?.toString() ??
-                                          'select',
+                                      mobileViewModel.countries[mobileViewModel.countryIndex]?.idd_code ?? 'select',
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14.px,
                                     )
@@ -133,13 +116,10 @@ class MobileView extends StatelessWidget {
                   ),
                 ),
               ),
-              bottomNavigationBar: PreLoginCommonButton(
-                title: 'continue'.tr(),
-                onTap: () => mobileViewModel.onTapMobileSubmit(),
-                isDisable: mobileViewModel.mobileValid != 1,
-              ),
             );
-          });
-        });
+          },
+        );
+      },
+    );
   }
 }

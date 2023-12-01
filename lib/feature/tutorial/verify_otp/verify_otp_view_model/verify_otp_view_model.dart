@@ -28,8 +28,7 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
   @override
   void init() {
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-    currentProfile =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
+    currentProfile = keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
     logs('current profile --> $currentProfile');
     controller.start();
   }
@@ -125,29 +124,29 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
         'otpId': "${arguments['otp_id']}",
         'otp': enteredOTP
       };
-  
+
       logs('body -->$body');
       final Response response = await dio.post(
         'http://167.99.93.83/api/v1/users/mobile/verify-otp',
         data: body,
       );
-  
+
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
         logs(response.data.toString());
-  
+
         otpModel = OtpModel.fromJson(response.data);
-  
+
         // Now you can access the parsed data using the otpModel object
         logs('Parsed ID: ${otpModel.data!.item!.id}');
         logs('Status Type: ${otpModel.status!.type}');
         logs('Status Message: ${otpModel.status!.message}');
         isCorrect = otpModel.status!.type == 'success';
-  
+
         if (otpModel.status!.type == 'success') {
           AppRouter.pushNamed(Routes.userInfoView, args: arguments);
         }
-  
+
         logs('isCorrect--> $isCorrect');
         enteredOTP = '';
       } else {
@@ -172,6 +171,7 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
 
   @action
   void onTapSubmit() {
+    controller.pause();
     if (arguments['isScreen']) {
       verifyOtp();
     } else {

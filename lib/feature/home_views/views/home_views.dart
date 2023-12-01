@@ -32,55 +32,46 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
       onPageBuilder: (BuildContext context, HomeViewsModel homeViewsModel) {
         return Observer(
           builder: (BuildContext context) {
-            return SafeArea(
-              child: Scaffold(
-                backgroundColor: AppColors.appWhite,
-                appBar: HessaAppBar(
-                  icon: ImageConstants.avtar,
-                  title: 'Welcome!',
-                  subTitle: 'Abdullah Mohamed',
-                  onBellTap: () {
-                    AppRouter.pushNamed(Routes.notificationView);
-                  },
-                  onSearchTap: () {
-                    AppRouter.pushNamed(Routes.searchView);
-                  },
-                  onProfileTap: () {
-                    showCommonBottomSheet(
-                        context: context, commonWidget: const PreferenceView());
-                  },
-                ),
-                body: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 30.px,
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 15.px),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: AppColors.lightPurple,
-                          borderRadius: BorderRadius.circular(30.px)),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: List.generate(
-                          homeViewsModel.bottomBarItems.length,
-                          (int index) => tabBarCardView(
-                              homeViewsModel.bottomBarItems[index],
-                              index,
-                              homeViewsModel),
-                        ),
+            return Scaffold(
+              backgroundColor: AppColors.appWhite,
+              appBar: HessaAppBar(
+                icon: ImageConstants.avtar,
+                title: 'Welcome!',
+                subTitle: 'Abdullah Mohamed',
+                onBellTap: () {
+                  AppRouter.pushNamed(Routes.notificationView);
+                },
+                onSearchTap: () {
+                  AppRouter.pushNamed(Routes.searchView);
+                },
+                onProfileTap: () {
+                  showCommonBottomSheet(context: context, commonWidget: const PreferenceView());
+                },
+              ),
+              body: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  SizedBox(
+                    height: 30.px,
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 15.px),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(color: AppColors.lightPurple, borderRadius: BorderRadius.circular(30.px)),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: List.generate(
+                        homeViewsModel.bottomBarItems.length,
+                        (int index) => tabBarCardView(homeViewsModel.bottomBarItems[index], index, homeViewsModel),
                       ),
                     ),
-                    SizedBox(
-                      height: 2.px,
-                    ),
-                    homeViewsModel.bottomBarItems[homeViewsModel.selectedIndex]
-                        ['screenName'],
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    height: 2.px,
+                  ),
+                  homeViewsModel.bottomBarItems[homeViewsModel.selectedIndex]['screenName'],
+                ],
               ),
             );
           },
@@ -89,8 +80,7 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
     );
   }
 
-  Widget tabBarCardView(
-      Map<String, dynamic> content, int index, HomeViewsModel homeViewsModel) {
+  Widget tabBarCardView(Map<String, dynamic> content, int index, HomeViewsModel homeViewsModel) {
     final bool isSelected = homeViewsModel.selectedIndex == index;
     return Expanded(
       child: GestureDetector(
@@ -105,9 +95,9 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
           height: 30.px,
           child: AppText(
             content['title'],
-            color: isSelected
-                ? AppColors.appBlue
-                : AppColors.appLightBlack.withOpacity(0.6),
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: isSelected ? AppColors.appBlue : AppColors.appLightBlack.withOpacity(0.6),
           ),
         ),
       ),

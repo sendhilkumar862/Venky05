@@ -214,6 +214,7 @@ class ImageConstants {
       '${ApplicationConstants.iconPath}message_delete.svg';
   static const String audioWaves =
       '${ApplicationConstants.iconPath}audio_waves.png';
+
   static const String pauseButton = '${ApplicationConstants.iconPath}pause.svg';
   static const String recordButton = '${ApplicationConstants.iconPath}record-button-circle-solid.svg';
   static const String cameraIcon = '${ApplicationConstants.iconPath}camera-photo.svg';
@@ -222,12 +223,16 @@ class ImageConstants {
   static const String doneCheckSingle = '${ApplicationConstants.iconPath}done_check_single.svg';
   static const String pauseIcon = '${ApplicationConstants.iconPath}pause.png';
   static const String playIcon = '${ApplicationConstants.iconPath}play.png';
-  static const String filterSettings =
-      '${ApplicationConstants.iconPath}filter_settings.svg';
+  static const String filterSettings = '${ApplicationConstants.iconPath}filter_settings.svg';
   static const String clip = '${ApplicationConstants.iconPath}clip.svg';
   static const String cancel = '${ApplicationConstants.iconPath}cancel.svg';
   static const String done = '${ApplicationConstants.iconPath}star.svg';
-  static const String inProgress =
-      '${ApplicationConstants.iconPath}Iclock_time.svg';
+  static const String inProgress = '${ApplicationConstants.iconPath}Iclock_time.svg';
   static const String check = '${ApplicationConstants.iconPath}check.svg';
+  static const String audioWavesPlay = '${ApplicationConstants.iconPath}audio_waves_view.svg';
+  static const String messageEdit = '${ApplicationConstants.iconPath}message_edit.svg';
+  static const String replyMessage = '${ApplicationConstants.iconPath}reply_message.svg';
+  static const String homeWalletIcon = '${ApplicationConstants.iconPath}icon_wallet.svg';
+  static const String homeMessageIcon = '${ApplicationConstants.iconPath}icon_message.svg';
+  static const String homeHomeIcon = '${ApplicationConstants.iconPath}icon_home.svg';
 }

@@ -364,6 +364,7 @@ mixin _$Item {
   int? get id => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get content => throw _privateConstructorUsedError;
+  String? get role => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -375,7 +376,7 @@ abstract class $ItemCopyWith<$Res> {
   factory $ItemCopyWith(Item value, $Res Function(Item) then) =
       _$ItemCopyWithImpl<$Res, Item>;
   @useResult
-  $Res call({int? id, String? title, String? content});
+  $Res call({int? id, String? title, String? content, String? role});
 }
 
 /// @nodoc
@@ -394,6 +395,7 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
     Object? id = freezed,
     Object? title = freezed,
     Object? content = freezed,
+    Object? role = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -408,6 +410,10 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String?,
+      role: freezed == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -419,7 +425,7 @@ abstract class _$$ItemImplCopyWith<$Res> implements $ItemCopyWith<$Res> {
       __$$ItemImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int? id, String? title, String? content});
+  $Res call({int? id, String? title, String? content, String? role});
 }
 
 /// @nodoc
@@ -435,6 +441,7 @@ class __$$ItemImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? title = freezed,
     Object? content = freezed,
+    Object? role = freezed,
   }) {
     return _then(_$ItemImpl(
       id: freezed == id
@@ -449,6 +456,10 @@ class __$$ItemImplCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String?,
+      role: freezed == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -456,7 +467,7 @@ class __$$ItemImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ItemImpl implements _Item {
-  _$ItemImpl({this.id, this.title, this.content});
+  _$ItemImpl({this.id, this.title, this.content, this.role});
 
   factory _$ItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$ItemImplFromJson(json);
@@ -467,10 +478,12 @@ class _$ItemImpl implements _Item {
   final String? title;
   @override
   final String? content;
+  @override
+  final String? role;
 
   @override
   String toString() {
-    return 'Item(id: $id, title: $title, content: $content)';
+    return 'Item(id: $id, title: $title, content: $content, role: $role)';
   }
 
   @override
@@ -480,12 +493,13 @@ class _$ItemImpl implements _Item {
             other is _$ItemImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.content, content) || other.content == content));
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.role, role) || other.role == role));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, content);
+  int get hashCode => Object.hash(runtimeType, id, title, content, role);
 
   @JsonKey(ignore: true)
   @override
@@ -502,8 +516,11 @@ class _$ItemImpl implements _Item {
 }
 
 abstract class _Item implements Item {
-  factory _Item({final int? id, final String? title, final String? content}) =
-      _$ItemImpl;
+  factory _Item(
+      {final int? id,
+      final String? title,
+      final String? content,
+      final String? role}) = _$ItemImpl;
 
   factory _Item.fromJson(Map<String, dynamic> json) = _$ItemImpl.fromJson;
 
@@ -513,6 +530,8 @@ abstract class _Item implements Item {
   String? get title;
   @override
   String? get content;
+  @override
+  String? get role;
   @override
   @JsonKey(ignore: true)
   _$$ItemImplCopyWith<_$ItemImpl> get copyWith =>

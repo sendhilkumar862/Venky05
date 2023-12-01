@@ -34,22 +34,21 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   List<Country> countries = <Country>[];
 
   @observable
-  List<Country> filteredCountries = [];
+  List<Country> temp = <Country>[];
 
   Future<void> fetchData() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     logs('entered Fetch country data');
     Dio dio = Dio();
     try {
-      Response response =
-          await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
+      Response response = await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
       logs('Status code--> ${response.statusCode}');
 
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
         final List<dynamic> countriesJson = response.data['data']['items'];
-        countries =
-            countriesJson.map((json) => Country.fromJson(json)).toList();
+        countries = countriesJson.map((json) => Country.fromJson(json)).toList();
+        temp = countriesJson.map((json) => Country.fromJson(json)).toList();
       }
     } catch (error) {
       EasyLoading.dismiss();
@@ -92,7 +91,6 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
     ImageConstants.saudiArabiaNew,
   ];
 
-
   @action
   void selectCountry(Country country) {
     selectedCountry = country;
@@ -105,20 +103,22 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
 
   @action
   void filterCountries(String query, Function setState) {
-    filteredCountries = countries
+    countries = countries
         .where((Country country) =>
             country.name?.toLowerCase().contains(query.toLowerCase()) ??
-            false ||
-                country.flag_url!.toLowerCase().contains(query.toLowerCase()))
+            false || country.flag_url!.toLowerCase().contains(query.toLowerCase()))
         .toList();
-    logs('filteredCountries.toString()--> ${filteredCountries.toString()}');
+
+    if (countryController.text.isEmpty) {
+      countries = temp;
+    }
     setState(() {});
   }
 
   @action
   void onPressedContinue() {
     keyValueStorageBase.setCommon(KeyValueStorageService.country, selectedCountry?.name ?? '');
-    keyValueStorageBase.setCommon(KeyValueStorageService.language, languageIndex == 0 ? 'en': 'ar');
-     AppRouter.push(const ProfileSelectionView());
+    keyValueStorageBase.setCommon(KeyValueStorageService.language, languageIndex == 0 ? 'en' : 'ar');
+    AppRouter.push(const ProfileSelectionView());
   }
 }

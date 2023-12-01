@@ -41,7 +41,7 @@ class TextFormsField extends StatelessWidget {
     this.keyboardType,
     this.title,
     this.onSaved,
-    this.maxLines
+    this.maxLines = 1,
   });
 
   @override

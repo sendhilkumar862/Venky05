@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../product/base/view/base_view.dart';
@@ -28,17 +29,16 @@ class ClassDetailsView extends StatefulWidget {
   State<ClassDetailsView> createState() => _ClassDetailsViewState();
 }
 
-class _ClassDetailsViewState extends State<ClassDetailsView>
-    with TickerProviderStateMixin {
+class _ClassDetailsViewState extends State<ClassDetailsView> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return BaseView<ClassDetailsViewModel>(
       viewModel: ClassDetailsViewModel(),
       onModelReady: (ClassDetailsViewModel classDetailsViewModel) {
         classDetailsViewModel.setContext(context);
+        classDetailsViewModel.init();
       },
-      onPageBuilder:
-          (BuildContext context, ClassDetailsViewModel homeViewsModel) {
+      onPageBuilder: (BuildContext context, ClassDetailsViewModel classDetailsViewModel) {
         return Observer(
           builder: (BuildContext context) {
             return Scaffold(
@@ -48,8 +48,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 isTitleOnly: true,
               ),
               body: ListView(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 15.px, vertical: 5.px),
+                padding: EdgeInsets.symmetric(horizontal: 15.px, vertical: 5.px),
                 children: <Widget>[
                   SizedBox(
                     height: 20.px,
@@ -62,9 +61,10 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   SizedBox(
                     height: 10.px,
                   ),
-                  const AppText(
+                  AppText(
                     'Explore the world of math with interactive games, puzzles, and challenges. Join us for fun learning adventures and make math your favorite subject!',
                     fontWeight: FontWeight.w400,
+                    fontSize: 14.px,
                   ),
                   SizedBox(
                     height: 20.px,
@@ -77,7 +77,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     height: 20.px,
                   ),
                   SizedBox(
-                    height: 40.px,
+                    height: 60.px,
                     child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         physics: const BouncingScrollPhysics(),
@@ -87,22 +87,15 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                AppText('Grade 2',
-                                    fontSize: 12.px,
-                                    color: AppColors.appLightBlack),
+                                AppText('Grade 2', fontSize: 12.px, color: AppColors.appLightBlack),
                                 SizedBox(
                                   height: 5.px,
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 6.px, vertical: 3.px),
+                                  padding: EdgeInsets.symmetric(horizontal: 6.px, vertical: 3.px),
                                   decoration: BoxDecoration(
-                                      color: AppColors.lightPurple,
-                                      borderRadius:
-                                          BorderRadius.circular(30.px)),
-                                  child: AppText('Grade',
-                                      fontSize: 10.px,
-                                      color: AppColors.appLightBlack),
+                                      color: AppColors.lightPurple, borderRadius: BorderRadius.circular(30.px)),
+                                  child: AppText('Grade', fontSize: 10.px, color: AppColors.appLightBlack),
                                 ),
                               ],
                             ),
@@ -125,9 +118,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     trailingWidget: Row(
                       children: <Widget>[
                         AppText('Accept or Reject Students',
-                            fontSize: 14.px,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.appBlue),
+                            fontSize: 14.px, fontWeight: FontWeight.w600, color: AppColors.appBlue),
                         SizedBox(width: 5.px),
                         AppImageAsset(
                           image: ImageConstants.editIcon,
@@ -191,8 +182,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.px),
                       color: AppColors.lightPurple,
-                      border: Border.all(
-                          color: AppColors.lightPurple, width: 1.1.px),
+                      border: Border.all(color: AppColors.lightPurple, width: 1.1.px),
                     ),
                     child: Column(
                       children: <Widget>[
@@ -209,11 +199,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                           ],
                         ),
                         SizedBox(height: 15.px),
-                        tagCardView(
-                            title: 'Private 1/1',
-                            icon: ImageConstants.groupIcon),
-                        tagCardView(
-                            title: 'Sessions', icon: ImageConstants.moneyIcon),
+                        tagCardView(title: 'Private 1/1', icon: ImageConstants.groupIcon),
+                        tagCardView(title: 'Sessions', icon: ImageConstants.moneyIcon),
                         SizedBox(height: 5.px),
                         Row(
                           children: <Widget>[
@@ -236,6 +223,22 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                           height: 90.px,
                           width: double.infinity,
                           decoration: const BoxDecoration(color: AppColors.appWhite),
+                          child: GoogleMap(
+                            markers: <Marker>{
+                              Marker(
+                                markerId: const MarkerId('riyadh1'),
+                                position: LatLng(
+                                  double.parse('24.7136'),
+                                  double.parse('46.6753'),
+                                ),
+                              )
+                            },
+                            initialCameraPosition: classDetailsViewModel.kGooglePlex!,
+                            zoomControlsEnabled: false,
+                            zoomGesturesEnabled: false,
+                            onMapCreated: (GoogleMapController controllers) =>
+                                classDetailsViewModel.mapController.complete(controllers),
+                          ),
                         ),
                       ],
                     ),
@@ -288,8 +291,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(13.px),
-        color:
-            (isPaying!) ? AppColors.appTransparent : AppColors.lightPurpleTwo,
+        color: (isPaying!) ? AppColors.appTransparent : AppColors.lightPurpleTwo,
       ),
       child: isPaying
           ? Row(children: <Widget>[
@@ -298,16 +300,12 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     AppText('Total amount to pay',
-                        color: AppColors.appGrey,
-                        fontSize: 12.px,
-                        fontWeight: FontWeight.w500),
+                        color: AppColors.appGrey, fontSize: 12.px, fontWeight: FontWeight.w500),
                     SizedBox(height: 3.px),
                     Row(
                       children: <Widget>[
-                        AppText('27',
-                            fontSize: 16.px, fontWeight: FontWeight.w700),
-                        AppText('.500 KWD',
-                            fontSize: 12.px, fontWeight: FontWeight.w700),
+                        AppText('27', fontSize: 16.px, fontWeight: FontWeight.w700),
+                        AppText('.500 KWD', fontSize: 12.px, fontWeight: FontWeight.w700),
                       ],
                     ),
                   ]),
@@ -360,14 +358,12 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               ),
               child: Row(
                 children: <Widget>[
-                  if (icon != null &&
-                      icon.isNotEmpty) // Check if icon is not null and not empty
+                  if (icon != null && icon.isNotEmpty) // Check if icon is not null and not empty
                     AppImageAsset(
                       image: icon,
                       height: 14.px,
                     ),
-                  if (icon != null &&
-                      icon.isNotEmpty) // Another check for spacing
+                  if (icon != null && icon.isNotEmpty) // Another check for spacing
                     SizedBox(width: 5.px),
                   AppText(
                     title ?? '',

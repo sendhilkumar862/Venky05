@@ -30,6 +30,7 @@ class Item with _$Item {
      int? id,
      String? title,
      String? content,
+     String? role,
   }) = _Item;
 
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);

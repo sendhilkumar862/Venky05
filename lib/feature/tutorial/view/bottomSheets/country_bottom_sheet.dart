@@ -40,8 +40,7 @@ class CountryBottomsSheet extends StatelessWidget {
               alignment: Alignment.center,
               height: 25.px,
               width: 25.px,
-              decoration: const BoxDecoration(
-                  color: AppColors.appLightGrey, shape: BoxShape.circle),
+              decoration: const BoxDecoration(color: AppColors.appLightGrey, shape: BoxShape.circle),
               child: AppImageAsset(
                 image: ImageConstants.closeIcon,
                 height: 20.px,
@@ -53,8 +52,7 @@ class CountryBottomsSheet extends StatelessWidget {
               SizedBox(
                 height: 25.px,
               ),
-              AppText('Change Country',
-                  fontWeight: FontWeight.w700, fontSize: 14.px),
+              AppText('Change Country', fontWeight: FontWeight.w700, fontSize: 14.px),
               SizedBox(
                 height: 10.px,
               ),
@@ -81,19 +79,14 @@ class CountryBottomsSheet extends StatelessWidget {
               ),
               Expanded(
                 child: ListView.separated(
-                  itemCount: languageViewModel!.filteredCountries.isNotEmpty
-                      ? languageViewModel!.filteredCountries.length
-                      : languageViewModel!.countries.length,
+                  itemCount: languageViewModel!.countries.length,
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
                         setState!(() {
-                          languageViewModel!.selectCountry(
-                              languageViewModel!.filteredCountries.isNotEmpty
-                                  ? languageViewModel!.filteredCountries[index]
-                                  : languageViewModel!.countries[index]);
+                          languageViewModel!.selectCountry(languageViewModel!.countries[index]);
                         });
                         Navigator.pop(context);
                       },
@@ -106,13 +99,8 @@ class CountryBottomsSheet extends StatelessWidget {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(30),
                               child: AppImageAsset(
-                                image: languageViewModel!
-                                        .filteredCountries.isNotEmpty
-                                    ? languageViewModel!
-                                        .filteredCountries[index].flag_url!
-                                    : languageViewModel!
-                                        .countries[index].flag_url!,
-                                fit: BoxFit.cover,
+                                image: languageViewModel!.countries[index].flag_url!,
+                                fit: BoxFit.fill,
                                 height: 30.px,
                                 width: 30.px,
                               ),
@@ -121,35 +109,19 @@ class CountryBottomsSheet extends StatelessWidget {
                               width: 10.px,
                             ),
                             AppText(
-                              languageViewModel!.filteredCountries.isNotEmpty
-                                  ? languageViewModel!
-                                      .filteredCountries[index].name!
-                                  : languageViewModel!.countries[index].name!,
+                              languageViewModel!.countries[index].name!,
                               fontWeight: FontWeight.w400,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            if (languageViewModel!.filteredCountries.isNotEmpty)
-                              AppImageAsset(
-                                image: ImageConstants.acceptedStatus,
-                                height: 23.px,
-                                color:
-                                    (languageViewModel?.selectedCountry?.name ==
-                                            languageViewModel
-                                                ?.filteredCountries[index].name)
-                                        ? AppColors.appBlue
-                                        : AppColors.appWhite,
-                              )
-                            else
-                              AppImageAsset(
-                                image: ImageConstants.acceptedStatus,
-                                height: 23.px,
-                                color:
-                                    (languageViewModel?.selectedCountry?.name ==
-                                            languageViewModel
-                                                ?.countries[index].name)
-                                        ? AppColors.appBlue
-                                        : AppColors.appWhite,
-                              ),
+                            Spacer(),
+                            AppImageAsset(
+                              image: ImageConstants.acceptedStatus,
+                              height: 23.px,
+                              color:
+                                  (languageViewModel?.selectedCountry?.name == languageViewModel?.countries[index].name)
+                                      ? AppColors.appBlue
+                                      : AppColors.appWhite,
+                            ),
                             SizedBox(
                               width: 5.px,
                             )

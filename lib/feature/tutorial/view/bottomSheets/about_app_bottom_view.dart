@@ -53,16 +53,15 @@ class AboutAppBottomSheet extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppText(
-                        profileViewModel!.aboutModel.data!.items![index].title
-                            .toString(),
+                        profileViewModel!.aboutModel.data!.items![index].role.toString(),
                         textAlign: TextAlign.start,
+                        fontWeight: FontWeight.w700,
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       AppText(
-                        profileViewModel!.aboutModel.data!.items![index].content
-                            .toString(),
+                        profileViewModel!.aboutModel.data!.items![index].content.toString(),
                         textAlign: TextAlign.start,
                       ),
                     ],
@@ -80,8 +79,7 @@ class AboutAppBottomSheet extends StatelessWidget {
               alignment: Alignment.center,
               height: 25.px,
               width: 25.px,
-              decoration: const BoxDecoration(
-                  color: AppColors.appLightGrey, shape: BoxShape.circle),
+              decoration: const BoxDecoration(color: AppColors.appLightGrey, shape: BoxShape.circle),
               child: AppImageAsset(
                 image: ImageConstants.closeIcon,
                 height: 20.px,

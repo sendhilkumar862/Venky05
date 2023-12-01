@@ -28,10 +28,8 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
     // var currentProfile =
     //     keyValueStorageBase.getCommon(KeyValueStorageService.profile);
-    countryCode = keyValueStorageBase
-        .getCommon(List<String>, KeyValueStorageService.countryCodeAndIDD)
-        .toString()
-        .split(',');
+    countryCode =
+        keyValueStorageBase.getCommon(List<String>, KeyValueStorageService.countryCodeAndIDD).toString().split(',');
     logs('countryCode--> $countryCode');
   }
 
@@ -57,6 +55,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   Map<String, dynamic> arguments = {
     'id': '',
     'otp_id': '',
+    'isScreen': false,
   };
 
   @action
@@ -69,7 +68,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
       Map body = <String, dynamic>{
         'userId': data['userId'],
         'mobile': mobileController.text,
-        'countryCode': selectedCountryCode
+        'countryCode': selectedCountryCode.replaceAll('+', '')
       };
       logs('send mobile body--> $body');
       final Response response = await dio.post(
@@ -79,11 +78,9 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
       logs('status Codee --> ${response.statusCode}');
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
-        final EnterMobileModel enterMobileModel =
-            EnterMobileModel.fromJson(response.data);
+        final EnterMobileModel enterMobileModel = EnterMobileModel.fromJson(response.data);
         logs('status Code --> ${enterMobileModel.status.type}');
         arguments['userId'] = data['userId'].toString();
-        arguments['isScreen'] = false;
         arguments['otp_id'] = enterMobileModel.data.item.otpId.toString();
         AppRouter.pushNamed(Routes.verifyOtpView, args: arguments);
       } else {
@@ -118,8 +115,9 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
 
   @action
   void onTapMobileSubmit() {
-    if (mobileValid == 1) {
-      // AppRouter.pushNamed(Routes.mobileOtpView, args: arguments);
+    //if (mobileValid == 1) {
+    if (true) {
+      AppRouter.pushNamed(Routes.verifyOtpView, args: arguments);
       sendOTP();
     }
   }
@@ -138,21 +136,15 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     logs('entered Fetch country data');
     Dio dio = Dio();
     try {
-      Response response =
-          await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
+      Response response = await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
       logs('Status code--> ${response.statusCode}');
 
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
         final List<dynamic> countriesJson = response.data['data']['items'];
-        countries = countriesJson
-            .map((json) => CountryCodeModel.fromJson(json))
-            .toList();
-        tempList = countriesJson
-            .map((json) => CountryCodeModel.fromJson(json))
-            .toList();
-        selectedCountry = countries.firstWhere(
-            (CountryCodeModel element) => element.idd_code == '+965');
+        countries = countriesJson.map((json) => CountryCodeModel.fromJson(json)).toList();
+        tempList = countriesJson.map((json) => CountryCodeModel.fromJson(json)).toList();
+        selectedCountry = countries.firstWhere((CountryCodeModel element) => element.idd_code == '+965');
       }
     } catch (error) {
       EasyLoading.dismiss();
@@ -171,25 +163,28 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   int languageIndex = 1;
 
   @observable
+  int countryIndex = 118;
+
+  @observable
   TextEditingController countryController = TextEditingController();
 
   @action
   void selectCountry(int index) {
-    // countryIndex = index;
-    // selectedCountry = countries[countryIndex].idd_code.toString();
-    // logs('selected Country-->$countryIndex');
+    countryIndex = index;
+    logs('selected Country-->$countryIndex');
   }
 
   @action
   void filterCountries(String query, Function setState) {
-    filteredCountries = countries
+    countryIndex = 0;
+    countries = countries
         .where((CountryCodeModel country) =>
             country.name?.toLowerCase().contains(query.toLowerCase()) ??
-            false ||
-                country.flag_url!.toLowerCase().contains(query.toLowerCase()))
+            false || country.flag_url!.toLowerCase().contains(query.toLowerCase()))
         .toList();
-    logs('filteredCountries.toString()--> ${filteredCountries.length}');
-    // logs('filteredCountries.toString()--> ${countryIndex}');
+    if (countryController.text.isEmpty) {
+      countries = tempList;
+    }
     setState(() {});
   }
 }

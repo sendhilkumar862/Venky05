@@ -49,7 +49,7 @@ class TermAndConditionBottomSheet extends StatelessWidget {
               ),
               ListView.separated(shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
-                    return Column(
+                    return Column(crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         AppText(
                           passwordViewModel!

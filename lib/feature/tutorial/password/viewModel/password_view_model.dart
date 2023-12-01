@@ -59,6 +59,9 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
   bool isButtonActive = false;
 
   @observable
+  bool isPasswordVisible = false;
+
+  @observable
   TextEditingController passwordController = TextEditingController();
 
   @observable
@@ -69,7 +72,7 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
     Dio dio = Dio();
     try {
       Response response = await dio
-          .get('http://167.99.93.83/api/v1/content/role/student/type/about_us');
+          .get('http://167.99.93.83/api/v1/content/role/common/type/Terms_Conditions');
       logs('statusCode -- > ${response.statusCode}');
       if (response.statusCode == 200) {
         EasyLoading.dismiss();

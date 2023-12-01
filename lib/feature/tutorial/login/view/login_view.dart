@@ -13,6 +13,7 @@ import '../../../../custom/text/app_text.dart';
 import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../../../product/utils/validators.dart';
 import '../viewModel/login_view_model.dart';
 
 class LoginView extends StatelessWidget {
@@ -77,29 +78,34 @@ class LoginView extends StatelessWidget {
                                   title: 'password'.tr(),
                                   controller: loginViewModel.passwordController,
                                   hintText: 'enterYourPassword'.tr(),
-                                  obscureText: true,
-                                  suffixIcon: AppImageAsset(
-                                    image: ImageConstants.eyeCross,
-                                    height: 22.px,
+                                  obscureText: loginViewModel.isPasswordShow,
+                                  maxLines: 1,
+                                  suffixIcon: InkWell(
+                                    onTap: () {
+                                      loginViewModel.isPasswordShow = !loginViewModel.isPasswordShow;
+                                      setState((){});
+                                    },
+                                    child: AppImageAsset(
+                                      image: (loginViewModel.isPasswordShow)
+                                          ? ImageConstants.eyeCross
+                                          : ImageConstants.eye,
+                                      height: 22.px,
+                                    ),
                                   ),
                                   onChanged: (String value) {
                                     loginViewModel.onPasswordChanged(value);
                                     setState(() {});
                                   },
-                                  onSaved: (String value) =>
-                                      loginViewModel.login(),
+                                  onSaved: (String value) => loginViewModel.login(),
                                 );
                               },
                             ),
                             SizedBox(
                               height: 20.px,
                             ),
-                            if (loginViewModel.loginStatus ==
-                                'error')
+                            if (loginViewModel.loginStatus == 'error')
                               WarningCardView(
-                                  color:AppColors.appLightRedTwo,
-                                  error: loginViewModel
-                                      .loginModel.status!.message),
+                                  color: AppColors.appLightRedTwo, error: loginViewModel.loginModel.status!.message),
                             SizedBox(height: 20.px),
                             if (false)
                               AppImageAsset(
