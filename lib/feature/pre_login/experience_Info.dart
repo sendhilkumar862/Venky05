@@ -24,6 +24,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
   File? firstImage;
   File? secondImage;
   bool isSwitch = false;
+
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
@@ -42,11 +43,9 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 30),
-                child: Text('Experience Information',
-                    style:
-                        openSans.get20.w700.textColor(AppColors.appTextColor)),
+                child: Text('Experience Information', style: openSans.get20.w700.textColor(AppColors.appTextColor)),
               ),
-              AppTextFormField(
+              const AppTextFormField(
                 title: 'Education',
                 hintText: 'Enter your education',
               ),
@@ -54,9 +53,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                 padding: const EdgeInsets.only(top: 15, bottom: 30),
                 child: Row(
                   children: <Widget>[
-                    Text('Make it visible for users',
-                        style: openSans.get14.w500
-                            .textColor(AppColors.appTextColor)),
+                    Text('Make it visible for users', style: openSans.get14.w500.textColor(AppColors.appTextColor)),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: FlutterSwitch(
@@ -90,9 +87,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                 padding: const EdgeInsets.only(top: 15),
                 child: Row(
                   children: <Widget>[
-                    Text('Make it visible for users',
-                        style: openSans.get14.w500
-                            .textColor(AppColors.appTextColor)),
+                    Text('Make it visible for users', style: openSans.get14.w500.textColor(AppColors.appTextColor)),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: FlutterSwitch(
@@ -114,9 +109,10 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 15),
-                child: Text('Certificates',
-                    style: openSans.get12.w400
-                        .textColor(AppColors.appTextColor.withOpacity(0.5))),
+                child: Text(
+                  'Certificates',
+                  style: openSans.get12.w400.textColor(AppColors.appTextColor.withOpacity(0.5)),
+                ),
               ),
               Center(
                 child: SizedBox(
@@ -126,7 +122,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                       pickDocument();
                     },
                     child: DottedBorder(
-                        padding: EdgeInsets.symmetric(vertical: 20),
+                        padding: const EdgeInsets.symmetric(vertical: 20),
                         borderType: BorderType.RRect,
                         radius: const Radius.circular(15),
                         color: AppColors.appBlue,
@@ -144,15 +140,10 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                                       children: [
                                         Container(
                                             decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                                border: Border.all(
-                                                    color: AppColors
-                                                        .appBorderColor
-                                                        .withOpacity(0.5))),
+                                                borderRadius: BorderRadius.circular(12),
+                                                border: Border.all(color: AppColors.appBorderColor.withOpacity(0.5))),
                                             child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
+                                                borderRadius: BorderRadius.circular(12),
                                                 child: Image.file(
                                                   firstImage!,
                                                   width: 80,
@@ -168,16 +159,12 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                                                 });
                                               },
                                               child: Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      vertical: 5,
-                                                      horizontal: 5),
-                                                  padding: EdgeInsets.all(3),
+                                                  margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                                                  padding: const EdgeInsets.all(3),
                                                   decoration: BoxDecoration(
-                                                      color: AppColors
-                                                          .downArrowColor
-                                                          .withOpacity(0.15),
+                                                      color: AppColors.downArrowColor.withOpacity(0.15),
                                                       shape: BoxShape.circle),
-                                                  child: Icon(
+                                                  child: const Icon(
                                                     Icons.close,
                                                     size: 20,
                                                   )),
@@ -195,15 +182,10 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                                         children: [
                                           Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                  border: Border.all(
-                                                      color: AppColors
-                                                          .appBorderColor
-                                                          .withOpacity(0.5))),
+                                                  borderRadius: BorderRadius.circular(12),
+                                                  border: Border.all(color: AppColors.appBorderColor.withOpacity(0.5))),
                                               child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
+                                                  borderRadius: BorderRadius.circular(12),
                                                   child: Image.file(
                                                     secondImage!,
                                                     width: 80,
@@ -219,17 +201,12 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                                                   });
                                                 },
                                                 child: Container(
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 5,
-                                                            horizontal: 5),
-                                                    padding: EdgeInsets.all(3),
+                                                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                                                    padding: const EdgeInsets.all(3),
                                                     decoration: BoxDecoration(
-                                                        color: AppColors
-                                                            .downArrowColor
-                                                            .withOpacity(0.15),
+                                                        color: AppColors.downArrowColor.withOpacity(0.15),
                                                         shape: BoxShape.circle),
-                                                    child: Icon(
+                                                    child: const Icon(
                                                       Icons.close,
                                                       size: 20,
                                                     )),
@@ -242,20 +219,13 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                             ),
                             if (secondImage == null || firstImage == null)
                               Padding(
-                                padding: EdgeInsets.only(
-                                    top: secondImage == null &&
-                                            firstImage == null
-                                        ? 0
-                                        : 15),
+                                padding: EdgeInsets.only(top: secondImage == null && firstImage == null ? 0 : 15),
                                 child: Column(
                                   children: <Widget>[
-                                    const Icon(Icons.cloud_upload_outlined,
-                                        color: AppColors.appBlue),
+                                    const Icon(Icons.cloud_upload_outlined, color: AppColors.appBlue),
                                     Center(
                                         child: Text(
-                                      firstImage != null
-                                          ? 'Add More'
-                                          : 'Upload Civil ID',
+                                      firstImage != null ? 'Add More' : 'Upload Civil ID',
                                       style: openSans.get14.w500.appBlue,
                                     )),
                                   ],
@@ -270,9 +240,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                 padding: const EdgeInsets.only(top: 15, bottom: 25),
                 child: Row(
                   children: <Widget>[
-                    Text('Make it visible for users',
-                        style: openSans.get14.w500
-                            .textColor(AppColors.appTextColor)),
+                    Text('Make it visible for users', style: openSans.get14.w500.textColor(AppColors.appTextColor)),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: FlutterSwitch(

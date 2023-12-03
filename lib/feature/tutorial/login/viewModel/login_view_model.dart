@@ -23,10 +23,8 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
   @override
   void init() {}
   @observable
-  TextEditingController passwordController =
-      TextEditingController(text: 'Test@123');
-  TextEditingController emailController =
-      TextEditingController(text: 'avaiyakirtib1@gmail.com');
+  TextEditingController passwordController = TextEditingController(text: 'Test@123');
+  TextEditingController emailController = TextEditingController(text: 'avaiyakirtib1@gmail.com');
 
   @observable
   String emailErrorText = '';
@@ -46,6 +44,9 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
   @observable
   bool isButtonDisabled = true;
 
+  @observable
+  bool isPasswordShow = false;
+
   @action
   void validateEmail(String value) {
     loginStatus = '';
@@ -53,8 +54,7 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
     if (value!.isEmpty) {
       emailValid = 0;
       emailErrorText = 'pleaseEnter'.tr();
-    } else if (Regexes.validateRegEx(
-        emailController.text, Regexes.emailRegex)) {
+    } else if (Regexes.validateRegEx(emailController.text, Regexes.emailRegex)) {
       emailValid = 0;
       emailErrorText = 'enterValidEmail'.tr();
     } else {
@@ -115,11 +115,11 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
           Routes.HomeScreenRoute,
         );
         logs('ress--> ${loginModel.status?.type}');
-        final KeyValueStorageService keyValueStorageService =
-            KeyValueStorageService();
-        keyValueStorageService
-            .setAuthToken(response.data['data']['item']['accessToken']);
-
+        final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
+        if (response.data['data']['item']['accessToken'].toString().isNotEmpty) {
+          logs('token-->${response.data['data']['item']['accessToken']}');
+          keyValueStorageService.setAuthToken(response.data['data']['item']['accessToken']);
+        }
         loginStatus = loginModel.status!.type!;
         if (emailValid != 1) {
           isButtonDisabled = true;

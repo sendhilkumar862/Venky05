@@ -37,7 +37,7 @@ class DetailsCardViewHorizontal extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(12.px),
       width: double.infinity,
-      height: 126.px,
+      height: (MediaQuery.of(context).size.height * 0.18).px,
       decoration: BoxDecoration(
         color: AppColors.appWhite,
         borderRadius: BorderRadius.circular(13.px),

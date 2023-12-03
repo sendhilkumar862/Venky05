@@ -32,6 +32,9 @@ abstract class _ChatViewModelBase extends BaseViewModel with Store {
   @observable
   List<Chat> message = <Chat>[];
 
+  @observable
+  bool isSwipeRight = false;
+
   @action
   getChatTimeFormate(int time) {
     final int millisecondsSinceEpoch = time; // Example timestamp

@@ -12,7 +12,7 @@ class NavBarItem {
     required this.page,
   });
   /// IconData to display on the navbar e.g. Icons.home
-  IconData? iconData;
+  String? iconData;
 
   /// Title can used instead of the dot indicator
   String title;

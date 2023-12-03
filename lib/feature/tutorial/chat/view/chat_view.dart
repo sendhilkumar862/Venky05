@@ -1,5 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -11,7 +11,6 @@ import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/utils/validators.dart';
-import 'package:grouped_list/grouped_list.dart';
 import '../view_model/chat_view_model.dart';
 
 class ChatView extends StatefulWidget {
@@ -49,72 +48,186 @@ class _ChatViewState extends State<ChatView> {
                 children: <Widget>[
                   Expanded(
                     child: ListView.builder(
-                      itemCount: 1,
+                      itemCount: chatViewModel.message.length,
                       //chatViewModel.message.length,
                       itemBuilder: (BuildContext context, int index) {
                         logs('chatViewModel.message[index].mess-->${chatViewModel.message[index].message}');
                         return (chatViewModel.message[index].isCheck!)
                             ? Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    Container(
-                                      padding: EdgeInsets.all(8.px),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.isDisableColor,
-                                        borderRadius: BorderRadius.circular(10.px),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: <Widget>[
-                                          Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: <Widget>[
+                                        Container(
+                                          padding: EdgeInsets.all(8.px),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.isDisableColor,
+                                            borderRadius: BorderRadius.circular(10.px),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: <Widget>[
-                                              SwipeTo(
-                                                onLeftSwipe: (DragUpdateDetails details) {
-                                                  logs('swipe to reply------>');
-                                                  setState(() {});
-                                                },
-                                                child: Container(
-                                                    padding: EdgeInsets.symmetric(vertical: 8.px, horizontal: 15.px),
-                                                    decoration: BoxDecoration(
-                                                      color: AppColors.appBlue,
-                                                      borderRadius: BorderRadius.only(
-                                                        topLeft: Radius.circular(20.px),
-                                                        topRight: Radius.circular(20.px),
-                                                        bottomLeft: Radius.circular(20.px),
-                                                      ),
-                                                    ),
-                                                    child: SenderAudioCardView()
-                                                    //DocumentCardView()
-                                                    // SenderTextCardView(text: chatViewModel.message[index].message),
-                                                    // ImageCardView()
-                                                    ///we will manage views later as per API//
-                                                    ),
+                                              const Padding(
+                                                padding: EdgeInsets.only(bottom: 14),
+                                                child: AppImageAsset(
+                                                  image: ImageConstants.teacherAvtar,
+                                                  height: 20,
+                                                  width: 20,
+                                                ),
                                               ),
-                                              const SizedBox(height: 3),
-                                              const Row(
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
                                                 children: <Widget>[
-                                                  AppText('12:24 AM', fontSize: 10, color: AppColors.appGrey),
-                                                  SizedBox(
-                                                    width: 5,
+                                                  SwipeTo(
+                                                    onLeftSwipe: (details) {
+                                                      logs('swipe to reply left------>');
+                                                      setState(() {});
+                                                    },
+                                                    child: Container(
+                                                        padding:
+                                                            EdgeInsets.symmetric(vertical: 8.px, horizontal: 15.px),
+                                                        decoration: BoxDecoration(
+                                                          color: AppColors.appBlue,
+                                                          borderRadius: BorderRadius.only(
+                                                            topLeft: Radius.circular(20.px),
+                                                            topRight: Radius.circular(20.px),
+                                                            bottomLeft: Radius.circular(20.px),
+                                                          ),
+                                                        ),
+                                                        child: const SenderAudioCardView()
+                                                        // const DocumentCardView()
+                                                        // SenderTextCardView(
+                                                        //     text: chatViewModel.message[index].message),
+                                                        //ImageCardView()
+                                                        ///we will manage views later as per API//
+                                                        ),
                                                   ),
-                                                  AppImageAsset(image: ImageConstants.doneMessage),
+                                                  const SizedBox(height: 3),
+                                                  const Row(
+                                                    children: <Widget>[
+                                                      AppText('12:24 AM', fontSize: 10, color: AppColors.appGrey),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      AppImageAsset(image: ImageConstants.doneMessage),
+                                                    ],
+                                                  ),
                                                 ],
                                               ),
+                                              const SizedBox(width: 2),
+                                              const Padding(
+                                                padding: EdgeInsets.only(bottom: 14),
+                                                child: AppImageAsset(
+                                                  image: ImageConstants.avtar,
+                                                  height: 20,
+                                                  width: 20,
+                                                ),
+                                              )
                                             ],
                                           ),
-                                          const SizedBox(width: 4),
-                                          Container(
-                                            margin: const EdgeInsets.only(bottom: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: <Widget>[
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          children: <Widget>[
+                                            SwipeTo(
+                                              onRightSwipe: (details) {
+                                                chatViewModel.isSwipeRight = !chatViewModel.isSwipeRight;
+                                                logs('swipe to reply------>');
+                                                setState(() {});
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  if (chatViewModel.isSwipeRight)
+                                                    Row(
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () {},
+                                                          child: Container(
+                                                              padding: const EdgeInsets.all(5),
+                                                              decoration: BoxDecoration(
+                                                                color: AppColors.red.withOpacity(0.2),
+                                                                shape: BoxShape.circle,
+                                                              ),
+                                                              child: const AppImageAsset(
+                                                                  image: ImageConstants.messageDelete)),
+                                                        ),
+                                                        InkWell(
+                                                          onTap: () {},
+                                                          child: Container(
+                                                              padding: const EdgeInsets.all(5),
+                                                              decoration: const BoxDecoration(
+                                                                color: AppColors.isDisableColor,
+                                                                shape: BoxShape.circle,
+                                                              ),
+                                                              child: const AppImageAsset(
+                                                                  image: ImageConstants.messageEdit)),
+                                                        ),
+                                                        InkWell(
+                                                          onTap: () {},
+                                                          child: Container(
+                                                              padding: const EdgeInsets.all(5),
+                                                              decoration: const BoxDecoration(
+                                                                color: AppColors.isDisableColor,
+                                                                shape: BoxShape.circle,
+                                                              ),
+                                                              child: const AppImageAsset(
+                                                                  image: ImageConstants.replyMessage)),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  Container(
+                                                      padding: EdgeInsets.symmetric(vertical: 8.px, horizontal: 15.px),
+                                                      decoration: BoxDecoration(
+                                                        color: AppColors.appBlue,
+                                                        borderRadius: BorderRadius.only(
+                                                          topLeft: Radius.circular(20.px),
+                                                          topRight: Radius.circular(20.px),
+                                                          bottomLeft: Radius.circular(20.px),
+                                                        ),
+                                                      ),
+                                                      child:
+                                                          //SenderTextCardView(text: chatViewModel.message[index].message),
+                                                          // const DocumentCardView()
+                                                          const SenderAudioCardView()
+                                                      //ImageCardView()
+                                                      ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(height: 3),
+                                            const Row(
+                                              children: <Widget>[
+                                                AppText('12:24 AM', fontSize: 10, color: AppColors.appGrey),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                AppImageAsset(image: ImageConstants.doneMessage),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(width: 2),
+                                        const Padding(
+                                          padding: EdgeInsets.only(bottom: 14),
+                                          child: AppImageAsset(
+                                            image: ImageConstants.avtar,
                                             height: 20,
-                                            child: const AppImageAsset(image: ImageConstants.avtar),
+                                            width: 20,
                                           ),
-                                        ],
-                                      ),
+                                        )
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -140,6 +253,15 @@ class _ChatViewState extends State<ChatView> {
                                             child: Row(
                                               crossAxisAlignment: CrossAxisAlignment.end,
                                               children: <Widget>[
+                                                const Padding(
+                                                  padding: EdgeInsets.only(bottom: 14),
+                                                  child: AppImageAsset(
+                                                    image: ImageConstants.teacherAvtar,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 5),
                                                 Column(
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: <Widget>[
@@ -149,21 +271,22 @@ class _ChatViewState extends State<ChatView> {
                                                         setState(() {});
                                                       },
                                                       child: Container(
-                                                        padding:
-                                                            EdgeInsets.symmetric(vertical: 8.px, horizontal: 15.px),
-                                                        decoration: BoxDecoration(
-                                                          color: AppColors.tabColor,
-                                                          borderRadius: BorderRadius.only(
-                                                            topLeft: Radius.circular(20.px),
-                                                            topRight: Radius.circular(20.px),
-                                                            bottomRight: Radius.circular(20.px),
+                                                          padding:
+                                                              EdgeInsets.symmetric(vertical: 8.px, horizontal: 15.px),
+                                                          decoration: BoxDecoration(
+                                                            color: AppColors.tabColor,
+                                                            borderRadius: BorderRadius.only(
+                                                              topLeft: Radius.circular(20.px),
+                                                              topRight: Radius.circular(20.px),
+                                                              bottomRight: Radius.circular(20.px),
+                                                            ),
                                                           ),
-                                                        ),
-                                                        child: // DocumentCardView()
-                                                            ReceiveTextCardView(
-                                                                text: chatViewModel.message[index].message),
-                                                        // ImageCardView()
-                                                      ),
+                                                          child: const DocumentCardView()
+                                                          //     ReceiveTextCardView(
+                                                          //   text: chatViewModel.message[index].message,
+                                                          // ),
+                                                          // ImageCardView()
+                                                          ),
                                                     ),
                                                     const SizedBox(height: 3),
                                                     Row(
@@ -185,32 +308,64 @@ class _ChatViewState extends State<ChatView> {
                                         ],
                                       ),
                                       SizedBox(height: 8.px),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(vertical: 8.px, horizontal: 15.px),
-                                        decoration: BoxDecoration(
-                                          color: AppColors.tabColor,
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(20.px),
-                                            topRight: Radius.circular(20.px),
-                                            bottomRight: Radius.circular(20.px),
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: <Widget>[
+                                          Container(
+                                            margin: EdgeInsets.only(bottom: 16.px),
+                                            height: 20.px,
+                                            child: const AppImageAsset(image: ImageConstants.teacherAvtar),
                                           ),
-                                        ),
-                                        child: //DocumentCardView()
-                                            ReceiveTextCardView(text: chatViewModel.message[index].message),
-                                        //ImageCardView()
-                                      )
+                                          const SizedBox(width: 5),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              SwipeTo(
+                                                  onRightSwipe: (DragUpdateDetails details) {
+                                                    logs('swipe to reply------>');
+                                                    setState(() {});
+                                                  },
+                                                  child: Container(
+                                                    padding: EdgeInsets.symmetric(vertical: 8.px, horizontal: 15.px),
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors.tabColor,
+                                                      borderRadius: BorderRadius.only(
+                                                        topLeft: Radius.circular(20.px),
+                                                        topRight: Radius.circular(20.px),
+                                                        bottomRight: Radius.circular(20.px),
+                                                      ),
+                                                    ),
+                                                    child:
+                                                        //DocumentCardView()
+                                                        ReceiveTextCardView(text: chatViewModel.message[index].message),
+                                                    // ImageCardView()
+                                                  )),
+                                              const SizedBox(height: 3),
+                                              Row(
+                                                children: <Widget>[
+                                                  AppText('12:24 AM', fontSize: 10.px, color: AppColors.appGrey),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(width: 4),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                 ),
                               );
                       },
                     ),
-                    // ChatMessageUi(chatViewModel.message),
                   ),
                   // GroupedListView(
                   //   itemBuilder: (context, element) {
-                  //     // int index = message.indexOf(element);
-                  //     return Container();
+                  //     int index = chatViewModel.message.indexOf(element);
+                  //     return Container(
+                  //       height: 20,
+                  //       width: 20,
+                  //       color: Colors.red,
+                  //     );
                   //   },
                   //   reverse: true,
                   //   physics: const BouncingScrollPhysics(),
@@ -220,13 +375,13 @@ class _ChatViewState extends State<ChatView> {
                   //   floatingHeader: true,
                   //   elements: chatViewModel.message,
                   //   groupBy: (element) {
-                  //     // String formatDate(DateTime dateTime) {
-                  //     //   return DateFormat('MMM d, y').format(dateTime);
-                  //     // }
+                  //     String formatDate(DateTime dateTime) {
+                  //       return DateFormat('MMM d, y').format(dateTime);
+                  //     }
                   //
-                  //     //    int timestamp = element['messageTimestamp'];
-                  //     // DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp);
-                  //     //return formatDate(date);
+                  //         int timestamp = element['messageTimestamp'];
+                  //     DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp);
+                  //     return formatDate(date);
                   //   },
                   //   groupHeaderBuilder: (value) {
                   //     //  var timestamp = value['messageTimestamp'];
@@ -415,16 +570,27 @@ class _ChatViewState extends State<ChatView> {
                                               ),
                                             ),
                                             const Divider(),
-                                            const SizedBox(
+                                            SizedBox(
                                               height: 50,
-                                              child: Row(
-                                                children: <Widget>[
-                                                  AppImageAsset(image: ImageConstants.imageIcon),
-                                                  SizedBox(width: 20),
-                                                  AppText('Add Image'),
-                                                  Spacer(),
-                                                  AppImageAsset(image: ImageConstants.forwardIcon)
-                                                ],
+                                              child: InkWell(
+                                                onTap: () {
+                                                  final Future<XFile?> imagepick =
+                                                      ImagePicker().pickImage(source: ImageSource.gallery);
+                                                  logs('image gallery-->$imagepick');
+                                                  if (imagepick != null) {
+                                                    logs('imagegellery123-->${imagepick.toString()}');
+                                                    setState(() {});
+                                                  }
+                                                },
+                                                child: const Row(
+                                                  children: <Widget>[
+                                                    AppImageAsset(image: ImageConstants.imageIcon),
+                                                    SizedBox(width: 20),
+                                                    AppText('Add Image'),
+                                                    Spacer(),
+                                                    AppImageAsset(image: ImageConstants.forwardIcon),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                             const Divider(),
@@ -494,6 +660,8 @@ class DocumentCardView extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 5.px),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           Row(
             children: <Widget>[
@@ -609,16 +777,11 @@ class SenderAudioCardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        AppImageAsset(
-          image: ImageConstants.playIcon,
-          height: 25.px,
-        ),
-        SizedBox(width: 5.px),
-        AppText(
-          '01:04',
-          fontSize: 14.px,
-          color: AppColors.appWhite,
-        )
+        AppImageAsset(image: ImageConstants.playIcon, height: 25.px),
+        const SizedBox(width: 5),
+        AppImageAsset(image: ImageConstants.audioWavesPlay, height: 25.px),
+        const SizedBox(width: 5),
+        AppText('01:04', fontSize: 14.px, color: AppColors.appWhite)
       ],
     );
   }

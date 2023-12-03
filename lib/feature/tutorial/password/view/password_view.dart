@@ -25,13 +25,11 @@ class PasswordView extends StatelessWidget {
         onModelReady: (PasswordViewModel passwordViewModel) {
           passwordViewModel.setContext(context);
           passwordViewModel.init();
-          passwordViewModel.arguments =
-              (ModalRoute.of(context)!.settings.arguments! as Map)??{};
+          passwordViewModel.arguments = (ModalRoute.of(context)!.settings.arguments! as Map) ?? {};
 
           logs('argue--> ${passwordViewModel.arguments}');
         },
-        onPageBuilder:
-            (BuildContext context, PasswordViewModel passwordViewModel) {
+        onPageBuilder: (BuildContext context, PasswordViewModel passwordViewModel) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               body: PreLoginCustomBody(
@@ -64,33 +62,47 @@ class PasswordView extends StatelessWidget {
                               SizedBox(height: 20.px),
                               TextFormsField(
                                 title: 'password'.tr(),
-                                controller:
-                                    passwordViewModel.passwordController,
+                                controller: passwordViewModel.passwordController,
                                 hintText: 'enterYourPassword'.tr(),
-                                obscureText: true,
-                                suffixIcon: AppImageAsset(
-                                  image: ImageConstants.eyeCross,
-                                  height: 22.px,
+                                keyboardType: TextInputType.multiline,
+                                obscureText: !passwordViewModel.isPasswordVisible,
+                                suffixIcon: InkWell(
+                                  onTap: () {
+                                    passwordViewModel.isPasswordVisible = !passwordViewModel.isPasswordVisible;
+                                    setState(() {});
+                                  },
+                                  child: AppImageAsset(
+                                    image: (passwordViewModel.isPasswordVisible)
+                                        ? ImageConstants.eyeCross
+                                        : ImageConstants.eye,
+                                    height: 22.px,
+                                  ),
                                 ),
                                 onChanged: (String value) {
-                                  passwordViewModel.validatePassword(
-                                      value, setState);
+                                  passwordViewModel.validatePassword(value, setState);
                                 },
                               ),
                               SizedBox(height: 10.px),
                               TextFormsField(
+                                keyboardType: TextInputType.multiline,
                                 title: 'retypePassword'.tr(),
-                                controller:
-                                    passwordViewModel.retypePasswordController,
+                                controller: passwordViewModel.retypePasswordController,
                                 hintText: 'enterYourPasswordAgain'.tr(),
-                                obscureText: false,
-                                suffixIcon: AppImageAsset(
-                                  image: ImageConstants.eyeCross,
-                                  height: 22.px,
+                                obscureText: !passwordViewModel.isPasswordVisible,
+                                suffixIcon: InkWell(
+                                  onTap: () {
+                                    passwordViewModel.isPasswordVisible = !passwordViewModel.isPasswordVisible;
+                                    setState(() {});
+                                  },
+                                  child: AppImageAsset(
+                                    image: (passwordViewModel.isPasswordVisible)
+                                        ? ImageConstants.eyeCross
+                                        : ImageConstants.eye,
+                                    height: 22.px,
+                                  ),
                                 ),
                                 onChanged: (String value) {
-                                  passwordViewModel.validateRetypePassword(
-                                      value!, setState);
+                                  passwordViewModel.validateRetypePassword(value!, setState);
                                 },
                               ),
                               SizedBox(height: 18.px),
@@ -102,29 +114,21 @@ class PasswordView extends StatelessWidget {
                               Observer(
                                 builder: (BuildContext context) {
                                   return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: List.generate(
-                                        passwordViewModel.passWordCriteria
-                                            .length, (int index) {
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: List.generate(passwordViewModel.passWordCriteria.length, (int index) {
                                       return Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 4.px),
+                                        padding: EdgeInsets.symmetric(vertical: 4.px),
                                         child: Row(
                                           children: <Widget>[
                                             AppImageAsset(
-                                              image: (!passwordViewModel
-                                                          .isPassWordCriteria[
-                                                      index])
+                                              image: (!passwordViewModel.isPassWordCriteria[index])
                                                   ? ImageConstants.checkbox
-                                                  : ImageConstants
-                                                      .checkboxFilled,
+                                                  : ImageConstants.checkboxFilled,
                                               height: 18.px,
                                             ),
                                             SizedBox(width: 8.px),
                                             AppText(
-                                              passwordViewModel
-                                                  .passWordCriteria[index],
+                                              passwordViewModel.passWordCriteria[index],
                                               fontSize: 12.px,
                                             )
                                           ],
@@ -142,8 +146,7 @@ class PasswordView extends StatelessWidget {
                   ),
                 ),
               ),
-              bottomNavigationBar:
-                  Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              bottomNavigationBar: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15.px),
                   child: Row(
@@ -180,9 +183,7 @@ class PasswordView extends StatelessWidget {
                 SizedBox(height: 15.px),
                 PreLoginCommonButton(
                     title: 'continue'.tr(),
-                    onTap: passwordViewModel.isButtonActive
-                        ? () => passwordViewModel.onTapSubmitPassword()
-                        : () {},
+                    onTap: passwordViewModel.isButtonActive ? () => passwordViewModel.onTapSubmitPassword() : () {},
                     isDisable: !passwordViewModel.isButtonActive)
               ]),
             );

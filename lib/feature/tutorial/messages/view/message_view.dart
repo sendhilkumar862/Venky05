@@ -214,7 +214,6 @@ class MessageView extends StatelessWidget {
                       buttonTextDiscript: 'No, Keep It',
                       buttonTextDisColor: AppColors.appBlue,
                     );
-
                     //ConfirmationButton(
                     //                       title: 'Unarchive Confirmation',
                     //                       titleDescription: 'Are you sure you want to unarchive all messages?',

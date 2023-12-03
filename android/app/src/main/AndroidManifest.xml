@@ -7,6 +7,10 @@
         android:label="hessah"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBT8CFEhdKhFteNf6L4NaY3Z3UKFfpRy2w"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

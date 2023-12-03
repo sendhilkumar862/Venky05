@@ -1,6 +1,7 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -36,36 +37,90 @@ class _StudentProfileViewState extends State<StudentProfileView> {
           title: 'User Profile',
         ),
         backgroundColor: Colors.white,
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            studentProfileViewModel.isTeacherView =
-                !studentProfileViewModel.isTeacherView;
-            setState(() {});
-          },
-        ),
         body: Observer(
           builder: (BuildContext context) {
             return ListView(
+              physics: const BouncingScrollPhysics(),
               children: <Widget>[
                 const SizedBox(height: 60),
-                SizedBox(
-                  height: 70,
-                  width: 70,
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(500),
-                      child: const AppImageAsset(
-                        image: ImageConstants.avtar,
-                      )),
+                Align(
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                    height: 70.px,
+                    width: 70.px,
+                    child: Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(500),
+                          child: const AppImageAsset(
+                            image: ImageConstants.avtar,
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 8,
+                          right: 1,
+                          child: AppImageAsset(image: ImageConstants.countryIcon, height: 15.px),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                    height: 20.px,
+                    width: 50.px,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 5,
+                      itemBuilder: (BuildContext context, int index) {
+                        return AppImageAsset(
+                          image: (index < 2) ? ImageConstants.reviewStarPurple : ImageConstants.reviewStar,
+                          height: 10.px,
+                          width: 10.px,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 5),
                 const AppText(
                   'User Name',
                   textAlign: TextAlign.center,
                   fontWeight: FontWeight.bold,
                   color: AppColors.appDarkBlack,
                 ),
+                const SizedBox(height: 8),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 155),
+                  padding: EdgeInsets.symmetric(vertical: 3.px, horizontal: 8.px),
+                  decoration: BoxDecoration(
+                    color: AppColors.appDarkBlack,
+                    borderRadius: BorderRadius.circular(30.px),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      AppImageAsset(
+                        image: ImageConstants.proIcon,
+                        height: 10.px,
+                      ),
+                      SizedBox(
+                        width: 3.px,
+                      ),
+                      AppText(
+                        'Pro',
+                        fontSize: 10.px,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.appYellow,
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -77,22 +132,21 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                         color: AppColors.appBlue,
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            AppImageAsset(
-                              image: ImageConstants.messageIcon,
-                              height: 20,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            AppText(
-                              'Message',
-                              color: AppColors.appWhite,
-                              fontSize: 14,
-                            ),
-                          ]),
+                      child: const Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                        AppImageAsset(
+                          image: ImageConstants.homeMessageIcon,
+                          height: 20,
+                          color: AppColors.appWhite,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        AppText(
+                          'Message',
+                          color: AppColors.appWhite,
+                          fontSize: 14,
+                        ),
+                      ]),
                     ),
                     const SizedBox(
                       width: 10,
@@ -104,22 +158,20 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                         color: AppColors.appBlue,
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            AppImageAsset(
-                              image: ImageConstants.saveIcon,
-                              height: 20,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            AppText(
-                              'Message',
-                              color: AppColors.appWhite,
-                              fontSize: 14,
-                            ),
-                          ]),
+                      child: const Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                        AppImageAsset(
+                          image: ImageConstants.saveIcon,
+                          height: 20,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        AppText(
+                          'Message',
+                          color: AppColors.appWhite,
+                          fontSize: 14,
+                        ),
+                      ]),
                     ),
                   ],
                 ),
@@ -174,8 +226,7 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                           ),
                         ],
                       ),
-                      if (studentProfileViewModel.isTeacherView)
-                        SizedBox(height: 15.px),
+                      if (studentProfileViewModel.isTeacherView) SizedBox(height: 15.px),
                       if (studentProfileViewModel.isTeacherView)
                         Row(
                           children: <Widget>[
@@ -217,8 +268,7 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                           ),
                         ],
                       ),
-                      if (studentProfileViewModel.isTeacherView)
-                        buildEducationCard()
+                      if (studentProfileViewModel.isTeacherView) buildEducationCard()
                     ],
                   ),
                 ),
@@ -236,12 +286,11 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                   margin: EdgeInsets.symmetric(horizontal: 15.px),
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.appGrey),
+                    border: Border.all(color: AppColors.lightPurple),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(children: [
-                    const AppImageAsset(
-                        image: ImageConstants.starSecondary, height: 80),
+                    const AppImageAsset(image: ImageConstants.starSecondary, height: 80),
                     SizedBox(height: 15.px),
                     const AppText(
                       'No Available Times!',
@@ -256,8 +305,7 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                     )
                   ]),
                 ),
-                if (studentProfileViewModel.isTeacherView)
-                  const AvailableTimesCalender(),
+                if (studentProfileViewModel.isTeacherView) const AvailableTimesCalender(),
               ],
             );
           },
@@ -329,9 +377,7 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                   height: 100.px,
                   width: 100.px,
                   decoration: BoxDecoration(
-                      image: const DecorationImage(
-                          image: AssetImage(ImageConstants.certificates),
-                          fit: BoxFit.fill),
+                      image: const DecorationImage(image: AssetImage(ImageConstants.certificates), fit: BoxFit.fill),
                       borderRadius: BorderRadius.circular(5.px)),
                   child: Stack(children: <Widget>[
                     Row(
@@ -483,10 +529,8 @@ class AvailableTimesCalender extends StatelessWidget {
         todayTextStyle: const TextStyle(color: Colors.white),
         timeZone: 'India Standard Time',
         viewHeaderStyle: const ViewHeaderStyle(
-            dayTextStyle: TextStyle(
-                color: AppColors.appGrey, fontWeight: FontWeight.w500),
-            dateTextStyle: TextStyle(
-                color: AppColors.appGrey, fontWeight: FontWeight.w500)),
+            dayTextStyle: TextStyle(color: AppColors.appGrey, fontWeight: FontWeight.w500),
+            dateTextStyle: TextStyle(color: AppColors.appGrey, fontWeight: FontWeight.w500)),
         timeSlotViewSettings: const TimeSlotViewSettings(
             timeIntervalHeight: 25,
             allDayPanelColor: Colors.green,

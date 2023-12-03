@@ -3,9 +3,11 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../config/routes/app_router.dart';
+import '../../../config/routes/routes.dart';
 import '../../../product/network/local/key_value_storage_base.dart';
 import '../../../product/network/local/key_value_storage_service.dart';
-import '../../tutorial/language/language_view.dart';
+import '../../../product/utils/validators.dart';
+import '../../tutorial/language/view/language_view.dart';
 import '../../tutorial/onboarding/view/onboading_view.dart';
 import '../../tutorial/profileSet/view/profile_selection_view.dart';
 
@@ -14,10 +16,9 @@ part 'splash_view_model.g.dart';
 class SplashViewModel = _SplashViewModelBase with _$SplashViewModel;
 
 abstract class _SplashViewModelBase extends BaseViewModel with Store {
-
   @override
   void setContext(BuildContext context) => viewModelContext = context;
-  
+
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
 
   String? selectedCountry;
@@ -25,20 +26,25 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
   String? selectedProfile;
 
   @override
-  void init() {
+  Future<void> init() async {
+    await KeyValueStorageBase.init();
+
     checkTheStatus().whenComplete(() async => setRoute());
   }
 
   Future<void> checkTheStatus() async {
+    final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
+    final String token = keyValueStorageService.getAuthToken().toString();
+    // if (token != null) {
+    //   logs('Token--> $token');
+    //   AppRouter.pushNamed(Routes.HomeScreenRoute);
+    // }
     await KeyValueStorageBase.init();
-    selectedCountry =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.country);
+    selectedCountry = keyValueStorageBase.getCommon(String, KeyValueStorageService.country);
 
-    selectedLanguage =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.language);
+    selectedLanguage = keyValueStorageBase.getCommon(String, KeyValueStorageService.language);
 
-    selectedProfile =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
+    selectedProfile = keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
   }
 
   Future<void> setRoute() async {

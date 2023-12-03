@@ -69,6 +69,15 @@ class AppColors {
     ),
   ];
 
+  static List<BoxShadow> buttonShadow = [
+    BoxShadow(
+      color: AppColors.appPurple.withOpacity(0.4),
+      blurRadius: 6,
+      spreadRadius: 1,
+      offset: const Offset(1, 7),
+    ),
+  ];
+
   static List<BoxShadow> appCardShadow = [
     const BoxShadow(
         color: AppColors.appShadow,

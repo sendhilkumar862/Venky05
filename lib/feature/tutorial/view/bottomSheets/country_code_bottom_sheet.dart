@@ -8,8 +8,6 @@ import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-import '../../../../product/utils/validators.dart';
-import '../../mobileEnter/model/country_code_model.dart';
 import '../../mobileEnter/viewModel/mobile_view_model.dart';
 
 class CountryCodeBottomsSheet extends StatelessWidget {
@@ -41,8 +39,7 @@ class CountryCodeBottomsSheet extends StatelessWidget {
               alignment: Alignment.center,
               height: 25.px,
               width: 25.px,
-              decoration: const BoxDecoration(
-                  color: AppColors.appLightGrey, shape: BoxShape.circle),
+              decoration: const BoxDecoration(color: AppColors.appLightGrey, shape: BoxShape.circle),
               child: AppImageAsset(
                 image: ImageConstants.closeIcon,
                 height: 20.px,
@@ -54,8 +51,7 @@ class CountryCodeBottomsSheet extends StatelessWidget {
               SizedBox(
                 height: 25.px,
               ),
-              AppText('Country Code',
-                  fontWeight: FontWeight.w700, fontSize: 14.px),
+              AppText('Country Code', fontWeight: FontWeight.w700, fontSize: 14.px),
               SizedBox(
                 height: 10.px,
               ),
@@ -74,6 +70,8 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                   hintText: 'Search',
                   onChanged: (String value) {
                     mobileViewModel!.filterCountries(value, setState!);
+                    // ignore: avoid_dynamic_calls
+                    setState!(() {});
                   },
                 ),
               ),
@@ -81,90 +79,59 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                 height: 15.px,
               ),
               Expanded(
-                child: ListView.separated(
-                  itemCount: mobileViewModel!.filteredCountries.isNotEmpty
-                      ? mobileViewModel!.filteredCountries.length
-                      : mobileViewModel!.countries.length,
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        final CountryCodeModel countryCodeModel =
-                            mobileViewModel!.filteredCountries.isNotEmpty
-                                ? mobileViewModel!.filteredCountries[index]
-                                : mobileViewModel!.countries[index];
-                        logs(
-                            'Selected country --> ${countryCodeModel.toJson()}');
-                        // final int selectedIndex = mobileViewModel!.countries.indexOf(countryCodeModel);
-                        mobileViewModel!.selectedCountry = countryCodeModel;
-                        mobileViewModel!.selectedCountryCode =
-                            countryCodeModel.idd_code ?? '';
-                        // logs('Selected index --> $selectedIndex');
-                        setState!(
-                          () {
-                            mobileViewModel?.filteredCountries.clear();
-                            // mobileViewModel!.selectCountry(selectedIndex);
-                            Future.delayed(
-                              const Duration(milliseconds: 200),
-                              () => AppRouter.pop(),
-                            );
-                          },
+                  child: ListView.separated(
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      setState!(() {
+                        mobileViewModel!.selectCountry(index);
+                        Future.delayed(
+                          const Duration(milliseconds: 200),
+                          () => AppRouter.pop(),
                         );
-                      },
-                      child: Container(
-                        color: AppColors.appTransparent,
-                        margin: EdgeInsets.symmetric(horizontal: 15.px),
-                        padding: EdgeInsets.symmetric(vertical: 8.px),
-                        child: Row(
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(700),
-                              child: AppImageAsset(
-                                image: mobileViewModel!
-                                        .filteredCountries.isNotEmpty
-                                    ? mobileViewModel!
-                                        .filteredCountries[index].flag_url!
-                                    : mobileViewModel!
-                                        .countries[index].flag_url!,
-                                fit: BoxFit.fill,
-                                height: 20.px,
-                                width: 20,
-                              ),
+                      });
+                    },
+                    child: Container(
+                      color: AppColors.appTransparent,
+                      margin: EdgeInsets.symmetric(horizontal: 15.px),
+                      padding: EdgeInsets.symmetric(vertical: 8.px),
+                      child: Row(
+                        children: <Widget>[
+                          ClipRRect(borderRadius: BorderRadius.circular(700),
+                            child: AppImageAsset(
+                              image: mobileViewModel!.countries[index].flag_url?? ImageConstants.globe,
+                              fit: BoxFit.fill,
+                              height: 20.px,
+                              width: 20,
                             ),
-                            SizedBox(
-                              width: 10.px,
-                            ),
-                            AppText(
-                              mobileViewModel!.filteredCountries.isNotEmpty
-                                  ? mobileViewModel!
-                                      .filteredCountries[index].idd_code!
-                                  : mobileViewModel!.countries[index].idd_code!,
-                              fontWeight: FontWeight.w400,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            SizedBox(width: 6.px),
-                            AppText(
-                              mobileViewModel!.filteredCountries.isNotEmpty
-                                  ? mobileViewModel!
-                                      .filteredCountries[index].name!
-                                  : mobileViewModel!.countries[index].name!,
-                              fontWeight: FontWeight.w400,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
+                          ),
+                          SizedBox(width: 10),
+                          AppText(
+                            mobileViewModel!.countries[index].idd_code??'',
+                            fontWeight: FontWeight.w400,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(width: 6.px),
+                          AppText(
+                            mobileViewModel!.countries[index].name??'',
+                            fontWeight: FontWeight.w400,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15.px),
-                      child: AppDivider(),
-                    );
-                  },
-                ),
-              )
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.px),
+                    child: AppDivider(),
+                  );
+                },
+                itemCount: mobileViewModel!.countries.length,
+              ))
             ],
           )
         ],
