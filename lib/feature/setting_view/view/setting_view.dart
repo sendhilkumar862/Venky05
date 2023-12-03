@@ -1,12 +1,13 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hessah/feature/setting_view/view/widget/manage_adress_view.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+
 import '../../../config/routes/app_router.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/image/app_image_assets.dart';
@@ -22,8 +23,10 @@ import '../../tutorial/mobileEnter/view/mobile_view.dart';
 import '../../tutorial/password/view/password_view.dart';
 import '../../tutorial/view/bottomSheets/country_bottom_sheet.dart';
 import '../../tutorial/view/bottomSheets/language_bottom_sheet.dart';
+import 'manage_sub.dart';
 import 'widget/app_support_view.dart';
 import 'widget/change_name_view.dart';
+import 'widget/manage_adress_view.dart';
 
 class SettingView extends StatefulWidget {
   const SettingView({super.key});
@@ -50,6 +53,9 @@ class _SettingViewState extends State<SettingView> {
     SettingHeading(header: 'Personal Information', listDetail: <SettingData>[
       SettingData(
           surfixImage: 'assets/icons/globe_pin.svg', title: 'Change Country'),
+      SettingData(
+          surfixImage: 'assets/icons/globe_pin.svg',
+          title: 'Manage Subscription'),
       SettingData(
           surfixImage: 'assets/icons/language_translate.svg',
           title: 'Language'),
@@ -529,6 +535,8 @@ class _SettingViewState extends State<SettingView> {
         AppRouter.push(const AppSupportView());
       case SettingTitle.changePassword:
         AppRouter.push(const PasswordView());
+      case SettingTitle.manageSubscription:
+        AppRouter.push(const ManageSubscription());
     }
   }
 
@@ -548,6 +556,8 @@ class _SettingViewState extends State<SettingView> {
         return SettingTitle.changePassword;
       case 'app support':
         return SettingTitle.appSupport;
+      case 'manage subscription':
+        return SettingTitle.manageSubscription;
       default:
         return SettingTitle.changeName;
     }
@@ -610,4 +620,5 @@ enum SettingTitle {
   manageAddress,
   changePassword,
   appSupport,
+  manageSubscription
 }

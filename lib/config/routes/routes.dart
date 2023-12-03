@@ -9,7 +9,6 @@ import '../../feature/notification/view/notification.dart';
 import '../../feature/pre_login/experience_Info.dart';
 import '../../feature/pre_login/financing_view.dart';
 import '../../feature/pre_login/personalInfo/view/personal_info.dart';
-import '../../feature/pre_login/rest_password_link.dart';
 import '../../feature/pre_login/teachingInfo/view/teaching_info.dart';
 import '../../feature/preference/view/preference_view.dart';
 import '../../feature/rating/view/rating_view.dart';
@@ -23,6 +22,7 @@ import '../../feature/tutorial/password/view/password_view.dart';
 import '../../feature/tutorial/userInfo/view/user_info_view.dart';
 import '../../feature/tutorial/verify_otp/verify_otp_view/verify_otp_view.dart';
 import '../../feature/tutorial/view/forgot_password_view.dart';
+import '../../feature/tutorial/view/reset_password_link.dart';
 import '../../feature/wallet/view/invoice_details.dart';
 import '../../product/constants/typedefs.dart';
 
@@ -87,15 +87,14 @@ class Routes {
     userInfoView: (_) => const UserInfoView(),
     loginView: (_) => const LoginView(),
     forgotPasswordView: (_) => const ForgotPassWordView(),
-    restPassword: (_) => const RestPassword(),
+    restPassword: (_) => const ResetPassword(),
     passwordView: (_) => const PasswordView(),
     homeViews: (_) => const HomeViews(),
-    resetPassword: (_) => const RestPassword(),
     searchView: (_) => const SearchView(),
     messageView: (_) => const MessageView(),
     notificationView: (_) => const NotificationView(),
-    chatView: (_) =>  const ChatView(),
-    verifyOtpView: (_) =>  const VerifyOtpView(),
+    chatView: (_) => const ChatView(),
+    verifyOtpView: (_) => const VerifyOtpView(),
   };
 
   static RouteBuilder getRoute(String? routeName) {
