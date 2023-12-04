@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'enter_mobile_model.dart';
+part of 'verification_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,37 +14,37 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-EnterMobileModel _$EnterMobileModelFromJson(Map<String, dynamic> json) {
-  return _EnterMobileModel.fromJson(json);
+VerificationModel _$VerificationModelFromJson(Map<String, dynamic> json) {
+  return _VerificationModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$EnterMobileModel {
-  Data? get data => throw _privateConstructorUsedError;
-  Status? get status => throw _privateConstructorUsedError;
+mixin _$VerificationModel {
+  Data get data => throw _privateConstructorUsedError;
+  Status get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $EnterMobileModelCopyWith<EnterMobileModel> get copyWith =>
+  $VerificationModelCopyWith<VerificationModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $EnterMobileModelCopyWith<$Res> {
-  factory $EnterMobileModelCopyWith(
-          EnterMobileModel value, $Res Function(EnterMobileModel) then) =
-      _$EnterMobileModelCopyWithImpl<$Res, EnterMobileModel>;
+abstract class $VerificationModelCopyWith<$Res> {
+  factory $VerificationModelCopyWith(
+          VerificationModel value, $Res Function(VerificationModel) then) =
+      _$VerificationModelCopyWithImpl<$Res, VerificationModel>;
   @useResult
-  $Res call({Data? data, Status? status});
+  $Res call({Data data, Status status});
 
-  $DataCopyWith<$Res>? get data;
-  $StatusCopyWith<$Res>? get status;
+  $DataCopyWith<$Res> get data;
+  $StatusCopyWith<$Res> get status;
 }
 
 /// @nodoc
-class _$EnterMobileModelCopyWithImpl<$Res, $Val extends EnterMobileModel>
-    implements $EnterMobileModelCopyWith<$Res> {
-  _$EnterMobileModelCopyWithImpl(this._value, this._then);
+class _$VerificationModelCopyWithImpl<$Res, $Val extends VerificationModel>
+    implements $VerificationModelCopyWith<$Res> {
+  _$VerificationModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -54,112 +54,104 @@ class _$EnterMobileModelCopyWithImpl<$Res, $Val extends EnterMobileModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
-    Object? status = freezed,
+    Object? data = null,
+    Object? status = null,
   }) {
     return _then(_value.copyWith(
-      data: freezed == data
+      data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Data?,
-      status: freezed == status
+              as Data,
+      status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as Status?,
+              as Status,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $DataCopyWith<$Res>? get data {
-    if (_value.data == null) {
-      return null;
-    }
-
-    return $DataCopyWith<$Res>(_value.data!, (value) {
+  $DataCopyWith<$Res> get data {
+    return $DataCopyWith<$Res>(_value.data, (value) {
       return _then(_value.copyWith(data: value) as $Val);
     });
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $StatusCopyWith<$Res>? get status {
-    if (_value.status == null) {
-      return null;
-    }
-
-    return $StatusCopyWith<$Res>(_value.status!, (value) {
+  $StatusCopyWith<$Res> get status {
+    return $StatusCopyWith<$Res>(_value.status, (value) {
       return _then(_value.copyWith(status: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$EnterMobileModelImplCopyWith<$Res>
-    implements $EnterMobileModelCopyWith<$Res> {
-  factory _$$EnterMobileModelImplCopyWith(_$EnterMobileModelImpl value,
-          $Res Function(_$EnterMobileModelImpl) then) =
-      __$$EnterMobileModelImplCopyWithImpl<$Res>;
+abstract class _$$VerificationModelImplCopyWith<$Res>
+    implements $VerificationModelCopyWith<$Res> {
+  factory _$$VerificationModelImplCopyWith(_$VerificationModelImpl value,
+          $Res Function(_$VerificationModelImpl) then) =
+      __$$VerificationModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Data? data, Status? status});
+  $Res call({Data data, Status status});
 
   @override
-  $DataCopyWith<$Res>? get data;
+  $DataCopyWith<$Res> get data;
   @override
-  $StatusCopyWith<$Res>? get status;
+  $StatusCopyWith<$Res> get status;
 }
 
 /// @nodoc
-class __$$EnterMobileModelImplCopyWithImpl<$Res>
-    extends _$EnterMobileModelCopyWithImpl<$Res, _$EnterMobileModelImpl>
-    implements _$$EnterMobileModelImplCopyWith<$Res> {
-  __$$EnterMobileModelImplCopyWithImpl(_$EnterMobileModelImpl _value,
-      $Res Function(_$EnterMobileModelImpl) _then)
+class __$$VerificationModelImplCopyWithImpl<$Res>
+    extends _$VerificationModelCopyWithImpl<$Res, _$VerificationModelImpl>
+    implements _$$VerificationModelImplCopyWith<$Res> {
+  __$$VerificationModelImplCopyWithImpl(_$VerificationModelImpl _value,
+      $Res Function(_$VerificationModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
-    Object? status = freezed,
+    Object? data = null,
+    Object? status = null,
   }) {
-    return _then(_$EnterMobileModelImpl(
-      data: freezed == data
+    return _then(_$VerificationModelImpl(
+      data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Data?,
-      status: freezed == status
+              as Data,
+      status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as Status?,
+              as Status,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$EnterMobileModelImpl implements _EnterMobileModel {
-  const _$EnterMobileModelImpl({this.data, this.status});
+class _$VerificationModelImpl implements _VerificationModel {
+  const _$VerificationModelImpl({required this.data, required this.status});
 
-  factory _$EnterMobileModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$EnterMobileModelImplFromJson(json);
+  factory _$VerificationModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$VerificationModelImplFromJson(json);
 
   @override
-  final Data? data;
+  final Data data;
   @override
-  final Status? status;
+  final Status status;
 
   @override
   String toString() {
-    return 'EnterMobileModel(data: $data, status: $status)';
+    return 'VerificationModel(data: $data, status: $status)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$EnterMobileModelImpl &&
+            other is _$VerificationModelImpl &&
             (identical(other.data, data) || other.data == data) &&
             (identical(other.status, status) || other.status == status));
   }
@@ -171,32 +163,33 @@ class _$EnterMobileModelImpl implements _EnterMobileModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$EnterMobileModelImplCopyWith<_$EnterMobileModelImpl> get copyWith =>
-      __$$EnterMobileModelImplCopyWithImpl<_$EnterMobileModelImpl>(
+  _$$VerificationModelImplCopyWith<_$VerificationModelImpl> get copyWith =>
+      __$$VerificationModelImplCopyWithImpl<_$VerificationModelImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$EnterMobileModelImplToJson(
+    return _$$VerificationModelImplToJson(
       this,
     );
   }
 }
 
-abstract class _EnterMobileModel implements EnterMobileModel {
-  const factory _EnterMobileModel({final Data? data, final Status? status}) =
-      _$EnterMobileModelImpl;
+abstract class _VerificationModel implements VerificationModel {
+  const factory _VerificationModel(
+      {required final Data data,
+      required final Status status}) = _$VerificationModelImpl;
 
-  factory _EnterMobileModel.fromJson(Map<String, dynamic> json) =
-      _$EnterMobileModelImpl.fromJson;
+  factory _VerificationModel.fromJson(Map<String, dynamic> json) =
+      _$VerificationModelImpl.fromJson;
 
   @override
-  Data? get data;
+  Data get data;
   @override
-  Status? get status;
+  Status get status;
   @override
   @JsonKey(ignore: true)
-  _$$EnterMobileModelImplCopyWith<_$EnterMobileModelImpl> get copyWith =>
+  _$$VerificationModelImplCopyWith<_$VerificationModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -206,7 +199,7 @@ Data _$DataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Data {
-  Item? get item => throw _privateConstructorUsedError;
+  Item get item => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -218,9 +211,9 @@ abstract class $DataCopyWith<$Res> {
   factory $DataCopyWith(Data value, $Res Function(Data) then) =
       _$DataCopyWithImpl<$Res, Data>;
   @useResult
-  $Res call({Item? item});
+  $Res call({Item item});
 
-  $ItemCopyWith<$Res>? get item;
+  $ItemCopyWith<$Res> get item;
 }
 
 /// @nodoc
@@ -236,24 +229,20 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? item = freezed,
+    Object? item = null,
   }) {
     return _then(_value.copyWith(
-      item: freezed == item
+      item: null == item
           ? _value.item
           : item // ignore: cast_nullable_to_non_nullable
-              as Item?,
+              as Item,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $ItemCopyWith<$Res>? get item {
-    if (_value.item == null) {
-      return null;
-    }
-
-    return $ItemCopyWith<$Res>(_value.item!, (value) {
+  $ItemCopyWith<$Res> get item {
+    return $ItemCopyWith<$Res>(_value.item, (value) {
       return _then(_value.copyWith(item: value) as $Val);
     });
   }
@@ -266,10 +255,10 @@ abstract class _$$DataImplCopyWith<$Res> implements $DataCopyWith<$Res> {
       __$$DataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Item? item});
+  $Res call({Item item});
 
   @override
-  $ItemCopyWith<$Res>? get item;
+  $ItemCopyWith<$Res> get item;
 }
 
 /// @nodoc
@@ -282,13 +271,13 @@ class __$$DataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? item = freezed,
+    Object? item = null,
   }) {
     return _then(_$DataImpl(
-      item: freezed == item
+      item: null == item
           ? _value.item
           : item // ignore: cast_nullable_to_non_nullable
-              as Item?,
+              as Item,
     ));
   }
 }
@@ -296,13 +285,13 @@ class __$$DataImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$DataImpl implements _Data {
-  const _$DataImpl({this.item});
+  const _$DataImpl({required this.item});
 
   factory _$DataImpl.fromJson(Map<String, dynamic> json) =>
       _$$DataImplFromJson(json);
 
   @override
-  final Item? item;
+  final Item item;
 
   @override
   String toString() {
@@ -336,12 +325,12 @@ class _$DataImpl implements _Data {
 }
 
 abstract class _Data implements Data {
-  const factory _Data({final Item? item}) = _$DataImpl;
+  const factory _Data({required final Item item}) = _$DataImpl;
 
   factory _Data.fromJson(Map<String, dynamic> json) = _$DataImpl.fromJson;
 
   @override
-  Item? get item;
+  Item get item;
   @override
   @JsonKey(ignore: true)
   _$$DataImplCopyWith<_$DataImpl> get copyWith =>
@@ -354,7 +343,7 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Item {
-  int? get otpId => throw _privateConstructorUsedError;
+  int get otpId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -366,7 +355,7 @@ abstract class $ItemCopyWith<$Res> {
   factory $ItemCopyWith(Item value, $Res Function(Item) then) =
       _$ItemCopyWithImpl<$Res, Item>;
   @useResult
-  $Res call({int? otpId});
+  $Res call({int otpId});
 }
 
 /// @nodoc
@@ -382,13 +371,13 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? otpId = freezed,
+    Object? otpId = null,
   }) {
     return _then(_value.copyWith(
-      otpId: freezed == otpId
+      otpId: null == otpId
           ? _value.otpId
           : otpId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
     ) as $Val);
   }
 }
@@ -400,7 +389,7 @@ abstract class _$$ItemImplCopyWith<$Res> implements $ItemCopyWith<$Res> {
       __$$ItemImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int? otpId});
+  $Res call({int otpId});
 }
 
 /// @nodoc
@@ -413,13 +402,13 @@ class __$$ItemImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? otpId = freezed,
+    Object? otpId = null,
   }) {
     return _then(_$ItemImpl(
-      otpId: freezed == otpId
+      otpId: null == otpId
           ? _value.otpId
           : otpId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
     ));
   }
 }
@@ -427,13 +416,13 @@ class __$$ItemImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ItemImpl implements _Item {
-  const _$ItemImpl({this.otpId});
+  const _$ItemImpl({required this.otpId});
 
   factory _$ItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$ItemImplFromJson(json);
 
   @override
-  final int? otpId;
+  final int otpId;
 
   @override
   String toString() {
@@ -467,12 +456,12 @@ class _$ItemImpl implements _Item {
 }
 
 abstract class _Item implements Item {
-  const factory _Item({final int? otpId}) = _$ItemImpl;
+  const factory _Item({required final int otpId}) = _$ItemImpl;
 
   factory _Item.fromJson(Map<String, dynamic> json) = _$ItemImpl.fromJson;
 
   @override
-  int? get otpId;
+  int get otpId;
   @override
   @JsonKey(ignore: true)
   _$$ItemImplCopyWith<_$ItemImpl> get copyWith =>
@@ -485,8 +474,8 @@ Status _$StatusFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Status {
-  String? get type => throw _privateConstructorUsedError;
-  String? get message => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
+  String get message => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -498,7 +487,7 @@ abstract class $StatusCopyWith<$Res> {
   factory $StatusCopyWith(Status value, $Res Function(Status) then) =
       _$StatusCopyWithImpl<$Res, Status>;
   @useResult
-  $Res call({String? type, String? message});
+  $Res call({String type, String message});
 }
 
 /// @nodoc
@@ -514,18 +503,18 @@ class _$StatusCopyWithImpl<$Res, $Val extends Status>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
-    Object? message = freezed,
+    Object? type = null,
+    Object? message = null,
   }) {
     return _then(_value.copyWith(
-      type: freezed == type
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String?,
-      message: freezed == message
+              as String,
+      message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 }
@@ -537,7 +526,7 @@ abstract class _$$StatusImplCopyWith<$Res> implements $StatusCopyWith<$Res> {
       __$$StatusImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? type, String? message});
+  $Res call({String type, String message});
 }
 
 /// @nodoc
@@ -551,18 +540,18 @@ class __$$StatusImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
-    Object? message = freezed,
+    Object? type = null,
+    Object? message = null,
   }) {
     return _then(_$StatusImpl(
-      type: freezed == type
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String?,
-      message: freezed == message
+              as String,
+      message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -570,15 +559,15 @@ class __$$StatusImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$StatusImpl implements _Status {
-  const _$StatusImpl({this.type, this.message});
+  const _$StatusImpl({required this.type, required this.message});
 
   factory _$StatusImpl.fromJson(Map<String, dynamic> json) =>
       _$$StatusImplFromJson(json);
 
   @override
-  final String? type;
+  final String type;
   @override
-  final String? message;
+  final String message;
 
   @override
   String toString() {
@@ -613,15 +602,16 @@ class _$StatusImpl implements _Status {
 }
 
 abstract class _Status implements Status {
-  const factory _Status({final String? type, final String? message}) =
-      _$StatusImpl;
+  const factory _Status(
+      {required final String type,
+      required final String message}) = _$StatusImpl;
 
   factory _Status.fromJson(Map<String, dynamic> json) = _$StatusImpl.fromJson;
 
   @override
-  String? get type;
+  String get type;
   @override
-  String? get message;
+  String get message;
   @override
   @JsonKey(ignore: true)
   _$$StatusImplCopyWith<_$StatusImpl> get copyWith =>

@@ -101,8 +101,8 @@ class CountryBottomsSheet extends StatelessWidget {
                               child: AppImageAsset(
                                 image: languageViewModel!.countries[index].flag_url!,
                                 fit: BoxFit.fill,
-                                height: 30.px,
-                                width: 30.px,
+                                height: 25.px,
+                                width: 25.px,
                               ),
                             ),
                             SizedBox(

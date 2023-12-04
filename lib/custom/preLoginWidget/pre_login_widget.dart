@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -40,15 +39,15 @@ class OnTapBack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        FocusManager.instance.primaryFocus?.unfocus();
-        Navigator.pop(context);
-        logs('back tapped');
-      },
-      child: const Align(
-        alignment: Alignment.centerLeft,
-        child: Icon(
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: InkWell(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+          Navigator.pop(context);
+          logs('back tapped >>>');
+        },
+        child: const Icon(
           Icons.keyboard_backspace,
           color: AppColors.appDarkBlack,
         ),

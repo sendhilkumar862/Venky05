@@ -86,7 +86,15 @@ class AppColors {
         spreadRadius: -4),
   ];
 
-  static List<BoxShadow> appDarkBoxShadow = [
+  static List<BoxShadow> appBottomShadow = <BoxShadow>[
+    const BoxShadow(
+        color: AppColors.appGrey,
+        offset: Offset(-1, 8),
+        blurRadius: 15,
+        spreadRadius: -4),
+  ];
+
+  static List<BoxShadow> appDarkBoxShadow = <BoxShadow>[
     BoxShadow(
       offset: const Offset(0, 3),
       spreadRadius: 0.2,
@@ -95,7 +103,7 @@ class AppColors {
     ),
   ];
 
-  static List<BoxShadow> searchCardBoxShadow = [
+  static List<BoxShadow> searchCardBoxShadow = <BoxShadow>[
     const BoxShadow(
       offset: Offset(1, 6),
       color: trans,

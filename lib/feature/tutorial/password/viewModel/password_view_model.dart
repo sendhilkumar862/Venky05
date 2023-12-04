@@ -64,6 +64,8 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
 
   @observable
   String errors = '';
+  bool isRetypePasswordVisible = false;
+
 
   @observable
   TextEditingController passwordController = TextEditingController();

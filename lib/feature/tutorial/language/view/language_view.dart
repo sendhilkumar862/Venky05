@@ -6,6 +6,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/image/app_image_assets.dart';
+import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
@@ -27,95 +28,85 @@ class LanguageView extends StatelessWidget {
           languageViewModel.setContext(context);
           languageViewModel.init();
         },
-        onPageBuilder:
-            (BuildContext context, LanguageViewModel languageViewModel) {
+        onPageBuilder: (BuildContext context, LanguageViewModel languageViewModel) {
           return Observer(
               warnWhenNoObservables: false,
               builder: (BuildContext context) {
                 return Scaffold(
-                  body: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.px),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(height: 80.px),
-                        Lottie.asset(ImageConstants.globe, height: 210.px),
-                        SizedBox(
-                          height: 15.px,
-                        ),
-                        AppText(
-                          'chooseLang'.tr(),
-                          textAlign: TextAlign.center,
-                          fontSize: 24.px,
-                          fontWeight: FontWeight.w800,
-                        ),
-                        SizedBox(
-                          height: 25.px,
-                        ),
-                        selectCardView(
-                          icon: languageViewModel.selectedCountry?.flag_url,
-                          title: languageViewModel.selectedCountry?.name,
-                          onTap: () {
-                            showModalBottomSheet(
-                              isScrollControlled: true,
-                              context: context,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(25.0),
+                  body: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15.px),
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(height: 80.px),
+                          Lottie.asset(ImageConstants.globe, height: 210.px),
+                          SizedBox(
+                            height: 15.px,
+                          ),
+                          AppText(
+                            'chooseLang'.tr(),
+                            textAlign: TextAlign.center,
+                            fontSize: 24.px,
+                            fontWeight: FontWeight.w800,
+                          ),
+                          SizedBox(
+                            height: 25.px,
+                          ),
+                          selectCardView(
+                            icon: languageViewModel.selectedCountry?.flag_url,
+                            title: languageViewModel.selectedCountry?.name,
+                            onTap: () {
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                context: context,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(25.0),
+                                  ),
                                 ),
-                              ),
-                              builder: (BuildContext context) {
-                                return StatefulBuilder(
-                                  builder: (BuildContext context, setState) {
-                                    return CountryBottomsSheet(
-                                        setState: setState,
-                                        languageViewModel: languageViewModel);
-                                  },
-                                );
-                              },
-                            );
-                          },
-                        ),
-                        SizedBox(height: 15.px),
-                        selectCardView(
-                          icon: languageViewModel
-                              .languageIcon[languageViewModel.languageIndex],
-                          title: languageViewModel
-                              .languages[languageViewModel.languageIndex],
-                          onTap: () {
-                            showModalBottomSheet(
-                              isScrollControlled: true,
-                              context: context,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(25.0),
+                                builder: (BuildContext context) {
+                                  return StatefulBuilder(
+                                    builder: (BuildContext context, setState) {
+                                      return CountryBottomsSheet(
+                                          setState: setState, languageViewModel: languageViewModel);
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          SizedBox(height: 15.px),
+                          selectCardView(
+                            icon: languageViewModel.languageIcon[languageViewModel.languageIndex],
+                            title: languageViewModel.languages[languageViewModel.languageIndex],
+                            onTap: () {
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                context: context,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(25.0),
+                                  ),
                                 ),
-                              ),
-                              builder: (BuildContext context) {
-                                return StatefulBuilder(
-                                  builder: (BuildContext context, setState) {
-                                    return LanguageBottomSheet(
-                                        languageViewModel: languageViewModel,
-                                        setState: setState);
-                                  },
-                                );
-                              },
-                            );
-                          },
-                        ),
-                        const Spacer(),
-                        AppButton(
-                          height: 45.px,
-                          borderRadius: BorderRadius.circular(10.px),
-                          borderColor: AppColors.appBlue,
-                          title: 'continue'.tr(),
-                          isDisable: languageViewModel.selectedCountry == null,
-                          onPressed: languageViewModel.onPressedContinue
-                        ),
-                        SizedBox(
-                          height: 20.px,
-                        )
-                      ],
+                                builder: (BuildContext context) {
+                                  return StatefulBuilder(
+                                    builder: (BuildContext context, setState) {
+                                      return LanguageBottomSheet(
+                                          languageViewModel: languageViewModel, setState: setState);
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
+                  ),
+                  bottomNavigationBar: PreLoginCommonButton(
+                    onTap: languageViewModel.onPressedContinue,
+                    title: 'continue'.tr(),
+                    isDisable: languageViewModel.selectedCountry == null,
                   ),
                 );
               });
@@ -136,7 +127,8 @@ class LanguageView extends StatelessWidget {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(500),
-              child: AppImageAsset(fit: BoxFit.fill,
+              child: AppImageAsset(
+                fit: BoxFit.fill,
                 image: icon ?? ImageConstants.globe,
                 height: 20.px,
                 width: 20.px,
