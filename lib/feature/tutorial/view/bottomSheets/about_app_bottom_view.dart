@@ -5,12 +5,13 @@ import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../profileSet/model/about_model.dart';
 import '../../profileSet/viewModel/profile_view_model.dart';
 
 class AboutAppBottomSheet extends StatelessWidget {
-  AboutAppBottomSheet({this.profileViewModel, super.key});
+  AboutAppBottomSheet({this.data, super.key});
 
-  ProfileViewModel? profileViewModel;
+  List<AboutModel>? data;
 
   @override
   Widget build(BuildContext context) {
@@ -47,23 +48,31 @@ class AboutAppBottomSheet extends StatelessWidget {
               ),
               ListView.builder(
                 shrinkWrap: true,
-                itemCount: profileViewModel!.aboutModel.data!.items!.length,
+                itemCount: data!.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
+                      if (index == 0 || index == 2)
+                        AppText(
+                          data![index].role ?? '',
+                          textAlign: TextAlign.start,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18.px,
+                        ),
+                      const SizedBox(
+                        height: 4,
+                      ),
                       AppText(
-                        profileViewModel!.aboutModel.data!.items![index].role.toString(),
+                        data![index].title ?? '',
                         textAlign: TextAlign.start,
                         fontWeight: FontWeight.w700,
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
                       AppText(
-                        profileViewModel!.aboutModel.data!.items![index].content.toString(),
+                        data![index].content ?? '',
                         textAlign: TextAlign.start,
                       ),
+                      SizedBox(height: 12.px)
                     ],
                   );
                 },

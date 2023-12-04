@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_textformfield/text_field.dart';
+import '../../../../custom/cardView/warning_card_view.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/text/app_text.dart';
@@ -112,6 +113,8 @@ class MobileView extends StatelessWidget {
                         },
                       ),
                       SizedBox(height: 20.px),
+                      if(mobileViewModel.responseError.isNotEmpty)
+                      WarningCardView(error: mobileViewModel.enterMobileModel.status!.message)
                     ],
                   ),
                 ),

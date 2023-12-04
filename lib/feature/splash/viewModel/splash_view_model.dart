@@ -20,6 +20,7 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
   void setContext(BuildContext context) => viewModelContext = context;
 
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+  final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
 
   String? selectedCountry;
   String? selectedLanguage;
@@ -28,18 +29,17 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
   @override
   Future<void> init() async {
     await KeyValueStorageBase.init();
-
-    checkTheStatus().whenComplete(() async => setRoute());
+    final String token = await keyValueStorageService.getAuthToken();
+    if (token.isNotEmpty) {
+      logs('Token--> $token');
+      Future.delayed(const Duration(milliseconds: 5000), () => AppRouter.pushNamed(Routes.HomeScreenRoute));
+    } else {
+      checkTheStatus().whenComplete(() async => setRoute());
+    }
   }
 
+  @action
   Future<void> checkTheStatus() async {
-    final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
-    final String token = keyValueStorageService.getAuthToken().toString();
-    // if (token != null) {
-    //   logs('Token--> $token');
-    //   AppRouter.pushNamed(Routes.HomeScreenRoute);
-    // }
-    await KeyValueStorageBase.init();
     selectedCountry = keyValueStorageBase.getCommon(String, KeyValueStorageService.country);
 
     selectedLanguage = keyValueStorageBase.getCommon(String, KeyValueStorageService.language);
@@ -47,6 +47,7 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
     selectedProfile = keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
   }
 
+  @action
   Future<void> setRoute() async {
     if (selectedCountry == null || selectedLanguage == null) {
       navigation(const LanguageView());
@@ -57,6 +58,7 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
     }
   }
 
+  @action
   Future<void> navigation(Widget page) async => Future<void>.delayed(
         const Duration(milliseconds: 5000),
         () async => AppRouter.push(page),

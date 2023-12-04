@@ -7,6 +7,7 @@ import 'package:mobx/mobx.dart';
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../custom/countdown_timer/timer_count_down.dart';
+import '../../../../product/base/model/base_model.dart';
 import '../../../../product/base/model/base_view_model.dart';
 
 import '../../../../product/constants/app/app_utils.dart';
@@ -64,7 +65,6 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
 
   @action
   Future<void> verifyOtp() async {
-    logs('Eneterrrrr-->');
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
 
     Dio dio = Dio();
@@ -84,7 +84,8 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
         EasyLoading.dismiss();
         logs(response.data.toString());
         otpModel = OtpModel.fromJson(response.data);
-
+        // final BaseResponse<OtpModel> baseResponse =
+        // BaseResponse<OtpModel>.fromJson(response.data as Map<String, dynamic>, OtpModel.fromJson);
         isCorrect = otpModel.status!.type == 'success';
         // final Map<String, dynamic> arguments = <String, dynamic>{'userId': "${arguments['id']}"};
         if (otpModel.status!.type == 'success') {
