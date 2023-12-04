@@ -86,8 +86,6 @@ abstract class _PreferenceViewModelBase extends BaseViewModel with Store {
         'http://167.99.93.83/api/v1/users/preference',
         options: await _headers(),
       );
-      print("get token  response.statusCode ${response.data.toString()}");
-      print("get token  response.statusCode ${response.statusCode}");
       if (response.statusCode == 200) {
         hideLoading();
         preferenceModel = PreferenceModel.fromJson(response.data);

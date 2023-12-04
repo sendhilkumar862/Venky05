@@ -6,14 +6,11 @@ import '../../../../product/base/view/base_view.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../custom/appbar/appbar.dart';
-import '../../../custom/sheet/show_bottom_sheet.dart';
 import '../../../custom/text/app_text.dart';
-import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/network/local/key_value_storage_base.dart';
 import '../../../product/network/local/key_value_storage_service.dart';
-import '../../preference/view/preference_view.dart';
 import '../viewsModel/home_views_model.dart';
 
 class HomeViews extends StatefulWidget {
@@ -57,12 +54,7 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
                 onSearchTap: () {
                   AppRouter.pushNamed(Routes.searchView);
                 },
-                onProfileTap: () {
-                  if (selectedProfile == ApplicationConstants.tutor) {
-                    showCommonBottomSheet(
-                        context: context, commonWidget: const PreferenceView());
-                  }
-                },
+                onProfileTap: () {},
               ),
               body: Column(
                 mainAxisSize: MainAxisSize.min,
