@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:hessah/config/routes/app_router.dart';
+import 'package:hessah/product/network/local/key_value_storage_base.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
@@ -129,6 +130,9 @@ abstract class _PreferenceViewModelBase extends BaseViewModel with Store {
               )));
       if (response.statusCode == 200) {
         responseSuccessModel = ResponseSuccessModel.fromJson(response.data);
+        KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+        keyValueStorageBase.setCommon(
+            KeyValueStorageService.setPreference, true);
         hideLoading();
       } else {
         hideLoading();
