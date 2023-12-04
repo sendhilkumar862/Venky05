@@ -13,7 +13,6 @@ import '../../../../custom/text/app_text.dart';
 import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-import '../../../../product/utils/validators.dart';
 import '../viewModel/login_view_model.dart';
 
 class LoginView extends StatelessWidget {
@@ -83,7 +82,7 @@ class LoginView extends StatelessWidget {
                                   suffixIcon: InkWell(
                                     onTap: () {
                                       loginViewModel.isPasswordShow = !loginViewModel.isPasswordShow;
-                                      setState((){});
+                                      setState(() {});
                                     },
                                     child: AppImageAsset(
                                       image: (loginViewModel.isPasswordShow)

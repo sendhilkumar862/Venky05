@@ -88,14 +88,14 @@ class PasswordView extends StatelessWidget {
                                 title: 'retypePassword'.tr(),
                                 controller: passwordViewModel.retypePasswordController,
                                 hintText: 'enterYourPasswordAgain'.tr(),
-                                obscureText: !passwordViewModel.isPasswordVisible,
+                                obscureText: !passwordViewModel.isRetypePasswordVisible,
                                 suffixIcon: InkWell(
                                   onTap: () {
-                                    passwordViewModel.isPasswordVisible = !passwordViewModel.isPasswordVisible;
+                                    passwordViewModel.isRetypePasswordVisible = !passwordViewModel.isRetypePasswordVisible;
                                     setState(() {});
                                   },
                                   child: AppImageAsset(
-                                    image: (passwordViewModel.isPasswordVisible)
+                                    image: (passwordViewModel.isRetypePasswordVisible)
                                         ? ImageConstants.eyeCross
                                         : ImageConstants.eye,
                                     height: 22.px,

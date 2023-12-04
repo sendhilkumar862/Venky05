@@ -7,6 +7,7 @@ import 'package:mobx/mobx.dart';
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../product/base/model/base_view_model.dart';
+import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
@@ -26,8 +27,6 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     fetchData();
     KeyValueStorageBase.init();
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-    // var currentProfile =
-    //     keyValueStorageBase.getCommon(KeyValueStorageService.profile);
     countryCode =
         keyValueStorageBase.getCommon(List<String>, KeyValueStorageService.countryCodeAndIDD).toString().split(',');
     logs('countryCode--> $countryCode');
@@ -46,7 +45,13 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   String mobileErrorText = '';
 
   @observable
+  String responseError = '';
+
+  @observable
   int mobileValid = 2;
+
+  @observable
+  EnterMobileModel enterMobileModel = const EnterMobileModel();
 
   @observable
   List<String> countryCode = <String>[];
@@ -78,22 +83,36 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
       logs('status Codee --> ${response.statusCode}');
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
-        final EnterMobileModel enterMobileModel = EnterMobileModel.fromJson(response.data);
-        logs('status Code --> ${enterMobileModel.status.type}');
+        enterMobileModel = EnterMobileModel.fromJson(response.data);
+        logs('status Code --> ${enterMobileModel.status!.type}');
+        AppUtils.showFlushBar(
+          icon: Icons.check_circle_outline_rounded,
+          iconColor: Colors.green,
+          context: AppRouter.navigatorKey.currentContext!,
+          message: response.data['status']['message'] ?? 'Error occured',
+        );
         arguments['userId'] = data['userId'].toString();
-        arguments['otp_id'] = enterMobileModel.data.item.otpId.toString();
-        AppRouter.pushNamed(Routes.verifyOtpView, args: arguments);
-      } else {
+        arguments['otp_id'] = enterMobileModel.data!.item!.otpId.toString();
+        Future.delayed(
+          const Duration(milliseconds: 1000),
+          () => AppRouter.pushNamed(Routes.verifyOtpView, args: arguments),
+        );
+      }
+      else
+      {
         EasyLoading.dismiss();
         logs('error not response');
       }
-    } catch (error) {
-      logs('error');
+    } on DioException catch (e) {
+      enterMobileModel = EnterMobileModel.fromJson(e.response!.data);
+      responseError = enterMobileModel.status!.message ?? '';
+      logs('error --> $enterMobileModel');
     }
   }
 
   @action
   void validateMobile(String value) {
+    responseError = '';
     if (value!.isEmpty) {
       mobileValid = 0;
       mobileErrorText = 'pleaseEnterMobile'.tr();
@@ -115,9 +134,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
 
   @action
   void onTapMobileSubmit() {
-    //if (mobileValid == 1) {
-    if (true) {
-      AppRouter.pushNamed(Routes.verifyOtpView, args: arguments);
+    if (mobileValid == 1) {
       sendOTP();
     }
   }

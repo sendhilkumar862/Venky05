@@ -5,6 +5,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../config/routes/app_router.dart';
+import '../../../../custom/loader/easy_loader.dart';
+import '../../../../product/base/model/base_model.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
@@ -37,7 +39,7 @@ abstract class _ProfileViewModelBase extends BaseViewModel with Store {
   List<String> profileItems = <String>['teacher'.tr(), 'parent'.tr()];
 
   @observable
-  AboutModel aboutModel =  AboutModel();
+  List<AboutModel> data =  [];
 
   @action
   void selectProfile(int index) {
@@ -63,23 +65,23 @@ abstract class _ProfileViewModelBase extends BaseViewModel with Store {
   @action
   void onTapSubmit() {
     if (isSelected()) {
-      keyValueStorageBase.setCommon(KeyValueStorageService.profile,  selectedIndex == 0 ? 'Tutor' : 'Student');
+      keyValueStorageBase.setCommon(KeyValueStorageService.profile, selectedIndex == 0 ? 'Tutor' : 'Student');
       AppRouter.push(const OnboardingView());
     }
   }
 
   @action
   Future<void> fetchData() async {
-    logs('Entred');
+    showLoading();
     final Dio dio = Dio();
     try {
-      final Response response =
-          await dio.get('http://167.99.93.83/api/v1/content/role/common/type/about_us');
+      final Response response = await dio.get('http://167.99.93.83/api/v1/content/role/common/type/about_us');
       logs('status code--> ${response.statusCode}');
       if (response.statusCode == 200) {
-        EasyLoading.dismiss();
-        aboutModel = AboutModel.fromJson(response.data);
-        logs('about hessah --> $aboutModel');
+        hideLoading();
+        final BaseResponse<AboutModel> baseResponse = BaseResponse<AboutModel>.fromJson(response.data as Map<String, dynamic>, AboutModel.fromJson);
+        data = baseResponse.data.items?? <AboutModel>[];
+        logs("${data[0].title}");
       } else {
         logs('Failed to load data: ${response.statusCode}');
       }

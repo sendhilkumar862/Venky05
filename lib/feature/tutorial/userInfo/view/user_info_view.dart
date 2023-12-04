@@ -19,11 +19,9 @@ class UserInfoView extends StatelessWidget {
         viewModel: UserInfoViewModel(),
         onModelReady: (UserInfoViewModel userInfoViewModel) {
           userInfoViewModel.setContext(context);
-          userInfoViewModel.data =
-              ModalRoute.of(context)!.settings.arguments! as Map;
+          userInfoViewModel.data = ModalRoute.of(context)!.settings.arguments! as Map;
         },
-        onPageBuilder:
-            (BuildContext context, UserInfoViewModel userInfoViewModel) {
+        onPageBuilder: (BuildContext context, UserInfoViewModel userInfoViewModel) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               body: PreLoginCustomBody(
@@ -78,7 +76,7 @@ class UserInfoView extends StatelessWidget {
                           SizedBox(width: 10.px),
                           AppSwitch(
                             isActive: userInfoViewModel.isActiveSwitch,
-                            onTap: () => userInfoViewModel.onTapSwitch,
+                            onTap: () => userInfoViewModel.onTapSwitch(),
                           )
                         ],
                       )

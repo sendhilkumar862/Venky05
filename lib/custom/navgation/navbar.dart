@@ -97,7 +97,7 @@ class _NavBarState extends State<NavBar> {
                   decoration: BoxDecoration(
                       color: AppColors.appWhite,
                       borderRadius: BorderRadius.circular(50),
-                      boxShadow: AppColors.appCardShadow),
+                      boxShadow: AppColors.appBottomShadow),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: _widgetsBuilder(widget.items, widget.hapticFeedback),

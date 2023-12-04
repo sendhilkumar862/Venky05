@@ -6,6 +6,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
+import '../../../../product/base/model/base_model.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/enums/app_register_status_enums.dart';
@@ -13,8 +14,9 @@ import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 
+import '../../../preference/model/preference_model.dart';
 import '../model/email_enter_model.dart';
-
+import '../model/verification_model.dart';
 
 part 'email_view_model.g.dart';
 
@@ -38,7 +40,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
   };
 
   @observable
-  
+  EmailEnterModel data = EmailEnterModel();
 
   @action
   Future<void> registerMail() async {
@@ -47,8 +49,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
     try {
       final Map<String, dynamic> body = <String, dynamic>{
         'email': emailController.text,
-        'role': keyValueStorageBase.getCommon(
-            String, KeyValueStorageService.profile),
+        'role': keyValueStorageBase.getCommon(String, KeyValueStorageService.profile),
       };
       logs(body.toString());
       final Response response = await dio.post(
@@ -57,20 +58,24 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
       );
 
       if (response.statusCode == 200) {
-        final EmailEnterModel emailEnterModel = EmailEnterModel.fromJson(response.data);
-        if (emailEnterModel.status?.type == 'success') {
-          logs('registered ${emailEnterModel.status?.type}');
-          arguments['userId'] = emailEnterModel.data?.item?.userId.toString();
-          final String status = emailEnterModel.data?.item?.status ?? '';
+        final BaseResponse<EmailEnterModel> baseResponse =
+            BaseResponse<EmailEnterModel>.fromJson(response.data, EmailEnterModel.fromJson);
+
+        if (baseResponse.status?.type == 'success') {
+          logs('registered ${baseResponse.status?.type}');
+          arguments['userId'] = baseResponse.data.item!.userId;
+          final Object status = baseResponse.data.item!.status!;
+          logs('status------> ${status}');
           if (status == RegistrationStatus.MOBILE.value) {
             EasyLoading.dismiss();
             AppRouter.pushNamed(Routes.mobileView, args: arguments);
-          } else if(status == RegistrationStatus.EMAIL.value) {
-              sendOTP(emailEnterModel.data!.item!.userId.toString());    
+          } else if (status == RegistrationStatus.EMAIL.value) {
+
+            sendOTP(baseResponse.data.item!.userId.toString());
           } else if (status == RegistrationStatus.PROFILE_INCOMPLETE.value) {
-              EasyLoading.dismiss();
-              // redirect to last step of registration....
-              AppRouter.pushNamed(Routes.userInfoView, args: arguments);
+            EasyLoading.dismiss();
+            // redirect to last step of registration....
+            AppRouter.pushNamed(Routes.userInfoView, args: arguments);
           }
         }
       } else {
@@ -79,16 +84,17 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
       }
     } on DioException catch (error) {
       EasyLoading.dismiss();
-      final EmailEnterModel emailEnterModel = EmailEnterModel.fromJson(error.response!.data);
-      registerWarning = emailEnterModel.status!.type == 'error';
-      registerWarningMessage = emailEnterModel.status!.message!;
+      final BaseResponse<EmailEnterModel> baseResponse =
+          BaseResponse<EmailEnterModel>.fromJson(error.response!.data, EmailEnterModel.fromJson);
+      registerWarning = baseResponse.status!.type == 'error';
+      registerWarningMessage = baseResponse.status!.message!;
       logs('registerMail error --> $registerWarning');
     }
   }
 
   @action
   Future<void> sendOTP(String id) async {
-    // viewModelContext.loaderOverlay.show();
+    logs('Send OTP Entered');
     final Dio dio = Dio();
     try {
       final Map body = <String, dynamic>{
@@ -102,6 +108,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
       logs('status Code --> ${response.statusCode}');
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
+
         registerWarning = response!.data['status']['type'] == 'error';
         arguments['otp_id'] = response.data['data']['item']['otp_id'];
         arguments['isScreen'] = true;
@@ -119,7 +126,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
       }
     } on DioException catch (error) {
       EasyLoading.dismiss();
-      registerWarning = error.response!.data['status']['type'] =='error';
+      registerWarning = error.response!.data['status']['type'] == 'error';
       registerWarningMessage = error.response!.data['status']['message'];
       logs('error message--> ${error.response!.data['status']['message']}');
       logs('SendOtp error');
@@ -148,8 +155,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
     if (value.isEmpty) {
       emailValid = 0;
       emailErrorText = 'pleaseEnter'.tr();
-    } else if (Regexes.validateRegEx(
-        emailController.text, Regexes.emailRegex)) {
+    } else if (Regexes.validateRegEx(emailController.text, Regexes.emailRegex)) {
       emailValid = 0;
       emailErrorText = 'enterValidEmail'.tr();
     } else {
