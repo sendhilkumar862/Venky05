@@ -13,5 +13,3 @@ abstract class StudentProfileViewModelBase  with Store {
   bool isTeacherView = true;
 
 }
-
-
