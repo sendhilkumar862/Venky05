@@ -20,8 +20,8 @@ PasswordModel _$PasswordModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PasswordModel {
-  Data get data => throw _privateConstructorUsedError;
-  Status get status => throw _privateConstructorUsedError;
+  Data? get data => throw _privateConstructorUsedError;
+  Status? get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,10 +35,10 @@ abstract class $PasswordModelCopyWith<$Res> {
           PasswordModel value, $Res Function(PasswordModel) then) =
       _$PasswordModelCopyWithImpl<$Res, PasswordModel>;
   @useResult
-  $Res call({Data data, Status status});
+  $Res call({Data? data, Status? status});
 
-  $DataCopyWith<$Res> get data;
-  $StatusCopyWith<$Res> get status;
+  $DataCopyWith<$Res>? get data;
+  $StatusCopyWith<$Res>? get status;
 }
 
 /// @nodoc
@@ -54,33 +54,41 @@ class _$PasswordModelCopyWithImpl<$Res, $Val extends PasswordModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = null,
-    Object? status = null,
+    Object? data = freezed,
+    Object? status = freezed,
   }) {
     return _then(_value.copyWith(
-      data: null == data
+      data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Data,
-      status: null == status
+              as Data?,
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as Status,
+              as Status?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $DataCopyWith<$Res> get data {
-    return $DataCopyWith<$Res>(_value.data, (value) {
+  $DataCopyWith<$Res>? get data {
+    if (_value.data == null) {
+      return null;
+    }
+
+    return $DataCopyWith<$Res>(_value.data!, (value) {
       return _then(_value.copyWith(data: value) as $Val);
     });
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $StatusCopyWith<$Res> get status {
-    return $StatusCopyWith<$Res>(_value.status, (value) {
+  $StatusCopyWith<$Res>? get status {
+    if (_value.status == null) {
+      return null;
+    }
+
+    return $StatusCopyWith<$Res>(_value.status!, (value) {
       return _then(_value.copyWith(status: value) as $Val);
     });
   }
@@ -94,12 +102,12 @@ abstract class _$$PasswordModelImplCopyWith<$Res>
       __$$PasswordModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Data data, Status status});
+  $Res call({Data? data, Status? status});
 
   @override
-  $DataCopyWith<$Res> get data;
+  $DataCopyWith<$Res>? get data;
   @override
-  $StatusCopyWith<$Res> get status;
+  $StatusCopyWith<$Res>? get status;
 }
 
 /// @nodoc
@@ -113,18 +121,18 @@ class __$$PasswordModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = null,
-    Object? status = null,
+    Object? data = freezed,
+    Object? status = freezed,
   }) {
     return _then(_$PasswordModelImpl(
-      data: null == data
+      data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as Data,
-      status: null == status
+              as Data?,
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as Status,
+              as Status?,
     ));
   }
 }
@@ -132,15 +140,15 @@ class __$$PasswordModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PasswordModelImpl implements _PasswordModel {
-  const _$PasswordModelImpl({required this.data, required this.status});
+  const _$PasswordModelImpl({this.data, this.status});
 
   factory _$PasswordModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PasswordModelImplFromJson(json);
 
   @override
-  final Data data;
+  final Data? data;
   @override
-  final Status status;
+  final Status? status;
 
   @override
   String toString() {
@@ -175,17 +183,16 @@ class _$PasswordModelImpl implements _PasswordModel {
 }
 
 abstract class _PasswordModel implements PasswordModel {
-  const factory _PasswordModel(
-      {required final Data data,
-      required final Status status}) = _$PasswordModelImpl;
+  const factory _PasswordModel({final Data? data, final Status? status}) =
+      _$PasswordModelImpl;
 
   factory _PasswordModel.fromJson(Map<String, dynamic> json) =
       _$PasswordModelImpl.fromJson;
 
   @override
-  Data get data;
+  Data? get data;
   @override
-  Status get status;
+  Status? get status;
   @override
   @JsonKey(ignore: true)
   _$$PasswordModelImplCopyWith<_$PasswordModelImpl> get copyWith =>

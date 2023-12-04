@@ -6,11 +6,11 @@ import '../../../../product/base/view/base_view.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../custom/appbar/appbar.dart';
-import '../../../custom/sheet/show_bottom_sheet.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
-import '../../preference/view/preference_view.dart';
+import '../../../product/network/local/key_value_storage_base.dart';
+import '../../../product/network/local/key_value_storage_service.dart';
 import '../viewsModel/home_views_model.dart';
 
 class HomeViews extends StatefulWidget {
@@ -21,6 +21,16 @@ class HomeViews extends StatefulWidget {
 }
 
 class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
+  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+  String selectedProfile = '';
+
+  @override
+  void initState() {
+    super.initState();
+    selectedProfile =
+        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeViewsModel>(
@@ -44,9 +54,7 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
                 onSearchTap: () {
                   AppRouter.pushNamed(Routes.searchView);
                 },
-                onProfileTap: () {
-                  showCommonBottomSheet(context: context, commonWidget: const PreferenceView());
-                },
+                onProfileTap: () {},
               ),
               body: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -57,20 +65,26 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 15.px),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(color: AppColors.lightPurple, borderRadius: BorderRadius.circular(30.px)),
+                    decoration: BoxDecoration(
+                        color: AppColors.lightPurple,
+                        borderRadius: BorderRadius.circular(30.px)),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: List.generate(
                         homeViewsModel.bottomBarItems.length,
-                        (int index) => tabBarCardView(homeViewsModel.bottomBarItems[index], index, homeViewsModel),
+                        (int index) => tabBarCardView(
+                            homeViewsModel.bottomBarItems[index],
+                            index,
+                            homeViewsModel),
                       ),
                     ),
                   ),
                   SizedBox(
                     height: 2.px,
                   ),
-                  homeViewsModel.bottomBarItems[homeViewsModel.selectedIndex]['screenName'],
+                  homeViewsModel.bottomBarItems[homeViewsModel.selectedIndex]
+                      ['screenName'],
                 ],
               ),
             );
@@ -80,7 +94,8 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
     );
   }
 
-  Widget tabBarCardView(Map<String, dynamic> content, int index, HomeViewsModel homeViewsModel) {
+  Widget tabBarCardView(
+      Map<String, dynamic> content, int index, HomeViewsModel homeViewsModel) {
     final bool isSelected = homeViewsModel.selectedIndex == index;
     return Expanded(
       child: GestureDetector(
@@ -97,7 +112,9 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
             content['title'],
             fontSize: 14,
             fontWeight: FontWeight.w400,
-            color: isSelected ? AppColors.appBlue : AppColors.appLightBlack.withOpacity(0.6),
+            color: isSelected
+                ? AppColors.appBlue
+                : AppColors.appLightBlack.withOpacity(0.6),
           ),
         ),
       ),

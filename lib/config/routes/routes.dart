@@ -88,7 +88,7 @@ class Routes {
     loginView: (_) => const LoginView(),
     forgotPasswordView: (_) => const ForgotPassWordView(),
     restPassword: (_) => const ResetPassword(),
-    passwordView: (_) => const PasswordView(),
+    passwordView: (_) => PasswordView(),
     homeViews: (_) => const HomeViews(),
     searchView: (_) => const SearchView(),
     messageView: (_) => const MessageView(),

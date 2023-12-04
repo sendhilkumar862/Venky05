@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../../../config/routes/app_router.dart';
-import '../../../../config/routes/routes.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
@@ -62,7 +60,12 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
   bool isPasswordVisible = false;
 
   @observable
+  PasswordModel passwordModel = const PasswordModel();
+
+  @observable
+  String errors = '';
   bool isRetypePasswordVisible = false;
+
 
   @observable
   TextEditingController passwordController = TextEditingController();
@@ -74,8 +77,8 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
   Future<void> fetchData() async {
     Dio dio = Dio();
     try {
-      Response response = await dio
-          .get('http://167.99.93.83/api/v1/content/role/common/type/Terms_Conditions');
+      Response response = await dio.get(
+          'http://167.99.93.83/api/v1/content/role/common/type/Terms_Conditions');
       logs('statusCode -- > ${response.statusCode}');
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
@@ -89,7 +92,7 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
   }
 
   @action
-  Future<void> registerUser() async {
+  Future<bool> registerUser() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final Dio dio = Dio();
     try {
@@ -107,22 +110,30 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
 
       logs(response.statusCode.toString());
       if (response.statusCode == 200) {
-        final PasswordModel passwordModel =
-            PasswordModel.fromJson(response.data);
-        logs('token--> ${passwordModel.data.item.token}');
+        passwordModel = PasswordModel.fromJson(response.data);
+        logs('token--> ${passwordModel.data?.item.token.accessToken}');
         final KeyValueStorageService keyValueStorageService =
             KeyValueStorageService();
-        keyValueStorageService
-            .setAuthToken(passwordModel.data.item.token.toString());
+        keyValueStorageService.setAuthToken(
+            passwordModel.data?.item.token.accessToken.toString() ?? '');
+        await Future.delayed(const Duration(seconds: 1));
         EasyLoading.dismiss();
-        AppRouter.pushNamed(Routes.HomeScreenRoute);
+        return true;
       } else {
         EasyLoading.dismiss();
+        passwordModel = PasswordModel.fromJson(response.data);
+        errors = passwordModel.status!.message;
         logs('Failed to load data: ${response.statusCode}');
+        return false;
       }
-    } catch (error) {
-      EasyLoading.dismiss();
-      logs('Error: $error');
+    } on DioException catch (error) {
+      {
+        passwordModel = PasswordModel.fromJson(error.response!.data);
+        errors = passwordModel.status!.message;
+        EasyLoading.dismiss();
+        logs('Error: $error');
+        return false;
+      }
     }
   }
 
@@ -165,9 +176,11 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
   }
 
   @action
-  Future<void> onTapSubmitPassword() async {
+  Future<bool> onTapSubmitPassword() async {
     if (isButtonActive) {
-      registerUser();
+      return registerUser();
+    } else {
+      return false;
     }
   }
 

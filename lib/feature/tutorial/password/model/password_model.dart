@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'password_model.freezed.dart';
 part 'password_model.g.dart';
@@ -7,8 +6,8 @@ part 'password_model.g.dart';
 @freezed
 class PasswordModel with _$PasswordModel {
   const factory PasswordModel({
-    required Data data,
-    required Status status,
+    Data? data,
+    Status? status,
   }) = _PasswordModel;
 
   factory PasswordModel.fromJson(Map<String, dynamic> json) =>

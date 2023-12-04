@@ -1,9 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:hessah/config/routes/app_router.dart';
+import 'package:hessah/product/network/local/key_value_storage_base.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../custom/loader/easy_loader.dart';
+import '../../../product/constants/app/app_utils.dart';
 import '../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/validators.dart';
 import '../../tutorial/model/response_model/response_model.dart';
@@ -66,6 +69,7 @@ abstract class _PreferenceViewModelBase extends BaseViewModel with Store {
     final KeyValueStorageService keyValueStorageService =
         KeyValueStorageService();
     final String token = await keyValueStorageService.getAuthToken();
+    print("get token ${token}");
     return Options(
       headers: {
         'Content-Type': 'application/json',
@@ -100,7 +104,12 @@ abstract class _PreferenceViewModelBase extends BaseViewModel with Store {
       hideLoading();
       preferenceModel = PreferenceModel.fromJson(error.response!.data);
       errors = preferenceModel.status!.message!;
-
+      AppUtils.showFlushBar(
+        icon: Icons.check_circle_outline_rounded,
+        iconColor: Colors.green,
+        context: AppRouter.navigatorKey.currentContext!,
+        message: errors ?? 'Error occured',
+      );
       logs('data --> ${preferenceModel.status!.message}');
     }
   }
@@ -121,6 +130,9 @@ abstract class _PreferenceViewModelBase extends BaseViewModel with Store {
               )));
       if (response.statusCode == 200) {
         responseSuccessModel = ResponseSuccessModel.fromJson(response.data);
+        KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+        keyValueStorageBase.setCommon(
+            KeyValueStorageService.setPreference, true);
         hideLoading();
       } else {
         hideLoading();
