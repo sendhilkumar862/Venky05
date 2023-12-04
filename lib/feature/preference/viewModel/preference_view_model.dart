@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:hessah/config/routes/app_router.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../custom/loader/easy_loader.dart';
+import '../../../product/constants/app/app_utils.dart';
 import '../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/validators.dart';
 import '../../tutorial/model/response_model/response_model.dart';
@@ -66,6 +68,7 @@ abstract class _PreferenceViewModelBase extends BaseViewModel with Store {
     final KeyValueStorageService keyValueStorageService =
         KeyValueStorageService();
     final String token = await keyValueStorageService.getAuthToken();
+    print("get token ${token}");
     return Options(
       headers: {
         'Content-Type': 'application/json',
@@ -83,6 +86,8 @@ abstract class _PreferenceViewModelBase extends BaseViewModel with Store {
         'http://167.99.93.83/api/v1/users/preference',
         options: await _headers(),
       );
+      print("get token  response.statusCode ${response.data.toString()}");
+      print("get token  response.statusCode ${response.statusCode}");
       if (response.statusCode == 200) {
         hideLoading();
         preferenceModel = PreferenceModel.fromJson(response.data);
@@ -100,7 +105,12 @@ abstract class _PreferenceViewModelBase extends BaseViewModel with Store {
       hideLoading();
       preferenceModel = PreferenceModel.fromJson(error.response!.data);
       errors = preferenceModel.status!.message!;
-
+      AppUtils.showFlushBar(
+        icon: Icons.check_circle_outline_rounded,
+        iconColor: Colors.green,
+        context: AppRouter.navigatorKey.currentContext!,
+        message: errors ?? 'Error occured',
+      );
       logs('data --> ${preferenceModel.status!.message}');
     }
   }

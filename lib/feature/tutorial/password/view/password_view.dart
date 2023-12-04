@@ -1,22 +1,32 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:hessah/config/routes/app_router.dart';
+import 'package:hessah/config/routes/routes.dart';
+import 'package:hessah/feature/preference/view/preference_view.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+
 import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/sheet/app_bottom_sheet.dart';
+import '../../../../custom/sheet/show_bottom_sheet.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/base/view/base_view.dart';
+import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-
+import '../../../../product/network/local/key_value_storage_base.dart';
+import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 import '../../view/bottomSheets/term&condition_bottom_sheet.dart';
 import '../viewModel/password_view_model.dart';
 
 class PasswordView extends StatelessWidget {
-  const PasswordView({super.key});
+  PasswordView({super.key});
+
+  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+  String selectedProfile = '';
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +35,13 @@ class PasswordView extends StatelessWidget {
         onModelReady: (PasswordViewModel passwordViewModel) {
           passwordViewModel.setContext(context);
           passwordViewModel.init();
-          passwordViewModel.arguments = (ModalRoute.of(context)!.settings.arguments! as Map) ?? {};
+          passwordViewModel.arguments =
+              (ModalRoute.of(context)!.settings.arguments! as Map) ?? {};
 
           logs('argue--> ${passwordViewModel.arguments}');
         },
-        onPageBuilder: (BuildContext context, PasswordViewModel passwordViewModel) {
+        onPageBuilder:
+            (BuildContext context, PasswordViewModel passwordViewModel) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               body: PreLoginCustomBody(
@@ -62,13 +74,16 @@ class PasswordView extends StatelessWidget {
                               SizedBox(height: 20.px),
                               TextFormsField(
                                 title: 'password'.tr(),
-                                controller: passwordViewModel.passwordController,
+                                controller:
+                                    passwordViewModel.passwordController,
                                 hintText: 'enterYourPassword'.tr(),
                                 keyboardType: TextInputType.multiline,
-                                obscureText: !passwordViewModel.isPasswordVisible,
+                                obscureText:
+                                    !passwordViewModel.isPasswordVisible,
                                 suffixIcon: InkWell(
                                   onTap: () {
-                                    passwordViewModel.isPasswordVisible = !passwordViewModel.isPasswordVisible;
+                                    passwordViewModel.isPasswordVisible =
+                                        !passwordViewModel.isPasswordVisible;
                                     setState(() {});
                                   },
                                   child: AppImageAsset(
@@ -79,19 +94,23 @@ class PasswordView extends StatelessWidget {
                                   ),
                                 ),
                                 onChanged: (String value) {
-                                  passwordViewModel.validatePassword(value, setState);
+                                  passwordViewModel.validatePassword(
+                                      value, setState);
                                 },
                               ),
                               SizedBox(height: 10.px),
                               TextFormsField(
                                 keyboardType: TextInputType.multiline,
                                 title: 'retypePassword'.tr(),
-                                controller: passwordViewModel.retypePasswordController,
+                                controller:
+                                    passwordViewModel.retypePasswordController,
                                 hintText: 'enterYourPasswordAgain'.tr(),
-                                obscureText: !passwordViewModel.isPasswordVisible,
+                                obscureText:
+                                    !passwordViewModel.isPasswordVisible,
                                 suffixIcon: InkWell(
                                   onTap: () {
-                                    passwordViewModel.isPasswordVisible = !passwordViewModel.isPasswordVisible;
+                                    passwordViewModel.isPasswordVisible =
+                                        !passwordViewModel.isPasswordVisible;
                                     setState(() {});
                                   },
                                   child: AppImageAsset(
@@ -102,7 +121,8 @@ class PasswordView extends StatelessWidget {
                                   ),
                                 ),
                                 onChanged: (String value) {
-                                  passwordViewModel.validateRetypePassword(value!, setState);
+                                  passwordViewModel.validateRetypePassword(
+                                      value!, setState);
                                 },
                               ),
                               SizedBox(height: 18.px),
@@ -114,21 +134,29 @@ class PasswordView extends StatelessWidget {
                               Observer(
                                 builder: (BuildContext context) {
                                   return Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: List.generate(passwordViewModel.passWordCriteria.length, (int index) {
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: List.generate(
+                                        passwordViewModel.passWordCriteria
+                                            .length, (int index) {
                                       return Padding(
-                                        padding: EdgeInsets.symmetric(vertical: 4.px),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 4.px),
                                         child: Row(
                                           children: <Widget>[
                                             AppImageAsset(
-                                              image: (!passwordViewModel.isPassWordCriteria[index])
+                                              image: (!passwordViewModel
+                                                          .isPassWordCriteria[
+                                                      index])
                                                   ? ImageConstants.checkbox
-                                                  : ImageConstants.checkboxFilled,
+                                                  : ImageConstants
+                                                      .checkboxFilled,
                                               height: 18.px,
                                             ),
                                             SizedBox(width: 8.px),
                                             AppText(
-                                              passwordViewModel.passWordCriteria[index],
+                                              passwordViewModel
+                                                  .passWordCriteria[index],
                                               fontSize: 12.px,
                                             )
                                           ],
@@ -146,7 +174,8 @@ class PasswordView extends StatelessWidget {
                   ),
                 ),
               ),
-              bottomNavigationBar: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              bottomNavigationBar:
+                  Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15.px),
                   child: Row(
@@ -169,7 +198,8 @@ class PasswordView extends StatelessWidget {
                       SizedBox(width: 5.px),
                       GestureDetector(
                         onTap: () => appBottomSheet(
-                            commonWidget: TermAndConditionBottomSheet(passwordViewModel: passwordViewModel),
+                            commonWidget: TermAndConditionBottomSheet(
+                                passwordViewModel: passwordViewModel),
                             context: context),
                         child: AppText(
                           't&c'.tr(),
@@ -183,7 +213,30 @@ class PasswordView extends StatelessWidget {
                 SizedBox(height: 15.px),
                 PreLoginCommonButton(
                     title: 'continue'.tr(),
-                    onTap: passwordViewModel.isButtonActive ? () => passwordViewModel.onTapSubmitPassword() : () {},
+                    onTap: passwordViewModel.isButtonActive
+                        ? () async {
+                            final bool success =
+                                await passwordViewModel.onTapSubmitPassword();
+                            if (success) {
+                              selectedProfile = keyValueStorageBase.getCommon(
+                                  String, KeyValueStorageService.profile);
+                              if (selectedProfile ==
+                                  ApplicationConstants.student) {
+                                await Future.delayed(
+                                    const Duration(seconds: 1));
+
+                                if (!context.mounted) {
+                                  return;
+                                }
+                                showCommonBottomSheet(
+                                    context: context,
+                                    commonWidget: const PreferenceView());
+                              } else {
+                                AppRouter.pushNamed(Routes.HomeScreenRoute);
+                              }
+                            }
+                          }
+                        : () {},
                     isDisable: !passwordViewModel.isButtonActive)
               ]),
             );

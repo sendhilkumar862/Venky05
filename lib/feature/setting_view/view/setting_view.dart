@@ -534,7 +534,7 @@ class _SettingViewState extends State<SettingView> {
       case SettingTitle.appSupport:
         AppRouter.push(const AppSupportView());
       case SettingTitle.changePassword:
-        AppRouter.push(const PasswordView());
+        AppRouter.push(PasswordView());
       case SettingTitle.manageSubscription:
         AppRouter.push(const ManageSubscription());
     }

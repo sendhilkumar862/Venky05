@@ -2,6 +2,9 @@ import 'package:async/async.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:hessah/config/routes/app_router.dart';
+import 'package:hessah/config/routes/routes.dart';
+import 'package:hessah/product/network/local/key_value_storage_service.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../product/base/view/base_view.dart';
@@ -11,6 +14,7 @@ import '../../../custom/divider/divider.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/extension/colors_extension.dart';
+import '../../../product/network/local/key_value_storage_base.dart';
 import '../model/preference_model.dart';
 import '../viewModel/preference_view_model.dart';
 
@@ -25,6 +29,8 @@ class _PreferenceViewState extends State<PreferenceView>
     with TickerProviderStateMixin {
   List<String> choicesValue = <String>[];
   late final AnimationController _controller;
+  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+  String selectedProfile = '';
 /*  Set<String> selectedGrade = <String>{};
   Set<String> selectedSchool = <String>{};*/
   int? value = 0;
@@ -537,8 +543,18 @@ class _PreferenceViewState extends State<PreferenceView>
                                   preferenceViewModel.selectedGrade.isEmpty,
                               title: 'saveMyPreferences'.tr(),
                               onPressed: () {
-                                preferenceViewModel.setUserPreference().then(
-                                    (value) => Navigator.of(context).pop());
+                                preferenceViewModel
+                                    .setUserPreference()
+                                    .then((value) {
+                                  Navigator.of(context).pop();
+                                  selectedProfile =
+                                      keyValueStorageBase.getCommon(String,
+                                          KeyValueStorageService.profile);
+                                  if (selectedProfile ==
+                                      ApplicationConstants.student) {
+                                    AppRouter.pushNamed(Routes.HomeScreenRoute);
+                                  }
+                                });
                               }),
                         )
                       ],
