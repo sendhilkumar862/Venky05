@@ -6,7 +6,7 @@ void showCommonBottomSheet(
       showDragHandle: true,
       useSafeArea: true,
       isScrollControlled: true,
-      enableDrag: true,
+      enableDrag: false,
       isDismissible: false,
       context: context,
       shape: const RoundedRectangleBorder(

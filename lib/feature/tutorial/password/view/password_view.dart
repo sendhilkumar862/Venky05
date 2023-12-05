@@ -3,21 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:hessah/config/routes/app_router.dart';
 import 'package:hessah/config/routes/routes.dart';
-import 'package:hessah/feature/preference/view/preference_view.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/sheet/app_bottom_sheet.dart';
-import '../../../../custom/sheet/show_bottom_sheet.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/base/view/base_view.dart';
-import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 import '../../view/bottomSheets/term&condition_bottom_sheet.dart';
 import '../viewModel/password_view_model.dart';
@@ -220,20 +216,7 @@ class PasswordView extends StatelessWidget {
                             final bool success =
                                 await passwordViewModel.registerUser();
                             if (success) {
-                              selectedProfile = keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
-                              if (selectedProfile == ApplicationConstants.student) {
-                                await Future.delayed(
-                                    const Duration(seconds: 1));
-
-                                if (!context.mounted) {
-                                  return;
-                                }
-                                showCommonBottomSheet(
-                                    context: context,
-                                    commonWidget: const PreferenceView());
-                              } else {
-                                AppRouter.pushNamed(Routes.HomeScreenRoute);
-                              }
+                              AppRouter.pushNamed(Routes.HomeScreenRoute);
                             }
                           }
                         : () {},
