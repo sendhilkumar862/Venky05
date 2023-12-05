@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -39,7 +38,8 @@ class LanguageBottomSheet extends StatelessWidget {
               alignment: Alignment.center,
               height: 25.px,
               width: 25.px,
-              decoration: const BoxDecoration(color: AppColors.appLightGrey, shape: BoxShape.circle),
+              decoration: const BoxDecoration(
+                  color: AppColors.appLightGrey, shape: BoxShape.circle),
               child: AppImageAsset(
                 image: ImageConstants.closeIcon,
                 height: 20.px,
@@ -51,7 +51,8 @@ class LanguageBottomSheet extends StatelessWidget {
               SizedBox(
                 height: 25.px,
               ),
-              AppText('Change Language', fontWeight: FontWeight.w700, fontSize: 14.px),
+              AppText('Change Language',
+                  fontWeight: FontWeight.w700, fontSize: 14.px),
               SizedBox(
                 height: 30.px,
               ),
@@ -81,7 +82,7 @@ class LanguageBottomSheet extends StatelessWidget {
                         child: Row(
                           children: <Widget>[
                             ClipRRect(
-                              borderRadius: BorderRadius.circular(40),
+                              borderRadius: BorderRadius.circular(30),
                               child: AppImageAsset(
                                 image: languageViewModel!.languageIcon[index],
                                 height: 25.px,
@@ -100,8 +101,9 @@ class LanguageBottomSheet extends StatelessWidget {
                             AppImageAsset(
                               image: ImageConstants.acceptedStatus,
                               height: 23.px,
-                              color:
-                                  (languageViewModel!.languageIndex == index) ? AppColors.appBlue : AppColors.appWhite,
+                              color: (languageViewModel!.languageIndex == index)
+                                  ? AppColors.appBlue
+                                  : AppColors.appWhite,
                             ),
                             SizedBox(
                               width: 5.px,

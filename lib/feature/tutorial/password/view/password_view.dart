@@ -1,10 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:hessah/config/routes/app_router.dart';
+import 'package:hessah/config/routes/routes.dart';
+import 'package:hessah/feature/preference/view/preference_view.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../../config/routes/app_router.dart';
-import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
@@ -18,7 +19,6 @@ import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
-import '../../../preference/view/preference_view.dart';
 import '../../view/bottomSheets/term&condition_bottom_sheet.dart';
 import '../viewModel/password_view_model.dart';
 
@@ -105,14 +105,18 @@ class PasswordView extends StatelessWidget {
                                 controller:
                                     passwordViewModel.retypePasswordController,
                                 hintText: 'enterYourPasswordAgain'.tr(),
-                                obscureText: !passwordViewModel.isRetypePasswordVisible,
+                                obscureText:
+                                    !passwordViewModel.isRetypePasswordVisible,
                                 suffixIcon: InkWell(
                                   onTap: () {
-                                    passwordViewModel.isRetypePasswordVisible = !passwordViewModel.isRetypePasswordVisible;
+                                    passwordViewModel.isRetypePasswordVisible =
+                                        !passwordViewModel
+                                            .isRetypePasswordVisible;
                                     setState(() {});
                                   },
                                   child: AppImageAsset(
-                                    image: (passwordViewModel.isRetypePasswordVisible)
+                                    image: (passwordViewModel
+                                            .isRetypePasswordVisible)
                                         ? ImageConstants.eyeCross
                                         : ImageConstants.eye,
                                     height: 22.px,
@@ -213,7 +217,8 @@ class PasswordView extends StatelessWidget {
                     title: 'continue'.tr(),
                     onTap: passwordViewModel.isButtonActive
                         ? () async {
-                            final bool success = await passwordViewModel.onTapSubmitPassword();
+                            final bool success =
+                                await passwordViewModel.registerUser();
                             if (success) {
                               selectedProfile = keyValueStorageBase.getCommon(
                                   String, KeyValueStorageService.profile);

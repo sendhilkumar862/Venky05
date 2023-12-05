@@ -8,7 +8,6 @@ import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/utils/validators.dart';
 
-
 part 'user_info_view_model.g.dart';
 
 class UserInfoViewModel = _UserInfoViewModelBase with _$UserInfoViewModel;
@@ -18,9 +17,7 @@ abstract class _UserInfoViewModelBase extends BaseViewModel with Store {
   void setContext(BuildContext context) => viewModelContext = context;
 
   @override
-  void init() {
-
-  }
+  void init() {}
 
   @observable
   Map data = <String, dynamic>{};
@@ -43,6 +40,7 @@ abstract class _UserInfoViewModelBase extends BaseViewModel with Store {
   @observable
   int lastNameValid = 2;
 
+  final Map<String, dynamic> arguments = <String, dynamic>{};
 
   @observable
   bool isActiveSwitch = false;
@@ -50,6 +48,7 @@ abstract class _UserInfoViewModelBase extends BaseViewModel with Store {
   @action
   void onTapSwitch() {
     isActiveSwitch = !isActiveSwitch;
+    arguments['hideUserName'] = isActiveSwitch;
     logs('isActiveSwitch-->$isActiveSwitch');
   }
 
@@ -90,11 +89,10 @@ abstract class _UserInfoViewModelBase extends BaseViewModel with Store {
   @action
   void onTapSubmitUserInfo() {
     if (firstNameValid == 1 && lastNameValid == 1) {
-      final Map<String, dynamic> arguments = <String, dynamic>{
-        'userId': data['userId'],
-        'firstName': firstNameController.text,
-        'lastName': lastNameController.text,
-      };
+      arguments['userId'] = data['userId'];
+      arguments['firstName'] = firstNameController.text;
+      arguments['lastName'] = lastNameController.text;
+
       AppRouter.pushNamed(Routes.passwordView, args: arguments);
     }
   }
@@ -107,5 +105,4 @@ abstract class _UserInfoViewModelBase extends BaseViewModel with Store {
       return true;
     }
   }
-
 }

@@ -20,8 +20,8 @@ PasswordModel _$PasswordModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PasswordModel {
-  Token? get token => throw _privateConstructorUsedError;
-  String? get status => throw _privateConstructorUsedError;
+  Token get token => throw _privateConstructorUsedError;
+  String get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,9 +35,9 @@ abstract class $PasswordModelCopyWith<$Res> {
           PasswordModel value, $Res Function(PasswordModel) then) =
       _$PasswordModelCopyWithImpl<$Res, PasswordModel>;
   @useResult
-  $Res call({Token? token, String? status});
+  $Res call({Token token, String status});
 
-  $TokenCopyWith<$Res>? get token;
+  $TokenCopyWith<$Res> get token;
 }
 
 /// @nodoc
@@ -53,29 +53,25 @@ class _$PasswordModelCopyWithImpl<$Res, $Val extends PasswordModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? token = freezed,
-    Object? status = freezed,
+    Object? token = null,
+    Object? status = null,
   }) {
     return _then(_value.copyWith(
-      token: freezed == token
+      token: null == token
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
-              as Token?,
-      status: freezed == status
+              as Token,
+      status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $TokenCopyWith<$Res>? get token {
-    if (_value.token == null) {
-      return null;
-    }
-
-    return $TokenCopyWith<$Res>(_value.token!, (value) {
+  $TokenCopyWith<$Res> get token {
+    return $TokenCopyWith<$Res>(_value.token, (value) {
       return _then(_value.copyWith(token: value) as $Val);
     });
   }
@@ -89,10 +85,10 @@ abstract class _$$PasswordModelImplCopyWith<$Res>
       __$$PasswordModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Token? token, String? status});
+  $Res call({Token token, String status});
 
   @override
-  $TokenCopyWith<$Res>? get token;
+  $TokenCopyWith<$Res> get token;
 }
 
 /// @nodoc
@@ -106,18 +102,18 @@ class __$$PasswordModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? token = freezed,
-    Object? status = freezed,
+    Object? token = null,
+    Object? status = null,
   }) {
     return _then(_$PasswordModelImpl(
-      token: freezed == token
+      token: null == token
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
-              as Token?,
-      status: freezed == status
+              as Token,
+      status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -125,15 +121,15 @@ class __$$PasswordModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PasswordModelImpl implements _PasswordModel {
-  const _$PasswordModelImpl({this.token, this.status});
+  const _$PasswordModelImpl({required this.token, required this.status});
 
   factory _$PasswordModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PasswordModelImplFromJson(json);
 
   @override
-  final Token? token;
+  final Token token;
   @override
-  final String? status;
+  final String status;
 
   @override
   String toString() {
@@ -168,16 +164,17 @@ class _$PasswordModelImpl implements _PasswordModel {
 }
 
 abstract class _PasswordModel implements PasswordModel {
-  const factory _PasswordModel({final Token? token, final String? status}) =
-      _$PasswordModelImpl;
+  const factory _PasswordModel(
+      {required final Token token,
+      required final String status}) = _$PasswordModelImpl;
 
   factory _PasswordModel.fromJson(Map<String, dynamic> json) =
       _$PasswordModelImpl.fromJson;
 
   @override
-  Token? get token;
+  Token get token;
   @override
-  String? get status;
+  String get status;
   @override
   @JsonKey(ignore: true)
   _$$PasswordModelImplCopyWith<_$PasswordModelImpl> get copyWith =>
@@ -190,10 +187,10 @@ Token _$TokenFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Token {
-  String? get accessToken => throw _privateConstructorUsedError;
-  int? get accessTokenExpiryTime => throw _privateConstructorUsedError;
-  String? get refreshToken => throw _privateConstructorUsedError;
-  int? get refreshTokenExpiryTime => throw _privateConstructorUsedError;
+  String get accessToken => throw _privateConstructorUsedError;
+  int get accessTokenExpiryTime => throw _privateConstructorUsedError;
+  String get refreshToken => throw _privateConstructorUsedError;
+  int get refreshTokenExpiryTime => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -206,10 +203,10 @@ abstract class $TokenCopyWith<$Res> {
       _$TokenCopyWithImpl<$Res, Token>;
   @useResult
   $Res call(
-      {String? accessToken,
-      int? accessTokenExpiryTime,
-      String? refreshToken,
-      int? refreshTokenExpiryTime});
+      {String accessToken,
+      int accessTokenExpiryTime,
+      String refreshToken,
+      int refreshTokenExpiryTime});
 }
 
 /// @nodoc
@@ -225,28 +222,28 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? accessToken = freezed,
-    Object? accessTokenExpiryTime = freezed,
-    Object? refreshToken = freezed,
-    Object? refreshTokenExpiryTime = freezed,
+    Object? accessToken = null,
+    Object? accessTokenExpiryTime = null,
+    Object? refreshToken = null,
+    Object? refreshTokenExpiryTime = null,
   }) {
     return _then(_value.copyWith(
-      accessToken: freezed == accessToken
+      accessToken: null == accessToken
           ? _value.accessToken
           : accessToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      accessTokenExpiryTime: freezed == accessTokenExpiryTime
+              as String,
+      accessTokenExpiryTime: null == accessTokenExpiryTime
           ? _value.accessTokenExpiryTime
           : accessTokenExpiryTime // ignore: cast_nullable_to_non_nullable
-              as int?,
-      refreshToken: freezed == refreshToken
+              as int,
+      refreshToken: null == refreshToken
           ? _value.refreshToken
           : refreshToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      refreshTokenExpiryTime: freezed == refreshTokenExpiryTime
+              as String,
+      refreshTokenExpiryTime: null == refreshTokenExpiryTime
           ? _value.refreshTokenExpiryTime
           : refreshTokenExpiryTime // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
     ) as $Val);
   }
 }
@@ -259,10 +256,10 @@ abstract class _$$TokenImplCopyWith<$Res> implements $TokenCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String? accessToken,
-      int? accessTokenExpiryTime,
-      String? refreshToken,
-      int? refreshTokenExpiryTime});
+      {String accessToken,
+      int accessTokenExpiryTime,
+      String refreshToken,
+      int refreshTokenExpiryTime});
 }
 
 /// @nodoc
@@ -276,28 +273,28 @@ class __$$TokenImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? accessToken = freezed,
-    Object? accessTokenExpiryTime = freezed,
-    Object? refreshToken = freezed,
-    Object? refreshTokenExpiryTime = freezed,
+    Object? accessToken = null,
+    Object? accessTokenExpiryTime = null,
+    Object? refreshToken = null,
+    Object? refreshTokenExpiryTime = null,
   }) {
     return _then(_$TokenImpl(
-      accessToken: freezed == accessToken
+      accessToken: null == accessToken
           ? _value.accessToken
           : accessToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      accessTokenExpiryTime: freezed == accessTokenExpiryTime
+              as String,
+      accessTokenExpiryTime: null == accessTokenExpiryTime
           ? _value.accessTokenExpiryTime
           : accessTokenExpiryTime // ignore: cast_nullable_to_non_nullable
-              as int?,
-      refreshToken: freezed == refreshToken
+              as int,
+      refreshToken: null == refreshToken
           ? _value.refreshToken
           : refreshToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      refreshTokenExpiryTime: freezed == refreshTokenExpiryTime
+              as String,
+      refreshTokenExpiryTime: null == refreshTokenExpiryTime
           ? _value.refreshTokenExpiryTime
           : refreshTokenExpiryTime // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
     ));
   }
 }
@@ -306,22 +303,22 @@ class __$$TokenImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TokenImpl implements _Token {
   const _$TokenImpl(
-      {this.accessToken,
-      this.accessTokenExpiryTime,
-      this.refreshToken,
-      this.refreshTokenExpiryTime});
+      {required this.accessToken,
+      required this.accessTokenExpiryTime,
+      required this.refreshToken,
+      required this.refreshTokenExpiryTime});
 
   factory _$TokenImpl.fromJson(Map<String, dynamic> json) =>
       _$$TokenImplFromJson(json);
 
   @override
-  final String? accessToken;
+  final String accessToken;
   @override
-  final int? accessTokenExpiryTime;
+  final int accessTokenExpiryTime;
   @override
-  final String? refreshToken;
+  final String refreshToken;
   @override
-  final int? refreshTokenExpiryTime;
+  final int refreshTokenExpiryTime;
 
   @override
   String toString() {
@@ -364,21 +361,21 @@ class _$TokenImpl implements _Token {
 
 abstract class _Token implements Token {
   const factory _Token(
-      {final String? accessToken,
-      final int? accessTokenExpiryTime,
-      final String? refreshToken,
-      final int? refreshTokenExpiryTime}) = _$TokenImpl;
+      {required final String accessToken,
+      required final int accessTokenExpiryTime,
+      required final String refreshToken,
+      required final int refreshTokenExpiryTime}) = _$TokenImpl;
 
   factory _Token.fromJson(Map<String, dynamic> json) = _$TokenImpl.fromJson;
 
   @override
-  String? get accessToken;
+  String get accessToken;
   @override
-  int? get accessTokenExpiryTime;
+  int get accessTokenExpiryTime;
   @override
-  String? get refreshToken;
+  String get refreshToken;
   @override
-  int? get refreshTokenExpiryTime;
+  int get refreshTokenExpiryTime;
   @override
   @JsonKey(ignore: true)
   _$$TokenImplCopyWith<_$TokenImpl> get copyWith =>

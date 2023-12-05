@@ -6,22 +6,22 @@ part 'password_model.g.dart';
 @freezed
 class PasswordModel with _$PasswordModel {
   const factory PasswordModel({
-     Token? token,
-     String? status,
+    required Token token,
+    required String status,
   }) = _PasswordModel;
 
-  factory PasswordModel.fromJson(Map<String, dynamic> json) => _$PasswordModelFromJson(json);
+  factory PasswordModel.fromJson(Map<String, dynamic> json) =>
+      _$PasswordModelFromJson(json);
 }
 
 @freezed
 class Token with _$Token {
   const factory Token({
-     String? accessToken,
-     int? accessTokenExpiryTime,
-     String? refreshToken,
-     int? refreshTokenExpiryTime,
+    required String accessToken,
+    required int accessTokenExpiryTime,
+    required String refreshToken,
+    required int refreshTokenExpiryTime,
   }) = _Token;
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
 }
-
