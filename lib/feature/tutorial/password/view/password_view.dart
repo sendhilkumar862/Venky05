@@ -220,10 +220,8 @@ class PasswordView extends StatelessWidget {
                             final bool success =
                                 await passwordViewModel.registerUser();
                             if (success) {
-                              selectedProfile = keyValueStorageBase.getCommon(
-                                  String, KeyValueStorageService.profile);
-                              if (selectedProfile ==
-                                  ApplicationConstants.student) {
+                              selectedProfile = keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
+                              if (selectedProfile == ApplicationConstants.student) {
                                 await Future.delayed(
                                     const Duration(seconds: 1));
 

@@ -99,7 +99,7 @@ class VerifyOtpView extends StatelessWidget {
                         color: AppColors.appGrey,
                       ),
                       SizedBox(height: 12.px),
-                      Countdown(
+                     if (verifyOtpViewModel.isTimerRunning) Countdown(
                         controller: verifyOtpViewModel.timerController,
                         seconds: 180,
                         build: (_, double time) => AppText(

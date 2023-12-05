@@ -87,6 +87,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
       logs('status Codee --> ${response.statusCode}');
       logs('res --> ${response.data}');
       if (response.statusCode == 200) {
+        hideLoading();
         enterMobileModel = EnterMobileModel.fromJson(response.data);
         logs('status Code --> ${enterMobileModel.status!.type}');
         AppUtils.showFlushBar(

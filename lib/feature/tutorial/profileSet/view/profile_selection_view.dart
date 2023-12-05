@@ -33,80 +33,71 @@ class ProfileSelectionView extends StatelessWidget {
             (BuildContext context, ProfileViewModel profileViewModel) {
           return Observer(builder: (BuildContext context) {
 
-            return WillPopScope(
-              onWillPop: () async {
-                final KeyValueStorageBase keyValueStorageBase =
-                    KeyValueStorageBase();
-                keyValueStorageBase.setCommon(
-                    KeyValueStorageService.country, '');
-                return true;
-              },
-              child: Scaffold(
-                backgroundColor: AppColors.appWhite,
-                appBar: AppBarOnBoard(
-                  backNavigate: !(continueRegistration ?? false),
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      constraints: const BoxConstraints(),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(25.px),
-                          topLeft: Radius.circular(25.px),
-                        ),
+            return Scaffold(
+              backgroundColor: AppColors.appWhite,
+              appBar: AppBarOnBoard(
+                backNavigate: !(continueRegistration ?? false),
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    constraints: const BoxConstraints(),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(25.px),
+                        topLeft: Radius.circular(25.px),
                       ),
-                      builder: (BuildContext context) {
-                        return AboutAppBottomSheet(data: profileViewModel.data);
-                      },
-                    );
-                  },
-                  onBackTap: () {
-                    final KeyValueStorageBase keyValueStorageBase =
-                        KeyValueStorageBase();
-                    keyValueStorageBase.setCommon(
-                        KeyValueStorageService.country, '');
-                    AppRouter.pop(context);
-                  },
-                ),
-                body: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.px),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(height: 80.px),
-                      Lottie.asset(ImageConstants.profileManager,
-                          height: 210.px),
-                      SizedBox(
-                        height: 15.px,
-                      ),
-                      AppText(
-                        'selectYourProfile'.tr(),
-                        textAlign: TextAlign.center,
-                        fontSize: 24.px,
-                        fontWeight: FontWeight.w800,
-                      ),
-                      SizedBox(
-                        height: 25.px,
-                      ),
-                      Row(
-                        children: List<Widget>.generate(
-                          2,
-                          (int index) => selectCardView(
-                            icon: ImageConstants.graduateIcon,
-                            title: profileViewModel.profileItems[index],
-                            profileViewModel: profileViewModel,
-                            index: index,
-                            onTap: () => profileViewModel.selectProfile(index),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                bottomNavigationBar: PreLoginCommonButton(
-                    title: 'continue'.tr(),
-                    isDisable: !profileViewModel.isSelected(),
-                    onTap: profileViewModel.onTapSubmit),
+                    ),
+                    builder: (BuildContext context) {
+                      return AboutAppBottomSheet(data: profileViewModel.data);
+                    },
+                  );
+                },
+                onBackTap: () {
+                  final KeyValueStorageBase keyValueStorageBase =
+                      KeyValueStorageBase();
+                  keyValueStorageBase.setCommon(
+                      KeyValueStorageService.country, '');
+                  AppRouter.pop(context);
+                },
               ),
+              body: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.px),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 80.px),
+                    Lottie.asset(ImageConstants.profileManager,
+                        height: 210.px),
+                    SizedBox(
+                      height: 15.px,
+                    ),
+                    AppText(
+                      'selectYourProfile'.tr(),
+                      textAlign: TextAlign.center,
+                      fontSize: 24.px,
+                      fontWeight: FontWeight.w800,
+                    ),
+                    SizedBox(
+                      height: 25.px,
+                    ),
+                    Row(
+                      children: List<Widget>.generate(
+                        2,
+                        (int index) => selectCardView(
+                          icon: ImageConstants.graduateIcon,
+                          title: profileViewModel.profileItems[index],
+                          profileViewModel: profileViewModel,
+                          index: index,
+                          onTap: () => profileViewModel.selectProfile(index),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              bottomNavigationBar: PreLoginCommonButton(
+                  title: 'continue'.tr(),
+                  isDisable: !profileViewModel.isSelected(),
+                  onTap: profileViewModel.onTapSubmit),
             );
           });
         });
