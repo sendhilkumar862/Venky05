@@ -23,8 +23,8 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
   void setContext(BuildContext context) => viewModelContext = context;
 
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-  final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
-
+  final KeyValueStorageService keyValueStorageService =
+      KeyValueStorageService();
 
   String? selectedCountry;
   String? selectedLanguage;
@@ -78,9 +78,12 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
 
   @action
   Future<void> setRoute() async {
-    if (selectedCountry == null || selectedLanguage == null) {
+    if (selectedCountry == null ||
+        selectedLanguage == null ||
+        selectedCountry!.isEmpty ||
+        selectedLanguage!.isEmpty) {
       navigation(const LanguageView());
-    } else if (selectedProfile == null) {
+    } else if (selectedProfile == null || selectedProfile!.isEmpty) {
       navigation(const ProfileSelectionView(continueRegistration: true));
     } else {
       navigation(const OnboardingView(continueRegistration: true));

@@ -23,7 +23,8 @@ class MobileView extends StatelessWidget {
       viewModel: MobileViewModel(),
       onModelReady: (MobileViewModel mobileViewModel) {
         mobileViewModel.setContext(context);
-        mobileViewModel.data = ModalRoute.of(context)!.settings.arguments! as Map;
+        mobileViewModel.data =
+            ModalRoute.of(context)!.settings.arguments! as Map;
         logs('argue--> ${mobileViewModel.data}');
         mobileViewModel.init();
       },
@@ -42,12 +43,14 @@ class MobileView extends StatelessWidget {
                   child: ListView(
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
                     children: [
-                      SizedBox(height: 35.px),
-                      const OnTapBack(),
+                      SizedBox(height: 10.px),
+                      const SafeArea(bottom: false, child: OnTapBack()),
                       SizedBox(height: 80.px),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: AppImageAsset(image: ImageConstants.primaryLogoBlue, height: 45.px),
+                        child: AppImageAsset(
+                            image: ImageConstants.primaryLogoBlue,
+                            height: 45.px),
                       ),
                       SizedBox(height: 28.px),
                       AppText(
@@ -71,9 +74,11 @@ class MobileView extends StatelessWidget {
                                     ),
                                     builder: (BuildContext context) {
                                       return StatefulBuilder(
-                                        builder: (BuildContext context, setState) {
+                                        builder:
+                                            (BuildContext context, setState) {
                                           return CountryCodeBottomsSheet(
-                                              setState: setState, mobileViewModel: mobileViewModel);
+                                              setState: setState,
+                                              mobileViewModel: mobileViewModel);
                                         },
                                       );
                                     },
@@ -85,7 +90,10 @@ class MobileView extends StatelessWidget {
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(700),
                                       child: AppImageAsset(
-                                        image: mobileViewModel.countries[mobileViewModel.countryIndex]?.flag_url ??
+                                        image: mobileViewModel
+                                                .countries[mobileViewModel
+                                                    .countryIndex]
+                                                ?.flag_url ??
                                             ImageConstants.globe,
                                         fit: BoxFit.fill,
                                         height: 16.px,
@@ -94,7 +102,11 @@ class MobileView extends StatelessWidget {
                                     ),
                                     SizedBox(width: 6.px),
                                     AppText(
-                                      mobileViewModel.countries[mobileViewModel.countryIndex]?.idd_code ?? 'select',
+                                      mobileViewModel
+                                              .countries[
+                                                  mobileViewModel.countryIndex]
+                                              ?.idd_code ??
+                                          'select',
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14.px,
                                     )
@@ -113,8 +125,10 @@ class MobileView extends StatelessWidget {
                         },
                       ),
                       SizedBox(height: 20.px),
-                      if(mobileViewModel.responseError.isNotEmpty)
-                      WarningCardView(error: mobileViewModel.enterMobileModel.status!.message)
+                      if (mobileViewModel.responseError.isNotEmpty)
+                        WarningCardView(
+                            error: mobileViewModel
+                                .enterMobileModel.status!.message)
                     ],
                   ),
                 ),

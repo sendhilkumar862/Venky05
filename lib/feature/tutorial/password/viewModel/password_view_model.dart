@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../product/base/model/base_model.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
@@ -60,12 +61,8 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
   bool isPasswordVisible = false;
 
   @observable
-  PasswordModel passwordModel = const PasswordModel();
-
-  @observable
   String errors = '';
   bool isRetypePasswordVisible = false;
-
 
   @observable
   TextEditingController passwordController = TextEditingController();
@@ -91,49 +88,59 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
     }
   }
 
-  @action
   Future<bool> registerUser() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final Dio dio = Dio();
     try {
       final Map<String, dynamic> body = {
-        'userId': arguments['userId'],
+        'userId': arguments['userId'].toString(),
         'password': passwordController.text,
         'isTermsAccepted': isActive,
         'firstName': arguments['firstName'],
         'lastName': arguments['lastName'],
+        'hideUserName': arguments['hideUserName'],
       };
 
       logs('password set body--> $body');
       final Response response = await dio
           .post('http://167.99.93.83/api/v1/users/register', data: body);
-
-      logs(response.statusCode.toString());
+      //logs(response.statusCode.toString());
       if (response.statusCode == 200) {
-        passwordModel = PasswordModel.fromJson(response.data);
-        logs('token--> ${passwordModel.data?.item.token.accessToken}');
+        final BaseResponse<PasswordModel> baseResponse =
+            BaseResponse<PasswordModel>.fromJson(
+                response.data as Map<String, dynamic>, PasswordModel.fromJson);
+        logs('token--> ${baseResponse.data.item?.token.accessToken}');
         final KeyValueStorageService keyValueStorageService =
             KeyValueStorageService();
         keyValueStorageService.setAuthToken(
-            passwordModel.data?.item.token.accessToken.toString() ?? '');
-        await Future.delayed(const Duration(seconds: 1));
+            baseResponse.data.item?.token.accessToken.toString() ?? '');
         EasyLoading.dismiss();
         return true;
       } else {
         EasyLoading.dismiss();
-        passwordModel = PasswordModel.fromJson(response.data);
-        errors = passwordModel.status!.message;
+        // passwordModel = PasswordModel.fromJson(response.data);
+        final BaseResponse<PasswordModel> baseResponse =
+            BaseResponse<PasswordModel>.fromJson(
+                response.data as Map<String, dynamic>, PasswordModel.fromJson);
+        errors = baseResponse.status.message;
         logs('Failed to load data: ${response.statusCode}');
         return false;
       }
     } on DioException catch (error) {
       {
-        passwordModel = PasswordModel.fromJson(error.response!.data);
-        errors = passwordModel.status!.message;
+        // passwordModel = PasswordModel.fromJson(error.response!.data);
+        final BaseResponse<PasswordModel> baseResponse =
+            BaseResponse<PasswordModel>.fromJson(
+                error.response!.data as Map<String, dynamic>,
+                PasswordModel.fromJson);
+        errors = baseResponse.status.message;
         EasyLoading.dismiss();
         logs('Error: $error');
         return false;
       }
+    } catch (e) {
+      EasyLoading.dismiss();
+      return false;
     }
   }
 
@@ -173,15 +180,6 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
         isActive && isPassWordCriteria.every((bool element) => element);
     logs('isPassWordCriteria--> $isPassWordCriteria');
     setState(() {});
-  }
-
-  @action
-  Future<bool> onTapSubmitPassword() async {
-    if (isButtonActive) {
-      return registerUser();
-    } else {
-      return false;
-    }
   }
 
   @action

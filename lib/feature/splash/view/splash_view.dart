@@ -21,6 +21,7 @@ class SplashView extends StatelessWidget {
         viewModel: SplashViewModel(),
         onModelReady: (SplashViewModel splashViewModel) {
           splashViewModel.setContext(context);
+
           splashViewModel.init();
         },
         onPageBuilder: (BuildContext context, SplashViewModel homeViewsModel) {
