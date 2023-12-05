@@ -9,7 +9,6 @@ import '../../../../config/routes/routes.dart';
 import '../../../../custom/countdown_timer/timer_count_down.dart';
 import '../../../../custom/loader/easy_loader.dart';
 import '../../../../product/base/model/base_view_model.dart';
-
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
@@ -29,7 +28,9 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
   @override
   void init() {
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-    currentProfile = keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ?? '';
+    currentProfile =
+        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
+            '';
     timerController.start();
     isTimerRunning = true;
     logs('current profile --> $currentProfile');
@@ -95,9 +96,9 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
         if (otpModel.status!.type == 'success') {
           timerController.pause();
           if (currentProfile == 'Tutor') {
-            AppRouter.pushNamed(Routes.mobileView, args: arguments);
+            AppRouter.popAndPushNamed(Routes.mobileView, args: arguments);
           } else {
-            AppRouter.pushNamed(Routes.userInfoView, args: arguments);
+            AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
           }
         }
         enteredOTP = '';
