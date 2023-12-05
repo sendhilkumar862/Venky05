@@ -191,7 +191,8 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
       logs('status Code --> ${response.statusCode}');
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
-
+        timerController.restart();
+        isTimerRunning = true;
         otpId = response.data['data']['item']['otp_id'].toString();
         logs('otp ID--> $otpId');
         AppUtils.showFlushBar(
@@ -215,8 +216,6 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
 
   @action
   void reSendOtp() {
-    timerController.restart();
-    isTimerRunning = true;
     reSendOTP(arguments['userId'].toString());
   }
 

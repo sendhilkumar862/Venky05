@@ -35,7 +35,7 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
     await KeyValueStorageBase.init();
 
     final String token = await keyValueStorageService.getAuthToken();
-    if (token.isNotEmpty) {
+    if (!token.isNotEmpty) {
       logs('Token--> $token');
       Future.delayed(const Duration(milliseconds: 5000), () {
         selectedProfile = keyValueStorageBase.getCommon(
@@ -58,9 +58,7 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
 
   @action
   Future<void> checkTheStatus() async {
-    final KeyValueStorageService keyValueStorageService =
-        KeyValueStorageService();
-    final String token = keyValueStorageService.getAuthToken().toString();
+
     await KeyValueStorageBase.init();
     selectedCountry =
         keyValueStorageBase.getCommon(String, KeyValueStorageService.country);
