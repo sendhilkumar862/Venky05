@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -108,13 +109,14 @@ class MobileView extends StatelessWidget {
                         hintText: 'enterMobileAgain'.tr(),
                         validate: mobileViewModel.mobileValid,
                         errorText: mobileViewModel.mobileErrorText,
+                        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                         onChanged: (String value) {
                           mobileViewModel.validateMobile(value);
                         },
                       ),
                       SizedBox(height: 20.px),
-                      if(mobileViewModel.responseError.isNotEmpty)
-                      WarningCardView(error: mobileViewModel.enterMobileModel.status!.message)
+                      if (mobileViewModel.responseError.isNotEmpty)
+                        WarningCardView(error: mobileViewModel.enterMobileModel.status!.message)
                     ],
                   ),
                 ),

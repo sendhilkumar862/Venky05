@@ -6,8 +6,8 @@ part 'verification_model.g.dart';
 @freezed
 class VerificationModel with _$VerificationModel {
   const factory VerificationModel({
-    required Data data,
-    required Status status,
+     Data? data,
+     Status? status,
   }) = _VerificationModel;
 
   factory VerificationModel.fromJson(Map<String, dynamic> json) =>
@@ -17,7 +17,7 @@ class VerificationModel with _$VerificationModel {
 @freezed
 class Data with _$Data {
   const factory Data({
-    required Item item,
+     Item? item,
   }) = _Data;
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
@@ -26,7 +26,7 @@ class Data with _$Data {
 @freezed
 class Item with _$Item {
   const factory Item({
-    required int otpId,
+     int? otpId,
   }) = _Item;
 
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
@@ -35,8 +35,8 @@ class Item with _$Item {
 @freezed
 class Status with _$Status {
   const factory Status({
-    required String type,
-    required String message,
+     String? type,
+     String? message,
   }) = _Status;
 
   factory Status.fromJson(Map<String, dynamic> json) => _$StatusFromJson(json);

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../product/base/model/base_model.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
@@ -111,25 +112,29 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
       logs(response.statusCode.toString());
       if (response.statusCode == 200) {
         passwordModel = PasswordModel.fromJson(response.data);
-        logs('token--> ${passwordModel.data?.item.token.accessToken}');
+        final BaseResponse<PasswordModel> baseResponse =
+        BaseResponse<PasswordModel>.fromJson(response.data as Map<String, dynamic>, PasswordModel.fromJson);
+       logs('baseResponse---> ${baseResponse}');
+
+       // logs('token--> ${passwordModel.data?.item.token.accessToken}');
         final KeyValueStorageService keyValueStorageService =
             KeyValueStorageService();
-        keyValueStorageService.setAuthToken(
-            passwordModel.data?.item.token.accessToken.toString() ?? '');
+        // keyValueStorageService.setAuthToken(
+        //     passwordModel.data?.item.token.accessToken.toString() ?? '');
         await Future.delayed(const Duration(seconds: 1));
         EasyLoading.dismiss();
         return true;
       } else {
         EasyLoading.dismiss();
         passwordModel = PasswordModel.fromJson(response.data);
-        errors = passwordModel.status!.message;
+        // errors = passwordModel.status!.message;
         logs('Failed to load data: ${response.statusCode}');
         return false;
       }
     } on DioException catch (error) {
       {
         passwordModel = PasswordModel.fromJson(error.response!.data);
-        errors = passwordModel.status!.message;
+        // errors = passwordModel.status!.message;
         EasyLoading.dismiss();
         logs('Error: $error');
         return false;

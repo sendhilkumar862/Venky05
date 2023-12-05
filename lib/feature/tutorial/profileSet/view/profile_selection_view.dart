@@ -36,7 +36,6 @@ class ProfileSelectionView extends StatelessWidget {
               appBar: AppBarOnBoard(
                 backNavigate: !(continueRegistration ?? false),
                 onTap: () {
-                  logs('sa');
                   showModalBottomSheet(
                     context: context,
                     constraints: const BoxConstraints(),

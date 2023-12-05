@@ -6,6 +6,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
+import '../../../../custom/loader/easy_loader.dart';
 import '../../../../product/base/model/base_model.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
@@ -56,20 +57,20 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
       );
 
       if (response.statusCode == 200) {
-         final BaseResponse<EmailEnterModel> baseResponse =
+        final BaseResponse<EmailEnterModel> baseResponse =
             BaseResponse<EmailEnterModel>.fromJson(response.data, EmailEnterModel.fromJson);
-          if (baseResponse.status.type == 'success') {
-            EasyLoading.dismiss();
-            logs('registered ${baseResponse.status.type}');
-            arguments['userId'] = baseResponse.data.item!.userId;
-            final Object status = baseResponse.data.item!.status!;
+        if (baseResponse.status.type == 'success') {
+          EasyLoading.dismiss();
+          logs('registered ${baseResponse.status.type}');
+          arguments['userId'] = baseResponse.data.item!.userId;
+          final Object status = baseResponse.data.item!.status!;
           if (status == RegistrationStatus.MOBILE.value) {
             AppRouter.pushNamed(Routes.mobileView, args: arguments);
           } else if (status == RegistrationStatus.EMAIL.value) {
             sendOTP(baseResponse.data.item!.userId.toString());
           } else if (status == RegistrationStatus.PROFILE_INCOMPLETE.value) {
-              // redirect to last step of registration....
-              AppRouter.pushNamed(Routes.userInfoView, args: arguments);
+            // redirect to last step of registration....
+            AppRouter.pushNamed(Routes.userInfoView, args: arguments);
           } else if (status == RegistrationStatus.PROFILE_PENDING.value) {
             registerWarning = true;
             registerWarningMessage = 'Account is Pending for Verfication';
@@ -80,7 +81,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
             registerWarning = true;
             registerWarningMessage = 'Verification Failed Account is Rejected';
           } else if (status == RegistrationStatus.PROFILE_ACTIVE.value) {
-           registerWarning = true;
+            registerWarning = true;
             registerWarningMessage = 'Email Already in use';
           } else {
             registerWarning = true;
@@ -103,6 +104,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
 
   @action
   Future<void> sendOTP(String id) async {
+    showLoading();
     logs('Send OTP Entered');
     final Dio dio = Dio();
     try {
@@ -121,6 +123,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
         registerWarning = response!.data['status']['type'] == 'error';
         arguments['otp_id'] = response.data['data']['item']['otp_id'];
         arguments['isScreen'] = true;
+
 
         AppRouter.pushNamed(Routes.verifyOtpView, args: arguments);
         AppUtils.showFlushBar(
@@ -143,7 +146,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
   }
 
   @observable
-  TextEditingController emailController = TextEditingController();
+  TextEditingController emailController = TextEditingController(text: '@yopmail.com');
 
   @observable
   String emailErrorText = '';

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../product/constants/colors/app_colors_constants.dart';
@@ -8,24 +9,8 @@ import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
 
 class TextFormsField extends StatelessWidget {
-  final TextEditingController controller;
-  final String hintText;
-  final String errorText;
-  final String? title;
-  final String? isValid;
-  final int? validate;
-  final int? maxLines;
-  final bool obscureText;
-  final Widget? suffixIcon;
-  final Widget? prefix;
-  final TextInputType? keyboardType;
-  final ValueChanged<String>? onSaved;
 
-  final GestureTapCallback? onSuffixTap;
-  final GestureTapCallback? onPrefixTap;
-  final ValueChanged<String>? onChanged;
-
-  const TextFormsField({
+   TextFormsField({
     super.key,
     required this.controller,
     required this.hintText,
@@ -41,8 +26,26 @@ class TextFormsField extends StatelessWidget {
     this.keyboardType,
     this.title,
     this.onSaved,
+    this.inputFormatters,
     this.maxLines = 1,
   });
+  final TextEditingController controller;
+  final String hintText;
+  final String errorText;
+  final String? title;
+  final String? isValid;
+  final int? validate;
+  final int? maxLines;
+  final bool obscureText;
+  final Widget? suffixIcon;
+  final Widget? prefix;
+  final TextInputType? keyboardType;
+  List<TextInputFormatter>? inputFormatters;
+  final ValueChanged<String>? onSaved;
+
+  final GestureTapCallback? onSuffixTap;
+  final GestureTapCallback? onPrefixTap;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +84,7 @@ class TextFormsField extends StatelessWidget {
                   keyboardType: keyboardType ?? TextInputType.text,
                   controller: controller,
                   obscureText: obscureText,
-                  onChanged: onChanged,
+                  onChanged: onChanged,inputFormatters: inputFormatters,
                   style: const TextStyle(
                       color: AppColors.appDarkBlack,
                       fontFamily: TextFontFamily.openSans,
