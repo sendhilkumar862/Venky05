@@ -10,7 +10,6 @@ import '../../../custom/text/app_text.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/network/local/key_value_storage_base.dart';
-import '../../../product/network/local/key_value_storage_service.dart';
 import '../viewsModel/home_views_model.dart';
 
 class HomeViews extends StatefulWidget {
@@ -22,13 +21,10 @@ class HomeViews extends StatefulWidget {
 
 class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-  String selectedProfile = '';
 
   @override
   void initState() {
     super.initState();
-    selectedProfile =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
   }
 
   @override

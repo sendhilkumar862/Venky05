@@ -13,7 +13,6 @@ import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 
-
 part 'mobile_otp_view_model.g.dart';
 
 class MobileOtpViewModel = _MobileOtpViewModelBase with _$MobileOtpViewModel;
@@ -29,7 +28,8 @@ abstract class _MobileOtpViewModelBase extends BaseViewModel with Store {
   void init() {
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
     currentProfile =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
+        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
+            '';
     logs('current profile --> $currentProfile');
     controller.start();
   }

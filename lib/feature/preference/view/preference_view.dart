@@ -506,7 +506,8 @@ class _PreferenceViewState extends State<PreferenceView>
                           preferenceViewModel.setUserPreference().then((value) {
                             Navigator.of(context).pop();
                             selectedProfile = keyValueStorageBase.getCommon(
-                                String, KeyValueStorageService.profile);
+                                    String, KeyValueStorageService.profile) ??
+                                '';
                             if (selectedProfile ==
                                 ApplicationConstants.student) {
                               AppRouter.pushNamed(Routes.HomeScreenRoute);

@@ -27,7 +27,7 @@ class _HomeViewState extends State<HomeView> {
   final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
   final KeyValueStorageService keyValueStorageService =
       KeyValueStorageService();
-  String? selectedProfile;
+  String? selectedProfile = '';
   bool getPreference = true;
 
   @override
@@ -40,8 +40,9 @@ class _HomeViewState extends State<HomeView> {
     final String token = await keyValueStorageService.getAuthToken();
     if (token.isNotEmpty) {
       logs('Token--> $token');
-      selectedProfile =
-          keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
+      selectedProfile = keyValueStorageBase.getCommon(
+              String, KeyValueStorageService.profile) ??
+          '';
       getPreference = keyValueStorageBase.getCommon(
               bool, KeyValueStorageService.setPreference) ??
           false;
