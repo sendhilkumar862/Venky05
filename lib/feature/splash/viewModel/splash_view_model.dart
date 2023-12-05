@@ -32,7 +32,7 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
     await KeyValueStorageBase.init();
 
     final String token = await keyValueStorageService.getAuthToken();
-    if (!token.isNotEmpty) {
+    if (token.isNotEmpty) {
       logs('Token--> $token');
       Future.delayed(const Duration(milliseconds: 5000), () {
         return AppRouter.pushNamed(Routes.HomeScreenRoute);
@@ -44,7 +44,6 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
 
   @action
   Future<void> checkTheStatus() async {
-
     await KeyValueStorageBase.init();
     selectedCountry =
         keyValueStorageBase.getCommon(String, KeyValueStorageService.country);

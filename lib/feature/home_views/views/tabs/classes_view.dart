@@ -28,7 +28,8 @@ class _ClassesViewState extends State<ClassesView> {
   void initState() {
     super.initState();
     selectedProfile =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
+        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
+            '';
   }
 
   @override
