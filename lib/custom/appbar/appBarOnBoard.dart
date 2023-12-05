@@ -13,6 +13,7 @@ class AppBarOnBoard extends PreferredSize {
     this.title,
     this.icon,
     this.onTap,
+    this.onBackTap,
     super.key,
     this.backNavigate,
   }) : super(
@@ -23,6 +24,7 @@ class AppBarOnBoard extends PreferredSize {
   String? title;
   String? icon;
   VoidCallback? onTap;
+  VoidCallback? onBackTap;
   bool? backNavigate;
 
   @override
@@ -32,7 +34,7 @@ class AppBarOnBoard extends PreferredSize {
       elevation: 0,
       leading: backNavigate ?? true
           ? GestureDetector(
-              onTap: () => Navigator.pop(context),
+              onTap: onBackTap,
               child: const Icon(
                 Icons.keyboard_backspace,
                 color: AppColors.appDarkBlack,

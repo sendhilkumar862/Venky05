@@ -27,8 +27,10 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     fetchData();
     KeyValueStorageBase.init();
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-    countryCode =
-        keyValueStorageBase.getCommon(List<String>, KeyValueStorageService.countryCodeAndIDD).toString().split(',');
+    countryCode = keyValueStorageBase
+        .getCommon(List<String>, KeyValueStorageService.countryCodeAndIDD)
+        .toString()
+        .split(',');
     logs('countryCode--> $countryCode');
   }
 
@@ -71,7 +73,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     logs('mobile--> $mobile');
     try {
       Map body = <String, dynamic>{
-        'userId': data['userId'],
+        'userId': data['userId'].toString(),
         'mobile': mobileController.text,
         'countryCode': selectedCountryCode.replaceAll('+', '')
       };
@@ -97,9 +99,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
           const Duration(milliseconds: 1000),
           () => AppRouter.pushNamed(Routes.verifyOtpView, args: arguments),
         );
-      }
-      else
-      {
+      } else {
         EasyLoading.dismiss();
         logs('error not response');
       }
@@ -153,15 +153,21 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     logs('entered Fetch country data');
     Dio dio = Dio();
     try {
-      Response response = await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
+      Response response =
+          await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
       logs('Status code--> ${response.statusCode}');
 
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
         final List<dynamic> countriesJson = response.data['data']['items'];
-        countries = countriesJson.map((json) => CountryCodeModel.fromJson(json)).toList();
-        tempList = countriesJson.map((json) => CountryCodeModel.fromJson(json)).toList();
-        selectedCountry = countries.firstWhere((CountryCodeModel element) => element.idd_code == '+965');
+        countries = countriesJson
+            .map((json) => CountryCodeModel.fromJson(json))
+            .toList();
+        tempList = countriesJson
+            .map((json) => CountryCodeModel.fromJson(json))
+            .toList();
+        selectedCountry = countries.firstWhere(
+            (CountryCodeModel element) => element.idd_code == '+965');
       }
     } catch (error) {
       EasyLoading.dismiss();
@@ -197,7 +203,8 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     countries = countries
         .where((CountryCodeModel country) =>
             country.name?.toLowerCase().contains(query.toLowerCase()) ??
-            false || country.flag_url!.toLowerCase().contains(query.toLowerCase()))
+            false ||
+                country.flag_url!.toLowerCase().contains(query.toLowerCase()))
         .toList();
     if (countryController.text.isEmpty) {
       countries = tempList;

@@ -105,14 +105,18 @@ class PasswordView extends StatelessWidget {
                                 controller:
                                     passwordViewModel.retypePasswordController,
                                 hintText: 'enterYourPasswordAgain'.tr(),
-                                obscureText: !passwordViewModel.isRetypePasswordVisible,
+                                obscureText:
+                                    !passwordViewModel.isRetypePasswordVisible,
                                 suffixIcon: InkWell(
                                   onTap: () {
-                                    passwordViewModel.isRetypePasswordVisible = !passwordViewModel.isRetypePasswordVisible;
+                                    passwordViewModel.isRetypePasswordVisible =
+                                        !passwordViewModel
+                                            .isRetypePasswordVisible;
                                     setState(() {});
                                   },
                                   child: AppImageAsset(
-                                    image: (passwordViewModel.isRetypePasswordVisible)
+                                    image: (passwordViewModel
+                                            .isRetypePasswordVisible)
                                         ? ImageConstants.eyeCross
                                         : ImageConstants.eye,
                                     height: 22.px,
@@ -214,7 +218,7 @@ class PasswordView extends StatelessWidget {
                     onTap: passwordViewModel.isButtonActive
                         ? () async {
                             final bool success =
-                                await passwordViewModel.onTapSubmitPassword();
+                                await passwordViewModel.registerUser();
                             if (success) {
                               selectedProfile = keyValueStorageBase.getCommon(
                                   String, KeyValueStorageService.profile);
