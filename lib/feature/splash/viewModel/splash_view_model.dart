@@ -61,10 +61,6 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
     final KeyValueStorageService keyValueStorageService =
         KeyValueStorageService();
     final String token = keyValueStorageService.getAuthToken().toString();
-    // if (token != null) {
-    //   logs('Token--> $token');
-    //   AppRouter.pushNamed(Routes.HomeScreenRoute);
-    // }
     await KeyValueStorageBase.init();
     selectedCountry =
         keyValueStorageBase.getCommon(String, KeyValueStorageService.country);

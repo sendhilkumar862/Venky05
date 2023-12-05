@@ -7,7 +7,7 @@ import 'package:mobx/mobx.dart';
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../custom/countdown_timer/timer_count_down.dart';
-import '../../../../product/base/model/base_model.dart';
+import '../../../../custom/loader/easy_loader.dart';
 import '../../../../product/base/model/base_view_model.dart';
 
 import '../../../../product/constants/app/app_utils.dart';
@@ -21,7 +21,7 @@ class VerifyOtpViewModel = _VerifyOtpViewModelBase with _$VerifyOtpViewModel;
 
 abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
   @observable
-  CountdownController controller = CountdownController(autoStart: true);
+  CountdownController timerController = CountdownController(autoStart: true);
 
   @override
   void setContext(BuildContext context) => viewModelContext = context;
@@ -29,9 +29,10 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
   @override
   void init() {
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-    currentProfile = keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
+    currentProfile = keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ?? '';
+    timerController.start();
+    isTimerRunning = true;
     logs('current profile --> $currentProfile');
-    controller.start();
   }
 
   @observable
@@ -47,10 +48,16 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
   String enteredOTP = '';
 
   @observable
+  bool isTimerRunning = false;
+
+  @observable
   bool isMobileNumber = false;
 
   @observable
   Map<String, dynamic> arguments = <String, dynamic>{'userId': ''};
+
+  @observable
+  String otpId = '';
 
   @action
   bool onChange(String value) {
@@ -65,37 +72,34 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
 
   @action
   Future<void> verifyOtp() async {
+    logs('Mail OTP verification');
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-
     Dio dio = Dio();
     try {
       final Map<String, dynamic> body = <String, dynamic>{
         'userId': "${arguments['userId']}",
-        'otpId': "${arguments['otp_id']}",
+        'otpId': otpId,
         'otp': enteredOTP
       };
 
-      logs('body -->$body');
+      logs('body :-->$body');
       final Response response = await dio.post(
         'http://167.99.93.83/api/v1/users/email/verify-otp',
         data: body,
       );
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
-        logs(response.data.toString());
         otpModel = OtpModel.fromJson(response.data);
-        // final BaseResponse<OtpModel> baseResponse =
-        // BaseResponse<OtpModel>.fromJson(response.data as Map<String, dynamic>, OtpModel.fromJson);
+
         isCorrect = otpModel.status!.type == 'success';
-        // final Map<String, dynamic> arguments = <String, dynamic>{'userId': "${arguments['id']}"};
         if (otpModel.status!.type == 'success') {
+          timerController.pause();
           if (currentProfile == 'Tutor') {
             AppRouter.pushNamed(Routes.mobileView, args: arguments);
           } else {
             AppRouter.pushNamed(Routes.userInfoView, args: arguments);
           }
         }
-        logs('isCorrect--> $isCorrect');
         enteredOTP = '';
       } else {
         EasyLoading.dismiss();
@@ -107,6 +111,8 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
         context: AppRouter.navigatorKey.currentContext!,
         message: error.response?.data['status']['message'] ?? 'Error occured',
       );
+      // isCorrect = false;
+
       logs('Error: $error');
     } catch (error) {
       EasyLoading.dismiss();
@@ -122,7 +128,7 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
     try {
       final Map<String, dynamic> body = <String, dynamic>{
         'userId': "${arguments['userId']}",
-        'otpId': "${arguments['otp_id']}",
+        'otpId': otpId,
         'otp': enteredOTP
       };
 
@@ -134,7 +140,6 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
 
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
-        logs(response.data.toString());
 
         otpModel = OtpModel.fromJson(response.data);
 
@@ -145,6 +150,7 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
         isCorrect = otpModel.status!.type == 'success';
 
         if (otpModel.status!.type == 'success') {
+          timerController.pause();
           AppRouter.pushNamed(Routes.userInfoView, args: arguments);
         }
 
@@ -160,6 +166,7 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
         context: AppRouter.navigatorKey.currentContext!,
         message: error.response?.data['status']['message'] ?? 'Error occured',
       );
+      //isCorrect = false;
       logs('Error: $error');
     } catch (error) {
       EasyLoading.dismiss();
@@ -167,12 +174,57 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
     }
   }
 
+  @action
+  Future<void> reSendOTP(String id) async {
+    showLoading();
+    logs('Send OTP Entered');
+    final Dio dio = Dio();
+    try {
+      final Map body = <String, dynamic>{
+        'userId': id,
+      };
+      logs('body--> $body');
+      final Response response = await dio.post(
+        'http://167.99.93.83/api/v1/users/email/send-otp',
+        data: body,
+      );
+      logs('status Code --> ${response.statusCode}');
+      if (response.statusCode == 200) {
+        EasyLoading.dismiss();
+
+        otpId = response.data['data']['item']['otp_id'].toString();
+        logs('otp ID--> $otpId');
+        AppUtils.showFlushBar(
+          icon: Icons.check_circle_outline_rounded,
+          iconColor: Colors.green,
+          context: AppRouter.navigatorKey.currentContext!,
+          message: response.data['status']['message'] ?? 'Error occured',
+        );
+      } else {
+        EasyLoading.dismiss();
+        logs('error not response');
+      }
+    } on DioException catch (error) {
+      EasyLoading.dismiss();
+      //registerWarning = error.response!.data['status']['type'] == 'error';
+      //registerWarningMessage = error.response!.data['status']['message'];
+      logs('error message--> ${error.response!.data['status']['message']}');
+      logs('SendOtp error');
+    }
+  }
+
+  @action
+  void reSendOtp() {
+    timerController.restart();
+    isTimerRunning = true;
+    reSendOTP(arguments['userId'].toString());
+  }
+
   @observable
   OtpModel otpModel = const OtpModel();
 
   @action
   void onTapSubmit() {
-    controller.pause();
     if (arguments['isScreen']) {
       verifyOtp();
     } else {

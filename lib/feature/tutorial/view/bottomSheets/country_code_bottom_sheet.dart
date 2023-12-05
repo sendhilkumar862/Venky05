@@ -114,10 +114,12 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                           SizedBox(width: 6.px),
-                          AppText(
-                            mobileViewModel!.countries[index].name??'',
-                            fontWeight: FontWeight.w400,
-                            overflow: TextOverflow.ellipsis,
+                          Expanded(
+                            child: AppText(
+                              mobileViewModel!.countries[index].name??'',
+                              fontWeight: FontWeight.w400,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),

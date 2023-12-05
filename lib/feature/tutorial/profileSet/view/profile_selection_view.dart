@@ -32,6 +32,7 @@ class ProfileSelectionView extends StatelessWidget {
         onPageBuilder:
             (BuildContext context, ProfileViewModel profileViewModel) {
           return Observer(builder: (BuildContext context) {
+
             return WillPopScope(
               onWillPop: () async {
                 final KeyValueStorageBase keyValueStorageBase =

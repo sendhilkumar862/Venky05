@@ -27,11 +27,10 @@ class VerifyOtpView extends StatelessWidget {
           VerifyOtpViewModel.setContext(context);
           VerifyOtpViewModel.init();
           VerifyOtpViewModel.arguments = ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
-          logs('arguments --> ${VerifyOtpViewModel.arguments}');
+          VerifyOtpViewModel.otpId = VerifyOtpViewModel.arguments['otp_id'].toString();
         },
         onPageBuilder: (BuildContext context, VerifyOtpViewModel verifyOtpViewModel) {
           return Observer(builder: (BuildContext context) {
-            logs('verifyOtpViewModel.isMobileNumber-->${verifyOtpViewModel.isMobileNumber}');
             return Scaffold(
               body: PreLoginCustomBody(
                 widget: Expanded(
@@ -47,7 +46,7 @@ class VerifyOtpView extends StatelessWidget {
                         child: AppText(
                           textAlign: TextAlign.start,
                           (verifyOtpViewModel.arguments['isScreen'])
-                          ? 'verifyEmailAddress'.tr()
+                              ? 'verifyEmailAddress'.tr()
                               : 'verifyMobileNumber'.tr(),
                           fontSize: 24.px,
                           fontWeight: FontWeight.w700,
@@ -101,7 +100,7 @@ class VerifyOtpView extends StatelessWidget {
                       ),
                       SizedBox(height: 12.px),
                       Countdown(
-                        controller: verifyOtpViewModel.controller,
+                        controller: verifyOtpViewModel.timerController,
                         seconds: 180,
                         build: (_, double time) => AppText(
                           AppUtils.formatTimer(time.toInt()),
@@ -110,31 +109,39 @@ class VerifyOtpView extends StatelessWidget {
                           fontSize: 24.px,
                           textAlign: TextAlign.center,
                         ),
-                        interval: const Duration(seconds: 1),
                         onFinished: () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Timer is done!'),
                             ),
                           );
+                          verifyOtpViewModel.isTimerRunning = false;
                         },
                       ),
                       SizedBox(height: 12.px),
                       GestureDetector(
-                        onTap: () => CountdownController(),
+                        onTap: (!verifyOtpViewModel.isTimerRunning)
+                            ? () {
+                                verifyOtpViewModel.reSendOtp();
+                              }
+                            : () {},
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             AppImageAsset(
-                              image: ImageConstants.arrowRotate,
-                              height: 20.px,
-                            ),
+                                image: ImageConstants.arrowRotate,
+                                height: 20.px,
+                                color: (verifyOtpViewModel.isTimerRunning)
+                                    ? AppColors.appBlue.withOpacity(0.3)
+                                    : AppColors.appBlue),
                             SizedBox(width: 5.px),
                             AppText(
                               'sendAgain'.tr(),
                               fontSize: 13.px,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.appBlue,
+                              color: (verifyOtpViewModel.isTimerRunning)
+                                  ? AppColors.appBlue.withOpacity(0.3)
+                                  : AppColors.appBlue,
                             )
                           ],
                         ),

@@ -108,10 +108,12 @@ class CountryBottomsSheet extends StatelessWidget {
                             SizedBox(
                               width: 10.px,
                             ),
-                            AppText(
-                              languageViewModel!.countries[index].name!,
-                              fontWeight: FontWeight.w400,
-                              overflow: TextOverflow.ellipsis,
+                            Expanded(
+                              child: AppText(
+                                languageViewModel!.countries[index].name!,
+                                fontWeight: FontWeight.w400,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                             Spacer(),
                             AppImageAsset(
