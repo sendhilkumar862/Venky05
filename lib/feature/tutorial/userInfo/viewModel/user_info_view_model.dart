@@ -6,6 +6,8 @@ import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
+import '../../../../product/network/local/key_value_storage_base.dart';
+import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 
 part 'user_info_view_model.g.dart';
@@ -17,10 +19,18 @@ abstract class _UserInfoViewModelBase extends BaseViewModel with Store {
   void setContext(BuildContext context) => viewModelContext = context;
 
   @override
-  void init() {}
+  void init() {
+    KeyValueStorageBase.init();
+    final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+     currentProfile = keyValueStorageBase.getCommon(String,KeyValueStorageService.profile) ?? '';
+
+  }
 
   @observable
   Map data = <String, dynamic>{};
+
+  @observable
+  String currentProfile = '';
 
   @observable
   TextEditingController firstNameController = TextEditingController();

@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/switch/app_switch.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/base/view/base_view.dart';
+import '../../../../product/utils/validators.dart';
 import '../viewModel/user_info_view_model.dart';
 
 class UserInfoView extends StatelessWidget {
@@ -19,6 +22,7 @@ class UserInfoView extends StatelessWidget {
         viewModel: UserInfoViewModel(),
         onModelReady: (UserInfoViewModel userInfoViewModel) {
           userInfoViewModel.setContext(context);
+          userInfoViewModel.init();
           userInfoViewModel.data = ModalRoute.of(context)!.settings.arguments! as Map;
         },
         onPageBuilder: (BuildContext context, UserInfoViewModel userInfoViewModel) {
@@ -31,7 +35,19 @@ class UserInfoView extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
                     children: <Widget>[
                       SizedBox(height: 10.px),
-                       SafeArea(bottom: false, child: OnTapBack()),
+                      SafeArea(
+                          bottom: false,
+                          child: OnTapBack(
+                              onTapBack: (userInfoViewModel.currentProfile == 'Tutor')
+                                  ? () {
+                                      int count = 0;
+                                      Navigator.popUntil(context, (route) {
+                                        return count++ == 2;
+                                      });
+                                    }
+                                  : () {
+                                      AppRouter.pop();
+                                    })),
                       SizedBox(height: 80.px),
                       Align(
                         alignment: Alignment.centerLeft,
@@ -67,7 +83,7 @@ class UserInfoView extends StatelessWidget {
                         },
                       ),
                       SizedBox(height: 20.px),
-                      Row(
+                      if(userInfoViewModel.currentProfile=='Tutor')Row(
                         children: <Widget>[
                           AppText(
                             'makeItVisible'.tr(),

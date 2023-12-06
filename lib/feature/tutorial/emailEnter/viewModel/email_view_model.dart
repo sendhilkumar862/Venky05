@@ -123,7 +123,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
         registerWarning = response!.data['status']['type'] == 'error';
         arguments['otp_id'] = response.data['data']['item']['otp_id'];
         arguments['isScreen'] = true;
-
+        //   arguments['contact'] = emailController.text;
 
         AppRouter.pushNamed(Routes.verifyOtpView, args: arguments);
         AppUtils.showFlushBar(
@@ -146,7 +146,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
   }
 
   @observable
-  TextEditingController emailController = TextEditingController(text: '@yopmail.com');
+  TextEditingController emailController = TextEditingController();
 
   @observable
   String emailErrorText = '';

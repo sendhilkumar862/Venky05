@@ -51,8 +51,7 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
   // @observable
   // List<bool> isPassWordCriteria = List.filled(6, false);
   @observable
-  ObservableList<bool> isPassWordCriteria =
-      ObservableList<bool>.of(List.filled(6, false));
+  ObservableList<bool> isPassWordCriteria = ObservableList<bool>.of(List.filled(6, false));
 
   @observable
   bool isButtonActive = false;
@@ -74,8 +73,7 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
   Future<void> fetchData() async {
     Dio dio = Dio();
     try {
-      Response response = await dio.get(
-          'http://167.99.93.83/api/v1/content/role/common/type/Terms_Conditions');
+      Response response = await dio.get('http://167.99.93.83/api/v1/content/role/common/type/Terms_Conditions');
       logs('statusCode -- > ${response.statusCode}');
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
@@ -98,30 +96,24 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
         'isTermsAccepted': isActive,
         'firstName': arguments['firstName'],
         'lastName': arguments['lastName'],
-        'hideUserName': arguments['hideUserName'],
+        'hideUserName': arguments['hideUserName'] ?? false,
       };
 
       logs('password set body--> $body');
-      final Response response = await dio
-          .post('http://167.99.93.83/api/v1/users/register', data: body);
+      final Response response = await dio.post('http://167.99.93.83/api/v1/users/register', data: body);
       //logs(response.statusCode.toString());
       if (response.statusCode == 200) {
         final BaseResponse<PasswordModel> baseResponse =
-            BaseResponse<PasswordModel>.fromJson(
-                response.data as Map<String, dynamic>, PasswordModel.fromJson);
+            BaseResponse<PasswordModel>.fromJson(response.data as Map<String, dynamic>, PasswordModel.fromJson);
         logs('token--> ${baseResponse.data.item?.token.accessToken}');
-        final KeyValueStorageService keyValueStorageService =
-            KeyValueStorageService();
-        keyValueStorageService.setAuthToken(
-            baseResponse.data.item?.token.accessToken.toString() ?? '');
+        final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
+        keyValueStorageService.setAuthToken(baseResponse.data.item?.token.accessToken.toString() ?? '');
         EasyLoading.dismiss();
         return true;
       } else {
         EasyLoading.dismiss();
-        // passwordModel = PasswordModel.fromJson(response.data);
         final BaseResponse<PasswordModel> baseResponse =
-            BaseResponse<PasswordModel>.fromJson(
-                response.data as Map<String, dynamic>, PasswordModel.fromJson);
+            BaseResponse<PasswordModel>.fromJson(response.data as Map<String, dynamic>, PasswordModel.fromJson);
         errors = baseResponse.status.message;
         logs('Failed to load data: ${response.statusCode}');
         return false;
@@ -130,9 +122,7 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
       {
         // passwordModel = PasswordModel.fromJson(error.response!.data);
         final BaseResponse<PasswordModel> baseResponse =
-            BaseResponse<PasswordModel>.fromJson(
-                error.response!.data as Map<String, dynamic>,
-                PasswordModel.fromJson);
+            BaseResponse<PasswordModel>.fromJson(error.response!.data as Map<String, dynamic>, PasswordModel.fromJson);
         errors = baseResponse.status.message;
         EasyLoading.dismiss();
         logs('Error: $error');
@@ -148,11 +138,9 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
   void onTapTermAndCondition() {
     isActive = !isActive;
     isPassWordCriteria[5] =
-        retypePasswordController.text == passwordController.text &&
-            passwordController.text.isNotEmpty;
+        retypePasswordController.text == passwordController.text && passwordController.text.isNotEmpty;
 
-    isButtonActive =
-        isActive && isPassWordCriteria.every((bool element) => element);
+    isButtonActive = isActive && isPassWordCriteria.every((bool element) => element);
     logs('isTermActive--> $isActive');
     logs('isPassWordCriteria--> $isPassWordCriteria');
     logs('isButtonActive--> $isButtonActive');
@@ -165,19 +153,15 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
     isPassWordCriteria[2] = Regexes.validate(value, Regexes.specialCharRegExp);
     isPassWordCriteria[3] = Regexes.validate(value, Regexes.uppercaseRegExp);
     isPassWordCriteria[4] = Regexes.validate(value, Regexes.lowercaseRegExp);
-    isPassWordCriteria[5] =
-        value == retypePasswordController.text && value.isNotEmpty;
-    isButtonActive =
-        isActive && isPassWordCriteria.every((bool element) => element);
+    isPassWordCriteria[5] = value == retypePasswordController.text && value.isNotEmpty;
+    isButtonActive = isActive && isPassWordCriteria.every((bool element) => element);
     setState(() {});
   }
 
   @action
   void validateRetypePassword(String value, Function setState) {
-    isPassWordCriteria[5] =
-        value == passwordController.text && value.isNotEmpty;
-    isButtonActive =
-        isActive && isPassWordCriteria.every((bool element) => element);
+    isPassWordCriteria[5] = value == passwordController.text && value.isNotEmpty;
+    isButtonActive = isActive && isPassWordCriteria.every((bool element) => element);
     logs('isPassWordCriteria--> $isPassWordCriteria');
     setState(() {});
   }
