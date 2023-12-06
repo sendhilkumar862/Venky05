@@ -35,7 +35,7 @@ class ExistingUserView extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
                     children: <Widget>[
                       SizedBox(height: 35.px),
-                      const OnTapBack(),
+                       OnTapBack(),
                       SizedBox(height: 80.px),
                       SizedBox(height: 28.px),
                       AppText(

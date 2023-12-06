@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../product/base/view/base_view.dart';
 import '../../../custom/navgation/navbar.dart';
@@ -25,9 +28,8 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-  final KeyValueStorageService keyValueStorageService =
-      KeyValueStorageService();
-  String? selectedProfile = '';
+  final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
+  String selectedProfile = '';
   bool getPreference = true;
 
   @override
@@ -40,12 +42,8 @@ class _HomeViewState extends State<HomeView> {
     final String token = await keyValueStorageService.getAuthToken();
     if (token.isNotEmpty) {
       logs('Token--> $token');
-      selectedProfile = keyValueStorageBase.getCommon(
-              String, KeyValueStorageService.profile) ??
-          '';
-      getPreference = keyValueStorageBase.getCommon(
-              bool, KeyValueStorageService.setPreference) ??
-          false;
+      selectedProfile = keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ?? '';
+      getPreference = keyValueStorageBase.getCommon(bool, KeyValueStorageService.setPreference) ?? false;
       setState(() {});
     }
   }
@@ -57,59 +55,67 @@ class _HomeViewState extends State<HomeView> {
       onModelReady: (HomeViewModel model) {
         model.setContext(context);
       },
-      onPageBuilder: (BuildContext context, HomeViewModel value) => Scaffold(
-        body: Stack(
-          children: [
-            NavBar(
-              color: Colors.white,
-              showTitle: true,
-              borderRadius: MediaQueryExtension(context).dynamicHeight(20),
-              selectedIconColor: AppColors.appBlue,
-              unselectedIconColor: AppColors.appDarkBlack,
-              items: <NavBarItem>[
-                NavBarItem(
-                  iconData: ImageConstants.homeHomeIcon,
-                  title: 'Home',
-                  page: const HomeViews(),
-                ),
-                NavBarItem(
-                  iconData: ImageConstants.homeWalletIcon,
-                  title: 'Wallet',
-                  page: WalletView(),
-                ),
-                NavBarItem(
-                  iconData: ImageConstants.homeMessageIcon,
-                  title: 'Message',
-                  page: MessageView(),
-                )
-              ],
-              hapticFeedback: true,
-              horizontalPadding: 40,
-            ),
-            if (selectedProfile == ApplicationConstants.student &&
-                !getPreference)
-              Stack(
-                fit: StackFit.expand,
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height,
-                    color: Colors.grey.withOpacity(0.8),
+      onPageBuilder: (BuildContext context, HomeViewModel value) => WillPopScope(
+        onWillPop: () async {
+          if (Platform.isAndroid) {
+            SystemNavigator.pop();
+          } else if (Platform.isIOS) {
+            exit(0);
+          }
+          return false;
+        },
+        child: Scaffold(
+          body: Stack(
+            children: [
+              NavBar(
+                color: Colors.white,
+                showTitle: true,
+                borderRadius: MediaQueryExtension(context).dynamicHeight(20),
+                selectedIconColor: AppColors.appBlue,
+                unselectedIconColor: AppColors.appDarkBlack,
+                items: <NavBarItem>[
+                  NavBarItem(
+                    iconData: ImageConstants.homeHomeIcon,
+                    title: 'Home',
+                    page: const HomeViews(),
                   ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
-                      child: Container(
-                          height: MediaQuery.of(context).size.height * 0.95,
-                          child: const PreferenceView()),
-                    ),
+                  NavBarItem(
+                    iconData: ImageConstants.homeWalletIcon,
+                    title: 'Wallet',
+                    page: WalletView(),
                   ),
+                  NavBarItem(
+                    iconData: ImageConstants.homeMessageIcon,
+                    title: 'Message',
+                    page: MessageView(),
+                  )
                 ],
-              )
-          ],
+                hapticFeedback: true,
+                horizontalPadding: 40,
+              ),
+              if (selectedProfile == ApplicationConstants.student && !getPreference)
+                Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height,
+                      color: Colors.grey.withOpacity(0.8),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        ),
+                        child:
+                            Container(height: MediaQuery.of(context).size.height * 0.95, child: const PreferenceView()),
+                      ),
+                    ),
+                  ],
+                )
+            ],
+          ),
         ),
       ),
     );

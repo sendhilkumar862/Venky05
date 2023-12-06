@@ -33,16 +33,19 @@ class PreLoginCustomBody extends StatelessWidget {
 }
 
 class OnTapBack extends StatelessWidget {
-  const OnTapBack({
+   OnTapBack({
     super.key,
+    this.onTapBack
   });
+
+  VoidCallback? onTapBack;
 
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerLeft,
       child: InkWell(
-        onTap: () {
+        onTap:onTapBack?? () {
           FocusManager.instance.primaryFocus?.unfocus();
           Navigator.pop(context);
           logs('back tapped >>>');

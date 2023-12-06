@@ -27,6 +27,9 @@ class ImageConstants {
   static const String splash =
       '${ApplicationConstants.animationPath}Hassa.json';
 
+  static const String loader =
+      '${ApplicationConstants.animationPath}loader.json';
+
   //     ======================= Images =======================     //
 
   static const String appBarBG =

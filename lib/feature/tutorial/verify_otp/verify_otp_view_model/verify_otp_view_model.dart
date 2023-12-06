@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:hessah/feature/tutorial/verify_otp/model/otp_model.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -13,6 +12,7 @@ import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
+import '../model/otp_model.dart';
 
 part 'verify_otp_view_model.g.dart';
 
@@ -28,9 +28,7 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
   @override
   void init() {
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-    currentProfile =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
-            '';
+    currentProfile = keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ?? '';
     timerController.start();
     isTimerRunning = true;
     logs('current profile --> $currentProfile');
@@ -144,7 +142,6 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
 
         otpModel = OtpModel.fromJson(response.data);
 
-        // Now you can access the parsed data using the otpModel object
         logs('Parsed ID: ${otpModel.data!.item!.id}');
         logs('Status Type: ${otpModel.status!.type}');
         logs('Status Message: ${otpModel.status!.message}');
@@ -152,7 +149,7 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
 
         if (otpModel.status!.type == 'success') {
           timerController.pause();
-          AppRouter.pushNamed(Routes.userInfoView, args: arguments);
+          AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
         }
 
         logs('isCorrect--> $isCorrect');
@@ -176,19 +173,31 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
   }
 
   @action
-  Future<void> reSendOTP(String id) async {
+  Future<void> reSendEmailOTP(String id) async {
     showLoading();
     logs('Send OTP Entered');
     final Dio dio = Dio();
     try {
-      final Map body = <String, dynamic>{
+      final Map emailOtpBody = <String, dynamic>{
         'userId': id,
       };
-      logs('body--> $body');
+
+      final Map mobileOtpBody = <String, dynamic>{
+        'userId': id,
+        'mobile': arguments['mobile'],
+        'countryCode': arguments['countryCode']
+      };
+
+      logs('resend email OTP body--> $emailOtpBody');
+      logs('resend mobile OTP body--> $mobileOtpBody');
+
       final Response response = await dio.post(
-        'http://167.99.93.83/api/v1/users/email/send-otp',
-        data: body,
+        (arguments['isScreen'])
+            ? 'http://167.99.93.83/api/v1/users/email/send-otp'
+            : 'http://167.99.93.83/api/v1/users/mobile/send-otp',
+        data: (arguments['isScreen']) ? emailOtpBody : mobileOtpBody,
       );
+
       logs('status Code --> ${response.statusCode}');
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
@@ -217,7 +226,7 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
 
   @action
   void reSendOtp() {
-    reSendOTP(arguments['userId'].toString());
+    reSendEmailOTP(arguments['userId'].toString());
   }
 
   @observable

@@ -31,7 +31,7 @@ class UserInfoView extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
                     children: <Widget>[
                       SizedBox(height: 10.px),
-                      const SafeArea(bottom: false, child: OnTapBack()),
+                       SafeArea(bottom: false, child: OnTapBack()),
                       SizedBox(height: 80.px),
                       Align(
                         alignment: Alignment.centerLeft,

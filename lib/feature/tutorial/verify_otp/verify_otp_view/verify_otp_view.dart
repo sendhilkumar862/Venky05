@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/routes.dart';
 import '../../../../custom/countdown_timer/timer_controller.dart';
-import '../../../../custom/countdown_timer/timer_count_down.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/otp/otp_text_field.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
@@ -13,7 +14,6 @@ import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-import '../../../../product/utils/validators.dart';
 import '../verify_otp_view_model/verify_otp_view_model.dart';
 
 class VerifyOtpView extends StatelessWidget {
@@ -39,7 +39,13 @@ class VerifyOtpView extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
                     children: <Widget>[
                       SizedBox(height: 10.px),
-                      const SafeArea(bottom: false, child: OnTapBack()),
+                      SafeArea(
+                          bottom: false,
+                          child: OnTapBack(
+                            onTapBack: (verifyOtpViewModel.arguments['isScreen'])
+                                ? () => AppRouter.pop()
+                                : () => AppRouter.popAndPushNamed(Routes.mobileView, args: verifyOtpViewModel.arguments),
+                          )),
                       SizedBox(height: 45.px),
                       Align(
                         alignment: Alignment.centerLeft,
@@ -99,25 +105,26 @@ class VerifyOtpView extends StatelessWidget {
                         color: AppColors.appGrey,
                       ),
                       SizedBox(height: 12.px),
-                     if (verifyOtpViewModel.isTimerRunning) Countdown(
-                        controller: verifyOtpViewModel.timerController,
-                        seconds: 180,
-                        build: (_, double time) => AppText(
-                          AppUtils.formatTimer(time.toInt()),
-                          color: AppColors.appPurple,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 24.px,
-                          textAlign: TextAlign.center,
+                      if (verifyOtpViewModel.isTimerRunning)
+                        Countdown(
+                          controller: verifyOtpViewModel.timerController,
+                          seconds: 180,
+                          build: (_, double time) => AppText(
+                            AppUtils.formatTimer(time.toInt()),
+                            color: AppColors.appPurple,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 24.px,
+                            textAlign: TextAlign.center,
+                          ),
+                          onFinished: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Timer is done!'),
+                              ),
+                            );
+                            verifyOtpViewModel.isTimerRunning = false;
+                          },
                         ),
-                        onFinished: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Timer is done!'),
-                            ),
-                          );
-                          verifyOtpViewModel.isTimerRunning = false;
-                        },
-                      ),
                       SizedBox(height: 12.px),
                       GestureDetector(
                         onTap: (!verifyOtpViewModel.isTimerRunning)

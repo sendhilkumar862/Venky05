@@ -24,8 +24,8 @@ class MobileView extends StatelessWidget {
       viewModel: MobileViewModel(),
       onModelReady: (MobileViewModel mobileViewModel) {
         mobileViewModel.setContext(context);
-        mobileViewModel.data =
-            ModalRoute.of(context)!.settings.arguments! as Map;
+        mobileViewModel.data = ModalRoute.of(context)!.settings.arguments! as Map;
+        mobileViewModel.arguments['userId'] = mobileViewModel.data['userId'];
         logs('argue--> ${mobileViewModel.data}');
         mobileViewModel.init();
       },
@@ -45,7 +45,7 @@ class MobileView extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
                     children: [
                       SizedBox(height: 10.px),
-                      const SafeArea(bottom: false, child: OnTapBack()),
+                       SafeArea(bottom: false, child: OnTapBack()),
                       SizedBox(height: 80.px),
                       Align(
                         alignment: Alignment.centerLeft,

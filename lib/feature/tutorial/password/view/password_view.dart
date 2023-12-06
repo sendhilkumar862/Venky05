@@ -48,7 +48,7 @@ class PasswordView extends StatelessWidget {
                       SizedBox(height: 10.px),
                       Padding(
                         padding: EdgeInsets.only(left: 10.px),
-                        child: const SafeArea(child: OnTapBack()),
+                        child:  SafeArea(child: OnTapBack()),
                       ),
                       SizedBox(height: 20.px),
                       Expanded(child: StatefulBuilder(
