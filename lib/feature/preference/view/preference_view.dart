@@ -13,6 +13,7 @@ import '../../../custom/choice/choice.dart';
 import '../../../custom/divider/divider.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
+import '../../../product/constants/image/image_constants.dart';
 import '../../../product/extension/colors_extension.dart';
 import '../../../product/network/local/key_value_storage_base.dart';
 import '../model/preference_model.dart';
@@ -65,7 +66,7 @@ class _PreferenceViewState extends State<PreferenceView>
           (BuildContext context, PreferenceViewModel preferenceViewModel) =>
               Scaffold(
         body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Observer(
               builder: (_) {
                 return Column(
@@ -74,9 +75,6 @@ class _PreferenceViewState extends State<PreferenceView>
                       child: SingleChildScrollView(
                         child: Column(
                           children: <Widget>[
-                            const SizedBox(
-                              height: 10,
-                            ),
                             Center(
                               child: SafeArea(
                                 child: Text(
@@ -99,8 +97,9 @@ class _PreferenceViewState extends State<PreferenceView>
                                 contentPadding: const EdgeInsets.all(15),
                                 tileColor: HexColor('#F0F5FF'),
                                 leading: Lottie.asset(
-                                  'assets/animations/building_animation.json',
+                                  ImageConstants.animPreference,
                                   controller: _controller,
+                                  fit: BoxFit.fill,
                                   onLoaded: (LottieComposition composition) {
                                     _controller.duration = composition.duration;
                                     _controller.repeat();
@@ -112,7 +111,12 @@ class _PreferenceViewState extends State<PreferenceView>
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16),
                                 ),
-                                subtitle: Text('msgCustomization'.tr()),
+                                subtitle: Text('msgCustomization'.tr(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.appDarkBlack
+                                            .withOpacity(0.5),
+                                        fontSize: 12)),
                               ),
                             ),
                             Row(
