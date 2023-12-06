@@ -108,7 +108,7 @@ class VerifyOtpView extends StatelessWidget {
                       if (verifyOtpViewModel.isTimerRunning)
                         Countdown(
                           controller: verifyOtpViewModel.timerController,
-                          seconds: 20,
+                          seconds: 180,
                           build: (_, double time) => AppText(
                             AppUtils.formatTimer(time.toInt()),
                             color: AppColors.appPurple,
