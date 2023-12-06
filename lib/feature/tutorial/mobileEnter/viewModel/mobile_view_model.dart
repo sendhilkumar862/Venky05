@@ -98,9 +98,11 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
         );
         arguments['userId'] = data['userId'].toString();
         arguments['otp_id'] = enterMobileModel.data!.item!.otpId.toString();
+        arguments['mobile'] = mobileController.text.trim();
+        arguments['countryCode'] = selectedCountryCode.replaceAll('+', '');
         Future.delayed(
           const Duration(milliseconds: 1000),
-          () => AppRouter.pushNamed(Routes.verifyOtpView, args: arguments),
+              () => AppRouter.popAndPushNamed(Routes.verifyOtpView, args: arguments)
         );
       } else {
         hideLoading();
@@ -158,7 +160,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     Dio dio = Dio();
     try {
       Response response =
-          await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
+      await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
       logs('Status code--> ${response.statusCode}');
 
       if (response.statusCode == 200) {
@@ -171,7 +173,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
             .map((json) => CountryCodeModel.fromJson(json))
             .toList();
         selectedCountry = countries.firstWhere(
-            (CountryCodeModel element) => element.idd_code == '+965');
+                (CountryCodeModel element) => element.idd_code == '+965');
       }
     } catch (error) {
       EasyLoading.dismiss();
@@ -206,9 +208,9 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     countryIndex = 0;
     countries = countries
         .where((CountryCodeModel country) =>
-            country.name?.toLowerCase().contains(query.toLowerCase()) ??
-            false ||
-                country.flag_url!.toLowerCase().contains(query.toLowerCase()))
+    country.name?.toLowerCase().contains(query.toLowerCase()) ??
+        false ||
+            country.flag_url!.toLowerCase().contains(query.toLowerCase()))
         .toList();
     if (countryController.text.isEmpty) {
       countries = tempList;

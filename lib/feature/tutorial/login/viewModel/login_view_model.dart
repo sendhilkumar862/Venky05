@@ -111,7 +111,7 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
         logs('Login response  --> ${response.data.toString()}');
         EasyLoading.dismiss();
         loginModel = LoginModel.fromJson(response.data);
-        AppRouter.pushNamed(
+        AppRouter.popUntil(
           Routes.HomeScreenRoute,
         );
         logs('ress--> ${loginModel.status?.type}');
