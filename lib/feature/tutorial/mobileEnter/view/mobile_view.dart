@@ -37,7 +37,7 @@ class MobileView extends StatelessWidget {
               bottomNavigationBar: PreLoginCommonButton(
                 title: 'continue'.tr(),
                 onTap: () => mobileViewModel.onTapMobileSubmit(),
-                isDisable: mobileViewModel.mobileValid != 1,
+               isDisable: mobileViewModel.mobileValid != 1,
               ),
               body: PreLoginCustomBody(
                 widget: Expanded(
@@ -123,7 +123,7 @@ class MobileView extends StatelessWidget {
                         errorText: mobileViewModel.mobileErrorText,
                         inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                         onChanged: (String value) {
-                          mobileViewModel.validateMobile(value);
+                      mobileViewModel.validateMobile(value);
                         },
                       ),
                       SizedBox(height: 20.px),

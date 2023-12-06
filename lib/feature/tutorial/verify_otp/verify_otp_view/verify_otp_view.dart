@@ -39,13 +39,7 @@ class VerifyOtpView extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
                     children: <Widget>[
                       SizedBox(height: 10.px),
-                      SafeArea(
-                          bottom: false,
-                          child: OnTapBack(
-                            onTapBack: (verifyOtpViewModel.arguments['isScreen'])
-                                ? () => AppRouter.pop()
-                                : () => AppRouter.popAndPushNamed(Routes.mobileView, args: verifyOtpViewModel.arguments),
-                          )),
+                      SafeArea(bottom: false, child: OnTapBack()),
                       SizedBox(height: 45.px),
                       Align(
                         alignment: Alignment.centerLeft,

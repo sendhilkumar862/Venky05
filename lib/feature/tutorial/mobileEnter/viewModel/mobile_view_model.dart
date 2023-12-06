@@ -68,6 +68,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
 
   @action
   Future<void> sendOTP() async {
+
     showLoading();
     // viewModelContext.loaderOverlay.show();
     Dio dio = Dio();
@@ -102,7 +103,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
         arguments['countryCode'] = selectedCountryCode.replaceAll('+', '');
         Future.delayed(
           const Duration(milliseconds: 1000),
-              () => AppRouter.popAndPushNamed(Routes.verifyOtpView, args: arguments)
+              () => AppRouter.pushNamed(Routes.verifyOtpView, args: arguments)
         );
       } else {
         hideLoading();
@@ -140,7 +141,8 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
 
   @action
   void onTapMobileSubmit() {
-    if (mobileValid == 1) {
+   // if (mobileValid == 1) {
+    if (true) {
       sendOTP();
     }
   }

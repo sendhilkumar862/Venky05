@@ -23,8 +23,8 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
   @override
   void init() {}
   @observable
-  TextEditingController passwordController = TextEditingController(text: 'Test@123');
-  TextEditingController emailController = TextEditingController(text: 'avaiyakirtib1@gmail.com');
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
   @observable
   String emailErrorText = '';
