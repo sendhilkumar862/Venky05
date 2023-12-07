@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hessah/feature/setting_view/view/widget/available_times_view.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -56,6 +57,9 @@ class _SettingViewState extends State<SettingView> {
       SettingData(
           surfixImage: 'assets/icons/globe_pin.svg',
           title: 'Manage Subscription'),
+      SettingData(
+          surfixImage: 'assets/icons/globe_pin.svg',
+          title: 'Manage Availability Time'),
       SettingData(
           surfixImage: 'assets/icons/language_translate.svg',
           title: 'Language'),
@@ -517,6 +521,8 @@ class _SettingViewState extends State<SettingView> {
         AppRouter.push(const MobileView());
       case SettingTitle.manageAddress:
         manageAddressBottomSheet(context);
+      case SettingTitle.manageAvailabilityTime:
+        AppRouter.push(const AvailableTimesView());
       case SettingTitle.changeCountry:
         showBottomSheet(context, (BuildContext context, setState) {
           return CountryBottomsSheet(
@@ -558,6 +564,8 @@ class _SettingViewState extends State<SettingView> {
         return SettingTitle.appSupport;
       case 'manage subscription':
         return SettingTitle.manageSubscription;
+      case 'manage availability time':
+        return SettingTitle.manageAvailabilityTime;
       default:
         return SettingTitle.changeName;
     }
@@ -620,5 +628,6 @@ enum SettingTitle {
   manageAddress,
   changePassword,
   appSupport,
+  manageAvailabilityTime,
   manageSubscription
 }
