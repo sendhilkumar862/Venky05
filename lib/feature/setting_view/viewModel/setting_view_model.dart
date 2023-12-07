@@ -15,6 +15,13 @@ part 'setting_view_model.g.dart';
 class SettingViewModel = _SettingViewModelBase with _$SettingViewModel;
 
 abstract class _SettingViewModelBase extends BaseViewModel with Store {
+  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+  final KeyValueStorageService keyValueStorageService =
+      KeyValueStorageService();
+
+  @observable
+  String selectedProfile = '';
+
   @override
   void setContext(BuildContext context) => viewModelContext = context;
 
@@ -22,13 +29,11 @@ abstract class _SettingViewModelBase extends BaseViewModel with Store {
   void init() {
     fetchData();
     KeyValueStorageBase.init();
+    setProfile();
     // KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
     // keyValueStorageBase.setCommon(
     //    KeyValueStorageService.countryCodeAndIDD, 'KW,+965');
   }
-
-  @observable
-  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
 
   @observable
   List<Country> countries = [];
@@ -122,5 +127,11 @@ abstract class _SettingViewModelBase extends BaseViewModel with Store {
         .toList();
     logs('filteredCountries.toString()--> ${filteredCountries.toString()}');
     setState(() {});
+  }
+
+  @action
+  void setProfile() {
+    selectedProfile =
+        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
   }
 }
