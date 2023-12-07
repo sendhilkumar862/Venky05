@@ -2,6 +2,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 import '../../feature/pre_login/teachingInfo/viewModel/teaching_info_view_model.dart';
+import '../../feature/tutorial/language/viewModel/language_view_model.dart';
 import '../navigation/navigation_service.dart';
 import '../theme/theme_notifier.dart';
 
@@ -21,6 +22,9 @@ class ApplicationProvider {
     ),
     Provider<TeachingInfoViewModel>(
       create: (context) => TeachingInfoViewModel(),
+    ),
+    Provider<LanguageViewModel>(
+      create: (context) => LanguageViewModel(),
     ),
     Provider.value(value: NavigationService.instance)
   ];

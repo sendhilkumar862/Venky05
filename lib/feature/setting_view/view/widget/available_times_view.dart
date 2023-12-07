@@ -26,9 +26,10 @@ class _AvailableTimesViewState extends State<AvailableTimesView> {
           const AvailableTimesCalender(),
           AppButton(
               title: 'Add Time',
-              onPressed: () {
+              onPressed: (){
                 AppRouter.push(ManageAddedTimeView());
-              })
+              }
+          )
         ],
       ),
     );

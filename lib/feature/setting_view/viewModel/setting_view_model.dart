@@ -8,7 +8,9 @@ import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
+import '../../../product/constants/app/app_constants.dart';
 import '../../tutorial/language/model/country_model.dart';
+import '../view/setting_view.dart';
 
 part 'setting_view_model.g.dart';
 
@@ -19,22 +21,115 @@ abstract class _SettingViewModelBase extends BaseViewModel with Store {
   final KeyValueStorageService keyValueStorageService =
       KeyValueStorageService();
 
+  //==============================================================================
+  // ** List of Student setting view **
+  //==============================================================================
+  List<SettingHeading> studentSettingList = <SettingHeading>[
+    SettingHeading(header: 'Personal Information', listDetail: <SettingData>[
+      SettingData(
+          surfixImage: 'assets/icons/profile.svg', title: 'Change Name'),
+      SettingData(
+          surfixImage: 'assets/icons/mobile.svg', title: 'Add Mobile Number'),
+      SettingData(
+          surfixImage: 'assets/icons/pin_location.svg',
+          title: 'Manage Address'),
+    ]),
+    SettingHeading(header: 'Account Settings', listDetail: <SettingData>[
+      SettingData(
+          surfixImage: 'assets/icons/globe_pin.svg', title: 'Change Country'),
+      SettingData(
+          surfixImage: 'assets/icons/language_translate.svg',
+          title: 'Language'),
+    ]),
+    SettingHeading(header: 'Support', listDetail: <SettingData>[
+      SettingData(surfixImage: 'assets/icons/ring.svg', title: 'App Support'),
+    ]),
+    SettingHeading(header: 'Security', listDetail: <SettingData>[
+      SettingData(
+          surfixImage: 'assets/icons/lock.svg', title: 'Change Password'),
+      SettingData(
+          surfixImage: 'assets/icons/face_id.svg',
+          title: 'Login With Biometric'),
+      SettingData(
+        surfixImage: 'assets/icons/log_out.svg',
+        title: 'Logout',
+      ),
+    ]),
+  ];
+
+  //==============================================================================
+  // ** List of Tutor setting view **
+  //==============================================================================
+  List<SettingHeading> tutorSettingList = <SettingHeading>[
+    SettingHeading(header: 'Personal Information', listDetail: <SettingData>[
+      SettingData(
+          surfixImage: 'assets/icons/profile.svg', title: 'Change Name'),
+      SettingData(
+          surfixImage: 'assets/icons/mobile.svg', title: 'Add Mobile Number'),
+      SettingData(
+          surfixImage: 'assets/icons/pin_location.svg',
+          title: 'Manage Address'),
+    ]),
+    SettingHeading(header: 'Account Settings', listDetail: <SettingData>[
+      SettingData(
+          surfixImage: 'assets/icons/medal.svg', title: 'Manage Subscription'),
+      SettingData(
+          surfixImage: 'assets/icons/calendar.svg',
+          title: 'Manage Availability Time'),
+      SettingData(
+          surfixImage: 'assets/icons/globe_pin.svg', title: 'Change Country'),
+      SettingData(
+          surfixImage: 'assets/icons/language_translate.svg',
+          title: 'Language'),
+    ]),
+    SettingHeading(header: 'Support', listDetail: <SettingData>[
+      SettingData(surfixImage: 'assets/icons/ring.svg', title: 'App Support'),
+    ]),
+    SettingHeading(header: 'Security', listDetail: <SettingData>[
+      SettingData(
+          surfixImage: 'assets/icons/lock.svg', title: 'Change Password'),
+      SettingData(
+          surfixImage: 'assets/icons/face_id.svg',
+          title: 'Login With Biometric'),
+      SettingData(
+        surfixImage: 'assets/icons/log_out.svg',
+        title: 'Logout',
+      ),
+    ]),
+  ];
+
+  //==============================================================================
+  // ** Properties **
+  //==============================================================================
+  List<ProfileList> profileListData = <ProfileList>[
+    ProfileList(text: 'Take Photo', icon: ImageConstants.camera),
+    ProfileList(text: 'Add Image', icon: ImageConstants.pictureSquare),
+    ProfileList(text: 'Add File', icon: ImageConstants.attach),
+  ];
+
   @observable
   String selectedProfile = '';
+  @observable
+  String selectedCountryName = '';
+  @observable
+  String selectedLanguege = '';
 
   @override
   void setContext(BuildContext context) => viewModelContext = context;
 
   @override
   void init() {
+    getProfile();
     fetchData();
     KeyValueStorageBase.init();
-    setProfile();
+
     // KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
     // keyValueStorageBase.setCommon(
     //    KeyValueStorageService.countryCodeAndIDD, 'KW,+965');
   }
 
+  @observable
+  Country? selectedCountry;
   @observable
   List<Country> countries = [];
 
@@ -130,8 +225,17 @@ abstract class _SettingViewModelBase extends BaseViewModel with Store {
   }
 
   @action
-  void setProfile() {
+  void getProfile() {
     selectedProfile =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
+        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
+            ApplicationConstants.tutor;
+
+    selectedCountryName =
+        keyValueStorageBase.getCommon(String, KeyValueStorageService.country) ??
+            '';
+
+    selectedLanguege = keyValueStorageBase.getCommon(
+            String, KeyValueStorageService.language) ??
+        '';
   }
 }
