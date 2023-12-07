@@ -82,13 +82,14 @@ dependencies:
   path_provider: ^2.0.10
 
   # Serializable
-  json_serializable:     
+  json_serializable:
 
   # animations
   lottie: ^2.7.0
 
   # Calendar
-  syncfusion_flutter_calendar: ^23.1.41
+  syncfusion_flutter_calendar:
+    path: ./syncfusion_flutter_calendar-23.1.41
 
   # storage
   flutter_secure_storage: ^9.0.0
