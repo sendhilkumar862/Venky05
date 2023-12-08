@@ -66,8 +66,7 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   @observable
   String selectedItem = '';
 
-  @observable
-  int languageIndex = 1;
+
 
   @observable
   TextEditingController countryController = TextEditingController();
@@ -79,14 +78,24 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
     });
   }
 
+
+
   @observable
   List<String> countryLogo = <String>[];
+
+  @observable
+  int languageIndex = 1;
 
   @observable
   List<String> languages = <String>[
     'English',
     'عربي',
   ];
+
+  @action
+  void selectLanguage(int index) {
+    languageIndex = index;
+  }
 
   @observable
   List<String> languageIcon = <String>[
@@ -99,11 +108,6 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
     selectedCountry = country;
     keyValueStorageBase.setCommon(
         KeyValueStorageService.countryCodeAndIDD, country.idd_code);
-  }
-
-  @action
-  void selectLanguage(int index) {
-    languageIndex = index;
   }
 
   @action

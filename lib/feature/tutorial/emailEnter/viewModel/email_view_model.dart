@@ -69,7 +69,6 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
           } else if (status == RegistrationStatus.EMAIL.value) {
             sendOTP(baseResponse.data.item!.userId.toString());
           } else if (status == RegistrationStatus.PROFILE_INCOMPLETE.value) {
-            // redirect to last step of registration....
             AppRouter.pushNamed(Routes.userInfoView, args: arguments);
           } else if (status == RegistrationStatus.PROFILE_PENDING.value) {
             registerWarning = true;

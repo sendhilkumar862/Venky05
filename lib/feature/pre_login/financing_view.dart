@@ -36,9 +36,7 @@ class _FinancingViewState extends State<FinancingView> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 30),
-                      child: Text('Financing',
-                          style: openSans.get20.w700
-                              .textColor(AppColors.appTextColor)),
+                      child: Text('Financing', style: openSans.get20.w700.textColor(AppColors.appTextColor)),
                     ),
                     const AppTextFormField(
                       title: 'Enter IBAN Number',
@@ -54,15 +52,13 @@ class _FinancingViewState extends State<FinancingView> {
                         padding: EdgeInsets.only(left: 20, right: 40),
                         height: 64,
                         width: width,
-                        decoration: BoxDecoration(
-                            color: AppColors.lightPurpleTwo,
-                            borderRadius: BorderRadius.circular(12)),
+                        decoration:
+                            BoxDecoration(color: AppColors.lightPurpleTwo, borderRadius: BorderRadius.circular(12)),
                         child: Row(
                           children: [
                             const Padding(
                               padding: EdgeInsets.only(right: 7),
-                              child: Icon(Icons.info,
-                                  size: 25, color: AppColors.downArrowColor),
+                              child: Icon(Icons.info, size: 25, color: AppColors.downArrowColor),
                             ),
                             Expanded(
                               child: Text(

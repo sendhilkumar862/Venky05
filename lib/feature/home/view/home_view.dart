@@ -16,7 +16,7 @@ import '../../../product/utils/validators.dart';
 import '../../home_views/views/home_views.dart';
 import '../../preference/view/preference_view.dart';
 import '../../tutorial/messages/view/message_view.dart';
-import '../../wallet/view/wallet_view.dart';
+import '../../wallet/walletView/view/wallet_view.dart';
 import '../viewModel/home_view_model.dart';
 
 class HomeView extends StatefulWidget {
@@ -35,6 +35,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
+    KeyValueStorageBase.init();
     setData();
   }
 

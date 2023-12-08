@@ -102,7 +102,7 @@ class AppTextFormField extends StatelessWidget {
                   .textColor(AppColors.appTextColor.withOpacity(0.25))
                   .get14,
               focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xffC5CEEE), width: 1.5),
+                  borderSide: BorderSide(color: Color(0xffC5CEEE),),
                   borderRadius: BorderRadius.all(Radius.circular(10))),
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(

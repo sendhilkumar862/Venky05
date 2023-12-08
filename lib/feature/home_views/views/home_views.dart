@@ -25,6 +25,7 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    KeyValueStorageBase.init();
   }
 
   @override
