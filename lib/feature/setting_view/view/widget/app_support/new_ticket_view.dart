@@ -1,9 +1,7 @@
 import 'dart:io';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../../custom/app_button/app_button.dart';
 import '../../../../../custom/app_textformfield/app_field.dart';
 import '../../../../../custom/appbar/appbar.dart';
@@ -226,7 +224,7 @@ class _NewTicketViewState extends State<NewTicketView> {
       width: 80,
       height: 80,
       child: Stack(
-        children: [
+        children: <Widget>[
           Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
@@ -319,7 +317,7 @@ class _NewTicketViewState extends State<NewTicketView> {
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: <Widget>[
                               Padding(
                                 padding:
                                     const EdgeInsets.only(top: 10, bottom: 7),

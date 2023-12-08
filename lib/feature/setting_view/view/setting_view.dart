@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hessah/feature/setting_view/view/widget/available_times_view.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../config/routes/app_router.dart';
@@ -15,14 +17,17 @@ import '../../../custom/sheet/show_bottom_sheet.dart';
 import '../../../custom/switch/app_switch.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/base/view/base_view.dart';
+import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/utils/typography.dart';
+import '../../tutorial/language/model/country_model.dart';
 import '../../tutorial/language/viewModel/language_view_model.dart';
 import '../../tutorial/mobileEnter/view/mobile_view.dart';
 import '../../tutorial/password/view/password_view.dart';
 import '../../tutorial/view/bottomSheets/country_bottom_sheet.dart';
 import '../../tutorial/view/bottomSheets/language_bottom_sheet.dart';
+import '../viewModel/setting_view_model.dart';
 import 'manage_sub.dart';
 import 'widget/app_support_view.dart';
 import 'widget/change_name_view.dart';
@@ -36,51 +41,6 @@ class SettingView extends StatefulWidget {
 }
 
 class _SettingViewState extends State<SettingView> {
-//==============================================================================
-// ** Properties **
-//==============================================================================
-
-  List<SettingHeading> settingDataList = <SettingHeading>[
-    SettingHeading(header: 'Personal Information', listDetail: <SettingData>[
-      SettingData(
-          surfixImage: 'assets/icons/profile.svg', title: 'Change Name'),
-      SettingData(
-          surfixImage: 'assets/icons/mobile.svg', title: 'Add Mobile Number'),
-      SettingData(
-          surfixImage: 'assets/icons/pin_location.svg',
-          title: 'Manage Address'),
-    ]),
-    SettingHeading(header: 'Personal Information', listDetail: <SettingData>[
-      SettingData(
-          surfixImage: 'assets/icons/globe_pin.svg', title: 'Change Country'),
-      SettingData(
-          surfixImage: 'assets/icons/globe_pin.svg',
-          title: 'Manage Subscription'),
-      SettingData(
-          surfixImage: 'assets/icons/language_translate.svg',
-          title: 'Language'),
-    ]),
-    SettingHeading(header: 'Support', listDetail: <SettingData>[
-      SettingData(surfixImage: 'assets/icons/ring.svg', title: 'App Support'),
-    ]),
-    SettingHeading(header: 'Security', listDetail: <SettingData>[
-      SettingData(
-          surfixImage: 'assets/icons/lock.svg', title: 'Change Password'),
-      SettingData(
-          surfixImage: 'assets/icons/face_id.svg',
-          title: 'Login With Biometric'),
-      SettingData(
-        surfixImage: 'assets/icons/log_out.svg',
-        title: 'Logout',
-      ),
-    ]),
-  ];
-  List<ProfileList> profileListData = <ProfileList>[
-    ProfileList(text: 'Take Photo', icon: ImageConstants.camera),
-    ProfileList(text: 'Add Image', icon: ImageConstants.pictureSquare),
-    ProfileList(text: 'Add File', icon: ImageConstants.attach),
-  ];
-
   XFile? pickedFile;
   CroppedFile? croppedFile;
   String croppedFilePath = '';
@@ -92,36 +52,60 @@ class _SettingViewState extends State<SettingView> {
 
   @override
   Widget build(BuildContext context) {
+    final LanguageViewModel languageViewModel =
+        Provider.of<LanguageViewModel>(context);
     final double width = MediaQuery.of(context).size.width;
-    return BaseView<LanguageViewModel>(
-        viewModel: LanguageViewModel(),
-        onModelReady: (LanguageViewModel languageViewModel) {
-          languageViewModel.setContext(context);
+    return BaseView<SettingViewModel>(
+        viewModel: SettingViewModel(),
+        onModelReady: (SettingViewModel settingViewModel) {
+          settingViewModel.setContext(context);
+          settingViewModel.init();
           languageViewModel.init();
         },
         onPageBuilder:
-            (BuildContext context, LanguageViewModel languageViewModel) {
+            (BuildContext context, SettingViewModel settingViewModel) {
+          languageViewModel.countries.where((Country element) {
+            if (element.name == settingViewModel.selectedCountryName) {
+              languageViewModel.selectedCountry = element;
+            }
+            return false;
+          });
+
+          languageViewModel.languages.where((element) {
+            if (element == settingViewModel.selectedLanguege) {
+              languageViewModel.languageIndex =
+                  languageViewModel.languages.indexOf(element);
+            }
+            return false;
+          });
           return Observer(
               warnWhenNoObservables: false,
               builder: (BuildContext context) {
                 return Scaffold(
                   appBar: HessaAppBar(
-                    title: 'Class Details',
+                    title: 'Settings',
                     isTitleOnly: true,
                   ),
                   body: ListView(
                     children: <Widget>[
-                      profileWidget(width, context),
+                      profileWidget(width, context, settingViewModel),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: settingDataList.length,
+                            itemCount: settingViewModel.selectedProfile ==
+                                    ApplicationConstants.student
+                                ? settingViewModel.studentSettingList.length
+                                : settingViewModel.tutorSettingList.length,
                             itemBuilder: (BuildContext context, int index) {
-                              final SettingHeading data =
-                                  settingDataList[index];
-                              return settingListView(data, languageViewModel);
+                              final SettingHeading data = settingViewModel
+                                          .selectedProfile ==
+                                      ApplicationConstants.student
+                                  ? settingViewModel.studentSettingList[index]
+                                  : settingViewModel.tutorSettingList[index];
+                              return settingListView(
+                                  data, settingViewModel, languageViewModel);
                             }),
                       ),
                     ],
@@ -135,12 +119,13 @@ class _SettingViewState extends State<SettingView> {
 // ** Main Widget **
 //==============================================================================
 
-  Widget profileWidget(double width, BuildContext context) {
+  Widget profileWidget(
+      double width, BuildContext context, SettingViewModel settingViewModel) {
     return SizedBox(
       width: width,
       child: Column(
         children: <Widget>[
-          profileImageView(context),
+          profileImageView(context, settingViewModel),
           Padding(
             padding: const EdgeInsets.only(top: 13, bottom: 3),
             child: Text('User Name', style: openSans.get20.w700.appTextColor),
@@ -153,8 +138,8 @@ class _SettingViewState extends State<SettingView> {
     );
   }
 
-  Widget settingListView(
-      SettingHeading data, LanguageViewModel languageViewModel) {
+  Widget settingListView(SettingHeading data, SettingViewModel settingViewModel,
+      LanguageViewModel languageViewModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -167,7 +152,6 @@ class _SettingViewState extends State<SettingView> {
         ),
         Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            width: 343,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
@@ -178,40 +162,49 @@ class _SettingViewState extends State<SettingView> {
               itemCount: data.listDetail.length,
               itemBuilder: (BuildContext context, int i) {
                 final SettingData response = data.listDetail[i];
-                return childSettingListView(
-                    data, i, context, languageViewModel, response);
+                return childSettingListView(data, i, context, settingViewModel,
+                    response, languageViewModel);
               },
             )),
       ],
     );
   }
 
-  Widget childSettingListView(SettingHeading data, int i, BuildContext context,
-      LanguageViewModel languageViewModel, SettingData response) {
+  Widget childSettingListView(
+      SettingHeading data,
+      int i,
+      BuildContext context,
+      SettingViewModel settingViewModel,
+      SettingData response,
+      LanguageViewModel languageViewModel) {
     final String title = data.listDetail[i].title;
-    return Column(
-      children: <Widget>[
-        InkWell(
-          onTap: () =>
-              handleTitleClick(title, context, languageViewModel, response),
-          child: childSettingListTile(languageViewModel,
-              title: response.title, icon: response.surfixImage),
-        ),
-        if (i < data.listDetail.length - 1)
-          Divider(
-            height: 30,
-            thickness: 1,
-            color: AppColors.appBorderColor.withOpacity(0.5),
-          )
-      ],
-    );
+    return Observer(builder: (context) {
+      return Column(
+        children: <Widget>[
+          InkWell(
+            onTap: () => handleTitleClick(
+                title, context, settingViewModel, response, languageViewModel),
+            child: childSettingListTile(settingViewModel,
+                title: response.title, icon: response.surfixImage),
+          ),
+          if (i < data.listDetail.length - 1)
+            Divider(
+              height: 30,
+              thickness: 1,
+              color: AppColors.appBorderColor.withOpacity(0.5),
+            )
+        ],
+      );
+    });
   }
 
   Widget childSettingListTile(
-    LanguageViewModel languageViewModel, {
+    SettingViewModel settingViewModel, {
     required String icon,
     required String title,
   }) {
+    final LanguageViewModel languageViewModel =
+        Provider.of<LanguageViewModel>(context);
     return Row(
       children: <Widget>[
         SvgPicture.asset(icon),
@@ -224,21 +217,30 @@ class _SettingViewState extends State<SettingView> {
             ),
           ),
         ),
+        if (title == 'Change Country')
+          SizedBox(
+            child: selectCardView(
+              icon: languageViewModel.selectedCountry?.flag_url,
+              title: languageViewModel.selectedCountry?.name,
+            ),
+          ),
         if (title == 'Language')
           SizedBox(
-              width: 90,
               child: selectCardView(
-                icon: languageViewModel
-                    .languageIcon[languageViewModel.languageIndex],
-                title: languageViewModel
-                    .languages[languageViewModel.languageIndex],
-              )),
+            icon:
+                languageViewModel.languageIcon[languageViewModel.languageIndex],
+            title: languageViewModel.languages[languageViewModel.languageIndex],
+          )),
         if (title == 'Login With Biometric')
           AppSwitch(
             isActive: false,
           )
         else
-          const Icon(Icons.arrow_forward_ios_rounded)
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Icon(Icons.arrow_forward_ios_rounded,
+                size: 14, color: AppColors.arrowColor.withOpacity(0.5)),
+          )
       ],
     );
   }
@@ -278,11 +280,10 @@ class _SettingViewState extends State<SettingView> {
             ),
           ),
           AppText(
-            title ?? '',
+            title ?? 'Select',
             fontWeight: FontWeight.w400,
             fontSize: 12,
           ),
-          const Spacer(),
         ],
       ),
     );
@@ -292,10 +293,11 @@ class _SettingViewState extends State<SettingView> {
 // ** Helper Widget **
 //==============================================================================
 
-  Widget profileImageView(BuildContext context) {
+  Widget profileImageView(
+      BuildContext context, SettingViewModel settingViewModel) {
     return InkWell(
         onTap: () {
-          addImageBottomSheet(context);
+          addImageBottomSheet(context, settingViewModel);
         },
         child: Container(
           decoration: BoxDecoration(
@@ -324,11 +326,13 @@ class _SettingViewState extends State<SettingView> {
         ));
   }
 
-  void addImageBottomSheet(BuildContext context) {
-    return showCommonBottomSheet(context: context, commonWidget: profileView());
+  void addImageBottomSheet(
+      BuildContext context, SettingViewModel settingViewModel) {
+    return showCommonBottomSheet(
+        context: context, commonWidget: profileView(settingViewModel));
   }
 
-  Widget profileView() {
+  Widget profileView(SettingViewModel settingViewModel) {
     return StatefulBuilder(
       builder: (BuildContext context, void Function(void Function()) setState) {
         return Padding(
@@ -369,11 +373,12 @@ class _SettingViewState extends State<SettingView> {
                 Padding(
                   padding: const EdgeInsets.only(top: 15, bottom: 20),
                   child: ListView.builder(
-                    itemCount: profileListData.length,
+                    itemCount: settingViewModel.profileListData.length,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) {
-                      final ProfileList data = profileListData[index];
+                      final ProfileList data =
+                          settingViewModel.profileListData[index];
                       return Column(
                         children: <Widget>[
                           Padding(
@@ -506,8 +511,12 @@ class _SettingViewState extends State<SettingView> {
     }
   }
 
-  void handleTitleClick(String title, BuildContext context,
-      LanguageViewModel languageViewModel, SettingData response) {
+  void handleTitleClick(
+      String title,
+      BuildContext context,
+      SettingViewModel settingViewModel,
+      SettingData response,
+      LanguageViewModel languageViewModel) {
     final SettingTitle settingTitle = getSettingTitle(title);
 
     switch (settingTitle) {
@@ -518,25 +527,49 @@ class _SettingViewState extends State<SettingView> {
       case SettingTitle.manageAddress:
         manageAddressBottomSheet(context);
       case SettingTitle.changeCountry:
-        showBottomSheet(context, (BuildContext context, setState) {
-          return CountryBottomsSheet(
-            setState: setState,
-            languageViewModel: languageViewModel,
-          );
-        });
+        showModalBottomSheet(
+          isScrollControlled: true,
+          context: context,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(25.0),
+            ),
+          ),
+          builder: (BuildContext context) {
+            return StatefulBuilder(
+              builder: (BuildContext context, setState) {
+                return CountryBottomsSheet(
+                    setState: setState, languageViewModel: languageViewModel);
+              },
+            );
+          },
+        );
       case SettingTitle.language:
-        showBottomSheet(context, (BuildContext context, setState) {
-          return LanguageBottomSheet(
-            languageViewModel: languageViewModel,
-            setState: setState,
-          );
-        });
+        showModalBottomSheet(
+          isScrollControlled: true,
+          context: context,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(25.0),
+            ),
+          ),
+          builder: (BuildContext context) {
+            return StatefulBuilder(
+              builder: (BuildContext context, setState) {
+                return LanguageBottomSheet(
+                    languageViewModel: languageViewModel, setState: setState);
+              },
+            );
+          },
+        );
       case SettingTitle.appSupport:
         AppRouter.push(const AppSupportView());
       case SettingTitle.changePassword:
         AppRouter.push(PasswordView());
       case SettingTitle.manageSubscription:
         AppRouter.push(const ManageSubscription());
+      case SettingTitle.manageAvailabilityTime:
+        AppRouter.push(const AvailableTimesView());
     }
   }
 
@@ -558,6 +591,8 @@ class _SettingViewState extends State<SettingView> {
         return SettingTitle.appSupport;
       case 'manage subscription':
         return SettingTitle.manageSubscription;
+      case 'manage availability time':
+        return SettingTitle.manageAvailabilityTime;
       default:
         return SettingTitle.changeName;
     }
@@ -620,5 +655,6 @@ enum SettingTitle {
   manageAddress,
   changePassword,
   appSupport,
-  manageSubscription
+  manageSubscription,
+  manageAvailabilityTime
 }

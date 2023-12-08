@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../custom/app_button/app_button.dart';
-import '../../../custom/appbar/appbar.dart';
-import '../../../custom/cardView/status_card_view.dart';
-import '../../../custom/image/app_image_assets.dart';
-import '../../../custom/sheet/app_bottom_sheet.dart';
-import '../../../custom/text/app_text.dart';
-import '../../../product/constants/colors/app_colors_constants.dart';
-import '../../../product/constants/image/image_constants.dart';
-import '../../../product/utils/typography.dart';
-import '../../classDetails/view/bottomSheetView/booking_bottom_view.dart';
+import '../../../../custom/app_button/app_button.dart';
+import '../../../../custom/appbar/appbar.dart';
+import '../../../../custom/cardView/status_card_view.dart';
+import '../../../../custom/image/app_image_assets.dart';
+import '../../../../custom/sheet/app_bottom_sheet.dart';
+import '../../../../custom/text/app_text.dart';
+import '../../../../product/constants/colors/app_colors_constants.dart';
+import '../../../../product/constants/image/image_constants.dart';
+import '../../../../product/utils/typography.dart';
+import '../../../classDetails/view/bottomSheetView/booking_bottom_view.dart';
 
 class ManageSubscription extends StatefulWidget {
   const ManageSubscription({super.key});
@@ -42,7 +42,7 @@ class _ManageSubscriptionState extends State<ManageSubscription> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HessaAppBar(
-        title: 'Manage Subscription ',
+        title: 'Class Details',
         isTitleOnly: true,
       ),
       body: Padding(
