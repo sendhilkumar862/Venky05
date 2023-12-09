@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../config/routes/app_router.dart';
+import '../../../config/routes/routes.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/sheet/show_bottom_sheet.dart';
@@ -28,9 +29,6 @@ import '../../tutorial/password/view/password_view.dart';
 import '../../tutorial/view/bottomSheets/country_bottom_sheet.dart';
 import '../../tutorial/view/bottomSheets/language_bottom_sheet.dart';
 import '../viewModel/setting_view_model.dart';
-import 'manage_sub.dart';
-import 'widget/app_support_view.dart';
-import 'widget/change_name_view.dart';
 import 'widget/manage_adress_view.dart';
 
 class SettingView extends StatefulWidget {
@@ -521,7 +519,7 @@ class _SettingViewState extends State<SettingView> {
 
     switch (settingTitle) {
       case SettingTitle.changeName:
-        AppRouter.push(const ChangeNameView());
+        AppRouter.pushNamed(Routes.changeNameView);
       case SettingTitle.addMobileNumber:
         AppRouter.push(const MobileView());
       case SettingTitle.manageAddress:
@@ -563,11 +561,11 @@ class _SettingViewState extends State<SettingView> {
           },
         );
       case SettingTitle.appSupport:
-        AppRouter.push(const AppSupportView());
+        AppRouter.pushNamed(Routes.appSupportView);
       case SettingTitle.changePassword:
         AppRouter.push(PasswordView());
       case SettingTitle.manageSubscription:
-        AppRouter.push(const ManageSubscription());
+        AppRouter.pushNamed(Routes.manageSubscription);
       case SettingTitle.manageAvailabilityTime:
         AppRouter.push(const AvailableTimesView());
     }

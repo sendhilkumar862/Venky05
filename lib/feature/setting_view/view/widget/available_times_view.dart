@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -18,7 +19,7 @@ class _AvailableTimesViewState extends State<AvailableTimesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HessaAppBar(
-        title: 'Available Times',
+        title: 'availableTimes'.tr(),
         isTitleOnly: true,
       ),
       body: Column(
@@ -26,10 +27,9 @@ class _AvailableTimesViewState extends State<AvailableTimesView> {
           const AvailableTimesCalender(),
           AppButton(
               title: 'Add Time',
-              onPressed: (){
+              onPressed: () {
                 AppRouter.push(ManageAddedTimeView());
-              }
-          )
+              })
         ],
       ),
     );

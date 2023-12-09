@@ -1,6 +1,8 @@
 // ignore_for_file: constant_identifier_names
 import 'package:flutter/material.dart';
 
+import '../../feature/class/address/view/address_view.dart';
+import '../../feature/class/class_detail/view/class_detail.dart';
 import '../../feature/class/create_class/view/create_class.dart';
 import '../../feature/home/view/home_view.dart';
 // Helpers
@@ -14,6 +16,9 @@ import '../../feature/preference/view/preference_view.dart';
 import '../../feature/profile/view/profile_view.dart';
 import '../../feature/rating/view/rating_view.dart';
 import '../../feature/search/view/search_view.dart';
+import '../../feature/setting_view/app_support/view/app_support_view.dart';
+import '../../feature/setting_view/change_name/view/change_name_view.dart';
+import '../../feature/setting_view/manage_subscription/view/manage_subscription.dart';
 import '../../feature/tutorial/chat/view/chat_view.dart';
 import '../../feature/tutorial/emailEnter/view/email_view.dart';
 import '../../feature/tutorial/login/view/login_view.dart';
@@ -69,6 +74,11 @@ class Routes {
   static const String verifyOtpView = '/verifyOtpView';
   static const String profileSelectionView = '/profileSelectionView';
   static const String profileView = '/profileView';
+  static const String classDetail = '/classDetail';
+  static const String addressView = '/addressView';
+  static const String changeNameView = '/changeNameView';
+  static const String appSupportView = '/appSupportView';
+  static const String manageSubscription = '/manageSubscription';
 
   /// The name of the route for unrecognized route screen
   static const String NotFoundScreenRoute = '/route-not-found-screen';
@@ -101,6 +111,11 @@ class Routes {
     verifyOtpView: (_) => const VerifyOtpView(),
     profileSelectionView: (_) => const ProfileSelectionView(),
     profileView: (_) => const ProfileView(),
+    classDetail: (_) => const ClassDetail(),
+    addressView: (_) => const AddressView(),
+    changeNameView: (_) => const ChangeNameView(),
+    appSupportView: (_) => const AppSupportView(),
+    manageSubscription: (_) => const ManageSubscription(),
   };
 
   static RouteBuilder getRoute(String? routeName) {

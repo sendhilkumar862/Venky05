@@ -7,8 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'config/routes/app_router.dart';
-import 'feature/classDetails/view/class_details_view.dart';
-import 'feature/home/view/home_view.dart';
 import 'feature/splash/view/splash_view.dart';
 import 'feature/tutorial/messages/view/message_view.dart';
 import 'feature/tutorial/mobileEnter/view/mobile_view.dart';
@@ -20,7 +18,8 @@ import 'product/notifier/app_provider.dart';
 import 'product/theme/theme_notifier.dart';
 
 Future<void> main() async {
-  mainContext.config = mainContext.config.clone(isSpyEnabled: true, disableErrorBoundaries: false);
+  mainContext.config = mainContext.config
+      .clone(isSpyEnabled: true, disableErrorBoundaries: false);
 
   mainContext.spy(print);
   WidgetsFlutterBinding.ensureInitialized(); // Initialize the Flutter binding
@@ -28,7 +27,9 @@ Future<void> main() async {
   await EasyLocalization.ensureInitialized();
   runApp(
     MultiProvider(
-      providers: <SingleChildWidget>[...ApplicationProvider.instance.dependItems],
+      providers: <SingleChildWidget>[
+        ...ApplicationProvider.instance.dependItems
+      ],
       child: EasyLocalization(
         supportedLocales: LanguageManager.instance.supportedLocales,
         path: ApplicationConstants.LANG_ASSET_PATH,
@@ -45,7 +46,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(
-      builder: (BuildContext context, Orientation orientation, ScreenType screenType) {
+      builder: (BuildContext context, Orientation orientation,
+          ScreenType screenType) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           localizationsDelegates: context.localizationDelegates,
