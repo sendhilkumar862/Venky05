@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:hessah/feature/setting_view/view/setting_view.dart';
 import 'package:mobx/mobx.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,6 @@ import 'config/routes/app_router.dart';
 import 'feature/classDetails/view/class_details_view.dart';
 import 'feature/home/view/home_view.dart';
 import 'feature/splash/view/splash_view.dart';
-import 'feature/student_profile/view/student_profile.dart';
 import 'feature/tutorial/messages/view/message_view.dart';
 import 'feature/tutorial/mobileEnter/view/mobile_view.dart';
 import 'feature/tutorial/password/view/password_view.dart';
@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
           navigatorKey: AppRouter.navigatorKey,
           theme: context.watch<ThemeNotifier>().currentTheme,
           // home: const SplashView(),
-          home: StudentProfileView(),
+          home: SettingView(),
           builder: EasyLoading.init(),
         );
       },

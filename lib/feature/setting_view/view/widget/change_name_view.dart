@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../custom/app_button/app_button.dart';
@@ -23,7 +24,7 @@ class _ChangeNameViewState extends State<ChangeNameView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HessaAppBar(
-        title: 'Change Name',
+        title: 'changeName'.tr(),
         isTitleOnly: true,
       ),
       body: Form(
@@ -49,21 +50,21 @@ class _ChangeNameViewState extends State<ChangeNameView> {
                     AppTextFormField(
                       validate: Validators.requiredValidator.call,
                       controller: firstName,
-                      title: 'First Name',
-                      hintText: 'First Name',
+                      title: 'firstName'.tr(),
+                      hintText: 'firstName'.tr(),
                     ),
                     AppTextFormField(
                       validate: Validators.requiredValidator.call,
                       controller: lastName,
-                      title: 'Last Name',
-                      hintText: 'Last Name',
+                      title: 'lastName'.tr(),
+                      hintText: 'lastName'.tr(),
                     ),
                   ],
                 ),
               ),
               AppButton(
                   isDisable: isDisable,
-                  title: 'Save',
+                  title: 'save'.tr(),
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       showModalBottomSheet(
@@ -78,9 +79,9 @@ class _ChangeNameViewState extends State<ChangeNameView> {
                         ),
                         builder: (BuildContext context) {
                           return SuccessFailsInfoDialog(
-                            title: 'Success',
-                            buttonTitle: 'Done',
-                            content: 'You have successfully changed your name.',
+                            title: 'success'.tr(),
+                            buttonTitle: 'done'.tr(),
+                            content: 'youHaveSuccessfully'.tr(),
                           );
                         },
                       );

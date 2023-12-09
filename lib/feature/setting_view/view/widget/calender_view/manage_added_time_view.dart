@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../../config/routes/routes.dart';
 import '../../../../../custom/app_button/app_button.dart';
@@ -52,7 +53,7 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
     var width = MediaQuery.sizeOf(context).width;
     return  Scaffold(
       appBar: HessaAppBar(
-        title: 'Add Free Time',
+        title: 'addFreeTime'.tr(),
         isTitleOnly: true,
       ),
       body:  Padding(
@@ -66,7 +67,7 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                     validate: Validators.requiredValidator.call,
                     suffix: const Icon(Icons.keyboard_arrow_down_sharp,
                         color: AppColors.downArrowColor),
-                    title: 'Date',
+                    title: 'date'.tr(),
                     readOnly: true,
                     controller:  startTimeDurationController,
                     onTap: () {
@@ -76,8 +77,8 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                     validate: Validators.requiredValidator.call,
                     suffix: const Icon(Icons.keyboard_arrow_down_sharp,
                         color: AppColors.downArrowColor),
-                    hintText: 'Select Start Time',
-                    title: 'Start Time',
+                    hintText: 'selectStartTime'.tr(),
+                    title: 'startTime'.tr(),
                     readOnly: true,
                     controller:  startTimeDurationController,
                     onTap: () {
@@ -89,8 +90,8 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                     validate: Validators.requiredValidator.call,
                     suffix: const Icon(Icons.keyboard_arrow_down_sharp,
                         color: AppColors.downArrowColor),
-                    hintText: 'Select End Time',
-                    title: 'End Time',
+                    hintText: 'selectEndTime'.tr(),
+                    title: 'endTime'.tr(),
                     readOnly: true,
                     controller:  endTimeDurationController,
                     onTap: () {
@@ -106,7 +107,7 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                                     child: Row(
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: <Widget>[
-                                          Text('Class Duration', style: openSans.get14.w700),
+                                          Text('selectEndTime'.tr(), style: openSans.get14.w700),
                                           SizedBox(
                                             width: width * 0.25,
                                           ),
@@ -165,13 +166,13 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top:15),
-                    child: WarningCardView(error: 'Another free time is found during your selection. If you proceed, the times will be merged.',),
+                    child: WarningCardView(error: 'anotherFreeTimeIs'.tr(),),
                   )
                 ],
               ),
             ),
             AppButton(
-                title: 'Add Available Teaching Time',
+                title: 'addAvailableTeachingTime'.tr(),
                 onPressed: (){
                   showModalBottomSheet(
                     backgroundColor: Colors.white,
@@ -189,9 +190,9 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                         //   AppRouter.push(PendingTickets());
                         // },
                         verticalPadding: 10,
-                        title: 'Success',
-                        buttonTitle: 'Done',
-                        content: 'You have successfully added new available teaching time.',
+                        title: 'success'.tr(),
+                        buttonTitle: 'done'.tr(),
+                        content: 'youHaveSuccessfullyAdded'.tr(),
                       );
                     },
                   );
@@ -216,7 +217,7 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
-                                Text('Class Duration', style: openSans.get14.w700),
+                                Text('Select Start Time', style: openSans.get14.w700),
                                 SizedBox(
                                   width: width * 0.25,
                                 ),
