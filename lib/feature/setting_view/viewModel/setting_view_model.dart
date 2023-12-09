@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mobx/mobx.dart';
@@ -26,34 +25,34 @@ abstract class _SettingViewModelBase extends BaseViewModel with Store {
   // ** List of Student setting view **
   //==============================================================================
   List<SettingHeading> studentSettingList = <SettingHeading>[
-    SettingHeading(header: 'personalInformation'.tr(), listDetail: <SettingData>[
+    SettingHeading(header: 'Personal Information', listDetail: <SettingData>[
       SettingData(
-          surfixImage: 'assets/icons/profile.svg', title: 'changeName'.tr()),
+          surfixImage: 'assets/icons/profile.svg', title: 'Change Name'),
       SettingData(
-          surfixImage: 'assets/icons/mobile.svg', title: 'addMobileNumber'.tr()),
+          surfixImage: 'assets/icons/mobile.svg', title: 'Add Mobile Number'),
       SettingData(
           surfixImage: 'assets/icons/pin_location.svg',
-          title: 'manageAddress'.tr()),
+          title: 'Manage Address'),
     ]),
-    SettingHeading(header: 'accountSettings'.tr(), listDetail: <SettingData>[
+    SettingHeading(header: 'Account Settings', listDetail: <SettingData>[
       SettingData(
-          surfixImage: 'assets/icons/globe_pin.svg', title: 'changeCountry'.tr()),
+          surfixImage: 'assets/icons/globe_pin.svg', title: 'Change Country'),
       SettingData(
           surfixImage: 'assets/icons/language_translate.svg',
-          title: 'language'.tr()),
+          title: 'Language'),
     ]),
-    SettingHeading(header: 'support'.tr(), listDetail: <SettingData>[
-      SettingData(surfixImage: 'assets/icons/ring.svg', title: 'appSupport'.tr()),
+    SettingHeading(header: 'Support', listDetail: <SettingData>[
+      SettingData(surfixImage: 'assets/icons/ring.svg', title: 'App Support'),
     ]),
-    SettingHeading(header: 'security'.tr(), listDetail: <SettingData>[
+    SettingHeading(header: 'Security', listDetail: <SettingData>[
       SettingData(
-          surfixImage: 'assets/icons/lock.svg', title: 'changePassword'.tr()),
+          surfixImage: 'assets/icons/lock.svg', title: 'Change Password'),
       SettingData(
           surfixImage: 'assets/icons/face_id.svg',
-          title: 'loginWithBiometric'.tr()),
+          title: 'Login With Biometric'),
       SettingData(
         surfixImage: 'assets/icons/log_out.svg',
-        title: 'logOut'.tr(),
+        title: 'Logout',
       ),
     ]),
   ];
@@ -62,39 +61,39 @@ abstract class _SettingViewModelBase extends BaseViewModel with Store {
   // ** List of Tutor setting view **
   //==============================================================================
   List<SettingHeading> tutorSettingList = <SettingHeading>[
-    SettingHeading(header: 'personalInformation'.tr(), listDetail: <SettingData>[
+    SettingHeading(header: 'Personal Information', listDetail: <SettingData>[
       SettingData(
-          surfixImage: 'assets/icons/profile.svg', title: 'changeName'.tr()),
+          surfixImage: 'assets/icons/profile.svg', title: 'Change Name'),
       SettingData(
-          surfixImage: 'assets/icons/mobile.svg', title: 'addMobileNumber'.tr()),
+          surfixImage: 'assets/icons/mobile.svg', title: 'Add Mobile Number'),
       SettingData(
           surfixImage: 'assets/icons/pin_location.svg',
-          title: 'manageAddress'.tr()),
+          title: 'Manage Address'),
     ]),
-    SettingHeading(header: 'accountSettings'.tr(), listDetail: <SettingData>[
+    SettingHeading(header: 'Account Settings', listDetail: <SettingData>[
       SettingData(
-          surfixImage: 'assets/icons/medal.svg', title: 'manageSubscription'.tr()),
+          surfixImage: 'assets/icons/medal.svg', title: 'Manage Subscription'),
       SettingData(
           surfixImage: 'assets/icons/calendar.svg',
-          title: 'manageAvailabilityTime'.tr()),
+          title: 'Manage Availability Time'),
       SettingData(
-          surfixImage: 'assets/icons/globe_pin.svg', title: 'changeCountry'.tr()),
+          surfixImage: 'assets/icons/globe_pin.svg', title: 'Change Country'),
       SettingData(
           surfixImage: 'assets/icons/language_translate.svg',
-          title: 'language'.tr()),
+          title: 'Language'),
     ]),
-    SettingHeading(header: 'support'.tr(), listDetail: <SettingData>[
-      SettingData(surfixImage: 'assets/icons/ring.svg', title: 'appSupport'.tr()),
+    SettingHeading(header: 'Support', listDetail: <SettingData>[
+      SettingData(surfixImage: 'assets/icons/ring.svg', title: 'App Support'),
     ]),
-    SettingHeading(header: 'security'.tr(), listDetail: <SettingData>[
+    SettingHeading(header: 'Security', listDetail: <SettingData>[
       SettingData(
-          surfixImage: 'assets/icons/lock.svg', title: 'changePassword'.tr()),
+          surfixImage: 'assets/icons/lock.svg', title: 'Change Password'),
       SettingData(
           surfixImage: 'assets/icons/face_id.svg',
-          title: 'loginWithBiometric'.tr()),
+          title: 'Login With Biometric'),
       SettingData(
         surfixImage: 'assets/icons/log_out.svg',
-        title: 'logOut'.tr(),
+        title: 'Logout',
       ),
     ]),
   ];
