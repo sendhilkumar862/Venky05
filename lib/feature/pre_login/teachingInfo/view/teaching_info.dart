@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
@@ -60,6 +61,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
     'English',
   ];
   int? isSelected;
+
   @override
   void initState() {
     super.initState();
@@ -67,8 +69,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final TeachingInfoViewModel teachingInfoStore =
-        Provider.of<TeachingInfoViewModel>(context);
+    final TeachingInfoViewModel teachingInfoStore = Provider.of<TeachingInfoViewModel>(context);
     return BaseView<TeachingInfoViewModel>(
         viewModel: TeachingInfoViewModel(),
         onModelReady: (TeachingInfoViewModel model) {
@@ -89,8 +90,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(top: 30),
-                    child: Text('Teaching Information',
-                        style: openSans.get20.w700.appTextColor),
+                    child: Text('Teaching Information', style: openSans.get20.w700.appTextColor),
                   ),
                   AppTextFormField(
                     controller: gradeController,
@@ -101,16 +101,16 @@ class _TeachingInfoState extends State<TeachingInfo> {
                           teachingInfoStore: teachingInfoStore,
                           onTap: (int index) {
                             teachingInfoStore.addGrade(gradeList[index]);
-                            gradeController.text =
-                                teachingInfoStore.listToCommaSeparatedString(
-                                    teachingInfoStore.selectedGrade);
+                            gradeController.text = teachingInfoStore
+                                .listToCommaSeparatedString(teachingInfoStore.selectedGrade)
+                                .replaceAll(',', ' -');
                           });
                     },
                     top: 10,
                     readOnly: true,
                     title: 'Grade',
                     hintText: 'Select grade/s',
-                    suffix: Icon(Icons.keyboard_arrow_down),
+                    suffix: const Icon(Icons.keyboard_arrow_down),
                   ),
                   AppTextFormField(
                     controller: subjectController,
@@ -121,9 +121,9 @@ class _TeachingInfoState extends State<TeachingInfo> {
                         teachingInfoStore: teachingInfoStore,
                         onTap: (int index) {
                           teachingInfoStore.addSubject(subjectList[index]);
-                          subjectController.text =
-                              teachingInfoStore.listToCommaSeparatedString(
-                                  teachingInfoStore.selectedSubject);
+                          subjectController.text = teachingInfoStore
+                              .listToCommaSeparatedString(teachingInfoStore.selectedSubject)
+                              .replaceAll(',', ' -');
                         },
                       );
                     },
@@ -140,11 +140,10 @@ class _TeachingInfoState extends State<TeachingInfo> {
                         selectedList: teachingInfoStore.selectedSchoolType,
                         teachingInfoStore: teachingInfoStore,
                         onTap: (int index) {
-                          teachingInfoStore
-                              .addSchoolType(schoolTypeList[index]);
-                          schoolController.text =
-                              teachingInfoStore.listToCommaSeparatedString(
-                                  teachingInfoStore.selectedSchoolType);
+                          teachingInfoStore.addSchoolType(schoolTypeList[index]);
+                          schoolController.text = teachingInfoStore
+                              .listToCommaSeparatedString(teachingInfoStore.selectedSchoolType)
+                              .replaceAll(',', ' -');
                         },
                       );
                     },
@@ -161,11 +160,10 @@ class _TeachingInfoState extends State<TeachingInfo> {
                         selectedList: teachingInfoStore.selectedCurriculum,
                         teachingInfoStore: teachingInfoStore,
                         onTap: (int index) {
-                          teachingInfoStore
-                              .addCurriculum(curriculumTypeList[index]);
-                          curriculumController.text =
-                              teachingInfoStore.listToCommaSeparatedString(
-                                  teachingInfoStore.selectedCurriculum);
+                          teachingInfoStore.addCurriculum(curriculumTypeList[index]);
+                          curriculumController.text = teachingInfoStore
+                              .listToCommaSeparatedString(teachingInfoStore.selectedCurriculum)
+                              .replaceAll(',', ' -');
                         },
                       );
                     },
@@ -183,9 +181,9 @@ class _TeachingInfoState extends State<TeachingInfo> {
                         teachingInfoStore: teachingInfoStore,
                         onTap: (int index) {
                           teachingInfoStore.addClassType(classTypeList[index]);
-                          classTypeController.text =
-                              teachingInfoStore.listToCommaSeparatedString(
-                                  teachingInfoStore.selectedClassType);
+                          classTypeController.text = teachingInfoStore
+                              .listToCommaSeparatedString(teachingInfoStore.selectedClassType)
+                              .replaceAll(',', ' -');
                         },
                       );
                     },
@@ -194,6 +192,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     hintText: 'Select class type',
                     suffix: Icon(Icons.keyboard_arrow_down),
                   ),
+                  SizedBox(height: 40.px),
                   AppButton(
                       title: 'Continue Experience Information',
                       onPressed: () {
@@ -216,8 +215,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
     final double width = MediaQuery.sizeOf(context).width;
     showModalBottomSheet(
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(
@@ -227,32 +225,27 @@ class _TeachingInfoState extends State<TeachingInfo> {
                 Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 20),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text('Class Duration', style: openSans.get14.w700),
-                            SizedBox(
-                              width: width * 0.25,
-                            ),
-                            Container(
-                                height: 30,
-                                width: 30,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppColors.downArrowColor
-                                        .withOpacity(0.15)),
-                                child: IconButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  icon: const Icon(
-                                    Icons.close,
-                                    size: 15,
-                                  ),
-                                ))
-                          ]),
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                      child: Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+                        Text('Class Duration', style: openSans.get14.w700),
+                        SizedBox(
+                          width: width * 0.25,
+                        ),
+                        Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle, color: AppColors.downArrowColor.withOpacity(0.15)),
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(
+                                Icons.close,
+                                size: 15,
+                              ),
+                            ))
+                      ]),
                     ),
                   ],
                 ),
@@ -265,12 +258,9 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     itemBuilder: (BuildContext context, int index) {
                       return Observer(builder: (_) {
                         return ListTile(
-                          title: Text(listData[index],
-                              style: openSans.get16.w400
-                                  .textColor(AppColors.appTextColor)),
+                          title: Text(listData[index], style: openSans.get16.w400.textColor(AppColors.appTextColor)),
                           onTap: () {
-                            onTap(
-                                index); // Pass the value to the onTap function
+                            onTap(index); // Pass the value to the onTap function
                           },
                           trailing: selectedList.contains(listData[index])
                               ? const Icon(
@@ -279,8 +269,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
                                 )
                               : Icon(
                                   Icons.circle_outlined,
-                                  color: AppColors.downArrowColor
-                                      .withOpacity(0.25),
+                                  color: AppColors.downArrowColor.withOpacity(0.25),
                                 ),
                         );
                       });

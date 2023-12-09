@@ -15,8 +15,8 @@ import '../../../custom/text/app_text.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/utils/typography.dart';
-import '../viewModel/wallet_view_model.dart';
-import 'add_bank_view.dart';
+import '../addBank/view/add_bank_view.dart';
+import '../viewModel/wallets_view_model.dart';
 
 class WithdrawView extends StatefulWidget {
   const WithdrawView({super.key});
@@ -25,8 +25,7 @@ class WithdrawView extends StatefulWidget {
   State<WithdrawView> createState() => _WithdrawViewState();
 }
 
-class _WithdrawViewState extends State<WithdrawView>
-    with TickerProviderStateMixin {
+class _WithdrawViewState extends State<WithdrawView> with TickerProviderStateMixin {
   List<CommonClass> bankAccount = [
     CommonClass(
       'Main Account',
@@ -50,32 +49,20 @@ class _WithdrawViewState extends State<WithdrawView>
     ),
   ];
   List<CommonClass> location = [
-    CommonClass(
-        'Home',
-        'City, Block No., Street Name, Street Name 2, HouseNo.,',
-        'Floor No., Apartment No.'),
-    CommonClass(
-        'Work',
-        'City, Block No., Street Name, Street Name 2, HouseNo.,',
-        'Floor No., Apartment No.'),
-    CommonClass(
-        'Home',
-        'City, Block No., Street Name, Street Name 2, HouseNo.,',
-        'Floor No., Apartment No.'),
-    CommonClass(
-        'Work',
-        'City, Block No., Street Name, Street Name 2, HouseNo.,',
-        'Floor No., Apartment No.'),
+    CommonClass('Home', 'City, Block No., Street Name, Street Name 2, HouseNo.,', 'Floor No., Apartment No.'),
+    CommonClass('Work', 'City, Block No., Street Name, Street Name 2, HouseNo.,', 'Floor No., Apartment No.'),
+    CommonClass('Home', 'City, Block No., Street Name, Street Name 2, HouseNo.,', 'Floor No., Apartment No.'),
+    CommonClass('Work', 'City, Block No., Street Name, Street Name 2, HouseNo.,', 'Floor No., Apartment No.'),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<WalletViewModel>(
-      viewModel: WalletViewModel(),
-      onModelReady: (WalletViewModel walletViewModel) {
-        walletViewModel.setContext(context);
+    return BaseView<WalletsViewModel>(
+      viewModel: WalletsViewModel(),
+      onModelReady: (WalletsViewModel walletsViewModel) {
+        walletsViewModel.setContext(context);
       },
-      onPageBuilder: (BuildContext context, WalletViewModel walletViewModel) {
+      onPageBuilder: (BuildContext context, WalletsViewModel walletsViewModel) {
         return Observer(
           builder: (BuildContext context) {
             return Scaffold(
@@ -92,20 +79,20 @@ class _WithdrawViewState extends State<WithdrawView>
                   SizedBox(height: 40.px),
                   availableBalanceCardView(),
                   AppTextFormField(
-                    titleColor: (walletViewModel.amountError.isEmpty)
+                    titleColor: (walletsViewModel.amountError.isEmpty)
                         ? AppColors.appGrey
-                        : ('valid' == walletViewModel.amountError)
+                        : ('valid' == walletsViewModel.amountError)
                             ? AppColors.appRed
                             : AppColors.appBlue,
-                    controller: walletViewModel.withdrawController,
+                    controller: walletsViewModel.withdrawController,
                     title: 'Withdraw Amount',
                     height: 10,
                     keyboardType: TextInputType.number,
                     hintText: 'Enter withdraw amount',
                     validate: (String? value) {
-                      return walletViewModel.withdrawAmountValidation(value!);
+                      return walletsViewModel.withdrawAmountValidation(value!);
                     },
-                    suffix:  Padding(
+                    suffix: Padding(
                       padding: EdgeInsets.only(top: 14.px),
                       child: AppText(
                         'KWD',
@@ -121,9 +108,7 @@ class _WithdrawViewState extends State<WithdrawView>
                         fontWeight: FontWeight.w500,
                       ),
                       SizedBox(width: 8.px),
-                      AppSwitch(
-                          onTap: () => walletViewModel.onTapSwitch(),
-                          isActive: walletViewModel.isActive)
+                      AppSwitch(onTap: () => walletsViewModel.onTapSwitch(), isActive: walletsViewModel.isActive)
                     ],
                   ),
                   SizedBox(height: 20.px),
@@ -140,36 +125,29 @@ class _WithdrawViewState extends State<WithdrawView>
                             ),
                           ),
                           builder: (BuildContext context) {
-                            return StatefulBuilder(
-                                builder: (context, setState) {
+                            return StatefulBuilder(builder: (context, setState) {
                               return Column(children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.all(20),
-                                  child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: <Widget>[
-                                        Text('Bank Account',
-                                            style: openSans.get20.w700),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 70),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: AppColors.gray
-                                                      .withOpacity(0.3)),
-                                              child: const Padding(
-                                                padding: EdgeInsets.all(3),
-                                                child: Icon(Icons.close),
-                                              ),
-                                            ),
+                                  child: Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+                                    Text('Bank Account', style: openSans.get20.w700),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 70),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle, color: AppColors.gray.withOpacity(0.3)),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(3),
+                                            child: Icon(Icons.close),
                                           ),
-                                        )
-                                      ]),
+                                        ),
+                                      ),
+                                    )
+                                  ]),
                                 ),
                                 Expanded(
                                   child: SingleChildScrollView(
@@ -178,11 +156,8 @@ class _WithdrawViewState extends State<WithdrawView>
                                         ListData(
                                           commonList: bankAccount,
                                           label: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 5),
-                                            child: Text('IBAN',
-                                                style: openSans.get12.w500
-                                                    .textColor(AppColors.gray)),
+                                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                                            child: Text('IBAN', style: openSans.get12.w500.textColor(AppColors.gray)),
                                           ),
                                           image: Image.asset(
                                             ImageConstants.ellipse1,
@@ -214,31 +189,33 @@ class _WithdrawViewState extends State<WithdrawView>
                     },
                     child: Container(
                       alignment: Alignment.center,
-                      padding: EdgeInsets.symmetric(
-                          vertical: 10.px, horizontal: 5.px),
+                      padding: EdgeInsets.symmetric(vertical: 10.px, horizontal: 5.px),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.px),
                         border: Border.all(color: AppColors.lightPurple),
                       ),
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          AppText('Main Account', fontWeight: FontWeight.w400),
-                          Icon(Icons.arrow_drop_down)
-                        ],
+                        children: [AppText('Main Account', fontWeight: FontWeight.w400), Icon(Icons.arrow_drop_down)],
                       ),
                     ),
                   ),
                   noBankAccountCardView(),
-                  SizedBox(height: 160.px),
-                  AppButton(
-                    title: 'Withdraw',
-                    borderColor: AppColors.appBlue,
-                    onPressed: (walletViewModel.amountError == 'valid')
-                        ? () {}
-                        : () {},
-                  )
                 ],
+              ),
+              bottomNavigationBar: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.px),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AppButton(
+                      title: 'Withdraw',
+                      borderColor: AppColors.appBlue,
+                      onPressed: (walletsViewModel.amountError == 'valid') ? () {} : () {},
+                    ),
+                    SizedBox(height: 30.px),
+                  ],
+                ),
               ),
             );
           },

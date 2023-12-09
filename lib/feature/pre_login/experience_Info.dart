@@ -23,7 +23,9 @@ class ExperienceInfo extends StatefulWidget {
 class _ExperienceInfoState extends State<ExperienceInfo> {
   File? firstImage;
   File? secondImage;
-  bool isSwitch = false;
+  bool isSwitchEduction = false;
+  bool isSwitchExperience = false;
+  bool isSwitchCertificates = false;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +59,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: FlutterSwitch(
-                        value: isSwitch,
+                        value: isSwitchEduction,
                         height: 16.29,
                         width: 27.63,
                         toggleSize: 12,
@@ -65,7 +67,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                         inactiveColor: AppColors.gray.withOpacity(0.25),
                         onToggle: (bool value) {
                           setState(() {
-                            isSwitch = value;
+                            isSwitchEduction = value;
                           });
                         },
                       ),
@@ -91,7 +93,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: FlutterSwitch(
-                        value: isSwitch,
+                        value: isSwitchExperience,
                         height: 16.29,
                         width: 27.63,
                         toggleSize: 12,
@@ -99,7 +101,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                         inactiveColor: AppColors.gray.withOpacity(0.25),
                         onToggle: (bool value) {
                           setState(() {
-                            isSwitch = value;
+                            isSwitchExperience = value;
                           });
                         },
                       ),
@@ -244,7 +246,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: FlutterSwitch(
-                        value: isSwitch,
+                        value: isSwitchCertificates,
                         height: 16.29,
                         width: 27.63,
                         toggleSize: 12,
@@ -252,7 +254,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                         inactiveColor: AppColors.gray.withOpacity(0.25),
                         onToggle: (bool value) {
                           setState(() {
-                            isSwitch = value;
+                            isSwitchCertificates = value;
                           });
                         },
                       ),

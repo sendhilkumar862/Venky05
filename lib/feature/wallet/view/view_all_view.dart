@@ -13,7 +13,7 @@ import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
-import '../viewModel/wallet_view_model.dart';
+import '../viewModel/wallets_view_model.dart';
 import 'invoice_card_view.dart';
 import 'invoice_filter.dart';
 
@@ -28,12 +28,12 @@ class _ViewAllViewState extends State<ViewAllView>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return BaseView<WalletViewModel>(
-      viewModel: WalletViewModel(),
-      onModelReady: (WalletViewModel walletViewModel) {
-        walletViewModel.setContext(context);
+    return BaseView<WalletsViewModel>(
+      viewModel: WalletsViewModel(),
+      onModelReady: (WalletsViewModel walletsViewModel) {
+        walletsViewModel.setContext(context);
       },
-      onPageBuilder: (BuildContext context, WalletViewModel walletViewModel) {
+      onPageBuilder: (BuildContext context, WalletsViewModel walletsViewModel) {
         return Observer(
           builder: (BuildContext context) {
             return Scaffold(

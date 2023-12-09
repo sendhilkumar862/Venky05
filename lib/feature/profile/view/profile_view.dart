@@ -1,4 +1,3 @@
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -10,17 +9,17 @@ import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
-import '../viewModel/student_profile_view_model.dart';
+import '../viewModel/profile_view_model.dart';
 
-class StudentProfileView extends StatefulWidget {
-  const StudentProfileView({super.key});
+class ProfileView extends StatefulWidget {
+  const ProfileView({super.key});
 
   @override
-  State<StudentProfileView> createState() => _StudentProfileViewState();
+  State<ProfileView> createState() => _ProfileViewState();
 }
 
-class _StudentProfileViewState extends State<StudentProfileView> {
-  StudentProfileViewModel studentProfileViewModel = StudentProfileViewModel();
+class _ProfileViewState extends State<ProfileView> {
+  ProfileViewModel profileViewModel = ProfileViewModel();
 
   @override
   void initState() {
@@ -35,12 +34,6 @@ class _StudentProfileViewState extends State<StudentProfileView> {
           title: 'User Profile',
         ),
         backgroundColor: Colors.white,
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            studentProfileViewModel.isTeacherView = !studentProfileViewModel.isTeacherView;
-            setState(() {});
-          },
-        ),
         body: Observer(
           builder: (BuildContext context) {
             return ListView(
@@ -61,7 +54,7 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                             image: ImageConstants.avtar,
                           ),
                         ),
-                        if (studentProfileViewModel.isTeacherView)
+                        if (profileViewModel.isTeacherView)
                           Positioned(
                             bottom: 8,
                             right: 1,
@@ -74,13 +67,13 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                 Align(
                   alignment: Alignment.center,
                   child: SizedBox(
-                    height: (studentProfileViewModel.isTeacherView) ? 20.px : 5.px,
+                    height: (profileViewModel.isTeacherView) ? 20.px : 5.px,
                     width: 50.px,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: 5,
                       itemBuilder: (BuildContext context, int index) {
-                        if (studentProfileViewModel.isTeacherView) {
+                        if (profileViewModel.isTeacherView) {
                           return AppImageAsset(
                             image: (index < 3) ? ImageConstants.reviewStarPurple : ImageConstants.reviewStar,
                             height: 10.px,
@@ -91,15 +84,15 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                     ),
                   ),
                 ),
-                if (studentProfileViewModel.isTeacherView) const SizedBox(height: 5),
+                if (profileViewModel.isTeacherView) const SizedBox(height: 5),
                 const AppText(
                   'User Name',
                   textAlign: TextAlign.center,
                   fontWeight: FontWeight.bold,
                   color: AppColors.appDarkBlack,
                 ),
-                if (studentProfileViewModel.isTeacherView) const SizedBox(height: 8),
-                if (studentProfileViewModel.isTeacherView)
+                if (profileViewModel.isTeacherView) const SizedBox(height: 8),
+                if (profileViewModel.isTeacherView)
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 155),
                     padding: EdgeInsets.symmetric(vertical: 3.px, horizontal: 8.px),
@@ -125,8 +118,8 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                       ],
                     ),
                   ),
-                if (studentProfileViewModel.isTeacherView) SizedBox(height: 8.px),
-                if (studentProfileViewModel.isTeacherView)
+                if (profileViewModel.isTeacherView) SizedBox(height: 8.px),
+                if (profileViewModel.isTeacherView)
                   const AppText('01/01/1985', fontSize: 12, textAlign: TextAlign.center),
                 SizedBox(height: 10.px),
                 Row(
@@ -154,25 +147,28 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                       ]),
                     ),
                     const SizedBox(width: 10),
-                    Container(
-                      height: 35,
-                      width: 120,
-                      decoration: BoxDecoration(
-                        color: AppColors.appBlue,
-                        borderRadius: BorderRadius.circular(30),
+                    InkWell(
+                      onTap: () => profileViewModel.setFavorite(),
+                      child: Container(
+                        height: 35,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          color: AppColors.appBlue,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: const Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                          AppImageAsset(
+                            image: ImageConstants.saveIcon,
+                            height: 20,
+                          ),
+                          SizedBox(width: 5),
+                          AppText(
+                            'Favorite',
+                            color: AppColors.appWhite,
+                            fontSize: 14,
+                          ),
+                        ]),
                       ),
-                      child: const Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-                        AppImageAsset(
-                          image: ImageConstants.saveIcon,
-                          height: 20,
-                        ),
-                        SizedBox(width: 5),
-                        AppText(
-                          'Message',
-                          color: AppColors.appWhite,
-                          fontSize: 14,
-                        ),
-                      ]),
                     ),
                   ],
                 ),
@@ -225,8 +221,8 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                           ),
                         ],
                       ),
-                      if (studentProfileViewModel.isTeacherView) SizedBox(height: 15.px),
-                      if (studentProfileViewModel.isTeacherView)
+                      if (profileViewModel.isTeacherView) SizedBox(height: 15.px),
+                      if (profileViewModel.isTeacherView)
                         Row(
                           children: <Widget>[
                             Column(
@@ -267,12 +263,12 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                           ),
                         ],
                       ),
-                      if (studentProfileViewModel.isTeacherView) buildEducationCard()
+                      if (profileViewModel.isTeacherView) buildEducationCard()
                     ],
                   ),
                 ),
                 SizedBox(height: 15.px),
-                if (studentProfileViewModel.isTeacherView)
+                if (profileViewModel.isTeacherView)
                   Container(
                       margin: EdgeInsets.symmetric(horizontal: 15.px),
                       child: const AppText(
@@ -280,9 +276,8 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                       )),
-                if (!studentProfileViewModel.isTeacherView)
-                SizedBox(height: 15.px),
-                if (!studentProfileViewModel.isTeacherView)
+                if (!profileViewModel.isTeacherView) SizedBox(height: 15.px),
+                if (!profileViewModel.isTeacherView)
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 15.px),
                     padding: const EdgeInsets.all(20),
@@ -306,15 +301,15 @@ class _StudentProfileViewState extends State<StudentProfileView> {
                       )
                     ]),
                   ),
-                SizedBox(height: 10),
-                if (studentProfileViewModel.isTeacherView) const AvailableTimesCalender(),
+                SizedBox(height: 10.px),
+                if (profileViewModel.isTeacherView) const AvailableTimesCalender(),
               ],
             );
           },
         ));
   }
 
-  buildEducationCard() {
+  Widget buildEducationCard() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -411,98 +406,100 @@ class _StudentProfileViewState extends State<StudentProfileView> {
     );
   }
 
-  Container buildExperienceCardView() => Container(
-        margin: EdgeInsets.symmetric(horizontal: 15.px),
-        padding: EdgeInsets.all(15.px),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.lightPurple),
-        ),
-        child: (studentProfileViewModel.isTeacherView)
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      AppText(
-                        'Experience',
-                        fontSize: 10.px,
-                        color: AppColors.appGrey,
-                      ),
-                      AppText(
-                        '10 Years',
-                        fontSize: 14.px,
-                        fontWeight: FontWeight.w700,
-                      )
-                    ],
-                  ),
-                  SizedBox(width: 25.px),
-                  Column(
-                    children: <Widget>[
-                      AppText(
-                        'Classes',
-                        fontSize: 10.px,
-                        color: AppColors.appGrey,
-                      ),
-                      AppText(
-                        '48',
-                        fontSize: 14.px,
-                        fontWeight: FontWeight.w700,
-                      )
-                    ],
-                  ),
-                  SizedBox(width: 25.px),
-                  Column(
-                    children: <Widget>[
-                      AppText(
-                        'Favourite',
-                        fontSize: 10.px,
-                        color: AppColors.appGrey,
-                      ),
-                      AppText(
-                        '24',
-                        fontSize: 14.px,
-                        fontWeight: FontWeight.w700,
-                      )
-                    ],
-                  ),
-                ],
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      AppText(
-                        'Attended Classes ',
-                        fontSize: 10.px,
-                        color: AppColors.appGrey,
-                      ),
-                      AppText(
-                        '48',
-                        fontSize: 14.px,
-                        fontWeight: FontWeight.w700,
-                      )
-                    ],
-                  ),
-                  SizedBox(width: 25.px),
-                  Column(
-                    children: <Widget>[
-                      AppText(
-                        'Created Classes',
-                        fontSize: 10.px,
-                        color: AppColors.appGrey,
-                      ),
-                      AppText(
-                        '14',
-                        fontSize: 14.px,
-                        fontWeight: FontWeight.w700,
-                      )
-                    ],
-                  ),
-                ],
-              ),
-      );
+  Widget buildExperienceCardView() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 15.px),
+      padding: EdgeInsets.all(15.px),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppColors.lightPurple),
+      ),
+      child: (profileViewModel.isTeacherView)
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    AppText(
+                      'Experience',
+                      fontSize: 10.px,
+                      color: AppColors.appGrey,
+                    ),
+                    AppText(
+                      '10 Years',
+                      fontSize: 14.px,
+                      fontWeight: FontWeight.w700,
+                    )
+                  ],
+                ),
+                SizedBox(width: 25.px),
+                Column(
+                  children: <Widget>[
+                    AppText(
+                      'Classes',
+                      fontSize: 10.px,
+                      color: AppColors.appGrey,
+                    ),
+                    AppText(
+                      '48',
+                      fontSize: 14.px,
+                      fontWeight: FontWeight.w700,
+                    )
+                  ],
+                ),
+                SizedBox(width: 25.px),
+                Column(
+                  children: <Widget>[
+                    AppText(
+                      'Favourite',
+                      fontSize: 10.px,
+                      color: AppColors.appGrey,
+                    ),
+                    AppText(
+                      '24',
+                      fontSize: 14.px,
+                      fontWeight: FontWeight.w700,
+                    )
+                  ],
+                ),
+              ],
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    AppText(
+                      'Attended Classes ',
+                      fontSize: 10.px,
+                      color: AppColors.appGrey,
+                    ),
+                    AppText(
+                      '48',
+                      fontSize: 14.px,
+                      fontWeight: FontWeight.w700,
+                    )
+                  ],
+                ),
+                SizedBox(width: 25.px),
+                Column(
+                  children: <Widget>[
+                    AppText(
+                      'Created Classes',
+                      fontSize: 10.px,
+                      color: AppColors.appGrey,
+                    ),
+                    AppText(
+                      '14',
+                      fontSize: 14.px,
+                      fontWeight: FontWeight.w700,
+                    )
+                  ],
+                ),
+              ],
+            ),
+    );
+  }
 }
 
 class AvailableTimesCalender extends StatelessWidget {

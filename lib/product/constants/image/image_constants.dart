@@ -253,4 +253,7 @@ class ImageConstants {
       '${ApplicationConstants.iconPath}icon_message.svg';
   static const String homeHomeIcon =
       '${ApplicationConstants.iconPath}icon_home.svg';
+
+  static const String earthIcon =
+      '${ApplicationConstants.iconPath}earth.svg';
 }

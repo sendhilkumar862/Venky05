@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:hessah/feature/wallet/view/withdraw.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/routes.dart';
+import '../../../../custom/amount/app_amount_view.dart';
+import '../../../../custom/app_button/app_button.dart';
+import '../../../../custom/appbar/appbar.dart';
+import '../../../../custom/cardView/heading_card_view.dart';
+import '../../../../custom/cardView/info_card_view.dart';
+import '../../../../custom/divider/divider.dart';
+import '../../../../custom/image/app_image_assets.dart';
+import '../../../../custom/text/app_text.dart';
 import '../../../../product/base/view/base_view.dart';
-import '../../../config/routes/app_router.dart';
-import '../../../config/routes/routes.dart';
-import '../../../custom/amount/app_amount_view.dart';
-import '../../../custom/app_button/app_button.dart';
-import '../../../custom/appbar/appbar.dart';
-import '../../../custom/cardView/heading_card_view.dart';
-import '../../../custom/cardView/info_card_view.dart';
-import '../../../custom/divider/divider.dart';
-import '../../../custom/image/app_image_assets.dart';
-import '../../../custom/text/app_text.dart';
-import '../../../product/constants/colors/app_colors_constants.dart';
-import '../../../product/constants/image/image_constants.dart';
+import '../../../../product/constants/colors/app_colors_constants.dart';
+import '../../../../product/constants/image/image_constants.dart';
+import '../../view/invoice_card_view.dart';
+import '../../view/view_all_view.dart';
+import '../../view/withdraw.dart';
+import '../../view/withdraw_view.dart';
 import '../viewModel/wallet_view_model.dart';
-import 'invoice_card_view.dart';
-import 'view_all_view.dart';
-import 'withdraw_view.dart';
 
 class WalletView extends StatefulWidget {
   const WalletView({super.key});
@@ -31,6 +31,7 @@ class WalletView extends StatefulWidget {
 
 class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
   bool isStudent = false;
+
   @override
   Widget build(BuildContext context) {
     return BaseView<WalletViewModel>(
@@ -44,10 +45,10 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
             return Scaffold(
               backgroundColor: AppColors.appWhite,
               appBar: HessaAppBar(
-                icon: ImageConstants.avtar,
+                icon: (!walletViewModel.isProfileTeacher)? ImageConstants.avtar : ImageConstants.teacherAvtar,
                 title: 'Welcome!',
                 subTitle: 'Abdullah Mohamed',
-                // isPro: true,
+                isPro: walletViewModel.isProfileTeacher,
               ),
               body: ListView(
                 children: <Widget>[
@@ -60,10 +61,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                     fontWeight: FontWeight.w400,
                   ),
                   SizedBox(height: 5.px),
-                  AppAmountView(
-                      amount: '100.500 KWD',
-                      firstFontSize: 24.px,
-                      decimalSize: 16.px),
+                  AppAmountView(amount: '100.500 KWD', firstFontSize: 24.px, decimalSize: 16.px),
                   SizedBox(height: 14.px),
                   Container(
                     alignment: Alignment.center,
@@ -77,38 +75,28 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       // from teachers and students view conditionally manage
-                      children: (true)
+                      children: (!walletViewModel.isProfileTeacher)
                           ? <Widget>[
-                              balanceCardView(
-                                  title: 'Active Classes\nBooked',
-                                  amount: '100.000 KWD'),
+                              balanceCardView(title: 'Active Classes\nBooked', amount: '100.000 KWD'),
                               AppDivider(isVerticle: true),
-                              balanceCardView(
-                                  title: 'New Classes\nCreated',
-                                  amount: '100.000 KWD'),
+                              balanceCardView(title: 'New Classes\nCreated', amount: '100.000 KWD'),
                               AppDivider(isVerticle: true),
-                              balanceCardView(
-                                  title: 'Pending\nPayment',
-                                  amount: '100.000 KWD'),
+                              balanceCardView(title: 'Pending\nPayment', amount: '100.000 KWD'),
                             ]
                           : <Widget>[
-                              balanceCardView(
-                                  title: 'Pending Balance',
-                                  amount: '100.000 KWD'),
+                              balanceCardView(title: 'Pending Balance', amount: '100.000 KWD'),
                               AppDivider(isVerticle: true),
-                              balanceCardView(
-                                  title: 'Pending Withdraw',
-                                  amount: '100.000 KWD'),
+                              balanceCardView(title: 'Pending Withdraw', amount: '100.000 KWD'),
                             ],
                     ),
                   ),
                   SizedBox(height: 16.px),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
-                    child: isStudent
+                    child: walletViewModel.isProfileTeacher
                         ? screenButton(
                             onTap: () {
-                              AppRouter.push(const WithDrawScreen());
+                              AppRouter.push(WithDrawScreen());
                             },
                             title: 'Top Up Wallet',
                             icon: ImageConstants.walletIcon)
@@ -135,15 +123,14 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                                   icon: ImageConstants.walletIcon),
                               SizedBox(width: 15.px),
                               screenButton(
-                                  onTap: () =>
-                                      AppRouter.push(const WithdrawView()),
+                                  onTap: () => AppRouter.push(const WithdrawView()),
                                   title: 'Withdraw',
                                   icon: ImageConstants.walletIcon),
                             ],
                           ),
                   ),
-                  SizedBox(height: 25.px),
-                  chartCardView(walletViewModel: walletViewModel),
+                  if(!walletViewModel.isProfileTeacher)SizedBox(height: 25.px),
+                  if(!walletViewModel.isProfileTeacher)chartCardView(walletViewModel: walletViewModel),
                   SizedBox(height: 25.px),
                   HeadingCardView(
                     title: 'Last Invoices',
@@ -162,8 +149,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                         return (false)
                             ? InfoCardVIew(
                                 title: 'No Invoices!',
-                                subTitle:
-                                    'Book classes or create new to see invoices.',
+                                subTitle: 'Book classes or create new to see invoices.',
                                 buttonTitle: 'Create New Class',
                                 buttonTap: () {},
                               )
@@ -176,12 +162,9 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                                   AppRouter.pushNamed(Routes.invoiceDetails);
                                 },
                               );
-                        ;
                       },
                       separatorBuilder: (BuildContext context, int index) {
-                        return Padding(
-                            padding: EdgeInsets.only(left: 15.px),
-                            child: AppDivider());
+                        return Padding(padding: EdgeInsets.only(left: 15.px), child: AppDivider());
                       },
                     ),
                   )
@@ -355,10 +338,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                     color: AppColors.appGreen,
                   ),
                   SizedBox(width: 5.px),
-                  AppText('2.1%',
-                      fontSize: 12.px,
-                      color: AppColors.appGreen,
-                      fontWeight: FontWeight.w700),
+                  AppText('2.1%', fontSize: 12.px, color: AppColors.appGreen, fontWeight: FontWeight.w700),
                   AppText(
                     'vs last Month',
                     fontSize: 12.px,
@@ -473,8 +453,7 @@ class BookingBottomSheet extends StatelessWidget {
               alignment: Alignment.center,
               height: 25.px,
               width: 25.px,
-              decoration: const BoxDecoration(
-                  color: AppColors.appLightGrey, shape: BoxShape.circle),
+              decoration: const BoxDecoration(color: AppColors.appLightGrey, shape: BoxShape.circle),
               child: const AppImageAsset(
                 image: ImageConstants.closeIcon,
                 height: 20,

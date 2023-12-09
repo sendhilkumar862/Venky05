@@ -5,7 +5,6 @@ import '../../config/routes/app_router.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
 import '../../product/utils/typography.dart';
-import '../../product/utils/validators.dart';
 import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
 
@@ -26,6 +25,8 @@ class HessaAppBar extends PreferredSize {
       this.isBack = true,
       this.onCallTap,
       this.trailingWidget,
+      this.reviewStarLength = 0,
+      this.isReviewStar = false,
       this.icon})
       : super(
           child: Container(),
@@ -46,6 +47,8 @@ class HessaAppBar extends PreferredSize {
   final GestureTapCallback? onSearchTap;
   final GestureTapCallback? onBellTap;
   final GestureTapCallback? onCallTap;
+  final bool? isReviewStar;
+  final int? reviewStarLength;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +56,7 @@ class HessaAppBar extends PreferredSize {
     double appBarHeight = kToolbarHeight + statusBarHeight; // Adjusted for status bar
     return Container(
       alignment: Alignment.centerLeft,
-      height: appBarHeight + 10,
+      height: appBarHeight + 30,
       color: AppColors.appWhite,
       child: Stack(
         fit: StackFit.expand,
@@ -72,14 +75,17 @@ class HessaAppBar extends PreferredSize {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: TextButton(
-                        child: Text(trailingText ?? '', style: openSans.get12.w600.textColor(AppColors.appTextColor)),
+                        child: Text(
+                          trailingText ?? '',
+                          style: openSans.get12.w600.textColor(AppColors.appTextColor),
+                        ),
                         onPressed: () {
                           AppRouter.pop();
                         },
                       ),
                     )),
                 Padding(
-                  padding: EdgeInsets.only(right: 20.px),
+                  padding: EdgeInsets.only(right: 0.px),
                   child: InkWell(onTap: trailingTap, child: trailingWidget ?? SizedBox()),
                 )
               ],
@@ -93,10 +99,7 @@ class HessaAppBar extends PreferredSize {
                     Padding(
                       padding: const EdgeInsets.only(right: 4),
                       child: IconButton(
-                        onPressed: leadingTap ??
-                            () {
-                              AppRouter.pop();
-                            },
+                        onPressed: leadingTap ?? () => AppRouter.pop(),
                         highlightColor: AppColors.trans,
                         hoverColor: AppColors.trans,
                         icon: const Icon(
@@ -143,12 +146,14 @@ class HessaAppBar extends PreferredSize {
                         ),
                       ],
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(500),
-                      child: GestureDetector(
-                        onTap: onProfileTap,
-                        child: AppImageAsset(
-                          image: icon!,
+                    child: SizedBox(height: 60,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(500),
+                        child: GestureDetector(
+                          onTap: onProfileTap,
+                          child: AppImageAsset(
+                            image: icon!,
+                          ),
                         ),
                       ),
                     ),
