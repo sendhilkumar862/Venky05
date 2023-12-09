@@ -10,7 +10,6 @@ import 'config/routes/app_router.dart';
 import 'feature/classDetails/view/class_details_view.dart';
 import 'feature/home/view/home_view.dart';
 import 'feature/splash/view/splash_view.dart';
-import 'feature/student_profile/view/student_profile.dart';
 import 'feature/tutorial/messages/view/message_view.dart';
 import 'feature/tutorial/mobileEnter/view/mobile_view.dart';
 import 'feature/tutorial/password/view/password_view.dart';
@@ -55,8 +54,8 @@ class MyApp extends StatelessWidget {
           supportedLocales: LanguageManager.instance.supportedLocales,
           navigatorKey: AppRouter.navigatorKey,
           theme: context.watch<ThemeNotifier>().currentTheme,
-          // home: const SplashView(),
-          home: StudentProfileView(),
+          home: const SplashView(),
+          // home: StudentProfileView(),
           builder: EasyLoading.init(),
         );
       },
