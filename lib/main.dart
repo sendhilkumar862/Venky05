@@ -8,6 +8,9 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'config/routes/app_router.dart';
 import 'feature/splash/view/splash_view.dart';
+import 'feature/tutorial/messages/view/message_view.dart';
+import 'feature/tutorial/mobileEnter/view/mobile_view.dart';
+import 'feature/tutorial/password/view/password_view.dart';
 import 'product/cache/locale_manager.dart';
 import 'product/constants/app/app_constants.dart';
 import 'product/lang/language_manager.dart';
