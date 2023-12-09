@@ -1,19 +1,24 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:hessah/config/routes/app_router.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
+import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/choice/src/modal/button.dart';
+import '../../../../custom/switch/app_switch.dart';
+import '../../../../custom/text/app_text.dart';
 import '../../../../product/base/view/base_view.dart';
+import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../../product/utils/validators.dart';
-import '../../address/view/address_view.dart';
 import '../viewModel/class_detail_view_model.dart';
 
 class ClassDetail extends StatefulWidget {
@@ -79,7 +84,8 @@ class _ClassDetailState extends State<ClassDetail> {
         onModelReady: (ClassDetailViewModel model) {
           model.setContext(context);
         },
-        onPageBuilder: (BuildContext context, ClassDetailViewModel value) {
+        onPageBuilder:
+            (BuildContext context, ClassDetailViewModel classDetailViewModel) {
           return Scaffold(
             appBar: HessaAppBar(
               isTitleOnly: true,
@@ -88,215 +94,249 @@ class _ClassDetailState extends State<ClassDetail> {
               title: 'createClass'.tr(),
               // normalAppbar: true,
             ),
-            body: Form(
-              key: formKey,
-              onChanged: () {
-                if (formKey.currentState!.validate()) {
-                  setState(() {
-                    isDisable = false;
-                  });
-                } else {
-                  setState(() {
-                    isDisable = true;
-                  });
-                }
-              },
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: Text(
-                            'classDetails'.tr(),
-                            style: openSans.get20.w700
-                                .textColor(AppColors.appTextColor),
+            body: Observer(builder: (BuildContext context) {
+              return Form(
+                key: formKey,
+                onChanged: () {
+                  if (formKey.currentState!.validate()) {
+                    setState(() {
+                      isDisable = false;
+                    });
+                  } else {
+                    setState(() {
+                      isDisable = true;
+                    });
+                  }
+                },
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Text(
+                              'classDetails'.tr(),
+                              style: openSans.get20.w700
+                                  .textColor(AppColors.appTextColor),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Text(
-                            'participators'.tr(),
-                            style: openSans.get12.w400.textColor(
-                                AppColors.appTextColor.withOpacity(0.5)),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              'participators'.tr(),
+                              style: openSans.get12.w400.textColor(
+                                  AppColors.appTextColor.withOpacity(0.5)),
+                            ),
                           ),
-                        ),
-                        SfRangeSlider(
-                          max: 100.0,
-                          values: sliderValue,
-                          interval: 20,
-                          minorTicksPerInterval: 1,
-                          onChanged: (SfRangeValues values) {
-                            setState(() {
-                              sliderValue = values;
-                            });
-                          },
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('minimum'.tr(),
-                                style: openSans.get10.w400.textColor(
-                                    AppColors.appTextColor.withOpacity(0.5))),
-                            Text('maximum'.tr(),
-                                style: openSans.get10.w400.textColor(
-                                    AppColors.appTextColor.withOpacity(0.5))),
-                          ],
-                        ),
-                        AppTextFormField(
-                          controller: classCost,
-                          keyboardType: const TextInputType.numberWithOptions(),
-                          validate: Validators.requiredValidator.call,
-                          suffix: Padding(
-                            padding: const EdgeInsets.only(top: 12),
-                            child: Text('kwd'.tr(), style: openSans.get16.w400),
+                          SfRangeSlider(
+                            max: 100.0,
+                            values: sliderValue,
+                            interval: 20,
+                            minorTicksPerInterval: 1,
+                            onChanged: (SfRangeValues values) {
+                              setState(() {
+                                sliderValue = values;
+                              });
+                            },
                           ),
-                          hintText: 'classCost'.tr(),
-                        ),
-                        AppTextFormField(
-                          controller: numberOfSession,
-                          validate: Validators.requiredValidator.call,
-                          hintText: 'numberOfSessions'.tr(),
-                        ),
-                        AppTextFormField(
-                          validate: Validators.requiredValidator.call,
-                          controller: dateController,
-                          onTap: () {
-                            selectDate(context, dateController);
-                          },
-                          hintText: 'selectDateAndTime'.tr(),
-                          readOnly: true,
-                          suffix: const Icon(Icons.keyboard_arrow_down_sharp,
-                              color: AppColors.downArrowColor),
-                        ),
-                        AppTextFormField(
-                          validate: Validators.requiredValidator.call,
-                          hintText: 'selectClass2DateAndTime'.tr(),
-                          controller: class2DateController,
-                          onTap: () {
-                            selectDate(context, class2DateController);
-                          },
-                          title: 'class2DateAndTime'.tr(),
-                          readOnly: true,
-                          suffix: const Icon(Icons.keyboard_arrow_down_sharp,
-                              color: AppColors.downArrowColor),
-                        ),
-                        AppTextFormField(
-                          validate: Validators.requiredValidator.call,
-                          suffix: const Icon(Icons.keyboard_arrow_down_sharp,
-                              color: AppColors.downArrowColor),
-                          hintText: 'classDuration'.tr(),
-                          title: 'classDuration'.tr(),
-                          readOnly: true,
-                          controller: classDurationController,
-                          onTap: () {
-                            bottomSheetDropDownList();
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20, bottom: 7),
-                          child: Text(
-                            'selectLocation'.tr(),
-                            style: TextStyle(
-                                color: const Color(0xff051335).withOpacity(0.5),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                        SizedBox(
-                          width: width,
-                          child: DottedBorder(
-                              borderType: BorderType.RRect,
-                              radius: Radius.circular(15),
-                              color: AppColors.appBlue,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 10),
-                                child: Column(
-                                  children: [
-                                    Center(
-                                        child: Text(
-                                      'noAddressFound'.tr(),
-                                      style: openSans.get16.w700,
-                                    )),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 15),
-                                      child: AppButton(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderColor: AppColors.appBlue,
-                                          isBorderOnly: true,
-                                          textStyle: const TextStyle(
-                                              color: AppColors.appBlue,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600),
-                                          height: 45,
-                                          width: width,
-                                          title: 'addAddressFound'.tr(),
-                                          onPressed: () {
-                                            locationModalBottomSheet(context);
-                                          },
-                                          isDisable: isDisable),
-                                    )
-                                  ],
-                                ),
-                              )),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 25, bottom: 10),
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                'OtherParticipators'.tr(),
-                                style: openSans.get20.w700
-                                    .textColor(AppColors.appTextColor),
-                              ),
-                              Text(
-                                'optional'.tr(),
-                                style: openSans.get12.w400.textColor(
-                                    AppColors.appTextColor.withOpacity(0.5)),
-                              ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('minimum'.tr(),
+                                  style: openSans.get10.w400.textColor(
+                                      AppColors.appTextColor.withOpacity(0.5))),
+                              Text('maximum'.tr(),
+                                  style: openSans.get10.w400.textColor(
+                                      AppColors.appTextColor.withOpacity(0.5))),
                             ],
                           ),
-                        ),
-                        AppTextFormField(
-                          top: 0,
-                          controller: participators2,
-                          validate: emailValidator.call,
-                          title: 'participators2'.tr(),
-                          hintText: 'enterEmailAddress'.tr(),
-                        ),
-                        AppTextFormField(
-                          controller: participators3,
-                          validate: emailValidator.call,
-                          title: 'participators3'.tr(),
-                          hintText: 'enterEmailAddress'.tr(),
-                        ),
-                        AppTextFormField(
-                          controller: participators4,
-                          validate: emailValidator.call,
-                          title: 'participators4'.tr(),
-                          hintText: 'enterEmailAddress'.tr(),
-                        ),
-                        AppTextFormField(
-                          controller: participators5,
-                          validate: emailValidator.call,
-                          title: 'participators5'.tr(),
-                          hintText: 'enterEmailAddress'.tr(),
-                        ),
-                        AppButton(
-                          title: 'nextForClassDetails'.tr(),
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {}
-                          },
-                          isDisable: isDisable,
-                        ),
-                      ]),
+                          AppTextFormField(
+                            controller: classCost,
+                            keyboardType:
+                                const TextInputType.numberWithOptions(),
+                            validate: Validators.requiredValidator.call,
+                            suffix: Padding(
+                              padding: const EdgeInsets.only(top: 12),
+                              child:
+                                  Text('kwd'.tr(), style: openSans.get16.w400),
+                            ),
+                            hintText: 'classCost'.tr(),
+                          ),
+                          AppTextFormField(
+                            controller: numberOfSession,
+                            validate: Validators.requiredValidator.call,
+                            hintText: 'numberOfSessions'.tr(),
+                          ),
+                          AppTextFormField(
+                            validate: Validators.requiredValidator.call,
+                            controller: dateController,
+                            onTap: () {
+                              selectDate(context, dateController);
+                            },
+                            hintText: 'selectDateAndTime'.tr(),
+                            readOnly: true,
+                            suffix: const Icon(Icons.keyboard_arrow_down_sharp,
+                                color: AppColors.downArrowColor),
+                          ),
+                          AppTextFormField(
+                            validate: Validators.requiredValidator.call,
+                            hintText: 'selectClass2DateAndTime'.tr(),
+                            controller: class2DateController,
+                            onTap: () {
+                              selectDate(context, class2DateController);
+                            },
+                            title: 'class2DateAndTime'.tr(),
+                            readOnly: true,
+                            suffix: const Icon(Icons.keyboard_arrow_down_sharp,
+                                color: AppColors.downArrowColor),
+                          ),
+                          AppTextFormField(
+                            validate: Validators.requiredValidator.call,
+                            suffix: const Icon(Icons.keyboard_arrow_down_sharp,
+                                color: AppColors.downArrowColor),
+                            hintText: 'classDuration'.tr(),
+                            title: 'classDuration'.tr(),
+                            readOnly: true,
+                            controller: classDurationController,
+                            onTap: () {
+                              bottomSheetDropDownList();
+                            },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20, bottom: 7),
+                            child: Text(
+                              'selectLocation'.tr(),
+                              style: TextStyle(
+                                  color:
+                                      const Color(0xff051335).withOpacity(0.5),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                          SizedBox(
+                            width: width,
+                            child: DottedBorder(
+                                borderType: BorderType.RRect,
+                                radius: Radius.circular(15),
+                                color: AppColors.appBlue,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                  child: Column(
+                                    children: [
+                                      Center(
+                                          child: Text(
+                                        'noAddressFound'.tr(),
+                                        style: openSans.get16.w700,
+                                      )),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 15),
+                                        child: AppButton(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderColor: AppColors.appBlue,
+                                            isBorderOnly: true,
+                                            textStyle: const TextStyle(
+                                                color: AppColors.appBlue,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600),
+                                            height: 45,
+                                            width: width,
+                                            title: 'addAddressFound'.tr(),
+                                            onPressed: () {
+                                              locationModalBottomSheet(context);
+                                            },
+                                            isDisable: isDisable),
+                                      )
+                                    ],
+                                  ),
+                                )),
+                          ),
+                          if (classDetailViewModel.selectedProfile ==
+                              ApplicationConstants.tutor)
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 15, bottom: 35),
+                              child: Row(
+                                children: <Widget>[
+                                  AppText(
+                                    'allowTheClassAtTheStudentPlace'.tr(),
+                                    fontSize: 14.px,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  SizedBox(width: 8.px),
+                                  AppSwitch(
+                                      onTap: () {
+                                        classDetailViewModel.onTapSwitch();
+                                      },
+                                      isActive: classDetailViewModel.isActive)
+                                ],
+                              ),
+                            ),
+                          if (classDetailViewModel.selectedProfile ==
+                              ApplicationConstants.student)
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 25, bottom: 10),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'otherParticipators'.tr(),
+                                        style: openSans.get20.w700
+                                            .textColor(AppColors.appTextColor),
+                                      ),
+                                      Text(
+                                        'optional'.tr(),
+                                        style: openSans.get12.w400.textColor(
+                                            AppColors.appTextColor
+                                                .withOpacity(0.5)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                AppTextFormField(
+                                  top: 0,
+                                  controller: participators2,
+                                  validate: emailValidator.call,
+                                  title: 'participators2'.tr(),
+                                  hintText: 'enterEmailAddress'.tr(),
+                                ),
+                                AppTextFormField(
+                                  controller: participators3,
+                                  validate: emailValidator.call,
+                                  title: 'participators3'.tr(),
+                                  hintText: 'enterEmailAddress'.tr(),
+                                ),
+                                AppTextFormField(
+                                  controller: participators4,
+                                  validate: emailValidator.call,
+                                  title: 'participators4'.tr(),
+                                  hintText: 'enterEmailAddress'.tr(),
+                                ),
+                                AppTextFormField(
+                                  controller: participators5,
+                                  validate: emailValidator.call,
+                                  title: 'participators5'.tr(),
+                                  hintText: 'enterEmailAddress'.tr(),
+                                ),
+                              ],
+                            ),
+                          AppButton(
+                            title: 'nextForClassDetails'.tr(),
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {}
+                            },
+                            isDisable: isDisable,
+                          ),
+                        ]),
+                  ),
                 ),
-              ),
-            ),
+              );
+            }),
           );
         });
   }
@@ -462,13 +502,14 @@ class _ClassDetailState extends State<ClassDetail> {
               ),
               AppButton(
                 onPressed: () {},
+                isDisable: false,
                 title: 'select'.tr(),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: TextButton(
                     onPressed: () {
-                      AppRouter.push(const AddressView());
+                      AppRouter.pushNamed(Routes.addressView);
                     },
                     child: Text(
                       'addNewAddress'.tr(),

@@ -1,7 +1,10 @@
 // ignore_for_file: always_specify_types, unnecessary_statements
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
@@ -41,160 +44,179 @@ class _AddressViewState extends State<AddressView> {
   Widget build(BuildContext context) {
     return BaseView<AddressViewModel>(
         viewModel: AddressViewModel(),
-        onModelReady: (AddressViewModel model) {
-          model.setContext(context);
+        onModelReady: (AddressViewModel addressViewModel) {
+          addressViewModel.setContext(context);
+          addressViewModel.init();
         },
-        onPageBuilder: (BuildContext context, AddressViewModel value) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            home: Scaffold(
-              appBar: HessaAppBar(
-                isTitleOnly: true,
-                trailingText: 'Cancel',
-                title: 'Add New Address',
-                isBack: false,
-              ),
-              body: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Form(
-                    key: formKey,
-                    onChanged: () {
-                      if (formKey.currentState!.validate()) {
-                        setState(() {
-                          isDisable = false;
-                        });
-                      } else {
-                        setState(() {
-                          isDisable = true;
-                        });
-                      }
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppTextFormField(
-                          suffix: const Icon(Icons.keyboard_arrow_down),
-                          readOnly: true,
-                          hintText: 'Select City',
-                          title: 'City',
-                          controller: city,
-                          onTap: () {
-                            bottomSheetDropDownList();
-                          },
-                          validate: (p0) {
-                            if (p0 == null || p0.isEmpty) {
-                              return 'Please Select Your City';
-                            }
-                            return null;
-                          },
+        onPageBuilder:
+            (BuildContext context, AddressViewModel addressViewModel) {
+          return Scaffold(
+            appBar: HessaAppBar(
+              isTitleOnly: true,
+              trailingText: 'cancel'.tr(),
+              title: 'addNewAddress'.tr(),
+              isBack: false,
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Form(
+                  key: formKey,
+                  onChanged: () {
+                    if (formKey.currentState!.validate()) {
+                      setState(() {
+                        isDisable = false;
+                      });
+                    } else {
+                      setState(() {
+                        isDisable = true;
+                      });
+                    }
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppTextFormField(
+                        suffix: const Icon(Icons.keyboard_arrow_down),
+                        readOnly: true,
+                        hintText: 'selectCity'.tr(),
+                        title: 'city'.tr(),
+                        controller: city,
+                        onTap: () {
+                          bottomSheetDropDownList();
+                        },
+                        validate: (p0) {
+                          if (p0 == null || p0.isEmpty) {
+                            return 'pleaseSelectYourCity'.tr();
+                          }
+                          return null;
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: AppTextFormField(
+                            validate: (p0) {
+                              if (p0 == null || p0.isEmpty) {
+                                return 'enterYourAddressLine1'.tr();
+                              }
+                              return null;
+                            },
+                            hintText: 'enterAddress1'.tr(),
+                            title: 'address1'.tr()),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: AppTextFormField(
+                          hintText: 'enterAddress2'.tr(),
+                          title: 'address2optional'.tr(),
                         ),
-                        Padding(
+                      ),
+                      Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: AppTextFormField(
-                              validate: (p0) {
-                                if (p0 == null || p0.isEmpty) {
-                                  return 'Enter Your Address Line 1';
-                                }
-                                return null;
-                              },
-                              hintText: 'Enter Address 1',
-                              title: 'Address 1'),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 20),
-                          child: AppTextFormField(
-                            hintText: 'Enter Address 2',
-                            title: 'Address 2 (optional)',
+                            controller: countryCode,
+                            keyboardType: TextInputType.phone,
+                            title: 'contactNumber'.tr(),
+                            hintText: 'enterMobileNumber'.tr(),
+                            prefix: CountryPicker(
+                              flagDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(2)),
+                              padding: EdgeInsets.zero,
+                              onChanged: (CountryCode countryCode) {},
+                              alignLeft: false,
+                              dialogSize: const Size.square(550),
+                              dialogTextStyle: openSans.w500.get16,
+                              initialSelection: 'IN',
+                              favorite: ['+91', 'IN'],
+                              showDropDownButton: true,
+                              textStyle: openSans.black.get12,
+                            ),
+                          )),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Text('location'.tr()),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Container(
+                          height: 140.px,
+                          width: double.infinity,
+                          decoration:
+                              const BoxDecoration(color: AppColors.appWhite),
+                          child: GoogleMap(
+                            markers: <Marker>{
+                              Marker(
+                                markerId: const MarkerId('selectLocation'),
+                                position: LatLng(
+                                  double.parse('24.7136'),
+                                  double.parse('46.6753'),
+                                ),
+                              )
+                            },
+                            initialCameraPosition:
+                                addressViewModel.kGooglePlex!,
+                            zoomControlsEnabled: false,
+                            zoomGesturesEnabled: false,
+                            onMapCreated: (GoogleMapController controllers) =>
+                                addressViewModel.mapController
+                                    .complete(controllers),
                           ),
                         ),
-                        Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: AppTextFormField(
-                              controller: countryCode,
-                              keyboardType: TextInputType.phone,
-                              title: 'Contact Number',
-                              hintText: 'Enter mobile number',
-                              prefix: CountryPicker(
-                                flagDecoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(2)),
-                                padding: EdgeInsets.zero,
-                                onChanged: (CountryCode countryCode) {},
-                                alignLeft: false,
-                                dialogSize: const Size.square(550),
-                                dialogTextStyle: openSans.w500.get16,
-                                initialSelection: 'IN',
-                                favorite: ['+91', 'IN'],
-                                showDropDownButton: true,
-                                textStyle: openSans.black.get12,
-                              ),
-                            )),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 20),
-                          child: Text('Location'),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Image.network(
-                              'https://www.cxotoday.com/ashojoac/2022/12/GoogleMaps.jpg'),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: Row(children: [
-                            Text('Set as Default Address',
-                                style: openSans.w500),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              // flutter_switch package
-                              child: FlutterSwitch(
-                                value: isSwitch,
-                                height: 23,
-                                width: 40,
-                                toggleSize: 12,
-                                activeColor: AppColors.appBlue,
-                                inactiveColor: AppColors.gray.withOpacity(0.25),
-                                onToggle: (value) {
-                                  setState(() {
-                                    isSwitch = value;
-                                  });
-                                },
-                              ),
-                            )
-                          ]),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 60),
-                          child: AppButton(
-                              onPressed: () {
-                                if (formKey.currentState!.validate()) {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    constraints: BoxConstraints(
-                                      maxWidth:
-                                          MediaQuery.of(context).size.width -
-                                              30,
-                                      // here increase or decrease in width
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    builder: (BuildContext context) {
-                                      return SuccessFailsInfoDialog(
-                                        title: 'Success',
-                                        buttonTitle: 'Done',
-                                        content:
-                                            'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
-                                      );
-                                    },
-                                  );
-                                }
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Row(children: [
+                          Text('setAsDefaultAddress'.tr(),
+                              style: openSans.w500),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            // flutter_switch package
+                            child: FlutterSwitch(
+                              value: isSwitch,
+                              height: 23,
+                              width: 40,
+                              toggleSize: 12,
+                              activeColor: AppColors.appBlue,
+                              inactiveColor: AppColors.gray.withOpacity(0.25),
+                              onToggle: (value) {
+                                setState(() {
+                                  isSwitch = value;
+                                });
                               },
-                              title: 'Next for Class Details',
-                              isDisable: isDisable),
-                        ),
-                      ],
-                    ),
+                            ),
+                          )
+                        ]),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 60),
+                        child: AppButton(
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                showModalBottomSheet(
+                                  context: context,
+                                  constraints: BoxConstraints(
+                                    maxWidth:
+                                        MediaQuery.of(context).size.width - 30,
+                                    // here increase or decrease in width
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  builder: (BuildContext context) {
+                                    return SuccessFailsInfoDialog(
+                                      title: 'success'.tr(),
+                                      buttonTitle: 'done'.tr(),
+                                      content:
+                                          'msgSuccessfullyBookedClass'.tr(),
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                            title: 'nextForClassDetails'.tr(),
+                            isDisable: isDisable),
+                      ),
+                    ],
                   ),
                 ),
               ),
