@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 import 'package:flutter/material.dart';
 
+import '../../feature/class/class_detail/view/class_detail.dart';
 import '../../feature/class/create_class/view/create_class.dart';
 import '../../feature/home/view/home_view.dart';
 // Helpers
@@ -69,6 +70,7 @@ class Routes {
   static const String verifyOtpView = '/verifyOtpView';
   static const String profileSelectionView = '/profileSelectionView';
   static const String profileView = '/profileView';
+  static const String classDetail = '/classDetail';
 
   /// The name of the route for unrecognized route screen
   static const String NotFoundScreenRoute = '/route-not-found-screen';
@@ -101,6 +103,7 @@ class Routes {
     verifyOtpView: (_) => const VerifyOtpView(),
     profileSelectionView: (_) => const ProfileSelectionView(),
     profileView: (_) => const ProfileView(),
+    classDetail: (_) => const ClassDetail(),
   };
 
   static RouteBuilder getRoute(String? routeName) {

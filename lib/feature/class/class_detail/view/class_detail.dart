@@ -80,225 +80,220 @@ class _ClassDetailState extends State<ClassDetail> {
           model.setContext(context);
         },
         onPageBuilder: (BuildContext context, ClassDetailViewModel value) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            home: Scaffold(
-              appBar: HessaAppBar(
-                isTitleOnly: true,
-                // isBack: true,
-                // trailingText: 'Cancel',
-                title: 'Create class',
-                // normalAppbar: true,
-              ),
-              body: Form(
-                key: formKey,
-                onChanged: () {
-                  if (formKey.currentState!.validate()) {
-                    setState(() {
-                      isDisable = false;
-                    });
-                  } else {
-                    setState(() {
-                      isDisable = true;
-                    });
-                  }
-                },
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: Text(
-                              'Class Details',
-                              style: openSans.get20.w700
-                                  .textColor(AppColors.appTextColor),
-                            ),
+          return Scaffold(
+            appBar: HessaAppBar(
+              isTitleOnly: true,
+              // isBack: true,
+              // trailingText: 'Cancel',
+              title: 'createClass'.tr(),
+              // normalAppbar: true,
+            ),
+            body: Form(
+              key: formKey,
+              onChanged: () {
+                if (formKey.currentState!.validate()) {
+                  setState(() {
+                    isDisable = false;
+                  });
+                } else {
+                  setState(() {
+                    isDisable = true;
+                  });
+                }
+              },
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Text(
+                            'classDetails'.tr(),
+                            style: openSans.get20.w700
+                                .textColor(AppColors.appTextColor),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              'participators',
-                              style: openSans.get12.w400.textColor(
-                                  AppColors.appTextColor.withOpacity(0.5)),
-                            ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            'participators'.tr(),
+                            style: openSans.get12.w400.textColor(
+                                AppColors.appTextColor.withOpacity(0.5)),
                           ),
-                          SfRangeSlider(
-                            max: 100.0,
-                            values: sliderValue,
-                            interval: 20,
-                            minorTicksPerInterval: 1,
-                            onChanged: (SfRangeValues values) {
-                              setState(() {
-                                sliderValue = values;
-                              });
-                            },
+                        ),
+                        SfRangeSlider(
+                          max: 100.0,
+                          values: sliderValue,
+                          interval: 20,
+                          minorTicksPerInterval: 1,
+                          onChanged: (SfRangeValues values) {
+                            setState(() {
+                              sliderValue = values;
+                            });
+                          },
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('minimum'.tr(),
+                                style: openSans.get10.w400.textColor(
+                                    AppColors.appTextColor.withOpacity(0.5))),
+                            Text('maximum'.tr(),
+                                style: openSans.get10.w400.textColor(
+                                    AppColors.appTextColor.withOpacity(0.5))),
+                          ],
+                        ),
+                        AppTextFormField(
+                          controller: classCost,
+                          keyboardType: const TextInputType.numberWithOptions(),
+                          validate: Validators.requiredValidator.call,
+                          suffix: Padding(
+                            padding: const EdgeInsets.only(top: 12),
+                            child: Text('kwd'.tr(), style: openSans.get16.w400),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Minimum',
-                                  style: openSans.get10.w400.textColor(
-                                      AppColors.appTextColor.withOpacity(0.5))),
-                              Text('Maximum',
-                                  style: openSans.get10.w400.textColor(
-                                      AppColors.appTextColor.withOpacity(0.5))),
+                          hintText: 'classCost'.tr(),
+                        ),
+                        AppTextFormField(
+                          controller: numberOfSession,
+                          validate: Validators.requiredValidator.call,
+                          hintText: 'numberOfSessions'.tr(),
+                        ),
+                        AppTextFormField(
+                          validate: Validators.requiredValidator.call,
+                          controller: dateController,
+                          onTap: () {
+                            selectDate(context, dateController);
+                          },
+                          hintText: 'selectDateAndTime'.tr(),
+                          readOnly: true,
+                          suffix: const Icon(Icons.keyboard_arrow_down_sharp,
+                              color: AppColors.downArrowColor),
+                        ),
+                        AppTextFormField(
+                          validate: Validators.requiredValidator.call,
+                          hintText: 'selectClass2DateAndTime'.tr(),
+                          controller: class2DateController,
+                          onTap: () {
+                            selectDate(context, class2DateController);
+                          },
+                          title: 'class2DateAndTime'.tr(),
+                          readOnly: true,
+                          suffix: const Icon(Icons.keyboard_arrow_down_sharp,
+                              color: AppColors.downArrowColor),
+                        ),
+                        AppTextFormField(
+                          validate: Validators.requiredValidator.call,
+                          suffix: const Icon(Icons.keyboard_arrow_down_sharp,
+                              color: AppColors.downArrowColor),
+                          hintText: 'classDuration'.tr(),
+                          title: 'classDuration'.tr(),
+                          readOnly: true,
+                          controller: classDurationController,
+                          onTap: () {
+                            bottomSheetDropDownList();
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, bottom: 7),
+                          child: Text(
+                            'selectLocation'.tr(),
+                            style: TextStyle(
+                                color: const Color(0xff051335).withOpacity(0.5),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                        SizedBox(
+                          width: width,
+                          child: DottedBorder(
+                              borderType: BorderType.RRect,
+                              radius: Radius.circular(15),
+                              color: AppColors.appBlue,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 10),
+                                child: Column(
+                                  children: [
+                                    Center(
+                                        child: Text(
+                                      'noAddressFound'.tr(),
+                                      style: openSans.get16.w700,
+                                    )),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 15),
+                                      child: AppButton(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderColor: AppColors.appBlue,
+                                          isBorderOnly: true,
+                                          textStyle: const TextStyle(
+                                              color: AppColors.appBlue,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600),
+                                          height: 45,
+                                          width: width,
+                                          title: 'addAddressFound'.tr(),
+                                          onPressed: () {
+                                            locationModalBottomSheet(context);
+                                          },
+                                          isDisable: isDisable),
+                                    )
+                                  ],
+                                ),
+                              )),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 25, bottom: 10),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                'OtherParticipators'.tr(),
+                                style: openSans.get20.w700
+                                    .textColor(AppColors.appTextColor),
+                              ),
+                              Text(
+                                'optional'.tr(),
+                                style: openSans.get12.w400.textColor(
+                                    AppColors.appTextColor.withOpacity(0.5)),
+                              ),
                             ],
                           ),
-                          AppTextFormField(
-                            controller: classCost,
-                            keyboardType:
-                                const TextInputType.numberWithOptions(),
-                            validate: Validators.requiredValidator.call,
-                            suffix: Padding(
-                              padding: const EdgeInsets.only(top: 12),
-                              child: Text('KWD', style: openSans.get16.w400),
-                            ),
-                            hintText: 'Class Cost',
-                          ),
-                          AppTextFormField(
-                            controller: numberOfSession,
-                            validate: Validators.requiredValidator.call,
-                            hintText: 'Number Of Sessions',
-                          ),
-                          AppTextFormField(
-                            validate: Validators.requiredValidator.call,
-                            controller: dateController,
-                            onTap: () {
-                              selectDate(context, dateController);
-                            },
-                            hintText: 'select Date and Time',
-                            readOnly: true,
-                            suffix: const Icon(Icons.keyboard_arrow_down_sharp,
-                                color: AppColors.downArrowColor),
-                          ),
-                          AppTextFormField(
-                            validate: Validators.requiredValidator.call,
-                            hintText: 'select Class 2 Date and Time',
-                            controller: class2DateController,
-                            onTap: () {
-                              selectDate(context, class2DateController);
-                            },
-                            title: 'Class 2 Date and Time',
-                            readOnly: true,
-                            suffix: const Icon(Icons.keyboard_arrow_down_sharp,
-                                color: AppColors.downArrowColor),
-                          ),
-                          AppTextFormField(
-                            validate: Validators.requiredValidator.call,
-                            suffix: const Icon(Icons.keyboard_arrow_down_sharp,
-                                color: AppColors.downArrowColor),
-                            hintText: 'Class Duration',
-                            title: 'Class Duration',
-                            readOnly: true,
-                            controller: classDurationController,
-                            onTap: () {
-                              bottomSheetDropDownList();
-                            },
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20, bottom: 7),
-                            child: Text(
-                              'Select Location',
-                              style: TextStyle(
-                                  color:
-                                      const Color(0xff051335).withOpacity(0.5),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ),
-                          SizedBox(
-                            width: width,
-                            child: DottedBorder(
-                                borderType: BorderType.RRect,
-                                radius: Radius.circular(15),
-                                color: AppColors.appBlue,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 10),
-                                  child: Column(
-                                    children: [
-                                      Center(
-                                          child: Text(
-                                        'No Address Found!',
-                                        style: openSans.get16.w700,
-                                      )),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 15),
-                                        child: AppButton(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            borderColor: AppColors.appBlue,
-                                            isBorderOnly: true,
-                                            textStyle: const TextStyle(
-                                                color: AppColors.appBlue,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600),
-                                            height: 45,
-                                            width: width,
-                                            title: 'Add Address Found',
-                                            onPressed: () {
-                                              locationModalBottomSheet(context);
-                                            },
-                                            isDisable: isDisable),
-                                      )
-                                    ],
-                                  ),
-                                )),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 25, bottom: 10),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  'Other Participators',
-                                  style: openSans.get20.w700
-                                      .textColor(AppColors.appTextColor),
-                                ),
-                                Text(
-                                  '(optional)',
-                                  style: openSans.get12.w400.textColor(
-                                      AppColors.appTextColor.withOpacity(0.5)),
-                                ),
-                              ],
-                            ),
-                          ),
-                          AppTextFormField(
-                            top: 0,
-                            controller: participators2,
-                            validate: emailValidator.call,
-                            title: 'participators 2',
-                            hintText: 'Enter email address',
-                          ),
-                          AppTextFormField(
-                            controller: participators3,
-                            validate: emailValidator.call,
-                            title: 'participators 3',
-                            hintText: 'Enter email address',
-                          ),
-                          AppTextFormField(
-                            controller: participators4,
-                            validate: emailValidator.call,
-                            title: 'participators 4',
-                            hintText: 'Enter email address',
-                          ),
-                          AppTextFormField(
-                            controller: participators5,
-                            validate: emailValidator.call,
-                            title: 'participators 5',
-                            hintText: 'Enter email address',
-                          ),
-                          AppButton(
-                            title: 'Next for calls Details',
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {}
-                            },
-                            isDisable: isDisable,
-                          ),
-                        ]),
-                  ),
+                        ),
+                        AppTextFormField(
+                          top: 0,
+                          controller: participators2,
+                          validate: emailValidator.call,
+                          title: 'participators2'.tr(),
+                          hintText: 'enterEmailAddress'.tr(),
+                        ),
+                        AppTextFormField(
+                          controller: participators3,
+                          validate: emailValidator.call,
+                          title: 'participators3'.tr(),
+                          hintText: 'enterEmailAddress'.tr(),
+                        ),
+                        AppTextFormField(
+                          controller: participators4,
+                          validate: emailValidator.call,
+                          title: 'participators4'.tr(),
+                          hintText: 'enterEmailAddress'.tr(),
+                        ),
+                        AppTextFormField(
+                          controller: participators5,
+                          validate: emailValidator.call,
+                          title: 'participators5'.tr(),
+                          hintText: 'enterEmailAddress'.tr(),
+                        ),
+                        AppButton(
+                          title: 'nextForClassDetails'.tr(),
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {}
+                          },
+                          isDisable: isDisable,
+                        ),
+                      ]),
                 ),
               ),
             ),
@@ -336,10 +331,10 @@ class _ClassDetailState extends State<ClassDetail> {
                                     borderRadius: BorderRadius.circular(25),
                                     color: const Color(0xfff0f5ff),
                                   ),
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
                                         vertical: 5, horizontal: 8),
-                                    child: Text('Default'),
+                                    child: Text('default'.tr()),
                                   )),
                             ),
                         ],
@@ -402,7 +397,7 @@ class _ClassDetailState extends State<ClassDetail> {
                                     MaterialStatePropertyAll(AppColors.appBlue),
                                 shape:
                                     MaterialStatePropertyAll(StadiumBorder())),
-                            child: const Text('Set Default',
+                            child: Text('setDefault'.tr(),
                                 style: TextStyle(color: AppColors.white)))
                     ]),
               ],
@@ -428,7 +423,7 @@ class _ClassDetailState extends State<ClassDetail> {
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      Text('Class Location', style: openSans.get20.w700),
+                      Text('classLocation'.tr(), style: openSans.get20.w700),
                       GestureDetector(
                         onTap: () {
                           Navigator.pop(context);
@@ -467,7 +462,7 @@ class _ClassDetailState extends State<ClassDetail> {
               ),
               AppButton(
                 onPressed: () {},
-                title: 'Select',
+                title: 'select'.tr(),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10),
@@ -476,7 +471,7 @@ class _ClassDetailState extends State<ClassDetail> {
                       AppRouter.push(const AddressView());
                     },
                     child: Text(
-                      'Add New Address',
+                      'addNewAddress'.tr(),
                       style: openSans.w700,
                     )),
               )
@@ -545,7 +540,7 @@ class _ClassDetailState extends State<ClassDetail> {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Text('Class Duration', style: openSans.get14.w700),
+                        Text('classDuration'.tr(), style: openSans.get14.w700),
                         SizedBox(
                           width: width * 0.25,
                         ),
@@ -560,7 +555,7 @@ class _ClassDetailState extends State<ClassDetail> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.close,
                                 size: 15,
                               ),

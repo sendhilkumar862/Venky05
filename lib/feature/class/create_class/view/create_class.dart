@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hessah/product/base/view/base_view.dart';
 
 import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
@@ -10,7 +12,6 @@ import '../../../../custom/choice/src/inline/main.dart';
 import '../../../../custom/choice/src/selection/controller/main.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
-import '../../class_detail/view/class_detail.dart';
 import '../viewModel/create_class_view_model.dart';
 
 class SchoolList {
@@ -238,14 +239,16 @@ class _CreateClassState extends State<CreateClass> {
                         listBuilder: ChoiceList.createWrapped(),
                       ),
                       const Divider(),
-                      const AppTextFormField(
+                      AppTextFormField(
                         minLines: 4,
                         maxLines: 10,
-                        hintText: 'Class Summary',
+                        hintText: 'classSummary'.tr(),
                         borderColor: AppColors.appBlue,
                         titleColor: AppColors.appBlue,
-                        title: 'Class Summary',
+                        title: 'classSummary'.tr(),
                         top: 0,
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 12),
                         height: 30,
                       ),
                       const Padding(
@@ -258,9 +261,10 @@ class _CreateClassState extends State<CreateClass> {
                         ),
                       ),
                       AppButton(
-                        title: 'Next for Class Details',
+                        isDisable: false,
+                        title: 'nextForClassDetails'.tr(),
                         onPressed: () {
-                          AppRouter.push(const ClassDetail());
+                          AppRouter.pushNamed(Routes.classDetail);
                         },
                       )
                     ],
