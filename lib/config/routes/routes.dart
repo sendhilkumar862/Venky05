@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../feature/class/address/view/address_view.dart';
 import '../../feature/class/class_detail/view/class_detail.dart';
 import '../../feature/class/create_class/view/create_class.dart';
+import '../../feature/classDetails/view/class_details_view.dart';
 import '../../feature/home/view/home_view.dart';
 // Helpers
 import '../../feature/home_views/views/home_views.dart';
@@ -14,6 +15,7 @@ import '../../feature/pre_login/personalInfo/view/personal_info.dart';
 import '../../feature/pre_login/teachingInfo/view/teaching_info.dart';
 import '../../feature/preference/view/preference_view.dart';
 import '../../feature/profile/view/profile_view.dart';
+import '../../feature/proposal/proposol_details/view/proposal_detail_view.dart';
 import '../../feature/rating/view/rating_view.dart';
 import '../../feature/search/view/search_view.dart';
 import '../../feature/setting_view/app_support/view/app_support_view.dart';
@@ -79,6 +81,8 @@ class Routes {
   static const String changeNameView = '/changeNameView';
   static const String appSupportView = '/appSupportView';
   static const String manageSubscription = '/manageSubscription';
+  static const String classDetailsView = '/classDetailsView';
+  static const String proposalDetailsView = '/proposalDetailsView';
 
   /// The name of the route for unrecognized route screen
   static const String NotFoundScreenRoute = '/route-not-found-screen';
@@ -116,6 +120,8 @@ class Routes {
     changeNameView: (_) => const ChangeNameView(),
     appSupportView: (_) => const AppSupportView(),
     manageSubscription: (_) => const ManageSubscription(),
+    classDetailsView: (_) => const ClassDetailsView(),
+    proposalDetailsView: (_) => const ProposalDetailsView(),
   };
 
   static RouteBuilder getRoute(String? routeName) {

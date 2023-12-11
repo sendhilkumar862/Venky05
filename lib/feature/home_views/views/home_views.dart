@@ -52,7 +52,9 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
                 onSearchTap: () {
                   AppRouter.pushNamed(Routes.searchView);
                 },
-                onProfileTap: () {},
+                onProfileTap: () {
+                  AppRouter.pushNamed(Routes.profileView);
+                },
               ),
               body: Column(
                 mainAxisSize: MainAxisSize.min,
