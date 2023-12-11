@@ -5,17 +5,21 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../../custom/appbar/appbar.dart';
 import '../../../../../product/base/view/base_view.dart';
+import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_button/app_button.dart';
+import '../../../../custom/cardView/details_card_view.dart';
 import '../../../../custom/cardView/details_card_view_horizontal.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/status_card_view.dart';
 import '../../../../custom/cardView/student_card_view.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
+import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/extension/context_extension.dart';
-import '../../../classDetails/view/bottomSheetView/booking_bottom_view.dart';
+import '../../../../product/utils/typography.dart';
 import '../../../classDetails/view/bottomSheetView/student_bottom_view.dart';
 import '../viewModel/proposal_details_view_model.dart';
 
@@ -150,19 +154,61 @@ class _ProposalDetailsViewState extends State<ProposalDetailsView> {
                       itemCount: 10),
                 ),
                 SizedBox(height: 18.px),
-                InkWell(
-                  onTap: () {},
-                  child: DetailsCardViewHorizontal(
+                // For student View
+                if (proposalDetailsViewModel.selectedProfile ==
+                    ApplicationConstants.student)
+                  Column(
+                    children: [
+                      HeadingCardView(
+                          title: 'Proposal',
+                          totalItem: '5',
+                          padding: 0,
+                          onTap: () {},
+                          isViewAllIcon: true),
+                      SizedBox(
+                        height: 5.px,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.26,
+                        child: ListView.builder(
+                          itemCount: 5,
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int index) {
+                            return DetailsCardView(
+                                reViewLength: 3,
+                                name: 'User Name',
+                                avatar: ImageConstants.teacherAvtar,
+                                countryIcon: ImageConstants.countryIcon,
+                                countryName: 'Kuwait',
+                                isPro: true,
+                                isBookmarked: true,
+                                subjects: '5,500 KED per session');
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20.px,
+                      ),
+                    ],
+                  ),
+
+                // For Tutor View
+                if (proposalDetailsViewModel.selectedProfile ==
+                    ApplicationConstants.tutor)
+                  InkWell(
+                    onTap: () {},
+                    child: DetailsCardViewHorizontal(
                       heading: 'Teacher',
-                      reViewLength: 3,
                       name: 'User Name',
+                      height: 95.px,
                       avatar: ImageConstants.teacherAvtar,
-                      countryIcon: ImageConstants.countryIcon,
-                      countryName: 'Kuwait',
-                      isPro: true,
+                      countryName: 'Grade 1-2-3',
+                      isPro: false,
                       isBookmarked: true,
-                      subjects: 'Science - Account..'),
-                ),
+                    ),
+                  ),
                 SizedBox(
                   height: 20.px,
                 ),
@@ -240,32 +286,44 @@ class _ProposalDetailsViewState extends State<ProposalDetailsView> {
                   ),
                 ),
                 SizedBox(
-                  height: 20.px,
-                ),
-                screenButton(
-                  isPaying: true,
-                  onTap: () {},
-                ),
-                SizedBox(
                   height: 25.px,
                 ),
-                AppButton(
-                  title: 'Book Now',
-                  borderColor: AppColors.appBlue,
-                  onPressed: () {
-                    showModalBottomSheet(
-                      isScrollControlled: true,
-                      context: context,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(25.0),
+                // For Tutor View
+                if (proposalDetailsViewModel.selectedProfile ==
+                    ApplicationConstants.tutor)
+                  AppButton(
+                      isDisable: false,
+                      title: 'Submit Your Proposal',
+                      borderColor: AppColors.appBlue,
+                      onPressed: () {
+                        AppRouter.pushNamed(Routes.createProposal);
+                      }
+/*                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        context: context,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(25.0),
+                          ),
                         ),
+                        builder: (BuildContext context) {
+                          return const BookingBottomSheet();
+                        },
+                      );
+                    },*/
                       ),
-                      builder: (BuildContext context) {
-                        return const BookingBottomSheet();
-                      },
-                    );
-                  },
+                SizedBox(
+                  height: 20.px,
+                ),
+                Center(
+                  child: Text(
+                    proposalDetailsViewModel.selectedProfile ==
+                            ApplicationConstants.tutor
+                        ? 'Reject'
+                        : 'Cancel Your Booking',
+                    style: openSans.get14.w600
+                        .copyWith(color: AppColors.appLightRed),
+                  ),
                 ),
                 SizedBox(
                   height: 40.px,

@@ -6,6 +6,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
+import '../../../../product/constants/app/app_constants.dart';
+import '../../../../product/network/local/key_value_storage_base.dart';
+import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 
 part 'proposal_details_view_model.g.dart';
@@ -20,7 +23,15 @@ abstract class _ProposalDetailsViewModelBase extends BaseViewModel with Store {
   @override
   void init() {
     fetchMap();
+    getProfile();
   }
+
+  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+  final KeyValueStorageService keyValueStorageService =
+      KeyValueStorageService();
+
+  @observable
+  String selectedProfile = '';
 
   @observable
   CameraPosition? kGooglePlex;
@@ -42,5 +53,12 @@ abstract class _ProposalDetailsViewModelBase extends BaseViewModel with Store {
     } on SocketException catch (e) {
       logs('Catch SocketException in getContactUsInfo --> ${e.message}');
     }
+  }
+
+  @action
+  void getProfile() {
+    selectedProfile = ApplicationConstants.tutor;
+    // keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
+    //     ApplicationConstants.student;
   }
 }

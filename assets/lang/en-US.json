@@ -146,5 +146,8 @@
     "enterMobileNumber": "Enter mobile number",
     "location": "Location",
     "setAsDefaultAddress": "Set as Default Address",
-    "msgSuccessfullyBookedClass": "You have successfully booked your class, and you will get notification to pay after the teacher accept the class."
+    "msgSuccessfullyBookedClass": "You have successfully booked your class, and you will get notification to pay after the teacher accept the class.",
+    "submit": "Submit",
+    "proposalDetails": "Proposal Details",
+    "classDateAndTime": "Class Date and Time"
 }

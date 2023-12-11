@@ -15,6 +15,7 @@ import '../../feature/pre_login/personalInfo/view/personal_info.dart';
 import '../../feature/pre_login/teachingInfo/view/teaching_info.dart';
 import '../../feature/preference/view/preference_view.dart';
 import '../../feature/profile/view/profile_view.dart';
+import '../../feature/proposal/create_proposal/view/create_proposal.dart';
 import '../../feature/proposal/proposol_details/view/proposal_detail_view.dart';
 import '../../feature/rating/view/rating_view.dart';
 import '../../feature/search/view/search_view.dart';
@@ -83,6 +84,7 @@ class Routes {
   static const String manageSubscription = '/manageSubscription';
   static const String classDetailsView = '/classDetailsView';
   static const String proposalDetailsView = '/proposalDetailsView';
+  static const String createProposal = '/createProposal';
 
   /// The name of the route for unrecognized route screen
   static const String NotFoundScreenRoute = '/route-not-found-screen';
@@ -122,6 +124,7 @@ class Routes {
     manageSubscription: (_) => const ManageSubscription(),
     classDetailsView: (_) => const ClassDetailsView(),
     proposalDetailsView: (_) => const ProposalDetailsView(),
+    createProposal: (_) => const CreateProposal(),
   };
 
   static RouteBuilder getRoute(String? routeName) {
