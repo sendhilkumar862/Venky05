@@ -1,5 +1,7 @@
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,12 +14,15 @@ import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
+import '../../../../custom/calender/calender.dart';
 import '../../../../custom/choice/src/modal/button.dart';
+import '../../../../custom/divider/divider.dart';
 import '../../../../custom/switch/app_switch.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
+import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../../product/utils/validators.dart';
 import '../viewModel/class_detail_view_model.dart';
@@ -34,6 +39,7 @@ class _ClassDetailState extends State<ClassDetail> {
   int? isSelected;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
   TextEditingController class2DateController = TextEditingController();
   TextEditingController classCost = TextEditingController();
   TextEditingController numberOfSession = TextEditingController();
@@ -48,6 +54,8 @@ class _ClassDetailState extends State<ClassDetail> {
   bool isDisable = true;
   String dateAndTime = '';
   String classDuration = '';
+  DateTime time = DateTime(2016, 5, 10, 22, 35);
+
   List<Address> location = <Address>[
     Address('Home', 'City, Block No., Street Name, Street Name 2, HouseNo.,',
         'Floor No., Apartment No.'),
@@ -144,7 +152,7 @@ class _ClassDetailState extends State<ClassDetail> {
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                            children: <Widget>[
                               Text('minimum'.tr(),
                                   style: openSans.get10.w400.textColor(
                                       AppColors.appTextColor.withOpacity(0.5))),
@@ -174,7 +182,8 @@ class _ClassDetailState extends State<ClassDetail> {
                             validate: Validators.requiredValidator.call,
                             controller: dateController,
                             onTap: () {
-                              selectDate(context, dateController);
+                              calender(context, dateController,
+                                  classDetailViewModel);
                             },
                             hintText: 'selectDateAndTime'.tr(),
                             readOnly: true,
@@ -186,7 +195,8 @@ class _ClassDetailState extends State<ClassDetail> {
                             hintText: 'selectClass2DateAndTime'.tr(),
                             controller: class2DateController,
                             onTap: () {
-                              selectDate(context, class2DateController);
+                              calender(context, class2DateController,
+                                  classDetailViewModel);
                             },
                             title: 'class2DateAndTime'.tr(),
                             readOnly: true,
@@ -494,7 +504,7 @@ class _ClassDetailState extends State<ClassDetail> {
                           physics: const BouncingScrollPhysics(),
                           itemCount: location.length,
                           itemBuilder: (context, index) {
-                            final data = location[index];
+                            final Address data = location[index];
                             return listData(index, data, setState);
                           }),
                     ],
@@ -520,6 +530,63 @@ class _ClassDetailState extends State<ClassDetail> {
             ]);
           });
         });
+  }
+
+  Future<void> calender(BuildContext context, TextEditingController controller,
+      ClassDetailViewModel classDetailViewModel) async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder:
+              (BuildContext context, void Function(void Function()) setState) {
+            return AppCalender(selectedTime: (DateTime selectedTime){
+              classDetailViewModel.selectedTimes = formatTime(selectedTime);
+              controller.text = '${classDetailViewModel.selectedDate} ${ classDetailViewModel.selectedTimes}';
+            },selectedDate: (String selectedDate){
+              classDetailViewModel.selectedDate = selectedDate;
+              controller.text = '${classDetailViewModel.selectedDate} ${ classDetailViewModel.selectedTimes}';
+            },);
+          },
+        );
+      },
+    );
+  }
+
+  void _showDialog(Widget child) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => Container(
+        height: 216,
+        padding: const EdgeInsets.only(top: 6.0),
+        // The bottom margin is provided to align the popup above the system
+        // navigation bar.
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        // Provide a background color for the popup.
+        color: CupertinoColors.systemBackground.resolveFrom(context),
+        // Use a SafeArea widget to avoid system overlaps.
+        child: SafeArea(
+          top: false,
+          child: child,
+        ),
+      ),
+    );
+  }
+
+  Future<void> showTimePickerDialog(BuildContext context) async {
+    TimeOfDay? selectedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (selectedTime != null) {
+      // Handle the selected time
+      final String formattedTime =
+          '${selectedTime.hour}:${selectedTime.minute}';
+      timeController.text = formattedTime;
+    }
   }
 
   Widget iconButtonWidget(
