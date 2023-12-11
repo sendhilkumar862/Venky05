@@ -1,11 +1,9 @@
 import 'dart:io';
 
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
-import 'package:country_picker/country_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -15,13 +13,12 @@ import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/image/app_image_assets.dart';
-import '../../../../custom/sheet/country_bottom_sheet.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/utils/typography.dart';
-import '../../../tutorial/view/bottomSheets/country_bottom_sheet.dart';
+import '../../../tutorial/mobileEnter/model/country_code_model.dart';
 import '../bottomSheet/country_bottom_sheets.dart';
 import '../bottomSheet/language_bottom_sheets.dart';
 import '../viewModel/personal_info_view_model.dart';
@@ -566,8 +563,8 @@ class CountrySelectionList extends StatefulWidget {
     required this.onSelect,
   });
 
-  final List<Country> countryList;
-  final Function(Country) onSelect;
+  final List<CountryCodeModel> countryList;
+  final Function(CountryCodeModel) onSelect;
 
   @override
   _CountrySelectionListState createState() => _CountrySelectionListState();
@@ -591,9 +588,9 @@ class _CountrySelectionListState extends State<CountrySelectionList> {
       body: ListView.builder(
         itemCount: widget.countryList.length,
         itemBuilder: (BuildContext context, int index) {
-          final Country country = widget.countryList[index];
+          final CountryCodeModel country = widget.countryList[index];
           return ListTile(
-            title: Text(country.name),
+            title: Text(''),
             leading: Checkbox(
               value: selectedCountries[index],
               onChanged: (bool? value) {

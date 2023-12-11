@@ -1,21 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobx/mobx.dart';
-import 'package:nested/nested.dart';
-import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'config/routes/app_router.dart';
 import 'feature/splash/view/splash_view.dart';
-import 'feature/tutorial/messages/view/message_view.dart';
-import 'feature/tutorial/mobileEnter/view/mobile_view.dart';
-import 'feature/tutorial/password/view/password_view.dart';
 import 'product/cache/locale_manager.dart';
 import 'product/constants/app/app_constants.dart';
 import 'product/lang/language_manager.dart';
-import 'product/notifier/app_provider.dart';
-import 'product/theme/theme_notifier.dart';
+// import 'product/theme/theme_notifier.dart';
 
 Future<void> main() async {
   mainContext.config = mainContext.config
@@ -26,10 +21,7 @@ Future<void> main() async {
   LocaleManager.prefrencesInit();
   await EasyLocalization.ensureInitialized();
   runApp(
-    MultiProvider(
-      providers: <SingleChildWidget>[
-        ...ApplicationProvider.instance.dependItems
-      ],
+    ProviderScope(
       child: EasyLocalization(
         supportedLocales: LanguageManager.instance.supportedLocales,
         path: ApplicationConstants.LANG_ASSET_PATH,
@@ -55,7 +47,7 @@ class MyApp extends StatelessWidget {
           locale: LanguageManager.instance.enLocale,
           supportedLocales: LanguageManager.instance.supportedLocales,
           navigatorKey: AppRouter.navigatorKey,
-          theme: context.watch<ThemeNotifier>().currentTheme,
+          // theme: context.watch<ThemeNotifier>().currentTheme,
           home: const SplashView(),
           // home: StudentProfileView(),
           builder: EasyLoading.init(),

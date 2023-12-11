@@ -1,13 +1,11 @@
-import 'package:async/async.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:hessah/config/routes/app_router.dart';
-import 'package:hessah/config/routes/routes.dart';
-import 'package:hessah/product/network/local/key_value_storage_service.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../product/base/view/base_view.dart';
+import '../../../config/routes/app_router.dart';
+import '../../../config/routes/routes.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/choice/choice.dart';
 import '../../../custom/divider/divider.dart';
@@ -16,6 +14,7 @@ import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/extension/colors_extension.dart';
 import '../../../product/network/local/key_value_storage_base.dart';
+import '../../../product/network/local/key_value_storage_service.dart';
 import '../model/preference_model.dart';
 import '../viewModel/preference_view_model.dart';
 
@@ -40,7 +39,6 @@ class _PreferenceViewState extends State<PreferenceView>
   Set<int> selectedCurriculumIndices = <int>{};
   Set<int> selectedSubjectIndices = <int>{};*/
 
-  final AsyncMemoizer<List> choicesMemoizer = AsyncMemoizer<List<dynamic>>();
 
   @override
   void initState() {

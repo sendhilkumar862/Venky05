@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -39,13 +38,13 @@ class KeyValueStorageBase {
   T? getCommon<T>(Type varType, String key) {
     try {
       switch (varType) {
-        case String:
+        case const (String):
           return _sharedPrefs?.getString(key) as T?;
-        case int:
+        case const (int):
           return _sharedPrefs?.getInt(key) as T?;
-        case bool:
+        case const (bool):
           return _sharedPrefs?.getBool(key) as T?;
-        case double:
+        case const (double):
           return _sharedPrefs?.getDouble(key) as T?;
         default:
           return _sharedPrefs?.get(key) as T?;
@@ -69,13 +68,13 @@ class KeyValueStorageBase {
   /// Sets the value for the key to common preferences storage
   Future<bool> setCommon<T>(String key, T value) {
     switch (value.runtimeType) {
-      case String:
+      case const (String):
         return _sharedPrefs!.setString(key, value as String);
-      case int:
+      case const (int):
         return _sharedPrefs!.setInt(key, value as int);
-      case bool:
+      case const (bool):
         return _sharedPrefs!.setBool(key, value as bool);
-      case double:
+      case const (double):
         return _sharedPrefs!.setDouble(key, value as double);
       default:
         return _sharedPrefs!.setString(key, value as String);
@@ -86,10 +85,10 @@ class KeyValueStorageBase {
   Future<bool> setEncrypted(String key, String value) {
     try {
       _secureStorage!.write(key: key, value: value);
-      return Future.value(true);
+      return Future<bool>.value(true);
     } on PlatformException catch (ex) {
       debugPrint('$ex');
-      return Future.value(false);
+      return Future<bool>.value(false);
     }
   }
 

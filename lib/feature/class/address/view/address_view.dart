@@ -1,5 +1,4 @@
 // ignore_for_file: always_specify_types, unnecessary_statements
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -10,7 +9,6 @@ import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/dialog/success_fail_dialog.dart';
-import '../../../../custom/text/country_picker.dart';
 import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
@@ -118,19 +116,19 @@ class _AddressViewState extends State<AddressView> {
                             keyboardType: TextInputType.phone,
                             title: 'contactNumber'.tr(),
                             hintText: 'enterMobileNumber'.tr(),
-                            prefix: CountryPicker(
-                              flagDecoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(2)),
-                              padding: EdgeInsets.zero,
-                              onChanged: (CountryCode countryCode) {},
-                              alignLeft: false,
-                              dialogSize: const Size.square(550),
-                              dialogTextStyle: openSans.w500.get16,
-                              initialSelection: 'IN',
-                              favorite: ['+91', 'IN'],
-                              showDropDownButton: true,
-                              textStyle: openSans.black.get12,
-                            ),
+                            // prefix: CountryPicker(
+                            //   flagDecoration: BoxDecoration(
+                            //       borderRadius: BorderRadius.circular(2)),
+                            //   padding: EdgeInsets.zero,
+                            //   // onChanged: (CountryCode countryCode) {},
+                            //   alignLeft: false,
+                            //   dialogSize: const Size.square(550),
+                            //   dialogTextStyle: openSans.w500.get16,
+                            //   initialSelection: 'IN',
+                            //   favorite: ['+91', 'IN'],
+                            //   showDropDownButton: true,
+                            //   textStyle: openSans.black.get12,
+                            // ),
                           )),
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
