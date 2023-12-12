@@ -21,6 +21,7 @@ import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/extension/context_extension.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../classDetails/view/bottomSheetView/student_bottom_view.dart';
+import '../../proposals_by/view/proposals_by.dart';
 import '../viewModel/proposal_details_view_model.dart';
 
 class ProposalDetailsView extends StatefulWidget {
@@ -116,44 +117,52 @@ class _ProposalDetailsViewState extends State<ProposalDetailsView> {
                 SizedBox(
                   height: 20.px,
                 ),
-                HeadingCardView(
-                  padding: 0,
-                  title: 'Student',
-                  isViewAllIcon: true,
-                  totalItem: "5",
-                  onTap: () {
-                    showModalBottomSheet(
-                      isScrollControlled: true,
-                      context: context,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(25.0),
-                        ),
+                // For student View
+                if (proposalDetailsViewModel.selectedProfile ==
+                    ApplicationConstants.tutor)
+                  Column(
+                    children: [
+                      HeadingCardView(
+                        padding: 0,
+                        title: 'Student',
+                        isViewAllIcon: true,
+                        totalItem: "5",
+                        onTap: () {
+                          showModalBottomSheet(
+                            isScrollControlled: true,
+                            context: context,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(25.0),
+                              ),
+                            ),
+                            builder: (BuildContext context) {
+                              return const StudentBottomSheet();
+                            },
+                          );
+                        },
                       ),
-                      builder: (BuildContext context) {
-                        return const StudentBottomSheet();
-                      },
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: 18.px,
-                ),
-                SizedBox(
-                  height: 70.px,
-                  child: ListView.separated(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (BuildContext context, int index) {
-                        return const StudentCardView();
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(width: 14.px);
-                      },
-                      itemCount: 10),
-                ),
-                SizedBox(height: 18.px),
+                      SizedBox(
+                        height: 18.px,
+                      ),
+                      SizedBox(
+                        height: 70.px,
+                        child: ListView.separated(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (BuildContext context, int index) {
+                              return const StudentCardView();
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(width: 14.px);
+                            },
+                            itemCount: 10),
+                      ),
+                      SizedBox(height: 18.px),
+                    ],
+                  ),
                 // For student View
                 if (proposalDetailsViewModel.selectedProfile ==
                     ApplicationConstants.student)
@@ -163,7 +172,20 @@ class _ProposalDetailsViewState extends State<ProposalDetailsView> {
                           title: 'Proposal',
                           totalItem: '5',
                           padding: 0,
-                          onTap: () {},
+                          onTap: () {
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(25.0),
+                                ),
+                              ),
+                              builder: (BuildContext context) {
+                                return const ProposalsBy();
+                              },
+                            );
+                          },
                           isViewAllIcon: true),
                       SizedBox(
                         height: 5.px,
@@ -297,21 +319,7 @@ class _ProposalDetailsViewState extends State<ProposalDetailsView> {
                       borderColor: AppColors.appBlue,
                       onPressed: () {
                         AppRouter.pushNamed(Routes.createProposal);
-                      }
-/*                      showModalBottomSheet(
-                        isScrollControlled: true,
-                        context: context,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(25.0),
-                          ),
-                        ),
-                        builder: (BuildContext context) {
-                          return const BookingBottomSheet();
-                        },
-                      );
-                    },*/
-                      ),
+                      }),
                 SizedBox(
                   height: 20.px,
                 ),

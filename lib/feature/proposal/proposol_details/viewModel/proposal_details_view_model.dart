@@ -57,8 +57,8 @@ abstract class _ProposalDetailsViewModelBase extends BaseViewModel with Store {
 
   @action
   void getProfile() {
-    selectedProfile = ApplicationConstants.tutor;
-    // keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
-    //     ApplicationConstants.student;
+    selectedProfile =
+        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
+            ApplicationConstants.student;
   }
 }
