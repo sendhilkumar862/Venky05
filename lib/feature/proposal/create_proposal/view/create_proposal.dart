@@ -8,8 +8,10 @@ import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/calender/calender.dart';
 import '../../../../custom/dialog/success_fail_dialog.dart';
+import '../../../../custom/image/app_image_assets.dart';
 import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
+import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../../product/utils/validators.dart';
@@ -27,6 +29,7 @@ class _CreateProposalState extends State<CreateProposal> {
   int? isSelected;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController dateController = TextEditingController();
+  TextEditingController date2Controller = TextEditingController();
   TextEditingController timeController = TextEditingController();
   TextEditingController classCost = TextEditingController();
   TextEditingController numberOfSession = TextEditingController();
@@ -88,10 +91,10 @@ class _CreateProposalState extends State<CreateProposal> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Column(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Padding(
@@ -108,11 +111,38 @@ class _CreateProposalState extends State<CreateProposal> {
                                     const TextInputType.numberWithOptions(),
                                 validate: Validators.requiredValidator.call,
                                 suffix: Padding(
-                                  padding: const EdgeInsets.only(top: 12),
-                                  child: Text('kwd'.tr(),
-                                      style: openSans.get16.w400),
+                                  padding:
+                                      const EdgeInsets.only(top: 5, right: 12),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text('kwd'.tr(),
+                                          style: openSans.get16.w400),
+                                      const SizedBox(
+                                        width: 4,
+                                      ),
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(500),
+                                        child: AppImageAsset(
+                                          fit: BoxFit.fill,
+                                          image: ImageConstants.kuwaitFlag,
+                                          height: 20.px,
+                                          width: 20.px,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 hintText: 'classCost'.tr(),
+                              ),
+                              AppTextFormField(
+                                controller: numberOfSession,
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(),
+                                validate: Validators.requiredValidator.call,
+                                hintText: 'numberOfSessions'.tr(),
                               ),
                               AppTextFormField(
                                 validate: Validators.requiredValidator.call,
@@ -122,6 +152,19 @@ class _CreateProposalState extends State<CreateProposal> {
                                       createProposalViewModel);
                                 },
                                 hintText: 'classDateAndTime'.tr(),
+                                readOnly: true,
+                                suffix: const Icon(
+                                    Icons.keyboard_arrow_down_sharp,
+                                    color: AppColors.downArrowColor),
+                              ),
+                              AppTextFormField(
+                                validate: Validators.requiredValidator.call,
+                                controller: date2Controller,
+                                onTap: () {
+                                  calender(context, date2Controller,
+                                      createProposalViewModel);
+                                },
+                                hintText: 'class2DateAndTime'.tr(),
                                 readOnly: true,
                                 suffix: const Icon(
                                     Icons.keyboard_arrow_down_sharp,
@@ -141,38 +184,38 @@ class _CreateProposalState extends State<CreateProposal> {
                                 },
                               ),
                             ]),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 20.px),
-                        child: AppButton(
-                          title: 'submit'.tr(),
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              showModalBottomSheet(
-                                context: context,
-                                constraints: BoxConstraints(
-                                  maxWidth:
-                                      (MediaQuery.of(context).size.width - 30)
-                                          .px,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.px),
-                                ),
-                                builder: (BuildContext context) {
-                                  return SuccessFailsInfoDialog(
-                                    title: 'Success',
-                                    buttonTitle: 'Done',
-                                    content:
-                                        'You have successfully submit your proposal.',
-                                  );
-                                },
-                              );
-                            }
-                          },
-                          isDisable: isDisable,
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 20.px, top: 80.px),
+                          child: AppButton(
+                            title: 'submit'.tr(),
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                showModalBottomSheet(
+                                  context: context,
+                                  constraints: BoxConstraints(
+                                    maxWidth:
+                                        (MediaQuery.of(context).size.width - 30)
+                                            .px,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.px),
+                                  ),
+                                  builder: (BuildContext context) {
+                                    return SuccessFailsInfoDialog(
+                                      title: 'Success',
+                                      buttonTitle: 'Done',
+                                      content:
+                                          'You have successfully submit your proposal.',
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                            isDisable: isDisable,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               );

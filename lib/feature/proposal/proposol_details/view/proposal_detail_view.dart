@@ -42,6 +42,8 @@ class _ProposalDetailsViewState extends State<ProposalDetailsView> {
         },
         onPageBuilder: (BuildContext context,
             ProposalDetailsViewModel proposalDetailsViewModel) {
+          final double width = MediaQuery.sizeOf(context).width;
+          var data = proposalDetailsViewModel.dataList[0];
           return Scaffold(
             appBar: HessaAppBar(
               title: 'classDetails'.tr(),
@@ -232,7 +234,7 @@ class _ProposalDetailsViewState extends State<ProposalDetailsView> {
                     ),
                   ),
                 SizedBox(
-                  height: 20.px,
+                  height: 10.px,
                 ),
                 Container(
                   padding: context.paddingNormal,
@@ -307,9 +309,60 @@ class _ProposalDetailsViewState extends State<ProposalDetailsView> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 25.px,
-                ),
+                // For Tutor View
+                if (proposalDetailsViewModel.selectedProfile ==
+                    ApplicationConstants.tutor)
+                  SizedBox(
+                    height: 25.px,
+                  ),
+                // For Tutor View
+                if (proposalDetailsViewModel.selectedProfile ==
+                    ApplicationConstants.tutor)
+                  Container(
+                    height: 140,
+                    width: width,
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        color: AppColors.ctaQuaternary,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          data.heading,
+                          style: openSans.get16.w700.appTextColor,
+                        ),
+                        Wrap(
+                          children: List.generate(
+                            proposalDetailsViewModel
+                                .dataList[0].headingData.length,
+                            (i) {
+                              var data1 = proposalDetailsViewModel
+                                  .dataList[0].headingData[i];
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.only(right: 15, top: 20),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Image.asset(
+                                      width: 18,
+                                      height: 18,
+                                      data1.icon,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 5),
+                                      child: Text(data1.title),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 // For Tutor View
                 if (proposalDetailsViewModel.selectedProfile ==
                     ApplicationConstants.tutor)
