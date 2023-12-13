@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../product/base/view/base_view.dart';
@@ -56,12 +57,12 @@ class _PreferenceViewState extends State<PreferenceView>
   Widget build(BuildContext context) {
     return BaseView<PreferenceViewModel>(
       viewModel: PreferenceViewModel(),
-      onModelReady: (PreferenceViewModel model) {
+      onModelReady: (PreferenceViewModel model, WidgetRef ref) {
         model.init();
         model.setContext(context);
       },
       onPageBuilder:
-          (BuildContext context, PreferenceViewModel preferenceViewModel) =>
+          (BuildContext context, PreferenceViewModel preferenceViewModel, WidgetRef ref) =>
               Scaffold(
         body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),

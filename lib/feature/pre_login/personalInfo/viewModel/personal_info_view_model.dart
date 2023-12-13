@@ -120,4 +120,27 @@ abstract class _PersonalInfoViewModelBase extends BaseViewModel with Store {
     }
     setState(() {});
   }
+
+Future<void> updateData() async {
+    showLoading();
+    logs('entered Fetch country data');
+    final Dio dio = Dio();
+    try {
+      Response response = await dio.put('http://167.99.93.83/api/v1/users/profile/personal');
+
+      logs('Status code--> ${response.statusCode}');
+
+      if (response.statusCode == 200) {
+        EasyLoading.dismiss();
+        final BaseResponse<Country> baseResponse =
+            BaseResponse<Country>.fromJson(response.data as Map<String, dynamic>, Country.fromJson);
+        countries = baseResponse.data.items ?? <Country>[];
+        temp = baseResponse.data.items ?? <Country>[];
+      }
+    } catch (error) {
+      EasyLoading.dismiss();
+      logs('Error: $error');
+    }
+  }
+  
 }

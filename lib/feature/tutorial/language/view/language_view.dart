@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/text/app_text.dart';
@@ -12,6 +12,7 @@ import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 
+import '../../../../product/network/all_providers.dart';
 import '../../view/bottomSheets/country_bottom_sheet.dart';
 import '../../view/bottomSheets/language_bottom_sheet.dart';
 
@@ -24,11 +25,14 @@ class LanguageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<LanguageViewModel>(
         viewModel: LanguageViewModel(),
-        onModelReady: (LanguageViewModel languageViewModel) {
-          languageViewModel.setContext(context);
+        onModelReady: (LanguageViewModel languageViewModel, WidgetRef ref) {
           languageViewModel.init();
+          languageViewModel.setContext(context);
+          languageViewModel.setRef(ref);
+         
         },
-        onPageBuilder: (BuildContext context, LanguageViewModel languageViewModel) {
+        onPageBuilder: (BuildContext context, LanguageViewModel languageViewModel, WidgetRef ref) {
+           languageViewModel.fetchData();
           return Observer(
               warnWhenNoObservables: false,
               builder: (BuildContext context) {

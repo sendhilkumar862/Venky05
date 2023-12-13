@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hessah/product/base/view/base_view.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -73,10 +74,10 @@ class _CreateClassState extends State<CreateClass> {
     final double width = MediaQuery.of(context).size.width;
     return BaseView<CreateClassViewModel>(
         viewModel: CreateClassViewModel(),
-        onModelReady: (CreateClassViewModel model) {
+        onModelReady: (CreateClassViewModel model, WidgetRef ref) {
           model.setContext(context);
         },
-        onPageBuilder: (BuildContext context, CreateClassViewModel value) {
+        onPageBuilder: (BuildContext context, CreateClassViewModel value, WidgetRef ref) {
           return Scaffold(
             appBar: HessaAppBar(
               isTitleOnly: true,

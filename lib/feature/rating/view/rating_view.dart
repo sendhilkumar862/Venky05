@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../product/base/view/base_view.dart';
 import '../../../config/routes/app_router.dart';
@@ -25,10 +26,10 @@ class _RatingViewState extends State<RatingView> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return BaseView<RatingViewModel>(
       viewModel: RatingViewModel(),
-      onModelReady: (RatingViewModel ratingViewModel) {
+      onModelReady: (RatingViewModel ratingViewModel, WidgetRef ref) {
         ratingViewModel.setContext(context);
       },
-      onPageBuilder: (BuildContext context, RatingViewModel ratingViewModel) {
+      onPageBuilder: (BuildContext context, RatingViewModel ratingViewModel,WidgetRef ref) {
         return Observer(
           builder: (BuildContext context) {
             return Scaffold(

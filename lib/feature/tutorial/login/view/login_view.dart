@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -22,11 +23,11 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<LoginViewModel>(
         viewModel: LoginViewModel(),
-        onModelReady: (LoginViewModel loginViewModel) {
+        onModelReady: (LoginViewModel loginViewModel, WidgetRef ref) {
           loginViewModel.setContext(context);
           loginViewModel.init();
         },
-        onPageBuilder: (BuildContext context, LoginViewModel loginViewModel) {
+        onPageBuilder: (BuildContext context, LoginViewModel loginViewModel, WidgetRef ref) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               body: Stack(
@@ -104,7 +105,7 @@ class LoginView extends StatelessWidget {
                             ),
                             if (loginViewModel.loginStatus == 'error')
                               WarningCardView(
-                                  color: AppColors.appLightRedTwo, error: loginViewModel.loginModel.status!.message),
+                                  color: AppColors.appLightRedTwo, error: loginViewModel.loginError),
                             SizedBox(height: 20.px),
                             if (false)
                               AppImageAsset(

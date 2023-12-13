@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -20,12 +21,12 @@ class UserInfoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<UserInfoViewModel>(
         viewModel: UserInfoViewModel(),
-        onModelReady: (UserInfoViewModel userInfoViewModel) {
+        onModelReady: (UserInfoViewModel userInfoViewModel, WidgetRef ref) {
           userInfoViewModel.setContext(context);
           userInfoViewModel.init();
           userInfoViewModel.data = ModalRoute.of(context)!.settings.arguments! as Map;
         },
-        onPageBuilder: (BuildContext context, UserInfoViewModel userInfoViewModel) {
+        onPageBuilder: (BuildContext context, UserInfoViewModel userInfoViewModel, WidgetRef ref) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               body: PreLoginCustomBody(

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/countdown_timer/timer_controller.dart';
@@ -24,13 +25,13 @@ class MobileOtpView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<MobileOtpViewModel>(
         viewModel: MobileOtpViewModel(),
-        onModelReady: (MobileOtpViewModel mobileOtpViewModel) {
+        onModelReady: (MobileOtpViewModel mobileOtpViewModel, WidgetRef ref) {
           mobileOtpViewModel.setContext(context);
           mobileOtpViewModel.arguments =
               ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
         },
         onPageBuilder:
-            (BuildContext context, MobileOtpViewModel mobileOtpViewModel) {
+            (BuildContext context, MobileOtpViewModel mobileOtpViewModel, WidgetRef ref) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               body: PreLoginCustomBody(

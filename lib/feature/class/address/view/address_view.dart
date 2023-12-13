@@ -1,6 +1,7 @@
 // ignore_for_file: always_specify_types, unnecessary_statements
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -42,12 +43,12 @@ class _AddressViewState extends State<AddressView> {
   Widget build(BuildContext context) {
     return BaseView<AddressViewModel>(
         viewModel: AddressViewModel(),
-        onModelReady: (AddressViewModel addressViewModel) {
+        onModelReady: (AddressViewModel addressViewModel, WidgetRef ref) {
           addressViewModel.setContext(context);
           addressViewModel.init();
         },
         onPageBuilder:
-            (BuildContext context, AddressViewModel addressViewModel) {
+            (BuildContext context, AddressViewModel addressViewModel, WidgetRef ref) {
           return Scaffold(
             appBar: HessaAppBar(
               isTitleOnly: true,

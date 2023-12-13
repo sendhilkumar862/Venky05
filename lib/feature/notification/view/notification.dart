@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -45,12 +46,12 @@ class _NotificationViewState extends State<NotificationView> {
   Widget build(BuildContext context) {
     return BaseView<NotificationViewModel>(
       viewModel: NotificationViewModel(),
-      onModelReady: (NotificationViewModel model) {
+      onModelReady: (NotificationViewModel model, WidgetRef ref) {
         model.init();
         model.setContext(context);
       },
       onPageBuilder:
-          (BuildContext context, NotificationViewModel notificationViewModel) =>
+          (BuildContext context, NotificationViewModel notificationViewModel, WidgetRef ref) =>
               Scaffold(
         appBar: HessaAppBar(
           isTitleOnly: true,

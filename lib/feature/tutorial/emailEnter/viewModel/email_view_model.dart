@@ -57,36 +57,26 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
       );
 
       if (response.statusCode == 200) {
+        EasyLoading.dismiss();
         final BaseResponse<EmailEnterModel> baseResponse =
             BaseResponse<EmailEnterModel>.fromJson(response.data, EmailEnterModel.fromJson);
         if (baseResponse.status.type == 'success') {
-          EasyLoading.dismiss();
-          logs('registered ${baseResponse.status.type}');
-          arguments['userId'] = baseResponse.data.item!.userId;
-          final Object status = baseResponse.data.item!.status!;
+          arguments['userId'] = baseResponse.data.item?.userId ?? '';
+          final Object status = baseResponse.data.item?.status ?? '';
           if (status == RegistrationStatus.MOBILE.value) {
             AppRouter.pushNamed(Routes.mobileView, args: arguments);
           } else if (status == RegistrationStatus.EMAIL.value) {
             sendOTP(baseResponse.data.item!.userId.toString());
           } else if (status == RegistrationStatus.PROFILE_INCOMPLETE.value) {
             AppRouter.pushNamed(Routes.userInfoView, args: arguments);
-          } else if (status == RegistrationStatus.PROFILE_PENDING.value) {
-            registerWarning = true;
-            registerWarningMessage = 'Account is Pending for Verfication';
-          } else if (status == RegistrationStatus.PROFILE_SUSPENDED.value) {
-            registerWarning = true;
-            registerWarningMessage = 'Account is suspended';
-          } else if (status == RegistrationStatus.PROFILE_REJECTED.value) {
-            registerWarning = true;
-            registerWarningMessage = 'Verification Failed Account is Rejected';
-          } else if (status == RegistrationStatus.PROFILE_ACTIVE.value) {
-            registerWarning = true;
-            registerWarningMessage = 'Email Already in use';
           } else {
             registerWarning = true;
-            registerWarningMessage = 'UnKnown Status';
+            registerWarningMessage = 'The email address you provided is already registered in our system.';
           }
-        }
+        } else {
+           registerWarning = true;
+           registerWarningMessage = baseResponse.status.message;
+        } 
       } else {
         EasyLoading.dismiss();
         logs('error not response');

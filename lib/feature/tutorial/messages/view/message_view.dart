@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -19,7 +20,6 @@ import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/utils/validators.dart';
-import '../../chat/view/chat_view.dart';
 import '../viewmodel/message_view_model.dart';
 
 class MessageView extends StatelessWidget {
@@ -31,11 +31,11 @@ class MessageView extends StatelessWidget {
 
     return BaseView<MessageViewModel>(
         viewModel: MessageViewModel(),
-        onModelReady: (MessageViewModel messageViewModel) {
+        onModelReady: (MessageViewModel messageViewModel, WidgetRef ref) {
           messageViewModel.setContext(context);
           messageViewModel.init();
         },
-        onPageBuilder: (BuildContext context, MessageViewModel messageViewModel) {
+        onPageBuilder: (BuildContext context, MessageViewModel messageViewModel, WidgetRef ref) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               appBar: HessaAppBar(

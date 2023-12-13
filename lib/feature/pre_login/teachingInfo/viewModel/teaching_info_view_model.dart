@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
 
 part 'teaching_info_view_model.g.dart';
+
+final teachingInfoProvider = Provider<TeachingInfoViewModel>((ref) {
+  return TeachingInfoViewModel();
+});
+
+
 
 class TeachingInfoViewModel = _TeachingInfoViewModelBase
     with _$TeachingInfoViewModel;
@@ -66,8 +73,7 @@ abstract class _TeachingInfoViewModelBase extends BaseViewModel with Store {
   }
 
   String listToCommaSeparatedString(List<String> list) {
-    String commaSeparatedString;
-    return commaSeparatedString = list.join(', ');
+    return list.join(', ');
   }
 
   @override

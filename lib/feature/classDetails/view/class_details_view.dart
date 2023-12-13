@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -34,11 +35,11 @@ class _ClassDetailsViewState extends State<ClassDetailsView> with TickerProvider
   Widget build(BuildContext context) {
     return BaseView<ClassDetailsViewModel>(
       viewModel: ClassDetailsViewModel(),
-      onModelReady: (ClassDetailsViewModel classDetailsViewModel) {
+      onModelReady: (ClassDetailsViewModel classDetailsViewModel, WidgetRef ref) {
         classDetailsViewModel.setContext(context);
         classDetailsViewModel.init();
       },
-      onPageBuilder: (BuildContext context, ClassDetailsViewModel classDetailsViewModel) {
+      onPageBuilder: (BuildContext context, ClassDetailsViewModel classDetailsViewModel, WidgetRef ref) {
         return Observer(
           builder: (BuildContext context) {
             return Scaffold(

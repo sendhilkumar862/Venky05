@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -23,11 +24,11 @@ class EmailView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<EmailViewModel>(
         viewModel: EmailViewModel(),
-        onModelReady: (EmailViewModel emailViewModel) {
+        onModelReady: (EmailViewModel emailViewModel, WidgetRef ref) {
           emailViewModel.setContext(context);
           emailViewModel.init();
         },
-        onPageBuilder: (BuildContext context, EmailViewModel emailViewModel) {
+        onPageBuilder: (BuildContext context, EmailViewModel emailViewModel, WidgetRef ref) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               body: PreLoginCustomBody(

@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:hessah/config/routes/app_router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -81,11 +82,11 @@ class _ClassDetailState extends State<ClassDetail> {
     var width = MediaQuery.sizeOf(context).width;
     return BaseView<ClassDetailViewModel>(
         viewModel: ClassDetailViewModel(),
-        onModelReady: (ClassDetailViewModel model) {
+        onModelReady: (ClassDetailViewModel model, WidgetRef ref) {
           model.setContext(context);
         },
         onPageBuilder:
-            (BuildContext context, ClassDetailViewModel classDetailViewModel) {
+            (BuildContext context, ClassDetailViewModel classDetailViewModel, WidgetRef ref) {
           return Scaffold(
             appBar: HessaAppBar(
               isTitleOnly: true,

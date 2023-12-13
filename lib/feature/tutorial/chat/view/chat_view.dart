@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:swipe_to/swipe_to.dart';
@@ -27,11 +28,11 @@ class _ChatViewState extends State<ChatView> {
 
     return BaseView<ChatViewModel>(
         viewModel: ChatViewModel(),
-        onModelReady: (ChatViewModel chatViewModel) {
+        onModelReady: (ChatViewModel chatViewModel, WidgetRef ref) {
           chatViewModel.setContext(context);
           chatViewModel.init();
         },
-        onPageBuilder: (BuildContext context, ChatViewModel chatViewModel) {
+        onPageBuilder: (BuildContext context, ChatViewModel chatViewModel, WidgetRef ref) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               appBar: HessaAppBar(
