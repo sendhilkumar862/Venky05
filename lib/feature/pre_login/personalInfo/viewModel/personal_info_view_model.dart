@@ -145,7 +145,6 @@ abstract class _PersonalInfoViewModelBase extends BaseViewModel with Store {
   }
 
 
-  @action
   Future<void> personalInformationUpdate() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final Dio dio = Dio();
