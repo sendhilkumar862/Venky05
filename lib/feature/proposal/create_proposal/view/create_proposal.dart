@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_button/app_button.dart';
@@ -62,11 +63,11 @@ class _CreateProposalState extends State<CreateProposal> {
     var width = MediaQuery.sizeOf(context).width;
     return BaseView<CreateProposalViewModel>(
         viewModel: CreateProposalViewModel(),
-        onModelReady: (CreateProposalViewModel model) {
+        onModelReady: (CreateProposalViewModel model, WidgetRef ref) {
           model.setContext(context);
         },
         onPageBuilder: (BuildContext context,
-            CreateProposalViewModel createProposalViewModel) {
+            CreateProposalViewModel createProposalViewModel, WidgetRef ref) {
           return Scaffold(
             appBar: HessaAppBar(
               isTitleOnly: true,
