@@ -116,9 +116,9 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
         );
         logs('ress--> ${loginModel.status?.type}');
         final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
-        if (response.data['data']['item']['accessToken'].toString().isNotEmpty) {
-          logs('token-->${response.data['data']['item']['accessToken']}');
-          keyValueStorageService.setAuthToken(response.data['data']['item']['accessToken']);
+        if (response.data['data']['item']['token']['accessToken'].toString().isNotEmpty) {
+          logs('token-->${response.data['data']['item']['token']['accessToken']}');
+          keyValueStorageService.setAuthToken(response.data['data']['item']['token']['accessToken']);
         }
         loginStatus = loginModel.status!.type!;
         if (emailValid != 1) {

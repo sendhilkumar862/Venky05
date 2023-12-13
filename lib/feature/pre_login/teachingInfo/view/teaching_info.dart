@@ -26,40 +26,6 @@ class _TeachingInfoState extends State<TeachingInfo> {
   TextEditingController schoolController = TextEditingController();
   TextEditingController curriculumController = TextEditingController();
   TextEditingController classTypeController = TextEditingController();
-  List<String> gradeList = <String>[
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12',
-    'University',
-  ];
-  List<String> subjectList = <String>[
-    'Arabic',
-    'English',
-    'Maths',
-    'Islamic',
-  ];
-  List<String> schoolTypeList = <String>[
-    'Public',
-    'Private',
-  ];
-  List<String> classTypeList = <String>[
-    'Public',
-    'Private',
-  ];
-  List<String> curriculumTypeList = <String>[
-    'Arabic',
-    'British',
-    'English',
-  ];
   int? isSelected;
 
   @override
@@ -74,6 +40,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
         viewModel: TeachingInfoViewModel(),
         onModelReady: (TeachingInfoViewModel model) {
           model.setContext(context);
+          model.init();
         },
         onPageBuilder: (BuildContext context, TeachingInfoViewModel teachingInfoStore) {
           return Scaffold(
@@ -96,11 +63,11 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     controller: gradeController,
                     onTap: () {
                       bottomSheetDropDownList(
-                          listData: gradeList,
+                          listData: teachingInfoStore.gradeList ,
                           selectedList: teachingInfoStore.selectedGrade,
                           teachingInfoStore: teachingInfoStore,
                           onTap: (int index) {
-                            teachingInfoStore.addGrade(gradeList[index]);
+                            teachingInfoStore.addGrade(teachingInfoStore.gradeList[index]);
                             gradeController.text = teachingInfoStore
                                 .listToCommaSeparatedString(teachingInfoStore.selectedGrade)
                                 .replaceAll(',', ' -');
@@ -116,11 +83,11 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     controller: subjectController,
                     onTap: () {
                       bottomSheetDropDownList(
-                        listData: subjectList,
+                        listData: teachingInfoStore.subjectList ,
                         selectedList: teachingInfoStore.selectedSubject,
                         teachingInfoStore: teachingInfoStore,
                         onTap: (int index) {
-                          teachingInfoStore.addSubject(subjectList[index]);
+                          teachingInfoStore.addSubject(teachingInfoStore.subjectList[index]);
                           subjectController.text = teachingInfoStore
                               .listToCommaSeparatedString(teachingInfoStore.selectedSubject)
                               .replaceAll(',', ' -');
@@ -136,11 +103,11 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     controller: schoolController,
                     onTap: () {
                       bottomSheetDropDownList(
-                        listData: schoolTypeList,
+                        listData: teachingInfoStore.schoolTypeList ,
                         selectedList: teachingInfoStore.selectedSchoolType,
                         teachingInfoStore: teachingInfoStore,
                         onTap: (int index) {
-                          teachingInfoStore.addSchoolType(schoolTypeList[index]);
+                          teachingInfoStore.addSchoolType(teachingInfoStore.schoolTypeList[index]);
                           schoolController.text = teachingInfoStore
                               .listToCommaSeparatedString(teachingInfoStore.selectedSchoolType)
                               .replaceAll(',', ' -');
@@ -156,11 +123,11 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     controller: curriculumController,
                     onTap: () {
                       bottomSheetDropDownList(
-                        listData: curriculumTypeList,
+                        listData: teachingInfoStore.curriculumTypeList,
                         selectedList: teachingInfoStore.selectedCurriculum,
                         teachingInfoStore: teachingInfoStore,
                         onTap: (int index) {
-                          teachingInfoStore.addCurriculum(curriculumTypeList[index]);
+                          teachingInfoStore.addCurriculum(teachingInfoStore.curriculumTypeList[index]);
                           curriculumController.text = teachingInfoStore
                               .listToCommaSeparatedString(teachingInfoStore.selectedCurriculum)
                               .replaceAll(',', ' -');
@@ -176,11 +143,11 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     controller: classTypeController,
                     onTap: () {
                       bottomSheetDropDownList(
-                        listData: classTypeList,
+                        listData: teachingInfoStore.classTypeList ,
                         selectedList: teachingInfoStore.selectedClassType,
                         teachingInfoStore: teachingInfoStore,
                         onTap: (int index) {
-                          teachingInfoStore.addClassType(classTypeList[index]);
+                          teachingInfoStore.addClassType(teachingInfoStore.classTypeList[index]);
                           classTypeController.text = teachingInfoStore
                               .listToCommaSeparatedString(teachingInfoStore.selectedClassType)
                               .replaceAll(',', ' -');
@@ -196,9 +163,10 @@ class _TeachingInfoState extends State<TeachingInfo> {
                   AppButton(
                       title: 'Continue Experience Information',
                       onPressed: () {
-                        AppRouter.pushNamed(Routes.experienceInfo);
+                       teachingInfoStore.teachingInformationUpdate();
                       },
                       isDisable: false)
+                      // teachingInfoStore.selectedCurriculum.isNotEmpty && teachingInfoStore.selectedSchoolType.isNotEmpty && teachingInfoStore.selectedClassType.isNotEmpty && teachingInfoStore.selectedGrade.isNotEmpty && teachingInfoStore.schoolTypeList.isNotEmpty ?false:true)
                 ],
               ),
             ),
