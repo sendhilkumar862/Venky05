@@ -4,8 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../../config/routes/app_router.dart';
-import '../../../../config/routes/routes.dart';
 import '../../../../custom/countdown_timer/timer_controller.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/otp/otp_text_field.dart';
@@ -27,8 +25,11 @@ class VerifyOtpView extends StatelessWidget {
         onModelReady: (VerifyOtpViewModel VerifyOtpViewModel, WidgetRef ref) {
           VerifyOtpViewModel.setContext(context);
           VerifyOtpViewModel.init();
-          VerifyOtpViewModel.arguments = ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
-          VerifyOtpViewModel.otpId = VerifyOtpViewModel.arguments['otp_id'].toString();
+          VerifyOtpViewModel.arguments = ModalRoute.of(context)!
+              .settings
+              .arguments! as Map<String, dynamic>;
+          VerifyOtpViewModel.otpId =
+              VerifyOtpViewModel.arguments['otp_id'].toString();
         },
         onPageBuilder: (BuildContext context, VerifyOtpViewModel verifyOtpViewModel, WidgetRef ref) {
           return Observer(builder: (BuildContext context) {
@@ -41,7 +42,7 @@ class VerifyOtpView extends StatelessWidget {
                     children: <Widget>[
                       SizedBox(height: 10.px),
                       SafeArea(bottom: false, child: OnTapBack()),
-                      SizedBox(height: 45.px),
+                      SizedBox(height: 180.px),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: AppText(
@@ -67,15 +68,19 @@ class VerifyOtpView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8.px),
                         //  numberOfFields: numberOfFields,
                         borderColor: AppColors.appGrey,
-                        enabledBorderColor: (verifyOtpViewModel.isCorrect) ? AppColors.appLightGrey : AppColors.appRed,
+                        enabledBorderColor: (verifyOtpViewModel.isCorrect)
+                            ? AppColors.appLightGrey
+                            : AppColors.appRed,
                         //   focusedBorderColor: primaryColor,
                         // clearText: clearText,
                         showFieldAsBox: true,
-                        textStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: 16.px),
+                        textStyle: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 16.px),
                         onCodeChanged: (String value) {
                           verifyOtpViewModel.isCorrect = true;
                         },
-                        handleControllers: (List<TextEditingController?> controllers) {
+                        handleControllers:
+                            (List<TextEditingController?> controllers) {
                           //VerifyOtpViewModel.enteredOTP = controllers.toString();
                         },
                         //clearText: !VerifyOtpViewModel.isCorrect,

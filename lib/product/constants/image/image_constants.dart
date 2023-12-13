@@ -254,6 +254,7 @@ class ImageConstants {
   static const String homeHomeIcon =
       '${ApplicationConstants.iconPath}icon_home.svg';
 
-  static const String earthIcon =
-      '${ApplicationConstants.iconPath}earth.svg';
+  static const String earthIcon = '${ApplicationConstants.iconPath}earth.svg';
+  static const String kuwaitFlag =
+      '${ApplicationConstants.iconPath}kuwait_flag.svg';
 }

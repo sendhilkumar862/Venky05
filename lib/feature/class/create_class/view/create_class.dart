@@ -11,6 +11,7 @@ import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/choice/src/inline/list.dart';
 import '../../../../custom/choice/src/inline/main.dart';
 import '../../../../custom/choice/src/selection/controller/main.dart';
+import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
 import '../viewModel/create_class_view_model.dart';

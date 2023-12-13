@@ -11,13 +11,15 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 
 class BookingBottomSheet extends StatelessWidget {
-  const BookingBottomSheet({super.key});
+  BookingBottomSheet({super.key, this.height});
+
+  double? height;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(left: 15.px, right: 15.px),
-      height: MediaQuery.of(context).size.height * 0.72.px,
+      height: height ?? MediaQuery.of(context).size.height * 0.72.px,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(30.px),
@@ -115,7 +117,8 @@ class BookingBottomSheet extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      AppText('27', fontSize: 16.px, fontWeight: FontWeight.w700),
+                      AppText('27',
+                          fontSize: 16.px, fontWeight: FontWeight.w700),
                       AppText('.500 KWD',
                           fontSize: 12.px, fontWeight: FontWeight.w700),
                     ],
@@ -274,6 +277,7 @@ class BookingBottomSheet extends StatelessWidget {
                 height: 25.px,
               ),
               AppButton(
+                isDisable: false,
                 borderColor: AppColors.appBlue,
                 height: 45.px,
                 title: 'pay',

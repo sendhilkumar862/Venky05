@@ -373,6 +373,7 @@ class AppCardView extends StatelessWidget {
             SizedBox(
               child: AppButton(
                 title: 'Book',
+                isDisable: false,
                 width: 60.px,
                 height: 35.px,
                 borderColor: AppColors.appBlue,

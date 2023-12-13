@@ -50,7 +50,7 @@
     "bookClasses": "Book classes and start learning. Expand your classes to achieve your goals",
     "exploreClassesCreated": "Explore classes created by students and submit your proposals.",
     "createAndClasses": "Create classes and start your teaching journey",
-    "setTimes": "Set your free times, and give the students the ability to book their favorite times",
+    "msgSetTimes": "Set your free times, and give the students the ability to book their favorite times",
     "chooseLang": "Choose your Country and Language",
     "minCharacters": "Contain Minimum 8 Characters",
     "containNumbers": "Contain Numbers",
@@ -80,7 +80,6 @@
     "done": "Done",
     "youHaveSuccessfully": "You have successfully changed your name.",
     "youHaveSuccessfullyAdded": "You have successfully added new available teaching time.",
-
     "personalInformation": "Personal Information",
     "addMobileNumber": "Add Mobile Number",
     "manageAddress": "Manage Address",
@@ -146,5 +145,8 @@
     "enterMobileNumber": "Enter mobile number",
     "location": "Location",
     "setAsDefaultAddress": "Set as Default Address",
-    "msgSuccessfullyBookedClass": "You have successfully booked your class, and you will get notification to pay after the teacher accept the class."
+    "msgSuccessfullyBookedClass": "You have successfully booked your class, and you will get notification to pay after the teacher accept the class.",
+    "submit": "Submit",
+    "proposalDetails": "Proposal Details",
+    "classDateAndTime": "Class Date and Time"
 }

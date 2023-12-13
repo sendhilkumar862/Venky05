@@ -6,12 +6,12 @@ import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/common_function.dart';
 
-part 'class_detail_view_model.g.dart';
+part 'create_proposal_view_model.g.dart';
 
-class ClassDetailViewModel = _ClassDetailViewModelBase
-    with _$ClassDetailViewModel;
+class CreateProposalViewModel = _CreateProposalViewModelBase
+    with _$CreateProposalViewModel;
 
-abstract class _ClassDetailViewModelBase extends BaseViewModel with Store {
+abstract class _CreateProposalViewModelBase extends BaseViewModel with Store {
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
   final KeyValueStorageService keyValueStorageService =
       KeyValueStorageService();
@@ -36,11 +36,5 @@ abstract class _ClassDetailViewModelBase extends BaseViewModel with Store {
     selectedProfile =
         keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
             '';
-  }
-
-  @action
-  bool onTapSwitch() {
-    isActive = !isActive;
-    return isActive;
   }
 }

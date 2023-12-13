@@ -112,6 +112,9 @@ dependencies:
   permission_handler: any
   nested: ^1.0.0
 
+  # Range slider
+  flutter_xlider: ^3.5.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

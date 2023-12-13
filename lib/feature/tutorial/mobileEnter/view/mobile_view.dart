@@ -25,7 +25,8 @@ class MobileView extends StatelessWidget {
       viewModel: MobileViewModel(),
       onModelReady: (MobileViewModel mobileViewModel, WidgetRef ref) {
         mobileViewModel.setContext(context);
-        mobileViewModel.data = ModalRoute.of(context)!.settings.arguments! as Map;
+        mobileViewModel.data =
+            ModalRoute.of(context)!.settings.arguments! as Map;
         mobileViewModel.arguments['userId'] = mobileViewModel.data['userId'];
         logs('argue--> ${mobileViewModel.data}');
         mobileViewModel.init();
@@ -38,7 +39,7 @@ class MobileView extends StatelessWidget {
               bottomNavigationBar: PreLoginCommonButton(
                 title: 'continue'.tr(),
                 onTap: () => mobileViewModel.onTapMobileSubmit(),
-               isDisable: mobileViewModel.mobileValid != 1,
+                isDisable: mobileViewModel.mobileValid != 1,
               ),
               body: PreLoginCustomBody(
                 widget: Expanded(
@@ -46,8 +47,8 @@ class MobileView extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
                     children: [
                       SizedBox(height: 10.px),
-                       SafeArea(bottom: false, child: OnTapBack()),
-                      SizedBox(height: 80.px),
+                      SafeArea(bottom: false, child: OnTapBack()),
+                      SizedBox(height: 180.px),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: AppImageAsset(
@@ -122,9 +123,11 @@ class MobileView extends StatelessWidget {
                         hintText: 'enterMobileAgain'.tr(),
                         validate: mobileViewModel.mobileValid,
                         errorText: mobileViewModel.mobileErrorText,
-                        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                         onChanged: (String value) {
-                      mobileViewModel.validateMobile(value);
+                          mobileViewModel.validateMobile(value);
                         },
                       ),
                       SizedBox(height: 20.px),

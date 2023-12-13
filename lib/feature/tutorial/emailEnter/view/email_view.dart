@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -38,8 +37,8 @@ class EmailView extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
                     children: <Widget>[
                       SizedBox(height: 10.px),
-                       SafeArea(bottom: false, child: OnTapBack()),
-                      SizedBox(height: 30.px),
+                      SafeArea(bottom: false, child: OnTapBack()),
+                      SizedBox(height: 180.px),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: AppImageAsset(

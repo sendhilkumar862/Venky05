@@ -1,8 +1,10 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:hessah/config/routes/app_router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -12,12 +14,14 @@ import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
+import '../../../../custom/calender/calender.dart';
 import '../../../../custom/choice/src/modal/button.dart';
 import '../../../../custom/switch/app_switch.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
+import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../../product/utils/validators.dart';
 import '../viewModel/class_detail_view_model.dart';
@@ -30,10 +34,11 @@ class ClassDetail extends StatefulWidget {
 }
 
 class _ClassDetailState extends State<ClassDetail> {
-  var selectedDate = DateTime.now();
+  DateTime selectedDate = DateTime.now();
   int? isSelected;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
   TextEditingController class2DateController = TextEditingController();
   TextEditingController classCost = TextEditingController();
   TextEditingController numberOfSession = TextEditingController();
@@ -48,6 +53,10 @@ class _ClassDetailState extends State<ClassDetail> {
   bool isDisable = true;
   String dateAndTime = '';
   String classDuration = '';
+  DateTime time = DateTime(2016, 5, 10, 22, 35);
+  double _lowerValue = 20.0;
+  double _upperValue = 80.0;
+
   List<Address> location = <Address>[
     Address('Home', 'City, Block No., Street Name, Street Name 2, HouseNo.,',
         'Floor No., Apartment No.'),
@@ -79,14 +88,14 @@ class _ClassDetailState extends State<ClassDetail> {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.sizeOf(context).width;
+    double width = MediaQuery.sizeOf(context).width;
     return BaseView<ClassDetailViewModel>(
         viewModel: ClassDetailViewModel(),
         onModelReady: (ClassDetailViewModel model, WidgetRef ref) {
           model.setContext(context);
         },
-        onPageBuilder:
-            (BuildContext context, ClassDetailViewModel classDetailViewModel, WidgetRef ref) {
+        onPageBuilder: (BuildContext context,
+            ClassDetailViewModel classDetailViewModel, WidgetRef ref) {
           return Scaffold(
             appBar: HessaAppBar(
               isTitleOnly: true,
@@ -131,20 +140,78 @@ class _ClassDetailState extends State<ClassDetail> {
                                   AppColors.appTextColor.withOpacity(0.5)),
                             ),
                           ),
-                          SfRangeSlider(
-                            max: 100.0,
-                            values: sliderValue,
-                            interval: 20,
-                            minorTicksPerInterval: 1,
-                            onChanged: (SfRangeValues values) {
-                              setState(() {
-                                sliderValue = values;
-                              });
-                            },
+                          SizedBox(
+                            height: 50,
+                            child: FlutterSlider(
+                              rangeSlider: true,
+                              values: <double>[_lowerValue, _upperValue],
+                              max: 100,
+                              min: 0,
+                              onDragging:
+                                  (int handlerIndex, lowerValue, upperValue) {
+                                setState(() {
+                                  _lowerValue = lowerValue;
+                                  _upperValue = upperValue;
+                                });
+                              },
+                              onDragCompleted: (_, __, ___) {
+                                // Optional: Add any additional logic when the dragging is completed.
+                              },
+                              tooltip: FlutterSliderTooltip(
+                                disabled: true,
+                                alwaysShowTooltip: false,
+                              ),
+                              handler: FlutterSliderHandler(
+                                decoration: const BoxDecoration(
+                                  color: AppColors.ctaSecondary,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Text(
+                                      '${_lowerValue.toInt()}',
+                                      style: const TextStyle(
+                                          fontSize: 12, color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              rightHandler: FlutterSliderHandler(
+                                decoration: const BoxDecoration(
+                                  color: AppColors.appBlue,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Text(
+                                      '${_upperValue.toInt()}',
+                                      style: const TextStyle(
+                                          fontSize: 12, color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              trackBar: FlutterSliderTrackBar(
+                                inactiveTrackBar: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.black12,
+                                  border: Border.all(
+                                      width: 3, color: AppColors.tabColor),
+                                ),
+                                activeTrackBar: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  color: AppColors.appBlue,
+                                ),
+                              ),
+                            ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                            children: <Widget>[
                               Text('minimum'.tr(),
                                   style: openSans.get10.w400.textColor(
                                       AppColors.appTextColor.withOpacity(0.5))),
@@ -174,7 +241,8 @@ class _ClassDetailState extends State<ClassDetail> {
                             validate: Validators.requiredValidator.call,
                             controller: dateController,
                             onTap: () {
-                              selectDate(context, dateController);
+                              calender(context, dateController,
+                                  classDetailViewModel);
                             },
                             hintText: 'selectDateAndTime'.tr(),
                             readOnly: true,
@@ -186,7 +254,8 @@ class _ClassDetailState extends State<ClassDetail> {
                             hintText: 'selectClass2DateAndTime'.tr(),
                             controller: class2DateController,
                             onTap: () {
-                              selectDate(context, class2DateController);
+                              calender(context, class2DateController,
+                                  classDetailViewModel);
                             },
                             title: 'class2DateAndTime'.tr(),
                             readOnly: true,
@@ -226,7 +295,7 @@ class _ClassDetailState extends State<ClassDetail> {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 15, horizontal: 10),
                                   child: Column(
-                                    children: [
+                                    children: <Widget>[
                                       Center(
                                           child: Text(
                                         'noAddressFound'.tr(),
@@ -279,7 +348,7 @@ class _ClassDetailState extends State<ClassDetail> {
                           if (classDetailViewModel.selectedProfile ==
                               ApplicationConstants.student)
                             Column(
-                              children: [
+                              children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       top: 25, bottom: 10),
@@ -357,12 +426,12 @@ class _ClassDetailState extends State<ClassDetail> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Row(
-                        children: [
+                        children: <Widget>[
                           Text(data.heading, style: openSans.get17.w700),
                           if (selectedIndex == index)
                             Padding(
@@ -403,7 +472,7 @@ class _ClassDetailState extends State<ClassDetail> {
                   padding: const EdgeInsets.only(top: 5, bottom: 13),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       Text(data.address1),
                       Text(data.address2),
                     ],
@@ -457,7 +526,7 @@ class _ClassDetailState extends State<ClassDetail> {
                 topRight: Radius.circular(30), topLeft: Radius.circular(30))),
         context: context,
         builder: (BuildContext bc) {
-          return StatefulBuilder(builder: (context, setState) {
+          return StatefulBuilder(builder: (BuildContext context, setState) {
             return Column(children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(20),
@@ -488,13 +557,13 @@ class _ClassDetailState extends State<ClassDetail> {
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
-                    children: [
+                    children: <Widget>[
                       ListView.builder(
                           shrinkWrap: true,
                           physics: const BouncingScrollPhysics(),
                           itemCount: location.length,
-                          itemBuilder: (context, index) {
-                            final data = location[index];
+                          itemBuilder: (BuildContext context, int index) {
+                            final Address data = location[index];
                             return listData(index, data, setState);
                           }),
                     ],
@@ -520,6 +589,68 @@ class _ClassDetailState extends State<ClassDetail> {
             ]);
           });
         });
+  }
+
+  Future<void> calender(BuildContext context, TextEditingController controller,
+      ClassDetailViewModel classDetailViewModel) async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder:
+              (BuildContext context, void Function(void Function()) setState) {
+            return AppCalender(
+              selectedTime: (DateTime selectedTime) {
+                classDetailViewModel.selectedTimes = formatTime(selectedTime);
+                controller.text =
+                    '${classDetailViewModel.selectedDate} ${classDetailViewModel.selectedTimes}';
+              },
+              selectedDate: (String selectedDate) {
+                classDetailViewModel.selectedDate = selectedDate;
+                controller.text =
+                    '${classDetailViewModel.selectedDate} ${classDetailViewModel.selectedTimes}';
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _showDialog(Widget child) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => Container(
+        height: 216,
+        padding: const EdgeInsets.only(top: 6.0),
+        // The bottom margin is provided to align the popup above the system
+        // navigation bar.
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        // Provide a background color for the popup.
+        color: CupertinoColors.systemBackground.resolveFrom(context),
+        // Use a SafeArea widget to avoid system overlaps.
+        child: SafeArea(
+          top: false,
+          child: child,
+        ),
+      ),
+    );
+  }
+
+  Future<void> showTimePickerDialog(BuildContext context) async {
+    TimeOfDay? selectedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (selectedTime != null) {
+      // Handle the selected time
+      final String formattedTime =
+          '${selectedTime.hour}:${selectedTime.minute}';
+      timeController.text = formattedTime;
+    }
   }
 
   Widget iconButtonWidget(
@@ -571,9 +702,9 @@ class _ClassDetailState extends State<ClassDetail> {
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30), topRight: Radius.circular(30))),
       context: context,
-      builder: (context) {
+      builder: (BuildContext context) {
         return Column(
-          children: [
+          children: <Widget>[
             Column(
               children: <Widget>[
                 Padding(
@@ -608,11 +739,11 @@ class _ClassDetailState extends State<ClassDetail> {
             ),
             Expanded(
               child: ListView.separated(
-                separatorBuilder: (BuildContext context, index) {
+                separatorBuilder: (BuildContext context, int index) {
                   return const Divider();
                 },
                 itemCount: classDurationList.length,
-                itemBuilder: (BuildContext context, index) {
+                itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                     title: Text(classDurationList[index],
                         style: openSans.get16.w400
