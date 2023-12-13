@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -14,14 +13,14 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
 import '../viewModel/teaching_info_view_model.dart';
 
-class TeachingInfo extends ConsumerStatefulWidget {
+class TeachingInfo extends StatefulWidget {
   const TeachingInfo({super.key});
 
   @override
-  ConsumerState<TeachingInfo> createState() => _TeachingInfoState();
+  State<TeachingInfo> createState() => _TeachingInfoState();
 }
 
-class _TeachingInfoState extends ConsumerState<TeachingInfo> {
+class _TeachingInfoState extends State<TeachingInfo> {
   TextEditingController gradeController = TextEditingController();
   TextEditingController subjectController = TextEditingController();
   TextEditingController schoolController = TextEditingController();
@@ -70,13 +69,13 @@ class _TeachingInfoState extends ConsumerState<TeachingInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final TeachingInfoViewModel teachingInfoStore = ref.watch(teachingInfoProvider);
+    // final TeachingInfoViewModel teachingInfoStore = Provider.of<TeachingInfoViewModel>(context);
     return BaseView<TeachingInfoViewModel>(
         viewModel: TeachingInfoViewModel(),
-        onModelReady: (TeachingInfoViewModel model, WidgetRef ref) {
+        onModelReady: (TeachingInfoViewModel model) {
           model.setContext(context);
         },
-        onPageBuilder: (BuildContext context, TeachingInfoViewModel value, WidgetRef ref) {
+        onPageBuilder: (BuildContext context, TeachingInfoViewModel teachingInfoStore) {
           return Scaffold(
             appBar: HessaAppBar(
               isBack: true,
