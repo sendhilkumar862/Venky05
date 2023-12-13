@@ -69,13 +69,13 @@ class _TeachingInfoState extends State<TeachingInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final TeachingInfoViewModel teachingInfoStore = Provider.of<TeachingInfoViewModel>(context);
+    // final TeachingInfoViewModel teachingInfoStore = Provider.of<TeachingInfoViewModel>(context);
     return BaseView<TeachingInfoViewModel>(
         viewModel: TeachingInfoViewModel(),
         onModelReady: (TeachingInfoViewModel model) {
           model.setContext(context);
         },
-        onPageBuilder: (BuildContext context, TeachingInfoViewModel value) {
+        onPageBuilder: (BuildContext context, TeachingInfoViewModel teachingInfoStore) {
           return Scaffold(
             appBar: HessaAppBar(
               isBack: true,
