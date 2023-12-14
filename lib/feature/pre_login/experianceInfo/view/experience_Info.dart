@@ -52,6 +52,11 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                       title: 'Education',
                       hintText: 'Enter your education',
                       controller: experienceInfoStore.educationController,
+                       onChanged: (String value){
+                        setState(() {
+
+                        });
+                       },
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 15, bottom: 30),
@@ -83,12 +88,22 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                       hintText: 'Enter years of experience',
                       controller:  experienceInfoStore.experienceYearController,
                        keyboardType: TextInputType.number,
+                       onChanged: (String value){
+                         setState(() {
+
+                         });
+                       },
                     ),
                      AppTextFormField(
                       maxLines: 3,
                       title: 'Experience Brief',
                       hintText: 'Enter experience brief',
                       controller:  experienceInfoStore.experienceBriefController,
+                       onChanged: (String value){
+                         setState(() {
+
+                         });
+                       },
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
@@ -272,7 +287,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                         onPressed: () {
                           experienceInfoStore.experienceInformationUpdate();
                         },
-                        isDisable: false),
+                        isDisable: experienceInfoStore.experienceYearController.text.isNotEmpty && experienceInfoStore.educationController.text.isNotEmpty && experienceInfoStore.experienceBriefController.text.isNotEmpty ?false:true),
                   ],
                 ),
               ),

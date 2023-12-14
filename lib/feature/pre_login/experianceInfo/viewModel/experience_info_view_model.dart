@@ -21,8 +21,11 @@ abstract class _ExperienceInfoViewModelBase extends BaseViewModel with Store {
   bool isSwitchEduction = false;
   bool isSwitchExperience = false;
   bool isSwitchCertificates = false;
+  @observable
   TextEditingController educationController = TextEditingController();
+  @observable
   TextEditingController experienceYearController = TextEditingController();
+  @observable
   TextEditingController experienceBriefController = TextEditingController();
 
 

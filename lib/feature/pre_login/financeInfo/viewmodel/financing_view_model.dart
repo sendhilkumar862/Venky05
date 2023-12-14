@@ -24,6 +24,9 @@ abstract class _FinancingViewModelBase extends BaseViewModel with Store {
   @observable
   String ibanError = '';
 
+  @observable
+  bool isSuccess = false;
+
   @override
   void setContext(BuildContext context) => viewModelContext = context;
 
@@ -58,7 +61,7 @@ abstract class _FinancingViewModelBase extends BaseViewModel with Store {
   }
 
   @action
-  Future<void> updateData() async {
+  Future<bool> updateData() async {
      EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final Dio dio = Dio();
     try {
@@ -77,12 +80,16 @@ abstract class _FinancingViewModelBase extends BaseViewModel with Store {
       if (response.statusCode == 200) {
         logs('Login response  --> ${response.data.toString()}');
         EasyLoading.dismiss();
+        return true;
+
       } else {
         EasyLoading.dismiss();
         logs('error not response');
+        return false;
       }
     } on DioException {
       EasyLoading.dismiss();
+      return false;
     }
   }
 

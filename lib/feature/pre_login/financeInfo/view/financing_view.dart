@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../custom/app_button/app_button.dart';
@@ -54,13 +55,22 @@ class _FinancingViewState extends State<FinancingView> {
                       hintText: 'Enter IBAN Number',
                       errorText: financingViewModel.ibanError,
                         onChanged: (String value) {
+                        setState(() {
                           financingViewModel.validateIBAN(value);
+                        });
+
                         },
                     ),
                      AppTextFormField(
                       controller: financingViewModel.nickNameController,
                       title: 'Bank Account Nickname',
                       hintText: 'Enter nickname',
+                       onChanged: (String value) {
+                         setState(() {
+                           financingViewModel.validateIBAN(value);
+                         });
+
+                       },
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
@@ -91,12 +101,18 @@ class _FinancingViewState extends State<FinancingView> {
                 ),
               ),
             ),
-            AppButton(
-                title: 'Complete Your Profile',
-                onPressed: () {
-                  successBottomSheet(context);
-                },
-                isDisable: false)
+            Observer(builder:(_) {
+              return AppButton(
+                  title: 'Complete Your Profile',
+                  onPressed: () async{
+                    final bool status= await financingViewModel.updateData();
+                    if(status) {
+                      successBottomSheet(context);
+                    }
+                  },
+                  isDisable: financingViewModel.ibanController.text.isNotEmpty && financingViewModel.nickNameController.text.isNotEmpty?false:true);
+            }),
+
           ],
         ),
       ),
