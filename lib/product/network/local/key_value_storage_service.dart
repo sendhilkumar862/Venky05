@@ -22,6 +22,7 @@ class KeyValueStorageService {
   static String language = 'language';
   static String token = 'token';
   static String setPreference = 'setPreference';
+  static String userInfoStatus ='userInfoStatus';
 
   /// The name of user model key
   static const String _authUserKey = 'authUserKey';
