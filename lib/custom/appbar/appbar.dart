@@ -23,6 +23,7 @@ class HessaAppBar extends PreferredSize {
       this.trailingTap,
       this.isPro = false,
       this.isBack = true,
+        this.isSearchIconShown=true,
       this.onCallTap,
       this.trailingWidget,
       this.reviewStarLength = 0,
@@ -40,6 +41,7 @@ class HessaAppBar extends PreferredSize {
   final bool showSuffix;
   final bool? isPro;
   final bool isBack;
+  final bool isSearchIconShown;
   final Widget? trailingWidget;
   final void Function()? leadingTap;
   final void Function()? trailingTap;
@@ -208,13 +210,13 @@ class HessaAppBar extends PreferredSize {
                     ],
                   ),
                   const Spacer(),
-                  GestureDetector(
+                  if (isSearchIconShown) GestureDetector(
                     onTap: onSearchTap,
                     child: const AppImageAsset(
                       image: ImageConstants.searchIcon,
                       height: 25,
                     ),
-                  ),
+                  ) else const SizedBox.shrink(),
                   const SizedBox(
                     width: 18,
                   ),

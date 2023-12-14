@@ -1,8 +1,14 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
+import '../../../custom/loader/easy_loader.dart';
+import '../../../product/base/model/base_model.dart';
+import '../../../product/utils/validators.dart';
+import '../../home/model/home_model.dart';
 import '../views/tabs/avtivities_view.dart';
 import '../views/tabs/classes_view.dart';
 import '../views/tabs/teachers_view.dart';
@@ -16,7 +22,8 @@ abstract class _HomeViewsModelBase extends BaseViewModel with Store {
   void setContext(BuildContext context) => viewModelContext = context;
 
   @override
-  void init() {}
+  void init() {
+  }
 
   @observable
   int selectedIndex = 0;
@@ -36,4 +43,5 @@ abstract class _HomeViewsModelBase extends BaseViewModel with Store {
       print(index);
     }
   }
+
 }
