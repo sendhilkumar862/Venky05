@@ -53,3 +53,13 @@ final apiServiceProvider = Provider<ApiService>((ref) {
   final _dioService = ref.watch(_dioServiceProvider);
   return ApiService(_dioService);
 });
+
+final counterProvider = StateNotifierProvider<Counter, int>((ref) {
+  return Counter();
+});
+
+class Counter extends StateNotifier<int> {
+  Counter() : super(0);
+
+  void increment() => state++;
+}

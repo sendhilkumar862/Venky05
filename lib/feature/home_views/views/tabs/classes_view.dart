@@ -48,7 +48,7 @@ class _ClassesViewState extends State<ClassesView> {
                 title: 'Complete Your Profile',
                 message: 'Your account has been created Successfully',
                 subTitle:
-                    "To kickstart your teaching journey and connect with students, please complete your profile. Revel in every lesson and share the joy of learning!",
+                    'To kickstart your teaching journey and connect with students, please complete your profile. Revel in every lesson and share the joy of learning!',
                 cardColor: AppColors.white,
                 buttonTitle: 'Completed Profile',
                 buttonTap: () {

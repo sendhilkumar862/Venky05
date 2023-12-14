@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hessah/product/network/local/key_value_storage_base.dart';
 import 'package:hessah/product/network/local/key_value_storage_service.dart';
 import 'package:lottie/lottie.dart';
@@ -25,12 +26,12 @@ class ProfileSelectionView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<ProfileViewModel>(
         viewModel: ProfileViewModel(),
-        onModelReady: (ProfileViewModel profileViewModel) {
+        onModelReady: (ProfileViewModel profileViewModel, WidgetRef ref) {
           profileViewModel.setContext(context);
           profileViewModel.init();
         },
         onPageBuilder:
-            (BuildContext context, ProfileViewModel profileViewModel) {
+            (BuildContext context, ProfileViewModel profileViewModel, WidgetRef ref) {
           return Observer(builder: (BuildContext context) {
 
             return Scaffold(

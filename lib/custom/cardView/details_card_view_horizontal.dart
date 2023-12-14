@@ -17,6 +17,7 @@ class DetailsCardViewHorizontal extends StatelessWidget {
     this.subjects,
     this.isShowViewAll,
     this.heading,
+    this.height,
     this.isBookmarked,
     super.key,
   });
@@ -31,13 +32,14 @@ class DetailsCardViewHorizontal extends StatelessWidget {
   String? countryName;
   String? subjects;
   String? heading;
+  double? height;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(12.px),
       width: double.infinity,
-      height: (MediaQuery.of(context).size.height * 0.18).px,
+      height: height ?? (MediaQuery.of(context).size.height * 0.18).px,
       decoration: BoxDecoration(
         color: AppColors.appWhite,
         borderRadius: BorderRadius.circular(13.px),
@@ -60,23 +62,24 @@ class DetailsCardViewHorizontal extends StatelessWidget {
                       image: ImageConstants.teacherAvtar,
                       height: 55.px,
                     ),
-                    SizedBox(
-                      height: 20.px,
-                      width: 50.px,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 5,
-                        itemBuilder: (BuildContext context, int index) {
-                          return AppImageAsset(
-                            image: (index < reViewLength!)
-                                ? ImageConstants.reviewStarPurple
-                                : ImageConstants.reviewStar,
-                            height: 10.px,
-                            width: 10.px,
-                          );
-                        },
+                    if (reViewLength != null)
+                      SizedBox(
+                        height: 20.px,
+                        width: 50.px,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 5,
+                          itemBuilder: (BuildContext context, int index) {
+                            return AppImageAsset(
+                              image: (index < reViewLength!)
+                                  ? ImageConstants.reviewStarPurple
+                                  : ImageConstants.reviewStar,
+                              height: 10.px,
+                              width: 10.px,
+                            );
+                          },
+                        ),
                       ),
-                    ),
                   ],
                 ),
                 SizedBox(
@@ -150,10 +153,11 @@ class DetailsCardViewHorizontal extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        AppImageAsset(
-                          image: countryIcon ?? ''!,
-                          height: 13.px,
-                        ),
+                        if (countryIcon != null)
+                          AppImageAsset(
+                            image: countryIcon ?? ''!,
+                            height: 13.px,
+                          ),
                         SizedBox(
                           width: 4.px,
                         ),
@@ -170,13 +174,14 @@ class DetailsCardViewHorizontal extends StatelessWidget {
                     SizedBox(
                       height: 6.px,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AppText(subjects ?? ''!, fontSize: 12.px),
-                        AppText('+2', fontSize: 12.px),
-                      ],
-                    ),
+                    if (subjects != null)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AppText(subjects ?? ''!, fontSize: 12.px),
+                          AppText('+2', fontSize: 12.px),
+                        ],
+                      ),
                     SizedBox(
                       height: 8.px,
                     ),

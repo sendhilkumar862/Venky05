@@ -68,7 +68,9 @@ class ActivitiesView extends StatelessWidget {
                   countryName: 'Kuwait',
                   reViewLength: 3,
                   teacherName: 'Ahmed Ali',
-                  buttonTap: () {},
+                  buttonTap: () {
+                    AppRouter.pushNamed(Routes.proposalDetailsView);
+                  },
                 );
               },
               separatorBuilder: (BuildContext context, int index) {

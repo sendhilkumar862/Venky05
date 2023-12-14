@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hessah/product/base/view/base_view.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -10,6 +11,7 @@ import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/choice/src/inline/list.dart';
 import '../../../../custom/choice/src/inline/main.dart';
 import '../../../../custom/choice/src/selection/controller/main.dart';
+import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
 import '../viewModel/create_class_view_model.dart';
@@ -73,10 +75,10 @@ class _CreateClassState extends State<CreateClass> {
     final double width = MediaQuery.of(context).size.width;
     return BaseView<CreateClassViewModel>(
         viewModel: CreateClassViewModel(),
-        onModelReady: (CreateClassViewModel model) {
+        onModelReady: (CreateClassViewModel model, WidgetRef ref) {
           model.setContext(context);
         },
-        onPageBuilder: (BuildContext context, CreateClassViewModel value) {
+        onPageBuilder: (BuildContext context, CreateClassViewModel value, WidgetRef ref) {
           return Scaffold(
             appBar: HessaAppBar(
               isTitleOnly: true,

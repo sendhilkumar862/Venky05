@@ -4,6 +4,7 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -33,13 +34,11 @@ class PersonalInfo extends StatefulWidget {
 class _PersonalInfoState extends State<PersonalInfo> {
   File? firstImage;
   File? secondImage;
-  bool isSwitch = false;
+
   bool isSelected = false;
-  int genderListIndex = 0;
   int? isSelect;
   int? selectedIndex = 0;
-  TextEditingController dateController = TextEditingController();
-  TextEditingController nationalityController = TextEditingController();
+
 
   List<Gender> genderList = <Gender>[
     Gender(
@@ -57,11 +56,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
     final double width = MediaQuery.sizeOf(context).width;
     return BaseView<PersonalInfoViewModel>(
         viewModel: PersonalInfoViewModel(),
-        onModelReady: (PersonalInfoViewModel model) {
+        onModelReady: (PersonalInfoViewModel model, WidgetRef ref) {
           model.setContext(context);
           model.init();
         },
-        onPageBuilder: (BuildContext context, PersonalInfoViewModel personalInfoViewModel) {
+        onPageBuilder: (BuildContext context, PersonalInfoViewModel personalInfoViewModel, WidgetRef ref) {
           return Scaffold(
             appBar: HessaAppBar(
               trailingText: 'Cancel',
@@ -126,9 +125,9 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         },
                       ),
                       AppTextFormField(
-                        controller: dateController,
+                        controller: personalInfoViewModel.dateController,
                         onTap: () {
-                          calender(context, dateController);
+                          calender(context, personalInfoViewModel.dateController);
                         },
                         readOnly: false,
                         title: 'Birthday',
@@ -144,7 +143,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             Padding(
                               padding: const EdgeInsets.only(left: 10),
                               child: FlutterSwitch(
-                                value: isSwitch,
+                                value: personalInfoViewModel.isSwitch,
                                 height: 16.29,
                                 width: 27.63,
                                 toggleSize: 12,
@@ -152,7 +151,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                 inactiveColor: AppColors.gray.withOpacity(0.25),
                                 onToggle: (bool value) {
                                   setState(() {
-                                    isSwitch = value;
+                                    personalInfoViewModel.isSwitch = value;
                                   });
                                 },
                               ),
@@ -167,7 +166,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           style: openSans.get12.w400.textColor(AppColors.appTextColor.withOpacity(0.5)),
                         ),
                       ),
-                      genderGridView(),
+                      genderGridView(personalInfoViewModel),
                       Padding(
                         padding: const EdgeInsets.only(top: 20, bottom: 15),
                         child: Text('Civil ID',
@@ -327,8 +326,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       AppButton(
                           title: 'Continue To Teaching Information',
                           onPressed: () {
-                            AppRouter.pushNamed(Routes.teachingInfo);
-                          })
+                            personalInfoViewModel.personalInformationUpdate();
+                            // AppRouter.pushNamed(Routes.teachingInfo);
+                          },
+                          isDisable: personalInfoViewModel.countries.isNotEmpty &&  personalInfoViewModel.languageIcon.isNotEmpty && personalInfoViewModel.dateController.text.isNotEmpty ?false:true )
                     ],
                   );
                 },
@@ -356,7 +357,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
     }
   }
 
-  Widget genderGridView() {
+  Widget genderGridView(PersonalInfoViewModel personalInfoViewModel) {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -372,19 +373,19 @@ class _PersonalInfoState extends State<PersonalInfo> {
         return InkWell(
             onTap: () {
               setState(() {
-                genderListIndex = index;
+                personalInfoViewModel.genderListIndex = index;
               });
             },
             child: Container(
               decoration: BoxDecoration(
-                  color: index == genderListIndex ? AppColors.appBlue : AppColors.white,
+                  color: index == personalInfoViewModel.genderListIndex ? AppColors.appBlue : AppColors.white,
                   border: Border.all(color: AppColors.appBorderColor.withOpacity(0.5)),
                   borderRadius: BorderRadius.circular(12)),
               child: Center(
                   child: Text(
                 data.gender,
                 style: openSans.w400.get14.textColor(
-                  index == genderListIndex ? AppColors.white : AppColors.appTextColor,
+                  index == personalInfoViewModel.genderListIndex ? AppColors.white : AppColors.appTextColor,
                 ),
               )),
             ));
@@ -406,12 +407,15 @@ class _PersonalInfoState extends State<PersonalInfo> {
             width: 500,
             child: CalendarDatePicker2(
               onValueChanged: (List<DateTime?> value) {
-                currentDate = value;
-                final String selectedDate = currentDate[0] != null
-                    ? "${currentDate[0]!.day}-${currentDate[0]!.month}-${currentDate[0]!.year}"
-                    : "";
-                controller.text = selectedDate;
-                Navigator.of(context).pop();
+
+                setState(() {
+                  currentDate = value;
+                  final String selectedDate = currentDate[0] != null
+                      ? "${currentDate[0]!.day}-${currentDate[0]!.month}-${currentDate[0]!.year}"
+                      : "";
+                  controller.text = selectedDate;
+                  Navigator.of(context).pop();
+                });
               },
               value: currentDate,
               config: CalendarDatePicker2Config(

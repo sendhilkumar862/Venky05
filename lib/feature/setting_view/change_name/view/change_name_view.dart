@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
@@ -26,12 +27,12 @@ class _ChangeNameViewState extends State<ChangeNameView> {
   Widget build(BuildContext context) {
     return BaseView<ChangeNameViewModel>(
         viewModel: ChangeNameViewModel(),
-        onModelReady: (ChangeNameViewModel changeNameViewModel) {
+        onModelReady: (ChangeNameViewModel changeNameViewModel, WidgetRef ref) {
           changeNameViewModel.setContext(context);
           changeNameViewModel.init();
         },
         onPageBuilder:
-            (BuildContext context, ChangeNameViewModel changeNameViewModel) {
+            (BuildContext context, ChangeNameViewModel changeNameViewModel, WidgetRef ref) {
           return Scaffold(
             appBar: HessaAppBar(
               title: 'changeName'.tr(),

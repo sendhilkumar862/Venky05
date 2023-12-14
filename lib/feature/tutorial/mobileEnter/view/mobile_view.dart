@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_textformfield/text_field.dart';
@@ -22,14 +23,15 @@ class MobileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<MobileViewModel>(
       viewModel: MobileViewModel(),
-      onModelReady: (MobileViewModel mobileViewModel) {
+      onModelReady: (MobileViewModel mobileViewModel, WidgetRef ref) {
         mobileViewModel.setContext(context);
-        mobileViewModel.data = ModalRoute.of(context)!.settings.arguments! as Map;
+        mobileViewModel.data =
+            ModalRoute.of(context)!.settings.arguments! as Map;
         mobileViewModel.arguments['userId'] = mobileViewModel.data['userId'];
         logs('argue--> ${mobileViewModel.data}');
         mobileViewModel.init();
       },
-      onPageBuilder: (BuildContext context, MobileViewModel mobileViewModel) {
+      onPageBuilder: (BuildContext context, MobileViewModel mobileViewModel, WidgetRef ref) {
         return Observer(
           //warnWhenNoObservables: false,
           builder: (BuildContext context) {
@@ -37,7 +39,7 @@ class MobileView extends StatelessWidget {
               bottomNavigationBar: PreLoginCommonButton(
                 title: 'continue'.tr(),
                 onTap: () => mobileViewModel.onTapMobileSubmit(),
-               isDisable: mobileViewModel.mobileValid != 1,
+                isDisable: mobileViewModel.mobileValid != 1,
               ),
               body: PreLoginCustomBody(
                 widget: Expanded(
@@ -45,8 +47,8 @@ class MobileView extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
                     children: [
                       SizedBox(height: 10.px),
-                       SafeArea(bottom: false, child: OnTapBack()),
-                      SizedBox(height: 80.px),
+                      SafeArea(bottom: false, child: OnTapBack()),
+                      SizedBox(height: 180.px),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: AppImageAsset(
@@ -121,15 +123,16 @@ class MobileView extends StatelessWidget {
                         hintText: 'enterMobileAgain'.tr(),
                         validate: mobileViewModel.mobileValid,
                         errorText: mobileViewModel.mobileErrorText,
-                        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                         onChanged: (String value) {
-                      mobileViewModel.validateMobile(value);
+                          mobileViewModel.validateMobile(value);
                         },
                       ),
                       SizedBox(height: 20.px),
                       if (mobileViewModel.responseError.isNotEmpty)
-                        WarningCardView(error: mobileViewModel.enterMobileModel.status!.message)
-
+                        WarningCardView(error: mobileViewModel.responseError)
                     ],
                   ),
                 ),
