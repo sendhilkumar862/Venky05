@@ -9,6 +9,8 @@ import '../../feature/home/view/home_view.dart';
 // Helpers
 import '../../feature/home_views/views/home_views.dart';
 import '../../feature/notification/view/notification.dart';
+import '../../feature/pre_login/experianceInfo/view/experience_Info.dart';
+import '../../feature/pre_login/financing_view.dart';
 import '../../feature/pre_login/experience_Info.dart';
 import '../../feature/pre_login/financeInfo/view/financing_view.dart';
 import '../../feature/pre_login/personalInfo/view/personal_info.dart';

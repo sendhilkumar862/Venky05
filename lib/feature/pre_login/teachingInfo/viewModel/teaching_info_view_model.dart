@@ -21,7 +21,12 @@ abstract class _TeachingInfoViewModelBase extends BaseViewModel with Store {
   ObservableList<String> selectedSchoolType = ObservableList<String>();
   ObservableList<String> selectedCurriculum = ObservableList<String>();
   ObservableList<String> selectedClassType = ObservableList<String>();
-
+  @observable
+  TextEditingController gradeController = TextEditingController();
+  TextEditingController subjectController = TextEditingController();
+  TextEditingController schoolController = TextEditingController();
+  TextEditingController curriculumController = TextEditingController();
+  TextEditingController classTypeController = TextEditingController();
   List<String> gradeList = <String>[];
   List<String> subjectList = <String>[];
   List<String> schoolTypeList = <String>[];

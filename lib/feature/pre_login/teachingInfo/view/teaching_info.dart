@@ -158,15 +158,18 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     readOnly: true,
                     title: 'Type Of Class',
                     hintText: 'Select class type',
-                    suffix: Icon(Icons.keyboard_arrow_down),
+                    suffix: Icon(Icons.keyboard_arrow_down),:
                   ),
                   SizedBox(height: 40.px),
-                  AppButton(
-                      title: 'Continue Experience Information',
-                      onPressed: () {
-                       teachingInfoStore.teachingInformationUpdate();
-                      },
-                      isDisable: false)
+              Observer(builder: (_) {
+                return AppButton(
+                    title: 'Continue Experience Information',
+                    onPressed: () {
+                      teachingInfoStore.teachingInformationUpdate();
+                    },
+                    isDisable: false);
+              })
+
                       // teachingInfoStore.selectedCurriculum.isNotEmpty && teachingInfoStore.selectedSchoolType.isNotEmpty && teachingInfoStore.selectedClassType.isNotEmpty && teachingInfoStore.selectedGrade.isNotEmpty && teachingInfoStore.schoolTypeList.isNotEmpty ?false:true)
                 ],
               ),
