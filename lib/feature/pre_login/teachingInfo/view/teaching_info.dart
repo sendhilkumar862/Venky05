@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -38,11 +39,11 @@ class _TeachingInfoState extends State<TeachingInfo> {
     // final TeachingInfoViewModel teachingInfoStore = Provider.of<TeachingInfoViewModel>(context);
     return BaseView<TeachingInfoViewModel>(
         viewModel: TeachingInfoViewModel(),
-        onModelReady: (TeachingInfoViewModel model) {
+        onModelReady: (TeachingInfoViewModel model, WidgetRef ref) {
           model.setContext(context);
           model.init();
         },
-        onPageBuilder: (BuildContext context, TeachingInfoViewModel teachingInfoStore) {
+        onPageBuilder: (BuildContext context, TeachingInfoViewModel teachingInfoStore,WidgetRef ref ) {
           return Scaffold(
             appBar: HessaAppBar(
               isBack: true,
