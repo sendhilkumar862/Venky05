@@ -12,9 +12,11 @@ class AppColors {
   static const Color appLightBlack = Color(0xFF5E5F60);
   static const Color appGrey = Color(0xFFa1a3a6);
   static const Color appRed = Color(0xFFf26c61);
+  static const Color ctaSecondary = Color(0xFF6C5CFF);
 
   static const Color appLightGreen = Color(0xFF69c9cd);
   static const Color appBlue = Color(0xFF002BC7);
+  static const Color xFF767680 = Color(0xFF767680);
   static const Color appDarkBlack = Color(0xFF051335);
 
   static const Color appDarkGrey = Color(0xFF515151);
@@ -51,6 +53,8 @@ class AppColors {
   static const Color arrowColor = Color(0xFF303444);
   static const Color xFFBFC8E4 = Color(0xFFBFC8E4);
   static const Color appProfile = Color(0xFF6C5CFF);
+  static const Color ctaQuaternary = Color(0xFFE2DFFF);
+  static const Color bgQuaternary = Color(0xFFF0F5FF);
 
   static List<BoxShadow> appBoxShadow = [
     BoxShadow(

@@ -6,6 +6,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
+import '../../../../product/base/model/base_model.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
@@ -36,22 +37,19 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
   String loginStatus = '';
 
   @observable
-  LoginModel loginModel = const LoginModel();
-
-  @observable
   int emailValid = 2;
 
   @observable
   bool isButtonDisabled = true;
 
   @observable
-  bool isPasswordShow = false;
+  bool isPasswordShow = true;
 
   @action
   void validateEmail(String value) {
     loginStatus = '';
 
-    if (value!.isEmpty) {
+    if (value.isEmpty) {
       emailValid = 0;
       emailErrorText = 'pleaseEnter'.tr();
     } else if (Regexes.validateRegEx(emailController.text, Regexes.emailRegex)) {
@@ -74,10 +72,7 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
 
   @action
   void onTapLoginSubmit() {
-    // its test mode condition will change
-    if (loginStatus != 'success') {
-      login();
-    }
+    login();
   }
 
   @action
@@ -107,38 +102,24 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
         data: body,
       );
       logs('status Code --> ${response.statusCode}');
+      final BaseResponse<LoginModel> baseResponse =
+            BaseResponse<LoginModel>.fromJson(response.data, LoginModel.fromJson);
+      loginStatus = baseResponse.status.type;
       if (response.statusCode == 200) {
-        logs('Login response  --> ${response.data.toString()}');
-        EasyLoading.dismiss();
-        loginModel = LoginModel.fromJson(response.data);
-        AppRouter.pushNamed(
-          Routes.HomeScreenRoute,
-        );
-        logs('ress--> ${loginModel.status?.type}');
+         EasyLoading.dismiss();
         final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
-        if (response.data['data']['item']['token']['accessToken'].toString().isNotEmpty) {
-          logs('token-->${response.data['data']['item']['token']['accessToken']}');
-          keyValueStorageService.setAuthToken(response.data['data']['item']['token']['accessToken']);
-        }
-        loginStatus = loginModel.status!.type!;
-        if (emailValid != 1) {
-          isButtonDisabled = true;
-        } else if (passwordController.text.isEmpty) {
-          isButtonDisabled = true;
+        if (baseResponse.data.item?.token?.accessToken?.isNotEmpty ?? false) {
+           keyValueStorageService.setAuthToken(baseResponse.data.item?.token?.accessToken ?? '');
+           AppRouter.pushNamed(Routes.HomeScreenRoute);
         } else {
-          isButtonDisabled = false;
+           loginError = baseResponse.status.message;
         }
-        EasyLoading.dismiss();
       } else {
         EasyLoading.dismiss();
+        loginError = baseResponse.status.message;
         logs('error not response');
       }
-    } on DioException catch (error) {
-      loginModel = LoginModel.fromJson(error.response!.data);
-      loginError = loginModel.status!.message!;
-      loginStatus = loginModel.status!.type!;
-      logs('data --> ${loginModel.status!.message}');
-      logs('data status --> $loginStatus');
+    } on DioException {
       EasyLoading.dismiss();
     }
   }

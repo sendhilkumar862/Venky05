@@ -28,7 +28,7 @@ class SuccessFailsInfoDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding:
-          EdgeInsets.symmetric(vertical: verticalPadding ?? 25, horizontal: 15),
+          EdgeInsets.symmetric(vertical: verticalPadding ?? 25, horizontal: 25),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -84,6 +84,7 @@ class SuccessFailsInfoDialog extends StatelessWidget {
             height: 20,
           ),
           AppButton(
+            isDisable: false,
             borderColor: AppColors.appBlue,
             height: 40,
             title: buttonTitle!,

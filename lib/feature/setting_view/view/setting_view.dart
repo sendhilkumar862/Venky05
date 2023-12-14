@@ -2,12 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hessah/feature/setting_view/view/widget/available_times_view.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../config/routes/app_router.dart';
@@ -29,16 +28,17 @@ import '../../tutorial/password/view/password_view.dart';
 import '../../tutorial/view/bottomSheets/country_bottom_sheet.dart';
 import '../../tutorial/view/bottomSheets/language_bottom_sheet.dart';
 import '../viewModel/setting_view_model.dart';
+import 'widget/available_times_view.dart';
 import 'widget/manage_adress_view.dart';
 
-class SettingView extends StatefulWidget {
+class SettingView extends ConsumerStatefulWidget {
   const SettingView({super.key});
 
   @override
-  State<SettingView> createState() => _SettingViewState();
+  ConsumerState<SettingView> createState() => _SettingViewState();
 }
 
-class _SettingViewState extends State<SettingView> {
+class _SettingViewState extends ConsumerState<SettingView> {
   XFile? pickedFile;
   CroppedFile? croppedFile;
   String croppedFilePath = '';
@@ -50,18 +50,18 @@ class _SettingViewState extends State<SettingView> {
 
   @override
   Widget build(BuildContext context) {
-    final LanguageViewModel languageViewModel =
-        Provider.of<LanguageViewModel>(context);
+    final LanguageViewModel languageViewModel = ref.watch(languageViewModelProvider);
+        // Provider.of<LanguageViewModel>(context);
     final double width = MediaQuery.of(context).size.width;
     return BaseView<SettingViewModel>(
         viewModel: SettingViewModel(),
-        onModelReady: (SettingViewModel settingViewModel) {
+        onModelReady: (SettingViewModel settingViewModel, WidgetRef ref) {
           settingViewModel.setContext(context);
           settingViewModel.init();
           languageViewModel.init();
         },
         onPageBuilder:
-            (BuildContext context, SettingViewModel settingViewModel) {
+            (BuildContext context, SettingViewModel settingViewModel, WidgetRef ref) {
           languageViewModel.countries.where((Country element) {
             if (element.name == settingViewModel.selectedCountryName) {
               languageViewModel.selectedCountry = element;
@@ -201,8 +201,7 @@ class _SettingViewState extends State<SettingView> {
     required String icon,
     required String title,
   }) {
-    final LanguageViewModel languageViewModel =
-        Provider.of<LanguageViewModel>(context);
+    final LanguageViewModel languageViewModel = ref.watch(languageViewModelProvider);
     return Row(
       children: <Widget>[
         SvgPicture.asset(icon),

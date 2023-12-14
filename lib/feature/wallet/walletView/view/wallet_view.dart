@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -36,10 +37,10 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return BaseView<WalletViewModel>(
       viewModel: WalletViewModel(),
-      onModelReady: (WalletViewModel walletViewModel) {
+      onModelReady: (WalletViewModel walletViewModel, WidgetRef ref) {
         walletViewModel.setContext(context);
       },
-      onPageBuilder: (BuildContext context, WalletViewModel walletViewModel) {
+      onPageBuilder: (BuildContext context, WalletViewModel walletViewModel, WidgetRef ref) {
         return Observer(
           builder: (BuildContext context) {
             return Scaffold(

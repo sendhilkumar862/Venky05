@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_button/app_button.dart';
@@ -41,12 +42,12 @@ class _ManageSubscriptionState extends State<ManageSubscription> {
     return BaseView<ManageSubscriptionViewModel>(
         viewModel: ManageSubscriptionViewModel(),
         onModelReady:
-            (ManageSubscriptionViewModel manageSubscriptionViewModel) {
+            (ManageSubscriptionViewModel manageSubscriptionViewModel, WidgetRef ref) {
           manageSubscriptionViewModel.setContext(context);
           manageSubscriptionViewModel.init();
         },
         onPageBuilder: (BuildContext context,
-            ManageSubscriptionViewModel manageSubscriptionViewModel) {
+            ManageSubscriptionViewModel manageSubscriptionViewModel, WidgetRef ref) {
           return Scaffold(
             appBar: HessaAppBar(
               title: 'Manage Subscription ',

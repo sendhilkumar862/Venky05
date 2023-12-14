@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hessah/config/routes/app_router.dart';
 import 'package:hessah/config/routes/routes.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -28,7 +29,7 @@ class PasswordView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<PasswordViewModel>(
         viewModel: PasswordViewModel(),
-        onModelReady: (PasswordViewModel passwordViewModel) {
+        onModelReady: (PasswordViewModel passwordViewModel, WidgetRef ref) {
           passwordViewModel.setContext(context);
           passwordViewModel.init();
           passwordViewModel.arguments =
@@ -37,7 +38,7 @@ class PasswordView extends StatelessWidget {
           logs('argue--> ${passwordViewModel.arguments}');
         },
         onPageBuilder:
-            (BuildContext context, PasswordViewModel passwordViewModel) {
+            (BuildContext context, PasswordViewModel passwordViewModel, WidgetRef ref) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               body: PreLoginCustomBody(
@@ -84,8 +85,8 @@ class PasswordView extends StatelessWidget {
                                   },
                                   child: AppImageAsset(
                                     image: (passwordViewModel.isPasswordVisible)
-                                        ? ImageConstants.eyeCross
-                                        : ImageConstants.eye,
+                                        ? ImageConstants.eye
+                                        : ImageConstants.eyeCross,
                                     height: 22.px,
                                   ),
                                 ),
@@ -113,8 +114,8 @@ class PasswordView extends StatelessWidget {
                                   child: AppImageAsset(
                                     image: (passwordViewModel
                                             .isRetypePasswordVisible)
-                                        ? ImageConstants.eyeCross
-                                        : ImageConstants.eye,
+                                        ? ImageConstants.eye
+                                        : ImageConstants.eyeCross,
                                     height: 22.px,
                                   ),
                                 ),

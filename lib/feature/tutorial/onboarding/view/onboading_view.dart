@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hessah/product/network/local/key_value_storage_base.dart';
 import 'package:hessah/product/network/local/key_value_storage_service.dart';
 import 'package:lottie/lottie.dart';
@@ -25,12 +26,12 @@ class OnboardingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<OnboardingViewModel>(
         viewModel: OnboardingViewModel(),
-        onModelReady: (OnboardingViewModel onboardingViewModel) {
+        onModelReady: (OnboardingViewModel onboardingViewModel, WidgetRef ref) {
           onboardingViewModel.setContext(context);
           onboardingViewModel.init();
         },
         onPageBuilder:
-            (BuildContext context, OnboardingViewModel onboardingViewModel) {
+            (BuildContext context, OnboardingViewModel onboardingViewModel, WidgetRef ref) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               backgroundColor: AppColors.appWhite,

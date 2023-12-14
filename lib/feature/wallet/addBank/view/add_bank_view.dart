@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_button/app_button.dart';
@@ -19,10 +20,10 @@ class AddBankView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<AddBankViewModel>(
       viewModel: AddBankViewModel(),
-      onModelReady: (AddBankViewModel addBankViewModel) {
+      onModelReady: (AddBankViewModel addBankViewModel, WidgetRef ref) {
         addBankViewModel.setContext(context);
       },
-      onPageBuilder: (BuildContext context, AddBankViewModel addBankViewModel) {
+      onPageBuilder: (BuildContext context, AddBankViewModel addBankViewModel, WidgetRef ref) {
         return Observer(
           builder: (BuildContext context) {
             return Scaffold(

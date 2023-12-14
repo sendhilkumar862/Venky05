@@ -7,6 +7,7 @@ import 'package:mobx/mobx.dart';
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../custom/loader/easy_loader.dart';
+import '../../../../product/base/model/base_model.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
@@ -54,9 +55,6 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
   int mobileValid = 2;
 
   @observable
-  EnterMobileModel enterMobileModel = const EnterMobileModel();
-
-  @observable
   List<String> countryCode = <String>[];
 
   @observable
@@ -72,8 +70,6 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     showLoading();
     // viewModelContext.loaderOverlay.show();
     Dio dio = Dio();
-    final String mobile = '$selectedCountryCode${mobileController.text}';
-    logs('mobile--> $mobile');
     try {
       Map body = <String, String>{
         'userId': data['userId'].toString(),
@@ -85,35 +81,34 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
         'http://167.99.93.83/api/v1/users/mobile/send-otp',
         data: body,
       );
-      logs('status Codee --> ${response.statusCode}');
-      logs('res --> ${response.data}');
       if (response.statusCode == 200) {
         hideLoading();
-        enterMobileModel = EnterMobileModel.fromJson(response.data);
-        logs('status Code --> ${enterMobileModel.status!.type}');
-        AppUtils.showFlushBar(
-          icon: Icons.check_circle_outline_rounded,
-          iconColor: Colors.green,
-          context: AppRouter.navigatorKey.currentContext!,
-          message: response.data['status']['message'] ?? 'Error occured',
-        );
-        arguments['userId'] = data['userId'].toString();
-        arguments['otp_id'] = enterMobileModel.data!.item!.otpId.toString();
-        arguments['mobile'] = mobileController.text.trim();
-        arguments['countryCode'] = selectedCountryCode.replaceAll('+', '');
-        Future.delayed(
+        final BaseResponse<EnterMobileModel> baseResponse =
+            BaseResponse<EnterMobileModel>.fromJson(response.data, EnterMobileModel.fromJson);
+       if (baseResponse.status.type == 'success') {
+          AppUtils.showFlushBar(
+             icon: Icons.check_circle_outline_rounded,
+             iconColor: Colors.green,
+             context: AppRouter.navigatorKey.currentContext!,
+             message: baseResponse.status.message);
+          arguments['userId'] = data['userId'].toString();
+          arguments['otp_id'] = baseResponse.data.item?.otpId ?? '';
+          arguments['mobile'] = mobileController.text.trim();
+          arguments['countryCode'] = selectedCountryCode.replaceAll('+', '');
+           Future.delayed(
           const Duration(milliseconds: 1000),
               () => AppRouter.pushNamed(Routes.verifyOtpView, args: arguments)
         );
+       } else {
+          responseError = baseResponse.status.message;
+       }
       } else {
         hideLoading();
+        responseError = 'Some Error Occurred';
         logs('error not response');
       }
-    } on DioException catch (e) {
+    } on DioException {
       hideLoading();
-      enterMobileModel = EnterMobileModel.fromJson(e.response!.data);
-      responseError = enterMobileModel.status!.message ?? '';
-      logs('error --> $enterMobileModel');
     }
   }
 
@@ -141,10 +136,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
 
   @action
   void onTapMobileSubmit() {
-   // if (mobileValid == 1) {
-    if (true) {
       sendOTP();
-    }
   }
 
   @observable

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -11,6 +12,12 @@ import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 
 part 'teaching_info_view_model.g.dart';
+
+final teachingInfoProvider = Provider<TeachingInfoViewModel>((ref) {
+  return TeachingInfoViewModel();
+});
+
+
 
 class TeachingInfoViewModel = _TeachingInfoViewModelBase
     with _$TeachingInfoViewModel;
@@ -78,8 +85,7 @@ abstract class _TeachingInfoViewModelBase extends BaseViewModel with Store {
   }
 
   String listToCommaSeparatedString(List<String> list) {
-    String commaSeparatedString;
-    return commaSeparatedString = list.join(', ');
+    return list.join(', ');
   }
 
   @override
