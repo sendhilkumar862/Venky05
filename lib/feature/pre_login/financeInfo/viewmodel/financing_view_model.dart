@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
@@ -24,8 +25,17 @@ abstract class _FinancingViewModelBase extends BaseViewModel with Store {
   @observable
   String ibanError = '';
 
+  @observable
+  bool isSuccess = false;
+
   @override
   void setContext(BuildContext context) => viewModelContext = context;
+
+  var maskFormatter =  MaskTextInputFormatter(
+      mask: '+# (###) ###-##-##',
+      filter: { "#": RegExp(r'[0-9]') },
+      type: MaskAutoCompletionType.lazy
+  );
 
   @override
   Future<void> init() async {
@@ -58,7 +68,7 @@ abstract class _FinancingViewModelBase extends BaseViewModel with Store {
   }
 
   @action
-  Future<void> updateData() async {
+  Future<bool> updateData() async {
      EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final Dio dio = Dio();
     try {
@@ -69,7 +79,7 @@ abstract class _FinancingViewModelBase extends BaseViewModel with Store {
       };
       logs('body--> $body');
       final Response response = await dio.post(
-        'http://167.99.93.83/api/v1/users/profile/iban',
+        'http://167.99.93.83/api/v1/users/profile/iban/',
         data: body,
         options: await _headers(),
       );
@@ -77,12 +87,16 @@ abstract class _FinancingViewModelBase extends BaseViewModel with Store {
       if (response.statusCode == 200) {
         logs('Login response  --> ${response.data.toString()}');
         EasyLoading.dismiss();
+        return true;
+
       } else {
         EasyLoading.dismiss();
         logs('error not response');
+        return false;
       }
     } on DioException {
       EasyLoading.dismiss();
+      return false;
     }
   }
 

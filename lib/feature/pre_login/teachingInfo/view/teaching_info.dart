@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
-import '../../../../config/routes/app_router.dart';
-import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
@@ -22,13 +18,6 @@ class TeachingInfo extends StatefulWidget {
 }
 
 class _TeachingInfoState extends State<TeachingInfo> {
-  TextEditingController gradeController = TextEditingController();
-  TextEditingController subjectController = TextEditingController();
-  TextEditingController schoolController = TextEditingController();
-  TextEditingController curriculumController = TextEditingController();
-  TextEditingController classTypeController = TextEditingController();
-  int? isSelected;
-
   @override
   void initState() {
     super.initState();
@@ -43,7 +32,8 @@ class _TeachingInfoState extends State<TeachingInfo> {
           model.setContext(context);
           model.init();
         },
-        onPageBuilder: (BuildContext context, TeachingInfoViewModel teachingInfoStore,WidgetRef ref ) {
+        onPageBuilder: (BuildContext context,
+            TeachingInfoViewModel teachingInfoStore, WidgetRef ref) {
           return Scaffold(
             appBar: HessaAppBar(
               isBack: true,
@@ -57,21 +47,27 @@ class _TeachingInfoState extends State<TeachingInfo> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(top: 28),
-                    child: Text('Teaching Information', style: openSans.get20.w700.appTextColor),
+                    padding: const EdgeInsets.only(top: 30),
+                    child: Text('Teaching Information',
+                        style: openSans.get20.w700.appTextColor),
                   ),
                   AppTextFormField(
-                    controller: gradeController,
+                    controller: teachingInfoStore.gradeController,
                     onTap: () {
                       bottomSheetDropDownList(
-                          listData: teachingInfoStore.gradeList ,
+                          listData: teachingInfoStore.gradeList,
                           selectedList: teachingInfoStore.selectedGrade,
                           teachingInfoStore: teachingInfoStore,
                           onTap: (int index) {
-                            teachingInfoStore.addGrade(teachingInfoStore.gradeList[index]);
-                            gradeController.text = teachingInfoStore
-                                .listToCommaSeparatedString(teachingInfoStore.selectedGrade)
-                                .replaceAll(',', ' -');
+                            setState(() {
+                              teachingInfoStore
+                                  .addGrade(teachingInfoStore.gradeList[index]);
+                              teachingInfoStore.gradeController.text =
+                                  teachingInfoStore
+                                      .listToCommaSeparatedString(
+                                          teachingInfoStore.selectedGrade)
+                                      .replaceAll(',', ' -');
+                            });
                           });
                     },
                     top: 10,
@@ -81,17 +77,22 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     suffix: const Icon(Icons.keyboard_arrow_down),
                   ),
                   AppTextFormField(
-                    controller: subjectController,
+                    controller: teachingInfoStore.subjectController,
                     onTap: () {
                       bottomSheetDropDownList(
-                        listData: teachingInfoStore.subjectList ,
+                        listData: teachingInfoStore.subjectList,
                         selectedList: teachingInfoStore.selectedSubject,
                         teachingInfoStore: teachingInfoStore,
                         onTap: (int index) {
-                          teachingInfoStore.addSubject(teachingInfoStore.subjectList[index]);
-                          subjectController.text = teachingInfoStore
-                              .listToCommaSeparatedString(teachingInfoStore.selectedSubject)
-                              .replaceAll(',', ' -');
+                          setState(() {
+                            teachingInfoStore.addSubject(
+                                teachingInfoStore.subjectList[index]);
+                            teachingInfoStore.subjectController.text =
+                                teachingInfoStore
+                                    .listToCommaSeparatedString(
+                                        teachingInfoStore.selectedSubject)
+                                    .replaceAll(',', ' -');
+                          });
                         },
                       );
                     },
@@ -101,17 +102,22 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     suffix: Icon(Icons.keyboard_arrow_down),
                   ),
                   AppTextFormField(
-                    controller: schoolController,
+                    controller: teachingInfoStore.schoolController,
                     onTap: () {
                       bottomSheetDropDownList(
-                        listData: teachingInfoStore.schoolTypeList ,
+                        listData: teachingInfoStore.schoolTypeList,
                         selectedList: teachingInfoStore.selectedSchoolType,
                         teachingInfoStore: teachingInfoStore,
                         onTap: (int index) {
-                          teachingInfoStore.addSchoolType(teachingInfoStore.schoolTypeList[index]);
-                          schoolController.text = teachingInfoStore
-                              .listToCommaSeparatedString(teachingInfoStore.selectedSchoolType)
-                              .replaceAll(',', ' -');
+                          setState(() {
+                            teachingInfoStore.addSchoolType(
+                                teachingInfoStore.schoolTypeList[index]);
+                            teachingInfoStore.schoolController.text =
+                                teachingInfoStore
+                                    .listToCommaSeparatedString(
+                                        teachingInfoStore.selectedSchoolType)
+                                    .replaceAll(',', ' -');
+                          });
                         },
                       );
                     },
@@ -121,17 +127,20 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     suffix: Icon(Icons.keyboard_arrow_down),
                   ),
                   AppTextFormField(
-                    controller: curriculumController,
+                    controller: teachingInfoStore.curriculumController,
                     onTap: () {
                       bottomSheetDropDownList(
                         listData: teachingInfoStore.curriculumTypeList,
                         selectedList: teachingInfoStore.selectedCurriculum,
                         teachingInfoStore: teachingInfoStore,
                         onTap: (int index) {
-                          teachingInfoStore.addCurriculum(teachingInfoStore.curriculumTypeList[index]);
-                          curriculumController.text = teachingInfoStore
-                              .listToCommaSeparatedString(teachingInfoStore.selectedCurriculum)
-                              .replaceAll(',', ' -');
+                          teachingInfoStore.addCurriculum(
+                              teachingInfoStore.curriculumTypeList[index]);
+                          teachingInfoStore.curriculumController.text =
+                              teachingInfoStore
+                                  .listToCommaSeparatedString(
+                                      teachingInfoStore.selectedCurriculum)
+                                  .replaceAll(',', ' -');
                         },
                       );
                     },
@@ -141,17 +150,22 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     suffix: Icon(Icons.keyboard_arrow_down),
                   ),
                   AppTextFormField(
-                    controller: classTypeController,
+                    controller: teachingInfoStore.classTypeController,
                     onTap: () {
                       bottomSheetDropDownList(
-                        listData: teachingInfoStore.classTypeList ,
+                        listData: teachingInfoStore.classTypeList,
                         selectedList: teachingInfoStore.selectedClassType,
                         teachingInfoStore: teachingInfoStore,
                         onTap: (int index) {
-                          teachingInfoStore.addClassType(teachingInfoStore.classTypeList[index]);
-                          classTypeController.text = teachingInfoStore
-                              .listToCommaSeparatedString(teachingInfoStore.selectedClassType)
-                              .replaceAll(',', ' -');
+                          setState(() {
+                            teachingInfoStore.addClassType(
+                                teachingInfoStore.classTypeList[index]);
+                            teachingInfoStore.classTypeController.text =
+                                teachingInfoStore
+                                    .listToCommaSeparatedString(
+                                        teachingInfoStore.selectedClassType)
+                                    .replaceAll(',', ' -');
+                          });
                         },
                       );
                     },
@@ -161,13 +175,38 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     suffix: Icon(Icons.keyboard_arrow_down),
                   ),
                   SizedBox(height: 40.px),
-                  AppButton(
-                      title: 'Continue Experience Information',
-                      onPressed: () {
-                       teachingInfoStore.teachingInformationUpdate();
-                      },
-                      isDisable: false)
-                      // teachingInfoStore.selectedCurriculum.isNotEmpty && teachingInfoStore.selectedSchoolType.isNotEmpty && teachingInfoStore.selectedClassType.isNotEmpty && teachingInfoStore.selectedGrade.isNotEmpty && teachingInfoStore.schoolTypeList.isNotEmpty ?false:true)
+                  Observer(builder: (_) {
+                    return AppButton(
+                        title: 'Continue Experience Information',
+                        onPressed: () {
+                          if( teachingInfoStore.gradeController.text.isNotEmpty &&
+                              teachingInfoStore
+                                  .classTypeController.text.isNotEmpty &&
+                              teachingInfoStore
+                                  .curriculumController.text.isNotEmpty &&
+                              teachingInfoStore
+                                  .schoolController.text.isNotEmpty &&
+                              teachingInfoStore
+                                  .subjectController.text.isNotEmpty
+                              ) {
+                            teachingInfoStore.teachingInformationUpdate();
+                          }
+                        },
+                        isDisable:
+                            teachingInfoStore.gradeController.text.isNotEmpty &&
+                                    teachingInfoStore
+                                        .classTypeController.text.isNotEmpty &&
+                                    teachingInfoStore
+                                        .curriculumController.text.isNotEmpty &&
+                                    teachingInfoStore
+                                        .schoolController.text.isNotEmpty &&
+                                    teachingInfoStore
+                                        .subjectController.text.isNotEmpty
+                                ? false
+                                : true);
+                  })
+
+                  // teachingInfoStore.selectedCurriculum.isNotEmpty && teachingInfoStore.selectedSchoolType.isNotEmpty && teachingInfoStore.selectedClassType.isNotEmpty && teachingInfoStore.selectedGrade.isNotEmpty && teachingInfoStore.schoolTypeList.isNotEmpty ?false:true)
                 ],
               ),
             ),
@@ -184,7 +223,8 @@ class _TeachingInfoState extends State<TeachingInfo> {
     final double width = MediaQuery.sizeOf(context).width;
     showModalBottomSheet(
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), topRight: Radius.circular(30))),
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(
@@ -194,27 +234,32 @@ class _TeachingInfoState extends State<TeachingInfo> {
                 Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      child: Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
-                        Text('Class Duration', style: openSans.get14.w700),
-                        SizedBox(
-                          width: width * 0.25,
-                        ),
-                        Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: AppColors.downArrowColor.withOpacity(0.15)),
-                            child: IconButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              icon: const Icon(
-                                Icons.close,
-                                size: 15,
-                              ),
-                            ))
-                      ]),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 20),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Text('Class Duration', style: openSans.get14.w700),
+                            SizedBox(
+                              width: width * 0.25,
+                            ),
+                            Container(
+                                height: 30,
+                                width: 30,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: AppColors.downArrowColor
+                                        .withOpacity(0.15)),
+                                child: IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: const Icon(
+                                    Icons.close,
+                                    size: 15,
+                                  ),
+                                ))
+                          ]),
                     ),
                   ],
                 ),
@@ -227,9 +272,12 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     itemBuilder: (BuildContext context, int index) {
                       return Observer(builder: (_) {
                         return ListTile(
-                          title: Text(listData[index], style: openSans.get16.w400.textColor(AppColors.appTextColor)),
+                          title: Text(listData[index],
+                              style: openSans.get16.w400
+                                  .textColor(AppColors.appTextColor)),
                           onTap: () {
-                            onTap(index); // Pass the value to the onTap function
+                            onTap(
+                                index); // Pass the value to the onTap function
                           },
                           trailing: selectedList.contains(listData[index])
                               ? const Icon(
@@ -238,7 +286,8 @@ class _TeachingInfoState extends State<TeachingInfo> {
                                 )
                               : Icon(
                                   Icons.circle_outlined,
-                                  color: AppColors.downArrowColor.withOpacity(0.25),
+                                  color: AppColors.downArrowColor
+                                      .withOpacity(0.25),
                                 ),
                         );
                       });
