@@ -67,9 +67,15 @@ class _HomeViewState extends State<HomeView> {
           }
           return false;
         },
+        child: NotificationListener<StatusUpdateNotification>(
+  onNotification: (StatusUpdateNotification notification) {
+    // Handle the notification here
+    value.fetchData();
+    return true;
+  },
         child: Scaffold(
           body: Stack(
-            children: [
+            children: <Widget>[
               NavBar(
                 color: Colors.white,
                 showTitle: true,
@@ -99,7 +105,7 @@ class _HomeViewState extends State<HomeView> {
               if (selectedProfile == ApplicationConstants.student && !getPreference)
                 Stack(
                   fit: StackFit.expand,
-                  children: [
+                  children: <Widget>[
                     Container(
                       height: MediaQuery.of(context).size.height,
                       color: Colors.grey.withOpacity(0.8),
@@ -121,6 +127,11 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ),
-    );
+    ));
   }
+}
+
+class StatusUpdateNotification extends Notification {
+  StatusUpdateNotification(this.message);
+  final String message;
 }

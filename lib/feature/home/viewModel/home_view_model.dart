@@ -53,6 +53,7 @@ abstract class _HomeViewModelBase extends BaseViewModel with Store {
         final BaseResponse<HomeModel> baseResponse =
         BaseResponse<HomeModel>.fromJson(response.data as Map<String, dynamic>, HomeModel.fromJson);
          keyValueStorageBase.setCommon(KeyValueStorageService.userInfoStatus,baseResponse.data.item?.userStatus );
+        
         hideLoading();
       } else {
         hideLoading();

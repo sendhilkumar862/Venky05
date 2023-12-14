@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/app_textformfield/text_field.dart';
@@ -10,6 +11,7 @@ import '../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
+import '../../../home/view/home_view.dart';
 import '../viewmodel/financing_view_model.dart';
 
 class FinancingView extends StatefulWidget {
@@ -138,7 +140,10 @@ class _FinancingViewState extends State<FinancingView> {
               "You have successfully submitted your profile information, and your account is pending for review.\n\nOnce approved, you'll be ready to commence teaching.\n\nWe'll notify you soon!.",
         );
       },
-    );
+    ).whenComplete(() {
+      context.dispatchNotification(StatusUpdateNotification('Profile Completed!'));
+      Navigator.popUntil(context, ModalRoute.withName(Routes.HomeScreenRoute));
+    });
   }
 
 }

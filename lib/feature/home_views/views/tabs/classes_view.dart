@@ -58,14 +58,18 @@ class _ClassesViewState extends State<ClassesView> {
                       isPending = !isPending;
                     });
                   } else {
-                    if(selectedUserStatus=="50") {
+                    if(selectedUserStatus=='50') {
                       AppRouter.pushNamed(Routes.personalInfo);
-                    }else if(selectedUserStatus=="60"){
+                    }else if(selectedUserStatus=='60'){
                       AppRouter.pushNamed(Routes.teachingInfo);
-                    }else if(selectedUserStatus=="70"){
+                    }else if(selectedUserStatus=='70'){
                       AppRouter.pushNamed(Routes.experienceInfo);
-                    }else if(selectedUserStatus=="80"){
+                    }else if(selectedUserStatus=='80'){
                       AppRouter.pushNamed(Routes.financingView);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+     content: Text('Already Profile Completed it is in Pending for Review'),
+));
                     }
                   }
                 },

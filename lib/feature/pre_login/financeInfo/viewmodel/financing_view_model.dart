@@ -48,7 +48,7 @@ abstract class _FinancingViewModelBase extends BaseViewModel with Store {
       ibanError = 'ibanError'.tr();
     } else if (value.length != 30){
       ibanError = 'ibanLengthError'.tr();
-    } else if (!value.startsWith('KU')) {
+    } else if (!value.startsWith('KW')) {
       ibanError = 'iabnLocalError'.tr();
     } else {
       ibanError = '';
