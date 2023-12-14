@@ -148,5 +148,8 @@
     "msgSuccessfullyBookedClass": "You have successfully booked your class, and you will get notification to pay after the teacher accept the class.",
     "submit": "Submit",
     "proposalDetails": "Proposal Details",
-    "classDateAndTime": "Class Date and Time"
+    "classDateAndTime": "Class Date and Time",
+    "ibanError": "IBAN is Empty",
+    "ibanLengthError": "Minimum IBAN Length should be 30 digits",
+    "iabnLocalError": "You have to enter local Bank Account Number"
 }
