@@ -244,7 +244,7 @@ abstract class _TeachingInfoViewModelBase extends BaseViewModel with Store {
     final Dio dio = Dio();
     try {
       final Map<String, dynamic> body = <String, dynamic>{
-        "grades": selectedGrade.map(int.parse).toList(),
+        "grades": selectedGrade.toList(),
         "subjects": selectedSubject.toList(),
         "schoolTypes": selectedSchoolType.toList(),
         "classTypes": selectedClassType.toList(),
