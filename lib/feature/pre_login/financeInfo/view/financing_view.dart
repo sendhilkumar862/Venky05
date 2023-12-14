@@ -101,17 +101,16 @@ class _FinancingViewState extends State<FinancingView> {
                 ),
               ),
             ),
-            Observer(builder:(_) {
-              return AppButton(
-                  title: 'Complete Your Profile',
-                  onPressed: () async{
+            AppButton(
+                title: 'Complete Your Profile',
+                onPressed: () async{
+                  if(financingViewModel.ibanController.text.isNotEmpty && financingViewModel.nickNameController.text.isNotEmpty){
                     final bool status= await financingViewModel.updateData();
                     if(status) {
                       successBottomSheet(context);
-                    }
-                  },
-                  isDisable: financingViewModel.ibanController.text.isNotEmpty && financingViewModel.nickNameController.text.isNotEmpty?false:true);
-            }),
+                    }}
+                },
+                isDisable: financingViewModel.ibanController.text.isNotEmpty && financingViewModel.nickNameController.text.isNotEmpty?false:true)
 
           ],
         ),

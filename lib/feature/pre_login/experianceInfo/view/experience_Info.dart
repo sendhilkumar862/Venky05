@@ -97,6 +97,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                      AppTextFormField(
                       maxLines: 3,
                       title: 'Experience Brief',
+                      contentPadding: EdgeInsets.all( 10),
                       hintText: 'Enter experience brief',
                       controller:  experienceInfoStore.experienceBriefController,
                        onChanged: (String value){
@@ -285,7 +286,9 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                     AppButton(
                         title: 'Continue To Teaching Information',
                         onPressed: () {
-                          experienceInfoStore.experienceInformationUpdate();
+                          if(experienceInfoStore.experienceYearController.text.isNotEmpty && experienceInfoStore.educationController.text.isNotEmpty && experienceInfoStore.experienceBriefController.text.isNotEmpty) {
+                            experienceInfoStore.experienceInformationUpdate();
+                          }
                         },
                         isDisable: experienceInfoStore.experienceYearController.text.isNotEmpty && experienceInfoStore.educationController.text.isNotEmpty && experienceInfoStore.experienceBriefController.text.isNotEmpty ?false:true),
                   ],

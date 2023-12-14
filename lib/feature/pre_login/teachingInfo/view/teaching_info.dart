@@ -179,7 +179,18 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     return AppButton(
                         title: 'Continue Experience Information',
                         onPressed: () {
-                          teachingInfoStore.teachingInformationUpdate();
+                          if( teachingInfoStore.gradeController.text.isNotEmpty &&
+                              teachingInfoStore
+                                  .classTypeController.text.isNotEmpty &&
+                              teachingInfoStore
+                                  .curriculumController.text.isNotEmpty &&
+                              teachingInfoStore
+                                  .schoolController.text.isNotEmpty &&
+                              teachingInfoStore
+                                  .subjectController.text.isNotEmpty
+                              ) {
+                            teachingInfoStore.teachingInformationUpdate();
+                          }
                         },
                         isDisable:
                             teachingInfoStore.gradeController.text.isNotEmpty &&
