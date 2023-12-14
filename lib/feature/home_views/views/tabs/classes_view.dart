@@ -22,24 +22,25 @@ class ClassesView extends StatefulWidget {
 class _ClassesViewState extends State<ClassesView> {
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
   String selectedProfile = '';
-
+  String selectedUserStatus = '';
   bool isPending = false;
   @override
   void initState() {
     super.initState();
     selectedProfile =
         keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ?? '';
+    selectedUserStatus=keyValueStorageBase.getCommon(String, KeyValueStorageService.userInfoStatus) ?? '';
+    print(selectedUserStatus);
   }
 
   @override
   Widget build(BuildContext context) {
     if (selectedProfile == ApplicationConstants.tutor) {
       return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          if (selectedProfile == ApplicationConstants.tutor)
-            Center(
+          if ( selectedUserStatus != '99') Center(
               child: InfoCardVIew(
                 isPending: false,
                 isShowButton: true,
@@ -48,7 +49,7 @@ class _ClassesViewState extends State<ClassesView> {
                 title: 'Complete Your Profile',
                 message: 'Your account has been created Successfully',
                 subTitle:
-                    'To kickstart your teaching journey and connect with students, please complete your profile. Revel in every lesson and share the joy of learning!',
+                'To kickstart your teaching journey and connect with students, please complete your profile. Revel in every lesson and share the joy of learning!',
                 cardColor: AppColors.white,
                 buttonTitle: 'Completed Profile',
                 buttonTap: () {
@@ -57,11 +58,20 @@ class _ClassesViewState extends State<ClassesView> {
                       isPending = !isPending;
                     });
                   } else {
-                    AppRouter.pushNamed(Routes.personalInfo);
+                    if(selectedUserStatus=="50") {
+                      AppRouter.pushNamed(Routes.personalInfo);
+                    }else if(selectedUserStatus=="60"){
+                      AppRouter.pushNamed(Routes.teachingInfo);
+                    }else if(selectedUserStatus=="70"){
+                      AppRouter.pushNamed(Routes.experienceInfo);
+                    }else if(selectedUserStatus=="80"){
+                      AppRouter.pushNamed(Routes.financingView);
+                    }
                   }
                 },
               ),
-            ),
+            )
+          else const SizedBox.shrink(),
           /* Center(
           child: InfoCardVIew(
             isPending: isPending,

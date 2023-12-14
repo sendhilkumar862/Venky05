@@ -7,7 +7,10 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../custom/loader/easy_loader.dart';
+import '../../../product/base/model/base_model.dart';
+import '../../../product/network/local/key_value_storage_base.dart';
 import '../../../product/network/local/key_value_storage_service.dart';
+import '../model/home_model.dart';
 
 part 'home_view_model.g.dart';
 
@@ -38,6 +41,7 @@ abstract class _HomeViewModelBase extends BaseViewModel with Store {
 
  @action
   Future<void> fetchData() async {
+   final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
     showLoading();
     final Dio dio = Dio();
     try {
@@ -46,6 +50,9 @@ abstract class _HomeViewModelBase extends BaseViewModel with Store {
          options: await _headers(),
       );
       if (response.statusCode == 200) {
+        final BaseResponse<HomeModel> baseResponse =
+        BaseResponse<HomeModel>.fromJson(response.data as Map<String, dynamic>, HomeModel.fromJson);
+         keyValueStorageBase.setCommon(KeyValueStorageService.userInfoStatus,baseResponse.data.item?.userStatus );
         hideLoading();
       } else {
         hideLoading();
