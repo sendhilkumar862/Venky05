@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hessah/custom/cardView/status_card_view.dart';
+import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../product/constants/colors/app_colors_constants.dart';
@@ -48,10 +49,8 @@ class InfoCardVIew extends StatelessWidget {
       ),
       child: Column(
         children: <Widget>[
-          AppImageAsset(
-            image: ImageConstants.starSecondary,
-            height: 55.px,
-          ),
+          Lottie.asset(ImageConstants.profileManager,
+              height: 55.px),
           if (isStatus ?? false)
             Padding(
               padding: const EdgeInsets.only(top: 15),

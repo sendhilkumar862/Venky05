@@ -38,7 +38,7 @@ class EmailView extends StatelessWidget {
                     children: <Widget>[
                       SizedBox(height: 10.px),
                       SafeArea(bottom: false, child: OnTapBack()),
-                      SizedBox(height: 180.px),
+                      SizedBox(height: 60.px),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: AppImageAsset(

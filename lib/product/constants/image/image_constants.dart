@@ -18,6 +18,8 @@ class ImageConstants {
   static const String onlineStudy =
       '${ApplicationConstants.animationPath}online_study.json';
   static const String book = '${ApplicationConstants.animationPath}Book.json';
+  static const String emptyState =
+      '${ApplicationConstants.imagePath}empty_state.json';
   static const String education =
       '${ApplicationConstants.animationPath}Education.json';
   static const String mailApproved =

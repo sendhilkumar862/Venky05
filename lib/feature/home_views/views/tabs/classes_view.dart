@@ -64,7 +64,7 @@ class _ClassesViewState extends State<ClassesView> {
                       AppRouter.pushNamed(Routes.teachingInfo);
                     }else if(selectedUserStatus=='70'){
                       AppRouter.pushNamed(Routes.experienceInfo);
-                    }else if(selectedUserStatus=='80'){
+                    }else if("80"=='80'){
                       AppRouter.pushNamed(Routes.financingView);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
