@@ -24,12 +24,16 @@ class _ClassesViewState extends State<ClassesView> {
   String selectedProfile = '';
   String selectedUserStatus = '';
   bool isPending = false;
+
   @override
   void initState() {
     super.initState();
     selectedProfile =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ?? '';
-    selectedUserStatus=keyValueStorageBase.getCommon(String, KeyValueStorageService.userInfoStatus) ?? '';
+        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
+            '';
+    selectedUserStatus = keyValueStorageBase.getCommon(
+            String, KeyValueStorageService.userInfoStatus) ??
+        '';
     print(selectedUserStatus);
   }
 
@@ -40,7 +44,8 @@ class _ClassesViewState extends State<ClassesView> {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          if ( selectedUserStatus != '99') Center(
+          if (selectedUserStatus != '99')
+            Center(
               child: InfoCardVIew(
                 isPending: false,
                 isShowButton: true,
@@ -49,7 +54,7 @@ class _ClassesViewState extends State<ClassesView> {
                 title: 'Complete Your Profile',
                 message: 'Your account has been created Successfully',
                 subTitle:
-                'To kickstart your teaching journey and connect with students, please complete your profile. Revel in every lesson and share the joy of learning!',
+                    'To kickstart your teaching journey and connect with students, please complete your profile. Revel in every lesson and share the joy of learning!',
                 cardColor: AppColors.white,
                 buttonTitle: 'Completed Profile',
                 buttonTap: () {
@@ -58,24 +63,26 @@ class _ClassesViewState extends State<ClassesView> {
                       isPending = !isPending;
                     });
                   } else {
-                    if(selectedUserStatus=='50') {
+                    if (selectedUserStatus == '50') {
                       AppRouter.pushNamed(Routes.personalInfo);
-                    }else if(selectedUserStatus=='60'){
+                    } else if (selectedUserStatus == '60') {
                       AppRouter.pushNamed(Routes.teachingInfo);
-                    }else if(selectedUserStatus=='70'){
+                    } else if (selectedUserStatus == '70') {
                       AppRouter.pushNamed(Routes.experienceInfo);
-                    }else if("80"=='80'){
+                    } else if (selectedUserStatus == '80') {
                       AppRouter.pushNamed(Routes.financingView);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-     content: Text('Already Profile Completed it is in Pending for Review'),
-));
+                        content: Text(
+                            'Already Profile Completed it is in Pending for Review'),
+                      ));
                     }
                   }
                 },
               ),
             )
-          else const SizedBox.shrink(),
+          else
+            const SizedBox.shrink(),
           /* Center(
           child: InfoCardVIew(
             isPending: isPending,
