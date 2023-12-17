@@ -73,17 +73,12 @@ class HessaAppBar extends PreferredSize {
               elevation: 0,
               actions: <Widget>[
                 TextButton(
-                    onPressed: trailingTap,
+                    onPressed: trailingTap??()=> AppRouter.pop(),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: TextButton(
-                        child: Text(
-                          trailingText ?? '',
-                          style: openSans.get12.w600.textColor(AppColors.appTextColor),
-                        ),
-                        onPressed: () {
-                          AppRouter.pop();
-                        },
+                      child: Text(
+                        trailingText ?? '',
+                        style: openSans.get12.w600.textColor(AppColors.appTextColor),
                       ),
                     )),
                 Padding(

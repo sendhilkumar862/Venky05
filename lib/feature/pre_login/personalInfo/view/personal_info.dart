@@ -329,7 +329,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             if(personalInfoViewModel.countries.isNotEmpty &&  personalInfoViewModel.languageIcon.isNotEmpty && personalInfoViewModel.dateController.text.isNotEmpty) {
                               personalInfoViewModel.personalInformationUpdate();
                             }
-                            // AppRouter.pushNamed(Routes.teachingInfo);
                           },
                           isDisable: personalInfoViewModel.countries.isNotEmpty &&  personalInfoViewModel.languageIcon.isNotEmpty && personalInfoViewModel.dateController.text.isNotEmpty ?false:true )
                     ],
