@@ -105,7 +105,7 @@ class Routes {
     emailView: (_) => const EmailView(),
     mobileView: (_) => const MobileView(),
     userInfoView: (_) => const UserInfoView(),
-    loginView: (_) => const LoginView(),
+    loginView: (_) =>  LoginView(),
     forgotPasswordView: (_) => const ForgotPassWordView(),
     restPassword: (_) => const ResetPassword(),
     passwordView: (_) => PasswordView(),

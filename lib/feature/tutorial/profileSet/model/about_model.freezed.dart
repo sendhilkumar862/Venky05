@@ -150,7 +150,7 @@ class _$AboutModelImpl implements _AboutModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AboutModelImpl &&

@@ -43,6 +43,13 @@ dependencies:
   #Image
   flutter_svg: ^2.0.8
 
+  #InternetConnection
+  connectivity_plus: ^5.0.2
+
+  #getex
+  get: ^4.6.6
+  get_storage: ^2.1.1
+
   #rating bar:
   flutter_rating_bar: ^4.0.1
 
