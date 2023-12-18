@@ -26,7 +26,7 @@ class ApiEndpoint {
 
   /// Returns the path for an authentication [endpoint].
   static String auth(AuthEndpoint endpoint) {
-    const String path = '/auth';
+    const String path = '/users';
     switch (endpoint) {
       case AuthEndpoint.REGISTER: return '$path/register';
       case AuthEndpoint.LOGIN: return '$path/login';

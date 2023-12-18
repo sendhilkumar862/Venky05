@@ -11,6 +11,7 @@ import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
+import '../../../home/viewModel/home_view_model.dart';
 import '../../../tutorial/language/model/country_model.dart';
 
 part 'personal_info_view_model.g.dart';
@@ -166,6 +167,9 @@ abstract class _PersonalInfoViewModelBase extends BaseViewModel with Store {
       logs('status Code --> ${response.statusCode}');
       if (response.statusCode == 200) {
         logs('Login response  --> ${response.data.toString()}');
+
+        final HomeViewModel dashboard = HomeViewModel();
+        await dashboard.fetchData();
         EasyLoading.dismiss();
         AppRouter.pushNamed(Routes.teachingInfo);
       } else {

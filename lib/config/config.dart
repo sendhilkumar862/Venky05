@@ -18,7 +18,7 @@ class Config {
   /// ```
   static const baseUrl = String.fromEnvironment(
     'BASE_URL',
-    defaultValue: 'http://167.99.93.83/api/v1/',
+    defaultValue: 'http://167.99.93.83/api/v1',
   );
 
 }

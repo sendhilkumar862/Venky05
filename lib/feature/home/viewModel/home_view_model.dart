@@ -22,6 +22,9 @@ abstract class _HomeViewModelBase extends BaseViewModel with Store {
     viewModelContext = context;
   }
 
+  @observable
+  HomeModel? homeData;
+
   @override
   void init() {
     fetchData();
@@ -39,21 +42,23 @@ abstract class _HomeViewModelBase extends BaseViewModel with Store {
     );
   }
 
- @action
+  @action
   Future<void> fetchData() async {
-   final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+    final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
     showLoading();
     final Dio dio = Dio();
     try {
-       final Response response = await dio.get(
+      final Response response = await dio.get(
         'http://167.99.93.83/api/v1/users/dashboard/details',
-         options: await _headers(),
+        options: await _headers(),
       );
       if (response.statusCode == 200) {
         final BaseResponse<HomeModel> baseResponse =
-        BaseResponse<HomeModel>.fromJson(response.data as Map<String, dynamic>, HomeModel.fromJson);
-         keyValueStorageBase.setCommon(KeyValueStorageService.userInfoStatus,baseResponse.data.item?.userStatus );
-        
+            BaseResponse<HomeModel>.fromJson(
+                response.data as Map<String, dynamic>, HomeModel.fromJson);
+        keyValueStorageBase.setCommon(KeyValueStorageService.userInfoStatus,
+            baseResponse.data.item?.userStatus);
+        homeData = baseResponse.data.item;
         hideLoading();
       } else {
         hideLoading();
@@ -62,4 +67,4 @@ abstract class _HomeViewModelBase extends BaseViewModel with Store {
       hideLoading();
     }
   }
-} 
+}

@@ -10,6 +10,8 @@ import '../../../../product/base/model/base_model.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
+import '../../../../product/network/networking/api_endpoint.dart';
+import '../../../../product/network/networking/request/sign_in_request.dart';
 import '../../../../product/utils/validators.dart';
 import '../model/login_model.dart';
 
@@ -92,14 +94,10 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final Dio dio = Dio();
     try {
-      final Map<String, dynamic> body = <String, dynamic>{
-        'email': emailController.text,
-        'password': passwordController.text,
-      };
-      logs('body--> $body');
+      final SingInRequest request =SingInRequest(email:emailController.text,password:   passwordController.text );
       final Response response = await dio.post(
-        'http://167.99.93.83/api/v1/users/login',
-        data: body,
+        ApiEndpoint.baseUrl+ApiEndpoint.auth(AuthEndpoint.LOGIN),
+        data: request.toJson(),
       );
       logs('status Code --> ${response.statusCode}');
       final BaseResponse<LoginModel> baseResponse =
