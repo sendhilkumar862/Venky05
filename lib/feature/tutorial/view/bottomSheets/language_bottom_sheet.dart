@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:hessah/feature/tutorial/language/controller/language_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -10,9 +13,9 @@ import '../../../../product/constants/image/image_constants.dart';
 import '../../language/viewModel/language_view_model.dart';
 
 class LanguageBottomSheet extends StatelessWidget {
-  LanguageBottomSheet({this.languageViewModel, super.key, this.setState});
+  LanguageBottomSheet({ super.key, this.setState});
 
-  LanguageViewModel? languageViewModel;
+  final LanguageController _languageController=Get.find();
   Function? setState;
 
   @override
@@ -58,22 +61,23 @@ class LanguageBottomSheet extends StatelessWidget {
               ),
               Expanded(
                 child: ListView.separated(
-                  itemCount: languageViewModel!.languages.length,
+                  itemCount: _languageController.languages.length,
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
                         // ignore: avoid_dynamic_calls
-                        setState!(() {
-                          languageViewModel!.selectLanguage(index);
-                          Future.delayed(
-                            const Duration(milliseconds: 200),
-                            () {
-                              AppRouter.pop();
-                            },
-                          );
-                        });
+
+                          _languageController.selectLanguage(index);
+
+
+                        Future.delayed(
+                          const Duration(milliseconds: 200),
+                              () {
+                            AppRouter.pop();
+                          },
+                        );
                       },
                       child: Container(
                         color: AppColors.appTransparent,
@@ -84,7 +88,7 @@ class LanguageBottomSheet extends StatelessWidget {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(30),
                               child: AppImageAsset(
-                                image: languageViewModel!.languageIcon[index],
+                                image: _languageController.languageIcon[index],
                                 height: 25.px,
                                 width: 25.px,
                                 fit: BoxFit.fill,
@@ -94,14 +98,14 @@ class LanguageBottomSheet extends StatelessWidget {
                               width: 10.px,
                             ),
                             AppText(
-                              languageViewModel!.languages[index],
+                              _languageController.languages[index],
                               fontWeight: FontWeight.w400,
                             ),
                             const Spacer(),
                             AppImageAsset(
                               image: ImageConstants.acceptedStatus,
                               height: 23.px,
-                              color: (languageViewModel!.languageIndex == index)
+                              color: (_languageController.languageIndex.value == index)
                                   ? AppColors.appBlue
                                   : AppColors.appWhite,
                             ),

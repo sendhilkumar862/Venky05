@@ -1,58 +1,50 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobx/mobx.dart';
-
+import 'package:get/get.dart';
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../product/base/model/base_model.dart';
-import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
-import '../language_repository.dart';
 import '../model/country_model.dart';
 
-part 'language_view_model.g.dart';
-
-
-final languageViewModelProvider = Provider<LanguageViewModel>((ref) {
-  return LanguageViewModel();
-});
-
-class LanguageViewModel = _LanguageViewModelBase with _$LanguageViewModel;
-
-abstract class _LanguageViewModelBase extends BaseViewModel with Store {
-  @override
-  void setContext(BuildContext context) => viewModelContext = context;
-
-  @override
-  void init() {
-    KeyValueStorageBase.init();
-    fetchData();
-  }
-
-  void setRef(WidgetRef widgetRef) {
-    ref = widgetRef;
-  }
-
-  @observable
-  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-
-  @observable
+class LanguageController extends GetxController {
   List<Country> countries = <Country>[];
-
-  @observable
   List<Country> temp = <Country>[];
+  Rxn<Country> selectedCountry = Rxn<Country>();
+  RxString selectedItem = ''.obs;
+  Rx<TextEditingController> countryController = TextEditingController().obs;
+  RxList<String> countryLogo = <String>[].obs;
+  RxInt languageIndex = 1.obs;
+  RxList languages = [
+    'English',
+    'عربي',
+  ].obs;
+  RxList<String> languageIcon = [
+    ImageConstants.usIconNew,
+    ImageConstants.saudiArabiaNew,
+  ].obs;
+
+  @override
+  void onInit() {
+    fetchData();
+    KeyValueStorageBase.init();
+    super.onInit();
+  }
+
+  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+  final KeyValueStorageService keyValueStorageService =
+      KeyValueStorageService();
 
   Future<void> fetchData() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     logs('entered Fetch country data');
     final Dio dio = Dio();
     try {
-      Response response =
+      var response =
           await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
       logs('Status code--> ${response.statusCode}');
 
@@ -70,57 +62,16 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
     }
   }
 
-  @observable
-  Country? selectedCountry;
-
-  @observable
-  String selectedItem = '';
-
-
-
-  @observable
-  TextEditingController countryController = TextEditingController();
-
-  @action
-  void selectItem(String item) {
-    runInAction(() {
-      selectedItem = item;
-    });
-  }
-
-
-
-  @observable
-  List<String> countryLogo = <String>[];
-
-  @observable
-  int languageIndex = 1;
-
-  @observable
-  List<String> languages = <String>[
-    'English',
-    'عربي',
-  ];
-
-  @action
   void selectLanguage(int index) {
-    languageIndex = index;
+    languageIndex.value = index;
   }
 
-  @observable
-  List<String> languageIcon = <String>[
-    ImageConstants.usIconNew,
-    ImageConstants.saudiArabiaNew,
-  ];
-
-  @action
   void selectCountry(Country country) {
-    selectedCountry = country;
+    selectedCountry.value = country;
     keyValueStorageBase.setCommon(
         KeyValueStorageService.countryCodeAndIDD, country.idd_code);
   }
 
-  @action
   void filterCountries(String query, Function setState) {
     countries = countries
         .where((Country country) =>
@@ -129,16 +80,15 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
                 country.flag_url!.toLowerCase().contains(query.toLowerCase()))
         .toList();
 
-    if (countryController.text.isEmpty) {
+    if (countryController.value.text.isEmpty) {
       countries = temp;
     }
     setState(() {});
   }
 
-  @action
   void onPressedContinue() {
     keyValueStorageBase.setCommon(
-        KeyValueStorageService.country, selectedCountry?.name ?? '');
+        KeyValueStorageService.country, selectedCountry.value?.flag_url ?? '');
     keyValueStorageBase.setCommon(
         KeyValueStorageService.language, languageIndex == 0 ? 'en' : 'ar');
     AppRouter.pushNamed(Routes.profileSelectionView);

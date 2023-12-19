@@ -22,6 +22,7 @@ import '../../feature/search/view/search_view.dart';
 import '../../feature/setting_view/app_support/view/app_support_view.dart';
 import '../../feature/setting_view/change_name/view/change_name_view.dart';
 import '../../feature/setting_view/manage_subscription/view/manage_subscription.dart';
+import '../../feature/setting_view/view/setting_view.dart';
 import '../../feature/tutorial/chat/view/chat_view.dart';
 import '../../feature/tutorial/emailEnter/view/email_view.dart';
 import '../../feature/tutorial/login/view/login_view.dart';
@@ -71,6 +72,7 @@ class Routes {
   static const String homeViews = '/home-views';
   static const String resetPassword = '/rest-Password';
   static const String searchView = '/search';
+  static const String settingView = '/setting';
   static const String messageView = '/message';
   static const String notificationView = '/notification-view';
   static const String chatView = '/chatView';
@@ -111,6 +113,7 @@ class Routes {
     passwordView: (_) => PasswordView(),
     homeViews: (_) => const HomeViews(),
     searchView: (_) => const SearchView(),
+    settingView: (_) => const SettingView(),
     messageView: (_) => const MessageView(),
     notificationView: (_) => const NotificationView(),
     chatView: (_) => const ChatView(),
