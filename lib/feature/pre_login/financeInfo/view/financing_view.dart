@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -63,6 +64,9 @@ class _FinancingViewState extends State<FinancingView> {
                         });
 
                         },
+                      inputFormatters: [
+                        IBANTextInputFormatter(),
+                      ],
                     ),
                      AppTextFormField(
                       controller: financingViewModel.nickNameController,
@@ -148,3 +152,5 @@ class _FinancingViewState extends State<FinancingView> {
   }
 
 }
+
+

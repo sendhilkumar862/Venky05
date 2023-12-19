@@ -50,7 +50,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(top: 30),
+                    padding: const EdgeInsets.only(top: 28),
                     child: Text('Teaching Information',
                         style: openSans.get20.w700.appTextColor),
                   ),

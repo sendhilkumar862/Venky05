@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:mobx/mobx.dart';
@@ -46,10 +47,10 @@ abstract class _FinancingViewModelBase extends BaseViewModel with Store {
   void validateIBAN(String value) {
     if (value.isEmpty) {
       ibanError = 'ibanError'.tr();
-    } else if (value.length != 30){
+    } else if (value.length != 37){
       ibanError = 'ibanLengthError'.tr();
     } else if (!value.startsWith('KW')) {
-      ibanError = 'iabnLocalError'.tr();
+      ibanError = 'ibanLocalError'.tr();
     } else {
       ibanError = '';
     }
@@ -66,6 +67,7 @@ abstract class _FinancingViewModelBase extends BaseViewModel with Store {
 
     return iban;
   }
+
 
   @action
   Future<bool> updateData() async {
@@ -113,4 +115,42 @@ abstract class _FinancingViewModelBase extends BaseViewModel with Store {
     );
   }
 
+}
+
+class IBANTextInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (oldValue.text.length >= newValue.text.length) {
+      return newValue;
+    }
+    var dateText = _addSeparator(newValue.text, ' ');
+    return newValue.copyWith(
+        text: dateText, selection: updateCursorPosition(dateText));
+  }
+
+  String _addSeparator(String value, String separator) {
+    value = value.replaceAll(' ', '');
+    String newString = '';
+    bool separatorCheck(int localValue){
+      for(int i = 0; i < value.length; i++){
+        if(localValue==(4*(i+1)-1)) {
+          return true;
+        }
+      }
+      return false;
+    }
+    for (int i = 0; i < value.length; i++) {
+      newString += value[i];
+      if (separatorCheck(i)) {
+        newString += separator;
+      }
+
+    }
+    return newString;
+  }
+
+  TextSelection updateCursorPosition(String text) {
+    return TextSelection.fromPosition(TextPosition(offset: text.length));
+  }
 }
