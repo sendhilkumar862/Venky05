@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
@@ -40,6 +42,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
               trailingText: 'Cancel',
               title: 'Complete Profile',
               isTitleOnly: true,
+              trailingTap: ()=> Navigator.popUntil(context, ModalRoute.withName(Routes.HomeScreenRoute)),
             ),
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -47,7 +50,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(top: 30),
+                    padding: const EdgeInsets.only(top: 28),
                     child: Text('Teaching Information',
                         style: openSans.get20.w700.appTextColor),
                   ),

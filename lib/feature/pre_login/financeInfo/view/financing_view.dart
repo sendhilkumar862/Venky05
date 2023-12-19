@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -37,6 +38,7 @@ class _FinancingViewState extends State<FinancingView> {
         trailingText: 'Cancel',
         title: 'Complete Profile',
         isTitleOnly: true,
+        trailingTap: ()=> Navigator.popUntil(context, ModalRoute.withName(Routes.HomeScreenRoute)),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -62,6 +64,9 @@ class _FinancingViewState extends State<FinancingView> {
                         });
 
                         },
+                      inputFormatters: [
+                        IBANTextInputFormatter(),
+                      ],
                     ),
                      AppTextFormField(
                       controller: financingViewModel.nickNameController,
@@ -141,9 +146,11 @@ class _FinancingViewState extends State<FinancingView> {
         );
       },
     ).whenComplete(() {
-      context.dispatchNotification(StatusUpdateNotification('Profile Completed!'));
+      context.dispatchNotification(StatusUpdateNotification(message: 'Profile Completed!', profileStatus: '99'));
       Navigator.popUntil(context, ModalRoute.withName(Routes.HomeScreenRoute));
     });
   }
 
 }
+
+

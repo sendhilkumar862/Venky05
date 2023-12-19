@@ -118,7 +118,7 @@ class _HomeViewState extends State<HomeView> {
                           topRight: Radius.circular(30),
                         ),
                         child:
-                            Container(height: MediaQuery.of(context).size.height * 0.95, child: const PreferenceView()),
+                            SizedBox(height: MediaQuery.of(context).size.height * 0.95, child: const PreferenceView()),
                       ),
                     ),
                   ],
@@ -132,6 +132,7 @@ class _HomeViewState extends State<HomeView> {
 }
 
 class StatusUpdateNotification extends Notification {
-  StatusUpdateNotification(this.message);
+  StatusUpdateNotification({this.message='', this.profileStatus=''});
   final String message;
+  String profileStatus;
 }
