@@ -140,7 +140,7 @@ class _$BaseResponseImpl<T> implements _BaseResponse<T> {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BaseResponseImpl<T> &&
@@ -298,7 +298,7 @@ class _$DataImpl<T> implements _Data<T> {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DataImpl<T> &&
@@ -459,7 +459,7 @@ class _$StatusImpl implements _Status {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$StatusImpl &&

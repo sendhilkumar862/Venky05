@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:mobx/mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -15,7 +16,7 @@ import 'product/lang/language_manager.dart';
 Future<void> main() async {
   mainContext.config = mainContext.config
       .clone(isSpyEnabled: true, disableErrorBoundaries: false);
-
+  await GetStorage.init();
   mainContext.spy(print);
   WidgetsFlutterBinding.ensureInitialized(); // Initialize the Flutter binding
   LocaleManager.prefrencesInit();
