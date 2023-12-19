@@ -30,8 +30,8 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
 
   @override
   void init() {
-
     KeyValueStorageBase.init();
+    fetchData();
   }
 
   void setRef(WidgetRef widgetRef) {
