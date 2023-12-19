@@ -41,9 +41,10 @@ class ApiEndpoint {
   }
 
   static String country(Public endpoint) {
-    const String path = '/public';
+    const String path = 'public';
     switch (endpoint) {
       case Public.COUNTRY: return '$path/countries';
+      case Public.COUNTRY_ID: return '$path/countries/idd';
     }
   }
 
@@ -109,5 +110,6 @@ enum TeacherEndpoint {
 enum Public {
   /// An endpoint for teacgers' collection requests.
   COUNTRY,
+  COUNTRY_ID
 
 }

@@ -1,17 +1,19 @@
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:hessah/core/base_response.dart';
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
-import '../../../../product/base/model/base_model.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
-import '../../../../product/utils/validators.dart';
+import '../../../../repository/language_repository.dart';
 import '../model/country_model.dart';
 
 class LanguageController extends GetxController {
+  RxString error=''.obs;
+  RxString loginStatus = ''.obs;
   List<Country> countries = <Country>[];
   List<Country> temp = <Country>[];
   Rxn<Country> selectedCountry = Rxn<Country>();
@@ -28,6 +30,8 @@ class LanguageController extends GetxController {
     ImageConstants.saudiArabiaNew,
   ].obs;
 
+  final LanguageRepository _languageRepository = LanguageRepository();
+
   @override
   void onInit() {
     fetchData();
@@ -41,25 +45,20 @@ class LanguageController extends GetxController {
 
   Future<void> fetchData() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    logs('entered Fetch country data');
-    final Dio dio = Dio();
-    try {
-      var response =
-          await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
-      logs('Status code--> ${response.statusCode}');
-
-      if (response.statusCode == 200) {
-        EasyLoading.dismiss();
-        final BaseResponse<Country> baseResponse =
-            BaseResponse<Country>.fromJson(
-                response.data as Map<String, dynamic>, Country.fromJson);
-        countries = baseResponse.data.items ?? <Country>[];
-        temp = baseResponse.data.items ?? <Country>[];
+    final BaseResponse getProfileIDResponse = await _languageRepository.getCountryID();
+    if (getProfileIDResponse.status?.type == 'success') {
+      List data =getProfileIDResponse.data?.item as List;
+      countries.clear();
+      temp.clear();
+      for (var element in data) {
+        countries.add(Country.fromJson(element));
+        temp.add(Country.fromJson(element));
       }
-    } catch (error) {
-      EasyLoading.dismiss();
-      logs('Error: $error');
+     } else {
+      loginStatus.value=getProfileIDResponse.status?.type??'';
+      error.value = getProfileIDResponse.status?.message ?? '';
     }
+    EasyLoading.dismiss();
   }
 
   void selectLanguage(int index) {
