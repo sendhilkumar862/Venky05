@@ -37,6 +37,7 @@ class _FinancingViewState extends State<FinancingView> {
         trailingText: 'Cancel',
         title: 'Complete Profile',
         isTitleOnly: true,
+        trailingTap: ()=> Navigator.popUntil(context, ModalRoute.withName(Routes.HomeScreenRoute)),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -141,7 +142,7 @@ class _FinancingViewState extends State<FinancingView> {
         );
       },
     ).whenComplete(() {
-      context.dispatchNotification(StatusUpdateNotification('Profile Completed!'));
+      context.dispatchNotification(StatusUpdateNotification(message: 'Profile Completed!', profileStatus: '99'));
       Navigator.popUntil(context, ModalRoute.withName(Routes.HomeScreenRoute));
     });
   }

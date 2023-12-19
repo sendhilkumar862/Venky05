@@ -27,6 +27,7 @@ abstract class _HomeViewModelBase extends BaseViewModel with Store {
     fetchData();
   }
 
+
   Future<Options> _headers() async {
     final KeyValueStorageService keyValueStorageService =
         KeyValueStorageService();
@@ -38,6 +39,8 @@ abstract class _HomeViewModelBase extends BaseViewModel with Store {
       },
     );
   }
+ @observable
+ HomeModel? homeData;
 
  @action
   Future<void> fetchData() async {
@@ -53,8 +56,8 @@ abstract class _HomeViewModelBase extends BaseViewModel with Store {
         final BaseResponse<HomeModel> baseResponse =
         BaseResponse<HomeModel>.fromJson(response.data as Map<String, dynamic>, HomeModel.fromJson);
          keyValueStorageBase.setCommon(KeyValueStorageService.userInfoStatus,baseResponse.data.item?.userStatus );
-        
-        hideLoading();
+         homeData=baseResponse.data.item;
+         hideLoading();
       } else {
         hideLoading();
       }
