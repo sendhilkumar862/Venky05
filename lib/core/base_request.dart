@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import '../product/constants/enums/backend_services_method_enums.dart';
 import '../product/network/local/key_value_storage_service.dart';
 
 
@@ -12,4 +13,5 @@ abstract class BaseRequest{
   };
   String get endPoint;
   Map<String, dynamic> get body;
+  BackEndServicesEnum get apiMethod;
 }
