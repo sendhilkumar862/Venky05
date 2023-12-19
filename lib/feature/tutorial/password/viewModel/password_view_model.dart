@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_model.dart';
@@ -40,12 +40,12 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
 
   @observable
   List<String> passWordCriteria = <String>[
-    'minCharacters'.tr(),
-    'containNumbers'.tr(),
-    'containSpecialChars'.tr(),
-    'containUppercase'.tr(),
-    'containLowercase'.tr(),
-    'matchPasswords'.tr(),
+    'minCharacters'.tr,
+    'containNumbers'.tr,
+    'containSpecialChars'.tr,
+    'containUppercase'.tr,
+    'containLowercase'.tr,
+    'matchPasswords'.tr,
   ];
 
   // @observable

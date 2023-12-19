@@ -1,7 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/countdown_timer/timer_controller.dart';
@@ -47,7 +48,7 @@ class MobileOtpView extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: AppText(
                           textAlign: TextAlign.start,
-                          'verifyMobileNumber'.tr(),
+                          'verifyMobileNumber'.tr,
                           fontSize: 24.px,
                           fontWeight: FontWeight.w700,
                         ),
@@ -55,7 +56,7 @@ class MobileOtpView extends StatelessWidget {
                       SizedBox(height: 15.px),
                       AppText(
                         textAlign: TextAlign.start,
-                        'enterTheCodeWe'.tr(),
+                        'enterTheCodeWe'.tr,
                         fontWeight: FontWeight.w400,
                       ),
                       SizedBox(height: 20.px),
@@ -86,7 +87,7 @@ class MobileOtpView extends StatelessWidget {
                       SizedBox(height: 10.px),
                       if (!mobileOtpViewModel.isCorrect)
                         AppText(
-                          'otpIncorrect'.tr(),
+                          'otpIncorrect'.tr,
                           fontSize: 12.px,
                           fontWeight: FontWeight.w400,
                           color: AppColors.appRed,
@@ -95,7 +96,7 @@ class MobileOtpView extends StatelessWidget {
                         height: 20.px,
                       ),
                       AppText(
-                        'didntReceived'.tr(),
+                        'didntReceived'.tr,
                         fontSize: 12.px,
                         textAlign: TextAlign.center,
                         fontWeight: FontWeight.w400,
@@ -132,7 +133,7 @@ class MobileOtpView extends StatelessWidget {
                             ),
                             SizedBox(width: 5.px),
                             AppText(
-                              'sendAgain'.tr(),
+                              'sendAgain'.tr,
                               fontSize: 13.px,
                               fontWeight: FontWeight.w600,
                               color: AppColors.appBlue,
@@ -145,7 +146,7 @@ class MobileOtpView extends StatelessWidget {
                 ),
               ),
               bottomNavigationBar: PreLoginCommonButton(
-                title: 'continue'.tr(),
+                title: 'continue'.tr,
                 onTap: () => mobileOtpViewModel.verifyOtp(),
                 isDisable: mobileOtpViewModel.enteredOTP.length != 4,
               ),

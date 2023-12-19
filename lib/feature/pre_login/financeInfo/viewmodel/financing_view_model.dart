@@ -1,8 +1,9 @@
+
 import 'package:dio/dio.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:mobx/mobx.dart';
 
@@ -46,11 +47,11 @@ abstract class _FinancingViewModelBase extends BaseViewModel with Store {
   @action
   void validateIBAN(String value) {
     if (value.isEmpty) {
-      ibanError = 'ibanError'.tr();
+      ibanError = 'ibanError'.tr;
     } else if (value.length != 37){
-      ibanError = 'ibanLengthError'.tr();
+      ibanError = 'ibanLengthError'.tr;
     } else if (!value.startsWith('KW')) {
-      ibanError = 'ibanLocalError'.tr();
+      ibanError = 'ibanLocalError'.tr;
     } else {
       ibanError = '';
     }

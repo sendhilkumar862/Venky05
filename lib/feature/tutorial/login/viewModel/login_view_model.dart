@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:mobx/mobx.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -51,10 +51,10 @@ abstract class _LoginViewModelBase extends BaseViewModel with Store {
 
     if (value.isEmpty) {
       emailValid = 0;
-      emailErrorText = 'pleaseEnter'.tr();
+      emailErrorText = 'pleaseEnter'.tr;
     } else if (Regexes.validateRegEx(emailController.text, Regexes.emailRegex)) {
       emailValid = 0;
-      emailErrorText = 'enterValidEmail'.tr();
+      emailErrorText = 'enterValidEmail'.tr;
     } else {
       emailValid = 1;
       emailErrorText = '';

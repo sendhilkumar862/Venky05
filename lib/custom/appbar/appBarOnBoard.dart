@@ -1,5 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../feature/tutorial/view/bottomSheets/about_app_bottom_view.dart';
@@ -63,7 +64,7 @@ class AppBarOnBoard extends PreferredSize {
             child: Row(
               children: [
                 AppText(
-                  title ?? 'about'.tr(),
+                  title ?? 'about'.tr,
                   color: AppColors.appBlue,
                   fontSize: 14.px,
                 ),

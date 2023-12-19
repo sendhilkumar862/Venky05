@@ -1,8 +1,9 @@
 // ignore_for_file: always_specify_types, unnecessary_statements
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -52,8 +53,8 @@ class _AddressViewState extends State<AddressView> {
           return Scaffold(
             appBar: HessaAppBar(
               isTitleOnly: true,
-              trailingText: 'cancel'.tr(),
-              title: 'addNewAddress'.tr(),
+              trailingText: 'cancel'.tr,
+              title: 'addNewAddress'.tr,
               isBack: false,
             ),
             body: SingleChildScrollView(
@@ -78,15 +79,15 @@ class _AddressViewState extends State<AddressView> {
                       AppTextFormField(
                         suffix: const Icon(Icons.keyboard_arrow_down),
                         readOnly: true,
-                        hintText: 'selectCity'.tr(),
-                        title: 'city'.tr(),
+                        hintText: 'selectCity'.tr,
+                        title: 'city'.tr,
                         controller: city,
                         onTap: () {
                           bottomSheetDropDownList();
                         },
                         validate: (p0) {
                           if (p0 == null || p0.isEmpty) {
-                            return 'pleaseSelectYourCity'.tr();
+                            return 'pleaseSelectYourCity'.tr;
                           }
                           return null;
                         },
@@ -96,18 +97,18 @@ class _AddressViewState extends State<AddressView> {
                         child: AppTextFormField(
                             validate: (p0) {
                               if (p0 == null || p0.isEmpty) {
-                                return 'enterYourAddressLine1'.tr();
+                                return 'enterYourAddressLine1'.tr;
                               }
                               return null;
                             },
-                            hintText: 'enterAddress1'.tr(),
-                            title: 'address1'.tr()),
+                            hintText: 'enterAddress1'.tr,
+                            title: 'address1'.tr),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: AppTextFormField(
-                          hintText: 'enterAddress2'.tr(),
-                          title: 'address2optional'.tr(),
+                          hintText: 'enterAddress2'.tr,
+                          title: 'address2optional'.tr,
                         ),
                       ),
                       Padding(
@@ -115,8 +116,8 @@ class _AddressViewState extends State<AddressView> {
                           child: AppTextFormField(
                             controller: countryCode,
                             keyboardType: TextInputType.phone,
-                            title: 'contactNumber'.tr(),
-                            hintText: 'enterMobileNumber'.tr(),
+                            title: 'contactNumber'.tr,
+                            hintText: 'enterMobileNumber'.tr,
                             // prefix: CountryPicker(
                             //   flagDecoration: BoxDecoration(
                             //       borderRadius: BorderRadius.circular(2)),
@@ -133,7 +134,7 @@ class _AddressViewState extends State<AddressView> {
                           )),
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
-                        child: Text('location'.tr()),
+                        child: Text('location'.tr),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10),
@@ -165,7 +166,7 @@ class _AddressViewState extends State<AddressView> {
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Row(children: [
-                          Text('setAsDefaultAddress'.tr(),
+                          Text('setAsDefaultAddress'.tr,
                               style: openSans.w500),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -203,16 +204,16 @@ class _AddressViewState extends State<AddressView> {
                                   ),
                                   builder: (BuildContext context) {
                                     return SuccessFailsInfoDialog(
-                                      title: 'success'.tr(),
-                                      buttonTitle: 'done'.tr(),
+                                      title: 'success'.tr,
+                                      buttonTitle: 'done'.tr,
                                       content:
-                                          'msgSuccessfullyBookedClass'.tr(),
+                                          'msgSuccessfullyBookedClass'.tr,
                                     );
                                   },
                                 );
                               }
                             },
-                            title: 'nextForClassDetails'.tr(),
+                            title: 'nextForClassDetails'.tr,
                             isDisable: isDisable),
                       ),
                     ],

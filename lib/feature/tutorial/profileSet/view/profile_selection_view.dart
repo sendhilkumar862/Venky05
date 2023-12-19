@@ -1,7 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:hessah/product/network/local/key_value_storage_base.dart';
 import 'package:hessah/product/network/local/key_value_storage_service.dart';
 import 'package:lottie/lottie.dart';
@@ -72,7 +73,7 @@ class ProfileSelectionView extends StatelessWidget {
                       height: 15.px,
                     ),
                     AppText(
-                      'selectYourProfile'.tr(),
+                      'selectYourProfile'.tr,
                       textAlign: TextAlign.center,
                       fontSize: 24.px,
                       fontWeight: FontWeight.w800,
@@ -96,7 +97,7 @@ class ProfileSelectionView extends StatelessWidget {
                 ),
               ),
               bottomNavigationBar: PreLoginCommonButton(
-                  title: 'continue'.tr(),
+                  title: 'continue'.tr,
                   isDisable: !profileViewModel.isSelected(),
                   onTap: profileViewModel.onTapSubmit),
             );

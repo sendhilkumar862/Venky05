@@ -37,9 +37,6 @@ dependencies:
   mobx_codegen: 
   flutter_riverpod: ^2.4.9
 
-  # Localization 
-  easy_localization:
-
   #Image
   flutter_svg: ^2.0.8
 
@@ -49,6 +46,7 @@ dependencies:
   #getex
   get: ^4.6.6
   get_storage: ^2.1.1
+  country_code_picker: ^3.0.0
 
   #rating bar:
   flutter_rating_bar: ^4.0.1

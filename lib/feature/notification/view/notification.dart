@@ -1,9 +1,10 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../product/base/view/base_view.dart';
@@ -55,7 +56,7 @@ class _NotificationViewState extends State<NotificationView> {
               Scaffold(
         appBar: HessaAppBar(
           isTitleOnly: true,
-          title: 'notification'.tr(),
+          title: 'notification'.tr,
           isBack: true,
         ),
         body: Observer(builder: (context) {

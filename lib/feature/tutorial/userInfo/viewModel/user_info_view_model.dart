@@ -1,5 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -66,12 +67,12 @@ abstract class _UserInfoViewModelBase extends BaseViewModel with Store {
   void validateFirstName(String value) {
     if (value!.isEmpty) {
       firstNameValid = 0;
-      firstNameErrorText = 'pleaseEnterFirstName'.tr();
+      firstNameErrorText = 'pleaseEnterFirstName'.tr;
     } else if (Regexes.validateRegEx(
         firstNameController.text, Regexes.nameRegex)) {
       firstNameValid = 0;
 
-      firstNameErrorText = 'enterValidName'.tr();
+      firstNameErrorText = 'enterValidName'.tr;
     } else {
       firstNameValid = 1;
       firstNameErrorText = '';

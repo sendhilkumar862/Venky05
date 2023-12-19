@@ -1,7 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/countdown_timer/timer_controller.dart';
@@ -48,8 +49,8 @@ class VerifyOtpView extends StatelessWidget {
                         child: AppText(
                           textAlign: TextAlign.start,
                           (verifyOtpViewModel.arguments['isScreen'])
-                              ? 'verifyEmailAddress'.tr()
-                              : 'verifyMobileNumber'.tr(),
+                              ? 'verifyEmailAddress'.tr
+                              : 'verifyMobileNumber'.tr,
                           fontSize: 24.px,
                           fontWeight: FontWeight.w700,
                         ),
@@ -58,8 +59,8 @@ class VerifyOtpView extends StatelessWidget {
                       AppText(
                         textAlign: TextAlign.start,
                         (verifyOtpViewModel.arguments['isScreen'])
-                            ? 'enterTheVerification'.tr()
-                            : 'enterTheCodeWe'.tr(),
+                            ? 'enterTheVerification'.tr
+                            : 'enterTheCodeWe'.tr,
                         fontWeight: FontWeight.w400,
                       ),
                       SizedBox(height: 20.px),
@@ -91,14 +92,14 @@ class VerifyOtpView extends StatelessWidget {
                       SizedBox(height: 10.px),
                       if (!verifyOtpViewModel.isCorrect)
                         AppText(
-                          'otpIncorrect'.tr(),
+                          'otpIncorrect'.tr,
                           fontSize: 12.px,
                           fontWeight: FontWeight.w400,
                           color: AppColors.appRed,
                         ),
                       SizedBox(height: 20.px),
                       AppText(
-                        'didntReceived'.tr(),
+                        'didntReceived'.tr,
                         fontSize: 12.px,
                         textAlign: TextAlign.center,
                         fontWeight: FontWeight.w400,
@@ -143,7 +144,7 @@ class VerifyOtpView extends StatelessWidget {
                                     : AppColors.appBlue),
                             SizedBox(width: 5.px),
                             AppText(
-                              'sendAgain'.tr(),
+                              'sendAgain'.tr,
                               fontSize: 13.px,
                               fontWeight: FontWeight.w600,
                               color: (verifyOtpViewModel.isTimerRunning)
@@ -158,7 +159,7 @@ class VerifyOtpView extends StatelessWidget {
                 ),
               ),
               bottomNavigationBar: PreLoginCommonButton(
-                title: 'continue'.tr(),
+                title: 'continue'.tr,
                 onTap: () => verifyOtpViewModel.onTapSubmit(),
                 isDisable: verifyOtpViewModel.enteredOTP.length != 4,
               ),

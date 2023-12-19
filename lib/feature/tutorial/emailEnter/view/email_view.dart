@@ -1,7 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -49,16 +50,16 @@ class EmailView extends StatelessWidget {
                       SizedBox(height: 28.px),
                       AppText(
                         textAlign: TextAlign.start,
-                        'join'.tr(),
+                        'join'.tr,
                         fontSize: 24.px,
                         fontWeight: FontWeight.w700,
                       ),
                       SizedBox(height: 10.px),
                       TextFormsField(
-                        title: 'emailAdd'.tr(),
+                        title: 'emailAdd'.tr,
                         validate: emailViewModel.emailValid,
                         controller: emailViewModel.emailController,
-                        hintText: 'enterEmail'.tr(),
+                        hintText: 'enterEmail'.tr,
                         errorText: emailViewModel.emailErrorText,
                         onChanged: (String value) {
                           emailViewModel.validateEmail(value);
@@ -79,7 +80,7 @@ class EmailView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   PreLoginCommonButton(
-                    title: 'continue'.tr(),
+                    title: 'continue'.tr,
                     onTap: () => emailViewModel.onTapEmailSubmit(),
                     height: 0,
                     isDisable: emailViewModel.emailValid != 1,
@@ -88,7 +89,7 @@ class EmailView extends StatelessWidget {
                   GestureDetector(
                     onTap: () => AppRouter.pushNamed(Routes.loginView),
                     child: AppText(
-                      'alreadyLogin'.tr(),
+                      'alreadyLogin'.tr,
                       fontSize: 14.px,
                       fontWeight: FontWeight.w600,
                       color: AppColors.appBlue,

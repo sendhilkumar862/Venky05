@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:mobx/mobx.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -117,10 +118,10 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
     responseError = '';
     if (value!.isEmpty) {
       mobileValid = 0;
-      mobileErrorText = 'pleaseEnterMobile'.tr();
+      mobileErrorText = 'pleaseEnterMobile'.tr;
     } else if (mobileController.text.length < 8) {
       mobileValid = 0;
-      mobileErrorText = 'kuwaitiNumber'.tr();
+      mobileErrorText = 'kuwaitiNumber'.tr;
     }
     // else if (Regexes.validateRegEx(
     //     mobileController.text, Regexes.contactRegex)) {

@@ -1,7 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:hessah/product/network/local/key_value_storage_base.dart';
 import 'package:hessah/product/network/local/key_value_storage_service.dart';
 import 'package:lottie/lottie.dart';
@@ -36,7 +37,7 @@ class OnboardingView extends StatelessWidget {
             return Scaffold(
               backgroundColor: AppColors.appWhite,
               appBar: AppBarOnBoard(
-                  title: 'exploreApp'.tr(),
+                  title: 'exploreApp'.tr,
                   backNavigate: !(continueRegistration ?? false),
                   icon: ImageConstants.layersIcon,
                   onTap: () => AppRouter.pushNamed(Routes.HomeScreenRoute),
@@ -121,7 +122,7 @@ class OnboardingView extends StatelessWidget {
                       height: 45.px,
                       borderRadius: BorderRadius.circular(10.px),
                       borderColor: AppColors.appBlue,
-                      title: 'join'.tr(),
+                      title: 'join'.tr,
                       isDisable: false,
                       onPressed: () {
                         AppRouter.push(const EmailView());
@@ -131,7 +132,7 @@ class OnboardingView extends StatelessWidget {
                     GestureDetector(
                       onTap: () => AppRouter.pushNamed(Routes.loginView),
                       child: AppText(
-                        'login'.tr(),
+                        'login'.tr,
                         fontWeight: FontWeight.w600,
                         fontSize: 14.px,
                         color: AppColors.appBlue,

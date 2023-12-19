@@ -1,4 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
+
+
+import 'package:intl/intl.dart';
 
 String formatTime(DateTime dateTime) {
   // Use intl package to format the time in 12-hour format

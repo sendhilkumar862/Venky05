@@ -1,7 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -48,7 +49,7 @@ class LanguageView extends StatelessWidget {
                             height: 15.px,
                           ),
                           AppText(
-                            'chooseLang'.tr(),
+                            'chooseLang'.tr,
                             textAlign: TextAlign.center,
                             fontSize: 24.px,
                             fontWeight: FontWeight.w800,
@@ -109,7 +110,7 @@ class LanguageView extends StatelessWidget {
                   ),
                   bottomNavigationBar: PreLoginCommonButton(
                     onTap: languageViewModel.onPressedContinue,
-                    title: 'continue'.tr(),
+                    title: 'continue'.tr,
                     isDisable: languageViewModel.selectedCountry == null,
                   ),
                 );

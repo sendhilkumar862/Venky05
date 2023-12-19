@@ -1,7 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -54,7 +55,7 @@ class UserInfoView extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: AppText(
                           textAlign: TextAlign.start,
-                          'userInfo'.tr(),
+                          'userInfo'.tr,
                           fontSize: 24.px,
                           fontWeight: FontWeight.w700,
                         ),
@@ -62,10 +63,10 @@ class UserInfoView extends StatelessWidget {
                       SizedBox(height: 20.px),
                       TextFormsField(
                         keyboardType: TextInputType.text,
-                        title: 'firstName'.tr(),
+                        title: 'firstName'.tr,
                         validate: userInfoViewModel.firstNameValid,
                         controller: userInfoViewModel.firstNameController,
-                        hintText: 'enterYourFirstName'.tr(),
+                        hintText: 'enterYourFirstName'.tr,
                         errorText: userInfoViewModel.firstNameErrorText!,
                         onChanged: (String value) {
                           userInfoViewModel.validateFirstName(value!);
@@ -74,10 +75,10 @@ class UserInfoView extends StatelessWidget {
                       SizedBox(height: 20.px),
                       TextFormsField(
                         keyboardType: TextInputType.text,
-                        title: 'lastName'.tr(),
+                        title: 'lastName'.tr,
                         validate: userInfoViewModel.lastNameValid,
                         controller: userInfoViewModel.lastNameController,
-                        hintText: 'enterYourLastName'.tr(),
+                        hintText: 'enterYourLastName'.tr,
                         errorText: userInfoViewModel.lastNameErrorText!,
                         onChanged: (String value) {
                           userInfoViewModel.validateLastName(value!);
@@ -88,7 +89,7 @@ class UserInfoView extends StatelessWidget {
                         Row(
                           children: <Widget>[
                             AppText(
-                              'makeItVisible'.tr(),
+                              'makeItVisible'.tr,
                               fontSize: 14.px,
                             ),
                             SizedBox(width: 10.px),
@@ -103,7 +104,7 @@ class UserInfoView extends StatelessWidget {
                 ),
               ),
               bottomNavigationBar: PreLoginCommonButton(
-                  title: 'continue'.tr(),
+                  title: 'continue'.tr,
                   onTap: () => userInfoViewModel.onTapSubmitUserInfo(),
                   isDisable: userInfoViewModel.isDisableUserInfoSubmit()),
             );
