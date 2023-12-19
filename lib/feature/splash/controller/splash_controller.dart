@@ -65,7 +65,7 @@ class SplashController extends GetxController {
     } else if (selectedProfile == null || selectedProfile!.isEmpty) {
       navigation( ProfileSelectionView(continueRegistration: true));
     } else {
-      navigation(const OnboardingView(continueRegistration: true));
+      navigation( OnboardingView(continueRegistration: true));
     }
   }
 
