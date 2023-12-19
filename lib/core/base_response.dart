@@ -12,7 +12,7 @@ class BaseResponse {
 class Data {
   Data({this.item});
   Data.fromJson(Map<String, dynamic> json) {
-    item = json['item'];
+    item = json['item'] ?? json['items'];
   }
   Object? item;
 

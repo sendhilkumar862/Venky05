@@ -6,7 +6,7 @@ import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../profileSet/model/about_model.dart';
-import '../../profileSet/viewModel/profile_view_model.dart';
+
 
 class AboutAppBottomSheet extends StatelessWidget {
   AboutAppBottomSheet({this.data, super.key});
