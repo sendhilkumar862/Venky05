@@ -1,7 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../product/base/view/base_view.dart';
@@ -77,7 +78,7 @@ class _PreferenceViewState extends State<PreferenceView>
                             Center(
                               child: SafeArea(
                                 child: Text(
-                                  'customization'.tr(),
+                                  'customization'.tr,
                                   style: const TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 20),
@@ -105,12 +106,12 @@ class _PreferenceViewState extends State<PreferenceView>
                                   },
                                 ),
                                 title: Text(
-                                  'msgCustomizationNow'.tr(),
+                                  'msgCustomizationNow'.tr,
                                   style: const TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16),
                                 ),
-                                subtitle: Text('msgCustomization'.tr(),
+                                subtitle: Text('msgCustomization'.tr,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         color: AppColors.appDarkBlack
@@ -121,7 +122,7 @@ class _PreferenceViewState extends State<PreferenceView>
                             Row(
                               children: <Widget>[
                                 Text(
-                                  'grade'.tr(),
+                                  'grade'.tr,
                                   style: const TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16),
@@ -129,7 +130,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 5),
                                   child: Text(
-                                    'selectMore'.tr(),
+                                    'selectMore'.tr,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 12),
@@ -219,7 +220,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                 child: Row(
                                   children: <Widget>[
                                     Text(
-                                      'school'.tr(),
+                                      'school'.tr,
                                       style: const TextStyle(
                                           fontFamily: 'OpenSans',
                                           fontWeight: FontWeight.w800,
@@ -229,7 +230,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 5),
                                       child: Text(
-                                        'optional'.tr(),
+                                        'optional'.tr,
                                         style: TextStyle(
                                             fontWeight: FontWeight.w400,
                                             fontSize: 12),
@@ -320,7 +321,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                 child: Row(
                                   children: <Widget>[
                                     Text(
-                                      'curriculum'.tr(),
+                                      'curriculum'.tr,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.w700,
                                           fontSize: 16),
@@ -412,7 +413,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                 child: Row(
                                   children: <Widget>[
                                     Text(
-                                      'subject'.tr(),
+                                      'subject'.tr,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.w700,
                                           fontSize: 16),
@@ -421,7 +422,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 5),
                                       child: Text(
-                                        'optional'.tr(),
+                                        'optional'.tr,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w400,
                                             fontSize: 12),
@@ -504,7 +505,7 @@ class _PreferenceViewState extends State<PreferenceView>
                     ),
                     AppButton(
                         isDisable: preferenceViewModel.selectedGrade.isEmpty,
-                        title: 'saveMyPreferences'.tr(),
+                        title: 'saveMyPreferences'.tr,
                         onPressed: () {
                           preferenceViewModel.setUserPreference().then((value) {
                             Navigator.of(context).pop();

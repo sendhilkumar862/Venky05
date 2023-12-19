@@ -1,7 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_button/app_button.dart';
@@ -73,7 +74,7 @@ class _CreateProposalState extends State<CreateProposal> {
               isTitleOnly: true,
               // isBack: true,
               // trailingText: 'Cancel',
-              title: 'createClass'.tr(),
+              title: 'createClass'.tr,
               // normalAppbar: true,
             ),
             body: Observer(builder: (BuildContext context) {
@@ -101,7 +102,7 @@ class _CreateProposalState extends State<CreateProposal> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 20),
                                 child: Text(
-                                  'proposalDetails'.tr(),
+                                  'proposalDetails'.tr,
                                   style: openSans.get20.w700
                                       .textColor(AppColors.appTextColor),
                                 ),
@@ -118,7 +119,7 @@ class _CreateProposalState extends State<CreateProposal> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text('kwd'.tr(),
+                                      Text('kwd'.tr,
                                           style: openSans.get16.w400),
                                       const SizedBox(
                                         width: 4,
@@ -136,14 +137,14 @@ class _CreateProposalState extends State<CreateProposal> {
                                     ],
                                   ),
                                 ),
-                                hintText: 'classCost'.tr(),
+                                hintText: 'classCost'.tr,
                               ),
                               AppTextFormField(
                                 controller: numberOfSession,
                                 keyboardType:
                                     const TextInputType.numberWithOptions(),
                                 validate: Validators.requiredValidator.call,
-                                hintText: 'numberOfSessions'.tr(),
+                                hintText: 'numberOfSessions'.tr,
                               ),
                               AppTextFormField(
                                 validate: Validators.requiredValidator.call,
@@ -152,7 +153,7 @@ class _CreateProposalState extends State<CreateProposal> {
                                   calender(context, dateController,
                                       createProposalViewModel);
                                 },
-                                hintText: 'classDateAndTime'.tr(),
+                                hintText: 'classDateAndTime'.tr,
                                 readOnly: true,
                                 suffix: const Icon(
                                     Icons.keyboard_arrow_down_sharp,
@@ -165,7 +166,7 @@ class _CreateProposalState extends State<CreateProposal> {
                                   calender(context, date2Controller,
                                       createProposalViewModel);
                                 },
-                                hintText: 'class2DateAndTime'.tr(),
+                                hintText: 'class2DateAndTime'.tr,
                                 readOnly: true,
                                 suffix: const Icon(
                                     Icons.keyboard_arrow_down_sharp,
@@ -176,8 +177,8 @@ class _CreateProposalState extends State<CreateProposal> {
                                 suffix: const Icon(
                                     Icons.keyboard_arrow_down_sharp,
                                     color: AppColors.downArrowColor),
-                                hintText: 'classDuration'.tr(),
-                                title: 'classDuration'.tr(),
+                                hintText: 'classDuration'.tr,
+                                title: 'classDuration'.tr,
                                 readOnly: true,
                                 controller: classDurationController,
                                 onTap: () {
@@ -188,7 +189,7 @@ class _CreateProposalState extends State<CreateProposal> {
                         Padding(
                           padding: EdgeInsets.only(bottom: 20.px, top: 80.px),
                           child: AppButton(
-                            title: 'submit'.tr(),
+                            title: 'submit'.tr,
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
                                 showModalBottomSheet(
@@ -292,7 +293,7 @@ class _CreateProposalState extends State<CreateProposal> {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Text('classDuration'.tr(), style: openSans.get14.w700),
+                        Text('classDuration'.tr, style: openSans.get14.w700),
                         SizedBox(
                           width: width * 0.25,
                         ),

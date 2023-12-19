@@ -1,6 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
@@ -35,7 +36,7 @@ class _ChangeNameViewState extends State<ChangeNameView> {
             (BuildContext context, ChangeNameViewModel changeNameViewModel, WidgetRef ref) {
           return Scaffold(
             appBar: HessaAppBar(
-              title: 'changeName'.tr(),
+              title: 'changeName'.tr,
               isTitleOnly: true,
             ),
             body: Form(
@@ -61,21 +62,21 @@ class _ChangeNameViewState extends State<ChangeNameView> {
                           AppTextFormField(
                             validate: Validators.requiredValidator.call,
                             controller: firstName,
-                            title: 'firstName'.tr(),
-                            hintText: 'firstName'.tr(),
+                            title: 'firstName'.tr,
+                            hintText: 'firstName'.tr,
                           ),
                           AppTextFormField(
                             validate: Validators.requiredValidator.call,
                             controller: lastName,
-                            title: 'lastName'.tr(),
-                            hintText: 'lastName'.tr(),
+                            title: 'lastName'.tr,
+                            hintText: 'lastName'.tr,
                           ),
                         ],
                       ),
                     ),
                     AppButton(
                         isDisable: isDisable,
-                        title: 'save'.tr(),
+                        title: 'save'.tr,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             showModalBottomSheet(
@@ -91,9 +92,9 @@ class _ChangeNameViewState extends State<ChangeNameView> {
                               ),
                               builder: (BuildContext context) {
                                 return SuccessFailsInfoDialog(
-                                  title: 'success'.tr(),
-                                  buttonTitle: 'done'.tr(),
-                                  content: 'youHaveSuccessfully'.tr(),
+                                  title: 'success'.tr,
+                                  buttonTitle: 'done'.tr,
+                                  content: 'youHaveSuccessfully'.tr,
                                 );
                               },
                             );

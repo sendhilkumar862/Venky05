@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
@@ -60,11 +61,11 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
   void validateEmail(String value) {
     if (value.isEmpty) {
       emailValid = 0;
-      emailErrorText = 'pleaseEnter'.tr();
+      emailErrorText = 'pleaseEnter'.tr;
     } else if (Regexes.validateRegEx(
         forgotEmailController.text, Regexes.emailRegex)) {
       emailValid = 0;
-      emailErrorText = 'enterValidEmail'.tr();
+      emailErrorText = 'enterValidEmail'.tr;
     } else {
       emailValid = 1;
       emailErrorText = '';

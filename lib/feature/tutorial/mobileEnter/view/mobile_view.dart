@@ -1,8 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_textformfield/text_field.dart';
@@ -37,7 +38,7 @@ class MobileView extends StatelessWidget {
           builder: (BuildContext context) {
             return Scaffold(
               bottomNavigationBar: PreLoginCommonButton(
-                title: 'continue'.tr(),
+                title: 'continue'.tr,
                 onTap: () => mobileViewModel.onTapMobileSubmit(),
                 isDisable: mobileViewModel.mobileValid != 1,
               ),
@@ -58,7 +59,7 @@ class MobileView extends StatelessWidget {
                       SizedBox(height: 28.px),
                       AppText(
                         textAlign: TextAlign.start,
-                        'join'.tr(),
+                        'join'.tr,
                         fontSize: 24.px,
                         fontWeight: FontWeight.w700,
                       ),
@@ -117,10 +118,10 @@ class MobileView extends StatelessWidget {
                                 ),
                               )
                             : const SizedBox(),
-                        title: 'mobileNumber'.tr(),
+                        title: 'mobileNumber'.tr,
                         keyboardType: TextInputType.number,
                         controller: mobileViewModel.mobileController,
-                        hintText: 'enterMobileAgain'.tr(),
+                        hintText: 'enterMobileAgain'.tr,
                         validate: mobileViewModel.mobileValid,
                         errorText: mobileViewModel.mobileErrorText,
                         inputFormatters: <TextInputFormatter>[

@@ -1,7 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:hessah/config/routes/app_router.dart';
 import 'package:hessah/config/routes/routes.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -63,17 +64,17 @@ class PasswordView extends StatelessWidget {
                                 alignment: Alignment.centerLeft,
                                 child: AppText(
                                   textAlign: TextAlign.start,
-                                  'createPassword'.tr(),
+                                  'createPassword'.tr,
                                   fontSize: 24.px,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
                               SizedBox(height: 20.px),
                               TextFormsField(
-                                title: 'password'.tr(),
+                                title: 'password'.tr,
                                 controller:
                                     passwordViewModel.passwordController,
-                                hintText: 'enterYourPassword'.tr(),
+                                hintText: 'enterYourPassword'.tr,
                                 keyboardType: TextInputType.multiline,
                                 obscureText:
                                     !passwordViewModel.isPasswordVisible,
@@ -98,10 +99,10 @@ class PasswordView extends StatelessWidget {
                               SizedBox(height: 10.px),
                               TextFormsField(
                                 keyboardType: TextInputType.multiline,
-                                title: 'retypePassword'.tr(),
+                                title: 'retypePassword'.tr,
                                 controller:
                                     passwordViewModel.retypePasswordController,
-                                hintText: 'enterYourPasswordAgain'.tr(),
+                                hintText: 'enterYourPasswordAgain'.tr,
                                 obscureText:
                                     !passwordViewModel.isRetypePasswordVisible,
                                 suffixIcon: InkWell(
@@ -126,7 +127,7 @@ class PasswordView extends StatelessWidget {
                               ),
                               SizedBox(height: 18.px),
                               AppText(
-                                'passwordCriteria'.tr(),
+                                'passwordCriteria'.tr,
                                 fontSize: 14.px,
                               ),
                               SizedBox(height: 5.px),
@@ -191,7 +192,7 @@ class PasswordView extends StatelessWidget {
                       ),
                       SizedBox(width: 6.px),
                       AppText(
-                        'iHaveRead'.tr(),
+                        'iHaveRead'.tr,
                         fontSize: 14.px,
                       ),
                       SizedBox(width: 5.px),
@@ -201,7 +202,7 @@ class PasswordView extends StatelessWidget {
                                 passwordViewModel: passwordViewModel),
                             context: context),
                         child: AppText(
-                          't&c'.tr(),
+                          't&c'.tr,
                           fontSize: 14.px,
                           color: AppColors.appBlue,
                         ),
@@ -211,7 +212,7 @@ class PasswordView extends StatelessWidget {
                 ),
                 SizedBox(height: 15.px),
                 PreLoginCommonButton(
-                    title: 'continue'.tr(),
+                    title: 'continue'.tr,
                     onTap: passwordViewModel.isButtonActive
                         ? () async {
                             final bool success =

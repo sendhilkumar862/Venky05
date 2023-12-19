@@ -1,7 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../config/routes/app_router.dart';
@@ -65,11 +66,11 @@ class ForgotPassWordView extends StatelessWidget {
                             ),
                             SizedBox(height: 10.px),
                             TextFormsField(
-                              title: 'emailAdd'.tr(),
+                              title: 'emailAdd'.tr,
                               validate: tutorialViewModel.emailValid,
                               controller:
                                   tutorialViewModel.forgotEmailController,
-                              hintText: 'enterEmail'.tr(),
+                              hintText: 'enterEmail'.tr,
                               errorText: tutorialViewModel.emailErrorText!,
                               onChanged: (String value) {
                                 tutorialViewModel.validateEmail(value);

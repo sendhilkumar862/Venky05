@@ -1,5 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../../../config/routes/routes.dart';
 import '../../../../../custom/app_button/app_button.dart';
 import '../../../../../custom/app_textformfield/app_field.dart';
@@ -53,7 +54,7 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
     var width = MediaQuery.sizeOf(context).width;
     return  Scaffold(
       appBar: HessaAppBar(
-        title: 'addFreeTime'.tr(),
+        title: 'addFreeTime'.tr,
         isTitleOnly: true,
       ),
       body:  Padding(
@@ -67,7 +68,7 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                     validate: Validators.requiredValidator.call,
                     suffix: const Icon(Icons.keyboard_arrow_down_sharp,
                         color: AppColors.downArrowColor),
-                    title: 'date'.tr(),
+                    title: 'date'.tr,
                     readOnly: true,
                     controller:  startTimeDurationController,
                     onTap: () {
@@ -77,8 +78,8 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                     validate: Validators.requiredValidator.call,
                     suffix: const Icon(Icons.keyboard_arrow_down_sharp,
                         color: AppColors.downArrowColor),
-                    hintText: 'selectStartTime'.tr(),
-                    title: 'startTime'.tr(),
+                    hintText: 'selectStartTime'.tr,
+                    title: 'startTime'.tr,
                     readOnly: true,
                     controller:  startTimeDurationController,
                     onTap: () {
@@ -90,8 +91,8 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                     validate: Validators.requiredValidator.call,
                     suffix: const Icon(Icons.keyboard_arrow_down_sharp,
                         color: AppColors.downArrowColor),
-                    hintText: 'selectEndTime'.tr(),
-                    title: 'endTime'.tr(),
+                    hintText: 'selectEndTime'.tr,
+                    title: 'endTime'.tr,
                     readOnly: true,
                     controller:  endTimeDurationController,
                     onTap: () {
@@ -107,7 +108,7 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                                     child: Row(
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: <Widget>[
-                                          Text('selectEndTime'.tr(), style: openSans.get14.w700),
+                                          Text('selectEndTime'.tr, style: openSans.get14.w700),
                                           SizedBox(
                                             width: width * 0.25,
                                           ),
@@ -166,13 +167,13 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top:15),
-                    child: WarningCardView(error: 'anotherFreeTimeIs'.tr(),),
+                    child: WarningCardView(error: 'anotherFreeTimeIs'.tr,),
                   )
                 ],
               ),
             ),
             AppButton(
-                title: 'addAvailableTeachingTime'.tr(),
+                title: 'addAvailableTeachingTime'.tr,
                 onPressed: (){
                   showModalBottomSheet(
                     backgroundColor: Colors.white,
@@ -190,9 +191,9 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                         //   AppRouter.push(PendingTickets());
                         // },
                         verticalPadding: 10,
-                        title: 'success'.tr(),
-                        buttonTitle: 'done'.tr(),
-                        content: 'youHaveSuccessfullyAdded'.tr(),
+                        title: 'success'.tr,
+                        buttonTitle: 'done'.tr,
+                        content: 'youHaveSuccessfullyAdded'.tr,
                       );
                     },
                   );

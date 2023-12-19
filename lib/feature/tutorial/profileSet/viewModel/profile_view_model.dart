@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:mobx/mobx.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -36,7 +36,7 @@ abstract class _ProfileViewModelBase extends BaseViewModel with Store {
   int selectedIndex = -1;
 
   @observable
-  List<String> profileItems = <String>['teacher'.tr(), 'parent'.tr()];
+  List<String> profileItems = <String>['teacher'.tr, 'parent'.tr];
 
   @observable
   List<AboutModel> data =  [];

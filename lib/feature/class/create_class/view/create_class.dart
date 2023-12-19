@@ -1,6 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:hessah/product/base/view/base_view.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -82,8 +83,8 @@ class _CreateClassState extends State<CreateClass> {
           return Scaffold(
             appBar: HessaAppBar(
               isTitleOnly: true,
-              trailingText: 'cancel'.tr(),
-              title: 'createClass'.tr(),
+              trailingText: 'cancel'.tr,
+              title: 'createClass'.tr,
               isBack: false,
             ),
             body: SingleChildScrollView(
@@ -93,13 +94,13 @@ class _CreateClassState extends State<CreateClass> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'classInfo'.tr(),
+                      'classInfo'.tr,
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.w700),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
-                      child: Text('grade'.tr(),
+                      child: Text('grade'.tr,
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w700)),
                     ),
@@ -147,7 +148,7 @@ class _CreateClassState extends State<CreateClass> {
                       listBuilder: ChoiceList.createWrapped(),
                     ),
                     const Divider(),
-                    Text('school'.tr(),
+                    Text('school'.tr,
                         style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w700)),
                     InlineChoice<String>(
@@ -193,7 +194,7 @@ class _CreateClassState extends State<CreateClass> {
                     const Divider(),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Text('subject'.tr(),
+                      child: Text('subject'.tr,
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w700)),
                     ),
@@ -241,10 +242,10 @@ class _CreateClassState extends State<CreateClass> {
                     AppTextFormField(
                       minLines: 4,
                       maxLines: 10,
-                      hintText: 'classSummary'.tr(),
+                      hintText: 'classSummary'.tr,
                       borderColor: AppColors.appBlue,
                       titleColor: AppColors.appBlue,
-                      title: 'classSummary'.tr(),
+                      title: 'classSummary'.tr,
                       top: 0,
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 12, horizontal: 12),
@@ -261,7 +262,7 @@ class _CreateClassState extends State<CreateClass> {
                     ),
                     AppButton(
                       isDisable: false,
-                      title: 'nextForClassDetails'.tr(),
+                      title: 'nextForClassDetails'.tr,
                       onPressed: () {
                         AppRouter.pushNamed(Routes.classDetail);
                       },

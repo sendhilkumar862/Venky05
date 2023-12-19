@@ -1,7 +1,6 @@
 import 'dart:developer';
-
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../product/base/model/base_view_model.dart';
@@ -48,25 +47,25 @@ abstract class _OnboardingViewModelBase extends BaseViewModel with Store {
 
   @observable
   List studentTitle = <String>[
-    'exploreClasses'.tr(),
-    'book'.tr(),
-    'startClass'.tr()
+    'exploreClasses'.tr,
+    'book'.tr,
+    'startClass'.tr
   ];
 
   @observable
-  List teacherTitle = ['submitProposalTeacher'.tr(), 'startClass'.tr(), 'setAvailableTimes'.tr()];
+  List teacherTitle = ['submitProposalTeacher'.tr, 'startClass'.tr, 'setAvailableTimes'.tr];
 
   @observable
   List studentSubtitle = <String>[
-    'explore'.tr(),
-    'cantFind'.tr(),
-    'bookClasses'.tr()
+    'explore'.tr,
+    'cantFind'.tr,
+    'bookClasses'.tr
   ];
 
   @observable
   List teacherSubtitle = <String>[
-    'exploreClassesCreated'.tr(),
-    'createAndClasses'.tr(),
-    'setAndGive'.tr()
+    'exploreClassesCreated'.tr,
+    'createAndClasses'.tr,
+    'setAndGive'.tr
   ];
 }

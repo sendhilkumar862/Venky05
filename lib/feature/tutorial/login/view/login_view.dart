@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
@@ -54,10 +54,10 @@ class LoginView extends StatelessWidget {
                       ),
                       SizedBox(height: 10.px),
                       TextFormsField(
-                        title: 'emailAdd'.tr(),
+                        title: 'emailAdd'.tr,
                         validate: _signInController.emailValid.value,
                         controller: _signInController.emailController,
-                        hintText: 'enterEmail'.tr(),
+                        hintText: 'enterEmail'.tr,
                         errorText: _signInController.emailErrorText.value,
                         onChanged: (String value) {
                           _signInController.validateEmail(value);
@@ -67,9 +67,9 @@ class LoginView extends StatelessWidget {
                       StatefulBuilder(
                         builder: (BuildContext context, setState) {
                           return TextFormsField(
-                            title: 'password'.tr(),
+                            title: 'password'.tr,
                             controller: _signInController.passwordController,
-                            hintText: 'enterYourPassword'.tr(),
+                            hintText: 'enterYourPassword'.tr,
                             obscureText: _signInController.isPasswordShow.value,
                             maxLines: 1,
                             suffixIcon: InkWell(
@@ -116,7 +116,7 @@ class LoginView extends StatelessWidget {
           children: <Widget>[
             PreLoginCommonButton(
               onTap: () =>  !_signInController.isButtonDisabled.value?_signInController.onTapLoginSubmit():null,
-              title: 'login'.tr(),
+              title: 'login'.tr,
               height: 15.px,
               isDisable: _signInController.isButtonDisabled.value,
             ),

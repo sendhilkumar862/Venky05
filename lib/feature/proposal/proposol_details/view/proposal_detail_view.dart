@@ -1,6 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -48,7 +49,7 @@ class _ProposalDetailsViewState extends State<ProposalDetailsView> {
           var data = proposalDetailsViewModel.dataList[0];
           return Scaffold(
             appBar: HessaAppBar(
-              title: 'classDetails'.tr(),
+              title: 'classDetails'.tr,
               isTitleOnly: true,
             ),
             body: ListView(
