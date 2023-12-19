@@ -24,6 +24,8 @@ class ApiEndpoint {
   /// ```
   static const String baseUrl = Config.baseUrl;
 
+  static const String profileSet='content/role/common/type/about_us';
+
   /// Returns the path for an authentication [endpoint].
   static String auth(AuthEndpoint endpoint) {
     const String path = 'users';

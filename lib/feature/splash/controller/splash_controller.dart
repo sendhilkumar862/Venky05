@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:mobx/mobx.dart';
-
-import '../../../../product/base/model/base_view_model.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
+import '../../../core/base_response.dart';
+import '../../tutorial/language/view/language_view.dart';
+import '../../tutorial/login/model/login_model.dart';
+import '../../tutorial/onboarding/view/onboading_view.dart';
+import '../../tutorial/profileSet/view/profile_selection_view.dart';
+import '../../../product/constants/app/app_utils.dart';
 import '../../../product/network/local/key_value_storage_base.dart';
 import '../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/validators.dart';
-import '../../tutorial/language/view/language_view.dart';
-import '../../tutorial/onboarding/view/onboading_view.dart';
-import '../../tutorial/profileSet/view/profile_selection_view.dart';
+import '../../../repository/auth_repositoriy.dart';
 
-part 'splash_view_model.g.dart';
-
-class SplashViewModel = _SplashViewModelBase with _$SplashViewModel;
-
-abstract class _SplashViewModelBase extends BaseViewModel with Store {
-  @override
-  void setContext(BuildContext context) => viewModelContext = context;
-
+class SplashController extends GetxController {
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
   final KeyValueStorageService keyValueStorageService =
       KeyValueStorageService();
-
   String? selectedCountry;
   String? selectedLanguage;
   String? selectedProfile;
 
   @override
+  void onInit() {
+    super.onInit();
+    init();
+  }
+
   Future<void> init() async {
     await KeyValueStorageBase.init();
     await keyValueStorageBase.clearEncrypted();
@@ -44,7 +44,6 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
     }
   }
 
-  @action
   Future<void> checkTheStatus() async {
     await KeyValueStorageBase.init();
     selectedCountry =
@@ -57,7 +56,6 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
         keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
   }
 
-  @action
   Future<void> setRoute() async {
     if (selectedCountry == null ||
         selectedLanguage == null ||
@@ -65,13 +63,12 @@ abstract class _SplashViewModelBase extends BaseViewModel with Store {
         selectedLanguage!.isEmpty) {
       navigation(const LanguageView());
     } else if (selectedProfile == null || selectedProfile!.isEmpty) {
-      navigation(const ProfileSelectionView(continueRegistration: true));
+      navigation( ProfileSelectionView(continueRegistration: true));
     } else {
       navigation(const OnboardingView(continueRegistration: true));
     }
   }
 
-  @action
   Future<void> navigation(Widget page) async => Future<void>.delayed(
         const Duration(milliseconds: 5000),
         () async => AppRouter.push(page),

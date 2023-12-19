@@ -3,17 +3,17 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get.dart' hide ScreenType;
 import 'package:get_storage/get_storage.dart';
 import 'package:mobx/mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'config/routes/app_router.dart';
 import 'feature/splash/view/splash_view.dart';
+import 'feature/splash/controller/splash_controller.dart';
 import 'locale.dart';
 import 'product/cache/locale_manager.dart';
-import 'product/constants/app/app_constants.dart';
 import 'product/lang/language_manager.dart';
-// import 'product/theme/theme_notifier.dart';
+
 
 Future<void> main() async {
   mainContext.config = mainContext.config
@@ -47,11 +47,18 @@ class MyApp extends ConsumerWidget {
           translations: Messages(),
             fallbackLocale:LanguageManager.instance.enLocale,
           // theme: context.watch<ThemeNotifier>().currentTheme,
+          initialBinding: initialBinding(),
           home: const SplashView(),
           // home: StudentProfileView(),
           builder: EasyLoading.init(),
         );
       },
     );
+  }
+}
+class initialBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.put(SplashController());
   }
 }

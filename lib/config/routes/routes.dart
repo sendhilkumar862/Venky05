@@ -115,7 +115,7 @@ class Routes {
     notificationView: (_) => const NotificationView(),
     chatView: (_) => const ChatView(),
     verifyOtpView: (_) => const VerifyOtpView(),
-    profileSelectionView: (_) => const ProfileSelectionView(),
+    profileSelectionView: (_) =>  ProfileSelectionView(),
     profileView: (_) => const ProfileView(),
     classDetail: (_) => const ClassDetail(),
     addressView: (_) => const AddressView(),
