@@ -4,6 +4,7 @@ import '../core/backend_service.dart';
 import '../core/base_request.dart';
 import '../core/base_response.dart';
 import '../core/hessah_exception.dart';
+import '../product/constants/enums/backend_services_method_enums.dart';
 
 class AuthRepositoryRepository {
   Future<BaseResponse> sign(
@@ -27,4 +28,8 @@ class SignInAPIRequest extends BaseRequest {
   String get endPoint => ApiEndpoint.auth(AuthEndpoint.LOGIN);
   @override
   Map<String, dynamic> get body => SingInRequest(email:email, password:   password ).toJson();
+
+  @override
+  // TODO: implement apiMethod
+  BackEndServicesEnum get apiMethod =>BackEndServicesEnum.Post;
 }
