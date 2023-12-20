@@ -38,6 +38,7 @@ class ApiEndpoint {
       case AuthEndpoint.FORGOT_PW_SEND_OTP: return '$path/forgot/send-otp';
       case AuthEndpoint.FORGOT_PW_VERIFY_OTP: return '$path/forgot/verify-otp';
       case AuthEndpoint.FORGOT_PW_RESET_PASSWORD: return '$path/forgot/reset-password';
+      case AuthEndpoint.UPDATE_COUNTRY: return '$path/changeCountry/';
     }
   }
 
@@ -87,6 +88,9 @@ enum AuthEndpoint {
 
   /// An endpoint for reset password requests.
   FORGOT_PW_RESET_PASSWORD,
+
+  /// An endpoint for update country requests.
+  UPDATE_COUNTRY,
 
   /// An endpoint for forget password otp requests.
   FORGOT_PW_SEND_OTP,
