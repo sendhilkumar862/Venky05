@@ -1,8 +1,9 @@
 // ignore_for_file: constant_identifier_names
 
 enum BackEndServicesEnum {
-  Post,
+  POST,
   PUT,
   GET,
-  DELETE
+  DELETE,
+  PHOTO
 }

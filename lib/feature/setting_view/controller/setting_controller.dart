@@ -2,7 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../core/base_response.dart';
+import '../../home/controller/home_controller.dart';
+import '../repository/update_profile_photo_repository.dart';
 import '../view/setting_view.dart';
 import '../../tutorial/language/model/country_model.dart';
 import '../../../product/constants/app/app_constants.dart';
@@ -14,6 +17,7 @@ import '../../../repository/setting_repository.dart';
 
 
 class SettingController  extends GetxController{
+  String croppedFilePath = '';
   RxString error=''.obs;
   RxString loginStatus = ''.obs;
   RxString selectedProfile = ''.obs;
@@ -23,6 +27,8 @@ class SettingController  extends GetxController{
   RxString selectedItem = ''.obs;
   RxInt languageIndex = 1.obs;
   Rx<TextEditingController> countryController = TextEditingController().obs;
+  final UpdateProfilePhotoRepository _updateProfilePhotoRepository=UpdateProfilePhotoRepository();
+  final HomeController _homeController=Get.find();
   RxList<String> languages = <String>[
     'عربي',
     'English',
@@ -125,7 +131,16 @@ class SettingController  extends GetxController{
 
 
 
-  Future<void> getProfile() async {
+  Future<void> uploadProfilePhoto() async {
+    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+    final BaseResponse signInResponse = await _updateProfilePhotoRepository.updateProfilePhoto(croppedFilePath);
+    if (signInResponse.status?.type == 'success') {
+      _homeController.fetchData();
+      } else {
+
+    }
+    EasyLoading.dismiss();
+
 
   }
 
