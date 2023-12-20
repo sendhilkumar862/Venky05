@@ -55,7 +55,7 @@ class BackendService {
         );
       }else{
         var data = FormData.fromMap({
-          'files': [
+          'file': [
             await MultipartFile.fromFile(request.body['path'], filename: request.body['fileName'])
           ],
 
