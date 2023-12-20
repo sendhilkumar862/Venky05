@@ -21,6 +21,7 @@ import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/utils/typography.dart';
+import '../../home/controller/home_controller.dart';
 import '../../tutorial/language/viewModel/language_view_model.dart';
 import '../../tutorial/mobileEnter/view/mobile_view.dart';
 import '../../tutorial/password/view/password_view.dart';
@@ -45,7 +46,7 @@ class _SettingViewState extends State<SettingView> {
   late PermissionStatus cameraPermissionStatus;
   final SettingController _settingController=Get.put(SettingController());
   final LanguageController _languageController=Get.put(LanguageController());
-
+  final HomeController _homeController=Get.find();
   @override
   void initState() {
     _settingController.getProfileData();
@@ -96,19 +97,21 @@ class _SettingViewState extends State<SettingView> {
 
   Widget profileWidget(
       double width, BuildContext context,) {
-    return SizedBox(
-      width: width,
-      child: Column(
-        children: <Widget>[
-          profileImageView(context),
-          Padding(
-            padding: const EdgeInsets.only(top: 13, bottom: 3),
-            child: Text('User Name', style: openSans.get20.w700.appTextColor),
-          ),
-          Text('mail@domain.com',
-              style: openSans.get14.w500
-                  .textColor(AppColors.appTextColor.withOpacity(0.50))),
-        ],
+    return Obx(()=>
+      SizedBox(
+        width: width,
+        child: Column(
+          children: <Widget>[
+            profileImageView(context),
+            Padding(
+              padding: const EdgeInsets.only(top: 13, bottom: 3),
+              child: Text("${_homeController.homeData.value?.firstName??""} ${_homeController.homeData.value?.lastName??""}"  , style: openSans.get20.w700.appTextColor),
+            ),
+            Text(_homeController.homeData.value?.email??"",
+                style: openSans.get14.w500
+                    .textColor(AppColors.appTextColor.withOpacity(0.50))),
+          ],
+        ),
       ),
     );
   }

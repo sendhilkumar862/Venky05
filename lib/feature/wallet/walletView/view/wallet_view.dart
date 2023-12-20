@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -19,6 +20,7 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
+import '../../../home/controller/home_controller.dart';
 import '../../../home_views/views/tabs/classes_view.dart';
 import '../../view/invoice_card_view.dart';
 import '../../view/view_all_view.dart';
@@ -39,7 +41,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
   String selectedProfile = '';
   String selectedUserStatus = '';
   bool isPending = false;
-
+  final HomeController _homeController=Get.find();
   @override
   void initState() {
     super.initState();
@@ -66,13 +68,13 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                   // ignore: avoid_bool_literals_in_conditional_expressions
                   isSearchIconShown: !(selectedProfile == ApplicationConstants.tutor && selectedUserStatus != '99'),
                   title: 'Welcome!',
-                  subTitle: 'Abdullah Mohamed',
+                  subTitle: "${_homeController.homeData.value?.firstName??""} ${_homeController.homeData.value?.lastName??""}",
                   isPro: walletViewModel.isProfileTeacher,
                 ),
                 body: selectedProfile == ApplicationConstants.tutor
-                    ? Padding(
-                  padding: const EdgeInsets.only(top: 64.0),
-                  child: const ClassesView(),
+                    ? const Padding(
+                  padding: EdgeInsets.only(top: 64.0),
+                  child: ClassesView(),
                 )
                     :ListView(
                   children: <Widget>[
