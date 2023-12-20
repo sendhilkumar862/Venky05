@@ -31,5 +31,5 @@ class SignInAPIRequest extends BaseRequest {
 
   @override
   // TODO: implement apiMethod
-  BackEndServicesEnum get apiMethod =>BackEndServicesEnum.Post;
+  BackEndServicesEnum get apiMethod =>BackEndServicesEnum.POST;
 }

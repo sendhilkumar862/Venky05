@@ -23,7 +23,7 @@ class BackendService {
               message: 'No internet connection'));
       }
       final Response response;
-      if(request.apiMethod==BackEndServicesEnum.Post){
+      if(request.apiMethod==BackEndServicesEnum.POST){
       response= await dio.post(
           ApiEndpoint.baseUrl+request.endPoint,
         options: Options(
@@ -45,13 +45,27 @@ class BackendService {
           ),
           data: request.body,
         );
-      }else{
+      }else if(request.apiMethod==BackEndServicesEnum.DELETE){
         response= await dio.delete(
           ApiEndpoint.baseUrl+request.endPoint,
           options: Options(
             headers: request.header,
           ),
           data: request.body,
+        );
+      }else{
+        var data = FormData.fromMap({
+          'files': [
+            await MultipartFile.fromFile(request.body['path'], filename: request.body['fileName'])
+          ],
+
+        });
+        response= await dio.post(
+          ApiEndpoint.baseUrl+request.endPoint,
+          options: Options(
+            headers: request.header,
+          ),
+          data: data,
         );
       }
       if(response.statusCode==StatusCode.success){

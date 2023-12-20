@@ -40,9 +40,7 @@ class SettingView extends StatefulWidget {
 }
 
 class _SettingViewState extends State<SettingView> {
-  XFile? pickedFile;
   CroppedFile? croppedFile;
-  String croppedFilePath = '';
   late PermissionStatus cameraPermissionStatus;
   final SettingController _settingController=Get.put(SettingController());
   final LanguageController _languageController=Get.put(LanguageController());
@@ -294,9 +292,9 @@ class _SettingViewState extends State<SettingView> {
           width: 65,
           height: 65,
           child: ClipOval(
-            child: croppedFilePath.isNotEmpty
+            child: _settingController.croppedFilePath.isNotEmpty
                 ? Image.file(
-                    File(croppedFilePath),
+                    File(_settingController.croppedFilePath),
                     fit: BoxFit.cover,
                   )
                 : Center(child: Text('UN', style: openSans.get20.w700.white)),
@@ -478,9 +476,10 @@ class _SettingViewState extends State<SettingView> {
               ),
             ]);
         if (cropFile != null) {
-          setState(() {
+          setState(() async{
             croppedFile = cropFile;
-            croppedFilePath = cropFile.path;
+            _settingController.croppedFilePath = cropFile.path;
+            await _settingController.uploadProfilePhoto();
           });
         }
       } catch (e) {
