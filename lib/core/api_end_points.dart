@@ -25,6 +25,7 @@ class ApiEndpoint {
   static const String baseUrl = Config.baseUrl;
 
   static const String profileSet='content/role/common/type/about_us';
+  static const String addNumber='content/role/common/type/about_us';
 
   /// Returns the path for an authentication [endpoint].
   static String auth(AuthEndpoint endpoint) {
@@ -37,6 +38,7 @@ class ApiEndpoint {
       case AuthEndpoint.FORGOT_PW_SEND_OTP: return '$path/forgot/send-otp';
       case AuthEndpoint.FORGOT_PW_VERIFY_OTP: return '$path/forgot/verify-otp';
       case AuthEndpoint.FORGOT_PW_RESET_PASSWORD: return '$path/forgot/reset-password';
+      case AuthEndpoint.ADD_NUMBER: return '$path/mobile/addNumber';
     }
   }
 
@@ -86,6 +88,9 @@ enum AuthEndpoint {
 
   /// An endpoint for reset password requests.
   FORGOT_PW_RESET_PASSWORD,
+
+  /// An endpoint for add number requests.
+  ADD_NUMBER,
 
   /// An endpoint for forget password otp requests.
   FORGOT_PW_SEND_OTP,

@@ -1,15 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:hessah/feature/tutorial/language/controller/language_controller.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../custom/appbar/appbar.dart';
@@ -21,16 +17,14 @@ import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/utils/typography.dart';
-import '../../tutorial/language/viewModel/language_view_model.dart';
+import '../../tutorial/language/controller/language_controller.dart';
 import '../../tutorial/mobileEnter/view/mobile_view.dart';
 import '../../tutorial/password/view/password_view.dart';
 import '../../tutorial/view/bottomSheets/country_bottom_sheet.dart';
 import '../../tutorial/view/bottomSheets/language_bottom_sheet.dart';
 import '../controller/setting_controller.dart';
-import '../viewModel/setting_view_model.dart';
 import 'widget/available_times_view.dart';
 import 'widget/manage_adress_view.dart';
-
 class SettingView extends StatefulWidget {
   const SettingView({super.key});
 
@@ -151,24 +145,22 @@ class _SettingViewState extends State<SettingView> {
       SettingData response,
       ) {
     final String title = data.listDetail[i].title;
-    return Observer(builder: (context) {
-      return Column(
-        children: <Widget>[
-          InkWell(
-            onTap: () => handleTitleClick(
-                title, context, response,),
-            child: childSettingListTile(
-                title: response.title, icon: response.surfixImage),
-          ),
-          if (i < data.listDetail.length - 1)
-            Divider(
-              height: 30,
-              thickness: 1,
-              color: AppColors.appBorderColor.withOpacity(0.5),
-            )
-        ],
-      );
-    });
+    return Column(
+      children: <Widget>[
+        InkWell(
+          onTap: () => handleTitleClick(
+            title, context,),
+          child: childSettingListTile(
+              title: response.title, icon: response.surfixImage),
+        ),
+        if (i < data.listDetail.length - 1)
+          Divider(
+            height: 30,
+            thickness: 1,
+            color: AppColors.appBorderColor.withOpacity(0.5),
+          )
+      ],
+    );
   }
 
   Widget childSettingListTile({
@@ -488,15 +480,14 @@ class _SettingViewState extends State<SettingView> {
 
   void handleTitleClick(
       String title,
-      BuildContext context,
-      SettingData response,) {
+      BuildContext context,) {
     final SettingTitle settingTitle = getSettingTitle(title);
 
     switch (settingTitle) {
       case SettingTitle.changeName:
         AppRouter.pushNamed(Routes.changeNameView);
       case SettingTitle.addMobileNumber:
-        AppRouter.push(const MobileView());
+        AppRouter.push( MobileView());
       case SettingTitle.manageAddress:
         manageAddressBottomSheet(context);
       case SettingTitle.changeCountry:
