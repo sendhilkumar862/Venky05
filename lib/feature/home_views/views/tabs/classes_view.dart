@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -11,6 +12,7 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
+import '../../../home/controller/home_controller.dart';
 
 class ClassesView extends StatefulWidget {
   const ClassesView({super.key});
@@ -24,6 +26,7 @@ class _ClassesViewState extends State<ClassesView> {
   String selectedProfile = '';
   String selectedUserStatus = '';
   bool isPending = false;
+  final HomeController _homeController=Get.find();
 
   @override
   void initState() {
@@ -31,80 +34,78 @@ class _ClassesViewState extends State<ClassesView> {
     selectedProfile =
         keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
             '';
-    selectedUserStatus = keyValueStorageBase.getCommon(
-            String, KeyValueStorageService.userInfoStatus) ??
-        '';
-    print(selectedUserStatus);
   }
 
   @override
   Widget build(BuildContext context) {
     if (selectedProfile == ApplicationConstants.tutor) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          if (selectedUserStatus != '99')
-            Center(
-              child: InfoCardVIew(
-                isPending: false,
-                isShowButton: true,
-                isSupport: false,
-                isStatus: false,
-                title: 'Complete Your Profile',
-                message: 'Your account has been created Successfully',
-                subTitle:
-                    'To kickstart your teaching journey and connect with students, please complete your profile. Revel in every lesson and share the joy of learning!',
-                cardColor: AppColors.white,
-                buttonTitle: 'Completed Profile',
-                buttonTap: () {
-                  if (isPending) {
-                    setState(() {
-                      isPending = !isPending;
-                    });
-                  } else {
-                    if (selectedUserStatus == '50') {
-                      AppRouter.pushNamed(Routes.personalInfo);
-                    } else if (selectedUserStatus == '60') {
-                      AppRouter.pushNamed(Routes.teachingInfo);
-                    } else if (selectedUserStatus == '70') {
-                      AppRouter.pushNamed(Routes.experienceInfo);
-                    } else if (selectedUserStatus == '80') {
-                      AppRouter.pushNamed(Routes.financingView);
+      return Obx(()=>
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            if (_homeController.homeData.value?.userStatus != '99')
+              Center(
+                child: InfoCardVIew(
+                  isPending: false,
+                  isShowButton: true,
+                  isSupport: false,
+                  isStatus: false,
+                  title: 'Complete Your Profile',
+                  message: 'Your account has been created Successfully',
+                  subTitle:
+                      'To kickstart your teaching journey and connect with students, please complete your profile. Revel in every lesson and share the joy of learning!',
+                  cardColor: AppColors.white,
+                  buttonTitle: 'Completed Profile',
+                  buttonTap: () {
+                    if (isPending) {
+                      setState(() {
+                        isPending = !isPending;
+                      });
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text(
-                            'Already Profile Completed it is in Pending for Review'),
-                      ));
+                      if (_homeController.homeData.value?.userStatus == '50') {
+                        AppRouter.pushNamed(Routes.personalInfo);
+                      } else if (_homeController.homeData.value?.userStatus == '60') {
+                        AppRouter.pushNamed(Routes.teachingInfo);
+                      } else if (_homeController.homeData.value?.userStatus == '70') {
+                        AppRouter.pushNamed(Routes.experienceInfo);
+                      } else if (_homeController.homeData.value?.userStatus == '80') {
+                        AppRouter.pushNamed(Routes.financingView);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text(
+                              'Already Profile Completed it is in Pending for Review'),
+                        ));
+                      }
                     }
-                  }
-                },
-              ),
-            )
-          else
-            const SizedBox.shrink(),
-          /* Center(
-          child: InfoCardVIew(
-            isPending: isPending,
-            isShowButton: false,
-            isSupport: true,
-            title: 'Account Under Review',
-            subTitle:
-                "Once approved, you'll be ready to commence teaching, We'll notify you soon!.",
-            cardColor: AppColors.white,
-            buttonTitle: 'Class Details',
-            buttonTap: () {
-              if (isPending) {
-                setState(() {
-                  isPending = !isPending;
-                });
-              } else {
-                AppRouter.push(ReUploadDocument());
-              }
-            },
-          ),
-        ),*/
-        ],
+                  },
+                ),
+              )
+            else
+              const SizedBox.shrink(),
+            /* Center(
+            child: InfoCardVIew(
+              isPending: isPending,
+              isShowButton: false,
+              isSupport: true,
+              title: 'Account Under Review',
+              subTitle:
+                  "Once approved, you'll be ready to commence teaching, We'll notify you soon!.",
+              cardColor: AppColors.white,
+              buttonTitle: 'Class Details',
+              buttonTap: () {
+                if (isPending) {
+                  setState(() {
+                    isPending = !isPending;
+                  });
+                } else {
+                  AppRouter.push(ReUploadDocument());
+                }
+              },
+            ),
+          ),*/
+          ],
+        ),
       );
     } else {
       return Expanded(

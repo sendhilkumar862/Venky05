@@ -15,6 +15,7 @@ class SuccessFailsInfoDialog extends StatelessWidget {
       this.title,
       this.buttonTitle,
       this.tranId,
+        this.isRouting=false,
       this.verticalPadding,
       super.key});
 
@@ -22,6 +23,7 @@ class SuccessFailsInfoDialog extends StatelessWidget {
   String? title;
   String? buttonTitle;
   String? tranId;
+  bool isRouting;
   double? verticalPadding;
 
   @override
@@ -90,7 +92,9 @@ class SuccessFailsInfoDialog extends StatelessWidget {
             title: buttonTitle!,
             borderRadius: BorderRadius.circular(10),
             onPressed: () {
-              Navigator.of(context).pop(); // Close the dialog
+              Navigator.of(context).pop();
+              if(isRouting)
+              {Navigator.of(context).pop();}// Close the dialog
             },
           )
         ],
