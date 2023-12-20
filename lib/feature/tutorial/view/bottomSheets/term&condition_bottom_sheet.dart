@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../password/controller/password_controller.dart';
 import '../../password/view/password_view.dart';
 import '../../password/viewModel/password_view_model.dart';
 import '../../viewModel/tutorial_view_model.dart';
 
 class TermAndConditionBottomSheet extends StatelessWidget {
-  TermAndConditionBottomSheet({this.passwordViewModel, super.key});
+  TermAndConditionBottomSheet({ super.key});
 
-  PasswordViewModel? passwordViewModel;
 
+  final PasswordController _passwordController=Get.find();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,31 +49,31 @@ class TermAndConditionBottomSheet extends StatelessWidget {
               SizedBox(
                 height: 30.px,
               ),
-              ListView.separated(shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Column(crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        AppText(
-                          passwordViewModel!
-                              .termAndConditionModel.data!.items![index].title
-                              .toString(),
-                          fontWeight: FontWeight.w700,
-                          textAlign: TextAlign.start,
-                        ),
-                        AppText(
-                          passwordViewModel!
-                              .termAndConditionModel.data!.items![index].content
-                              .toString(),
-                          textAlign: TextAlign.start,
-                        ),
-                      ],
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(height: 10.px);
-                  },
-                  itemCount:passwordViewModel!
-                      .termAndConditionModel.data!.items!.length)
+              // ListView.separated(shrinkWrap: true,
+              //     itemBuilder: (BuildContext context, int index) {
+              //       return Column(crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: <Widget>[
+              //           AppText(
+              //             _passwordController!
+              //                 .termAndConditionModel.data!.items![index].title
+              //                 .toString(),
+              //             fontWeight: FontWeight.w700,
+              //             textAlign: TextAlign.start,
+              //           ),
+              //           AppText(
+              //             _passwordController
+              //                 .termAndConditionModel.data!.items![index].content
+              //                 .toString(),
+              //             textAlign: TextAlign.start,
+              //           ),
+              //         ],
+              //       );
+              //     },
+              //     separatorBuilder: (BuildContext context, int index) {
+              //       return SizedBox(height: 10.px);
+              //     },
+              //     itemCount:_passwordController
+              //         .termAndConditionModel.data!.items!.length)
             ],
           ),
           InkWell(

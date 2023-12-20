@@ -126,39 +126,7 @@ class SettingController  extends GetxController{
 
 
   Future<void> getProfile() async {
-    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    logs('entered Fetch country data');
-    Dio dio = Dio();
-    try {
-      var response =
-      await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
-      logs('Status code--> ${response.statusCode}');
 
-      if (response.statusCode == 200) {
-        EasyLoading.dismiss();
-        final List<dynamic> countriesJson = response.data['data']['items'];
-        countries =
-            countriesJson.map((json) => Country.fromJson(json)) as RxList<Country>;
-      }
-    } catch (error) {
-      EasyLoading.dismiss();
-
-      logs('Error: $error');
-    }
-
-    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    final BaseResponse getProfileResponse = await _settingRepository.getProfile();
-    if (getProfileResponse.status?.type == 'success') {
-      // final List<dynamic> countriesJson = getProfileResponse.data?["data"]['items'];
-      // countries =
-      // countriesJson.map((json) => Country.fromJson(json)) as RxList;
-      final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
-
-    } else {
-      loginStatus.value=getProfileResponse.status?.type??'';
-      error.value = getProfileResponse.status?.message ?? '';
-    }
-    EasyLoading.dismiss();
   }
 
 
