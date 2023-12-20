@@ -20,7 +20,7 @@ HomeModel _$HomeModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$HomeModel {
-  String? get firstname => throw _privateConstructorUsedError;
+  String? get firstName => throw _privateConstructorUsedError;
   String? get lastName => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get countryCode => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $HomeModelCopyWith<$Res> {
       _$HomeModelCopyWithImpl<$Res, HomeModel>;
   @useResult
   $Res call(
-      {String? firstname,
+      {String? firstName,
       String? lastName,
       String? email,
       String? countryCode,
@@ -62,7 +62,7 @@ class _$HomeModelCopyWithImpl<$Res, $Val extends HomeModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? firstname = freezed,
+    Object? firstName = freezed,
     Object? lastName = freezed,
     Object? email = freezed,
     Object? countryCode = freezed,
@@ -71,9 +71,9 @@ class _$HomeModelCopyWithImpl<$Res, $Val extends HomeModel>
     Object? userStatus = freezed,
   }) {
     return _then(_value.copyWith(
-      firstname: freezed == firstname
-          ? _value.firstname
-          : firstname // ignore: cast_nullable_to_non_nullable
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
               as String?,
       lastName: freezed == lastName
           ? _value.lastName
@@ -112,7 +112,7 @@ abstract class _$$HomeModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? firstname,
+      {String? firstName,
       String? lastName,
       String? email,
       String? countryCode,
@@ -132,7 +132,7 @@ class __$$HomeModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? firstname = freezed,
+    Object? firstName = freezed,
     Object? lastName = freezed,
     Object? email = freezed,
     Object? countryCode = freezed,
@@ -141,9 +141,9 @@ class __$$HomeModelImplCopyWithImpl<$Res>
     Object? userStatus = freezed,
   }) {
     return _then(_$HomeModelImpl(
-      firstname: freezed == firstname
-          ? _value.firstname
-          : firstname // ignore: cast_nullable_to_non_nullable
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
               as String?,
       lastName: freezed == lastName
           ? _value.lastName
@@ -177,7 +177,7 @@ class __$$HomeModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$HomeModelImpl implements _HomeModel {
   const _$HomeModelImpl(
-      {this.firstname,
+      {this.firstName,
       this.lastName,
       this.email,
       this.countryCode,
@@ -189,7 +189,7 @@ class _$HomeModelImpl implements _HomeModel {
       _$$HomeModelImplFromJson(json);
 
   @override
-  final String? firstname;
+  final String? firstName;
   @override
   final String? lastName;
   @override
@@ -205,7 +205,7 @@ class _$HomeModelImpl implements _HomeModel {
 
   @override
   String toString() {
-    return 'HomeModel(firstname: $firstname, lastName: $lastName, email: $email, countryCode: $countryCode, mobile: $mobile, country: $country, userStatus: $userStatus)';
+    return 'HomeModel(firstName: $firstName, lastName: $lastName, email: $email, countryCode: $countryCode, mobile: $mobile, country: $country, userStatus: $userStatus)';
   }
 
   @override
@@ -213,8 +213,8 @@ class _$HomeModelImpl implements _HomeModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$HomeModelImpl &&
-            (identical(other.firstname, firstname) ||
-                other.firstname == firstname) &&
+            (identical(other.firstName, firstName) ||
+                other.firstName == firstName) &&
             (identical(other.lastName, lastName) ||
                 other.lastName == lastName) &&
             (identical(other.email, email) || other.email == email) &&
@@ -228,7 +228,7 @@ class _$HomeModelImpl implements _HomeModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, firstname, lastName, email,
+  int get hashCode => Object.hash(runtimeType, firstName, lastName, email,
       countryCode, mobile, country, userStatus);
 
   @JsonKey(ignore: true)
@@ -247,7 +247,7 @@ class _$HomeModelImpl implements _HomeModel {
 
 abstract class _HomeModel implements HomeModel {
   const factory _HomeModel(
-      {final String? firstname,
+      {final String? firstName,
       final String? lastName,
       final String? email,
       final String? countryCode,
@@ -259,7 +259,7 @@ abstract class _HomeModel implements HomeModel {
       _$HomeModelImpl.fromJson;
 
   @override
-  String? get firstname;
+  String? get firstName;
   @override
   String? get lastName;
   @override

@@ -30,8 +30,8 @@ class SplashController extends GetxController {
 
   Future<void> init() async {
     await KeyValueStorageBase.init();
-    await keyValueStorageBase.clearEncrypted();
-    await keyValueStorageBase.clearCommon();
+    // await keyValueStorageBase.clearEncrypted();
+    // await keyValueStorageBase.clearCommon();
 
     final String token = await keyValueStorageService.getAuthToken();
     if (token.isNotEmpty) {

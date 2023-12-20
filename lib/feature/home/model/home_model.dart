@@ -6,7 +6,7 @@ part 'home_model.g.dart';
 @freezed
 class HomeModel with _$HomeModel {
   const factory HomeModel({
-      String? firstname,
+      String? firstName,
       String? lastName,
       String? email,
       String? countryCode,
