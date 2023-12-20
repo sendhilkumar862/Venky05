@@ -88,8 +88,8 @@ class CountryBottomsSheet extends StatelessWidget {
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
-                        onTap: () {
-                          _languageController.selectCountry(_languageController.countries[index]);
+                        onTap: () async{
+                         await _languageController.selectCountry(_languageController.countries[index]);
                           Navigator.pop(context);
                         },
                         child: Container(

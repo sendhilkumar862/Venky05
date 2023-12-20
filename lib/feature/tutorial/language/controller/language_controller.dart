@@ -8,7 +8,9 @@ import '../../../../config/routes/routes.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
-import '../../../../repository/language_repository.dart';
+import '../repository/country_update_repository.dart';
+import '../repository/language_repository.dart';
+import '../../../home/controller/home_controller.dart';
 import '../model/country_model.dart';
 
 class LanguageController extends GetxController {
@@ -21,6 +23,7 @@ class LanguageController extends GetxController {
   Rx<TextEditingController> countryController = TextEditingController().obs;
   RxList<String> countryLogo = <String>[].obs;
   RxInt languageIndex = 1.obs;
+  final HomeController _homeController=Get.find();
   RxList languages = [
     'English',
     'عربي',
@@ -31,6 +34,7 @@ class LanguageController extends GetxController {
   ].obs;
 
   final LanguageRepository _languageRepository = LanguageRepository();
+  final CountryUpdateRepository _countryUpdateRepository=CountryUpdateRepository();
 
   @override
   void onInit() {
@@ -54,6 +58,12 @@ class LanguageController extends GetxController {
         countries.add(Country.fromJson(element));
         temp.add(Country.fromJson(element));
       }
+      if(_homeController.homeData.value?.country!=null){
+      for (var element in countries) {
+        if(element.name==_homeController.homeData.value?.country){
+          selectedCountry.value=element;
+        }
+      }}
      } else {
       loginStatus.value=getProfileIDResponse.status?.type??'';
       error.value = getProfileIDResponse.status?.message ?? '';
@@ -65,10 +75,17 @@ class LanguageController extends GetxController {
     languageIndex.value = index;
   }
 
-  void selectCountry(Country country) {
+  Future<void> selectCountry(Country country) async{
+    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     selectedCountry.value = country;
     keyValueStorageBase.setCommon(
         KeyValueStorageService.countryCodeAndIDD, country.idd_code);
+    final String token= await keyValueStorageService.getAuthToken();
+   if(token!=''){
+     await _countryUpdateRepository.updateCountry(country.name??'');
+     _homeController.fetchData();
+   }
+    EasyLoading.dismiss();
   }
 
   void filterCountries(String query, Function setState) {
