@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
@@ -28,11 +25,11 @@ class _FinancingViewState extends State<FinancingView> {
     final double width = MediaQuery.sizeOf(context).width;
      return BaseView<FinancingViewModel>(
         viewModel: FinancingViewModel(),
-        onModelReady: (FinancingViewModel model, WidgetRef ref) {
+        onModelReady: (FinancingViewModel model) {
           model.setContext(context);
           model.init();
         },
-        onPageBuilder: (BuildContext context, FinancingViewModel financingViewModel, WidgetRef ref) {
+        onPageBuilder: (BuildContext context, FinancingViewModel financingViewModel) {
           return Scaffold(
       appBar: HessaAppBar(
         trailingText: 'Cancel',

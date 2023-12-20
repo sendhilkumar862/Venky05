@@ -2,7 +2,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
@@ -92,11 +91,11 @@ class _ClassDetailState extends State<ClassDetail> {
     double width = MediaQuery.sizeOf(context).width;
     return BaseView<ClassDetailViewModel>(
         viewModel: ClassDetailViewModel(),
-        onModelReady: (ClassDetailViewModel model, WidgetRef ref) {
+        onModelReady: (ClassDetailViewModel model) {
           model.setContext(context);
         },
         onPageBuilder: (BuildContext context,
-            ClassDetailViewModel classDetailViewModel, WidgetRef ref) {
+            ClassDetailViewModel classDetailViewModel) {
           return Scaffold(
             appBar: HessaAppBar(
               isTitleOnly: true,

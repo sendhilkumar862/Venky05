@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../config/routes/app_router.dart';
@@ -22,11 +21,11 @@ class ExistingUserView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<TutorialViewModel>(
         viewModel: TutorialViewModel(),
-        onModelReady: (TutorialViewModel tutorialViewModel, WidgetRef ref) {
+        onModelReady: (TutorialViewModel tutorialViewModel) {
           tutorialViewModel.setContext(context);
         },
         onPageBuilder:
-            (BuildContext context, TutorialViewModel tutorialViewModel, WidgetRef ref) {
+            (BuildContext context, TutorialViewModel tutorialViewModel) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               body: PreLoginCustomBody(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_button/app_button.dart';
@@ -29,12 +28,12 @@ class _TeachingInfoState extends State<TeachingInfo> {
     // final TeachingInfoViewModel teachingInfoStore = Provider.of<TeachingInfoViewModel>(context);
     return BaseView<TeachingInfoViewModel>(
         viewModel: TeachingInfoViewModel(),
-        onModelReady: (TeachingInfoViewModel model, WidgetRef ref) {
+        onModelReady: (TeachingInfoViewModel model) {
           model.setContext(context);
           model.init();
         },
         onPageBuilder: (BuildContext context,
-            TeachingInfoViewModel teachingInfoStore, WidgetRef ref) {
+            TeachingInfoViewModel teachingInfoStore) {
           return Scaffold(
             appBar: HessaAppBar(
               trailingText: 'Cancel',

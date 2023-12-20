@@ -1,7 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hessah/feature/wallet/view/set_bottom_sheet.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -60,10 +59,10 @@ class _WithdrawViewState extends State<WithdrawView> with TickerProviderStateMix
   Widget build(BuildContext context) {
     return BaseView<WalletsViewModel>(
       viewModel: WalletsViewModel(),
-      onModelReady: (WalletsViewModel walletsViewModel, WidgetRef ref) {
+      onModelReady: (WalletsViewModel walletsViewModel) {
         walletsViewModel.setContext(context);
       },
-      onPageBuilder: (BuildContext context, WalletsViewModel walletsViewModel, WidgetRef ref) {
+      onPageBuilder: (BuildContext context, WalletsViewModel walletsViewModel) {
         return Observer(
           builder: (BuildContext context) {
             return Scaffold(

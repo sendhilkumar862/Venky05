@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -24,7 +23,7 @@ class MobileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<MobileViewModel>(
       viewModel: MobileViewModel(),
-      onModelReady: (MobileViewModel mobileViewModel, WidgetRef ref) {
+      onModelReady: (MobileViewModel mobileViewModel) {
         mobileViewModel.setContext(context);
         mobileViewModel.data =
             ModalRoute.of(context)!.settings.arguments! as Map;
@@ -32,7 +31,7 @@ class MobileView extends StatelessWidget {
         logs('argue--> ${mobileViewModel.data}');
         mobileViewModel.init();
       },
-      onPageBuilder: (BuildContext context, MobileViewModel mobileViewModel, WidgetRef ref) {
+      onPageBuilder: (BuildContext context, MobileViewModel mobileViewModel) {
         return Observer(
           //warnWhenNoObservables: false,
           builder: (BuildContext context) {

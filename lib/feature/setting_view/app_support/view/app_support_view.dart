@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -63,12 +62,12 @@ class _AppSupportViewState extends State<AppSupportView> {
   Widget build(BuildContext context) {
     return BaseView<AppSupportViewModel>(
         viewModel: AppSupportViewModel(),
-        onModelReady: (AppSupportViewModel appSupportViewModel, WidgetRef ref) {
+        onModelReady: (AppSupportViewModel appSupportViewModel) {
           appSupportViewModel.setContext(context);
           appSupportViewModel.init();
         },
         onPageBuilder:
-            (BuildContext context, AppSupportViewModel appSupportViewModel, WidgetRef ref) {
+            (BuildContext context, AppSupportViewModel appSupportViewModel) {
           return Scaffold(
             appBar: HessaAppBar(
               title: 'App Support',

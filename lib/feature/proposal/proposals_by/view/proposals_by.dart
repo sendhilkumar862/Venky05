@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_button/app_button.dart';
@@ -25,11 +24,11 @@ class _ProposalsByState extends State<ProposalsBy> {
   Widget build(BuildContext context) {
     return BaseView<ProposalsByViewModel>(
         viewModel: ProposalsByViewModel(),
-        onModelReady: (ProposalsByViewModel model, WidgetRef ref) {
+        onModelReady: (ProposalsByViewModel model) {
           model.setContext(context);
         },
         onPageBuilder: (BuildContext context,
-            ProposalsByViewModel proposalsByViewModel, WidgetRef ref) {
+            ProposalsByViewModel proposalsByViewModel) {
           return Container(
             height: (MediaQuery.of(context).size.height * 0.92).px,
             decoration: BoxDecoration(

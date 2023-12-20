@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../product/base/view/base_view.dart';
 import '../../../custom/navgation/navbar.dart';
@@ -54,11 +53,11 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return BaseView<HomeViewModel>(
       viewModel: HomeViewModel(),
-      onModelReady: (HomeViewModel model, WidgetRef ref) {
+      onModelReady: (HomeViewModel model) {
         model.setContext(context);
         model.init();
       },
-      onPageBuilder: (BuildContext context, HomeViewModel value, WidgetRef ref) => WillPopScope(
+      onPageBuilder: (BuildContext context, HomeViewModel value) => WillPopScope(
         onWillPop: () async {
           if (Platform.isAndroid) {
             SystemNavigator.pop();

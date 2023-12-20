@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -23,7 +22,7 @@ class VerifyOtpView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<VerifyOtpViewModel>(
         viewModel: VerifyOtpViewModel(),
-        onModelReady: (VerifyOtpViewModel VerifyOtpViewModel, WidgetRef ref) {
+        onModelReady: (VerifyOtpViewModel VerifyOtpViewModel) {
           VerifyOtpViewModel.setContext(context);
           VerifyOtpViewModel.init();
           VerifyOtpViewModel.arguments = ModalRoute.of(context)!
@@ -32,7 +31,7 @@ class VerifyOtpView extends StatelessWidget {
           VerifyOtpViewModel.otpId =
               VerifyOtpViewModel.arguments['otp_id'].toString();
         },
-        onPageBuilder: (BuildContext context, VerifyOtpViewModel verifyOtpViewModel, WidgetRef ref) {
+        onPageBuilder: (BuildContext context, VerifyOtpViewModel verifyOtpViewModel) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               body: PreLoginCustomBody(

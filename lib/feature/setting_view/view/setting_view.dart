@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hessah/feature/tutorial/language/controller/language_controller.dart';
@@ -32,14 +31,14 @@ import '../viewModel/setting_view_model.dart';
 import 'widget/available_times_view.dart';
 import 'widget/manage_adress_view.dart';
 
-class SettingView extends ConsumerStatefulWidget {
+class SettingView extends StatefulWidget {
   const SettingView({super.key});
 
   @override
-  ConsumerState<SettingView> createState() => _SettingViewState();
+  State<SettingView> createState() => _SettingViewState();
 }
 
-class _SettingViewState extends ConsumerState<SettingView> {
+class _SettingViewState extends State<SettingView> {
   XFile? pickedFile;
   CroppedFile? croppedFile;
   String croppedFilePath = '';

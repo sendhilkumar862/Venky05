@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../product/base/view/base_view.dart';
@@ -42,11 +41,11 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return BaseView<HomeViewsModel>(
       viewModel: HomeViewsModel(),
-      onModelReady: (HomeViewsModel homeViewModel, WidgetRef ref) {
+      onModelReady: (HomeViewsModel homeViewModel) {
         homeViewModel.init();
         homeViewModel.setContext(context);
       },
-      onPageBuilder: (BuildContext context, HomeViewsModel homeViewsModel, WidgetRef ref) {
+      onPageBuilder: (BuildContext context, HomeViewsModel homeViewsModel) {
         return Observer(
           builder: (BuildContext context) {
             return Scaffold(

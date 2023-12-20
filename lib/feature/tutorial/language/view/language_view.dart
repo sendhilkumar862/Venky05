@@ -100,13 +100,13 @@ class LanguageView extends StatelessWidget {
     );
     // return BaseView<LanguageViewModel>(
     //     viewModel: LanguageViewModel(),
-    //     onModelReady: (LanguageViewModel languageViewModel, WidgetRef ref) {
+    //     onModelReady: (LanguageViewModel languageViewModel) {
     //       languageViewModel.init();
     //       languageViewModel.setContext(context);
     //       languageViewModel.setRef(ref);
     //
     //     },
-    //     onPageBuilder: (BuildContext context, LanguageViewModel languageViewModel, WidgetRef ref) {
+    //     onPageBuilder: (BuildContext context, LanguageViewModel languageViewModel) {
     //        languageViewModel.fetchData();
     //       return Observer(
     //           warnWhenNoObservables: false,

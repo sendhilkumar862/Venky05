@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -26,13 +25,13 @@ class MobileOtpView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<MobileOtpViewModel>(
         viewModel: MobileOtpViewModel(),
-        onModelReady: (MobileOtpViewModel mobileOtpViewModel, WidgetRef ref) {
+        onModelReady: (MobileOtpViewModel mobileOtpViewModel) {
           mobileOtpViewModel.setContext(context);
           mobileOtpViewModel.arguments =
               ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
         },
         onPageBuilder:
-            (BuildContext context, MobileOtpViewModel mobileOtpViewModel, WidgetRef ref) {
+            (BuildContext context, MobileOtpViewModel mobileOtpViewModel) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               body: PreLoginCustomBody(

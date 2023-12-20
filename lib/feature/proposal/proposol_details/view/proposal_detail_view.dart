@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -39,12 +38,12 @@ class _ProposalDetailsViewState extends State<ProposalDetailsView> {
     return BaseView<ProposalDetailsViewModel>(
         viewModel: ProposalDetailsViewModel(),
         onModelReady:
-            (ProposalDetailsViewModel proposalDetailsViewModel, WidgetRef ref) {
+            (ProposalDetailsViewModel proposalDetailsViewModel) {
           proposalDetailsViewModel.setContext(context);
           proposalDetailsViewModel.init();
         },
         onPageBuilder: (BuildContext context,
-            ProposalDetailsViewModel proposalDetailsViewModel, WidgetRef ref) {
+            ProposalDetailsViewModel proposalDetailsViewModel) {
           final double width = MediaQuery.sizeOf(context).width;
           var data = proposalDetailsViewModel.dataList[0];
           return Scaffold(

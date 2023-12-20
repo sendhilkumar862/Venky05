@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_button/app_button.dart';
@@ -27,11 +26,11 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
     final double width = MediaQuery.sizeOf(context).width;
     return BaseView<ExperienceInfoViewModel>(
         viewModel: ExperienceInfoViewModel(),
-        onModelReady: (ExperienceInfoViewModel model, WidgetRef ref) {
+        onModelReady: (ExperienceInfoViewModel model) {
           model.setContext(context);
           model.init();
         },
-        onPageBuilder: (BuildContext context, ExperienceInfoViewModel experienceInfoStore,WidgetRef ref ) {
+        onPageBuilder: (BuildContext context, ExperienceInfoViewModel experienceInfoStore) {
           return Scaffold(
             appBar: HessaAppBar(
               isBack: true,

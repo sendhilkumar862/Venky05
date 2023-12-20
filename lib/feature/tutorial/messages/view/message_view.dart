@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -57,12 +56,11 @@ class _MessageViewState extends State<MessageView> {
 
     return BaseView<MessageViewModel>(
         viewModel: MessageViewModel(),
-        onModelReady: (MessageViewModel messageViewModel, WidgetRef ref) {
+        onModelReady: (MessageViewModel messageViewModel) {
           messageViewModel.setContext(context);
           messageViewModel.init();
         },
-        onPageBuilder: (BuildContext context, MessageViewModel messageViewModel,
-            WidgetRef ref) {
+        onPageBuilder: (BuildContext context, MessageViewModel messageViewModel) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               appBar: HessaAppBar(

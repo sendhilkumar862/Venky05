@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:hessah/config/routes/app_router.dart';
 import 'package:hessah/config/routes/routes.dart';
@@ -30,7 +29,7 @@ class PasswordView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<PasswordViewModel>(
         viewModel: PasswordViewModel(),
-        onModelReady: (PasswordViewModel passwordViewModel, WidgetRef ref) {
+        onModelReady: (PasswordViewModel passwordViewModel) {
           passwordViewModel.setContext(context);
           passwordViewModel.init();
           passwordViewModel.arguments =
@@ -39,7 +38,7 @@ class PasswordView extends StatelessWidget {
           logs('argue--> ${passwordViewModel.arguments}');
         },
         onPageBuilder:
-            (BuildContext context, PasswordViewModel passwordViewModel, WidgetRef ref) {
+            (BuildContext context, PasswordViewModel passwordViewModel) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               body: PreLoginCustomBody(

@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -24,11 +23,11 @@ class EmailView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<EmailViewModel>(
         viewModel: EmailViewModel(),
-        onModelReady: (EmailViewModel emailViewModel, WidgetRef ref) {
+        onModelReady: (EmailViewModel emailViewModel) {
           emailViewModel.setContext(context);
           emailViewModel.init();
         },
-        onPageBuilder: (BuildContext context, EmailViewModel emailViewModel, WidgetRef ref) {
+        onPageBuilder: (BuildContext context, EmailViewModel emailViewModel) {
           return Observer(builder: (BuildContext context) {
             return Scaffold(
               body: PreLoginCustomBody(

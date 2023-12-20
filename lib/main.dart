@@ -2,7 +2,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart' hide ScreenType;
 import 'package:get_storage/get_storage.dart';
 import 'package:mobx/mobx.dart';
@@ -27,11 +26,11 @@ Future<void> main() async {
   );
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return ResponsiveSizer(
       builder: (BuildContext context, Orientation orientation,
           ScreenType screenType) {

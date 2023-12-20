@@ -4,7 +4,6 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -56,11 +55,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
     final double width = MediaQuery.sizeOf(context).width;
     return BaseView<PersonalInfoViewModel>(
         viewModel: PersonalInfoViewModel(),
-        onModelReady: (PersonalInfoViewModel model, WidgetRef ref) {
+        onModelReady: (PersonalInfoViewModel model) {
           model.setContext(context);
           model.init();
         },
-        onPageBuilder: (BuildContext context, PersonalInfoViewModel personalInfoViewModel, WidgetRef ref) {
+        onPageBuilder: (BuildContext context, PersonalInfoViewModel personalInfoViewModel) {
           return Scaffold(
             appBar: HessaAppBar(
               trailingText: 'Cancel',

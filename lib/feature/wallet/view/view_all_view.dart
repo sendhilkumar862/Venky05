@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../product/base/view/base_view.dart';
@@ -31,10 +30,10 @@ class _ViewAllViewState extends State<ViewAllView>
   Widget build(BuildContext context) {
     return BaseView<WalletsViewModel>(
       viewModel: WalletsViewModel(),
-      onModelReady: (WalletsViewModel walletsViewModel, WidgetRef ref) {
+      onModelReady: (WalletsViewModel walletsViewModel) {
         walletsViewModel.setContext(context);
       },
-      onPageBuilder: (BuildContext context, WalletsViewModel walletsViewModel, WidgetRef ref) {
+      onPageBuilder: (BuildContext context, WalletsViewModel walletsViewModel) {
         return Observer(
           builder: (BuildContext context) {
             return Scaffold(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -10,7 +9,6 @@ import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';
 import '../../../../custom/cardView/info_card_view_horizontal.dart';
 import '../../../../product/base/view/base_view.dart';
-import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
@@ -42,10 +40,10 @@ class _ActivitiesViewState extends State<ActivitiesView> {
   Widget build(BuildContext context) {
    return  BaseView<HomeViewModel>(
         viewModel: HomeViewModel(),
-    onModelReady: (HomeViewModel model, WidgetRef ref) {
+    onModelReady: (HomeViewModel model) {
     model.setContext(context);
     },
-    onPageBuilder: (BuildContext context, HomeViewModel homeData,WidgetRef ref ) {
+    onPageBuilder: (BuildContext context, HomeViewModel homeData) {
          return Observer(builder: (BuildContext context) {
             if(homeData.homeData!=null){
               if (homeData.homeData?.userStatus =='99' ) {

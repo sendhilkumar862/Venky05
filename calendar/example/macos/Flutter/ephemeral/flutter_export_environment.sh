@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=/Users/dreamworld/Documents/flutter"
-export "FLUTTER_APPLICATION_PATH=/Users/dreamworld/Desktop/nikunj_live/Hessah_Mobile/syncfusion_flutter_calendar-23.1.41/example"
+export "FLUTTER_ROOT=/Users/rac/development/flutter"
+export "FLUTTER_APPLICATION_PATH=/Users/rac/Documents/Projects/Hessah/Code/hessah/calendar/example"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=1.0.0"

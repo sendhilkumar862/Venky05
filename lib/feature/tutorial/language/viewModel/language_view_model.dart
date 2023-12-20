@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -12,15 +11,11 @@ import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
-import '../language_repository.dart';
 import '../model/country_model.dart';
 
 part 'language_view_model.g.dart';
 
 
-final languageViewModelProvider = Provider<LanguageViewModel>((ref) {
-  return LanguageViewModel();
-});
 
 class LanguageViewModel = _LanguageViewModelBase with _$LanguageViewModel;
 
@@ -32,10 +27,6 @@ abstract class _LanguageViewModelBase extends BaseViewModel with Store {
   void init() {
     KeyValueStorageBase.init();
     fetchData();
-  }
-
-  void setRef(WidgetRef widgetRef) {
-    ref = widgetRef;
   }
 
   @observable
