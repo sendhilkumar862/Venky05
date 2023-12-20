@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:mobx/mobx.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -11,6 +12,7 @@ import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
+import '../../../home/controller/home_controller.dart';
 import '../../../tutorial/language/model/country_model.dart';
 
 part 'personal_info_view_model.g.dart';
@@ -166,6 +168,8 @@ abstract class _PersonalInfoViewModelBase extends BaseViewModel with Store {
       logs('status Code --> ${response.statusCode}');
       if (response.statusCode == 200) {
         logs('Login response  --> ${response.data.toString()}');
+        HomeController _home=Get.find();
+        _home.fetchData();
         EasyLoading.dismiss();
         AppRouter.pushNamed(Routes.teachingInfo);
       } else {
