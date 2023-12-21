@@ -45,6 +45,7 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
             ),
           ),
           AppButton(
+            isDisable: false,
             onPressed: () {},
             title: 'Add New Address',
           ),
