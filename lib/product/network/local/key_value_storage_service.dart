@@ -40,6 +40,10 @@ class KeyValueStorageService {
     return await _keyValueStorage.getEncrypted(_authTokenKey) ?? '';
   }
 
+  /// Remove authentication token
+  Future<void> removeAuthToken() async {
+    return await _keyValueStorage.removeEncrypted(_authTokenKey);
+  }
   /// Sets the authentication password to this value. Even though this method is
   /// asynchronous, we don't care about it's completion which is why we don't
   /// use `await` and let it execute in the background.

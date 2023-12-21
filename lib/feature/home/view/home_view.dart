@@ -27,7 +27,7 @@ class _HomeViewState extends State<HomeView> {
   final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
   String selectedProfile = '';
   bool getPreference = false;
-  HomeController _homeController=Get.put(HomeController());
+  final HomeController _homeController=Get.put(HomeController());
   @override
   void initState() {
     super.initState();

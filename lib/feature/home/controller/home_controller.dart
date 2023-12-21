@@ -8,13 +8,21 @@ import '../../../product/network/local/key_value_storage_service.dart';
 import '../model/home_model.dart';
 
 class HomeController extends GetxController{
-
+  final KeyValueStorageService keyValueStorageService =
+  KeyValueStorageService();
 @override
 void onInit() {
   super.onInit();
-  fetchData();
+  fetchToken();
 }
+ // ignore: always_declare_return_types
+ fetchToken()async{
+   final String token = await keyValueStorageService.getAuthToken();
+   if(token!=''){
+     fetchData();
+   }
 
+ }
 Future<Options> _headers() async {
   final KeyValueStorageService keyValueStorageService =
   KeyValueStorageService();
