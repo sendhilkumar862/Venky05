@@ -33,7 +33,7 @@ class ApiEndpoint {
       case AuthEndpoint.REGISTER: return '$path/register';
       case AuthEndpoint.LOGIN: return '$path/login';
       case AuthEndpoint.REFRESH_TOKEN: return '$path/refresh-token';
-      case AuthEndpoint.CHANGE_PASSWORD: return '$path/change-password';
+      case AuthEndpoint.CHANGE_PASSWORD: return '$path/changePassword';
       case AuthEndpoint.CHANGE_NAME: return '$path/changeName';
       case AuthEndpoint.FORGOT_PW_SEND_OTP: return '$path/forgot/send-otp';
       case AuthEndpoint.FORGOT_PW_VERIFY_OTP: return '$path/forgot/verify-otp';

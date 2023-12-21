@@ -28,6 +28,7 @@ import '../../tutorial/mobileEnter/view/mobile_view.dart';
 import '../../tutorial/password/view/password_view.dart';
 import '../../tutorial/view/bottomSheets/country_bottom_sheet.dart';
 import '../../tutorial/view/bottomSheets/language_bottom_sheet.dart';
+import '../change_password/view/change_password_view.dart';
 import '../controller/setting_controller.dart';
 import '../viewModel/setting_view_model.dart';
 import 'widget/available_times_view.dart';
@@ -541,7 +542,7 @@ class _SettingViewState extends State<SettingView> {
       case SettingTitle.appSupport:
         AppRouter.pushNamed(Routes.appSupportView);
       case SettingTitle.changePassword:
-        AppRouter.push(PasswordView());
+        AppRouter.push(const ChangePasswordView());
       case SettingTitle.manageSubscription:
         AppRouter.pushNamed(Routes.manageSubscription);
       case SettingTitle.manageAvailabilityTime:
