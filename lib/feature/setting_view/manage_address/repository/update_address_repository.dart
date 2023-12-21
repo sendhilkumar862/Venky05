@@ -11,10 +11,10 @@ import '../Model/get_address_model.dart';
 
 
 class UpdateAddressRepository{
-  Future<BaseResponse>  updateAddressRepository( UserAddress userAddress) async {
+  Future<BaseResponse>  updateAddressRepository( UserAddress userAddress, int id) async {
     try {
       return await BackendService.post(
-          UpdateAddressAPIRequest(userAddress: userAddress));
+          UpdateAddressAPIRequest(userAddress: userAddress,id:id ));
     } catch (e) {
       if (e is HessahException) {
         return BaseResponse(status: Status(type: 'error', message: 'Something went wrong'));
@@ -25,11 +25,12 @@ class UpdateAddressRepository{
 }
 
 class  UpdateAddressAPIRequest extends BaseRequest {
-  UpdateAddressAPIRequest({required this.userAddress});
+  UpdateAddressAPIRequest({required this.userAddress, required this.id});
   UserAddress userAddress;
+  int id;
 
   @override
-  String get endPoint =>'${ApiEndpoint.auth(AuthEndpoint.USER_ADDRESS)}:addressId';
+  String get endPoint =>'${ApiEndpoint.auth(AuthEndpoint.USER_ADDRESS)}$id';
   @override
   Map<String, dynamic> get body => userAddress.toJson();
 

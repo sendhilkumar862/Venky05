@@ -38,7 +38,7 @@ class ManageAddressController extends GetxController{
   }
   Future<void> updateAddressData( UserAddress userAddress) async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    final BaseResponse getProfileIDResponse = await _updateAddressRepository.updateAddressRepository(userAddress);
+    final BaseResponse getProfileIDResponse = await _updateAddressRepository.updateAddressRepository(userAddress,userAddress.id!);
     if (getProfileIDResponse.status?.type == 'success') {
       await fetchAddressData();
     } else {

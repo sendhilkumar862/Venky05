@@ -1,10 +1,9 @@
 
 
-import 'package:hessah/core/api_end_points.dart';
-import 'package:hessah/core/backend_service.dart';
-import 'package:hessah/core/base_request.dart';
-import 'package:hessah/core/base_response.dart';
-
+import '../../../../core/api_end_points.dart';
+import '../../../../core/backend_service.dart';
+import '../../../../core/base_request.dart';
+import '../../../../core/base_response.dart';
 import '../../../../core/hessah_exception.dart';
 import '../../../../product/constants/enums/backend_services_method_enums.dart';
 
@@ -28,7 +27,7 @@ class DeleteAddressAPIRequest extends BaseRequest {
   final int id;
 
   @override
-  String get endPoint => '${ApiEndpoint.auth(AuthEndpoint.USER_ADDRESS)}:addressId';
+  String get endPoint => '${ApiEndpoint.auth(AuthEndpoint.USER_ADDRESS)}$id';
   @override
   Map<String, dynamic> get body => {'grade':[id]};
 

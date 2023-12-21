@@ -136,19 +136,22 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
                         ),
                       ),
                       if (data.isDefault != 1)
-                        ElevatedButton(
-                            onPressed: () {
-                              final UserAddress updatedData=data;
-                              updatedData.isDefault=1;
-                              _manageAddressController.updateAddressData(updatedData);
-                            },
-                            style: const ButtonStyle(
-                                backgroundColor:
-                                MaterialStatePropertyAll(AppColors.appBlue),
-                                shape:
-                                MaterialStatePropertyAll(StadiumBorder())),
-                            child: const Text('Set Default',
-                                style: TextStyle(color: AppColors.white)))
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                final UserAddress updatedData=data;
+                                updatedData.isDefault=1;
+                                _manageAddressController.updateAddressData(updatedData);
+                              },
+                              style: const ButtonStyle(
+                                  backgroundColor:
+                                  MaterialStatePropertyAll(AppColors.appBlue),
+                                  shape:
+                                  MaterialStatePropertyAll(StadiumBorder())),
+                              child: const Text('Set Default',
+                                  style: TextStyle(color: AppColors.white))),
+                        )
                     ]),
               ],
             ),

@@ -38,6 +38,7 @@ class BackendService {
           ),
         );
       }else if(request.apiMethod==BackEndServicesEnum.PUT){
+        print(request.body,);
         response= await dio.put(
           ApiEndpoint.baseUrl+request.endPoint,
           options: Options(
