@@ -12,11 +12,6 @@ class ManageAddressController extends GetxController{
   final GetAddressRepository _getAddressRepository=GetAddressRepository();
   final DeleteAddressRepository _deleteAddressRepository=DeleteAddressRepository();
   final UpdateAddressRepository _updateAddressRepository=UpdateAddressRepository();
-  @override
-  void onInit() {
-    super.onInit();
-    fetchAddressData();
-  }
 
 
   Future<void> fetchAddressData() async {

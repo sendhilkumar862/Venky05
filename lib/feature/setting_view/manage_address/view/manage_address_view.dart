@@ -20,6 +20,13 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
   final ManageAddressController _manageAddressController=Get.put(ManageAddressController());
 
   @override
+  void initState() {
+    // TODO: implement initState
+    _manageAddressController.fetchAddressData();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HessaAppBar(
@@ -128,11 +135,11 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
                           bgColor: AppColors.appBlue,
                         ),
                       ),
-                      if (data.isDefault == 1)
+                      if (data.isDefault != 1)
                         ElevatedButton(
                             onPressed: () {
                               final UserAddress updatedData=data;
-                              updatedData.isDefault=0;
+                              updatedData.isDefault=1;
                               _manageAddressController.updateAddressData(updatedData);
                             },
                             style: const ButtonStyle(
