@@ -121,10 +121,15 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      iconButtonWidget(
-                        icon: Icons.delete_outline_rounded,
-                        padding: 8,
-                        bgColor: AppColors.appRed,
+                      GestureDetector(
+                        onTap: (){
+                          _manageAddressController.deleteAddressData(data.id!);
+                        },
+                        child: iconButtonWidget(
+                          icon: Icons.delete_outline_rounded,
+                          padding: 8,
+                          bgColor: AppColors.appRed,
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(

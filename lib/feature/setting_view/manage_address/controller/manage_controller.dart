@@ -3,11 +3,13 @@ import 'package:get/get.dart';
 
 import '../../../../core/base_response.dart';
 import '../Model/get_address_model.dart';
+import '../repository/delete_address_repository.dart';
 import '../repository/get_address_repository.dart';
 
 class ManageAddressController extends GetxController{
   RxList<UserAddress> address=<UserAddress>[].obs;
   final GetAddressRepository _getAddressRepository=GetAddressRepository();
+  DeleteAddressRepository _deleteAddressRepository=DeleteAddressRepository();
   @override
   void onInit() {
     super.onInit();
@@ -24,6 +26,15 @@ class ManageAddressController extends GetxController{
       for (var element in data) {
         address.add(UserAddress.fromJson(element));
       }
+    } else {
+    }
+    EasyLoading.dismiss();
+  }
+  Future<void> deleteAddressData(int id) async {
+    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+    final BaseResponse getProfileIDResponse = await _deleteAddressRepository.deleteAddressRepository(id);
+    if (getProfileIDResponse.status?.type == 'success') {
+      await fetchAddressData();
     } else {
     }
     EasyLoading.dismiss();
