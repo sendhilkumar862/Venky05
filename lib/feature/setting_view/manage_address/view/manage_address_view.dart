@@ -18,20 +18,7 @@ class ManageAddressScreen extends StatefulWidget {
 
 class _ManageAddressScreenState extends State<ManageAddressScreen> {
   final ManageAddressController _manageAddressController=Get.put(ManageAddressController());
-  List<Address> location = <Address>[
-    Address('Home', 'City, Block No., Street Name, Street Name 2, HouseNo.,',
-        'Floor No., Apartment No.'),
-    Address('Work', 'City, Block No., Street Name, Street Name 2, HouseNo.,',
-        'Floor No., Apartment No.'),
-    Address('Home', 'City, Block No., Street Name, Street Name 2, HouseNo.,',
-        'Floor No., Apartment No.'),
-    Address('Work', 'City, Block No., Street Name, Street Name 2, HouseNo.,',
-        'Floor No., Apartment No.'),
-  ];
 
-//==============================================================================
-// ** Life Cycle **
-//==============================================================================
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,7 +130,9 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
                       if (data.isDefault == 1)
                         ElevatedButton(
                             onPressed: () {
-
+                              final UserAddress updatedData=data;
+                              updatedData.isDefault=0;
+                              _manageAddressController.updateAddressData(updatedData);
                             },
                             style: const ButtonStyle(
                                 backgroundColor:

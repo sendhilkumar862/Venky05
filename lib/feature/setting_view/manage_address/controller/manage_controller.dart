@@ -5,11 +5,13 @@ import '../../../../core/base_response.dart';
 import '../Model/get_address_model.dart';
 import '../repository/delete_address_repository.dart';
 import '../repository/get_address_repository.dart';
+import '../repository/update_address_repository.dart';
 
 class ManageAddressController extends GetxController{
   RxList<UserAddress> address=<UserAddress>[].obs;
   final GetAddressRepository _getAddressRepository=GetAddressRepository();
-  DeleteAddressRepository _deleteAddressRepository=DeleteAddressRepository();
+  final DeleteAddressRepository _deleteAddressRepository=DeleteAddressRepository();
+  final UpdateAddressRepository _updateAddressRepository=UpdateAddressRepository();
   @override
   void onInit() {
     super.onInit();
@@ -33,6 +35,15 @@ class ManageAddressController extends GetxController{
   Future<void> deleteAddressData(int id) async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final BaseResponse getProfileIDResponse = await _deleteAddressRepository.deleteAddressRepository(id);
+    if (getProfileIDResponse.status?.type == 'success') {
+      await fetchAddressData();
+    } else {
+    }
+    EasyLoading.dismiss();
+  }
+  Future<void> updateAddressData( UserAddress userAddress) async {
+    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+    final BaseResponse getProfileIDResponse = await _updateAddressRepository.updateAddressRepository(userAddress);
     if (getProfileIDResponse.status?.type == 'success') {
       await fetchAddressData();
     } else {
