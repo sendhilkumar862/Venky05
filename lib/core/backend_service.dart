@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import '../product/constants/enums/backend_services_method_enums.dart';
 import '../product/network/networking/api_endpoint.dart';
+import '../product/utils/validators.dart';
 import 'base_request.dart';
 import 'base_response.dart';
 import 'status_code.dart';
@@ -38,7 +39,7 @@ class BackendService {
           ),
         );
       }else if(request.apiMethod==BackEndServicesEnum.PUT){
-        print(request.body,);
+        logs('Error Message--> ${request.body}');
         response= await dio.put(
           ApiEndpoint.baseUrl+request.endPoint,
           options: Options(
