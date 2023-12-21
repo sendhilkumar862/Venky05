@@ -88,7 +88,7 @@ class LoginView extends StatelessWidget {
                               _signInController.onPasswordChanged(value);
                               setState(() {});
                             },
-                            onSaved: (String value) => _signInController.login(),
+                            onSaved: (String value) => _signInController.login(context),
                           );
                         },
                       ),
@@ -115,7 +115,7 @@ class LoginView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             PreLoginCommonButton(
-              onTap: () =>  !_signInController.isButtonDisabled.value?_signInController.onTapLoginSubmit():null,
+              onTap: () =>  !_signInController.isButtonDisabled.value?_signInController.onTapLoginSubmit(context):null,
               title: 'login'.tr,
               height: 15.px,
               isDisable: _signInController.isButtonDisabled.value,

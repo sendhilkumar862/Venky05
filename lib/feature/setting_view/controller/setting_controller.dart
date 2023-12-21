@@ -147,13 +147,14 @@ class SettingController  extends GetxController{
   }
 
 
-  logout()async{
+  logout(BuildContext context)async{
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
     await keyValueStorageService.removeAuthToken();
     await Get.deleteAll();
     EasyLoading.dismiss();
-    AppRouter.pushNamed(Routes.loginView);
+    // ignore: use_build_context_synchronously
+    AppRouter.pushNamedPopUntil( context,  route: Routes.loginView);
 
   }
   void selectLanguage(int index) {

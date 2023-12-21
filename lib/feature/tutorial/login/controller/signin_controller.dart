@@ -59,11 +59,11 @@ class SignInController extends GetxController {
       isButtonDisabled.value = false;
     }
   }
-  void onTapLoginSubmit() {
-    login();
+  void onTapLoginSubmit(BuildContext context) {
+    login(context);
   }
 
-  Future<void> login() async {
+  Future<void> login(BuildContext context) async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final BaseResponse signInResponse = await _authRepositoryRepository.sign(
         email: emailController.text, password: passwordController.text);
@@ -74,7 +74,7 @@ class SignInController extends GetxController {
       if (responseData.token?.accessToken?.isNotEmpty ?? false) {
         keyValueStorageService.setAuthToken(
             responseData.token?.accessToken ?? '');
-        AppRouter.pushNamed(Routes.HomeScreenRoute);
+        AppRouter.pushNamedPopUntil( context,  route: Routes.HomeScreenRoute);
       }} else {
       loginStatus.value=signInResponse.status?.type??'';
         error.value = signInResponse.status?.message ?? '';
