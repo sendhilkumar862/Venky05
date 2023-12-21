@@ -41,6 +41,8 @@ class ApiEndpoint {
       case AuthEndpoint.UPDATE_COUNTRY: return '$path/changeCountry/';
       case AuthEndpoint.UPLOAD_PROFILE: return '$path/profile/photo/upload';
       case AuthEndpoint.USER_ADDRESS: return '$path/:userId/address/';
+      case AuthEndpoint.ADD_NUMBER: return '$path/mobile/addNumber';
+      case AuthEndpoint.CHANGE_NUMBER: return '$path/mobile/changeNumber';
     }
   }
 
@@ -106,9 +108,14 @@ enum AuthEndpoint {
   /// An endpoint for verifying forgot password otp code.
   FORGOT_PW_VERIFY_OTP,
 
-
   /// An endpoint for change Name.
-  CHANGE_NAME
+  CHANGE_NAME,
+
+  /// An endpoint for add mobile Number.
+  ADD_NUMBER,
+
+  /// An endpoint for add mobile Number.
+  CHANGE_NUMBER,
 }
 
 /// A collection of endpoints used for students.

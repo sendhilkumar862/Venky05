@@ -23,6 +23,7 @@ import '../../../product/constants/image/image_constants.dart';
 import '../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/typography.dart';
 import '../../home/controller/home_controller.dart';
+import '../../tutorial/changeMobileNumber/view/change_mobile_number_view.dart';
 import '../../tutorial/language/viewModel/language_view_model.dart';
 import '../../tutorial/mobileEnter/view/mobile_view.dart';
 import '../../tutorial/password/view/password_view.dart';
@@ -500,7 +501,7 @@ class _SettingViewState extends State<SettingView> {
       case SettingTitle.changeName:
         AppRouter.pushNamed(Routes.changeNameView);
       case SettingTitle.addMobileNumber:
-        AppRouter.push(const MobileView());
+        AppRouter.push(ChangeMobileNumberView());
       case SettingTitle.logout:
         _settingController.logout(context);
       case SettingTitle.manageAddress:
