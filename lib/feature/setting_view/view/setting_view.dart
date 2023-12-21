@@ -29,6 +29,7 @@ import '../../tutorial/password/view/password_view.dart';
 import '../../tutorial/view/bottomSheets/country_bottom_sheet.dart';
 import '../../tutorial/view/bottomSheets/language_bottom_sheet.dart';
 import '../controller/setting_controller.dart';
+import '../manage_address/view/manage_address_view.dart';
 import '../viewModel/setting_view_model.dart';
 import 'widget/available_times_view.dart';
 import 'widget/manage_adress_view.dart';
@@ -500,9 +501,10 @@ class _SettingViewState extends State<SettingView> {
       case SettingTitle.addMobileNumber:
         AppRouter.push(const MobileView());
       case SettingTitle.logout:
-        _settingController.logout();
+        _settingController.logout(context);
       case SettingTitle.manageAddress:
-        manageAddressBottomSheet(context);
+        AppRouter.push(ManageAddressScreen());
+        // manageAddressBottomSheet(context);
       case SettingTitle.changeCountry:
         showModalBottomSheet(
           isScrollControlled: true,
