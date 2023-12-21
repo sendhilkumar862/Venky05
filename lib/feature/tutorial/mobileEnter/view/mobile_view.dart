@@ -25,8 +25,6 @@ class MobileView extends StatelessWidget {
       viewModel: MobileViewModel(),
       onModelReady: (MobileViewModel mobileViewModel) {
         mobileViewModel.setContext(context);
-        mobileViewModel.data =
-            ModalRoute.of(context)!.settings.arguments! as Map;
         mobileViewModel.arguments['userId'] = mobileViewModel.data['userId'];
         logs('argue--> ${mobileViewModel.data}');
         mobileViewModel.init();
@@ -81,7 +79,7 @@ class MobileView extends StatelessWidget {
                                             (BuildContext context, setState) {
                                           return CountryCodeBottomsSheet(
                                               setState: setState,
-                                              mobileViewModel: mobileViewModel);
+                                              );
                                         },
                                       );
                                     },

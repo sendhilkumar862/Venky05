@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -8,12 +9,12 @@ import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../../setting_view/add_address_screen/controller/add_address_controller.dart';
 import '../../mobileEnter/viewModel/mobile_view_model.dart';
 
 class CountryCodeBottomsSheet extends StatelessWidget {
-  CountryCodeBottomsSheet({this.mobileViewModel, super.key, this.setState});
-
-  MobileViewModel? mobileViewModel;
+  CountryCodeBottomsSheet({ super.key, this.setState});
+  final AddAddressController _addAddressController=Get.put(AddAddressController());
   Function? setState;
 
   @override
@@ -66,10 +67,10 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                       color: AppColors.appGrey,
                     ),
                   ),
-                  controller: mobileViewModel!.countryController,
+                  controller: _addAddressController.countryController,
                   hintText: 'Search',
                   onChanged: (String value) {
-                    mobileViewModel!.filterCountries(value, setState!);
+                    _addAddressController.filterCountries(value, setState!);
                     // ignore: avoid_dynamic_calls
                     setState!(() {});
                   },
@@ -86,7 +87,7 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                   return GestureDetector(
                     onTap: () {
                       setState!(() {
-                        mobileViewModel!.selectCountry(index);
+                        _addAddressController.selectCountry(index);
                         Future.delayed(
                           const Duration(milliseconds: 200),
                           () => AppRouter.pop(),
@@ -101,7 +102,7 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                         children: <Widget>[
                           ClipRRect(borderRadius: BorderRadius.circular(700),
                             child: AppImageAsset(
-                              image: mobileViewModel!.countries[index].flag_url?? ImageConstants.globe,
+                              image: _addAddressController.countries[index].flag_url?? ImageConstants.globe,
                               fit: BoxFit.fill,
                               height: 20.px,
                               width: 20,
@@ -109,14 +110,14 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                           ),
                           SizedBox(width: 10),
                           AppText(
-                            mobileViewModel!.countries[index].idd_code??'',
+                            _addAddressController.countries[index].idd_code??'',
                             fontWeight: FontWeight.w400,
                             overflow: TextOverflow.ellipsis,
                           ),
                           SizedBox(width: 6.px),
                           Expanded(
                             child: AppText(
-                              mobileViewModel!.countries[index].name??'',
+                              _addAddressController.countries[index].name??'',
                               fontWeight: FontWeight.w400,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -132,7 +133,7 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                     child: AppDivider(),
                   );
                 },
-                itemCount: mobileViewModel!.countries.length,
+                itemCount: _addAddressController.countries.length,
               ))
             ],
           )

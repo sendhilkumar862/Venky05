@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/utils/typography.dart';
@@ -8,7 +9,7 @@ class AppDropdown extends StatefulWidget {
     super.key,
     this.hintText,
     this.options = const [],
-    required this.getLabel,
+    // required this.getLabel,
     required this.value,
     required this.onChanged,
     this.title,
@@ -18,7 +19,7 @@ class AppDropdown extends StatefulWidget {
   final List options;
   final String value;
   final String? title;
-  final String Function(String) getLabel;
+  // final String Function(String) getLabel;
   final void Function(String?)? onChanged;
   final String? Function(String?)? validate;
 
@@ -37,16 +38,18 @@ class _AppDropdownState extends State<AppDropdown> {
           child: Text(
             widget.title ?? '',
             style: TextStyle(
-                color: const Color(0xff051335).withOpacity(0.5), fontSize: 8),
+                color:  AppColors.appTextColor.withOpacity(0.5),
+                fontSize: 12.px,
+                fontWeight: FontWeight.w400),
           ),
         ),
         DropdownButtonFormField<String>(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
               hintText: widget.hintText,
-              hintStyle: openSans.w300
-                  .textColor(AppColors.black.withOpacity(0.5))
-                  .get10,
+              hintStyle: openSans.w400
+                  .textColor(AppColors.appTextColor.withOpacity(0.25))
+                  .get14,
               contentPadding: const EdgeInsets.symmetric(horizontal: 10),
               filled: true,
               fillColor: Colors.transparent,
