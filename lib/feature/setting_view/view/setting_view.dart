@@ -20,6 +20,7 @@ import '../../../custom/text/app_text.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
+import '../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/typography.dart';
 import '../../home/controller/home_controller.dart';
 import '../../tutorial/language/viewModel/language_view_model.dart';
@@ -493,12 +494,13 @@ class _SettingViewState extends State<SettingView> {
       BuildContext context,
       SettingData response,) {
     final SettingTitle settingTitle = getSettingTitle(title);
-
     switch (settingTitle) {
       case SettingTitle.changeName:
         AppRouter.pushNamed(Routes.changeNameView);
       case SettingTitle.addMobileNumber:
         AppRouter.push(const MobileView());
+      case SettingTitle.logout:
+        _settingController.logout();
       case SettingTitle.manageAddress:
         manageAddressBottomSheet(context);
       case SettingTitle.changeCountry:
@@ -567,6 +569,8 @@ class _SettingViewState extends State<SettingView> {
         return SettingTitle.manageSubscription;
       case 'manage availability time':
         return SettingTitle.manageAvailabilityTime;
+      case 'logout':
+        return SettingTitle.logout;
       default:
         return SettingTitle.changeName;
     }
@@ -630,5 +634,6 @@ enum SettingTitle {
   changePassword,
   appSupport,
   manageSubscription,
-  manageAvailabilityTime
+  manageAvailabilityTime,
+  logout
 }

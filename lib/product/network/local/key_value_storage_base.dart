@@ -64,7 +64,15 @@ class KeyValueStorageBase {
       return Future<String?>.value();
     }
   }
-
+  /// Reads the decrypted value for the key from secure storage
+  Future<void> removeEncrypted(String key) {
+    try {
+      return _secureStorage!.delete(key: key);
+    } on PlatformException catch (ex) {
+      debugPrint('$ex');
+      return Future<String?>.value();
+    }
+  }
   /// Sets the value for the key to common preferences storage
   Future<bool> setCommon<T>(String key, T value) {
     switch (value.runtimeType) {

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../config/routes/app_router.dart';
+import '../../../config/routes/routes.dart';
 import '../../../core/base_response.dart';
 import '../../home/controller/home_controller.dart';
 import '../repository/update_profile_photo_repository.dart';
@@ -145,6 +147,15 @@ class SettingController  extends GetxController{
   }
 
 
+  logout()async{
+    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+    final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
+    await keyValueStorageService.removeAuthToken();
+    await Get.deleteAll();
+    EasyLoading.dismiss();
+    AppRouter.pushNamed(Routes.loginView);
+
+  }
   void selectLanguage(int index) {
     languageIndex = index.obs;
 

@@ -23,7 +23,7 @@ class LanguageController extends GetxController {
   Rx<TextEditingController> countryController = TextEditingController().obs;
   RxList<String> countryLogo = <String>[].obs;
   RxInt languageIndex = 1.obs;
-  final HomeController _homeController=Get.find();
+  final HomeController _homeController=Get.put(HomeController());
   RxList languages = [
     'English',
     'عربي',
