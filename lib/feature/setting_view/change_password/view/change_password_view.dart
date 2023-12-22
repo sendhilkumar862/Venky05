@@ -223,6 +223,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                 final bool success =
                 await _changePasswordController.requestChangePassword();
                 if (success) {
+                  // ignore: use_build_context_synchronously
                   showModalBottomSheet(
                     backgroundColor: Colors.white,
                     context: context,
@@ -238,7 +239,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                         title: 'success'.tr,
                         buttonTitle: 'done'.tr,
                         content: 'youHaveSuccessfully'.tr,
-                        isRouting: true,
+                        isRouting: 'back',
                       );
                     },
                   );

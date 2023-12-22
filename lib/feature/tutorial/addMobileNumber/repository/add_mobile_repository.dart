@@ -32,7 +32,7 @@ class MobileEnterAPIRequest extends BaseRequest {
   final int mobileNumber;
 
   @override
-  String get endPoint => ApiEndpoint.auth(AuthEndpoint.CHANGE_NUMBER);
+  String get endPoint => ApiEndpoint.auth(AuthEndpoint.ADD_NUMBER);
   @override
   Map<String, dynamic> get body => AddMobileEnterRequest(userId:userId, countryCode:countryCode , mobile: mobileNumber).toJson();
 

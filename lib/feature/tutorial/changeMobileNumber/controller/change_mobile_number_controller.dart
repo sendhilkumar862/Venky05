@@ -67,7 +67,7 @@ class ChangeMobileNumberController extends GetxController{
     'userId': '',
     'otp_id': '',
     'isScreen': false,
-    'changeMobileNumberScreen':true
+    'changeMobileNumberScreen':'change'
   };
 
 

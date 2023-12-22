@@ -85,7 +85,7 @@ class _ChangeNameViewState extends State<ChangeNameView> {
                                 title: 'success'.tr,
                                 buttonTitle: 'done'.tr,
                                 content: 'youHaveSuccessfully'.tr,
-                                isRouting: true,
+                                isRouting: 'back',
                               );
                             },
                           );

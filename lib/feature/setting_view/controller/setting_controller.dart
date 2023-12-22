@@ -102,7 +102,7 @@ class SettingController  extends GetxController{
       SettingData(
           surfixImage: 'assets/icons/profile.svg', title: 'Change Name'),
       SettingData(
-          surfixImage: 'assets/icons/mobile.svg', title: 'Change Mobile Number'),
+          surfixImage: 'assets/icons/mobile.svg', title: 'Add Mobile Number'),
       SettingData(
           surfixImage: 'assets/icons/pin_location.svg',
           title: 'Manage Address'),

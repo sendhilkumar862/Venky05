@@ -159,7 +159,7 @@ class VerifyOtpView extends StatelessWidget {
               ),
               bottomNavigationBar: PreLoginCommonButton(
                 title: 'continue'.tr,
-                onTap: () => verifyOtpViewModel.onTapSubmit(),
+                onTap: () => verifyOtpViewModel.onTapSubmit(context),
                 isDisable: verifyOtpViewModel.enteredOTP.length != 4,
               ),
             );

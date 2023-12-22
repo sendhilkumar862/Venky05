@@ -108,7 +108,7 @@ class _$HomeModelCopyWithImpl<$Res, $Val extends HomeModel>
       userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-      as String?,
+              as String?,
       imagePath: freezed == imagePath
           ? _value.imagePath
           : imagePath // ignore: cast_nullable_to_non_nullable
@@ -190,7 +190,7 @@ class __$$HomeModelImplCopyWithImpl<$Res>
       userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-      as String?,
+              as String?,
       imagePath: freezed == imagePath
           ? _value.imagePath
           : imagePath // ignore: cast_nullable_to_non_nullable
@@ -232,14 +232,12 @@ class _$HomeModelImpl implements _HomeModel {
   final String? userStatus;
   @override
   final String? userId;
-
- 
+  @override
   final String? imagePath;
 
   @override
   String toString() {
-    return 'HomeModel(firstName: $firstName, lastName: $lastName, email: $email, countryCode: $countryCode, mobile: $mobile, country: $country, userStatus: $userStatus,userId: $userId, imagePath: $imagePath)';
-    
+    return 'HomeModel(firstName: $firstName, lastName: $lastName, email: $email, countryCode: $countryCode, mobile: $mobile, country: $country, userStatus: $userStatus, userId: $userId, imagePath: $imagePath)';
   }
 
   @override
@@ -266,7 +264,7 @@ class _$HomeModelImpl implements _HomeModel {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, firstName, lastName, email,
-      countryCode, mobile, country, userStatus,userId, imagePath);
+      countryCode, mobile, country, userStatus, userId, imagePath);
 
   @JsonKey(ignore: true)
   @override
@@ -315,7 +313,6 @@ abstract class _HomeModel implements HomeModel {
   String? get userId;
   @override
   String? get imagePath;
-
   @override
   @JsonKey(ignore: true)
   _$$HomeModelImplCopyWith<_$HomeModelImpl> get copyWith =>
