@@ -77,11 +77,21 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                        controller: _addAddressController.addressFirst,
                       title: 'Address 1',
                       hintText: 'Enter Address 1',
+                       onChanged: (v){
+                         setState(() {
+
+                         });
+                       },
                     ),
                      AppTextFormField(
                       controller: _addAddressController.addressSecond,
                       title: 'Address 2 (Optional)',
                       hintText: 'Enter Address 2',
+                       onChanged: (v){
+                         setState(() {
+
+                         });
+                       },
                     ),
                     SizedBox(height: 10.px),
                     TextFormsField(
@@ -148,6 +158,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       ],
                       onChanged: (String value) {
                         _addAddressController.validateMobile(value);
+                        setState(() {
+
+                        });
                       },
                     ),
                     Padding(
@@ -178,6 +191,11 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       controller: _addAddressController.shortName,
                       title: 'Short Name',
                       hintText: 'Short Name',
+                      onChanged: (val){
+                        setState(() {
+
+                        });
+                      },
                     ),
                   ],
                 ),
@@ -187,8 +205,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
           Obx(()=>
              AppButton(
               // ignore: avoid_bool_literals_in_conditional_expressions
-              isDisable: _addAddressController.selectedCity.value!='' && _addAddressController.addressFirst!='' && _addAddressController.addressSecond!='' && _addAddressController.shortName!=''?false:true,
+              isDisable: (_addAddressController.selectedCity.value!='' && _addAddressController.addressFirst.text!='' && _addAddressController.addressSecond.text!='' && _addAddressController.shortName.text!='')?false:true,
               onPressed: () async{
+                if(_addAddressController.selectedCity.value!='' && _addAddressController.addressFirst.text!='' && _addAddressController.addressSecond.text!='' && _addAddressController.shortName.text!=''){
                 Map data={
                   'short_name': _addAddressController.shortName.text,
                   'country_code': _addAddressController
@@ -230,7 +249,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                 }else{
                   _addAddressController.addAddress(data);
-                }
+                }}
 
               },
               title: widget.userData!=null?'Update Address':'Add New Address',

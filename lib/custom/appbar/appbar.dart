@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../config/routes/app_router.dart';
+import '../../feature/home/controller/home_controller.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
 import '../../product/utils/typography.dart';
@@ -51,6 +53,7 @@ class HessaAppBar extends PreferredSize {
   final GestureTapCallback? onCallTap;
   final bool? isReviewStar;
   final int? reviewStarLength;
+  final HomeController _homeController=Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +67,11 @@ class HessaAppBar extends PreferredSize {
         fit: StackFit.expand,
         alignment: Alignment.center,
         children: <Widget>[
-          const AppImageAsset(
-            image: ImageConstants.appBarBG,
-            fit: BoxFit.fill,
+          Obx((){ return
+               AppImageAsset(
+              image: _homeController.homeData.value?.imagePath!=null?_homeController.homeData.value!.imagePath!:ImageConstants.appBarBG,
+              fit: BoxFit.fill,
+            );}
           ),
           if (isTitleOnly)
             AppBar(
