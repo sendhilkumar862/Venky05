@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import '../../../setting_view/add_address_screen/controller/add_address_controller.dart';
 import '../controller/add_mobile_number_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -16,7 +17,7 @@ import '../../view/bottomSheets/country_code_bottom_sheet.dart';
 class AddMobileNumberView extends StatelessWidget {
   AddMobileNumberView({super.key});
   final AddMobileNumberController _addMobileNumberController =Get.put(AddMobileNumberController());
-
+  final AddAddressController _addAddressController=Get.put(AddAddressController());
   @override
   Widget build(BuildContext context) {
     return Obx(()=>
@@ -69,9 +70,8 @@ class AddMobileNumberView extends StatelessWidget {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(700),
                                   child: AppImageAsset(
-                                    image: _addMobileNumberController
-                                        .countries[_addMobileNumberController
-                                        .countryIndex]
+                                    image: _addAddressController
+                                        .countries[_addAddressController.countryIndex.value]
                                         .flag_url ??
                                         ImageConstants.globe,
                                     fit: BoxFit.fill,
@@ -81,9 +81,8 @@ class AddMobileNumberView extends StatelessWidget {
                                 ),
                                 SizedBox(width: 6.px),
                                 AppText(
-                                  _addMobileNumberController
-                                      .countries[
-                                  _addMobileNumberController.countryIndex].idd_code ??
+                                  _addAddressController
+                                      .countries[_addAddressController.countryIndex.value].idd_code ??
                                       'select',
                                   fontWeight: FontWeight.w400,
                                   fontSize: 14.px,

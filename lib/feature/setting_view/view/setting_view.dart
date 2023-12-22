@@ -190,18 +190,20 @@ class _SettingViewState extends State<SettingView> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(left: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: openSans.get14.w400.textColor(AppColors.appDarkBlack),
-                ),
-                if(title=='Change Mobile Number')Text(
-                  _homeController.homeData.value?.mobile??'',
-                  style: openSans.get14.w400.textColor(AppColors.appDarkBlack),
-                ),
-              ],
+            child: Obx(()=>
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title!='Add Mobile Number'?title:_homeController.homeData.value?.mobile!=null?'Change Mobile Number':title,
+                    style: openSans.get14.w400.textColor(AppColors.appDarkBlack),
+                  ),
+                  if(_homeController.homeData.value?.mobile!=null && title=='Add Mobile Number')Text(
+                    _homeController.homeData.value?.mobile??'',
+                    style: openSans.get14.w400.textColor(AppColors.appDarkBlack),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -513,7 +515,7 @@ class _SettingViewState extends State<SettingView> {
       case SettingTitle.changeName:
         AppRouter.pushNamed(Routes.changeNameView);
       case SettingTitle.addMobileNumber:
-        AppRouter.push(AddMobileNumberView());
+        _homeController.homeData.value?.mobile!=null?AppRouter.push(ChangeMobileNumberView()):AppRouter.push(AddMobileNumberView());
       case SettingTitle.changeMobileNumber:
         AppRouter.push(ChangeMobileNumberView());
       case SettingTitle.logout:
@@ -577,8 +579,6 @@ class _SettingViewState extends State<SettingView> {
         return SettingTitle.language;
       case 'add mobile number':
         return SettingTitle.addMobileNumber;
-      case 'change mobile number':
-        return SettingTitle.changeMobileNumber;
       case 'manage address':
         return SettingTitle.manageAddress;
       case 'change password':

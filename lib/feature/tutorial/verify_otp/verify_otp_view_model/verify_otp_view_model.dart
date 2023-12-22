@@ -7,6 +7,7 @@ import 'package:mobx/mobx.dart';
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../custom/countdown_timer/timer_count_down.dart';
+import '../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../custom/loader/easy_loader.dart';
 import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
@@ -124,7 +125,7 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
   }
 
   @action
-  Future<void> verifyOtpMobile() async {
+  Future<void> verifyOtpMobile(BuildContext context) async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final Dio dio = Dio();
     try {
@@ -155,7 +156,7 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
           final HomeController _homeController=Get.find();
           _homeController.fetchData();
 
-          (arguments['changeMobileNumberScreen']!=null&&arguments['changeMobileNumberScreen']==true)?AppRouter.push(const SettingView()):AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
+          (arguments['changeMobileNumberScreen']!=null&&(arguments['changeMobileNumberScreen']=='add'|| arguments['changeMobileNumberScreen']=='change'))?popupScreen(context):AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
         }
 
         logs('isCorrect--> $isCorrect');
@@ -176,6 +177,28 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
       EasyLoading.dismiss();
       logs('Error: $error');
     }
+  }
+
+  Future popupScreen(BuildContext context){
+   return showModalBottomSheet(
+      backgroundColor: Colors.white,
+      context: context,
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width - 30,
+        // here increase or decrease in width
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      builder: (BuildContext context) {
+        return SuccessFailsInfoDialog(
+          title: 'success'.tr,
+          buttonTitle: 'done'.tr,
+          content: arguments['changeMobileNumberScreen']=='add'?'youHaveSuccessfullyAddedMobile'.tr:'youHaveSuccessfullyChangedMobile'.tr,
+          isRouting: 'route',
+        );
+      },
+    );
   }
 
   @action
@@ -239,11 +262,11 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
   OtpModel otpModel = const OtpModel();
 
   @action
-  void onTapSubmit() {
+  void onTapSubmit(BuildContext context) {
     if (arguments['isScreen']) {
       verifyOtp();
     } else {
-      verifyOtpMobile();
+      verifyOtpMobile(context);
     }
   }
 }

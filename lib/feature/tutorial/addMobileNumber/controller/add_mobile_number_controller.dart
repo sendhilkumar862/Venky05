@@ -17,6 +17,7 @@ import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../home/controller/home_controller.dart';
+import '../../../setting_view/add_address_screen/controller/add_address_controller.dart';
 
 
 
@@ -25,10 +26,12 @@ class AddMobileNumberController extends GetxController{
   final HomeController _homeController=Get.find();
 
   final AddMobileNumberRepository _addMobileNumberRepository=AddMobileNumberRepository();
+  final AddAddressController _addAddressController=Get.put(AddAddressController());
 
   @override
   void onInit() {
     super.onInit();
+    _addAddressController.fetchData();
     fetchData();
     KeyValueStorageBase.init();
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
@@ -66,14 +69,19 @@ class AddMobileNumberController extends GetxController{
     'id': '',
     'otp_id': '',
     'isScreen': false,
+    'changeMobileNumberScreen':'add'
   };
 
 
 
   Future<void> sendOTP() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    final BaseResponse signInResponse = await _addMobileNumberRepository.addMobileNumber(userId:data['userId'].toString(),mobileNumber: int.parse(mobileController.text ),countryCode:int.parse(selectedCountryCode.replaceAll('+', ''),), );
-    if (signInResponse.status?.type == 'success') {
+    final BaseResponse changeNumberResponse = await _addMobileNumberRepository.addMobileNumber(userId:_homeController.homeData.value!.userId!.toString(),mobileNumber: int.parse(mobileController.text ),countryCode:int.parse(_addAddressController.countries[_addAddressController.countryIndex.value].idd_code!), );
+    if (changeNumberResponse.status?.type == 'success') {
+      arguments['userId']=_homeController.homeData.value?.userId??'';
+      Map otpId=changeNumberResponse.data!.item! as Map;
+      arguments['otp_id']=otpId['otpId'];
+      AppRouter.pushNamed(Routes.verifyOtpView,args: arguments);
     }
     else
     {}
