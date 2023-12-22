@@ -156,8 +156,8 @@ fetchFullData()async{
       options:  await _headers(),
       data: data);
       if (response.statusCode == 200) {
-        ManageAddressController _manageAddressController=Get.find();
-        await _manageAddressController.fetchAddressData();
+        final ManageAddressController manageAddressController=Get.find();
+        await manageAddressController.fetchAddressData();
         EasyLoading.dismiss();
         AppRouter.pop();
       }
