@@ -12,6 +12,7 @@ class HomeModel with _$HomeModel {
       String? mobile,
       String? country,
       String? userStatus,
+      String? userId
       String? imagePath,
   }) = _HomeModel;
 

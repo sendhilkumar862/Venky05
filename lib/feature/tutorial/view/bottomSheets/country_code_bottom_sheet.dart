@@ -81,60 +81,60 @@ class CountryCodeBottomsSheet extends StatelessWidget {
               ),
               Expanded(
                   child: ListView.separated(
-                physics: const BouncingScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState!(() {
-                        _addAddressController.selectCountry(index);
-                        Future.delayed(
-                          const Duration(milliseconds: 200),
-                          () => AppRouter.pop(),
-                        );
-                      });
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState!(() {
+                            _addAddressController.selectCountry(index);
+                            Future.delayed(
+                              const Duration(milliseconds: 200),
+                                  () => AppRouter.pop(),
+                            );
+                          });
+                        },
+                        child: Container(
+                          color: AppColors.appTransparent,
+                          margin: EdgeInsets.symmetric(horizontal: 15.px),
+                          padding: EdgeInsets.symmetric(vertical: 8.px),
+                          child: Row(
+                            children: <Widget>[
+                              ClipRRect(borderRadius: BorderRadius.circular(700),
+                                child: AppImageAsset(
+                                  image: _addAddressController.countries[index].flag_url?? ImageConstants.globe,
+                                  fit: BoxFit.fill,
+                                  height: 20.px,
+                                  width: 20,
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              AppText(
+                                _addAddressController.countries[index].idd_code??'',
+                                fontWeight: FontWeight.w400,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              SizedBox(width: 6.px),
+                              Expanded(
+                                child: AppText(
+                                  _addAddressController.countries[index].name??'',
+                                  fontWeight: FontWeight.w400,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
                     },
-                    child: Container(
-                      color: AppColors.appTransparent,
-                      margin: EdgeInsets.symmetric(horizontal: 15.px),
-                      padding: EdgeInsets.symmetric(vertical: 8.px),
-                      child: Row(
-                        children: <Widget>[
-                          ClipRRect(borderRadius: BorderRadius.circular(700),
-                            child: AppImageAsset(
-                              image: _addAddressController.countries[index].flag_url?? ImageConstants.globe,
-                              fit: BoxFit.fill,
-                              height: 20.px,
-                              width: 20,
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          AppText(
-                            _addAddressController.countries[index].idd_code??'',
-                            fontWeight: FontWeight.w400,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(width: 6.px),
-                          Expanded(
-                            child: AppText(
-                              _addAddressController.countries[index].name??'',
-                              fontWeight: FontWeight.w400,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.px),
-                    child: AppDivider(),
-                  );
-                },
-                itemCount: _addAddressController.countries.length,
-              ))
+                    separatorBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15.px),
+                        child: AppDivider(),
+                      );
+                    },
+                    itemCount: _addAddressController.countries.length,
+                  ))
             ],
           )
         ],
