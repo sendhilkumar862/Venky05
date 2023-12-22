@@ -5,6 +5,7 @@ import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/appbar/appbar.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
+import '../../add_address_screen/controller/add_address_controller.dart';
 import '../../add_address_screen/view/add_address_view.dart';
 import '../Model/get_address_model.dart';
 import '../controller/manage_controller.dart';
@@ -54,6 +55,7 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
           AppButton(
             isDisable: false,
             onPressed: () {
+              Get.delete<AddAddressController>();
               AppRouter.push( AddAddressScreen(title: 'Add New Addresses'));
             },
             title: 'Add New Address',
