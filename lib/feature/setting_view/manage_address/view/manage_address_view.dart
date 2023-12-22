@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../config/routes/app_router.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/appbar/appbar.dart';
-import '../../../../custom/choice/src/modal/button.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
-import '../../../class/class_detail/view/class_detail.dart';
+import '../../add_address_screen/view/add_address_view.dart';
 import '../Model/get_address_model.dart';
 import '../controller/manage_controller.dart';
 
@@ -53,7 +53,9 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
           ),
           AppButton(
             isDisable: false,
-            onPressed: () {},
+            onPressed: () {
+              AppRouter.push( AddAddressScreen(title: 'Add New Addresses'));
+            },
             title: 'Add New Address',
           ),
         ]):const SizedBox.shrink(),
@@ -126,13 +128,18 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
                           bgColor: AppColors.appRed,
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: 10, right:data.isDefault==1 ? 10 : 0),
-                        child: iconButtonWidget(
-                          icon: Icons.edit,
-                          padding: 8,
-                          bgColor: AppColors.appBlue,
+                      GestureDetector(
+                        onTap: (){
+                          AppRouter.push( AddAddressScreen(userData: data,title: "Update Address",));
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 10, right:data.isDefault==1 ? 10 : 0),
+                          child: iconButtonWidget(
+                            icon: Icons.edit,
+                            padding: 8,
+                            bgColor: AppColors.appBlue,
+                          ),
                         ),
                       ),
                       if (data.isDefault != 1)

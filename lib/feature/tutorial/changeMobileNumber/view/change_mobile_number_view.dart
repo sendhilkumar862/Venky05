@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:hessah/feature/tutorial/view/bottomSheets/country_code_bottom_sheet.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_textformfield/text_field.dart';
@@ -10,21 +11,19 @@ import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/image/image_constants.dart';
-import '../../view/bottomSheets/country_code_bottom_sheet.dart';
-import '../controller/controller.dart';
 
-
-
+import '../../../setting_view/add_address_screen/controller/add_address_controller.dart';
+import '../controller/change_mobile_number_controller.dart';
 class ChangeMobileNumberView extends StatelessWidget {
   ChangeMobileNumberView({super.key});
   final ChangeMobileNumberController _changeMobileNumberController =Get.put(ChangeMobileNumberController());
 
+  final AddAddressController _addAddressController=Get.put(AddAddressController());
   @override
   Widget build(BuildContext context) {
     return Obx(()=>
         Scaffold(
           appBar: HessaAppBar(
-
             title: 'Change Mobile Number'.tr,
             isTitleOnly: true,
           ),
@@ -65,33 +64,31 @@ class ChangeMobileNumberView extends StatelessWidget {
                                 },
                               );
                             },
-                            child: Row(
-                              children: [
-                                SizedBox(width: 6.px),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(700),
-                                  child: AppImageAsset(
-                                    image: _changeMobileNumberController
-                                        .countries[_changeMobileNumberController
-                                        .countryIndex]
-                                        .flag_url ??
-                                        ImageConstants.globe,
-                                    fit: BoxFit.fill,
-                                    height: 16.px,
-                                    width: 16.px,
+                            child:  Obx(
+                                ()=> Row(
+                                children: [
+                                  SizedBox(width: 6.px),
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(700),
+                                    child: AppImageAsset(
+                                      image: _addAddressController
+                                          .countries[_addAddressController.countryIndex.value]
+                                          .flag_url ??
+                                          ImageConstants.globe,
+                                      fit: BoxFit.fill,
+                                      height: 16.px,
+                                      width: 16.px,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(width: 6.px),
-                                AppText(
-                                  _changeMobileNumberController
-                                      .countries[
-                                  _changeMobileNumberController.countryIndex]
-                                      ?.idd_code ??
-                                      'select',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14.px,
-                                )
-                              ],
+                                  SizedBox(width: 6.px),
+                                  AppText(
+                                    _addAddressController.countries[_addAddressController.countryIndex.value]?.idd_code ??
+                                        'select',
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14.px,
+                                  ),
+                                ],
+                              ),
                             ),
                           )
                               : const SizedBox(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -8,12 +9,12 @@ import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../../setting_view/add_address_screen/controller/add_address_controller.dart';
 import '../../mobileEnter/viewModel/mobile_view_model.dart';
 
 class CountryCodeBottomsSheet extends StatelessWidget {
-  CountryCodeBottomsSheet({this.mobileViewModel, super.key, this.setState});
-
-  MobileViewModel? mobileViewModel;
+  CountryCodeBottomsSheet({ super.key, this.setState});
+  final AddAddressController _addAddressController=Get.put(AddAddressController());
   Function? setState;
 
   @override
@@ -66,10 +67,10 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                       color: AppColors.appGrey,
                     ),
                   ),
-                  controller: mobileViewModel!.countryController,
+                  controller: _addAddressController.countryController,
                   hintText: 'Search',
                   onChanged: (String value) {
-                    mobileViewModel!.filterCountries(value, setState!);
+                    _addAddressController.filterCountries(value, setState!);
                     // ignore: avoid_dynamic_calls
                     setState!(() {});
                   },
@@ -80,60 +81,60 @@ class CountryCodeBottomsSheet extends StatelessWidget {
               ),
               Expanded(
                   child: ListView.separated(
-                physics: const BouncingScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState!(() {
-                        mobileViewModel!.selectCountry(index);
-                        Future.delayed(
-                          const Duration(milliseconds: 200),
-                          () => AppRouter.pop(),
-                        );
-                      });
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState!(() {
+                            _addAddressController.selectCountry(index);
+                            Future.delayed(
+                              const Duration(milliseconds: 200),
+                                  () => AppRouter.pop(),
+                            );
+                          });
+                        },
+                        child: Container(
+                          color: AppColors.appTransparent,
+                          margin: EdgeInsets.symmetric(horizontal: 15.px),
+                          padding: EdgeInsets.symmetric(vertical: 8.px),
+                          child: Row(
+                            children: <Widget>[
+                              ClipRRect(borderRadius: BorderRadius.circular(700),
+                                child: AppImageAsset(
+                                  image: _addAddressController.countries[index].flag_url?? ImageConstants.globe,
+                                  fit: BoxFit.fill,
+                                  height: 20.px,
+                                  width: 20,
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              AppText(
+                                _addAddressController.countries[index].idd_code??'',
+                                fontWeight: FontWeight.w400,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              SizedBox(width: 6.px),
+                              Expanded(
+                                child: AppText(
+                                  _addAddressController.countries[index].name??'',
+                                  fontWeight: FontWeight.w400,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
                     },
-                    child: Container(
-                      color: AppColors.appTransparent,
-                      margin: EdgeInsets.symmetric(horizontal: 15.px),
-                      padding: EdgeInsets.symmetric(vertical: 8.px),
-                      child: Row(
-                        children: <Widget>[
-                          ClipRRect(borderRadius: BorderRadius.circular(700),
-                            child: AppImageAsset(
-                              image: mobileViewModel!.countries[index].flag_url?? ImageConstants.globe,
-                              fit: BoxFit.fill,
-                              height: 20.px,
-                              width: 20,
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          AppText(
-                            mobileViewModel!.countries[index].idd_code??'',
-                            fontWeight: FontWeight.w400,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(width: 6.px),
-                          Expanded(
-                            child: AppText(
-                              mobileViewModel!.countries[index].name??'',
-                              fontWeight: FontWeight.w400,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.px),
-                    child: AppDivider(),
-                  );
-                },
-                itemCount: mobileViewModel!.countries.length,
-              ))
+                    separatorBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15.px),
+                        child: AppDivider(),
+                      );
+                    },
+                    itemCount: _addAddressController.countries.length,
+                  ))
             ],
           )
         ],

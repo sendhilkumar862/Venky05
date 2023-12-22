@@ -43,6 +43,16 @@ class SettingController  extends GetxController{
   // RxCountry? selectedCountry;
 
 
+
+  @override
+  void onInit() {
+
+    getProfileData();
+    KeyValueStorageBase.init();
+    super.onInit();
+  }
+
+
   Rxn<Country?> selectedCountry= Rxn<Country>();
 
   RxList<Country> countries = <Country>[].obs;
@@ -59,7 +69,7 @@ class SettingController  extends GetxController{
       SettingData(
           surfixImage: 'assets/icons/profile.svg', title: 'Change Name'),
       SettingData(
-          surfixImage: 'assets/icons/mobile.svg', title: 'Add Mobile Number'),
+          surfixImage: 'assets/icons/mobile.svg', title:'Add Mobile Number'),
       SettingData(
           surfixImage: 'assets/icons/pin_location.svg',
           title: 'Manage Address'),
@@ -92,7 +102,7 @@ class SettingController  extends GetxController{
       SettingData(
           surfixImage: 'assets/icons/profile.svg', title: 'Change Name'),
       SettingData(
-          surfixImage: 'assets/icons/mobile.svg', title: 'Add Mobile Number'),
+          surfixImage: 'assets/icons/mobile.svg', title: 'Change Mobile Number'),
       SettingData(
           surfixImage: 'assets/icons/pin_location.svg',
           title: 'Manage Address'),

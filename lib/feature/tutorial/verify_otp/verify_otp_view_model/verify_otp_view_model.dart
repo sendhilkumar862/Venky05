@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:mobx/mobx.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -12,6 +13,8 @@ import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
+import '../../../home/controller/home_controller.dart';
+import '../../../setting_view/view/setting_view.dart';
 import '../model/otp_model.dart';
 
 part 'verify_otp_view_model.g.dart';
@@ -53,7 +56,7 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
   bool isMobileNumber = false;
 
   @observable
-  Map<String, dynamic> arguments = <String, dynamic>{'userId': ''};
+  Map<String, dynamic> arguments = <String, dynamic>{'userId': '','changeMobileNumberScreen':''};
 
   @observable
   String otpId = '';
@@ -149,7 +152,10 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
 
         if (otpModel.status!.type == 'success') {
           timerController.pause();
-          AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
+          final HomeController _homeController=Get.find();
+          _homeController.fetchData();
+
+          (arguments['changeMobileNumberScreen']!=null&&arguments['changeMobileNumberScreen']==true)?AppRouter.push(const SettingView()):AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
         }
 
         logs('isCorrect--> $isCorrect');

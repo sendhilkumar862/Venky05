@@ -23,10 +23,12 @@ import '../../../product/constants/image/image_constants.dart';
 import '../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/typography.dart';
 import '../../home/controller/home_controller.dart';
+import '../../tutorial/addMobileNumber/view/add_mobile_number_view.dart';
 import '../../tutorial/changeMobileNumber/view/change_mobile_number_view.dart';
 import '../../tutorial/language/viewModel/language_view_model.dart';
 import '../../tutorial/mobileEnter/view/mobile_view.dart';
 import '../../tutorial/password/view/password_view.dart';
+import '../../tutorial/verify_otp/verify_otp_view/verify_otp_view.dart';
 import '../../tutorial/view/bottomSheets/country_bottom_sheet.dart';
 import '../../tutorial/view/bottomSheets/language_bottom_sheet.dart';
 import '../change_password/view/change_password_view.dart';
@@ -49,11 +51,12 @@ class _SettingViewState extends State<SettingView> {
   final SettingController _settingController=Get.put(SettingController());
   final LanguageController _languageController=Get.put(LanguageController());
   final HomeController _homeController=Get.find();
-  @override
-  void initState() {
-    _settingController.getProfileData();
-    super.initState();
-  }
+
+  Map<String, dynamic> arguments = <String, dynamic>{
+    'id': '',
+    'otp_id': '',
+    'isScreen': false,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -187,9 +190,18 @@ class _SettingViewState extends State<SettingView> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(left: 10),
-            child: Text(
-              title,
-              style: openSans.get14.w400.textColor(AppColors.appDarkBlack),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: openSans.get14.w400.textColor(AppColors.appDarkBlack),
+                ),
+                if(title=='Change Mobile Number')Text(
+                  _homeController.homeData.value?.mobile??'',
+                  style: openSans.get14.w400.textColor(AppColors.appDarkBlack),
+                ),
+              ],
             ),
           ),
         ),
@@ -501,6 +513,8 @@ class _SettingViewState extends State<SettingView> {
       case SettingTitle.changeName:
         AppRouter.pushNamed(Routes.changeNameView);
       case SettingTitle.addMobileNumber:
+        AppRouter.push(AddMobileNumberView());
+      case SettingTitle.changeMobileNumber:
         AppRouter.push(ChangeMobileNumberView());
       case SettingTitle.logout:
         _settingController.logout(context);
@@ -563,6 +577,8 @@ class _SettingViewState extends State<SettingView> {
         return SettingTitle.language;
       case 'add mobile number':
         return SettingTitle.addMobileNumber;
+      case 'change mobile number':
+        return SettingTitle.changeMobileNumber;
       case 'manage address':
         return SettingTitle.manageAddress;
       case 'change password':
@@ -616,7 +632,6 @@ class SettingData {
 
 class Address {
   Address(this.heading, this.address1, this.address2);
-
   String heading;
   String address1;
   String address2;
@@ -634,6 +649,7 @@ enum SettingTitle {
   changeCountry,
   language,
   addMobileNumber,
+  changeMobileNumber,
   manageAddress,
   changePassword,
   appSupport,

@@ -24,6 +24,7 @@ import '../../feature/setting_view/change_name/view/change_name_view.dart';
 import '../../feature/setting_view/change_password/view/change_password_view.dart';
 import '../../feature/setting_view/manage_subscription/view/manage_subscription.dart';
 import '../../feature/setting_view/view/setting_view.dart';
+import '../../feature/tutorial/addMobileNumber/view/add_mobile_number_view.dart';
 import '../../feature/tutorial/changeMobileNumber/view/change_mobile_number_view.dart';
 import '../../feature/tutorial/chat/view/chat_view.dart';
 import '../../feature/tutorial/emailEnter/view/email_view.dart';
@@ -66,6 +67,7 @@ class Routes {
   static const String personalInfo = '/personal-info';
   static const String emailView = '/email-view';
   static const String mobileView = '/mobile-view';
+  static const String addMobileView = '/add_mobile-view';
   static const String changeMobileNumberView = '/change-mobile-view';
   static const String userInfoView = '/user-info-view';
   static const String loginView = '/login-view';
@@ -110,6 +112,7 @@ class Routes {
     // mobileOtpView: (_) => const MobileOtpView(),
     emailView: (_) => const EmailView(),
     mobileView: (_) =>  MobileView(),
+    addMobileView: (_) =>  AddMobileNumberView(),
     changeMobileNumberView: (_) =>  ChangeMobileNumberView(),
     userInfoView: (_) => const UserInfoView(),
     loginView: (_) =>  LoginView(),

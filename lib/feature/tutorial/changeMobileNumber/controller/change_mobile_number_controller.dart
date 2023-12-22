@@ -4,15 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:hessah/feature/tutorial/changeMobileNumber/model/country_code_model.dart';
-import 'package:hessah/feature/tutorial/changeMobileNumber/model/enter_mobile_model.dart';
-import '../../../../core/base_response.dart';
-import '../repository/mobile_enter_repository.dart';
-
 import '../../../../config/routes/app_router.dart';
+import '../../../../core/base_response.dart';
+import '../../../setting_view/add_address_screen/controller/add_address_controller.dart';
+import '../repository/mobile_enter_repository.dart';
 import '../../../../config/routes/routes.dart';
-import '../../../../custom/loader/easy_loader.dart';
 
-import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../home/controller/home_controller.dart';
@@ -24,12 +21,14 @@ class ChangeMobileNumberController extends GetxController{
   RxBool isWrongOldPassword = false.obs;
   TextEditingController accountPasswordController = TextEditingController();
   final HomeController _homeController=Get.find();
+  RxString selectedCity=''.obs;
 
   final ChangeMobileNumberRepository _changeMobileNumberRepository=ChangeMobileNumberRepository();
-
+  final AddAddressController _addAddressController=Get.put(AddAddressController());
   @override
   void onInit() {
     super.onInit();
+    _addAddressController.fetchData();
     fetchData();
     KeyValueStorageBase.init();
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
@@ -37,6 +36,7 @@ class ChangeMobileNumberController extends GetxController{
         .getCommon(List<String>, KeyValueStorageService.countryCodeAndIDD)
         .toString()
         .split(',');
+    selectedCity.value=_addAddressController.selectedCity.value;
   }
 
 
@@ -64,17 +64,22 @@ class ChangeMobileNumberController extends GetxController{
 
 
   Map<String, dynamic> arguments = {
-    'id': '',
+    'userId': '',
     'otp_id': '',
     'isScreen': false,
+    'changeMobileNumberScreen':true
   };
 
 
 
   Future<void> sendOTP() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    final BaseResponse signInResponse = await _changeMobileNumberRepository.changeMobileNumber(userId:data['userId'].toString(),mobileNumber: int.parse(mobileController.text ),countryCode:int.parse(selectedCountryCode.replaceAll('+', ''),), password: accountPasswordController.text );
-    if (signInResponse.status?.type == 'success') {
+    final BaseResponse changeNumberResponse = await _changeMobileNumberRepository.changeMobileNumber(userId:_homeController.homeData.value?.userId??"",mobileNumber: int.parse(mobileController.text ),countryCode:int.parse(_addAddressController.countries[_addAddressController.countryIndex.value].idd_code!), password: accountPasswordController.text );
+    if (changeNumberResponse.status?.type == 'success') {
+      arguments['userId']=_homeController.homeData.value?.userId??'';
+      Map otpId=changeNumberResponse.data!.item! as Map;
+      arguments['otp_id']=otpId['otpId'];
+      AppRouter.pushNamed(Routes.verifyOtpView,args: arguments);
     }
     else
     {}

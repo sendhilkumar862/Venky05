@@ -13,6 +13,7 @@ class HomeModel with _$HomeModel {
       String? mobile,
       String? country,
       String? userStatus,
+      String? userId
   }) = _HomeModel;
 
   factory HomeModel.fromJson(Map<String, dynamic> json) =>
