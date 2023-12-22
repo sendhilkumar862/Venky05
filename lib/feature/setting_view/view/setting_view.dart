@@ -515,7 +515,7 @@ class _SettingViewState extends State<SettingView> {
       case SettingTitle.addMobileNumber:
         AppRouter.push(AddMobileNumberView());
       case SettingTitle.changeMobileNumber:
-        AppRouter.push(ChangeMobileNumberView());
+        AppRouter.push(AddMobileNumberView());
       case SettingTitle.logout:
         _settingController.logout(context);
       case SettingTitle.manageAddress:

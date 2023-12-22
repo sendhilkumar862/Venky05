@@ -21,7 +21,6 @@ class ChangeMobileNumberController extends GetxController{
   RxBool isWrongOldPassword = false.obs;
   TextEditingController accountPasswordController = TextEditingController();
   final HomeController _homeController=Get.find();
-  RxString selectedCity=''.obs;
 
   final ChangeMobileNumberRepository _changeMobileNumberRepository=ChangeMobileNumberRepository();
   final AddAddressController _addAddressController=Get.put(AddAddressController());
@@ -36,7 +35,6 @@ class ChangeMobileNumberController extends GetxController{
         .getCommon(List<String>, KeyValueStorageService.countryCodeAndIDD)
         .toString()
         .split(',');
-    selectedCity.value=_addAddressController.selectedCity.value;
   }
 
 
