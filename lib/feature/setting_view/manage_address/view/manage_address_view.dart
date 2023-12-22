@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../config/routes/app_router.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/choice/src/modal/button.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../class/class_detail/view/class_detail.dart';
+import '../../add_address_screen/view/add_address_view.dart';
 import '../Model/get_address_model.dart';
 import '../controller/manage_controller.dart';
 
@@ -53,7 +55,9 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
           ),
           AppButton(
             isDisable: false,
-            onPressed: () {},
+            onPressed: () {
+              AppRouter.push(const AddAddressScreen());
+            },
             title: 'Add New Address',
           ),
         ]):const SizedBox.shrink(),
