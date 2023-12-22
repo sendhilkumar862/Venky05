@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 part 'home_model.freezed.dart';
 part 'home_model.g.dart';
 
@@ -13,6 +12,7 @@ class HomeModel with _$HomeModel {
       String? mobile,
       String? country,
       String? userStatus,
+      String? imagePath,
   }) = _HomeModel;
 
   factory HomeModel.fromJson(Map<String, dynamic> json) =>
