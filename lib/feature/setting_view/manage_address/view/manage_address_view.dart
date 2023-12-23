@@ -35,19 +35,19 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
       isTitleOnly: true,
     ),
       body: Obx(()=>
-          _manageAddressController.address.isNotEmpty?Column(children: <Widget>[
+         Column(children: <Widget>[
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  ListView.builder(
+                   if (_manageAddressController.address.isNotEmpty) ListView.builder(
                       shrinkWrap: true,
                       physics: const BouncingScrollPhysics(),
                       itemCount: _manageAddressController.address.length,
                       itemBuilder: (BuildContext context, int index) {
                         final UserAddress data =_manageAddressController.address[index];
                         return listData(index, data);
-                      }),
+                      }) else const SizedBox.shrink(),
                 ],
               ),
             ),
@@ -60,7 +60,7 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
             },
             title: 'Add New Address',
           ),
-        ]):const SizedBox.shrink(),
+        ]),
       ),
     );
   }

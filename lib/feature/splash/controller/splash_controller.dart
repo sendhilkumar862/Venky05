@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
-import '../../../core/base_response.dart';
-import '../../tutorial/language/view/language_view.dart';
-import '../../tutorial/login/model/login_model.dart';
-import '../../tutorial/onboarding/view/onboading_view.dart';
-import '../../tutorial/profileSet/view/profile_selection_view.dart';
-import '../../../product/constants/app/app_utils.dart';
 import '../../../product/network/local/key_value_storage_base.dart';
 import '../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/validators.dart';
-import '../../../repository/auth_repositoriy.dart';
+import '../../tutorial/language/view/language_view.dart';
+import '../../tutorial/onboarding/view/onboading_view.dart';
+import '../../tutorial/profileSet/view/profile_selection_view.dart';
 
 class SplashController extends GetxController {
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();

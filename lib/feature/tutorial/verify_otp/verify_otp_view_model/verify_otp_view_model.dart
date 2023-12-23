@@ -15,7 +15,6 @@ import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 import '../../../home/controller/home_controller.dart';
-import '../../../setting_view/view/setting_view.dart';
 import '../model/otp_model.dart';
 
 part 'verify_otp_view_model.g.dart';
@@ -153,10 +152,16 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
 
         if (otpModel.status!.type == 'success') {
           timerController.pause();
-          final HomeController _homeController=Get.find();
-          _homeController.fetchData();
+          if (arguments['isPreLogin'] ?? false) {
+            AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
+          } else {
+            final HomeController _homeController=Get.find();
+            _homeController.fetchData();
+            popupScreen(context);
+          }
+          
 
-          (arguments['changeMobileNumberScreen']!=null&&(arguments['changeMobileNumberScreen']=='add'|| arguments['changeMobileNumberScreen']=='change'))?popupScreen(context):AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
+          //(arguments['changeMobileNumberScreen']!=null&&(arguments['changeMobileNumberScreen']=='add'|| arguments['changeMobileNumberScreen']=='change'))?popupScreen(context):AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
         }
 
         logs('isCorrect--> $isCorrect');

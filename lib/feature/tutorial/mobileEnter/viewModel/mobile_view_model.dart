@@ -96,6 +96,7 @@ abstract class _MobileViewModelBase extends BaseViewModel with Store {
           arguments['otp_id'] = baseResponse.data.item?.otpId ?? '';
           arguments['mobile'] = mobileController.text.trim();
           arguments['countryCode'] = selectedCountryCode.replaceAll('+', '');
+          arguments['isPreLogin'] = true;
            Future.delayed(
           const Duration(milliseconds: 1000),
               () => AppRouter.pushNamed(Routes.verifyOtpView, args: arguments)

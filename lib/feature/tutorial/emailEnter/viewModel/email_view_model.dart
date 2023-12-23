@@ -113,6 +113,7 @@ abstract class _EmailViewModelBase extends BaseViewModel with Store {
         registerWarning = response!.data['status']['type'] == 'error';
         arguments['otp_id'] = response.data['data']['item']['otp_id'];
         arguments['isScreen'] = true;
+        arguments['isPreLogin'] = true;
         //   arguments['contact'] = emailController.text;
 
         AppRouter.pushNamed(Routes.verifyOtpView, args: arguments);

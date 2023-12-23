@@ -22,14 +22,14 @@ class VerifyOtpView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<VerifyOtpViewModel>(
         viewModel: VerifyOtpViewModel(),
-        onModelReady: (VerifyOtpViewModel VerifyOtpViewModel) {
-          VerifyOtpViewModel.setContext(context);
-          VerifyOtpViewModel.init();
-          VerifyOtpViewModel.arguments = ModalRoute.of(context)!
+        onModelReady: (VerifyOtpViewModel verifyOtpViewModel) {
+          verifyOtpViewModel.setContext(context);
+          verifyOtpViewModel.init();
+          verifyOtpViewModel.arguments = ModalRoute.of(context)!
               .settings
               .arguments! as Map<String, dynamic>;
-          VerifyOtpViewModel.otpId =
-              VerifyOtpViewModel.arguments['otp_id'].toString();
+          verifyOtpViewModel.otpId =
+              verifyOtpViewModel.arguments['otp_id'].toString();
         },
         onPageBuilder: (BuildContext context, VerifyOtpViewModel verifyOtpViewModel) {
           return Observer(builder: (BuildContext context) {
