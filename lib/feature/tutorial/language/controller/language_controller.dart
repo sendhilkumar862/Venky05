@@ -22,9 +22,9 @@ class LanguageController extends GetxController {
   RxString selectedItem = ''.obs;
   Rx<TextEditingController> countryController = TextEditingController().obs;
   RxList<String> countryLogo = <String>[].obs;
-  RxInt languageIndex = 1.obs;
+  RxInt languageIndex = 0.obs;
   final HomeController _homeController=Get.put(HomeController());
-  RxList languages = [
+  RxList languages = <String>[
     'English',
     'عربي',
   ].obs;
@@ -38,8 +38,9 @@ class LanguageController extends GetxController {
 
   @override
   void onInit() {
-    fetchData();
+
     KeyValueStorageBase.init();
+    fetchData();
     super.onInit();
   }
 
