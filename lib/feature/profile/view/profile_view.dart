@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -9,7 +9,7 @@ import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
-import '../viewModel/profile_view_model.dart';
+import '../controller/profile_controller.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -19,8 +19,7 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  ProfileViewModel profileViewModel = ProfileViewModel();
-
+  final ProfileController _profileController = Get.put(ProfileController());
   @override
   void initState() {
     super.initState();
@@ -54,7 +53,7 @@ class _ProfileViewState extends State<ProfileView> {
                             image: ImageConstants.avtar,
                           ),
                         ),
-                        if (profileViewModel.isTeacherView)
+                        if (_profileController.isTeacherView.value)
                           Positioned(
                             bottom: 8,
                             right: 1,
@@ -67,13 +66,13 @@ class _ProfileViewState extends State<ProfileView> {
                 Align(
                   alignment: Alignment.center,
                   child: SizedBox(
-                    height: (profileViewModel.isTeacherView) ? 20.px : 5.px,
+                    height: (_profileController.isTeacherView.value) ? 20.px : 5.px,
                     width: 50.px,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: 5,
                       itemBuilder: (BuildContext context, int index) {
-                        if (profileViewModel.isTeacherView) {
+                        if (_profileController.isTeacherView.value) {
                           return AppImageAsset(
                             image: (index < 3) ? ImageConstants.reviewStarPurple : ImageConstants.reviewStar,
                             height: 10.px,
@@ -84,15 +83,15 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                   ),
                 ),
-                if (profileViewModel.isTeacherView) const SizedBox(height: 5),
+                if (_profileController.isTeacherView.value) const SizedBox(height: 5),
                 const AppText(
                   'User Name',
                   textAlign: TextAlign.center,
                   fontWeight: FontWeight.bold,
                   color: AppColors.appDarkBlack,
                 ),
-                if (profileViewModel.isTeacherView) const SizedBox(height: 8),
-                if (profileViewModel.isTeacherView)
+                if (_profileController.isTeacherView.value) const SizedBox(height: 8),
+                if (_profileController.isTeacherView.value)
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 155),
                     padding: EdgeInsets.symmetric(vertical: 3.px, horizontal: 8.px),
@@ -118,8 +117,8 @@ class _ProfileViewState extends State<ProfileView> {
                       ],
                     ),
                   ),
-                if (profileViewModel.isTeacherView) SizedBox(height: 8.px),
-                if (profileViewModel.isTeacherView)
+                if (_profileController.isTeacherView.value) SizedBox(height: 8.px),
+                if (_profileController.isTeacherView.value)
                   const AppText('01/01/1985', fontSize: 12, textAlign: TextAlign.center),
                 SizedBox(height: 10.px),
                 Row(
@@ -148,7 +147,7 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     const SizedBox(width: 10),
                     InkWell(
-                      onTap: () => profileViewModel.setFavorite(),
+                      onTap: () => _profileController.setFavorite(),
                       child: Container(
                         height: 35,
                         width: 120,
@@ -221,8 +220,8 @@ class _ProfileViewState extends State<ProfileView> {
                           ),
                         ],
                       ),
-                      if (profileViewModel.isTeacherView) SizedBox(height: 15.px),
-                      if (profileViewModel.isTeacherView)
+                      if (_profileController.isTeacherView.value) SizedBox(height: 15.px),
+                      if (_profileController.isTeacherView.value)
                         Row(
                           children: <Widget>[
                             Column(
@@ -263,12 +262,12 @@ class _ProfileViewState extends State<ProfileView> {
                           ),
                         ],
                       ),
-                      if (profileViewModel.isTeacherView) buildEducationCard()
+                      if (_profileController.isTeacherView.value) buildEducationCard()
                     ],
                   ),
                 ),
                 SizedBox(height: 15.px),
-                if (profileViewModel.isTeacherView)
+                if (_profileController.isTeacherView.value)
                   Container(
                       margin: EdgeInsets.symmetric(horizontal: 15.px),
                       child: const AppText(
@@ -276,8 +275,8 @@ class _ProfileViewState extends State<ProfileView> {
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                       )),
-                if (!profileViewModel.isTeacherView) SizedBox(height: 15.px),
-                if (!profileViewModel.isTeacherView)
+                if (!_profileController.isTeacherView.value) SizedBox(height: 15.px),
+                if (!_profileController.isTeacherView.value)
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 15.px),
                     padding: const EdgeInsets.all(20),
@@ -302,7 +301,7 @@ class _ProfileViewState extends State<ProfileView> {
                     ]),
                   ),
                 SizedBox(height: 10.px),
-                if (profileViewModel.isTeacherView) const AvailableTimesCalender(),
+                if (_profileController.isTeacherView.value) const AvailableTimesCalender(),
               ],
             );
           },
@@ -414,7 +413,7 @@ class _ProfileViewState extends State<ProfileView> {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: AppColors.lightPurple),
       ),
-      child: (profileViewModel.isTeacherView)
+      child: (_profileController.isTeacherView.value)
           ? Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
