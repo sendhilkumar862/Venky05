@@ -25,6 +25,7 @@ class ApiEndpoint {
   static const String baseUrl = Config.baseUrl;
 
   static const String profileSet='content/role/common/type/about_us';
+  static const String countryGet='public/countries/idd';
 
   /// Returns the path for an authentication [endpoint].
   static String auth(AuthEndpoint endpoint) {
@@ -43,6 +44,7 @@ class ApiEndpoint {
       case AuthEndpoint.USER_ADDRESS: return '$path/:userId/address/';
       case AuthEndpoint.ADD_NUMBER: return '$path/mobile/addNumber';
       case AuthEndpoint.CHANGE_NUMBER: return '$path/mobile/changeNumber';
+      case AuthEndpoint.PERSONAL_INFO: return '$path/profile/personal';
     }
   }
 
@@ -116,6 +118,9 @@ enum AuthEndpoint {
 
   /// An endpoint for add mobile Number.
   CHANGE_NUMBER,
+
+  /// An endpoint for update personal.
+  PERSONAL_INFO,
 }
 
 /// A collection of endpoints used for students.
