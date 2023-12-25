@@ -5,23 +5,21 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
-import '../../../../config/routes/app_router.dart';
-import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
-import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../tutorial/mobileEnter/model/country_code_model.dart';
 import '../bottomSheet/country_bottom_sheets.dart';
 import '../bottomSheet/language_bottom_sheets.dart';
-import '../viewModel/personal_info_view_model.dart';
+import '../controller/personal_info_controllere.dart';
+
 
 class PersonalInfo extends StatefulWidget {
   const PersonalInfo({super.key});
@@ -33,11 +31,10 @@ class PersonalInfo extends StatefulWidget {
 class _PersonalInfoState extends State<PersonalInfo> {
   File? firstImage;
   File? secondImage;
-
   bool isSelected = false;
   int? isSelect;
   int? selectedIndex = 0;
-
+  final PersonalInfoController _personalInfoController= Get.put(PersonalInfoController());
 
   List<Gender> genderList = <Gender>[
     Gender(
@@ -53,290 +50,279 @@ class _PersonalInfoState extends State<PersonalInfo> {
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
-    return BaseView<PersonalInfoViewModel>(
-        viewModel: PersonalInfoViewModel(),
-        onModelReady: (PersonalInfoViewModel model) {
-          model.setContext(context);
-          model.init();
-        },
-        onPageBuilder: (BuildContext context, PersonalInfoViewModel personalInfoViewModel) {
-          return Scaffold(
-            appBar: HessaAppBar(
-              trailingText: 'Cancel',
-              title: 'Complete Profile',
-              isTitleOnly: true,
-            ),
-            body: Padding(
-              padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-              child: SingleChildScrollView(child: StatefulBuilder(
-                builder: (context, setState) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 30),
-                        child:
-                            Text('Personal Information', style: openSans.get20.w700.textColor(AppColors.appTextColor)),
+    return Scaffold(
+      appBar: HessaAppBar(
+        trailingText: 'Cancel',
+        title: 'Complete Profile',
+        isTitleOnly: true,
+      ),
+      body: Obx(()=>
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+          child: SingleChildScrollView(child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child:
+                Text('Personal Information', style: openSans.get20.w700.textColor(AppColors.appTextColor)),
+              ),
+              selectCardView(
+                icon: _personalInfoController.selectedCountry.value.flag_url,
+                title: _personalInfoController.selectedCountry.value.name,
+                hint: 'Select your nationality',
+                mainTitle: 'Nationality',
+                onTap: () {
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(25.0),
                       ),
-                      selectCardView(
-                        icon: personalInfoViewModel.selectedCountry?.flag_url,
-                        title: personalInfoViewModel.selectedCountry?.name,
-                        hint: 'Select your nationality',
-                        mainTitle: 'Nationality',
-                        onTap: () {
-                          showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(25.0),
-                              ),
-                            ),
-                            builder: (BuildContext context) {
-                              return CountryBottomsSheets(
-                                setState: setState,
-                                personalInfoViewModel: personalInfoViewModel,
-                              );
-                            },
-                          );
-                        },
-                      ),
-                      AppTextFormField(
-                        readOnly: true,
-                        title: 'Languages Spoken',
-                        hintText:'Select spoken languages' ,
-                        suffix: const Icon(Icons.keyboard_arrow_down_sharp),
-                        controller: personalInfoViewModel.languageController,
-                        onTap: () {
-                          showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(25.0),
-                              ),
-                            ),
-                            builder: (BuildContext context) {
-                              return LanguageBottomSheets(
-                                  setState: setState, personalInfoViewModel: personalInfoViewModel);
-                            },
-                          );
-                        },
-                      ),
-                      AppTextFormField(
-                        controller: personalInfoViewModel.dateController,
-                        onTap: () {
-                          calender(context, personalInfoViewModel.dateController);
-                        },
-                        readOnly: false,
-                        title: 'Birthday',
-                        hintText: 'Select your birthday',
-                        suffix: const Icon(Icons.keyboard_arrow_down_sharp),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15),
-                        child: Row(
-                          children: <Widget>[
-                            Text('Make it visible for users',
-                                style: openSans.get14.w500.textColor(AppColors.appTextColor)),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: FlutterSwitch(
-                                value: personalInfoViewModel.isSwitch,
-                                height: 16.29,
-                                width: 27.63,
-                                toggleSize: 12,
-                                activeColor: AppColors.appBlue,
-                                inactiveColor: AppColors.gray.withOpacity(0.25),
-                                onToggle: (bool value) {
-                                  setState(() {
-                                    personalInfoViewModel.isSwitch = value;
-                                  });
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 30, bottom: 15),
-                        child: Text(
-                          'Gender',
-                          style: openSans.get12.w400.textColor(AppColors.appTextColor.withOpacity(0.5)),
-                        ),
-                      ),
-                      genderGridView(personalInfoViewModel),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20, bottom: 15),
-                        child: Text('Civil ID',
-                            style: openSans.get12.w400.textColor(AppColors.appTextColor.withOpacity(0.5))),
-                      ),
-                      Center(
-                        child: SizedBox(
-                          width: width * 0.89,
-                          child: InkWell(
-                            onTap: () {
-                              pickDocument();
-                            },
-                            child: DottedBorder(
-                                padding: const EdgeInsets.symmetric(vertical: 20),
-                                borderType: BorderType.RRect,
-                                radius: const Radius.circular(15),
-                                color: AppColors.appBlue,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        if (firstImage != null)
-                                          SizedBox(
-                                            width: 80,
-                                            height: 80,
-                                            child: Stack(
-                                              children: <Widget>[
-                                                Container(
-                                                    decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(12),
-                                                        border: Border.all(
-                                                            color: AppColors.appBorderColor.withOpacity(0.5))),
-                                                    child: ClipRRect(
-                                                        borderRadius: BorderRadius.circular(12),
-                                                        child: Image.file(
-                                                          firstImage!,
-                                                          width: 80,
-                                                          height: 80,
-                                                          fit: BoxFit.cover,
-                                                        ))),
-                                                Align(
-                                                    alignment: Alignment.topRight,
-                                                    child: InkWell(
-                                                      onTap: () {
-                                                        setState(() {
-                                                          firstImage = null;
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                          margin:
-                                                              const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                                                          padding: const EdgeInsets.all(3),
-                                                          decoration: BoxDecoration(
-                                                              color: AppColors.downArrowColor.withOpacity(0.15),
-                                                              shape: BoxShape.circle),
-                                                          child: const Icon(
-                                                            Icons.close,
-                                                            size: 20,
-                                                          )),
-                                                    ))
-                                              ],
-                                            ),
-                                          ),
-                                        if (secondImage != null)
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 10),
-                                            child: SizedBox(
-                                              width: 80,
-                                              height: 80,
-                                              child: Stack(
-                                                children: <Widget>[
-                                                  Container(
-                                                      decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.circular(12),
-                                                          border: Border.all(
-                                                              color: AppColors.appBorderColor.withOpacity(0.5))),
-                                                      child: ClipRRect(
-                                                          borderRadius: BorderRadius.circular(12),
-                                                          child: Image.file(
-                                                            secondImage!,
-                                                            width: 80,
-                                                            height: 80,
-                                                            fit: BoxFit.cover,
-                                                          ))),
-                                                  Align(
-                                                      alignment: Alignment.topRight,
-                                                      child: InkWell(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            secondImage = null;
-                                                          });
-                                                        },
-                                                        child: Container(
-                                                            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                                                            padding: EdgeInsets.all(3),
-                                                            decoration: BoxDecoration(
-                                                                color: AppColors.downArrowColor.withOpacity(0.15),
-                                                                shape: BoxShape.circle),
-                                                            child: Icon(
-                                                              Icons.close,
-                                                              size: 20,
-                                                            )),
-                                                      ))
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                      ],
-                                    ),
-                                    if (secondImage == null || firstImage == null)
-                                      Padding(
-                                        padding:
-                                            EdgeInsets.only(top: secondImage == null && firstImage == null ? 0 : 15),
-                                        child: Column(
-                                          children: <Widget>[
-                                            const Icon(Icons.cloud_upload_outlined, color: AppColors.appBlue),
-                                            Center(
-                                                child: Text(
-                                              firstImage != null ? 'Add More' : 'Upload Civil ID',
-                                              style: openSans.get14.w500.appBlue,
-                                            )),
-                                          ],
-                                        ),
-                                      ),
-                                  ],
-                                )),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Container(
-                          padding: const EdgeInsets.only(left: 20, right: 40),
-                          height: 64,
-                          width: width,
-                          decoration:
-                              BoxDecoration(color: AppColors.lightPurpleTwo, borderRadius: BorderRadius.circular(12)),
-                          child: Row(
-                            children: <Widget>[
-                              const Padding(
-                                padding: EdgeInsets.only(right: 7),
-                                child: Icon(Icons.info, size: 25, color: AppColors.downArrowColor),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'Civil ID for usage of app only, and we will not share this doc with anyone.',
-                                  style: openSans.get12.w400.appTextColor,
-                                  overflow: TextOverflow.clip,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      AppButton(
-                          title: 'Continue To Teaching Information',
-                          onPressed: () {
-                            if(personalInfoViewModel.countries.isNotEmpty &&  personalInfoViewModel.languageIcon.isNotEmpty && personalInfoViewModel.dateController.text.isNotEmpty) {
-                              personalInfoViewModel.personalInformationUpdate();
-                            }
-                          },
-                          isDisable: personalInfoViewModel.countries.isNotEmpty &&  personalInfoViewModel.languageIcon.isNotEmpty && personalInfoViewModel.dateController.text.isNotEmpty ?false:true )
-                    ],
+                    ),
+                    builder: (BuildContext context) {
+                      return CountryBottomsSheets(
+                        setState: setState,
+                      );
+                    },
                   );
                 },
-              )),
-            ),
-          );
-        });
+              ),
+              AppTextFormField(
+                readOnly: true,
+                title: 'Languages Spoken',
+                hintText:'Select spoken languages' ,
+                suffix: const Icon(Icons.keyboard_arrow_down_sharp),
+                controller: _personalInfoController.languageController,
+                onTap: () {
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(25.0),
+                      ),
+                    ),
+                    builder: (BuildContext context) {
+                      return LanguageBottomSheets(
+                          setState: setState);
+                    },
+                  );
+                },
+              ),
+              AppTextFormField(
+                controller: _personalInfoController.dateController,
+                onTap: () {
+                  calender(context, _personalInfoController.dateController);
+                },
+                readOnly: false,
+                title: 'Birthday',
+                hintText: 'Select your birthday',
+                suffix: const Icon(Icons.keyboard_arrow_down_sharp),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: Row(
+                  children: <Widget>[
+                    Text('Make it visible for users',
+                        style: openSans.get14.w500.textColor(AppColors.appTextColor)),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: FlutterSwitch(
+                        value:_personalInfoController.isSwitch.value,
+                        height: 16.29,
+                        width: 27.63,
+                        toggleSize: 12,
+                        activeColor: AppColors.appBlue,
+                        inactiveColor: AppColors.gray.withOpacity(0.25),
+                        onToggle: (bool value) {
+                          setState(() {
+                            _personalInfoController.isSwitch.value = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 30, bottom: 15),
+                child: Text(
+                  'Gender',
+                  style: openSans.get12.w400.textColor(AppColors.appTextColor.withOpacity(0.5)),
+                ),
+              ),
+              genderGridView(),
+              Padding(
+                padding: const EdgeInsets.only(top: 20, bottom: 15),
+                child: Text('Civil ID',
+                    style: openSans.get12.w400.textColor(AppColors.appTextColor.withOpacity(0.5))),
+              ),
+              Center(
+                child: SizedBox(
+                  width: width * 0.89,
+                  child: InkWell(
+                    onTap: () {
+                      pickDocument();
+                    },
+                    child: DottedBorder(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        borderType: BorderType.RRect,
+                        radius: const Radius.circular(15),
+                        color: AppColors.appBlue,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                if (firstImage != null)
+                                  SizedBox(
+                                    width: 80,
+                                    height: 80,
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(12),
+                                                border: Border.all(
+                                                    color: AppColors.appBorderColor.withOpacity(0.5))),
+                                            child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(12),
+                                                child: Image.file(
+                                                  firstImage!,
+                                                  width: 80,
+                                                  height: 80,
+                                                  fit: BoxFit.cover,
+                                                ))),
+                                        Align(
+                                            alignment: Alignment.topRight,
+                                            child: InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  firstImage = null;
+                                                });
+                                              },
+                                              child: Container(
+                                                  margin:
+                                                  const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                                                  padding: const EdgeInsets.all(3),
+                                                  decoration: BoxDecoration(
+                                                      color: AppColors.downArrowColor.withOpacity(0.15),
+                                                      shape: BoxShape.circle),
+                                                  child: const Icon(
+                                                    Icons.close,
+                                                    size: 20,
+                                                  )),
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                if (secondImage != null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: SizedBox(
+                                      width: 80,
+                                      height: 80,
+                                      child: Stack(
+                                        children: <Widget>[
+                                          Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(12),
+                                                  border: Border.all(
+                                                      color: AppColors.appBorderColor.withOpacity(0.5))),
+                                              child: ClipRRect(
+                                                  borderRadius: BorderRadius.circular(12),
+                                                  child: Image.file(
+                                                    secondImage!,
+                                                    width: 80,
+                                                    height: 80,
+                                                    fit: BoxFit.cover,
+                                                  ))),
+                                          Align(
+                                              alignment: Alignment.topRight,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    secondImage = null;
+                                                  });
+                                                },
+                                                child: Container(
+                                                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                                                    padding: EdgeInsets.all(3),
+                                                    decoration: BoxDecoration(
+                                                        color: AppColors.downArrowColor.withOpacity(0.15),
+                                                        shape: BoxShape.circle),
+                                                    child: Icon(
+                                                      Icons.close,
+                                                      size: 20,
+                                                    )),
+                                              ))
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                            if (secondImage == null || firstImage == null)
+                              Padding(
+                                padding:
+                                EdgeInsets.only(top: secondImage == null && firstImage == null ? 0 : 15),
+                                child: Column(
+                                  children: <Widget>[
+                                    const Icon(Icons.cloud_upload_outlined, color: AppColors.appBlue),
+                                    Center(
+                                        child: Text(
+                                          firstImage != null ? 'Add More' : 'Upload Civil ID',
+                                          style: openSans.get14.w500.appBlue,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                          ],
+                        )),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Container(
+                  padding: const EdgeInsets.only(left: 20, right: 40),
+                  height: 64,
+                  width: width,
+                  decoration:
+                  BoxDecoration(color: AppColors.lightPurpleTwo, borderRadius: BorderRadius.circular(12)),
+                  child: Row(
+                    children: <Widget>[
+                      const Padding(
+                        padding: EdgeInsets.only(right: 7),
+                        child: Icon(Icons.info, size: 25, color: AppColors.downArrowColor),
+                      ),
+                      Expanded(
+                        child: Text(
+                          'Civil ID for usage of app only, and we will not share this doc with anyone.',
+                          style: openSans.get12.w400.appTextColor,
+                          overflow: TextOverflow.clip,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              AppButton(
+                  title: 'Continue To Teaching Information',
+                  onPressed: () {
+                    if(_personalInfoController.countries.isNotEmpty &&  _personalInfoController.languageIcon.isNotEmpty && _personalInfoController.dateController.text.isNotEmpty) {
+                      _personalInfoController.personalInformationUpdate();
+                    }
+                  },
+                  isDisable: _personalInfoController.countries.isNotEmpty &&  _personalInfoController.languageIcon.isNotEmpty && _personalInfoController.dateController.text.isNotEmpty ?false:true )
+            ],
+          )),
+        ),
+      ),
+    );
   }
 
   Future<void> pickDocument() async {
@@ -357,39 +343,39 @@ class _PersonalInfoState extends State<PersonalInfo> {
     }
   }
 
-  Widget genderGridView(PersonalInfoViewModel personalInfoViewModel) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: genderList.length,
-        crossAxisSpacing: 5,
-        mainAxisSpacing: 5,
-        mainAxisExtent: 44,
-      ),
-      itemCount: genderList.length,
-      itemBuilder: (BuildContext context, int index) {
-        final Gender data = genderList[index];
-        return InkWell(
-            onTap: () {
-              setState(() {
-                personalInfoViewModel.genderListIndex = index;
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  color: index == personalInfoViewModel.genderListIndex ? AppColors.appBlue : AppColors.white,
-                  border: Border.all(color: AppColors.appBorderColor.withOpacity(0.5)),
-                  borderRadius: BorderRadius.circular(12)),
-              child: Center(
-                  child: Text(
-                data.gender,
-                style: openSans.w400.get14.textColor(
-                  index == personalInfoViewModel.genderListIndex ? AppColors.white : AppColors.appTextColor,
-                ),
-              )),
-            ));
-      },
+  Widget genderGridView() {
+    return Obx( (){
+    final int indexSelected = _personalInfoController.genderListIndex.value;
+   return  GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: genderList.length,
+            crossAxisSpacing: 5,
+            mainAxisSpacing: 5,
+            mainAxisExtent: 44,
+          ),
+          itemCount: genderList.length,
+          itemBuilder: (BuildContext context, int index) {
+            final Gender data = genderList[index];
+            return InkWell(
+                onTap: () =>
+                    _personalInfoController.genderListIndex.value = index,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: index ==indexSelected? AppColors.appBlue : AppColors.white,
+                      border: Border.all(color: AppColors.appBorderColor.withOpacity(0.5)),
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Center(
+                      child: Text(
+                    data.gender,
+                    style: openSans.w400.get14.textColor(
+                      index ==indexSelected ? AppColors.white : AppColors.appTextColor,
+                    ),
+                  )),
+                ));
+          },
+        );}
     );
   }
 
