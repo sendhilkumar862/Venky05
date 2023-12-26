@@ -53,7 +53,7 @@ class HessaAppBar extends PreferredSize {
   final GestureTapCallback? onCallTap;
   final bool? isReviewStar;
   final int? reviewStarLength;
-  final HomeController _homeController=Get.find();
+  final HomeController _homeController=Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {

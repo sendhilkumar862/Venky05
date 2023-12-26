@@ -59,19 +59,19 @@ class _HomeViewState extends State<HomeView> {
               unselectedIconColor: AppColors.downArrowColor,
               items: <NavBarItem>[
                 NavBarItem(
-                  selectedIconData: ImageConstants.acceptedStatus,
+                  selectedIconData: ImageConstants.homeHomeIconSelected,
                   iconData: ImageConstants.homeHomeIcon,
                   title: 'Home',
                   page: const HomeViews(),
                 ),
                 NavBarItem(
-                  selectedIconData: ImageConstants.acceptedStatus,
+                  selectedIconData: ImageConstants.homeWalletIconSelected,
                   iconData: ImageConstants.homeWalletIcon,
                   title: 'Wallet',
                   page: WalletView(),
                 ),
                 NavBarItem(
-                   selectedIconData: ImageConstants.acceptedStatus,
+                   selectedIconData: ImageConstants.homeMessageIconSelected,
                   iconData: ImageConstants.homeMessageIcon,
                   title: 'Message',
                   page: MessageView(),

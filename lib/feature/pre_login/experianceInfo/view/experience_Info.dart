@@ -249,7 +249,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                                           const Icon(Icons.cloud_upload_outlined, color: AppColors.appBlue),
                                           Center(
                                               child: Text(
-                                                experienceInfoStore.firstImage != null ? 'Add More' : 'Upload Civil ID',
+                                                experienceInfoStore.firstImage != null ? 'Add More' : 'upload certificate',
                                                 style: openSans.get14.w500.appBlue,
                                               )),
                                         ],

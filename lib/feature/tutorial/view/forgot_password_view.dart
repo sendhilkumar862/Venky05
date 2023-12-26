@@ -91,13 +91,7 @@ class ForgotPassWordView extends StatelessWidget {
                             ),
                             if (tutorialViewModel.errors.isNotEmpty)
                               WarningCardView(
-                                  color: (tutorialViewModel
-                                              .resetPassEmailResponseModel
-                                              .status!
-                                              .type ==
-                                          'error')
-                                      ? AppColors.appLightRedTwo
-                                      : AppColors.lightPurple,
+                                  color: AppColors.appLightRedTwo,
                                   error: tutorialViewModel.errors),
                             SizedBox(height: 20.px),
                           ],

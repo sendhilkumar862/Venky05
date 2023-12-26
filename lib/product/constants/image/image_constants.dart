@@ -255,6 +255,12 @@ class ImageConstants {
       '${ApplicationConstants.iconPath}icon_message.svg';
   static const String homeHomeIcon =
       '${ApplicationConstants.iconPath}icon_home.svg';
+  static const String homeWalletIconSelected =
+      '${ApplicationConstants.iconPath}icon_wallet_selected.svg';
+  static const String homeMessageIconSelected =
+      '${ApplicationConstants.iconPath}icon_message_selected.svg';
+  static const String homeHomeIconSelected =
+      '${ApplicationConstants.iconPath}icon_home_selected.svg';
 
   static const String earthIcon = '${ApplicationConstants.iconPath}earth.svg';
   static const String kuwaitFlag =

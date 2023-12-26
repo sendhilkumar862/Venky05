@@ -91,12 +91,13 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
         'http://167.99.93.83/api/v1/users/request-reset',
         data: body,
       );
-      if (response.statusCode == 200) {
+      if (response.data['status']['type'] == 'success') {
         hideLoading();
         resetPassEmailResponseModel =
             ResetPassEmailResponseModel.fromJson(response.data);
         AppRouter.pushNamed(Routes.restPassword);
       } else {
+        errors=response.data['status']['message'];
         hideLoading();
       }
     } on DioException catch (error) {

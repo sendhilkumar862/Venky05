@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -7,15 +6,10 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../config/routes/app_router.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
-import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/common_dropdown/app_dropdown.dart';
-import '../../../../custom/image/app_image_assets.dart';
-import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
-import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/utils/typography.dart';
-import '../../../tutorial/view/bottomSheets/country_code_bottom_sheet.dart';
 import '../../manage_address/Model/get_address_model.dart';
 import '../../manage_address/controller/manage_controller.dart';
 import '../controller/add_address_controller.dart';
@@ -44,7 +38,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       _addAddressController.addressFirst.text=widget.userData?.address1??'';
       _addAddressController.addressSecond.text= widget.userData?.address2??'';
       _addAddressController.shortName.text=widget.userData?.shortName??'';
-      _addAddressController.mobileController.text=widget.userData?.mobile??'';
+      // _addAddressController.mobileController.text=widget.userData?.mobile??'';
       _addAddressController.isSwitchExperience.value=widget.userData?.isDefault==1?true:false;
     }
     super.initState();
@@ -66,8 +60,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 child: Column(
                   children: <Widget>[
                     AppDropdown(
-                      options: _addAddressController.city,
-                      title: 'City',
+                      options: _addAddressController.city.value,
+                      title: 'Area',
                       hintStyle:widget.title=='Update Address'? openSans.black.w500.get16.textColor(AppColors.appTextColor): openSans.w400
                           .textColor(AppColors.appTextColor.withOpacity(0.25))
                           .get14,
@@ -98,75 +92,75 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                        },
                     ),
                     SizedBox(height: 10.px),
-                    TextFormsField(
-                      prefix: (_addAddressController.countries.isNotEmpty)
-                          ? GestureDetector(
-                        onTap: () {
-                          showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(25.0),
-                              ),
-                            ),
-                            builder: (BuildContext context) {
-                              return StatefulBuilder(
-                                builder:
-                                    (BuildContext context, setState) {
-                                  return CountryCodeBottomsSheet(
-                                      setState: setState,);
-                                },
-                              );
-                            },
-                          );
-                        },
-                        child: Row(
-                          children: [
-                            SizedBox(width: 6.px),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(700),
-                              child: AppImageAsset(
-                                image: _addAddressController
-                                    .countries[_addAddressController
-                                    .countryIndex.value]
-                                    ?.flag_url ??
-                                    ImageConstants.globe,
-                                fit: BoxFit.fill,
-                                height: 16.px,
-                                width: 16.px,
-                              ),
-                            ),
-                            SizedBox(width: 6.px),
-                            AppText(
-                              _addAddressController
-                                  .countries[
-                              _addAddressController.countryIndex.value]
-                                  ?.idd_code ??
-                                  'select',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14.px,
-                            )
-                          ],
-                        ),
-                      )
-                          : const SizedBox(),
-                      title: 'mobileNumber'.tr,
-                      keyboardType: TextInputType.number,
-                      controller: _addAddressController.mobileController,
-                      hintText: 'enterMobileAgain'.tr,
-                      validate: _addAddressController.mobileValid.value,
-                      errorText: _addAddressController.mobileErrorText.value,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
-                      onChanged: (String value) {
-                        _addAddressController.validateMobile(value);
-                        setState(() {
-
-                        });
-                      },
-                    ),
+                    // TextFormsField(
+                    //   prefix: (_addAddressController.countries.isNotEmpty)
+                    //       ? GestureDetector(
+                    //     onTap: () {
+                    //       showModalBottomSheet(
+                    //         isScrollControlled: true,
+                    //         context: context,
+                    //         shape: const RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.vertical(
+                    //             top: Radius.circular(25.0),
+                    //           ),
+                    //         ),
+                    //         builder: (BuildContext context) {
+                    //           return StatefulBuilder(
+                    //             builder:
+                    //                 (BuildContext context, setState) {
+                    //               return CountryCodeBottomsSheet(
+                    //                   setState: setState,);
+                    //             },
+                    //           );
+                    //         },
+                    //       );
+                    //     },
+                    //     child: Row(
+                    //       children: [
+                    //         SizedBox(width: 6.px),
+                    //         ClipRRect(
+                    //           borderRadius: BorderRadius.circular(700),
+                    //           child: AppImageAsset(
+                    //             image: _addAddressController
+                    //                 .countries[_addAddressController
+                    //                 .countryIndex.value]
+                    //                 ?.flag_url ??
+                    //                 ImageConstants.globe,
+                    //             fit: BoxFit.fill,
+                    //             height: 16.px,
+                    //             width: 16.px,
+                    //           ),
+                    //         ),
+                    //         SizedBox(width: 6.px),
+                    //         AppText(
+                    //           _addAddressController
+                    //               .countries[
+                    //           _addAddressController.countryIndex.value]
+                    //               ?.idd_code ??
+                    //               'select',
+                    //           fontWeight: FontWeight.w400,
+                    //           fontSize: 14.px,
+                    //         )
+                    //       ],
+                    //     ),
+                    //   )
+                    //       : const SizedBox(),
+                    //   title: 'mobileNumber'.tr,
+                    //   keyboardType: TextInputType.number,
+                    //   controller: _addAddressController.mobileController,
+                    //   hintText: 'enterMobileAgain'.tr,
+                    //   validate: _addAddressController.mobileValid.value,
+                    //   errorText: _addAddressController.mobileErrorText.value,
+                    //   inputFormatters: <TextInputFormatter>[
+                    //     FilteringTextInputFormatter.digitsOnly
+                    //   ],
+                    //   onChanged: (String value) {
+                    //     _addAddressController.validateMobile(value);
+                    //     setState(() {
+                    //
+                    //     });
+                    //   },
+                    // ),
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
                       child: Row(
@@ -201,35 +195,43 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         });
                       },
                     ),
-                    Container(
-                      height: 90.px,
-                      width: double.infinity,
-                      padding: EdgeInsets.only(top:12),
-                      decoration:
-                      const BoxDecoration(color: AppColors.appWhite),
-                      child: GoogleMap(
-                        markers: <Marker>{
-                          Marker(
-                            markerId: const MarkerId('riyadh1'),
-                            position: LatLng(
-                              double.parse('24.7136'),
-                              double.parse('46.6753'),
-                            ),
-                          )
-                        },
-                         initialCameraPosition:CameraPosition(
-                           target: LatLng(
-                             double.parse('24.7136'),
-                             double.parse('46.6753'),
+                    Obx(()=>
+                       Container(
+                        height: 100.px,
+                        width: double.infinity,
+                        padding: const EdgeInsets.only(top:12),
+                        decoration:
+                        const BoxDecoration(color: AppColors.appWhite),
+                        child: GoogleMap(
+                          markers: <Marker>{
+                            Marker(
+                              markerId: const MarkerId('riyadh1'),
+                              position: _addAddressController.position.value,
+                            )
+                          },
+                           initialCameraPosition:CameraPosition(
+                             target: LatLng(
+                               double.parse('24.7136'),
+                               double.parse('46.6753'),
+                             ),
+                             zoom: 3,
                            ),
-                           zoom: 14.4746,
-                         ),
-                        // proposalDetailsViewModel.kGooglePlex!,
-                        zoomControlsEnabled: false,
-                        zoomGesturesEnabled: false,
-                        // onMapCreated: (GoogleMapController controllers) =>
-                        //     proposalDetailsViewModel.mapController
-                        //         .complete(controllers),
+                            onTap: (value)async{
+                            _addAddressController.position.value=value;
+                            _addAddressController.getAddress(value);
+                              _addAddressController.googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+                                  CameraPosition(target: value, zoom: 5)));
+                            },
+                          // proposalDetailsViewModel.kGooglePlex!,
+                          zoomControlsEnabled: false,
+                          zoomGesturesEnabled: true,
+                          onMapCreated: (GoogleMapController controllers) {
+                            _addAddressController.googleMapController=controllers;
+                              _addAddressController.controllerGoogleMap
+                                  .complete(controllers);
+
+                          }
+                        ),
                       ),
                     ),
                   ],
@@ -245,19 +247,19 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 if(_addAddressController.selectedCity.value!='' && _addAddressController.addressFirst.text!='' && _addAddressController.addressSecond.text!='' && _addAddressController.shortName.text!=''){
                 Map data={
                   'short_name': _addAddressController.shortName.text,
-                  'country_code': _addAddressController
-                      .countries[
-                  _addAddressController.countryIndex.value]
-                      ?.idd_code,
-                  'mobile': _addAddressController.mobileController.text,
+                  // 'country_code': _addAddressController
+                  //     .countries[
+                  // _addAddressController.countryIndex.value]
+                  //     ?.idd_code,
+                  // 'mobile': _addAddressController.mobileController.text,
                   'address1': _addAddressController.addressFirst.text,
                   'address2': _addAddressController.addressSecond.text,
                   'city': _addAddressController.selectedCity.value,
-                  'state': 'New Delhi',
-                  'country': 'India',
+                  'state': _addAddressController.address[0].administrativeArea,
+                  'country': _addAddressController.address[0].country,
                   'location': {
-                    'lat': '60',
-                    'long': '30'
+                    'lat': _addAddressController.position.value.latitude.toString(),
+                    'long': _addAddressController.position.value.longitude.toString(),
                   },
                   'is_default':  _addAddressController.isSwitchExperience.value
                 };

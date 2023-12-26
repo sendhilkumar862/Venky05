@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart' hide Response;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../config/routes/app_router.dart';
+import '../../../../core/user_location.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../tutorial/mobileEnter/model/country_code_model.dart';
@@ -16,8 +21,12 @@ class AddAddressController extends GetxController{
   TextEditingController addressSecond = TextEditingController();
   TextEditingController mobileController = TextEditingController();
   // ignore: always_specify_types
-  RxList city=<String>[].obs;
+  RxList<String> city=<String>[].obs;
    RxString selectedCity=''.obs;
+  RxList<Placemark>  address = <Placemark>[].obs ;
+  final Completer<GoogleMapController> controllerGoogleMap = Completer();
+  Rx<LatLng> position = const LatLng(56.0, 58.0).obs;
+  late GoogleMapController googleMapController;
   @override
   void init() {
     // fetchFullData();
@@ -30,8 +39,10 @@ class AddAddressController extends GetxController{
   }
 fetchFullData()async{
   EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-   await Future.wait(<Future<void>>[fetchData(),
-      fetchCity()
+   await Future.wait(<Future<void>>[
+     fetchData(),
+      fetchCity(),
+      getPositionAddress()
     ]);
   EasyLoading.dismiss();
 
@@ -41,8 +52,25 @@ fetchFullData()async{
   RxBool isSwitchExperience = false.obs;
 
 
+  getPositionAddress() async {
+    try{
+      await LocationService().requestLocPermission();
+    }catch(e){
+    }
+    googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: position.value, zoom: 5)));
 
 
+  }
+
+  getAddress(LatLng lac)async{
+    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+    try{
+      await LocationService().getAddressFromLatLng(lac);
+    }catch(e){
+    }
+    EasyLoading.dismiss();
+  }
   RxString selectedCountryCode = '965'.obs;
 
 
