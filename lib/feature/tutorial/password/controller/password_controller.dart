@@ -101,7 +101,7 @@ class PasswordController extends GetxController{
         BaseResponse<PasswordModel>.fromJson(response.data as Map<String, dynamic>, PasswordModel.fromJson);
         logs('token--> ${baseResponse.data.item?.token.accessToken}');
         final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
-        keyValueStorageService.setAuthToken(baseResponse.data.item?.token.accessToken.toString() ?? '');
+        await keyValueStorageService.setAuthToken(baseResponse.data.item?.token.accessToken.toString() ?? '');
         EasyLoading.dismiss();
         return true;
       } else {

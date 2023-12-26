@@ -58,8 +58,8 @@ class KeyValueStorageService {
   /// Sets the authentication token to this value. Even though this method is
   /// asynchronous, we don't care about it's completion which is why we don't
   /// use `await` and let it execute in the background.
-  void setAuthToken(String token) {
-    _keyValueStorage.setEncrypted(_authTokenKey, token);
+  Future<void> setAuthToken(String token) async {
+    await _keyValueStorage.setEncrypted(_authTokenKey, token);
   }
 
   void setAuthBiometric(String status) {

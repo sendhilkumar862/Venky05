@@ -13,6 +13,7 @@ import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../home/controller/home_controller.dart';
+import '../reupload_documents.dart';
 
 class ClassesView extends StatefulWidget {
   const ClassesView({super.key});
@@ -45,7 +46,8 @@ class _ClassesViewState extends State<ClassesView> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             if (_homeController.homeData.value?.userStatus != '99')
-              Center(
+              if (_homeController.homeData.value?.userStatus == '50' || _homeController.homeData.value?.userStatus == '60' || _homeController.homeData.value?.userStatus == '70' || _homeController.homeData.value?.userStatus == '80')
+                  Center(
                 child: InfoCardVIew(
                   isPending: false,
                   isShowButton: true,
@@ -80,11 +82,10 @@ class _ClassesViewState extends State<ClassesView> {
                     }
                   },
                 ),
-              )
-            else
-              const SizedBox.shrink(),
-            /* Center(
-            child: InfoCardVIew(
+               )
+              else
+                 Center(
+                  child: InfoCardVIew(
               isPending: isPending,
               isShowButton: false,
               isSupport: true,
@@ -102,8 +103,8 @@ class _ClassesViewState extends State<ClassesView> {
                   AppRouter.push(ReUploadDocument());
                 }
               },
-            ),
-          ),*/
+              ),
+              ), 
           ],
         ),
       );
