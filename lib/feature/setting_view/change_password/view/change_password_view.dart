@@ -179,42 +179,42 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
       ),
       bottomNavigationBar:
       Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.px),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Obx(
-                    () => GestureDetector(
-                  onTap: () => _changePasswordController.onTapTermAndCondition(),
-                  child: AppImageAsset(
-                    image: (_changePasswordController.isActive.value)
-                        ? ImageConstants.checkboxSqureFilled
-                        : ImageConstants.checkboxSqure,
-                    height: 18.px,
-                  ),
-                ),
-              ),
-              SizedBox(width: 6.px),
-              AppText(
-                'iHaveRead'.tr,
-                fontSize: 14.px,
-              ),
-              SizedBox(width: 5.px),
-              GestureDetector(
-                onTap: () => appBottomSheet(
-                    commonWidget: TermAndConditionBottomSheet(),
-                    context: context),
-                child: AppText(
-                  't&c'.tr,
-                  fontSize: 14.px,
-                  color: AppColors.appBlue,
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 15.px),
+        // Padding(
+        //   padding: EdgeInsets.symmetric(horizontal: 15.px),
+        //   child: Row(
+        //     crossAxisAlignment: CrossAxisAlignment.center,
+        //     children: <Widget>[
+        //       Obx(
+        //             () => GestureDetector(
+        //           onTap: () => _changePasswordController.onTapTermAndCondition(),
+        //           child: AppImageAsset(
+        //             image: (_changePasswordController.isActive.value)
+        //                 ? ImageConstants.checkboxSqureFilled
+        //                 : ImageConstants.checkboxSqure,
+        //             height: 18.px,
+        //           ),
+        //         ),
+        //       ),
+        //       SizedBox(width: 6.px),
+        //       AppText(
+        //         'iHaveRead'.tr,
+        //         fontSize: 14.px,
+        //       ),
+        //       SizedBox(width: 5.px),
+        //       GestureDetector(
+        //         onTap: () => appBottomSheet(
+        //             commonWidget: TermAndConditionBottomSheet(),
+        //             context: context),
+        //         child: AppText(
+        //           't&c'.tr,
+        //           fontSize: 14.px,
+        //           color: AppColors.appBlue,
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        // SizedBox(height: 15.px),
         Obx(
               () => PreLoginCommonButton(
               title: 'continue'.tr,

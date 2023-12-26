@@ -10,6 +10,7 @@ import 'key_value_storage_base.dart';
 class KeyValueStorageService {
   /// The name of auth token key
   static const String _authTokenKey = 'authToken';
+  static const String _authBiometric = 'biometricStatus';
 
   /// The name of user password key
   static const String _authPasswordKey = 'authPasswordKey';
@@ -39,7 +40,10 @@ class KeyValueStorageService {
   Future<String> getAuthToken() async {
     return await _keyValueStorage.getEncrypted(_authTokenKey) ?? '';
   }
-
+  /// Returns last authentication token
+  Future<String> getBioMetricStatus() async {
+    return await _keyValueStorage.getEncrypted(_authBiometric) ?? '';
+  }
   /// Remove authentication token
   Future<void> removeAuthToken() async {
     return await _keyValueStorage.removeEncrypted(_authTokenKey);
@@ -58,6 +62,9 @@ class KeyValueStorageService {
     _keyValueStorage.setEncrypted(_authTokenKey, token);
   }
 
+  void setAuthBiometric(String status) {
+    _keyValueStorage.setEncrypted(_authBiometric, status);
+  }
   /// Resets the authentication. Even though these methods are asynchronous, we
   /// don't care about their completion which is why we don't use `await` and
   /// let them execute in the background.

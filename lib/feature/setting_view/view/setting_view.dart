@@ -226,8 +226,13 @@ class _SettingViewState extends State<SettingView> {
             )),
           ),
         if (title == 'Login With Biometric')
-          AppSwitch(
-            isActive: false,
+          Obx(()=>
+             AppSwitch(
+              isActive: _settingController.authenticated.value!=''?true:false,
+              onTap: _settingController.authenticated.value==''?(){
+                _settingController.setLocalAuth();
+              }:null,
+            ),
           )
         else
           Padding(
@@ -561,7 +566,7 @@ class _SettingViewState extends State<SettingView> {
       case SettingTitle.appSupport:
         AppRouter.pushNamed(Routes.appSupportView);
       case SettingTitle.changePassword:
-        AppRouter.push(const ChangePasswordView());
+        AppRouter.pushNamed(Routes.changePasswordView);
       case SettingTitle.manageSubscription:
         AppRouter.pushNamed(Routes.manageSubscription);
       case SettingTitle.manageAvailabilityTime:

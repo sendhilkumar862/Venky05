@@ -15,6 +15,11 @@ class BackendService {
    if(authToken!=''){
      request.header.addAll({'X-Auth-Token': authToken});
    }
+   if(request.endPoint.contains('refresh-token')){
+     final String authToken= await keyValueStorageService.getBioMetricStatus();
+     request.header.addAll({'X-Auth-Token': authToken,
+       'X-Refresh-Token':authToken});
+   }
     final Dio dio = Dio();
     try {
       final ConnectivityResult connectivityResult = await Connectivity().checkConnectivity();

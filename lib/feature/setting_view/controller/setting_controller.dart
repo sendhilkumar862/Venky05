@@ -1,21 +1,22 @@
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
+
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../core/base_response.dart';
-import '../../home/controller/home_controller.dart';
-import '../repository/update_profile_photo_repository.dart';
-import '../view/setting_view.dart';
-import '../../tutorial/language/model/country_model.dart';
+import '../../../core/local_auth_services.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/network/local/key_value_storage_base.dart';
 import '../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/validators.dart';
 import '../../../repository/setting_repository.dart';
+import '../../home/controller/home_controller.dart';
+import '../../tutorial/language/model/country_model.dart';
+import '../repository/update_profile_photo_repository.dart';
+import '../view/setting_view.dart';
 
 
 class SettingController  extends GetxController{
@@ -28,9 +29,11 @@ class SettingController  extends GetxController{
   RxInt countryIndex = 118.obs;
   RxString selectedItem = ''.obs;
   RxInt languageIndex = 1.obs;
+  RxString authenticated =''.obs;
   Rx<TextEditingController> countryController = TextEditingController().obs;
   final UpdateProfilePhotoRepository _updateProfilePhotoRepository=UpdateProfilePhotoRepository();
   final HomeController _homeController=Get.find();
+  final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
   RxList<String> languages = <String>[
     'عربي',
     'English',
@@ -46,12 +49,12 @@ class SettingController  extends GetxController{
 
   @override
   void onInit() {
-
+    fetchLocalAuth();
     getProfileData();
     KeyValueStorageBase.init();
     super.onInit();
   }
-
+// ignore: always_declare_return_types
 
   Rxn<Country?> selectedCountry= Rxn<Country>();
 
@@ -60,8 +63,6 @@ class SettingController  extends GetxController{
   RxList<Country>filteredCountries = <Country>[].obs;
 
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-  final KeyValueStorageService keyValueStorageService =
-  KeyValueStorageService();
   final SettingRepository _settingRepository = SettingRepository();
 
   RxList<SettingHeading> studentSettingList = <SettingHeading>[
@@ -156,7 +157,17 @@ class SettingController  extends GetxController{
 
   }
 
-
+  setLocalAuth()async{
+    final bool authenticatedStatus = await LocalAuth.authenticate();
+    if(authenticatedStatus){
+      final String authToken= await keyValueStorageService.getAuthToken();
+      keyValueStorageService.setAuthBiometric(authToken);
+      authenticated.value=authenticatedStatus.toString();
+    }
+  }
+  fetchLocalAuth()async{
+    authenticated.value= await keyValueStorageService.getBioMetricStatus();
+  }
   logout(BuildContext context)async{
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
