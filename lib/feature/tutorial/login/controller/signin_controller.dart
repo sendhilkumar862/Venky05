@@ -2,15 +2,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../core/base_response.dart';
 import '../../../../core/local_auth_services.dart';
-import '../model/login_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 import '../../../../repository/auth_repositoriy.dart';
+import '../model/login_model.dart';
 import '../model/refresh_model.dart';
 import '../repository/refresh_token_repository.dart';
 
