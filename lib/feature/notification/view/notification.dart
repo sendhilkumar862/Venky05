@@ -5,8 +5,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
-import '../../../../product/base/view/base_view.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/cardView/info_card_view.dart';
@@ -19,7 +17,7 @@ import '../../../custom/text/app_text.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/utils/typography.dart';
-import '../viewModel/notification_view_model.dart';
+import '../controller/notification_controller.dart';
 
 class NotificationView extends StatefulWidget {
   const NotificationView({super.key});
@@ -31,6 +29,7 @@ class NotificationView extends StatefulWidget {
 class _NotificationViewState extends State<NotificationView> {
   Set<int> shortBy = <int>{};
   Set<int> filterBy = <int>{};
+  final NotificationController _notificationController = Get.put(NotificationController());
 
   @override
   void initState() {
@@ -44,238 +43,229 @@ class _NotificationViewState extends State<NotificationView> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<NotificationViewModel>(
-      viewModel: NotificationViewModel(),
-      onModelReady: (NotificationViewModel model) {
-        model.init();
-        model.setContext(context);
-      },
-      onPageBuilder:
-          (BuildContext context, NotificationViewModel notificationViewModel) =>
-              Scaffold(
-        appBar: HessaAppBar(
-          isTitleOnly: true,
-          title: 'notification'.tr,
-          isBack: true,
-        ),
-        body: Observer(builder: (context) {
-          return notificationViewModel.notificationDataList.isNotEmpty
-              ? Padding(
-                  padding:
-                      EdgeInsets.only(left: 16.px, top: 10.px, bottom: 10.px),
-                  child: Column(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          filterBottomSheet(context, notificationViewModel);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 20, bottom: 15),
-                          child: Row(
-                            children: <Widget>[
-                              AppImageAsset(
-                                image: ImageConstants.upDownArrow,
-                                height: 16.px,
-                                width: 16.px,
-                              ),
-                              SizedBox(width: 8.px),
-                              AppText(
-                                'Sort',
-                                fontSize: 14.px,
-                                color: AppColors.appBlue,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ],
-                          ),
-                        ),
+    return  Scaffold(
+      appBar: HessaAppBar(
+        isTitleOnly: true,
+        title: 'notification'.tr,
+        isBack: true,
+      ),
+      body: Observer(builder: (context) {
+        return _notificationController.notificationDataList.isNotEmpty
+            ? Padding(
+          padding:
+          EdgeInsets.only(left: 16.px, top: 10.px, bottom: 10.px),
+          child: Column(
+            children: [
+              InkWell(
+                onTap: () {
+                  filterBottomSheet(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20, bottom: 15),
+                  child: Row(
+                    children: <Widget>[
+                      AppImageAsset(
+                        image: ImageConstants.upDownArrow,
+                        height: 16.px,
+                        width: 16.px,
                       ),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: 1,
+                      SizedBox(width: 8.px),
+                      AppText(
+                        'Sort',
+                        fontSize: 14.px,
+                        color: AppColors.appBlue,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: 1,
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(top: 10, bottom: 5),
+                          child: Text('Today',
+                              style: openSans.get12.w700.copyWith(
+                                  color: AppColors.appTextColor
+                                      .withOpacity(0.5))),
+                        ),
+                        ListView.builder(
+                          itemCount: _notificationController
+                              .notificationDataList.length,
                           shrinkWrap: true,
                           physics: const BouncingScrollPhysics(),
-                          itemBuilder: (BuildContext context, int index) {
+                          itemBuilder:
+                              (BuildContext context, int index) {
+                            var data = _notificationController
+                                .notificationDataList[index];
                             return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 10, bottom: 5),
-                                  child: Text('Today',
-                                      style: openSans.get12.w700.copyWith(
-                                          color: AppColors.appTextColor
-                                              .withOpacity(0.5))),
-                                ),
-                                ListView.builder(
-                                  itemCount: notificationViewModel
-                                      .notificationDataList.length,
-                                  shrinkWrap: true,
-                                  physics: const BouncingScrollPhysics(),
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    var data = notificationViewModel
-                                        .notificationDataList[index];
-                                    return Column(
-                                      children: [
-                                        Slidable(
-                                          endActionPane: ActionPane(
-                                            motion: const ScrollMotion(),
-                                            extentRatio: 0.2,
-                                            dragDismissible: false,
-                                            dismissible: DismissiblePane(
-                                                onDismissed: () {}),
-                                            children: <Widget>[
-                                              SlidableAction(
-                                                onPressed:
-                                                    (BuildContext context) {
-                                                  setState(() {
-                                                    notificationViewModel
-                                                        .notificationDataList
-                                                        .removeAt(index);
-                                                  });
-                                                },
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                label: 'Delete',
-                                                backgroundColor:
-                                                    AppColors.appLightRed,
-                                                foregroundColor:
-                                                    AppColors.appBlue,
-                                                icon: Icons.ac_unit_rounded,
+                              children: [
+                                Slidable(
+                                  endActionPane: ActionPane(
+                                    motion: const ScrollMotion(),
+                                    extentRatio: 0.2,
+                                    dragDismissible: false,
+                                    dismissible: DismissiblePane(
+                                        onDismissed: () {}),
+                                    children: <Widget>[
+                                      SlidableAction(
+                                        onPressed:
+                                            (BuildContext context) {
+                                          setState(() {
+                                            _notificationController
+                                                .notificationDataList
+                                                .removeAt(index);
+                                          });
+                                        },
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        label: 'Delete',
+                                        backgroundColor:
+                                        AppColors.appLightRed,
+                                        foregroundColor:
+                                        AppColors.appBlue,
+                                        icon: Icons.ac_unit_rounded,
+                                      ),
+                                    ],
+                                  ),
+                                  key: const ValueKey(0),
+                                  closeOnScroll: true,
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {});
+                                      data.isRead = false;
+                                    },
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.symmetric(
+                                        vertical: 10,
+                                      ),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Padding(
+                                            padding:
+                                            const EdgeInsets.only(
+                                                right: 10),
+                                            child: Container(
+                                                height: 44,
+                                                width: 44,
+                                                decoration: BoxDecoration(
+                                                    color: Color(data
+                                                        .isRead
+                                                        ? 0xffD0F7DB
+                                                        : 0xFFFFEDEE),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(
+                                                        30)),
+                                                child: SvgPicture.asset(
+                                                  fit: BoxFit.scaleDown,
+                                                  data.icon,
+                                                )),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment
+                                                  .start,
+                                              children: <Widget>[
+                                                Text(
+                                                  data.title,
+                                                  style: openSans
+                                                      .get14.w500,
+                                                ),
+                                                Text(data.description,
+                                                    style: openSans
+                                                        .get10.w400
+                                                        .textColor(AppColors
+                                                        .appTextColor
+                                                        .withOpacity(
+                                                        0.5))),
+                                              ],
+                                            ),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                            children: [
+                                              Text(data.time,
+                                                  style: openSans
+                                                      .get10.w400
+                                                      .textColor(AppColors
+                                                      .appTextColor
+                                                      .withOpacity(
+                                                      0.5))),
+                                              if (data.isRead)
+                                                Padding(
+                                                  padding:
+                                                  const EdgeInsets
+                                                      .only(
+                                                      left: 5,
+                                                      right: 6),
+                                                  child:
+                                                  SvgPicture.asset(
+                                                    ImageConstants
+                                                        .alert,
+                                                  ),
+                                                ),
+                                              Icon(
+                                                Icons
+                                                    .keyboard_arrow_right_rounded,
+                                                color: AppColors
+                                                    .downArrowColor
+                                                    .withOpacity(0.5),
                                               ),
                                             ],
                                           ),
-                                          key: const ValueKey(0),
-                                          closeOnScroll: true,
-                                          child: InkWell(
-                                            onTap: () {
-                                              setState(() {});
-                                              data.isRead = false;
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                vertical: 10,
-                                              ),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 10),
-                                                    child: Container(
-                                                        height: 44,
-                                                        width: 44,
-                                                        decoration: BoxDecoration(
-                                                            color: Color(data
-                                                                    .isRead
-                                                                ? 0xffD0F7DB
-                                                                : 0xFFFFEDEE),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        30)),
-                                                        child: SvgPicture.asset(
-                                                          fit: BoxFit.scaleDown,
-                                                          data.icon,
-                                                        )),
-                                                  ),
-                                                  Expanded(
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Text(
-                                                          data.title,
-                                                          style: openSans
-                                                              .get14.w500,
-                                                        ),
-                                                        Text(data.description,
-                                                            style: openSans
-                                                                .get10.w400
-                                                                .textColor(AppColors
-                                                                    .appTextColor
-                                                                    .withOpacity(
-                                                                        0.5))),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      Text(data.time,
-                                                          style: openSans
-                                                              .get10.w400
-                                                              .textColor(AppColors
-                                                                  .appTextColor
-                                                                  .withOpacity(
-                                                                      0.5))),
-                                                      if (data.isRead)
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 5,
-                                                                  right: 6),
-                                                          child:
-                                                              SvgPicture.asset(
-                                                            ImageConstants
-                                                                .alert,
-                                                          ),
-                                                        ),
-                                                      Icon(
-                                                        Icons
-                                                            .keyboard_arrow_right_rounded,
-                                                        color: AppColors
-                                                            .downArrowColor
-                                                            .withOpacity(0.5),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Divider(
-                                          height: 1,
-                                          color: Color(0xffC5CEEE)
-                                              .withOpacity(0.5),
-                                        )
-                                      ],
-                                    );
-                                  },
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ),
+                                Divider(
+                                  height: 1,
+                                  color: Color(0xffC5CEEE)
+                                      .withOpacity(0.5),
+                                )
                               ],
                             );
                           },
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InfoCardVIew(
-                      isShowButton: false,
-                      title: 'No Notifications!',
-                      subTitle: "Use the app and get notifications",
-                      cardColor: AppColors.white,
-                      buttonTitle: 'Class Details',
-                      buttonTap: () => null,
-                    ),
-                  ],
-                );
-        }),
-      ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        )
+            : Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InfoCardVIew(
+              isShowButton: false,
+              title: 'No Notifications!',
+              subTitle: "Use the app and get notifications",
+              cardColor: AppColors.white,
+              buttonTitle: 'Class Details',
+              buttonTap: () => null,
+            ),
+          ],
+        );
+      }),
     );
   }
 
   void filterBottomSheet(
-      BuildContext context, NotificationViewModel notificationViewModel) {
+      BuildContext context) {
     return showCommonBottomSheet(
         context: context,
         commonWidget: StatefulBuilder(
@@ -290,9 +280,9 @@ class _NotificationViewState extends State<NotificationView> {
                     children: <Widget>[
                       Stack(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: const Align(
+                          const Padding(
+                            padding: EdgeInsets.only(top: 20),
+                            child: Align(
                               child: AppText('Sort',
                                   fontWeight: FontWeight.w700,
                                   fontSize: 14,
@@ -331,9 +321,9 @@ class _NotificationViewState extends State<NotificationView> {
                       ),
                       InlineChoice<String>(
                         clearable: true,
-                        value: notificationViewModel.shortByList,
-                        onChanged: notificationViewModel.setSchoolValue,
-                        itemCount: notificationViewModel.shortByList.length,
+                        value: _notificationController.shortByList,
+                        onChanged: _notificationController.setSchoolValue,
+                        itemCount: _notificationController.shortByList.length,
                         itemBuilder:
                             (ChoiceController<String> selection, int index) {
                           return ChoiceChip(
@@ -360,7 +350,7 @@ class _NotificationViewState extends State<NotificationView> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 6),
                               child: Text(
-                                  notificationViewModel.shortByList[index],
+                                  _notificationController.shortByList[index],
                                   style: openSans.get12.w600),
                             ),
                             selectedColor: AppColors.appBlue,
@@ -377,9 +367,9 @@ class _NotificationViewState extends State<NotificationView> {
                       ),
                       InlineChoice<String>(
                         clearable: true,
-                        value: notificationViewModel.filterByList,
-                        onChanged: notificationViewModel.setSchoolValue,
-                        itemCount: notificationViewModel.filterByList.length,
+                        value: _notificationController.filterByList,
+                        onChanged: _notificationController.setSchoolValue,
+                        itemCount: _notificationController.filterByList.length,
                         itemBuilder:
                             (ChoiceController<String> selection, int index) {
                           return ChoiceChip(
@@ -406,7 +396,7 @@ class _NotificationViewState extends State<NotificationView> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 6),
                               child: Text(
-                                  notificationViewModel.filterByList[index],
+                                  _notificationController.filterByList[index],
                                   style: openSans.get12.w600),
                             ),
                             selectedColor: AppColors.appBlue,
@@ -422,7 +412,7 @@ class _NotificationViewState extends State<NotificationView> {
                         listBuilder: ChoiceList.createWrapped(),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.only(top: 10),
                         child: Divider(
                           height: 1,
                           color: Color(0xffC5CEEE).withOpacity(0.5),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:hessah/feature/tutorial/language/controller/language_controller.dart';
@@ -10,6 +11,7 @@ import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../../../product/lang/language_manager.dart';
 import '../../language/viewModel/language_view_model.dart';
 
 class LanguageBottomSheet extends StatelessWidget {
@@ -70,6 +72,7 @@ class LanguageBottomSheet extends StatelessWidget {
                         // ignore: avoid_dynamic_calls
 
                           _languageController.selectLanguage(index);
+                          Get.updateLocale(index==0?LanguageManager.instance.enLocale:LanguageManager.instance.arLocale);
 
 
                         Future.delayed(

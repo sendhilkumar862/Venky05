@@ -1,15 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:hessah/feature/tutorial/language/controller/language_controller.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../custom/appbar/appbar.dart';
@@ -20,21 +17,15 @@ import '../../../custom/text/app_text.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
-import '../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/typography.dart';
 import '../../home/controller/home_controller.dart';
 import '../../tutorial/addMobileNumber/view/add_mobile_number_view.dart';
 import '../../tutorial/changeMobileNumber/view/change_mobile_number_view.dart';
-import '../../tutorial/language/viewModel/language_view_model.dart';
-import '../../tutorial/mobileEnter/view/mobile_view.dart';
-import '../../tutorial/password/view/password_view.dart';
-import '../../tutorial/verify_otp/verify_otp_view/verify_otp_view.dart';
+import '../../tutorial/language/controller/language_controller.dart';
 import '../../tutorial/view/bottomSheets/country_bottom_sheet.dart';
 import '../../tutorial/view/bottomSheets/language_bottom_sheet.dart';
-import '../change_password/view/change_password_view.dart';
 import '../controller/setting_controller.dart';
 import '../manage_address/view/manage_address_view.dart';
-import '../viewModel/setting_view_model.dart';
 import 'widget/available_times_view.dart';
 import 'widget/manage_adress_view.dart';
 
@@ -226,8 +217,13 @@ class _SettingViewState extends State<SettingView> {
             )),
           ),
         if (title == 'Login With Biometric')
-          AppSwitch(
-            isActive: false,
+          Obx(()=>
+             AppSwitch(
+              isActive: _settingController.authenticated.value!=''?true:false,
+              onTap: _settingController.authenticated.value==''?(){
+                _settingController.setLocalAuth();
+              }:null,
+            ),
           )
         else
           Padding(
@@ -561,7 +557,7 @@ class _SettingViewState extends State<SettingView> {
       case SettingTitle.appSupport:
         AppRouter.pushNamed(Routes.appSupportView);
       case SettingTitle.changePassword:
-        AppRouter.push(const ChangePasswordView());
+        AppRouter.pushNamed(Routes.changePasswordView);
       case SettingTitle.manageSubscription:
         AppRouter.pushNamed(Routes.manageSubscription);
       case SettingTitle.manageAvailabilityTime:

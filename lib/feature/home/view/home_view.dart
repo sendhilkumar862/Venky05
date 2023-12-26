@@ -33,6 +33,7 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
     KeyValueStorageBase.init();
     setData();
+    _homeController.fetchToken();
   }
 
   Future<void> setData() async {

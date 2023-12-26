@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
-import '../../../../config/routes/app_router.dart';
 import '../../../../custom/divider/divider.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-import '../viewModel/personal_info_view_model.dart';
+import '../controller/personal_info_controllere.dart';
 
 class LanguageBottomSheets extends StatefulWidget {
-  LanguageBottomSheets({this.personalInfoViewModel, super.key, this.setState});
-
-  PersonalInfoViewModel? personalInfoViewModel;
+  LanguageBottomSheets({ super.key, this.setState});
   Function? setState;
 
   @override
@@ -20,6 +17,7 @@ class LanguageBottomSheets extends StatefulWidget {
 }
 
 class _LanguageBottomSheetsState extends State<LanguageBottomSheets> {
+  final PersonalInfoController _personalInfoController =Get.find();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -61,7 +59,7 @@ class _LanguageBottomSheetsState extends State<LanguageBottomSheets> {
               ),
               Expanded(
                 child: ListView.separated(
-                  itemCount: widget.personalInfoViewModel!.languages.length,
+                  itemCount: _personalInfoController.languages.length,
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
@@ -69,7 +67,7 @@ class _LanguageBottomSheetsState extends State<LanguageBottomSheets> {
                       onTap: () {
                         // ignore: avoid_dynamic_calls
                         widget.setState!(() {
-                          widget.personalInfoViewModel!.selectLanguage(index);
+                          _personalInfoController.selectLanguage(index);
                         });
                         setState(() {});
                       },
@@ -82,7 +80,7 @@ class _LanguageBottomSheetsState extends State<LanguageBottomSheets> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(30),
                               child: AppImageAsset(
-                                image: widget.personalInfoViewModel!.languageIcon[index],
+                                image: _personalInfoController.languageIcon[index],
                                 height: 25.px,
                                 width: 25.px,
                                 fit: BoxFit.fill,
@@ -92,14 +90,14 @@ class _LanguageBottomSheetsState extends State<LanguageBottomSheets> {
                               width: 10.px,
                             ),
                             AppText(
-                              widget.personalInfoViewModel!.languages[index],
+                              _personalInfoController.languages[index],
                               fontWeight: FontWeight.w400,
                             ),
                             const Spacer(),
                             AppImageAsset(
                               image: ImageConstants.acceptedStatus,
                               height: 23.px,
-                              color: (widget.personalInfoViewModel!.isLanguageSelected[index])
+                              color: (_personalInfoController.isLanguageSelected[index])
                                   ? AppColors.appBlue
                                   : AppColors.appWhite,
                             ),

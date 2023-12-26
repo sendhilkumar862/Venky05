@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../config/routes/app_router.dart';
 import '../../../../custom/app_button/app_button.dart';
@@ -199,6 +200,37 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                         });
                       },
+                    ),
+                    Container(
+                      height: 90.px,
+                      width: double.infinity,
+                      padding: EdgeInsets.only(top:12),
+                      decoration:
+                      const BoxDecoration(color: AppColors.appWhite),
+                      child: GoogleMap(
+                        markers: <Marker>{
+                          Marker(
+                            markerId: const MarkerId('riyadh1'),
+                            position: LatLng(
+                              double.parse('24.7136'),
+                              double.parse('46.6753'),
+                            ),
+                          )
+                        },
+                         initialCameraPosition:CameraPosition(
+                           target: LatLng(
+                             double.parse('24.7136'),
+                             double.parse('46.6753'),
+                           ),
+                           zoom: 14.4746,
+                         ),
+                        // proposalDetailsViewModel.kGooglePlex!,
+                        zoomControlsEnabled: false,
+                        zoomGesturesEnabled: false,
+                        // onMapCreated: (GoogleMapController controllers) =>
+                        //     proposalDetailsViewModel.mapController
+                        //         .complete(controllers),
+                      ),
                     ),
                   ],
                 ),

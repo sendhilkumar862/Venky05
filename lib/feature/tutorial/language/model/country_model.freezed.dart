@@ -127,11 +127,7 @@ class __$$CountryImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$CountryImpl implements _Country {
-  const _$CountryImpl(
-      {required this.name,
-      required this.flag_url,
-      required this.code,
-      required this.idd_code});
+  const _$CountryImpl({this.name, this.flag_url, this.code, this.idd_code});
 
   factory _$CountryImpl.fromJson(Map<String, dynamic> json) =>
       _$$CountryImplFromJson(json);
@@ -183,10 +179,10 @@ class _$CountryImpl implements _Country {
 
 abstract class _Country implements Country {
   const factory _Country(
-      {required final String? name,
-      required final String? flag_url,
-      required final String? code,
-      required final String? idd_code}) = _$CountryImpl;
+      {final String? name,
+      final String? flag_url,
+      final String? code,
+      final String? idd_code}) = _$CountryImpl;
 
   factory _Country.fromJson(Map<String, dynamic> json) = _$CountryImpl.fromJson;
 

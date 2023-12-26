@@ -11,7 +11,7 @@ class LanguageManager {
   }
 
   final Locale enLocale = const Locale('en', 'US');
-  final Locale arLocale = const Locale('ae', 'AE');
+  final Locale arLocale = const Locale('ar', 'AR');
 
   List<Locale> get supportedLocales => <Locale>[enLocale, arLocale];
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_textformfield/text_field.dart';
@@ -7,12 +8,11 @@ import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-import '../viewModel/personal_info_view_model.dart';
+import '../controller/personal_info_controllere.dart';
 
 class CountryBottomsSheets extends StatefulWidget {
-  CountryBottomsSheets({this.personalInfoViewModel, super.key, this.setState});
+  CountryBottomsSheets({ super.key, this.setState});
 
-  PersonalInfoViewModel? personalInfoViewModel;
   Function? setState;
 
   @override
@@ -20,6 +20,7 @@ class CountryBottomsSheets extends StatefulWidget {
 }
 
 class _CountryBottomsSheetsState extends State<CountryBottomsSheets> {
+  final PersonalInfoController _personalInfoController =Get.find();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -70,10 +71,10 @@ class _CountryBottomsSheetsState extends State<CountryBottomsSheets> {
                       color: AppColors.appGrey,
                     ),
                   ),
-                  controller: widget.personalInfoViewModel!.countryController,
+                  controller:_personalInfoController.countryController,
                   hintText: 'Search',
                   onChanged: (String value) {
-                    widget.personalInfoViewModel!.filterCountries(value, widget.setState!);
+                    _personalInfoController.filterCountries(value, widget.setState!);
                     setState(() {});
                   },
                 ),
@@ -83,14 +84,14 @@ class _CountryBottomsSheetsState extends State<CountryBottomsSheets> {
               ),
               Expanded(
                 child: ListView.separated(
-                  itemCount: widget.personalInfoViewModel!.countries.length,
+                  itemCount: _personalInfoController.countries.length,
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
                         widget.setState!(() {
-                          widget.personalInfoViewModel!.selectCountry(widget.personalInfoViewModel!.countries[index]);
+                          _personalInfoController.selectCountry(_personalInfoController.countries[index]);
                         });
                         Navigator.pop(context);
                       },
@@ -103,7 +104,7 @@ class _CountryBottomsSheetsState extends State<CountryBottomsSheets> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(30),
                               child: AppImageAsset(
-                                image: widget.personalInfoViewModel!.countries[index].flag_url!,
+                                image: _personalInfoController.countries[index].flag_url!,
                                 fit: BoxFit.fill,
                                 height: 25.px,
                                 width: 25.px,
@@ -114,17 +115,17 @@ class _CountryBottomsSheetsState extends State<CountryBottomsSheets> {
                             ),
                             Expanded(
                               child: AppText(
-                                widget.personalInfoViewModel!.countries[index].name!,
+                                _personalInfoController.countries[index].name!,
                                 fontWeight: FontWeight.w400,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             AppImageAsset(
                               image: ImageConstants.acceptedStatus,
                               height: 23.px,
-                              color: (widget.personalInfoViewModel?.selectedCountry?.name ==
-                                      widget.personalInfoViewModel?.countries[index].name)
+                              color: (_personalInfoController.selectedCountry.value.name ==
+                                  _personalInfoController.countries[index].name)
                                   ? AppColors.appBlue
                                   : AppColors.appWhite,
                             ),

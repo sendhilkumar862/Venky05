@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # State Management
   mobx: ^2.1.3+1
@@ -45,7 +47,6 @@ dependencies:
   #getex
   get: ^4.6.6
   get_storage: ^2.1.1
-  country_code_picker: ^3.0.0
 
   #rating bar:
   flutter_rating_bar: ^4.0.1
@@ -95,6 +96,9 @@ dependencies:
   # storage
   shared_preferences: ^2.0.17
   flutter_secure_storage: ^9.0.0
+
+  #local_auth
+  local_auth: ^2.1.7
 
   # google map
   google_maps_flutter: ^2.5.0
