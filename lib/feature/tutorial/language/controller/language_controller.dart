@@ -30,7 +30,7 @@ class LanguageController extends GetxController {
   ].obs;
   RxList<String> languageIcon = [
     ImageConstants.usIconNew,
-    ImageConstants.saudiArabiaNew,
+    ImageConstants.kuwaitFlag,
   ].obs;
 
   final LanguageRepository _languageRepository = LanguageRepository();
