@@ -160,7 +160,7 @@ class Messages extends Translations {
       'ibanLengthError': 'Minimum IBAN Length should be 30 digits',
       'iabnLocalError': 'You have to enter local Bank Account Number'
     },
-    'er-AR': {
+    'ar_AR': {
       'welcome': 'مرحبًا في تطبيقي',
       'continue': 'متابعة',
       'selectYourProfile': 'اختر ملفك الشخصي',
