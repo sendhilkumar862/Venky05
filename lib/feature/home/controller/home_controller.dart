@@ -10,11 +10,11 @@ import '../model/home_model.dart';
 class HomeController extends GetxController{
   final KeyValueStorageService keyValueStorageService =
   KeyValueStorageService();
-@override
-void onInit() {
-  super.onInit();
-  fetchToken();
-}
+// @override
+// void onInit() {
+//   super.onInit();
+//   fetchToken();
+// }
  // ignore: always_declare_return_types
  fetchToken()async{
    final String token = await keyValueStorageService.getAuthToken();

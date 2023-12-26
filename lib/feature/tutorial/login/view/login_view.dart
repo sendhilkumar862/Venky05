@@ -98,12 +98,18 @@ class LoginView extends StatelessWidget {
                       if (_signInController.loginStatus.value == 'error')
                         WarningCardView(
                             color: AppColors.appLightRedTwo, error: _signInController.error.value),
-                      SizedBox(height: 20.px),
-                      if (false)
-                        AppImageAsset(
-                          image: ImageConstants.faceId,
-                          height: 35.px,
-                        )
+                      Obx((){
+                        return _signInController.authenticated.value!=''?
+                        GestureDetector(
+                          onTap: (){
+                            _signInController.setLocalAuth(context);
+                          },
+                          child: AppImageAsset(
+                            image: ImageConstants.faceId,
+                            height: 35.px,
+                          ),
+                        ):const SizedBox.shrink();})
+
                     ],
                   ),
                 ),

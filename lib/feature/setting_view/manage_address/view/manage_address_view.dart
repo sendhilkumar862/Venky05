@@ -113,7 +113,7 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
                     children: <Widget>[
                       Text('${data.address1??'' } ${data.address2??'' }' ),
                       Text('${data.city??''} ${data.state??''} ${data.country??''}'),
-                      Text('Phone No: ${data.countryCode??''} ${data.mobile??''}'),
+                      // Text('Phone No: ${data.countryCode??''} ${data.mobile??''}'),
                     ],
                   ),
                 ),
