@@ -42,8 +42,6 @@ class _ClassesViewState extends State<ClassesView> {
     if (selectedProfile == ApplicationConstants.tutor) {
       return Obx(()=>
         Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             if (_homeController.homeData.value?.userStatus != '99')
               if (_homeController.homeData.value?.userStatus == '50' || _homeController.homeData.value?.userStatus == '60' || _homeController.homeData.value?.userStatus == '70' || _homeController.homeData.value?.userStatus == '80')

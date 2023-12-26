@@ -131,7 +131,7 @@ class _NavBarState extends State<NavBar> {
               child: item.useImageIcon
                   ? item.icon
                   : AppImageAsset(
-                      image: item.iconData!,
+                      image: widget.index == index ? item.selectedIconData! : item.iconData!,
                       color: widget.index == index ? widget.selectedIconColor : widget.unselectedIconColor)),
         ),
         const SizedBox(height: 3),
