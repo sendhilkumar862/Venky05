@@ -8,6 +8,7 @@ class AppDropdown extends StatefulWidget {
   const AppDropdown({
     super.key,
     this.hintText,
+    this.hintStyle,
     this.options = const [],
     // required this.getLabel,
     required this.value,
@@ -16,6 +17,7 @@ class AppDropdown extends StatefulWidget {
     this.validate,
   });
   final String? hintText;
+  final TextStyle? hintStyle;
   final List options;
   final String value;
   final String? title;
@@ -47,9 +49,7 @@ class _AppDropdownState extends State<AppDropdown> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
               hintText: widget.hintText,
-              hintStyle: openSans.w400
-                  .textColor(AppColors.appTextColor.withOpacity(0.25))
-                  .get14,
+              hintStyle: widget.hintStyle,
               contentPadding: const EdgeInsets.symmetric(horizontal: 10),
               filled: true,
               fillColor: Colors.transparent,
@@ -94,8 +94,8 @@ class _AppDropdownState extends State<AppDropdown> {
             color: AppColors.black,
           ),
           focusColor: Colors.transparent,
-          style: openSans.black.w400.get10,
-          dropdownColor: AppColors.gray,
+          style: openSans.black.w500.get15,
+          dropdownColor: AppColors.white,
         ),
       ],
     );

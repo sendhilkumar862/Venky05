@@ -67,6 +67,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                     AppDropdown(
                       options: _addAddressController.city,
                       title: 'City',
+                      hintStyle:widget.title=='Update Address'? openSans.black.w500.get16.textColor(AppColors.appTextColor): openSans.w400
+                          .textColor(AppColors.appTextColor.withOpacity(0.25))
+                          .get14,
                       value:  '',
                       hintText:  _addAddressController.selectedCity.value==''?'Select city':_addAddressController.selectedCity.value,
                       onChanged: (String? city){
