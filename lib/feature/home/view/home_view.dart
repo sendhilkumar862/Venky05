@@ -56,7 +56,7 @@ class _HomeViewState extends State<HomeView> {
               showTitle: true,
               borderRadius: MediaQueryExtension(context).dynamicHeight(20),
               selectedIconColor: AppColors.appBlue,
-              unselectedIconColor: AppColors.appDarkBlack,
+              unselectedIconColor: AppColors.downArrowColor,
               items: <NavBarItem>[
                 NavBarItem(
                   iconData: ImageConstants.homeHomeIcon,
@@ -82,8 +82,8 @@ class _HomeViewState extends State<HomeView> {
                 fit: StackFit.expand,
                 children: <Widget>[
                   Container(
-                    height: MediaQuery.of(context).size.height,
-                    color: Colors.grey.withOpacity(0.8),
+                    height: Get.height,
+                    color: Colors.grey.withOpacity(0.5),
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,

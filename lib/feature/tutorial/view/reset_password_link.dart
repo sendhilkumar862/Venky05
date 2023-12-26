@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-
+import '../../../config/routes/app_router.dart';
+import '../../../config/routes/routes.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
@@ -69,7 +70,7 @@ class _ResetPasswordState extends State<ResetPassword> {
               ),
             ),
             AppButton(
-                isDisable: false, title: 'Back to Login', onPressed: () {})
+                isDisable: false, title: 'Back to Login', onPressed: () =>    AppRouter.pushNamedPopUntil( context,  route: Routes.loginView),)
           ],
         ),
       ),
