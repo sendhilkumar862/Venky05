@@ -126,7 +126,7 @@ class _NavBarState extends State<NavBar> {
             }
             _changePage(index);
           },
-          child: Container(
+          child: SizedBox(
               width: 50,
               child: item.useImageIcon
                   ? item.icon
