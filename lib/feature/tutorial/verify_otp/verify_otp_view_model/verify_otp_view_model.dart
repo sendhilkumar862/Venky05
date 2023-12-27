@@ -81,7 +81,8 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
       final Map<String, dynamic> body = <String, dynamic>{
         'userId': "${arguments['userId']}",
         'otpId': otpId,
-        'otp': enteredOTP
+        'otp': enteredOTP,
+
       };
 
       logs('body :-->$body');
@@ -124,14 +125,16 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
   }
 
   @action
-  Future<void> verifyOtpMobile(BuildContext context) async {
+  Future<void> verifyOtpMobile(BuildContext context, bool? isUpdateStatus) async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final Dio dio = Dio();
     try {
       final Map<String, dynamic> body = <String, dynamic>{
         'userId': "${arguments['userId']}",
         'otpId': otpId,
-        'otp': enteredOTP
+        'otp': enteredOTP,
+        if(isUpdateStatus!=null && isUpdateStatus)
+        ...{"isMobileUpdation":true}
       };
 
       logs('body -->$body');
@@ -271,7 +274,7 @@ abstract class _VerifyOtpViewModelBase extends BaseViewModel with Store {
     if (arguments['isScreen']) {
       verifyOtp();
     } else {
-      verifyOtpMobile(context);
+      verifyOtpMobile(context,arguments['isMobileUpdation']);
     }
   }
 }

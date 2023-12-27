@@ -41,9 +41,11 @@ class _ClassesViewState extends State<ClassesView> {
   Widget build(BuildContext context) {
     if (selectedProfile == ApplicationConstants.tutor) {
       return Obx(
-        () => Column(
+        () => _homeController.homeData.value?.userStatus == '99'?
+      activeScreen():
+        Column(
           children: <Widget>[
-            if (_homeController.homeData.value?.userStatus != '99')
+
               if (_homeController.homeData.value?.userStatus == '50' ||
                   _homeController.homeData.value?.userStatus == '60' ||
                   _homeController.homeData.value?.userStatus == '70' ||
@@ -136,156 +138,159 @@ class _ClassesViewState extends State<ClassesView> {
                     },
                   ),
                 )
-                else if (_homeController.homeData.value?.userStatus == '7')
-                    Center(
-                      child: InfoCardVIew(
-                        isPending: isPending,
-                        isShowButton: false,
-                        isSupport: true,
-                        isStatus: false,
-                        isStatusSusPended:true ,
-                        title: 'Account Suspended',
-                        subTitle:
+              else if (_homeController.homeData.value?.userStatus == '7')
+                Center(
+                  child: InfoCardVIew(
+                    isPending: isPending,
+                    isShowButton: false,
+                    isSupport: true,
+                    isStatus: false,
+                    isStatusSusPended: true,
+                    title: 'Account Suspended',
+                    subTitle:
                         'Your account is suspended because of violation of terms and conditions',
-                        cardColor: AppColors.white,
-                        buttonTitle: 'Class Details',
-                        buttonTap: () {
-                          if (isPending) {
-                            setState(() {
-                              isPending = !isPending;
-                            });
-                          } else {
-                            AppRouter.push(const ReUploadDocument());
-                          }
-                        },
-                      ),
-                    )
-                  else if (_homeController.homeData.value?.userStatus == '6')
-                      Center(
-                        child: InfoCardVIew(
-                          isPending: isPending,
-                          isShowButton: true,
-                          isSupport: false,
-                          isStatus: false,
-                          isStatusAction:true ,
-                          title: 'Account Is Pending For Your Action',
-                          subTitle:
-                          'We need you to upload your certificate',
-                          cardColor: AppColors.white,
-                          buttonTitle: 'Upload Needed Files',
-                          buttonTap: () {
-                            if (isPending) {
-                              setState(() {
-                                isPending = !isPending;
-                              });
-                            } else {
-                              AppRouter.push(const ReUploadDocument());
-                            }
-                          },
-                        ),
-                      )
+                    cardColor: AppColors.white,
+                    buttonTitle: 'Class Details',
+                    buttonTap: () {
+                      if (isPending) {
+                        setState(() {
+                          isPending = !isPending;
+                        });
+                      } else {
+                        AppRouter.push(const ReUploadDocument());
+                      }
+                    },
+                  ),
+                )
+              else if (_homeController.homeData.value?.userStatus == '6')
+                Center(
+                  child: InfoCardVIew(
+                    isPending: isPending,
+                    isShowButton: true,
+                    isSupport: false,
+                    isStatus: false,
+                    isStatusAction: true,
+                    title: 'Account Is Pending For Your Action',
+                    subTitle: 'We need you to upload your certificate',
+                    cardColor: AppColors.white,
+                    buttonTitle: 'Upload Needed Files',
+                    buttonTap: () {
+                      if (isPending) {
+                        setState(() {
+                          isPending = !isPending;
+                        });
+                      } else {
+                        AppRouter.push(const ReUploadDocument());
+                      }
+                    },
+                  ),
+                )
               else
                 const SizedBox.shrink()
+
           ],
         ),
       );
     } else {
-      return Expanded(
-        child: ListView(
-          children: <Widget>[
-            SizedBox(
-              height: 20.px,
-            ),
-            SizedBox(height: 20.px),
-            HeadingCardView(
-                title: 'Related Classes', onTap: () {}, totalItem: '3'),
-            SizedBox(
-              height: 10.px,
-            ),
-            SizedBox(
-              height: 226.px,
-              child: ListView.separated(
-                padding: const EdgeInsets.only(
-                    right: 15, top: 5, bottom: 20, left: 15),
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                itemCount: 3 ?? 0,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  return AppCardView(
-                    proposals: 0,
-                    cardTitle: 'Math',
-                    date: '12/12 12:30pm',
-                    timer: '1h 30m',
-                    money: '5.500 KWD',
-                    status: 'COMPLETED',
-                    isPro: true,
-                    avtar: ImageConstants.teacherAvtar,
-                    countryIcon: ImageConstants.countryIcon,
-                    countryName: 'Kuwait',
-                    reViewLength: 3,
-                    teacherName: 'Ahmed Ali',
-                    buttonTap: () {},
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(
-                    width: 15,
-                  );
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            SizedBox(height: 20.px),
-            HeadingCardView(
-                title: 'Related Classes', onTap: () {}, totalItem: '3'),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: 226.px,
-              child: ListView.separated(
-                padding: const EdgeInsets.only(
-                    right: 15, top: 5, bottom: 20, left: 15),
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                itemCount: 3 ?? 0,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  return AppCardView(
-                    proposals: 0,
-                    cardTitle: 'Math',
-                    date: '12/12 12:30pm',
-                    timer: '1h 30m',
-                    money: '5.500 KWD',
-                    status: 'COMPLETED',
-                    isPro: true,
-                    avtar: ImageConstants.teacherAvtar,
-                    countryIcon: ImageConstants.countryIcon,
-                    countryName: 'Kuwait',
-                    reViewLength: 3,
-                    teacherName: 'Ahmed Ali',
-                    buttonTap: () {},
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(
-                    width: 15,
-                  );
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            const SizedBox(
-              height: 200,
-            )
-          ],
-        ),
-      );
+      return activeScreen();
     }
+  }
+  Widget activeScreen(){
+    return Expanded(
+      child: ListView(
+        children: <Widget>[
+          SizedBox(
+            height: 20.px,
+          ),
+          SizedBox(height: 20.px),
+          HeadingCardView(
+              title: 'Related Classes', onTap: () {}, totalItem: '3'),
+          SizedBox(
+            height: 10.px,
+          ),
+          SizedBox(
+            height: 226.px,
+            child: ListView.separated(
+              padding: const EdgeInsets.only(
+                  right: 15, top: 5, bottom: 20, left: 15),
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              itemCount: 3 ?? 0,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (BuildContext context, int index) {
+                return AppCardView(
+                  proposals: 0,
+                  cardTitle: 'Math',
+                  date: '12/12 12:30pm',
+                  timer: '1h 30m',
+                  money: '5.500 KWD',
+                  status: 'COMPLETED',
+                  isPro: true,
+                  avtar: ImageConstants.teacherAvtar,
+                  countryIcon: ImageConstants.countryIcon,
+                  countryName: 'Kuwait',
+                  reViewLength: 3,
+                  teacherName: 'Ahmed Ali',
+                  buttonTap: () {},
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(
+                  width: 15,
+                );
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          SizedBox(height: 20.px),
+          HeadingCardView(
+              title: 'Related Classes', onTap: () {}, totalItem: '3'),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            height: 226.px,
+            child: ListView.separated(
+              padding: const EdgeInsets.only(
+                  right: 15, top: 5, bottom: 20, left: 15),
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              itemCount: 3 ?? 0,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (BuildContext context, int index) {
+                return AppCardView(
+                  proposals: 0,
+                  cardTitle: 'Math',
+                  date: '12/12 12:30pm',
+                  timer: '1h 30m',
+                  money: '5.500 KWD',
+                  status: 'COMPLETED',
+                  isPro: true,
+                  avtar: ImageConstants.teacherAvtar,
+                  countryIcon: ImageConstants.countryIcon,
+                  countryName: 'Kuwait',
+                  reViewLength: 3,
+                  teacherName: 'Ahmed Ali',
+                  buttonTap: () {},
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(
+                  width: 15,
+                );
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          const SizedBox(
+            height: 200,
+          )
+        ],
+      ),
+    );
   }
 }

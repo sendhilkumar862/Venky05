@@ -87,6 +87,7 @@ class MobileEnterController extends GetxController{
           arguments['otp_id'] = baseResponse.data.item?.otpId ?? '';
           arguments['mobile'] = mobileController.text.trim();
           arguments['countryCode'] = selectedCountryCode.replaceAll('+', '');
+          arguments['isMobileUpdation']=false;
           Future.delayed(
               const Duration(milliseconds: 1000),
                   () => AppRouter.pushNamed(Routes.verifyOtpView, args: arguments)
