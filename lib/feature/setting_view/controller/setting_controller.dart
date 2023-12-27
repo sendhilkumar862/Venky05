@@ -166,8 +166,10 @@ class SettingController  extends GetxController{
     }
   }
   removeLocalAuth()async{
+    final bool authenticatedStatus = await LocalAuth.authenticate();
+    if(authenticatedStatus){
       keyValueStorageService.removeAuthBiometricToken();
-      authenticated.value='';
+      authenticated.value='';}
   }
   fetchLocalAuth()async{
     authenticated.value= await keyValueStorageService.getBioMetricStatus();

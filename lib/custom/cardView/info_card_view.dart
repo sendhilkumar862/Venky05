@@ -22,6 +22,8 @@ class InfoCardVIew extends StatelessWidget {
     this.isPending,
     this.isStatus,
     this.isStatusRejected,
+    this.isStatusSusPended,
+    this.isStatusAction,
     this.isSupport,
     super.key,
   });
@@ -34,6 +36,8 @@ class InfoCardVIew extends StatelessWidget {
   String? buttonTitle;
   bool? isStatus = false;
   bool? isStatusRejected = false;
+  bool? isStatusSusPended = false;
+  bool? isStatusAction = false;
   VoidCallback? buttonTap;
   bool? isPending = false;
   bool? isSupport = false;
@@ -62,6 +66,16 @@ class InfoCardVIew extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 15),
               child: StatusCardView(status: 'REJECTED'),
+            ),
+          if (isStatusSusPended ?? false)
+            Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: StatusCardView(status: 'SUSPENDED'),
+            ),
+          if (isStatusAction ?? false)
+            Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: StatusCardView(status: 'ACTION NEEDED'),
             ),
           SizedBox(height: 13.px),
           AppText(

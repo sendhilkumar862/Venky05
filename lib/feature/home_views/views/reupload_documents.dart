@@ -29,7 +29,7 @@ class _ReUploadDocumentState extends State<ReUploadDocument> {
     return Scaffold(
       appBar: HessaAppBar(
         isTitleOnly: true,
-        // isBack: true,
+         isBack: false,
         trailingText: 'Cancel',
         title: 'Complete Profile',
         // normalAppbar: true,
@@ -44,15 +44,21 @@ class _ReUploadDocumentState extends State<ReUploadDocument> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 30),
-                    child: Text('Upload Needed Files',
-                        style:
-                        openSans.get20.w700.textColor(AppColors.appTextColor)),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Upload Needed Files',
+                          style:
+                          openSans.get20.w700.textColor(AppColors.appTextColor)),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20, bottom: 15),
-                    child: Text('Certificates',
-                        style: openSans.get12.w400
-                            .textColor(AppColors.appTextColor.withOpacity(0.5))),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Certificates',
+                          style: openSans.get12.w400
+                              .textColor(AppColors.appTextColor.withOpacity(0.5))),
+                    ),
                   ),
                   Center(
                     child: SizedBox(
