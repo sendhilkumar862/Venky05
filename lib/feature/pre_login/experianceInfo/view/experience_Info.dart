@@ -3,6 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:get/get.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
@@ -10,6 +11,7 @@ import '../../../../custom/appbar/appbar.dart';
 import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
+import '../../personalInfo/controller/personal_info_controllere.dart';
 import '../viewModel/experience_info_view_model.dart';
 
 class ExperienceInfo extends StatefulWidget {
@@ -20,7 +22,7 @@ class ExperienceInfo extends StatefulWidget {
 }
 
 class _ExperienceInfoState extends State<ExperienceInfo> {
-
+  final PersonalInfoController _personalInfoController= Get.put(PersonalInfoController());
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
@@ -307,6 +309,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
       allowedExtensions: <String>['pdf', 'png', 'jpeg', 'jpg'],
     );
     if (result != null) {
+      _personalInfoController.uploadDocument(result.files.single.path??'');
       if (experienceInfoStore.firstImage == null) {
         setState(() {
           experienceInfoStore.firstImage = File(result.files.single.path ?? '');

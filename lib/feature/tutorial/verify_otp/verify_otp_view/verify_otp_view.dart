@@ -1,4 +1,6 @@
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get/get.dart';
@@ -16,8 +18,19 @@ import '../../../../product/constants/image/image_constants.dart';
 import '../verify_otp_view_model/verify_otp_view_model.dart';
 
 class VerifyOtpView extends StatelessWidget {
-  const VerifyOtpView({super.key});
+   VerifyOtpView({super.key});
+  final RegExp _emailMaskRegExp = RegExp('^(.)(.*?)([^@]?)(?=@[^@]+\$)');
 
+  String maskEmail(String input, [int minFill = 4, String fillChar = '*']) {
+    minFill ??= 4;
+    fillChar ??= '*';
+    return input.replaceFirstMapped(_emailMaskRegExp, (m) {
+      var start = m.group(1);
+      var middle = fillChar * max(minFill, m.group(2)!.length);
+      var end = m.groupCount >= 3 ? m.group(3) : start;
+      return start! + middle + end!;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return BaseView<VerifyOtpViewModel>(
@@ -58,8 +71,8 @@ class VerifyOtpView extends StatelessWidget {
                       AppText(
                         textAlign: TextAlign.start,
                         (verifyOtpViewModel.arguments['isScreen'])
-                            ? 'enterTheVerification'.tr
-                            : 'enterTheCodeWe'.tr,
+                            ? 'enterTheVerification'.tr+ maskEmail(verifyOtpViewModel.arguments['email'].toString())
+                            : 'enterTheCodeWe'.tr+verifyOtpViewModel.arguments['mobile'].toString().substring(0,2)+'XXXXXX'+verifyOtpViewModel.arguments['mobile'].toString().substring(verifyOtpViewModel.arguments['mobile'].toString().length-2,verifyOtpViewModel.arguments['mobile'].toString().length),
                         fontWeight: FontWeight.w400,
                       ),
                       SizedBox(height: 20.px),

@@ -38,7 +38,7 @@ class EmailView extends StatelessWidget {
                     children: <Widget>[
                       SizedBox(height: 10.px),
                       SafeArea(bottom: false, child: OnTapBack()),
-                      SizedBox(height: 60.px),
+                      SizedBox(height: 110.px),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: AppImageAsset(
@@ -53,7 +53,7 @@ class EmailView extends StatelessWidget {
                         fontSize: 24.px,
                         fontWeight: FontWeight.w700,
                       ),
-                      SizedBox(height: 10.px),
+                      SizedBox(height: 20.px),
                       TextFormsField(
                         title: 'emailAdd'.tr,
                         validate: emailViewModel.emailValid,

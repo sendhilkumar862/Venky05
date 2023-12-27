@@ -79,6 +79,7 @@ class ChangeMobileNumberController extends GetxController{
       arguments['userId']=_homeController.homeData.value?.userId??'';
       Map otpId=changeNumberResponse.data!.item! as Map;
       arguments['otp_id']=otpId['otpId'];
+      arguments['mobile']=mobileController.text;
       AppRouter.pushNamed(Routes.verifyOtpView,args: arguments);
     }
     else

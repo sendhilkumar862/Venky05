@@ -21,6 +21,7 @@ class InfoCardVIew extends StatelessWidget {
     this.buttonTitle,
     this.isPending,
     this.isStatus,
+    this.isStatusRejected,
     this.isSupport,
     super.key,
   });
@@ -32,6 +33,7 @@ class InfoCardVIew extends StatelessWidget {
   Color? cardColor;
   String? buttonTitle;
   bool? isStatus = false;
+  bool? isStatusRejected = false;
   VoidCallback? buttonTap;
   bool? isPending = false;
   bool? isSupport = false;
@@ -49,12 +51,17 @@ class InfoCardVIew extends StatelessWidget {
       ),
       child: Column(
         children: <Widget>[
-          Lottie.asset(ImageConstants.profileManager,
+          Lottie.asset(ImageConstants.completeProfile,
               height: 55.px),
           if (isStatus ?? false)
             Padding(
               padding: const EdgeInsets.only(top: 15),
               child: StatusCardView(status: 'PENDING ACCOUNT'),
+            ),
+          if (isStatusRejected ?? false)
+            Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: StatusCardView(status: 'REJECTED'),
             ),
           SizedBox(height: 13.px),
           AppText(

@@ -49,7 +49,7 @@ class MobileView extends StatelessWidget {
                     children: [
                       SizedBox(height: 10.px),
                       SafeArea(bottom: false, child: OnTapBack()),
-                      SizedBox(height: 180.px),
+                      SizedBox(height: 110.px),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: AppImageAsset(

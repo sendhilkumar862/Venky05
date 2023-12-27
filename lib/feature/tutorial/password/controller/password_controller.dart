@@ -81,6 +81,7 @@ class PasswordController extends GetxController{
   }
 
   Future<bool> registerUser() async {
+    final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final Dio dio = Dio();
     try {
@@ -91,6 +92,7 @@ class PasswordController extends GetxController{
         'firstName': arguments['firstName'],
         'lastName': arguments['lastName'],
         'hideUserName': arguments['hideUserName'] ?? false,
+        'country':keyValueStorageBase.getCommon(String, KeyValueStorageService.countryName)
       };
 
       logs('password set body--> $body');

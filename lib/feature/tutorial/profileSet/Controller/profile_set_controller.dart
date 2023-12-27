@@ -6,11 +6,13 @@ import '../../../../custom/loader/easy_loader.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../repository/profile_set_repository.dart';
+import '../../onboarding/Controller/onboading_controller.dart';
 import '../../onboarding/view/onboading_view.dart';
 import '../model/about_model.dart';
 
 class ProfileSetController extends GetxController {
   final ProfileSetRepository _profileSetRepository = ProfileSetRepository();
+  final OnBoadingController _onBoadingController =Get.put(OnBoadingController());
 
   @override
   void onInit() {
@@ -35,6 +37,7 @@ class ProfileSetController extends GetxController {
     if (selectedIndex.value != 2) {
       keyValueStorageBase.setCommon(KeyValueStorageService.profile,
           selectedIndex == 0 ? 'Tutor' : 'Student');
+      _onBoadingController.currentProfile.value=selectedIndex == 0 ? 'Tutor' : 'Student';
       AppRouter.push( OnboardingView());
     }
   }
