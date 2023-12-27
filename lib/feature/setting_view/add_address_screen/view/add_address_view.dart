@@ -33,6 +33,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     // TODO: implement initState
     _addAddressController.fetchFullData();
     if(widget.userData!=null){
+      _addAddressController.isTap=false;
       // ignore: unnecessary_statements
       _addAddressController.selectedCity.value=widget.userData?.city??'';
       _addAddressController.addressFirst.text=widget.userData?.address1??'';
@@ -203,6 +204,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                              zoom: 3,
                            ),
                             onTap: (value)async{
+                              _addAddressController.isTap=true;
                             _addAddressController.position.value=value;
                             _addAddressController.getAddress(value);
                               _addAddressController.googleMapController.animateCamera(CameraUpdate.newCameraPosition(
@@ -278,16 +280,16 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                     shortName: _addAddressController.shortName.text,
                     address1: _addAddressController.addressFirst.text,
                     address2: _addAddressController.addressSecond.text,
-                    city:  _addAddressController.selectedCity.value,
-                    state: widget.userData?.state??'',
-                    country: widget.userData?.country??'',
+                    city:   _addAddressController.selectedCity.value,
+                    state: _addAddressController.isTap?_addAddressController.address[0].administrativeArea:widget.userData?.state??'',
+                    country: _addAddressController.isTap?_addAddressController.address[0].country:widget.userData?.country??'',
                     countryCode: _addAddressController
                         .countries[
                     _addAddressController.countryIndex.value]
                         ?.idd_code,
                     mobile: _addAddressController.mobileController.text,
                     isDefault:  _addAddressController.isSwitchExperience.value?1:0,
-                    location: widget.userData?.location,
+                    location: _addAddressController.isTap?Location(lat:_addAddressController.position.value.latitude.toString(),long:  _addAddressController.position.value.longitude.toString(),):widget.userData?.location,
                    createdAt: widget.userData?.createdAt,
                    updatedAt:  widget.userData?.updatedAt,
                    userId: widget.userData?.userId
