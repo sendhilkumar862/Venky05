@@ -35,30 +35,36 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
       isTitleOnly: true,
     ),
       body: Obx(()=>
-         Column(children: <Widget>[
+         Column(
+             mainAxisAlignment: MainAxisAlignment.center,
+             children: <Widget>[
           Expanded(
             child: SingleChildScrollView(
-              child: Column(
+              child: _manageAddressController.address.isNotEmpty?
+                Column(
                 children: <Widget>[
-                   if (_manageAddressController.address.isNotEmpty) ListView.builder(
+                    ListView.builder(
                       shrinkWrap: true,
                       physics: const BouncingScrollPhysics(),
                       itemCount: _manageAddressController.address.length,
                       itemBuilder: (BuildContext context, int index) {
                         final UserAddress data =_manageAddressController.address[index];
                         return listData(index, data);
-                      }) else const SizedBox.shrink(),
+                      })
                 ],
-              ),
+              ): const Center(child: Text('No address added'),),
             ),
           ),
-          AppButton(
-            isDisable: false,
-            onPressed: () {
-              Get.delete<AddAddressController>();
-              AppRouter.push( AddAddressScreen(title: 'Add New Addresses'));
-            },
-            title: 'Add New Address',
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: AppButton(
+              isDisable: false,
+              onPressed: () {
+                Get.delete<AddAddressController>();
+                AppRouter.push( AddAddressScreen(title: 'Add New Addresses'));
+              },
+              title: 'Add New Address',
+            ),
           ),
         ]),
       ),

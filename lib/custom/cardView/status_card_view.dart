@@ -42,6 +42,13 @@ class StatusCardView extends StatelessWidget {
           cardColor: AppColors.secondaryRed,
           iconColor: AppColors.appWhite,
         );
+      case 'SUSPENDED':
+        return customStatusView(
+          title: 'Suspended',
+          icon: ImageConstants.warningIcon,
+          cardColor: AppColors.secondaryRed,
+          iconColor: AppColors.appWhite,
+        );
 
       case 'ACCEPTED':
         return customStatusView(

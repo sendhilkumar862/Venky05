@@ -136,6 +136,54 @@ class _ClassesViewState extends State<ClassesView> {
                     },
                   ),
                 )
+                else if (_homeController.homeData.value?.userStatus == '7')
+                    Center(
+                      child: InfoCardVIew(
+                        isPending: isPending,
+                        isShowButton: false,
+                        isSupport: true,
+                        isStatus: false,
+                        isStatusSusPended:true ,
+                        title: 'Account Suspended',
+                        subTitle:
+                        'Your account is suspended because of violation of terms and conditions',
+                        cardColor: AppColors.white,
+                        buttonTitle: 'Class Details',
+                        buttonTap: () {
+                          if (isPending) {
+                            setState(() {
+                              isPending = !isPending;
+                            });
+                          } else {
+                            AppRouter.push(const ReUploadDocument());
+                          }
+                        },
+                      ),
+                    )
+                  else if (_homeController.homeData.value?.userStatus == '6')
+                      Center(
+                        child: InfoCardVIew(
+                          isPending: isPending,
+                          isShowButton: true,
+                          isSupport: false,
+                          isStatus: false,
+                          isStatusAction:true ,
+                          title: 'Account Is Pending For Your Action',
+                          subTitle:
+                          'We need you to upload your certificate',
+                          cardColor: AppColors.white,
+                          buttonTitle: 'Upload Needed Files',
+                          buttonTap: () {
+                            if (isPending) {
+                              setState(() {
+                                isPending = !isPending;
+                              });
+                            } else {
+                              AppRouter.push(const ReUploadDocument());
+                            }
+                          },
+                        ),
+                      )
               else
                 const SizedBox.shrink()
           ],

@@ -66,7 +66,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                           .textColor(AppColors.appTextColor.withOpacity(0.25))
                           .get14,
                       value:  '',
-                      hintText:  _addAddressController.selectedCity.value==''?'Select city':_addAddressController.selectedCity.value,
+                      hintText:  _addAddressController.selectedCity.value==''?'Select Area':_addAddressController.selectedCity.value,
                       onChanged: (String? city){
                         _addAddressController.selectedCity.value=city??'';
                       },
@@ -91,7 +91,6 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                          });
                        },
                     ),
-                    SizedBox(height: 10.px),
                     // TextFormsField(
                     //   prefix: (_addAddressController.countries.isNotEmpty)
                     //       ? GestureDetector(
@@ -161,30 +160,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                     //     });
                     //   },
                     // ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: Row(
-                        children: <Widget>[
-                          Text('Set as Default Address', style: openSans.get14.w500.textColor(AppColors.appTextColor)),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Obx(()=>
-                              FlutterSwitch(
-                                value: _addAddressController.isSwitchExperience.value,
-                                height: 16.29,
-                                width: 27.63,
-                                toggleSize: 12,
-                                activeColor: AppColors.appBlue,
-                                inactiveColor: AppColors.gray.withOpacity(0.25),
-                                onToggle: (bool value) {
-                                    _addAddressController.isSwitchExperience.value = value;
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+
                     AppTextFormField(
                       controller: _addAddressController.shortName,
                       title: 'Short Name',
@@ -195,9 +171,19 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         });
                       },
                     ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: Text('Location',style:  TextStyle(
+                        color:  AppColors.appTextColor.withOpacity(0.5),
+                                  fontSize: 12.px,
+                                  fontWeight: FontWeight.w400),),
+                      ),
+                    ),
                     Obx(()=>
                        Container(
-                        height: 100.px,
+                        height: 150.px,
                         width: double.infinity,
                         padding: const EdgeInsets.only(top:12),
                         decoration:
@@ -232,6 +218,30 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                           }
                         ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: Row(
+                        children: <Widget>[
+                          Text('Set as Default Address', style: openSans.get14.w500.textColor(AppColors.appTextColor)),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Obx(()=>
+                                FlutterSwitch(
+                                  value: _addAddressController.isSwitchExperience.value,
+                                  height: 16.29,
+                                  width: 27.63,
+                                  toggleSize: 12,
+                                  activeColor: AppColors.appBlue,
+                                  inactiveColor: AppColors.gray.withOpacity(0.25),
+                                  onToggle: (bool value) {
+                                    _addAddressController.isSwitchExperience.value = value;
+                                  },
+                                ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
