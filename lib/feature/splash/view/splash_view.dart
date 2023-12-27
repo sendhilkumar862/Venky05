@@ -16,7 +16,7 @@ class SplashView extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            Lottie.asset(ImageConstants.splash, height: 400.px),
+            Lottie.asset(ImageConstants.splash),
             const Column(
               children: <Widget>[
                 Expanded(

@@ -12,6 +12,7 @@ import '../../../tutorial/language/model/country_model.dart';
 import '../model/personal_info_request_model.dart';
 import '../repository/get_country_repository.dart';
 import '../repository/personalInfo_update_repository.dart';
+import '../repository/upload_document_repository.dart';
 
 class PersonalInfoController extends GetxController{
   @override
@@ -24,6 +25,7 @@ class PersonalInfoController extends GetxController{
 
 
    Rx<Country> selectedCountry = Country().obs;
+   List<String> civilIds=[];
 
 
   RxBool isSwitch = false.obs;
@@ -37,6 +39,7 @@ class PersonalInfoController extends GetxController{
   TextEditingController nationalityController = TextEditingController();
   final PersonalUpdateRepository _personalUpdateRepository =PersonalUpdateRepository();
   final GetCountryRepository _countryRepository =GetCountryRepository();
+  final UploadDocRepository _uploadDocRepository =UploadDocRepository();
   void selectItem(String item) {
     selectedItem.value = item;
   }
@@ -118,8 +121,9 @@ class PersonalInfoController extends GetxController{
   Future<void> personalInformationUpdate() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final BaseResponse personalUpdate = await _personalUpdateRepository.updateCountry(PersonalInfoRequest(nationality:selectedCountry.value.name,languages: languageList.value,dob:dateController.text,
-      dobIsPublic: isSwitch.value,gender: genderListIndex.value==0?"male":"female",civilIds:[] ));
+      dobIsPublic: isSwitch.value,gender: genderListIndex.value==0?"male":"female",civilIds:civilIds ));
     if (personalUpdate.status?.type == 'success') {
+      civilIds.clear();
       final HomeController _home = Get.find();
       _home.fetchData();
       EasyLoading.dismiss();
@@ -127,5 +131,17 @@ class PersonalInfoController extends GetxController{
     }else {
         EasyLoading.dismiss();
       }
+  }
+
+  Future<void> uploadDocument(String path) async {
+    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+    final BaseResponse signInResponse = await _uploadDocRepository.uploadDocument(path);
+    if (signInResponse.status?.type == 'success') {
+      var data =signInResponse.data?.item as Map<String, dynamic>;
+      civilIds.add(data['id']);
+    } else {
+
+    }
+    EasyLoading.dismiss();
   }
 }

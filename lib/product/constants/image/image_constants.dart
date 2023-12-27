@@ -33,6 +33,8 @@ class ImageConstants {
 
   static const String loader =
       '${ApplicationConstants.animationPath}loader.json';
+  static const String completeProfile =
+      '${ApplicationConstants.animationPath}complete_profile_animation.json';
 
   //     ======================= Images =======================     //
 
@@ -158,6 +160,8 @@ class ImageConstants {
       '${ApplicationConstants.iconPath}book_person.png';
   static const String graduateIcon =
       '${ApplicationConstants.iconPath}graduate_hat.png';
+  static const String parentIcon =
+      '${ApplicationConstants.iconPath}icon_parent.svg';
   static const String backIcon =
       '${ApplicationConstants.iconPath}back_icon.png';
   static const String arrowRotate =

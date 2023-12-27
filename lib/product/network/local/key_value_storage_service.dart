@@ -19,6 +19,7 @@ class KeyValueStorageService {
 
   static String profile = 'profile';
   static String country = 'country';
+  static String countryName = 'countryName';
   static String countryCodeAndIDD = 'countryCode';
   static String language = 'language';
   static String token = 'token';
@@ -64,6 +65,9 @@ class KeyValueStorageService {
 
   void setAuthBiometric(String status) {
     _keyValueStorage.setEncrypted(_authBiometric, status);
+  }
+  Future<void> removeAuthBiometricToken() async {
+    return await _keyValueStorage.removeEncrypted(_authBiometric);
   }
   /// Resets the authentication. Even though these methods are asynchronous, we
   /// don't care about their completion which is why we don't use `await` and

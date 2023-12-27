@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
 import '../../product/utils/validators.dart';
@@ -20,9 +19,10 @@ class PreLoginCustomBody extends StatelessWidget {
     return Stack(
       alignment: Alignment.topCenter,
       children: <Widget>[
-        const AppImageAsset(
+         AppImageAsset(
           image: ImageConstants.splashBG,
           fit: BoxFit.fill,
+          height:  227.px,
         ),
         Column(
           children: <Widget>[widget ?? const SizedBox()],

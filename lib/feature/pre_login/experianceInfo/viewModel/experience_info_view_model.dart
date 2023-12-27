@@ -10,6 +10,7 @@ import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 import '../../../home/controller/home_controller.dart';
+import '../../personalInfo/controller/personal_info_controllere.dart';
 
 part 'experience_info_view_model.g.dart';
 
@@ -17,6 +18,7 @@ class ExperienceInfoViewModel = _ExperienceInfoViewModelBase
     with _$ExperienceInfoViewModel;
 
 abstract class _ExperienceInfoViewModelBase extends BaseViewModel with Store {
+  final PersonalInfoController _personalInfoController= Get.put(PersonalInfoController());
   @observable
   File? firstImage;
   File? secondImage;
@@ -60,7 +62,7 @@ abstract class _ExperienceInfoViewModelBase extends BaseViewModel with Store {
         "experience": int.parse(experienceYearController.text),
         "experienceDetails": experienceBriefController.text,
         "experienceIsPublic": isSwitchExperience,
-        "certificateIds": ['a961f52d-f145-4e58-8e98-4d1b8f74cd15'],
+        "certificateIds": _personalInfoController.civilIds,
         "certificateIsPublic": isSwitchCertificates
       };
       logs('body--> $body');
@@ -72,6 +74,7 @@ abstract class _ExperienceInfoViewModelBase extends BaseViewModel with Store {
       logs('status Code --> ${response.statusCode}');
       if (response.statusCode == 200) {
         logs('Login response  --> ${response.data.toString()}');
+        _personalInfoController.civilIds.clear();
         HomeController _home=Get.find();
         _home.fetchData();
         EasyLoading.dismiss();

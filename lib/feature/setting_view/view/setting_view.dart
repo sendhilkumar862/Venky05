@@ -220,9 +220,10 @@ class _SettingViewState extends State<SettingView> {
           Obx(()=>
              AppSwitch(
               isActive: _settingController.authenticated.value!=''?true:false,
-              onTap: _settingController.authenticated.value==''?(){
-                _settingController.setLocalAuth();
-              }:null,
+              onTap:(){
+                _settingController.authenticated.value==''?
+                _settingController.setLocalAuth(): _settingController.removeLocalAuth();
+              },
             ),
           )
         else

@@ -254,7 +254,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                                     decoration: BoxDecoration(
                                                         color: AppColors.downArrowColor.withOpacity(0.15),
                                                         shape: BoxShape.circle),
-                                                    child: Icon(
+                                                    child: const Icon(
                                                       Icons.close,
                                                       size: 20,
                                                     )),
@@ -331,6 +331,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
       allowedExtensions: <String>['pdf', 'png', 'jpeg', 'jpg'],
     );
     if (result != null) {
+      _personalInfoController.uploadDocument(result.files.single.path??'');
       if (firstImage == null) {
         setState(() {
           firstImage = File(result.files.single.path ?? '');

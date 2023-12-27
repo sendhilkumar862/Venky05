@@ -45,6 +45,7 @@ class ApiEndpoint {
       case AuthEndpoint.ADD_NUMBER: return '$path/mobile/addNumber';
       case AuthEndpoint.CHANGE_NUMBER: return '$path/mobile/changeNumber';
       case AuthEndpoint.PERSONAL_INFO: return '$path/profile/personal';
+      case AuthEndpoint.CERTIFICATE: return '$path/profile/certificates';
     }
   }
 
@@ -121,6 +122,8 @@ enum AuthEndpoint {
 
   /// An endpoint for update personal.
   PERSONAL_INFO,
+  /// An endpoint for update personal.
+  CERTIFICATE,
 }
 
 /// A collection of endpoints used for students.

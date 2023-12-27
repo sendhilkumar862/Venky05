@@ -49,31 +49,31 @@ class TermAndConditionBottomSheet extends StatelessWidget {
               SizedBox(
                 height: 30.px,
               ),
-              // ListView.separated(shrinkWrap: true,
-              //     itemBuilder: (BuildContext context, int index) {
-              //       return Column(crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: <Widget>[
-              //           AppText(
-              //             _passwordController!
-              //                 .termAndConditionModel.data!.items![index].title
-              //                 .toString(),
-              //             fontWeight: FontWeight.w700,
-              //             textAlign: TextAlign.start,
-              //           ),
-              //           AppText(
-              //             _passwordController
-              //                 .termAndConditionModel.data!.items![index].content
-              //                 .toString(),
-              //             textAlign: TextAlign.start,
-              //           ),
-              //         ],
-              //       );
-              //     },
-              //     separatorBuilder: (BuildContext context, int index) {
-              //       return SizedBox(height: 10.px);
-              //     },
-              //     itemCount:_passwordController
-              //         .termAndConditionModel.data!.items!.length)
+              ListView.separated(shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        AppText(
+                          _passwordController
+                              .termAndConditionModel.value.data!.items![index].title
+                              .toString(),
+                          fontWeight: FontWeight.w700,
+                          textAlign: TextAlign.start,
+                        ),
+                        AppText(
+                          _passwordController
+                              .termAndConditionModel.value.data!.items![index].content
+                              .toString(),
+                          textAlign: TextAlign.start,
+                        ),
+                      ],
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(height: 10.px);
+                  },
+                  itemCount:_passwordController
+                      .termAndConditionModel.value.data!.items!.length)
             ],
           ),
           InkWell(

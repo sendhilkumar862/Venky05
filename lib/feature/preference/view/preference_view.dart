@@ -272,6 +272,10 @@ class _PreferenceViewState extends State<PreferenceView>
                                             emptyString),
                                     onSelected: (bool selected) {
                                       setState(() {
+                                        preferenceViewModel
+                                            .selectedCurriculumIndices.clear();
+                                        preferenceViewModel
+                                            .selectedSubjectIndices.clear();
                                         if (selected) {
                                           preferenceViewModel
                                               .selectedSchoolIndices
@@ -313,7 +317,8 @@ class _PreferenceViewState extends State<PreferenceView>
                             if (preferenceViewModel.selectedGrade.isNotEmpty)
                               AppDivider(),
                             if (preferenceViewModel
-                                .selectedSchoolIndices.isNotEmpty)
+                                .selectedSchoolIndices.isNotEmpty && preferenceViewModel
+                                .selectedSchoolIndices.contains('Private'))
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 10),
@@ -329,7 +334,8 @@ class _PreferenceViewState extends State<PreferenceView>
                                 ),
                               ),
                             if (preferenceViewModel
-                                .selectedSchoolIndices.isNotEmpty)
+                                .selectedSchoolIndices.isNotEmpty && preferenceViewModel
+                                .selectedSchoolIndices.contains('Private'))
                               InlineChoice<Curriculum>(
                                 clearable: true,
                                 value: preferenceViewModel.curriculum ??
@@ -403,10 +409,12 @@ class _PreferenceViewState extends State<PreferenceView>
                                 listBuilder: ChoiceList.createWrapped(),
                               ),
                             if (preferenceViewModel
-                                .selectedSchoolIndices.isNotEmpty)
+                                .selectedSchoolIndices.isNotEmpty && preferenceViewModel
+                                .selectedSchoolIndices.contains('Private'))
                               AppDivider(),
-                            if (preferenceViewModel
-                                .selectedCurriculumIndices.isNotEmpty)
+                            if ( preferenceViewModel
+                                .selectedSchoolIndices.isNotEmpty && !preferenceViewModel
+                    .selectedSchoolIndices.contains('Private') )
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 10),
                                 child: Row(
@@ -431,7 +439,8 @@ class _PreferenceViewState extends State<PreferenceView>
                                 ),
                               ),
                             if (preferenceViewModel
-                                .selectedCurriculumIndices.isNotEmpty)
+                                .selectedSchoolIndices.isNotEmpty && !preferenceViewModel
+                                .selectedSchoolIndices.contains('Private'))
                               InlineChoice<Curriculum>(
                                 clearable: true,
                                 loading: preferenceViewModel.subject?.isEmpty ??
@@ -490,6 +499,100 @@ class _PreferenceViewState extends State<PreferenceView>
                                           ? AppColors.white
                                           : AppColors
                                               .black, // Change text color
+                                    ),
+                                  );
+                                },
+                                listBuilder: ChoiceList.createWrapped(),
+                              ),
+                            if ( preferenceViewModel
+                                .selectedSchoolIndices.isNotEmpty && preferenceViewModel
+                                .selectedSchoolIndices.contains('Private')  && preferenceViewModel
+                                .selectedCurriculumIndices.isNotEmpty  )
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Row(
+                                  children: <Widget>[
+                                    Text(
+                                      'subject'.tr,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16),
+                                    ),
+                                    Padding(
+                                      padding:
+                                      EdgeInsets.symmetric(horizontal: 5),
+                                      child: Text(
+                                        'optional'.tr,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 12),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            if (preferenceViewModel
+                                .selectedSchoolIndices.isNotEmpty && preferenceViewModel
+                                .selectedSchoolIndices.contains('Private') && preferenceViewModel
+                                .selectedCurriculumIndices.isNotEmpty)
+                              InlineChoice<Curriculum>(
+                                clearable: true,
+                                loading: preferenceViewModel.subject?.isEmpty ??
+                                    true,
+                                value: preferenceViewModel.subject ??
+                                    <Curriculum>[],
+                                //onChanged: setSchoolValue,
+                                itemCount:
+                                preferenceViewModel.subject?.length ?? 0,
+                                itemBuilder:
+                                    (ChoiceController<Curriculum> selection,
+                                    int index) {
+                                  return ChoiceChip(
+                                    shape: StadiumBorder(
+                                        side: BorderSide(
+                                            color: preferenceViewModel
+                                                .selectedSubjectIndices
+                                                .contains(index)
+                                                ? AppColors.trans
+                                                : AppColors.appBorderColor)),
+                                    backgroundColor: AppColors.trans,
+                                    selected: preferenceViewModel
+                                        .selectedSubjectIndices
+                                        .contains(preferenceViewModel
+                                        .subject?[index].value ??
+                                        emptyString),
+                                    onSelected: (bool selected) {
+                                      setState(() {
+                                        if (selected) {
+                                          preferenceViewModel
+                                              .selectedSubjectIndices
+                                              .add(preferenceViewModel
+                                              .subject?[index].value ??
+                                              emptyString); // Add to the set for multi-selection
+                                        } else {
+                                          preferenceViewModel
+                                              .selectedSubjectIndices
+                                              .remove(preferenceViewModel
+                                              .subject?[index].value ??
+                                              emptyString); // Remove from the set
+                                        }
+                                      });
+                                    },
+                                    showCheckmark: false,
+                                    label: Text(preferenceViewModel
+                                        .subject?[index].value ??
+                                        emptyString),
+                                    selectedColor: AppColors
+                                        .appBlue, // Change this to your desired color
+                                    labelStyle: TextStyle(
+                                      color: preferenceViewModel
+                                          .selectedSubjectIndices
+                                          .contains(preferenceViewModel
+                                          .subject?[index].value ??
+                                          emptyString)
+                                          ? AppColors.white
+                                          : AppColors
+                                          .black, // Change text color
                                     ),
                                   );
                                 },

@@ -73,7 +73,7 @@ class ProfileSelectionView extends StatelessWidget {
                 children: List<Widget>.generate(
                   2,
                       (int index) => selectCardView(
-                    icon: ImageConstants.graduateIcon,
+                    icon: index==0?ImageConstants.graduateIcon:ImageConstants.parentIcon,
                     title: _profileSetController.profileItems[index],
                     index: index,
                     onTap: () => _profileSetController.selectProfile(index),

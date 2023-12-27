@@ -93,102 +93,11 @@ class LanguageView extends StatelessWidget {
         ),
         bottomNavigationBar: PreLoginCommonButton(
           onTap: _languageController.onPressedContinue,
-          title: 'continue',
+          title: 'Continue',
           isDisable: _languageController.selectedCountry == null,
         ),
       ),
     );
-    // return BaseView<LanguageViewModel>(
-    //     viewModel: LanguageViewModel(),
-    //     onModelReady: (LanguageViewModel languageViewModel) {
-    //       languageViewModel.init();
-    //       languageViewModel.setContext(context);
-    //       languageViewModel.setRef(ref);
-    //
-    //     },
-    //     onPageBuilder: (BuildContext context, LanguageViewModel languageViewModel) {
-    //        languageViewModel.fetchData();
-    //       return Observer(
-    //           warnWhenNoObservables: false,
-    //           builder: (BuildContext context) {
-    //             return Scaffold(
-    //               body: SingleChildScrollView(
-    //                 child: Padding(
-    //                   padding: EdgeInsets.symmetric(horizontal: 15.px),
-    //                   child: Column(
-    //                     children: <Widget>[
-    //                       SizedBox(height: 80.px),
-    //                       Lottie.asset(ImageConstants.globe, height: 210.px),
-    //                       SizedBox(
-    //                         height: 15.px,
-    //                       ),
-    //                       AppText(
-    //                         'chooseLang'.tr(),
-    //                         textAlign: TextAlign.center,
-    //                         fontSize: 24.px,
-    //                         fontWeight: FontWeight.w800,
-    //                       ),
-    //                       SizedBox(
-    //                         height: 25.px,
-    //                       ),
-    //                       selectCardView(
-    //                         icon: languageViewModel.selectedCountry?.flag_url,
-    //                         title: languageViewModel.selectedCountry?.name,
-    //                         onTap: () {
-    //                           showModalBottomSheet(
-    //                             isScrollControlled: true,
-    //                             context: context,
-    //                             shape: const RoundedRectangleBorder(
-    //                               borderRadius: BorderRadius.vertical(
-    //                                 top: Radius.circular(25.0),
-    //                               ),
-    //                             ),
-    //                             builder: (BuildContext context) {
-    //                               return StatefulBuilder(
-    //                                 builder: (BuildContext context, setState) {
-    //                                   return CountryBottomsSheet(
-    //                                       setState: setState, );
-    //                                 },
-    //                               );
-    //                             },
-    //                           );
-    //                         },
-    //                       ),
-    //                       SizedBox(height: 15.px),
-    //                       selectCardView(
-    //                         icon: languageViewModel.languageIcon[languageViewModel.languageIndex],
-    //                         title: languageViewModel.languages[languageViewModel.languageIndex],
-    //                         onTap: () {
-    //                           showModalBottomSheet(
-    //                             isScrollControlled: true,
-    //                             context: context,
-    //                             shape: const RoundedRectangleBorder(
-    //                               borderRadius: BorderRadius.vertical(
-    //                                 top: Radius.circular(25.0),
-    //                               ),
-    //                             ),
-    //                             builder: (BuildContext context) {
-    //                               return StatefulBuilder(
-    //                                 builder: (BuildContext context, setState) {
-    //                                   return LanguageBottomSheet(setState: setState);
-    //                                 },
-    //                               );
-    //                             },
-    //                           );
-    //                         },
-    //                       ),
-    //                     ],
-    //                   ),
-    //                 ),
-    //               ),
-    //               bottomNavigationBar: PreLoginCommonButton(
-    //                 onTap: languageViewModel.onPressedContinue,
-    //                 title: 'continue'.tr(),
-    //                 isDisable: languageViewModel.selectedCountry == null,
-    //               ),
-    //             );
-    //           });
-    //     });
   }
 
   Widget selectCardView({String? icon, String? title, VoidCallback? onTap}) {

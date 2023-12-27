@@ -59,6 +59,7 @@ class LanguageController extends GetxController {
         countries.add(Country.fromJson(element));
         temp.add(Country.fromJson(element));
       }
+      selectedCountry.value=countries[0];
       if(_homeController.homeData.value?.country!=null){
       for (var element in countries) {
         if(element.name==_homeController.homeData.value?.country){
@@ -106,6 +107,8 @@ class LanguageController extends GetxController {
   void onPressedContinue() {
     keyValueStorageBase.setCommon(
         KeyValueStorageService.country, selectedCountry.value?.flag_url ?? '');
+    keyValueStorageBase.setCommon(
+        KeyValueStorageService.countryName, selectedCountry.value?.name ?? '');
     keyValueStorageBase.setCommon(
         KeyValueStorageService.language, languageIndex == 0 ? 'en' : 'ar');
     AppRouter.pushNamed(Routes.profileSelectionView);

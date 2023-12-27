@@ -87,6 +87,7 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
   }
 
   Future<bool> registerUser() async {
+    final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final Dio dio = Dio();
     try {
@@ -97,6 +98,7 @@ abstract class _PasswordViewModelBase extends BaseViewModel with Store {
         'firstName': arguments['firstName'],
         'lastName': arguments['lastName'],
         'hideUserName': arguments['hideUserName'] ?? false,
+        'country':keyValueStorageBase.getCommon(String, KeyValueStorageService.country)
       };
 
       logs('password set body--> $body');
