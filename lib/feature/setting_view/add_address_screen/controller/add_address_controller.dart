@@ -27,6 +27,7 @@ class AddAddressController extends GetxController{
   final Completer<GoogleMapController> controllerGoogleMap = Completer();
   Rx<LatLng> position = const LatLng(56.0, 58.0).obs;
   late GoogleMapController googleMapController;
+  bool isTap=false;
   @override
   void init() {
     // fetchFullData();
