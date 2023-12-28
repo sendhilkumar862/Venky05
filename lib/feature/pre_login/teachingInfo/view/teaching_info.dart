@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
-import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
-import '../viewModel/teaching_info_view_model.dart';
+import '../controller/teaching_info_controller.dart';
 
 class TeachingInfo extends StatefulWidget {
   const TeachingInfo({super.key});
@@ -18,6 +18,7 @@ class TeachingInfo extends StatefulWidget {
 }
 
 class _TeachingInfoState extends State<TeachingInfo> {
+  final TeachingInfoController _teachingInfoController = Get.put(TeachingInfoController());
   @override
   void initState() {
     super.initState();
@@ -26,198 +27,183 @@ class _TeachingInfoState extends State<TeachingInfo> {
   @override
   Widget build(BuildContext context) {
     // final TeachingInfoViewModel teachingInfoStore = Provider.of<TeachingInfoViewModel>(context);
-    return BaseView<TeachingInfoViewModel>(
-        viewModel: TeachingInfoViewModel(),
-        onModelReady: (TeachingInfoViewModel model) {
-          model.setContext(context);
-          model.init();
-        },
-        onPageBuilder: (BuildContext context,
-            TeachingInfoViewModel teachingInfoStore) {
-          return Scaffold(
-            appBar: HessaAppBar(
-              trailingText: 'Cancel',
-              title: 'Complete Profile',
-              isTitleOnly: true,
-              trailingTap: ()=> Navigator.popUntil(context, ModalRoute.withName(Routes.HomeScreenRoute)),
+    return Scaffold(
+      appBar: HessaAppBar(
+        trailingText: 'Cancel',
+        title: 'Complete Profile',
+        isTitleOnly: true,
+        trailingTap: ()=> Navigator.popUntil(context, ModalRoute.withName(Routes.HomeScreenRoute)),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 28),
+              child: Text('Teaching Information',
+                  style: openSans.get20.w700.appTextColor),
             ),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 28),
-                    child: Text('Teaching Information',
-                        style: openSans.get20.w700.appTextColor),
-                  ),
-                  AppTextFormField(
-                    controller: teachingInfoStore.gradeController,
-                    onTap: () {
-                      bottomSheetDropDownList(
-                          listData: teachingInfoStore.gradeList,
-                          selectedList: teachingInfoStore.selectedGrade,
-                          teachingInfoStore: teachingInfoStore,
-                          onTap: (int index) {
-                            setState(() {
-                              teachingInfoStore
-                                  .addGrade(teachingInfoStore.gradeList[index]);
-                              teachingInfoStore.gradeController.text =
-                                  teachingInfoStore
-                                      .listToCommaSeparatedString(
-                                          teachingInfoStore.selectedGrade)
-                                      .replaceAll(',', ' -');
-                            });
-                          });
-                    },
-                    top: 10,
-                    readOnly: true,
-                    title: 'Grade',
-                    hintText: 'Select grade/s',
-                    suffix: const Icon(Icons.keyboard_arrow_down),
-                  ),
-                  AppTextFormField(
-                    controller: teachingInfoStore.subjectController,
-                    onTap: () {
-                      bottomSheetDropDownList(
-                        listData: teachingInfoStore.subjectList,
-                        selectedList: teachingInfoStore.selectedSubject,
-                        teachingInfoStore: teachingInfoStore,
-                        onTap: (int index) {
-                          setState(() {
-                            teachingInfoStore.addSubject(
-                                teachingInfoStore.subjectList[index]);
-                            teachingInfoStore.subjectController.text =
-                                teachingInfoStore
-                                    .listToCommaSeparatedString(
-                                        teachingInfoStore.selectedSubject)
-                                    .replaceAll(',', ' -');
-                          });
-                        },
-                      );
-                    },
-                    readOnly: true,
-                    title: 'Subject Taught',
-                    hintText: 'Select subject/s',
-                    suffix: Icon(Icons.keyboard_arrow_down),
-                  ),
-                  AppTextFormField(
-                    controller: teachingInfoStore.schoolController,
-                    onTap: () {
-                      bottomSheetDropDownList(
-                        listData: teachingInfoStore.schoolTypeList,
-                        selectedList: teachingInfoStore.selectedSchoolType,
-                        teachingInfoStore: teachingInfoStore,
-                        onTap: (int index) {
-                          setState(() {
-                            teachingInfoStore.addSchoolType(
-                                teachingInfoStore.schoolTypeList[index]);
-                            teachingInfoStore.schoolController.text =
-                                teachingInfoStore
-                                    .listToCommaSeparatedString(
-                                        teachingInfoStore.selectedSchoolType)
-                                    .replaceAll(',', ' -');
-                          });
-                        },
-                      );
-                    },
-                    readOnly: true,
-                    title: 'School Type',
-                    hintText: 'Select school type',
-                    suffix: Icon(Icons.keyboard_arrow_down),
-                  ),
-                  AppTextFormField(
-                    controller: teachingInfoStore.curriculumController,
-                    onTap: () {
-                      bottomSheetDropDownList(
-                        listData: teachingInfoStore.curriculumTypeList,
-                        selectedList: teachingInfoStore.selectedCurriculum,
-                        teachingInfoStore: teachingInfoStore,
-                        onTap: (int index) {
-                          teachingInfoStore.addCurriculum(
-                              teachingInfoStore.curriculumTypeList[index]);
-                          teachingInfoStore.curriculumController.text =
-                              teachingInfoStore
-                                  .listToCommaSeparatedString(
-                                      teachingInfoStore.selectedCurriculum)
-                                  .replaceAll(',', ' -');
-                        },
-                      );
-                    },
-                    readOnly: true,
-                    title: 'Curriculum',
-                    hintText: 'Select curriculum',
-                    suffix: const Icon(Icons.keyboard_arrow_down),
-                  ),
-                  AppTextFormField(
-                    controller: teachingInfoStore.classTypeController,
-                    onTap: () {
-                      bottomSheetDropDownList(
-                        listData: teachingInfoStore.classTypeList,
-                        selectedList: teachingInfoStore.selectedClassType,
-                        teachingInfoStore: teachingInfoStore,
-                        onTap: (int index) {
-                          setState(() {
-                            teachingInfoStore.addClassType(
-                                teachingInfoStore.classTypeList[index]);
-                            teachingInfoStore.classTypeController.text =
-                                teachingInfoStore
-                                    .listToCommaSeparatedString(
-                                        teachingInfoStore.selectedClassType)
-                                    .replaceAll(',', ' -');
-                          });
-                        },
-                      );
-                    },
-                    readOnly: true,
-                    title: 'Type Of Class',
-                    hintText: 'Select class type',
-                    suffix: Icon(Icons.keyboard_arrow_down),
-                  ),
-                  SizedBox(height: 40.px),
-                  Observer(builder: (_) {
-                    return AppButton(
-                        title: 'Continue Experience Information',
-                        onPressed: () {
-                          if( teachingInfoStore.gradeController.text.isNotEmpty &&
-                              teachingInfoStore
-                                  .classTypeController.text.isNotEmpty &&
-                              teachingInfoStore
-                                  .curriculumController.text.isNotEmpty &&
-                              teachingInfoStore
-                                  .schoolController.text.isNotEmpty &&
-                              teachingInfoStore
-                                  .subjectController.text.isNotEmpty
-                              ) {
-                            teachingInfoStore.teachingInformationUpdate();
-                          }
-                        },
-                        isDisable:
-                            teachingInfoStore.gradeController.text.isNotEmpty &&
-                                    teachingInfoStore
-                                        .classTypeController.text.isNotEmpty &&
-                                    teachingInfoStore
-                                        .curriculumController.text.isNotEmpty &&
-                                    teachingInfoStore
-                                        .schoolController.text.isNotEmpty &&
-                                    teachingInfoStore
-                                        .subjectController.text.isNotEmpty
-                                ? false
-                                : true);
-                  })
+            AppTextFormField(
+              controller: _teachingInfoController.gradeController,
+              onTap: () {
+                bottomSheetDropDownList(
+                    listData: _teachingInfoController.gradeList,
+                    selectedList: _teachingInfoController.selectedGrade,
+                    onTap: (int index) {
+                      setState(() {
+                        _teachingInfoController
+                            .addGrade(_teachingInfoController.gradeList[index]);
+                        _teachingInfoController.gradeController.text =
+                            _teachingInfoController
+                                .listToCommaSeparatedString(
+                                _teachingInfoController.selectedGrade)
+                                .replaceAll(',', ' -');
+                      });
+                    });
+              },
+              top: 10,
+              readOnly: true,
+              title: 'Grade',
+              hintText: 'Select grade/s',
+              suffix: const Icon(Icons.keyboard_arrow_down),
+            ),
+            AppTextFormField(
+              controller: _teachingInfoController.subjectController,
+              onTap: () {
+                bottomSheetDropDownList(
+                  listData: _teachingInfoController.subjectList,
+                  selectedList: _teachingInfoController.selectedSubject,
+                  onTap: (int index) {
+                    setState(() {
+                      _teachingInfoController.addSubject(
+                          _teachingInfoController.subjectList[index]);
+                      _teachingInfoController.subjectController.text =
+                          _teachingInfoController
+                              .listToCommaSeparatedString(
+                              _teachingInfoController.selectedSubject)
+                              .replaceAll(',', ' -');
+                    });
+                  },
+                );
+              },
+              readOnly: true,
+              title: 'Subject Taught',
+              hintText: 'Select subject/s',
+              suffix: const Icon(Icons.keyboard_arrow_down),
+            ),
+            AppTextFormField(
+              controller: _teachingInfoController.schoolController,
+              onTap: () {
+                bottomSheetDropDownList(
+                  listData: _teachingInfoController.schoolTypeList,
+                  selectedList: _teachingInfoController.selectedSchoolType,
+                  onTap: (int index) {
+                    setState(() {
+                      _teachingInfoController.addSchoolType(
+                          _teachingInfoController.schoolTypeList[index]);
+                      _teachingInfoController.schoolController.text =
+                          _teachingInfoController
+                              .listToCommaSeparatedString(
+                              _teachingInfoController.selectedSchoolType)
+                              .replaceAll(',', ' -');
+                    });
+                  },
+                );
+              },
+              readOnly: true,
+              title: 'School Type',
+              hintText: 'Select school type',
+              suffix: const Icon(Icons.keyboard_arrow_down),
+            ),
+            AppTextFormField(
+              controller: _teachingInfoController.curriculumController,
+              onTap: () {
+                bottomSheetDropDownList(
+                  listData: _teachingInfoController.curriculumTypeList,
+                  selectedList: _teachingInfoController.selectedCurriculum,
+                  onTap: (int index) {
+                    _teachingInfoController.addCurriculum(
+                        _teachingInfoController.curriculumTypeList[index]);
+                    _teachingInfoController.curriculumController.text =
+                        _teachingInfoController
+                            .listToCommaSeparatedString(
+                            _teachingInfoController.selectedCurriculum)
+                            .replaceAll(',', ' -');
+                  },
+                );
+              },
+              readOnly: true,
+              title: 'Curriculum',
+              hintText: 'Select curriculum',
+              suffix: const Icon(Icons.keyboard_arrow_down),
+            ),
+            AppTextFormField(
+              controller: _teachingInfoController.classTypeController,
+              onTap: () {
+                bottomSheetDropDownList(
+                  listData: _teachingInfoController.classTypeList,
+                  selectedList: _teachingInfoController.selectedClassType,
+                  onTap: (int index) {
+                    setState(() {
+                      _teachingInfoController.addClassType(
+                          _teachingInfoController.classTypeList[index]);
+                      _teachingInfoController.classTypeController.text =
+                          _teachingInfoController
+                              .listToCommaSeparatedString(
+                              _teachingInfoController.selectedClassType)
+                              .replaceAll(',', ' -');
+                    });
+                  },
+                );
+              },
+              readOnly: true,
+              title: 'Type Of Class',
+              hintText: 'Select class type',
+              suffix: Icon(Icons.keyboard_arrow_down),
+            ),
+            SizedBox(height: 40.px),
+            Observer(builder: (_) {
+              return AppButton(
+                  title: 'Continue Experience Information',
+                  onPressed: () {
+                    if( _teachingInfoController.gradeController.text.isNotEmpty &&
+                        _teachingInfoController
+                            .classTypeController.text.isNotEmpty &&
+                        _teachingInfoController
+                            .curriculumController.text.isNotEmpty &&
+                        _teachingInfoController
+                            .schoolController.text.isNotEmpty &&
+                        _teachingInfoController
+                            .subjectController.text.isNotEmpty
+                    ) {
+                      _teachingInfoController.teachingInformationUpdate();
+                    }
+                  },
+                  isDisable:
+                  _teachingInfoController.gradeController.text.isNotEmpty &&
+                      _teachingInfoController
+                          .classTypeController.text.isNotEmpty &&
+                      _teachingInfoController
+                          .curriculumController.text.isNotEmpty &&
+                      _teachingInfoController
+                          .schoolController.text.isNotEmpty &&
+                      _teachingInfoController
+                          .subjectController.text.isNotEmpty
+                      ? false
+                      : true);
+            })
 
-                  // teachingInfoStore.selectedCurriculum.isNotEmpty && teachingInfoStore.selectedSchoolType.isNotEmpty && teachingInfoStore.selectedClassType.isNotEmpty && teachingInfoStore.selectedGrade.isNotEmpty && teachingInfoStore.schoolTypeList.isNotEmpty ?false:true)
-                ],
-              ),
-            ),
-          );
-        });
+            // teachingInfoStore.selectedCurriculum.isNotEmpty && teachingInfoStore.selectedSchoolType.isNotEmpty && teachingInfoStore.selectedClassType.isNotEmpty && teachingInfoStore.selectedGrade.isNotEmpty && teachingInfoStore.schoolTypeList.isNotEmpty ?false:true)
+          ],
+        ),
+      ),
+    ) ;
   }
 
   void bottomSheetDropDownList({
     required List<String> listData,
     required List<String> selectedList,
-    required TeachingInfoViewModel teachingInfoStore,
     required Function(int) onTap,
   }) {
     final double width = MediaQuery.sizeOf(context).width;
@@ -276,8 +262,10 @@ class _TeachingInfoState extends State<TeachingInfo> {
                               style: openSans.get16.w400
                                   .textColor(AppColors.appTextColor)),
                           onTap: () {
+
                             onTap(
-                                index); // Pass the value to the onTap function
+                                index);
+                            setState((){});// Pass the value to the onTap function
                           },
                           trailing: selectedList.contains(listData[index])
                               ? const Icon(
