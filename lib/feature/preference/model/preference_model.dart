@@ -1,92 +1,74 @@
-import 'dart:convert';
-
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'preference_model.g.dart';
-
-PreferenceModel preferenceModelFromJson(String str) =>
-    PreferenceModel.fromJson(json.decode(str));
-
-String preferenceModelToJson(PreferenceModel data) =>
-    json.encode(data.toJson());
-
-@JsonSerializable()
 class PreferenceModel {
-  Data? data;
-  Status? status;
 
-  PreferenceModel({
-    this.data,
-    this.status,
-  });
+  PreferenceModel({this.grade, this.schoolType, this.curriculum, this.subject});
 
-  factory PreferenceModel.fromJson(Map<String, dynamic> json) =>
-      _$PreferenceModelFromJson(json);
+  PreferenceModel.fromJson(Map<String, dynamic> json) {
+    if (json['grade'] != null) {
+      grade = <Grade>[];
+      json['grade'].forEach((v) {
+        grade!.add(Grade.fromJson(v));
+      });
+    }
+    if (json['schoolType'] != null) {
+      schoolType = <Grade>[];
+      json['schoolType'].forEach((v) {
+        schoolType!.add(Grade.fromJson(v));
+      });
+    }
+    if (json['curriculum'] != null) {
+      curriculum = <Grade>[];
+      json['curriculum'].forEach((v) {
+        curriculum!.add(Grade.fromJson(v));
+      });
+    }
+    if (json['subject'] != null) {
+      subject = <Grade>[];
+      json['subject'].forEach((v) {
+        subject!.add(Grade.fromJson(v));
+      });
+    }
+  }
+  List<Grade>? grade;
+  List<Grade>? schoolType;
+  List<Grade>? curriculum;
+  List<Grade>? subject;
 
-  Map<String, dynamic> toJson() => _$PreferenceModelToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (grade != null) {
+      data['grade'] = grade!.map((v) => v.toJson()).toList();
+    }
+    if (schoolType != null) {
+      data['schoolType'] = schoolType!.map((v) => v.toJson()).toList();
+    }
+    if (curriculum != null) {
+      data['curriculum'] = curriculum!.map((v) => v.toJson()).toList();
+    }
+    if (subject != null) {
+      data['subject'] = subject!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
-@JsonSerializable()
-class Data {
-  Item? item;
+class Grade {
 
-  Data({
-    this.item,
-  });
+  Grade({this.id, this.value, this.isEnabled});
 
-  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$DataToJson(this);
-}
-
-@JsonSerializable()
-class Item {
-  List<Curriculum>? grade;
-  List<Curriculum>? schoolType;
-  List<Curriculum>? curriculum;
-  List<Curriculum>? subject;
-
-  Item({
-    this.grade,
-    this.schoolType,
-    this.curriculum,
-    this.subject,
-  });
-
-  factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ItemToJson(this);
-}
-
-@JsonSerializable()
-class Curriculum {
+  Grade.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    value = json['value'];
+    isEnabled = json['isEnabled'];
+  }
   int? id;
   String? value;
   bool? isEnabled;
 
-  Curriculum({
-    this.id,
-    this.value,
-    this.isEnabled,
-  });
-
-  factory Curriculum.fromJson(Map<String, dynamic> json) =>
-      _$CurriculumFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CurriculumToJson(this);
-}
-
-@JsonSerializable()
-class Status {
-  String? type;
-  String? message;
-
-  Status({
-    this.type,
-    this.message,
-  });
-
-  factory Status.fromJson(Map<String, dynamic> json) => _$StatusFromJson(json);
-
-  Map<String, dynamic> toJson() => _$StatusToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['value'] = value;
+    data['isEnabled'] = isEnabled;
+    return data;
+  }
 }

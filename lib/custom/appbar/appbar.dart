@@ -9,6 +9,7 @@ import '../../product/constants/image/image_constants.dart';
 import '../../product/utils/typography.dart';
 import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
+import '../../product/extension/string_extension.dart';
 
 class HessaAppBar extends PreferredSize {
   HessaAppBar(
@@ -67,11 +68,9 @@ class HessaAppBar extends PreferredSize {
         fit: StackFit.expand,
         alignment: Alignment.center,
         children: <Widget>[
-          Obx((){ return
-               AppImageAsset(
-              image: _homeController.homeData.value?.imagePath!=null?_homeController.homeData.value!.imagePath!:ImageConstants.appBarBG,
-              fit: BoxFit.fill,
-            );}
+          const AppImageAsset(
+            image: ImageConstants.appBarBG,
+            fit: BoxFit.fill,
           ),
           if (isTitleOnly)
             AppBar(
@@ -148,13 +147,32 @@ class HessaAppBar extends PreferredSize {
                         ),
                       ],
                     ),
-                    child: SizedBox(height: 60,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(500),
-                        child: GestureDetector(
-                          onTap: onProfileTap,
-                          child: AppImageAsset(
-                            image: icon!,
+                    child: Obx(()=>
+                       SizedBox(height: 60,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(500),
+                          child: GestureDetector(
+                            onTap: onProfileTap,
+                            child:  _homeController.homeData.value?.imageId!=null && _homeController.homeData.value!.imageId!.isNotEmpty?AppImageAsset(
+                              image: _homeController.homeData.value?.imageId?.getImageUrl('profile')??'',
+                              fit: BoxFit.fill,
+                            ):Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.appProfile,
+                                  borderRadius: BorderRadius.circular(50),
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      spreadRadius: 2,
+                                      blurRadius: 4,
+                                      offset:
+                                      const Offset(0, 2), // changes the position of the shadow
+                                    ),
+                                  ],
+                                ),
+                                width: 65,
+                                height: 65,
+                                child:Center(child: Text('${_homeController.homeData.value?.firstName ?? ''} ${_homeController.homeData.value?.lastName ?? ''}'.extractInitials('TU'), style: openSans.get20.w700.white))),
                           ),
                         ),
                       ),

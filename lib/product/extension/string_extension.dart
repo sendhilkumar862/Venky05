@@ -11,6 +11,7 @@ extension StringLocalization on String {
   String getImageUrl(String type) {
     final String baseUrl = ApiEndpoint.downloader(DownloaderEndPoint.DOWNLOAD);
     final String imageUrl = '$baseUrl?type=$type&id=$this';
+    print(imageUrl);
     return  imageUrl;
   }
 

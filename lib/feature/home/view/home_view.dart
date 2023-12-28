@@ -48,62 +48,64 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Stack(
-          children: <Widget>[
-            NavBar(
-              color: Colors.white,
-              showTitle: true,
-              borderRadius: MediaQueryExtension(context).dynamicHeight(20),
-              selectedIconColor: AppColors.appBlue,
-              unselectedIconColor: AppColors.downArrowColor,
-              items: <NavBarItem>[
-                NavBarItem(
-                  selectedIconData: ImageConstants.homeHomeIconSelected,
-                  iconData: ImageConstants.homeHomeIcon,
-                  title: 'Home',
-                  page: const HomeViews(),
-                ),
-                NavBarItem(
-                  selectedIconData: ImageConstants.homeWalletIconSelected,
-                  iconData: ImageConstants.homeWalletIcon,
-                  title: 'Wallet',
-                  page: WalletView(),
-                ),
-                NavBarItem(
-                   selectedIconData: ImageConstants.homeMessageIconSelected,
-                  iconData: ImageConstants.homeMessageIcon,
-                  title: 'Message',
-                  page: MessageView(),
-                )
-              ],
-              hapticFeedback: true,
-              horizontalPadding: 40,
-            ),
-            if (selectedProfile == ApplicationConstants.student && !getPreference)
-              Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  Container(
-                    height: Get.height,
-                    color: Colors.grey.withOpacity(0.5),
+    return Obx(()=>
+      Scaffold(
+          body: Stack(
+            children: <Widget>[
+              NavBar(
+                color: Colors.white,
+                showTitle: true,
+                borderRadius: MediaQueryExtension(context).dynamicHeight(20),
+                selectedIconColor: AppColors.appBlue,
+                unselectedIconColor: AppColors.downArrowColor,
+                items: <NavBarItem>[
+                  NavBarItem(
+                    selectedIconData: ImageConstants.homeHomeIconSelected,
+                    iconData: ImageConstants.homeHomeIcon,
+                    title: 'Home',
+                    page: const HomeViews(),
                   ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
-                      child:
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.95, child: const PreferenceView()),
-                    ),
+                  NavBarItem(
+                    selectedIconData: ImageConstants.homeWalletIconSelected,
+                    iconData: ImageConstants.homeWalletIcon,
+                    title: 'Wallet',
+                    page: WalletView(),
                   ),
+                  NavBarItem(
+                     selectedIconData: ImageConstants.homeMessageIconSelected,
+                    iconData: ImageConstants.homeMessageIcon,
+                    title: 'Message',
+                    page: MessageView(),
+                  )
                 ],
-              )
-          ],
+                hapticFeedback: true,
+                horizontalPadding: 40,
+              ),
+              if (selectedProfile == ApplicationConstants.student && _homeController.homeData.value?.userStatus=='4')
+                Stack(
+                  fit: StackFit.expand,
+                  children: <Widget>[
+                    Container(
+                      height: Get.height,
+                      color: Colors.grey.withOpacity(0.5),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        ),
+                        child:
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.95, child: const PreferenceView()),
+                      ),
+                    ),
+                  ],
+                )
+            ],
+          ),
         ),
-      );
+    );
   }
 }
 

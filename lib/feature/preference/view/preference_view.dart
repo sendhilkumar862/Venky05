@@ -1,10 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-
-import '../../../../product/base/view/base_view.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../custom/app_button/app_button.dart';
@@ -16,8 +13,10 @@ import '../../../product/constants/image/image_constants.dart';
 import '../../../product/extension/colors_extension.dart';
 import '../../../product/network/local/key_value_storage_base.dart';
 import '../../../product/network/local/key_value_storage_service.dart';
+import '../../home/controller/home_controller.dart';
+import '../controller/preference_controller.dart';
 import '../model/preference_model.dart';
-import '../viewModel/preference_view_model.dart';
+
 
 class PreferenceView extends StatefulWidget {
   const PreferenceView({super.key});
@@ -28,6 +27,7 @@ class PreferenceView extends StatefulWidget {
 
 class _PreferenceViewState extends State<PreferenceView>
     with TickerProviderStateMixin {
+  final PreferenceController _preferenceController =Get.put(PreferenceController());
   List<String> choicesValue = <String>[];
   late final AnimationController _controller;
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
@@ -55,540 +55,143 @@ class _PreferenceViewState extends State<PreferenceView>
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<PreferenceViewModel>(
-      viewModel: PreferenceViewModel(),
-      onModelReady: (PreferenceViewModel model) {
-        model.init();
-        model.setContext(context);
-      },
-      onPageBuilder:
-          (BuildContext context, PreferenceViewModel preferenceViewModel) =>
-              Scaffold(
-        body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Observer(
-              builder: (_) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: <Widget>[
-                            Center(
-                              child: SafeArea(
+    return  Scaffold(
+      body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Obx(()
+           {
+              return Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          Center(
+                            child: SafeArea(
+                              child: Text(
+                                'customization'.tr,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 20),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: ListTile(
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                    width: 0, color: Colors.transparent),
+                                borderRadius:
+                                BorderRadius.circular(20), //<-- SEE HERE
+                              ),
+                              contentPadding: const EdgeInsets.all(15),
+                              tileColor: HexColor('#F0F5FF'),
+                              leading: Lottie.asset(
+                                ImageConstants.animPreference,
+                                controller: _controller,
+                                fit: BoxFit.fill,
+                                onLoaded: (LottieComposition composition) {
+                                  _controller.duration = composition.duration;
+                                  _controller.repeat();
+                                },
+                              ),
+                              title: Text(
+                                'msgCustomizationNow'.tr,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16),
+                              ),
+                              subtitle: Text('msgCustomization'.tr,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.appDarkBlack
+                                          .withOpacity(0.5),
+                                      fontSize: 12)),
+                            ),
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                'grade'.tr,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
                                 child: Text(
-                                  'customization'.tr,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 20),
+                                  'selectMore'.tr,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: ListTile(
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                      width: 0, color: Colors.transparent),
-                                  borderRadius:
-                                      BorderRadius.circular(20), //<-- SEE HERE
-                                ),
-                                contentPadding: const EdgeInsets.all(15),
-                                tileColor: HexColor('#F0F5FF'),
-                                leading: Lottie.asset(
-                                  ImageConstants.animPreference,
-                                  controller: _controller,
-                                  fit: BoxFit.fill,
-                                  onLoaded: (LottieComposition composition) {
-                                    _controller.duration = composition.duration;
-                                    _controller.repeat();
-                                  },
-                                ),
-                                title: Text(
-                                  'msgCustomizationNow'.tr,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16),
-                                ),
-                                subtitle: Text('msgCustomization'.tr,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.appDarkBlack
-                                            .withOpacity(0.5),
-                                        fontSize: 12)),
-                              ),
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  'grade'.tr,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 5),
-                                  child: Text(
-                                    'selectMore'.tr,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Center(
-                              child: ConstrainedBox(
-                                constraints:
-                                    const BoxConstraints(maxWidth: 500),
-                                child: InlineChoice<Curriculum>(
-                                  clearable: true,
-                                  loading: preferenceViewModel.grade?.isEmpty ??
-                                      true,
-                                  value: preferenceViewModel.grade ??
-                                      <Curriculum>[],
-                                  //onChanged: setChoicesValue,
-                                  itemCount:
-                                      preferenceViewModel.grade?.length ?? 0,
-                                  itemBuilder:
-                                      (ChoiceController<Curriculum> selection,
-                                          int index) {
-                                    return ChoiceChip(
-                                      shape: StadiumBorder(
-                                          side: BorderSide(
-                                              color: preferenceViewModel
-                                                      .selectedGrade
-                                                      .contains(
-                                                          preferenceViewModel
-                                                                  .grade?[index]
-                                                                  .value ??
-                                                              emptyString)
-                                                  ? AppColors.trans
-                                                  : AppColors.appBorderColor)),
-                                      backgroundColor: AppColors.trans,
-                                      selected: preferenceViewModel
-                                          .selectedGrade
-                                          .contains(preferenceViewModel
-                                                  .grade?[index].value ??
-                                              emptyString),
-                                      onSelected: (bool isSelected) {
-                                        setState(() {
-                                          if (isSelected) {
-                                            preferenceViewModel.selectedGrade
-                                                .add(preferenceViewModel
-                                                        .grade?[index].value ??
-                                                    emptyString);
-                                          } else {
-                                            preferenceViewModel.selectedGrade
-                                                .remove(preferenceViewModel
-                                                        .grade?[index].value ??
-                                                    emptyString);
-                                          }
-                                        });
-                                      },
-                                      showCheckmark: false,
-                                      label: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: Text(preferenceViewModel
-                                                .grade?[index].value ??
-                                            emptyString),
-                                      ),
-                                      selectedColor: AppColors
-                                          .appBlue, // Change this to your desired color
-                                      labelStyle: TextStyle(
-                                        color: preferenceViewModel.selectedGrade
-                                                .contains(preferenceViewModel
-                                                        .grade?[index].value ??
-                                                    emptyString)
-                                            ? AppColors.white
-                                            : AppColors
-                                                .black, // Change text color
-                                      ),
-                                    );
-                                  },
-                                  listBuilder: ChoiceList.createWrapped(
-                                      width: MediaQuery.of(context).size.width),
-                                ),
-                              ),
-                            ),
-                            AppDivider(),
-                            if (preferenceViewModel.selectedGrade.isNotEmpty)
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      'school'.tr,
-                                      style: const TextStyle(
-                                          fontFamily: 'OpenSans',
-                                          fontWeight: FontWeight.w800,
-                                          fontSize: 16),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5),
-                                      child: Text(
-                                        'optional'.tr,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 12),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            if (preferenceViewModel.selectedGrade.isNotEmpty)
-                              InlineChoice<Curriculum>(
+                            ],
+                          ),
+                          Center(
+                            child: ConstrainedBox(
+                              constraints:
+                              const BoxConstraints(maxWidth: 500),
+                              child: InlineChoice<Grade>(
                                 clearable: true,
-                                loading:
-                                    preferenceViewModel.schoolType?.isEmpty ??
-                                        true,
-                                value: preferenceViewModel.schoolType ??
-                                    <Curriculum>[],
-                                itemCount:
-                                    preferenceViewModel.schoolType?.length ?? 0,
-                                itemBuilder:
-                                    (ChoiceController<Curriculum> selection,
-                                        int index) {
-                                  return ChoiceChip(
-                                    shape: StadiumBorder(
-                                        side: BorderSide(
-                                            color: preferenceViewModel
-                                                    .selectedSchoolIndices
-                                                    .contains(
-                                                        preferenceViewModel
-                                                                .schoolType?[
-                                                                    index]
-                                                                .value ??
-                                                            emptyString)
-                                                ? AppColors.trans
-                                                : AppColors.appBorderColor)),
-                                    backgroundColor: AppColors.trans,
-                                    selected: preferenceViewModel
-                                        .selectedSchoolIndices
-                                        .contains(preferenceViewModel
-                                                .schoolType?[index].value ??
-                                            emptyString),
-                                    onSelected: (bool selected) {
-                                      setState(() {
-                                        preferenceViewModel
-                                            .selectedCurriculumIndices.clear();
-                                        preferenceViewModel
-                                            .selectedSubjectIndices.clear();
-                                        if (selected) {
-                                          preferenceViewModel
-                                              .selectedSchoolIndices
-                                              .add(preferenceViewModel
-                                                      .schoolType?[index]
-                                                      .value ??
-                                                  emptyString); // Add to the set for multi-selection
-                                        } else {
-                                          preferenceViewModel
-                                              .selectedSchoolIndices
-                                              .remove(preferenceViewModel
-                                                      .schoolType?[index]
-                                                      .value ??
-                                                  emptyString); // Remove from the set
-                                        }
-                                      });
-                                    },
-                                    showCheckmark: false,
-                                    label: Text(preferenceViewModel
-                                            .schoolType?[index].value ??
-                                        emptyString),
-                                    selectedColor: AppColors
-                                        .appBlue, // Change this to your desired color
-                                    labelStyle: TextStyle(
-                                      color: preferenceViewModel
-                                              .selectedSchoolIndices
-                                              .contains(preferenceViewModel
-                                                      .schoolType?[index]
-                                                      .value ??
-                                                  emptyString)
-                                          ? AppColors.white
-                                          : AppColors
-                                              .black, // Change text color
-                                    ),
-                                  );
-                                },
-                                listBuilder: ChoiceList.createWrapped(),
-                              ),
-                            if (preferenceViewModel.selectedGrade.isNotEmpty)
-                              AppDivider(),
-                            if (preferenceViewModel
-                                .selectedSchoolIndices.isNotEmpty && preferenceViewModel
-                                .selectedSchoolIndices.contains('Private'))
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      'curriculum'.tr,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            if (preferenceViewModel
-                                .selectedSchoolIndices.isNotEmpty && preferenceViewModel
-                                .selectedSchoolIndices.contains('Private'))
-                              InlineChoice<Curriculum>(
-                                clearable: true,
-                                value: preferenceViewModel.curriculum ??
-                                    <Curriculum>[],
-                                loading:
-                                    preferenceViewModel.curriculum?.isEmpty ??
-                                        true,
-                                //onChanged: setSchoolValue,
-                                itemCount:
-                                    preferenceViewModel.curriculum?.length ?? 0,
-                                itemBuilder:
-                                    (ChoiceController<Curriculum> selection,
-                                        int index) {
-                                  return ChoiceChip(
-                                    shape: StadiumBorder(
-                                        side: BorderSide(
-                                            color: preferenceViewModel
-                                                    .selectedCurriculumIndices
-                                                    .contains(
-                                                        preferenceViewModel
-                                                                .curriculum?[
-                                                                    index]
-                                                                .value ??
-                                                            emptyString)
-                                                ? AppColors.trans
-                                                : AppColors.appBorderColor)),
-                                    backgroundColor: AppColors.trans,
-                                    selected: preferenceViewModel
-                                        .selectedCurriculumIndices
-                                        .contains(preferenceViewModel
-                                                .curriculum?[index].value ??
-                                            emptyString),
-                                    onSelected: (bool selected) {
-                                      setState(() {
-                                        if (selected) {
-                                          preferenceViewModel
-                                              .selectedCurriculumIndices
-                                              .add(preferenceViewModel
-                                                      .curriculum?[index]
-                                                      .value ??
-                                                  emptyString); // Add to the set for multi-selection
-                                        } else {
-                                          preferenceViewModel
-                                              .selectedCurriculumIndices
-                                              .remove(preferenceViewModel
-                                                      .curriculum?[index]
-                                                      .value ??
-                                                  emptyString); // Remove from the set
-                                        }
-                                      });
-                                    },
-                                    showCheckmark: false,
-                                    label: Text(preferenceViewModel
-                                            .curriculum?[index].value ??
-                                        emptyString),
-                                    selectedColor: AppColors
-                                        .appBlue, // Change this to your desired color
-                                    labelStyle: TextStyle(
-                                      color: preferenceViewModel
-                                              .selectedCurriculumIndices
-                                              .contains(preferenceViewModel
-                                                      .curriculum?[index]
-                                                      .value ??
-                                                  emptyString)
-                                          ? AppColors.white
-                                          : AppColors
-                                              .black, // Change text color
-                                    ),
-                                  );
-                                },
-                                listBuilder: ChoiceList.createWrapped(),
-                              ),
-                            if (preferenceViewModel
-                                .selectedSchoolIndices.isNotEmpty && preferenceViewModel
-                                .selectedSchoolIndices.contains('Private'))
-                              AppDivider(),
-                            if ( preferenceViewModel
-                                .selectedSchoolIndices.isNotEmpty && !preferenceViewModel
-                    .selectedSchoolIndices.contains('Private') )
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      'subject'.tr,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 5),
-                                      child: Text(
-                                        'optional'.tr,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 12),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            if (preferenceViewModel
-                                .selectedSchoolIndices.isNotEmpty && !preferenceViewModel
-                                .selectedSchoolIndices.contains('Private'))
-                              InlineChoice<Curriculum>(
-                                clearable: true,
-                                loading: preferenceViewModel.subject?.isEmpty ??
+                                loading: _preferenceController.grade?.isEmpty ??
                                     true,
-                                value: preferenceViewModel.subject ??
-                                    <Curriculum>[],
-                                //onChanged: setSchoolValue,
+                                value: _preferenceController.grade ??
+                                    <Grade>[],
+                                //onChanged: setChoicesValue,
                                 itemCount:
-                                    preferenceViewModel.subject?.length ?? 0,
+                                _preferenceController.grade?.length ?? 0,
                                 itemBuilder:
-                                    (ChoiceController<Curriculum> selection,
-                                        int index) {
-                                  return ChoiceChip(
-                                    shape: StadiumBorder(
-                                        side: BorderSide(
-                                            color: preferenceViewModel
-                                                    .selectedSubjectIndices
-                                                    .contains(index)
-                                                ? AppColors.trans
-                                                : AppColors.appBorderColor)),
-                                    backgroundColor: AppColors.trans,
-                                    selected: preferenceViewModel
-                                        .selectedSubjectIndices
-                                        .contains(preferenceViewModel
-                                                .subject?[index].value ??
-                                            emptyString),
-                                    onSelected: (bool selected) {
-                                      setState(() {
-                                        if (selected) {
-                                          preferenceViewModel
-                                              .selectedSubjectIndices
-                                              .add(preferenceViewModel
-                                                      .subject?[index].value ??
-                                                  emptyString); // Add to the set for multi-selection
-                                        } else {
-                                          preferenceViewModel
-                                              .selectedSubjectIndices
-                                              .remove(preferenceViewModel
-                                                      .subject?[index].value ??
-                                                  emptyString); // Remove from the set
-                                        }
-                                      });
-                                    },
-                                    showCheckmark: false,
-                                    label: Text(preferenceViewModel
-                                            .subject?[index].value ??
-                                        emptyString),
-                                    selectedColor: AppColors
-                                        .appBlue, // Change this to your desired color
-                                    labelStyle: TextStyle(
-                                      color: preferenceViewModel
-                                              .selectedSubjectIndices
-                                              .contains(preferenceViewModel
-                                                      .subject?[index].value ??
-                                                  emptyString)
-                                          ? AppColors.white
-                                          : AppColors
-                                              .black, // Change text color
-                                    ),
-                                  );
-                                },
-                                listBuilder: ChoiceList.createWrapped(),
-                              ),
-                            if ( preferenceViewModel
-                                .selectedSchoolIndices.isNotEmpty && preferenceViewModel
-                                .selectedSchoolIndices.contains('Private')  && preferenceViewModel
-                                .selectedCurriculumIndices.isNotEmpty  )
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      'subject'.tr,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16),
-                                    ),
-                                    Padding(
-                                      padding:
-                                      EdgeInsets.symmetric(horizontal: 5),
-                                      child: Text(
-                                        'optional'.tr,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 12),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            if (preferenceViewModel
-                                .selectedSchoolIndices.isNotEmpty && preferenceViewModel
-                                .selectedSchoolIndices.contains('Private') && preferenceViewModel
-                                .selectedCurriculumIndices.isNotEmpty)
-                              InlineChoice<Curriculum>(
-                                clearable: true,
-                                loading: preferenceViewModel.subject?.isEmpty ??
-                                    true,
-                                value: preferenceViewModel.subject ??
-                                    <Curriculum>[],
-                                //onChanged: setSchoolValue,
-                                itemCount:
-                                preferenceViewModel.subject?.length ?? 0,
-                                itemBuilder:
-                                    (ChoiceController<Curriculum> selection,
+                                    (ChoiceController<Grade> selection,
                                     int index) {
                                   return ChoiceChip(
                                     shape: StadiumBorder(
                                         side: BorderSide(
-                                            color: preferenceViewModel
-                                                .selectedSubjectIndices
-                                                .contains(index)
+                                            color: _preferenceController
+                                                .selectedGrade
+                                                .contains(
+                                                _preferenceController
+                                                    .grade?[index]
+                                                    .value ??
+                                                    emptyString)
                                                 ? AppColors.trans
                                                 : AppColors.appBorderColor)),
                                     backgroundColor: AppColors.trans,
-                                    selected: preferenceViewModel
-                                        .selectedSubjectIndices
-                                        .contains(preferenceViewModel
-                                        .subject?[index].value ??
+                                    selected: _preferenceController
+                                        .selectedGrade
+                                        .contains(_preferenceController
+                                        .grade?[index].value ??
                                         emptyString),
-                                    onSelected: (bool selected) {
+                                    onSelected: (bool isSelected) {
                                       setState(() {
-                                        if (selected) {
-                                          preferenceViewModel
-                                              .selectedSubjectIndices
-                                              .add(preferenceViewModel
-                                              .subject?[index].value ??
-                                              emptyString); // Add to the set for multi-selection
+                                        if (isSelected) {
+                                          _preferenceController.selectedGrade
+                                              .add(_preferenceController
+                                              .grade?[index].value ??
+                                              emptyString);
                                         } else {
-                                          preferenceViewModel
-                                              .selectedSubjectIndices
-                                              .remove(preferenceViewModel
-                                              .subject?[index].value ??
-                                              emptyString); // Remove from the set
+                                          _preferenceController.selectedGrade
+                                              .remove(_preferenceController
+                                              .grade?[index].value ??
+                                              emptyString);
                                         }
                                       });
                                     },
                                     showCheckmark: false,
-                                    label: Text(preferenceViewModel
-                                        .subject?[index].value ??
-                                        emptyString),
+                                    label: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8),
+                                      child: Text(_preferenceController
+                                          .grade?[index].value ??
+                                          emptyString),
+                                    ),
                                     selectedColor: AppColors
                                         .appBlue, // Change this to your desired color
                                     labelStyle: TextStyle(
-                                      color: preferenceViewModel
-                                          .selectedSubjectIndices
-                                          .contains(preferenceViewModel
-                                          .subject?[index].value ??
+                                      color: _preferenceController.selectedGrade
+                                          .contains(_preferenceController
+                                          .grade?[index].value ??
                                           emptyString)
                                           ? AppColors.white
                                           : AppColors
@@ -596,35 +199,425 @@ class _PreferenceViewState extends State<PreferenceView>
                                     ),
                                   );
                                 },
-                                listBuilder: ChoiceList.createWrapped(),
+                                listBuilder: ChoiceList.createWrapped(
+                                    width: MediaQuery.of(context).size.width),
                               ),
-                            if (preferenceViewModel
-                                .selectedCurriculumIndices.isNotEmpty)
-                              AppDivider(),
-                          ],
-                        ),
+                            ),
+                          ),
+                          AppDivider(),
+                          if (_preferenceController.selectedGrade.isNotEmpty)
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    'school'.tr,
+                                    style: const TextStyle(
+                                        fontFamily: 'OpenSans',
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 16),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    child: Text(
+                                      'optional'.tr,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (_preferenceController.selectedGrade.isNotEmpty)
+                            InlineChoice<Grade>(
+                              clearable: true,
+                              loading:
+                              _preferenceController.schoolType?.isEmpty ??
+                                  true,
+                              value: _preferenceController.schoolType ??
+                                  <Grade>[],
+                              itemCount:
+                              _preferenceController.schoolType?.length ?? 0,
+                              itemBuilder:
+                                  (ChoiceController<Grade> selection,
+                                  int index) {
+                                return ChoiceChip(
+                                  shape: StadiumBorder(
+                                      side: BorderSide(
+                                          color: _preferenceController
+                                              .selectedSchoolIndices
+                                              .contains(
+                                              _preferenceController
+                                                  .schoolType?[
+                                              index]
+                                                  .value ??
+                                                  emptyString)
+                                              ? AppColors.trans
+                                              : AppColors.appBorderColor)),
+                                  backgroundColor: AppColors.trans,
+                                  selected: _preferenceController
+                                      .selectedSchoolIndices
+                                      .contains(_preferenceController
+                                      .schoolType?[index].value ??
+                                      emptyString),
+                                  onSelected: (bool selected) {
+                                    setState(() {
+                                      _preferenceController
+                                          .selectedCurriculumIndices.clear();
+                                      _preferenceController
+                                          .selectedSubjectIndices.clear();
+                                      if (selected) {
+                                        _preferenceController
+                                            .selectedSchoolIndices
+                                            .add(_preferenceController
+                                            .schoolType?[index]
+                                            .value ??
+                                            emptyString); // Add to the set for multi-selection
+                                      } else {
+                                        _preferenceController
+                                            .selectedSchoolIndices
+                                            .remove(_preferenceController
+                                            .schoolType?[index]
+                                            .value ??
+                                            emptyString); // Remove from the set
+                                      }
+                                    });
+                                  },
+                                  showCheckmark: false,
+                                  label: Text(_preferenceController
+                                      .schoolType?[index].value ??
+                                      emptyString),
+                                  selectedColor: AppColors
+                                      .appBlue, // Change this to your desired color
+                                  labelStyle: TextStyle(
+                                    color: _preferenceController
+                                        .selectedSchoolIndices
+                                        .contains(_preferenceController
+                                        .schoolType?[index]
+                                        .value ??
+                                        emptyString)
+                                        ? AppColors.white
+                                        : AppColors
+                                        .black, // Change text color
+                                  ),
+                                );
+                              },
+                              listBuilder: ChoiceList.createWrapped(),
+                            ),
+                          if (_preferenceController.selectedGrade.isNotEmpty)
+                            AppDivider(),
+                          if (_preferenceController
+                              .selectedSchoolIndices.isNotEmpty && _preferenceController
+                              .selectedSchoolIndices.contains('Private'))
+                            Padding(
+                              padding:
+                              const EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    'curriculum'.tr,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (_preferenceController
+                              .selectedSchoolIndices.isNotEmpty && _preferenceController
+                              .selectedSchoolIndices.contains('Private'))
+                            InlineChoice<Grade>(
+                              clearable: true,
+                              value: _preferenceController.curriculum ??
+                                  <Grade>[],
+                              loading:
+                              _preferenceController.curriculum?.isEmpty ??
+                                  true,
+                              //onChanged: setSchoolValue,
+                              itemCount:
+                              _preferenceController.curriculum?.length ?? 0,
+                              itemBuilder:
+                                  (ChoiceController<Grade> selection,
+                                  int index) {
+                                return ChoiceChip(
+                                  shape: StadiumBorder(
+                                      side: BorderSide(
+                                          color: _preferenceController
+                                              .selectedCurriculumIndices
+                                              .contains(
+                                              _preferenceController
+                                                  .curriculum?[
+                                              index]
+                                                  .value ??
+                                                  emptyString)
+                                              ? AppColors.trans
+                                              : AppColors.appBorderColor)),
+                                  backgroundColor: AppColors.trans,
+                                  selected: _preferenceController
+                                      .selectedCurriculumIndices
+                                      .contains(_preferenceController
+                                      .curriculum?[index].value ??
+                                      emptyString),
+                                  onSelected: (bool selected) {
+                                    setState(() {
+                                      if (selected) {
+                                        _preferenceController
+                                            .selectedCurriculumIndices
+                                            .add(_preferenceController
+                                            .curriculum?[index]
+                                            .value ??
+                                            emptyString); // Add to the set for multi-selection
+                                      } else {
+                                        _preferenceController
+                                            .selectedCurriculumIndices
+                                            .remove(_preferenceController
+                                            .curriculum?[index]
+                                            .value ??
+                                            emptyString); // Remove from the set
+                                      }
+                                    });
+                                  },
+                                  showCheckmark: false,
+                                  label: Text(_preferenceController
+                                      .curriculum?[index].value ??
+                                      emptyString),
+                                  selectedColor: AppColors
+                                      .appBlue, // Change this to your desired color
+                                  labelStyle: TextStyle(
+                                    color: _preferenceController
+                                        .selectedCurriculumIndices
+                                        .contains(_preferenceController
+                                        .curriculum?[index]
+                                        .value ??
+                                        emptyString)
+                                        ? AppColors.white
+                                        : AppColors
+                                        .black, // Change text color
+                                  ),
+                                );
+                              },
+                              listBuilder: ChoiceList.createWrapped(),
+                            ),
+                          if (_preferenceController
+                              .selectedSchoolIndices.isNotEmpty && _preferenceController
+                              .selectedSchoolIndices.contains('Private'))
+                            AppDivider(),
+                          if ( _preferenceController
+                              .selectedSchoolIndices.isNotEmpty && !_preferenceController
+                              .selectedSchoolIndices.contains('Private') )
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    'subject'.tr,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16),
+                                  ),
+                                  Padding(
+                                    padding:
+                                    EdgeInsets.symmetric(horizontal: 5),
+                                    child: Text(
+                                      'optional'.tr,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (_preferenceController
+                              .selectedSchoolIndices.isNotEmpty && !_preferenceController
+                              .selectedSchoolIndices.contains('Private'))
+                            InlineChoice<Grade>(
+                              clearable: true,
+                              loading: _preferenceController.subject?.isEmpty ??
+                                  true,
+                              value: _preferenceController.subject ??
+                                  <Grade>[],
+                              //onChanged: setSchoolValue,
+                              itemCount:
+                              _preferenceController.subject?.length ?? 0,
+                              itemBuilder:
+                                  (ChoiceController<Grade> selection,
+                                  int index) {
+                                return ChoiceChip(
+                                  shape: StadiumBorder(
+                                      side: BorderSide(
+                                          color: _preferenceController
+                                              .selectedSubjectIndices
+                                              .contains(index)
+                                              ? AppColors.trans
+                                              : AppColors.appBorderColor)),
+                                  backgroundColor: AppColors.trans,
+                                  selected: _preferenceController
+                                      .selectedSubjectIndices
+                                      .contains(_preferenceController
+                                      .subject?[index].value ??
+                                      emptyString),
+                                  onSelected: (bool selected) {
+                                    setState(() {
+                                      if (selected) {
+                                        _preferenceController
+                                            .selectedSubjectIndices
+                                            .add(_preferenceController
+                                            .subject?[index].value ??
+                                            emptyString); // Add to the set for multi-selection
+                                      } else {
+                                        _preferenceController
+                                            .selectedSubjectIndices
+                                            .remove(_preferenceController
+                                            .subject?[index].value ??
+                                            emptyString); // Remove from the set
+                                      }
+                                    });
+                                  },
+                                  showCheckmark: false,
+                                  label: Text(_preferenceController
+                                      .subject?[index].value ??
+                                      emptyString),
+                                  selectedColor: AppColors
+                                      .appBlue, // Change this to your desired color
+                                  labelStyle: TextStyle(
+                                    color: _preferenceController
+                                        .selectedSubjectIndices
+                                        .contains(_preferenceController
+                                        .subject?[index].value ??
+                                        emptyString)
+                                        ? AppColors.white
+                                        : AppColors
+                                        .black, // Change text color
+                                  ),
+                                );
+                              },
+                              listBuilder: ChoiceList.createWrapped(),
+                            ),
+                          if ( _preferenceController
+                              .selectedSchoolIndices.isNotEmpty && _preferenceController
+                              .selectedSchoolIndices.contains('Private')  && _preferenceController
+                              .selectedCurriculumIndices.isNotEmpty  )
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    'subject'.tr,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16),
+                                  ),
+                                  Padding(
+                                    padding:
+                                    EdgeInsets.symmetric(horizontal: 5),
+                                    child: Text(
+                                      'optional'.tr,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (_preferenceController
+                              .selectedSchoolIndices.isNotEmpty && _preferenceController
+                              .selectedSchoolIndices.contains('Private') && _preferenceController
+                              .selectedCurriculumIndices.isNotEmpty)
+                            InlineChoice<Grade>(
+                              clearable: true,
+                              loading: _preferenceController.subject?.isEmpty ??
+                                  true,
+                              value: _preferenceController.subject ??
+                                  <Grade>[],
+                              //onChanged: setSchoolValue,
+                              itemCount:
+                              _preferenceController.subject?.length ?? 0,
+                              itemBuilder:
+                                  (ChoiceController<Grade> selection,
+                                  int index) {
+                                return ChoiceChip(
+                                  shape: StadiumBorder(
+                                      side: BorderSide(
+                                          color: _preferenceController
+                                              .selectedSubjectIndices
+                                              .contains(index)
+                                              ? AppColors.trans
+                                              : AppColors.appBorderColor)),
+                                  backgroundColor: AppColors.trans,
+                                  selected: _preferenceController
+                                      .selectedSubjectIndices
+                                      .contains(_preferenceController
+                                      .subject?[index].value ??
+                                      emptyString),
+                                  onSelected: (bool selected) {
+                                    setState(() {
+                                      if (selected) {
+                                        _preferenceController
+                                            .selectedSubjectIndices
+                                            .add(_preferenceController
+                                            .subject?[index].value ??
+                                            emptyString); // Add to the set for multi-selection
+                                      } else {
+                                        _preferenceController
+                                            .selectedSubjectIndices
+                                            .remove(_preferenceController
+                                            .subject?[index].value ??
+                                            emptyString); // Remove from the set
+                                      }
+                                    });
+                                  },
+                                  showCheckmark: false,
+                                  label: Text(_preferenceController
+                                      .subject?[index].value ??
+                                      emptyString),
+                                  selectedColor: AppColors
+                                      .appBlue, // Change this to your desired color
+                                  labelStyle: TextStyle(
+                                    color: _preferenceController
+                                        .selectedSubjectIndices
+                                        .contains(_preferenceController
+                                        .subject?[index].value ??
+                                        emptyString)
+                                        ? AppColors.white
+                                        : AppColors
+                                        .black, // Change text color
+                                  ),
+                                );
+                              },
+                              listBuilder: ChoiceList.createWrapped(),
+                            ),
+                          if (_preferenceController
+                              .selectedCurriculumIndices.isNotEmpty)
+                            AppDivider(),
+                        ],
                       ),
                     ),
-                    AppButton(
-                        isDisable: preferenceViewModel.selectedGrade.isEmpty,
-                        title: 'saveMyPreferences'.tr,
-                        onPressed: () {
-                          preferenceViewModel.setUserPreference().then((value) {
-                            Navigator.of(context).pop();
-                            selectedProfile = keyValueStorageBase.getCommon(
-                                    String, KeyValueStorageService.profile) ??
-                                '';
-                            if (selectedProfile ==
-                                ApplicationConstants.student) {
-                              AppRouter.pushNamed(Routes.HomeScreenRoute);
-                            }
-                          });
-                        })
-                  ],
-                );
-              },
-            )),
-      ),
+                  ),
+                  AppButton(
+                      isDisable: _preferenceController.selectedGrade.isEmpty,
+                      title: 'saveMyPreferences'.tr,
+                      onPressed: () {
+                        _preferenceController.setUserPreference().then((value) async{
+                          final HomeController _homeController=Get.put(HomeController());
+                         await  _homeController.fetchData();
+                          Navigator.of(context).pop();
+                          selectedProfile = keyValueStorageBase.getCommon(
+                              String, KeyValueStorageService.profile) ??
+                              '';
+                          if (selectedProfile ==
+                              ApplicationConstants.student) {
+                            AppRouter.pushNamed(Routes.HomeScreenRoute);
+                          }
+                        });
+                      })
+                ],
+              );
+            },
+          )),
     );
   }
 }

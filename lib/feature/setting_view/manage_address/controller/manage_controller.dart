@@ -1,6 +1,7 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import '../../../../core/base_response.dart';
+import '../../add_address_screen/Model/request_address_model.dart';
 import '../Model/get_address_model.dart';
 import '../repository/delete_address_repository.dart';
 import '../repository/get_address_repository.dart';
@@ -35,9 +36,9 @@ class ManageAddressController extends GetxController{
     }
     EasyLoading.dismiss();
   }
-  Future<void> updateAddressData( UserAddress userAddress) async {
+  Future<void> updateAddressData( AddressRequestModel userAddress,int id) async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    final BaseResponse getProfileIDResponse = await _updateAddressRepository.updateAddressRepository(userAddress,userAddress.id!);
+    final BaseResponse getProfileIDResponse = await _updateAddressRepository.updateAddressRepository(userAddress,id);
     if (getProfileIDResponse.status?.type == 'success') {
       await fetchAddressData();
     } else {

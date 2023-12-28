@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/cardView/details_card_view.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
-import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../classDetails/view/bottomSheetView/booking_bottom_view.dart';
-import '../viewModel/proposals_by_view_model.dart';
+import '../controller/proposals_by_controller.dart';
+
 
 class ProposalsBy extends StatefulWidget {
   const ProposalsBy({super.key});
@@ -20,92 +20,84 @@ class ProposalsBy extends StatefulWidget {
 }
 
 class _ProposalsByState extends State<ProposalsBy> {
+  final ProposalsByController _proposalsByController=Get.put(ProposalsByController());
   @override
   Widget build(BuildContext context) {
-    return BaseView<ProposalsByViewModel>(
-        viewModel: ProposalsByViewModel(),
-        onModelReady: (ProposalsByViewModel model) {
-          model.setContext(context);
-        },
-        onPageBuilder: (BuildContext context,
-            ProposalsByViewModel proposalsByViewModel) {
-          return Container(
-            height: (MediaQuery.of(context).size.height * 0.92).px,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30.px),
-                topRight: Radius.circular(30.px),
+    return  Container(
+      height: (MediaQuery.of(context).size.height * 0.92).px,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30.px),
+          topRight: Radius.circular(30.px),
+        ),
+      ),
+      child: Stack(
+        alignment: Alignment.topRight,
+        children: <Widget>[
+          InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              margin: EdgeInsets.only(top: 14.px, right: 15.px),
+              alignment: Alignment.center,
+              height: 25.px,
+              width: 25.px,
+              decoration: const BoxDecoration(
+                  color: AppColors.appLightGrey, shape: BoxShape.circle),
+              child: AppImageAsset(
+                image: ImageConstants.closeIcon,
+                height: 20.px,
               ),
             ),
-            child: Stack(
-              alignment: Alignment.topRight,
-              children: <Widget>[
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
+          ),
+          Column(
+            children: <Widget>[
+              SizedBox(
+                height: 25.px,
+              ),
+              AppText('Proposals By',
+                  fontWeight: FontWeight.w700, fontSize: 14.px),
+              SizedBox(
+                height: 30.px,
+              ),
+              Expanded(
+                child: GridView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 15.px),
+                  physics: BouncingScrollPhysics(),
+                  itemCount: 8,
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10.px,
+                      mainAxisSpacing: 10.px,
+                      childAspectRatio: 0.8),
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: () {
+                        proposalByTeacherBottomSheet();
+                      },
+                      child: DetailsCardView(
+                          reViewLength: 3,
+                          name: 'User Name',
+                          avatar: ImageConstants.teacherAvtar,
+                          countryIcon: ImageConstants.countryIcon,
+                          countryName: 'Kuwait',
+                          isPro: true,
+                          isBookmarked: true,
+                          subjects: '5,500 KED per session'),
+                    );
                   },
-                  child: Container(
-                    margin: EdgeInsets.only(top: 14.px, right: 15.px),
-                    alignment: Alignment.center,
-                    height: 25.px,
-                    width: 25.px,
-                    decoration: const BoxDecoration(
-                        color: AppColors.appLightGrey, shape: BoxShape.circle),
-                    child: AppImageAsset(
-                      image: ImageConstants.closeIcon,
-                      height: 20.px,
-                    ),
-                  ),
                 ),
-                Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 25.px,
-                    ),
-                    AppText('Proposals By',
-                        fontWeight: FontWeight.w700, fontSize: 14.px),
-                    SizedBox(
-                      height: 30.px,
-                    ),
-                    Expanded(
-                      child: GridView.builder(
-                        padding: EdgeInsets.symmetric(horizontal: 15.px),
-                        physics: BouncingScrollPhysics(),
-                        itemCount: 8,
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10.px,
-                            mainAxisSpacing: 10.px,
-                            childAspectRatio: 0.8),
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            onTap: () {
-                              proposalByTeacherBottomSheet(
-                                  proposalsByViewModel);
-                            },
-                            child: DetailsCardView(
-                                reViewLength: 3,
-                                name: 'User Name',
-                                avatar: ImageConstants.teacherAvtar,
-                                countryIcon: ImageConstants.countryIcon,
-                                countryName: 'Kuwait',
-                                isPro: true,
-                                isBookmarked: true,
-                                subjects: '5,500 KED per session'),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          );
-        });
+              ),
+            ],
+          )
+        ],
+      ),
+    );
   }
 
-  void proposalByTeacherBottomSheet(ProposalsByViewModel proposalsByViewModel) {
+  void proposalByTeacherBottomSheet() {
     final double width = MediaQuery.sizeOf(context).width;
     showModalBottomSheet(
       shape: const RoundedRectangleBorder(
@@ -176,10 +168,10 @@ class _ProposalsByState extends State<ProposalsBy> {
                 ),
               ),
               ListView.builder(
-                itemCount: proposalsByViewModel.dataList.length,
+                itemCount: _proposalsByController.dataList.length,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
-                  var data = proposalsByViewModel.dataList[index];
+                  var data = _proposalsByController.dataList[index];
                   return Padding(
                     padding: const EdgeInsets.only(top: 15),
                     child: Container(
@@ -200,10 +192,10 @@ class _ProposalsByState extends State<ProposalsBy> {
                           ),
                           Wrap(
                             children: List.generate(
-                              proposalsByViewModel
+                              _proposalsByController
                                   .dataList[index].headingData.length,
                               (i) {
-                                var data1 = proposalsByViewModel
+                                var data1 = _proposalsByController
                                     .dataList[index].headingData[i];
                                 return Padding(
                                   padding:

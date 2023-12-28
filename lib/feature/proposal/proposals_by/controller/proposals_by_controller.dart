@@ -1,26 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:mobx/mobx.dart';
+import 'package:get/get.dart';
 
-import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../view/proposals_by.dart';
 
-part 'proposals_by_view_model.g.dart';
-
-class ProposalsByViewModel = _ProposalsByViewModelBase
-    with _$ProposalsByViewModel;
-
-abstract class _ProposalsByViewModelBase extends BaseViewModel with Store {
+class ProposalsByController extends GetxController{
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
   final KeyValueStorageService keyValueStorageService =
-      KeyValueStorageService();
+  KeyValueStorageService();
 
-  @observable
-  String selectedProfile = '';
 
-  @observable
-  bool isActive = false;
+  RxString selectedProfile = ''.obs;
+
+
+  RxBool isActive = false.obs;
 
   List<Header> dataList = [
     Header(heading: 'Original Class Details', headingData: [
@@ -43,12 +36,12 @@ abstract class _ProposalsByViewModelBase extends BaseViewModel with Store {
     ]),
   ];
 
-  @override
-  void setContext(BuildContext context) => viewModelContext = context;
+
 
   @override
-  void init() {
-    selectedProfile =
+  void onInit() {
+    super.onInit();
+    selectedProfile.value =
         keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
             '';
   }

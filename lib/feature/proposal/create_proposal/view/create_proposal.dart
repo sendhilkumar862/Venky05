@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -10,13 +9,12 @@ import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/calender/calender.dart';
 import '../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../custom/image/app_image_assets.dart';
-import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../../product/utils/validators.dart';
-import '../viewModel/create_proposal_view_model.dart';
+import '../controller/create_proposal_controller.dart';
 
 class CreateProposal extends StatefulWidget {
   const CreateProposal({super.key});
@@ -27,6 +25,7 @@ class CreateProposal extends StatefulWidget {
 
 class _CreateProposalState extends State<CreateProposal> {
   var selectedDate = DateTime.now();
+  final CreateProposalController _createProposalController =Get.put(CreateProposalController());
   int? isSelected;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController dateController = TextEditingController();
@@ -60,173 +59,162 @@ class _CreateProposalState extends State<CreateProposal> {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.sizeOf(context).width;
-    return BaseView<CreateProposalViewModel>(
-        viewModel: CreateProposalViewModel(),
-        onModelReady: (CreateProposalViewModel model) {
-          model.setContext(context);
-        },
-        onPageBuilder: (BuildContext context,
-            CreateProposalViewModel createProposalViewModel) {
-          return Scaffold(
-            appBar: HessaAppBar(
-              isTitleOnly: true,
-              // isBack: true,
-              // trailingText: 'Cancel',
-              title: 'createClass'.tr,
-              // normalAppbar: true,
-            ),
-            body: Observer(builder: (BuildContext context) {
-              return Form(
-                key: formKey,
-                onChanged: () {
-                  if (formKey.currentState!.validate()) {
-                    setState(() {
-                      isDisable = false;
-                    });
-                  } else {
-                    setState(() {
-                      isDisable = true;
-                    });
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(top: 20),
-                                child: Text(
-                                  'proposalDetails'.tr,
-                                  style: openSans.get20.w700
-                                      .textColor(AppColors.appTextColor),
-                                ),
-                              ),
-                              AppTextFormField(
-                                controller: classCost,
-                                keyboardType:
-                                    const TextInputType.numberWithOptions(),
-                                validate: Validators.requiredValidator.call,
-                                suffix: Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 5, right: 12),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text('kwd'.tr,
-                                          style: openSans.get16.w400),
-                                      const SizedBox(
-                                        width: 4,
-                                      ),
-                                      ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(500),
-                                        child: AppImageAsset(
-                                          fit: BoxFit.fill,
-                                          image: ImageConstants.kuwaitFlag,
-                                          height: 20.px,
-                                          width: 20.px,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                hintText: 'classCost'.tr,
-                              ),
-                              AppTextFormField(
-                                controller: numberOfSession,
-                                keyboardType:
-                                    const TextInputType.numberWithOptions(),
-                                validate: Validators.requiredValidator.call,
-                                hintText: 'numberOfSessions'.tr,
-                              ),
-                              AppTextFormField(
-                                validate: Validators.requiredValidator.call,
-                                controller: dateController,
-                                onTap: () {
-                                  calender(context, dateController,
-                                      createProposalViewModel);
-                                },
-                                hintText: 'classDateAndTime'.tr,
-                                readOnly: true,
-                                suffix: const Icon(
-                                    Icons.keyboard_arrow_down_sharp,
-                                    color: AppColors.downArrowColor),
-                              ),
-                              AppTextFormField(
-                                validate: Validators.requiredValidator.call,
-                                controller: date2Controller,
-                                onTap: () {
-                                  calender(context, date2Controller,
-                                      createProposalViewModel);
-                                },
-                                hintText: 'class2DateAndTime'.tr,
-                                readOnly: true,
-                                suffix: const Icon(
-                                    Icons.keyboard_arrow_down_sharp,
-                                    color: AppColors.downArrowColor),
-                              ),
-                              AppTextFormField(
-                                validate: Validators.requiredValidator.call,
-                                suffix: const Icon(
-                                    Icons.keyboard_arrow_down_sharp,
-                                    color: AppColors.downArrowColor),
-                                hintText: 'classDuration'.tr,
-                                title: 'classDuration'.tr,
-                                readOnly: true,
-                                controller: classDurationController,
-                                onTap: () {
-                                  bottomSheetDropDownList();
-                                },
-                              ),
-                            ]),
+    return  Scaffold(
+      appBar: HessaAppBar(
+        isTitleOnly: true,
+        // isBack: true,
+        // trailingText: 'Cancel',
+        title: 'createClass'.tr,
+        // normalAppbar: true,
+      ),
+      body: Obx( () {
+        return Form(
+          key: formKey,
+          onChanged: () {
+            if (formKey.currentState!.validate()) {
+              setState(() {
+                isDisable = false;
+              });
+            } else {
+              setState(() {
+                isDisable = true;
+              });
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(bottom: 20.px, top: 80.px),
-                          child: AppButton(
-                            title: 'submit'.tr,
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                showModalBottomSheet(
-                                  context: context,
-                                  constraints: BoxConstraints(
-                                    maxWidth:
-                                        (MediaQuery.of(context).size.width - 30)
-                                            .px,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.px),
-                                  ),
-                                  builder: (BuildContext context) {
-                                    return SuccessFailsInfoDialog(
-                                      title: 'Success',
-                                      buttonTitle: 'Done',
-                                      content:
-                                          'You have successfully submit your proposal.',
-                                    );
-                                  },
-                                );
-                              }
-                            },
-                            isDisable: isDisable,
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Text(
+                            'proposalDetails'.tr,
+                            style: openSans.get20.w700
+                                .textColor(AppColors.appTextColor),
                           ),
                         ),
-                      ],
+                        AppTextFormField(
+                          controller: classCost,
+                          keyboardType:
+                          const TextInputType.numberWithOptions(),
+                          validate: Validators.requiredValidator.call,
+                          suffix: Padding(
+                            padding:
+                            const EdgeInsets.only(top: 5, right: 12),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text('kwd'.tr,
+                                    style: openSans.get16.w400),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                ClipRRect(
+                                  borderRadius:
+                                  BorderRadius.circular(500),
+                                  child: AppImageAsset(
+                                    fit: BoxFit.fill,
+                                    image: ImageConstants.kuwaitFlag,
+                                    height: 20.px,
+                                    width: 20.px,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          hintText: 'classCost'.tr,
+                        ),
+                        AppTextFormField(
+                          controller: numberOfSession,
+                          keyboardType:
+                          const TextInputType.numberWithOptions(),
+                          validate: Validators.requiredValidator.call,
+                          hintText: 'numberOfSessions'.tr,
+                        ),
+                        AppTextFormField(
+                          validate: Validators.requiredValidator.call,
+                          controller: dateController,
+                          onTap: () {
+                            calender(context, dateController);
+                          },
+                          hintText: 'classDateAndTime'.tr,
+                          readOnly: true,
+                          suffix: const Icon(
+                              Icons.keyboard_arrow_down_sharp,
+                              color: AppColors.downArrowColor),
+                        ),
+                        AppTextFormField(
+                          validate: Validators.requiredValidator.call,
+                          controller: date2Controller,
+                          onTap: () {
+                            calender(context, date2Controller);
+                          },
+                          hintText: 'class2DateAndTime'.tr,
+                          readOnly: true,
+                          suffix: const Icon(
+                              Icons.keyboard_arrow_down_sharp,
+                              color: AppColors.downArrowColor),
+                        ),
+                        AppTextFormField(
+                          validate: Validators.requiredValidator.call,
+                          suffix: const Icon(
+                              Icons.keyboard_arrow_down_sharp,
+                              color: AppColors.downArrowColor),
+                          hintText: 'classDuration'.tr,
+                          title: 'classDuration'.tr,
+                          readOnly: true,
+                          controller: classDurationController,
+                          onTap: () {
+                            bottomSheetDropDownList();
+                          },
+                        ),
+                      ]),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 20.px, top: 80.px),
+                    child: AppButton(
+                      title: 'submit'.tr,
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          showModalBottomSheet(
+                            context: context,
+                            constraints: BoxConstraints(
+                              maxWidth:
+                              (MediaQuery.of(context).size.width - 30)
+                                  .px,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.px),
+                            ),
+                            builder: (BuildContext context) {
+                              return SuccessFailsInfoDialog(
+                                title: 'Success',
+                                buttonTitle: 'Done',
+                                content:
+                                'You have successfully submit your proposal.',
+                              );
+                            },
+                          );
+                        }
+                      },
+                      isDisable: isDisable,
                     ),
                   ),
-                ),
-              );
-            }),
-          );
-        });
+                ],
+              ),
+            ),
+          ),
+        );
+      }),
+    );
   }
 
   Future<void> calender(BuildContext context, TextEditingController controller,
-      CreateProposalViewModel classDetailViewModel) async {
+      ) async {
     await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -235,14 +223,14 @@ class _CreateProposalState extends State<CreateProposal> {
               (BuildContext context, void Function(void Function()) setState) {
             return AppCalender(
               selectedTime: (DateTime selectedTime) {
-                classDetailViewModel.selectedTimes = formatTime(selectedTime);
+                _createProposalController.selectedTimes.value = formatTime(selectedTime);
                 controller.text =
-                    '${classDetailViewModel.selectedDate} ${classDetailViewModel.selectedTimes}';
+                    '${_createProposalController.selectedDate.value} ${_createProposalController.selectedTimes.value}';
               },
               selectedDate: (String selectedDate) {
-                classDetailViewModel.selectedDate = selectedDate;
+                _createProposalController.selectedDate.value = selectedDate;
                 controller.text =
-                    '${classDetailViewModel.selectedDate} ${classDetailViewModel.selectedTimes}';
+                    '${_createProposalController.selectedDate.value} ${_createProposalController.selectedTimes.value}';
               },
             );
           },

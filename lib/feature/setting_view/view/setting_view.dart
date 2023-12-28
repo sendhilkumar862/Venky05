@@ -28,6 +28,7 @@ import '../controller/setting_controller.dart';
 import '../manage_address/view/manage_address_view.dart';
 import 'widget/available_times_view.dart';
 import 'widget/manage_adress_view.dart';
+import '../../../product/extension/string_extension.dart';
 
 class SettingView extends StatefulWidget {
   const SettingView({super.key});
@@ -306,13 +307,20 @@ class _SettingViewState extends State<SettingView> {
           ),
           width: 65,
           height: 65,
-          child: ClipOval(
-            child: _settingController.croppedFilePath.isNotEmpty
-                ? Image.file(
-                    File(_settingController.croppedFilePath),
-                    fit: BoxFit.cover,
-                  )
-                : Center(child: Text('UN', style: openSans.get20.w700.white)),
+          child: Obx(()=>
+          ClipOval(
+              child: _homeController.homeData.value?.imageId!=null &&_homeController.homeData.value!.imageId!.isNotEmpty
+                  ? SizedBox(height: 60,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(500),
+                  child: AppImageAsset(
+                    image: _homeController.homeData.value?.imageId?.getImageUrl('profile')??'',
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              )
+                  : Center(child: Text('${_homeController.homeData.value?.firstName ?? ''} ${_homeController.homeData.value?.lastName ?? ''}'.extractInitials('TU'), style: openSans.get20.w700.white)),
+            ),
           ),
         ));
   }

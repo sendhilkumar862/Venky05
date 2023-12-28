@@ -22,7 +22,7 @@ class ApiEndpoint {
   /// ```
   /// flutter run --dart-define=BASE_URL=www.some_url.com
   /// ```
-  static const String baseUrl = Config.baseUrl;
+  static const String baseUrl = 'http://167.99.93.83/api/v1/';
 
   static const String profileSet='content/role/common/type/about_us';
   static const String countryGet='public/countries/idd';
@@ -49,6 +49,7 @@ class ApiEndpoint {
       case AuthEndpoint.EXPERIENCE_INFO: return '$path/profile/experience';
       case AuthEndpoint.FINANCE_INFO: return '$path/profile/iban/';
       case AuthEndpoint.CERTIFICATE: return '$path/profile/certificates';
+      case AuthEndpoint.PREFERENCE: return '$path/preference';
 
     }
   }
@@ -93,10 +94,10 @@ class ApiEndpoint {
 
  /// Returns the path for Downloader [endpoint].
   static String downloader(DownloaderEndPoint endPoint) {
-    const String path = 'api/v1/file/';
+    const String path = '${baseUrl}file';
     switch(endPoint) {
       case DownloaderEndPoint.BASE: return path;
-      case DownloaderEndPoint.DOWNLOAD: return '$path/file/download';
+      case DownloaderEndPoint.DOWNLOAD: return '$path/download';
     }
   }
 
@@ -157,6 +158,9 @@ enum AuthEndpoint {
 
   /// An endpoint for update certificate
   CERTIFICATE,
+
+  /// An endpoint for get preference
+  PREFERENCE,
 }
 
 /// A collection of endpoints used for authentication purposes.

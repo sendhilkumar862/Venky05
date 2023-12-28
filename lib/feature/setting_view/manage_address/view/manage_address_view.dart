@@ -5,10 +5,11 @@ import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/appbar/appbar.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
+import '../../add_address_screen/Model/request_address_model.dart' ;
 import '../../add_address_screen/controller/add_address_controller.dart';
 import '../../add_address_screen/view/add_address_view.dart';
-import '../Model/get_address_model.dart';
-import '../controller/manage_controller.dart';
+import '../Model/get_address_model.dart' hide Location;
+import '../controller/manage_controller.dart' ;
 
 class ManageAddressScreen extends StatefulWidget {
   const ManageAddressScreen({super.key});
@@ -155,9 +156,8 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
                           padding: const EdgeInsets.only(left: 8.0),
                           child: ElevatedButton(
                               onPressed: () {
-                                final UserAddress updatedData=data;
-                                updatedData.isDefault=1;
-                                _manageAddressController.updateAddressData(updatedData);
+                                final AddressRequestModel updatedData=AddressRequestModel(isDefault: true,shortName: data.shortName,city: data.city,state:data.state,country: data.country,address2: data.address2,address1: data.address2,location: Location(lat: data.location?.lat,long: data.location?.long));
+                                _manageAddressController.updateAddressData(updatedData,data.id!);
                               },
                               style: const ButtonStyle(
                                   backgroundColor:

@@ -69,7 +69,16 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                   isSearchIconShown: !(selectedProfile == ApplicationConstants.tutor && selectedUserStatus != '99'),
                   title: 'Welcome!',
                   subTitle: "${_homeController.homeData.value?.firstName??""} ${_homeController.homeData.value?.lastName??""}",
-                  isPro: walletViewModel.isProfileTeacher,
+                  // isPro: walletViewModel.isProfileTeacher,
+                  onBellTap: () {
+                    AppRouter.pushNamed(Routes.notificationView);
+                  },
+                  onSearchTap: () {
+                    AppRouter.pushNamed(Routes.searchView);
+                  },
+                  onProfileTap: () {
+                    AppRouter.pushNamed(Routes.settingView);
+                  },
                 ),
                 body: selectedProfile == ApplicationConstants.tutor
                     ? const Padding(

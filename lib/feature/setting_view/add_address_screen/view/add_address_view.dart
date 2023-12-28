@@ -10,8 +10,9 @@ import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/common_dropdown/app_dropdown.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
-import '../../manage_address/Model/get_address_model.dart';
+import '../../manage_address/Model/get_address_model.dart'hide Location;
 import '../../manage_address/controller/manage_controller.dart';
+import '../Model/request_address_model.dart' ;
 import '../controller/add_address_controller.dart';
 
 
@@ -257,47 +258,22 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               isDisable: (_addAddressController.selectedCity.value!='' && _addAddressController.addressFirst.text!='' && _addAddressController.addressSecond.text!='' && _addAddressController.shortName.text!='')?false:true,
               onPressed: () async{
                 if(_addAddressController.selectedCity.value!='' && _addAddressController.addressFirst.text!='' && _addAddressController.addressSecond.text!='' && _addAddressController.shortName.text!=''){
-                Map data={
-                  'short_name': _addAddressController.shortName.text,
-                  // 'country_code': _addAddressController
-                  //     .countries[
-                  // _addAddressController.countryIndex.value]
-                  //     ?.idd_code,
-                  // 'mobile': _addAddressController.mobileController.text,
-                  'address1': _addAddressController.addressFirst.text,
-                  'address2': _addAddressController.addressSecond.text,
-                  'city': _addAddressController.selectedCity.value,
-                  'state': _addAddressController.address[0].administrativeArea,
-                  'country': _addAddressController.address[0].country,
-                  'location': {
-                    'lat': _addAddressController.position.value.latitude.toString(),
-                    'long': _addAddressController.position.value.longitude.toString(),
-                  },
-                  'is_default':  _addAddressController.isSwitchExperience.value
-                };
-                if(widget.userData!=null){
-                 await _manageAddressController.updateAddressData(UserAddress(id: widget.userData?.id,
+                 if(widget.userData!=null){
+                 await _manageAddressController.updateAddressData(AddressRequestModel(
                     shortName: _addAddressController.shortName.text,
                     address1: _addAddressController.addressFirst.text,
                     address2: _addAddressController.addressSecond.text,
                     city:   _addAddressController.selectedCity.value,
                     state: _addAddressController.isTap?_addAddressController.address[0].administrativeArea:widget.userData?.state??'',
                     country: _addAddressController.isTap?_addAddressController.address[0].country:widget.userData?.country??'',
-                    countryCode: _addAddressController
-                        .countries[
-                    _addAddressController.countryIndex.value]
-                        ?.idd_code,
-                    mobile: _addAddressController.mobileController.text,
-                    isDefault:  _addAddressController.isSwitchExperience.value?1:0,
-                    location: _addAddressController.isTap?Location(lat:_addAddressController.position.value.latitude.toString(),long:  _addAddressController.position.value.longitude.toString(),):widget.userData?.location,
-                   createdAt: widget.userData?.createdAt,
-                   updatedAt:  widget.userData?.updatedAt,
-                   userId: widget.userData?.userId
-                  ));
+                    isDefault:  _addAddressController.isSwitchExperience.value,
+                    location: _addAddressController.isTap?Location(lat:_addAddressController.position.value.latitude.toString(),long:  _addAddressController.position.value.longitude.toString(),):Location(lat:widget.userData?.location?.lat,long:  widget.userData?.location?.long,),
+                  ),widget.userData!.id!);
                   AppRouter.pop();
 
                 }else{
-                  _addAddressController.addAddress(data);
+                  _addAddressController.addAddress(AddressRequestModel(shortName:_addAddressController.shortName.text,address1: _addAddressController.addressFirst.text,address2:_addAddressController.addressSecond.text,country: _addAddressController.address[0].country,city: _addAddressController.selectedCity.value,state: _addAddressController.address[0].administrativeArea,isDefault: _addAddressController.isSwitchExperience.value,location: Location(lat:_addAddressController.position.value.latitude.toString(),long:_addAddressController.position.value.longitude.toString())  )
+                  );
                 }}
 
               },

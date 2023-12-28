@@ -12,6 +12,7 @@ import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../tutorial/mobileEnter/model/country_code_model.dart';
 import '../../manage_address/controller/manage_controller.dart';
+import '../Model/request_address_model.dart';
 
 
 
@@ -176,14 +177,14 @@ fetchFullData()async{
     } catch (error) {
     }
   }
-  Future<void> addAddress(Map data) async {
+  Future<void> addAddress(AddressRequestModel data) async {
     Dio dio = Dio();
     try {
       EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
       Response response =
       await dio.post('http://167.99.93.83/api/v1/users/:userId/address/',
       options:  await _headers(),
-      data: data);
+      data: data.toJson());
       if (response.statusCode == 200) {
         final ManageAddressController manageAddressController=Get.find();
         await manageAddressController.fetchAddressData();
