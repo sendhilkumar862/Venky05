@@ -1,8 +1,6 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../../feature/class/class_detail/viewModel/class_detail_view_model.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/utils/common_function.dart';
 import '../../product/utils/typography.dart';
