@@ -10,7 +10,7 @@ class AppSupportController extends GetxController{
 
 
   @override
-  void init() {}
+  void onInit() {}
 
 
 }

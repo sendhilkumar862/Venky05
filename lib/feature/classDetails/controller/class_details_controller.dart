@@ -1,35 +1,27 @@
 import 'dart:async';
 import 'dart:io';
-
-import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobx/mobx.dart';
-
-import '../../../../product/base/model/base_view_model.dart';
+import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/validators.dart';
 
-part 'class_details_view_model.g.dart';
-
-class ClassDetailsViewModel = _ClassDetailsViewModelBase with _$ClassDetailsViewModel;
-
-abstract class _ClassDetailsViewModelBase extends BaseViewModel with Store {
+class ClassDetailsController extends GetxController{
+  final KeyValueStorageService keyValueStorageService =
+  KeyValueStorageService();
   @override
-  void setContext(BuildContext context) => viewModelContext = context;
+
 
   @override
-  void init() {
+  void onInit() {
     fetchMap();
   }
-
-  @observable
   CameraPosition? kGooglePlex;
 
-  @observable
   Completer<GoogleMapController> mapController = Completer<GoogleMapController>();
 
   //AIzaSyBT8CFEhdKhFteNf6L4NaY3Z3UKFfpRy2w
 
-  @action
+
   Future<void> fetchMap() async {
     try {
       kGooglePlex = CameraPosition(
@@ -43,4 +35,6 @@ abstract class _ClassDetailsViewModelBase extends BaseViewModel with Store {
       logs('Catch SocketException in getContactUsInfo --> ${e.message}');
     }
   }
+
 }
+
