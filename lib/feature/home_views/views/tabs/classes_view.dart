@@ -40,156 +40,27 @@ class _ClassesViewState extends State<ClassesView> {
   @override
   Widget build(BuildContext context) {
     if (selectedProfile == ApplicationConstants.tutor) {
-      return Obx(
-        () => _homeController.homeData.value?.userStatus == '99'?
-      activeScreen():
-        Column(
-          children: <Widget>[
+      return  Column(
+        children: <Widget>[
+          Center(
+            child: InfoCardVIew(
+              isPending: false,
+              isShowButton: true,
+              isSupport: false,
+              isStatus: false,
+              title: 'Complete Your Profile',
+              message: 'Your account has been created Successfully',
+              subTitle:
+              'To kickstart your teaching journey and connect with students, please complete your profile. Revel in every lesson and share the joy of learning!',
+              cardColor: AppColors.white,
+              buttonTitle: 'Completed Profile',
+              buttonTap: () {
+                AppRouter.pushNamed(Routes.teachingInfo);
+              },
+            ),
+          )
 
-              if (_homeController.homeData.value?.userStatus == '50' ||
-                  _homeController.homeData.value?.userStatus == '60' ||
-                  _homeController.homeData.value?.userStatus == '70' ||
-                  _homeController.homeData.value?.userStatus == '80')
-                Center(
-                  child: InfoCardVIew(
-                    isPending: false,
-                    isShowButton: true,
-                    isSupport: false,
-                    isStatus: false,
-                    title: 'Complete Your Profile',
-                    message: 'Your account has been created Successfully',
-                    subTitle:
-                        'To kickstart your teaching journey and connect with students, please complete your profile. Revel in every lesson and share the joy of learning!',
-                    cardColor: AppColors.white,
-                    buttonTitle: 'Completed Profile',
-                    buttonTap: () {
-                      if (isPending) {
-                        setState(() {
-                          isPending = !isPending;
-                        });
-                      } else {
-                        if (_homeController.homeData.value?.userStatus ==
-                            '50') {
-                          AppRouter.pushNamed(Routes.personalInfo);
-                        } else if (_homeController.homeData.value?.userStatus ==
-                            '60') {
-                          AppRouter.pushNamed(Routes.teachingInfo);
-                        } else if (_homeController.homeData.value?.userStatus ==
-                            '70') {
-                          AppRouter.pushNamed(Routes.experienceInfo);
-                        } else if (_homeController.homeData.value?.userStatus ==
-                            '80') {
-                          AppRouter.pushNamed(Routes.financingView);
-                        } else {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text(
-                                'Already Profile Completed it is in Pending for Review'),
-                          ));
-                        }
-                      }
-                    },
-                  ),
-                )
-              else if (_homeController.homeData.value?.userStatus == '5')
-                Center(
-                  child: InfoCardVIew(
-                    isPending: isPending,
-                    isShowButton: false,
-                    isSupport: true,
-                    isStatus: true,
-                    title: 'Account Under Review',
-                    subTitle:
-                        "Once approved, you'll be ready to commence teaching, We'll notify you soon!.",
-                    cardColor: AppColors.white,
-                    buttonTitle: 'Class Details',
-                    buttonTap: () {
-                      if (isPending) {
-                        setState(() {
-                          isPending = !isPending;
-                        });
-                      } else {
-                        AppRouter.push(const ReUploadDocument());
-                      }
-                    },
-                  ),
-                )
-              else if (_homeController.homeData.value?.userStatus == '90')
-                Center(
-                  child: InfoCardVIew(
-                    isPending: isPending,
-                    isShowButton: false,
-                    isSupport: true,
-                    isStatus: false,
-                    isStatusRejected: true,
-                    title: 'Account Rejected',
-                    subTitle:
-                        'Your account is rejected because of incorrect information.',
-                    cardColor: AppColors.white,
-                    buttonTitle: 'Class Details',
-                    buttonTap: () {
-                      if (isPending) {
-                        setState(() {
-                          isPending = !isPending;
-                        });
-                      } else {
-                        AppRouter.push(const ReUploadDocument());
-                      }
-                    },
-                  ),
-                )
-              else if (_homeController.homeData.value?.userStatus == '7')
-                Center(
-                  child: InfoCardVIew(
-                    isPending: isPending,
-                    isShowButton: false,
-                    isSupport: true,
-                    isStatus: false,
-                    isStatusSusPended: true,
-                    title: 'Account Suspended',
-                    subTitle:
-                        'Your account is suspended because of violation of terms and conditions',
-                    cardColor: AppColors.white,
-                    buttonTitle: 'Class Details',
-                    buttonTap: () {
-                      if (isPending) {
-                        setState(() {
-                          isPending = !isPending;
-                        });
-                      } else {
-                        AppRouter.push(const ReUploadDocument());
-                      }
-                    },
-                  ),
-                )
-              else if (_homeController.homeData.value?.userStatus == '6')
-                Center(
-                  child: InfoCardVIew(
-                    isPending: isPending,
-                    isShowButton: true,
-                    isSupport: false,
-                    isStatus: false,
-                    isStatusAction: true,
-                    title: 'Account Is Pending For Your Action',
-                    subTitle: 'We need you to upload your certificate',
-                    cardColor: AppColors.white,
-                    buttonTitle: 'Upload Needed Files',
-                    buttonTap: () {
-                      if (isPending) {
-                        setState(() {
-                          isPending = !isPending;
-                        });
-                      } else {
-                        AppRouter.push(const ReUploadDocument());
-                      }
-                    },
-                  ),
-                )
-              else
-                const SizedBox.shrink()
-
-          ],
-        ),
+        ],
       );
     } else {
       return activeScreen();

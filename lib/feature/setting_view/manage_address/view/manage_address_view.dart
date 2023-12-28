@@ -39,8 +39,8 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
              mainAxisAlignment: MainAxisAlignment.center,
              children: <Widget>[
           Expanded(
-            child: SingleChildScrollView(
-              child: _manageAddressController.address.isNotEmpty?
+            child: _manageAddressController.address.isNotEmpty?SingleChildScrollView(
+              child:
                 Column(
                 children: <Widget>[
                     ListView.builder(
@@ -52,8 +52,8 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
                         return listData(index, data);
                       })
                 ],
-              ): const Center(child: Text('No address added'),),
-            ),
+              )
+            ): const Center(child: Text('No address added'),),
           ),
           Padding(
             padding: const EdgeInsets.all(15.0),

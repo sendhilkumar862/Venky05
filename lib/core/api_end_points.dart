@@ -45,7 +45,19 @@ class ApiEndpoint {
       case AuthEndpoint.ADD_NUMBER: return '$path/mobile/addNumber';
       case AuthEndpoint.CHANGE_NUMBER: return '$path/mobile/changeNumber';
       case AuthEndpoint.PERSONAL_INFO: return '$path/profile/personal';
+      case AuthEndpoint.TEACHING_INFO: return '$path/profile/teaching';
       case AuthEndpoint.CERTIFICATE: return '$path/profile/certificates';
+
+    }
+  }
+  static String school(SchoolEndpoint endpoint) {
+    const String path = 'school';
+    switch (endpoint) {
+      case SchoolEndpoint.GRADES: return '$path/grades';
+      case SchoolEndpoint.CLASS_TYPE: return '$path/classtype';
+      case SchoolEndpoint.SUBJECTS: return '$path/subjects';
+      case SchoolEndpoint.TYPES: return '$path/types';
+      case SchoolEndpoint.CURRICULUM: return '$path/curriculum';
     }
   }
 
@@ -123,7 +135,28 @@ enum AuthEndpoint {
   /// An endpoint for update personal.
   PERSONAL_INFO,
   /// An endpoint for update personal.
+  ///
+  TEACHING_INFO,
+  /// An endpoint for update personal.
   CERTIFICATE,
+}
+
+/// A collection of endpoints used for authentication purposes.
+enum SchoolEndpoint {
+  /// An endpoint for grades requests.
+  GRADES,
+
+  /// An endpoint for subjects requests.
+  SUBJECTS,
+
+  /// An endpoint for types requests.
+  TYPES,
+
+  /// An endpoint for curriculum requests.
+  CURRICULUM,
+
+  /// An endpoint for class type requests.
+  CLASS_TYPE,
 }
 
 /// A collection of endpoints used for students.
