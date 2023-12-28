@@ -9,7 +9,7 @@ class ManageSubscriptionController extends GetxController{
 
 
   @override
-  void init() {}
+  void onInit(){}
 
 
 }

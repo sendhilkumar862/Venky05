@@ -24,7 +24,7 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../../product/utils/validators.dart';
-import '../viewModel/class_detail_view_model.dart';
+import '../controller/class_detail_controller.dart';
 
 class ClassDetail extends StatefulWidget {
   const ClassDetail({super.key});
@@ -34,6 +34,7 @@ class ClassDetail extends StatefulWidget {
 }
 
 class _ClassDetailState extends State<ClassDetail> {
+  ClassDetailController _classDetailController =Get.put(ClassDetailController());
   DateTime selectedDate = DateTime.now();
   int? isSelected;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -89,326 +90,316 @@ class _ClassDetailState extends State<ClassDetail> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
-    return BaseView<ClassDetailViewModel>(
-        viewModel: ClassDetailViewModel(),
-        onModelReady: (ClassDetailViewModel model) {
-          model.setContext(context);
-        },
-        onPageBuilder: (BuildContext context,
-            ClassDetailViewModel classDetailViewModel) {
-          return Scaffold(
-            appBar: HessaAppBar(
-              isTitleOnly: true,
-              // isBack: true,
-              // trailingText: 'Cancel',
-              title: 'createClass'.tr,
-              // normalAppbar: true,
-            ),
-            body: Observer(builder: (BuildContext context) {
-              return Form(
-                key: formKey,
-                onChanged: () {
-                  if (formKey.currentState!.validate()) {
-                    setState(() {
-                      isDisable = false;
-                    });
-                  } else {
-                    setState(() {
-                      isDisable = true;
-                    });
-                  }
-                },
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      appBar: HessaAppBar(
+        isTitleOnly: true,
+        // isBack: true,
+        // trailingText: 'Cancel',
+        title: 'createClass'.tr,
+        // normalAppbar: true,
+      ),
+      body: Observer(builder: (BuildContext context) {
+        return Form(
+          key: formKey,
+          onChanged: () {
+            if (formKey.currentState!.validate()) {
+              setState(() {
+                isDisable = false;
+              });
+            } else {
+              setState(() {
+                isDisable = true;
+              });
+            }
+          },
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Text(
+                        'classDetails'.tr,
+                        style: openSans.get20.w700
+                            .textColor(AppColors.appTextColor),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Text(
+                        'participators'.tr,
+                        style: openSans.get12.w400.textColor(
+                            AppColors.appTextColor.withOpacity(0.5)),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50,
+                      child: FlutterSlider(
+                        rangeSlider: true,
+                        values: <double>[_lowerValue, _upperValue],
+                        max: 100,
+                        min: 0,
+                        onDragging:
+                            (int handlerIndex, lowerValue, upperValue) {
+                          setState(() {
+                            _lowerValue = lowerValue;
+                            _upperValue = upperValue;
+                          });
+                        },
+                        onDragCompleted: (_, __, ___) {
+                          // Optional: Add any additional logic when the dragging is completed.
+                        },
+                        tooltip: FlutterSliderTooltip(
+                          disabled: true,
+                          alwaysShowTooltip: false,
+                        ),
+                        handler: FlutterSliderHandler(
+                          decoration: const BoxDecoration(
+                            color: AppColors.ctaSecondary,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: Container(
+                              padding: const EdgeInsets.all(5),
+                              child: Text(
+                                '${_lowerValue.toInt()}',
+                                style: const TextStyle(
+                                    fontSize: 12, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                        rightHandler: FlutterSliderHandler(
+                          decoration: const BoxDecoration(
+                            color: AppColors.appBlue,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: Container(
+                              padding: const EdgeInsets.all(5),
+                              child: Text(
+                                '${_upperValue.toInt()}',
+                                style: const TextStyle(
+                                    fontSize: 12, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                        trackBar: FlutterSliderTrackBar(
+                          inactiveTrackBar: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.black12,
+                            border: Border.all(
+                                width: 3, color: AppColors.tabColor),
+                          ),
+                          activeTrackBar: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: AppColors.appBlue,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text('minimum'.tr,
+                            style: openSans.get10.w400.textColor(
+                                AppColors.appTextColor.withOpacity(0.5))),
+                        Text('maximum'.tr,
+                            style: openSans.get10.w400.textColor(
+                                AppColors.appTextColor.withOpacity(0.5))),
+                      ],
+                    ),
+                    AppTextFormField(
+                      controller: classCost,
+                      keyboardType:
+                      const TextInputType.numberWithOptions(),
+                      validate: Validators.requiredValidator.call,
+                      suffix: Padding(
+                        padding: const EdgeInsets.only(top: 12),
+                        child:
+                        Text('kwd'.tr, style: openSans.get16.w400),
+                      ),
+                      hintText: 'classCost'.tr,
+                    ),
+                    AppTextFormField(
+                      controller: numberOfSession,
+                      validate: Validators.requiredValidator.call,
+                      hintText: 'numberOfSessions'.tr,
+                    ),
+                    AppTextFormField(
+                      validate: Validators.requiredValidator.call,
+                      controller: dateController,
+                      onTap: () {
+                        calender(context, dateController,);
+                      },
+                      hintText: 'selectDateAndTime'.tr,
+                      readOnly: true,
+                      suffix: const Icon(Icons.keyboard_arrow_down_sharp,
+                          color: AppColors.downArrowColor),
+                    ),
+                    AppTextFormField(
+                      validate: Validators.requiredValidator.call,
+                      hintText: 'selectClass2DateAndTime'.tr,
+                      controller: class2DateController,
+                      onTap: () {
+                        calender(context, class2DateController);
+                      },
+                      title: 'class2DateAndTime'.tr,
+                      readOnly: true,
+                      suffix: const Icon(Icons.keyboard_arrow_down_sharp,
+                          color: AppColors.downArrowColor),
+                    ),
+                    AppTextFormField(
+                      validate: Validators.requiredValidator.call,
+                      suffix: const Icon(Icons.keyboard_arrow_down_sharp,
+                          color: AppColors.downArrowColor),
+                      hintText: 'classDuration'.tr,
+                      title: 'classDuration'.tr,
+                      readOnly: true,
+                      controller: classDurationController,
+                      onTap: () {
+                        bottomSheetDropDownList();
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20, bottom: 7),
+                      child: Text(
+                        'selectLocation'.tr,
+                        style: TextStyle(
+                            color:
+                            const Color(0xff051335).withOpacity(0.5),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                    SizedBox(
+                      width: width,
+                      child: DottedBorder(
+                          borderType: BorderType.RRect,
+                          radius: Radius.circular(15),
+                          color: AppColors.appBlue,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 10),
+                            child: Column(
+                              children: <Widget>[
+                                Center(
+                                    child: Text(
+                                      'noAddressFound'.tr,
+                                      style: openSans.get16.w700,
+                                    )),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 15),
+                                  child: AppButton(
+                                      borderRadius:
+                                      BorderRadius.circular(10),
+                                      borderColor: AppColors.appBlue,
+                                      isBorderOnly: true,
+                                      textStyle: const TextStyle(
+                                          color: AppColors.appBlue,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600),
+                                      height: 45,
+                                      width: width,
+                                      title: 'addAddressFound'.tr,
+                                      onPressed: () {
+                                        locationModalBottomSheet(context);
+                                      },
+                                      isDisable: isDisable),
+                                )
+                              ],
+                            ),
+                          )),
+                    ),
+                    if (_classDetailController.selectedProfile ==
+                        ApplicationConstants.tutor)
+                      Padding(
+                        padding:
+                        const EdgeInsets.only(top: 15, bottom: 35),
+                        child: Row(
+                          children: <Widget>[
+                            AppText(
+                              'allowTheClassAtTheStudentPlace'.tr,
+                              fontSize: 14.px,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            SizedBox(width: 8.px),
+                            AppSwitch(
+                                onTap: () {
+                                  _classDetailController.onTapSwitch();
+                                },
+                                isActive: _classDetailController.isActive.value)
+                          ],
+                        ),
+                      ),
+                    if (_classDetailController.selectedProfile ==
+                        ApplicationConstants.student)
+                      Column(
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: Text(
-                              'classDetails'.tr,
-                              style: openSans.get20.w700
-                                  .textColor(AppColors.appTextColor),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              'participators'.tr,
-                              style: openSans.get12.w400.textColor(
-                                  AppColors.appTextColor.withOpacity(0.5)),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 50,
-                            child: FlutterSlider(
-                              rangeSlider: true,
-                              values: <double>[_lowerValue, _upperValue],
-                              max: 100,
-                              min: 0,
-                              onDragging:
-                                  (int handlerIndex, lowerValue, upperValue) {
-                                setState(() {
-                                  _lowerValue = lowerValue;
-                                  _upperValue = upperValue;
-                                });
-                              },
-                              onDragCompleted: (_, __, ___) {
-                                // Optional: Add any additional logic when the dragging is completed.
-                              },
-                              tooltip: FlutterSliderTooltip(
-                                disabled: true,
-                                alwaysShowTooltip: false,
-                              ),
-                              handler: FlutterSliderHandler(
-                                decoration: const BoxDecoration(
-                                  color: AppColors.ctaSecondary,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Material(
-                                  color: Colors.transparent,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(5),
-                                    child: Text(
-                                      '${_lowerValue.toInt()}',
-                                      style: const TextStyle(
-                                          fontSize: 12, color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              rightHandler: FlutterSliderHandler(
-                                decoration: const BoxDecoration(
-                                  color: AppColors.appBlue,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Material(
-                                  color: Colors.transparent,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(5),
-                                    child: Text(
-                                      '${_upperValue.toInt()}',
-                                      style: const TextStyle(
-                                          fontSize: 12, color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              trackBar: FlutterSliderTrackBar(
-                                inactiveTrackBar: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.black12,
-                                  border: Border.all(
-                                      width: 3, color: AppColors.tabColor),
-                                ),
-                                activeTrackBar: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4),
-                                  color: AppColors.appBlue,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text('minimum'.tr,
-                                  style: openSans.get10.w400.textColor(
-                                      AppColors.appTextColor.withOpacity(0.5))),
-                              Text('maximum'.tr,
-                                  style: openSans.get10.w400.textColor(
-                                      AppColors.appTextColor.withOpacity(0.5))),
-                            ],
-                          ),
-                          AppTextFormField(
-                            controller: classCost,
-                            keyboardType:
-                                const TextInputType.numberWithOptions(),
-                            validate: Validators.requiredValidator.call,
-                            suffix: Padding(
-                              padding: const EdgeInsets.only(top: 12),
-                              child:
-                                  Text('kwd'.tr, style: openSans.get16.w400),
-                            ),
-                            hintText: 'classCost'.tr,
-                          ),
-                          AppTextFormField(
-                            controller: numberOfSession,
-                            validate: Validators.requiredValidator.call,
-                            hintText: 'numberOfSessions'.tr,
-                          ),
-                          AppTextFormField(
-                            validate: Validators.requiredValidator.call,
-                            controller: dateController,
-                            onTap: () {
-                              calender(context, dateController,
-                                  classDetailViewModel);
-                            },
-                            hintText: 'selectDateAndTime'.tr,
-                            readOnly: true,
-                            suffix: const Icon(Icons.keyboard_arrow_down_sharp,
-                                color: AppColors.downArrowColor),
-                          ),
-                          AppTextFormField(
-                            validate: Validators.requiredValidator.call,
-                            hintText: 'selectClass2DateAndTime'.tr,
-                            controller: class2DateController,
-                            onTap: () {
-                              calender(context, class2DateController,
-                                  classDetailViewModel);
-                            },
-                            title: 'class2DateAndTime'.tr,
-                            readOnly: true,
-                            suffix: const Icon(Icons.keyboard_arrow_down_sharp,
-                                color: AppColors.downArrowColor),
-                          ),
-                          AppTextFormField(
-                            validate: Validators.requiredValidator.call,
-                            suffix: const Icon(Icons.keyboard_arrow_down_sharp,
-                                color: AppColors.downArrowColor),
-                            hintText: 'classDuration'.tr,
-                            title: 'classDuration'.tr,
-                            readOnly: true,
-                            controller: classDurationController,
-                            onTap: () {
-                              bottomSheetDropDownList();
-                            },
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20, bottom: 7),
-                            child: Text(
-                              'selectLocation'.tr,
-                              style: TextStyle(
-                                  color:
-                                      const Color(0xff051335).withOpacity(0.5),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ),
-                          SizedBox(
-                            width: width,
-                            child: DottedBorder(
-                                borderType: BorderType.RRect,
-                                radius: Radius.circular(15),
-                                color: AppColors.appBlue,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 10),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Center(
-                                          child: Text(
-                                        'noAddressFound'.tr,
-                                        style: openSans.get16.w700,
-                                      )),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 15),
-                                        child: AppButton(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            borderColor: AppColors.appBlue,
-                                            isBorderOnly: true,
-                                            textStyle: const TextStyle(
-                                                color: AppColors.appBlue,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600),
-                                            height: 45,
-                                            width: width,
-                                            title: 'addAddressFound'.tr,
-                                            onPressed: () {
-                                              locationModalBottomSheet(context);
-                                            },
-                                            isDisable: isDisable),
-                                      )
-                                    ],
-                                  ),
-                                )),
-                          ),
-                          if (classDetailViewModel.selectedProfile ==
-                              ApplicationConstants.tutor)
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 15, bottom: 35),
-                              child: Row(
-                                children: <Widget>[
-                                  AppText(
-                                    'allowTheClassAtTheStudentPlace'.tr,
-                                    fontSize: 14.px,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  SizedBox(width: 8.px),
-                                  AppSwitch(
-                                      onTap: () {
-                                        classDetailViewModel.onTapSwitch();
-                                      },
-                                      isActive: classDetailViewModel.isActive)
-                                ],
-                              ),
-                            ),
-                          if (classDetailViewModel.selectedProfile ==
-                              ApplicationConstants.student)
-                            Column(
+                            padding: const EdgeInsets.only(
+                                top: 25, bottom: 10),
+                            child: Row(
                               children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 25, bottom: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'otherParticipators'.tr,
-                                        style: openSans.get20.w700
-                                            .textColor(AppColors.appTextColor),
-                                      ),
-                                      Text(
-                                        'optional'.tr,
-                                        style: openSans.get12.w400.textColor(
-                                            AppColors.appTextColor
-                                                .withOpacity(0.5)),
-                                      ),
-                                    ],
-                                  ),
+                                Text(
+                                  'otherParticipators'.tr,
+                                  style: openSans.get20.w700
+                                      .textColor(AppColors.appTextColor),
                                 ),
-                                AppTextFormField(
-                                  top: 0,
-                                  controller: participators2,
-                                  validate: emailValidator.call,
-                                  title: 'participators2'.tr,
-                                  hintText: 'enterEmailAddress'.tr,
-                                ),
-                                AppTextFormField(
-                                  controller: participators3,
-                                  validate: emailValidator.call,
-                                  title: 'participators3'.tr,
-                                  hintText: 'enterEmailAddress'.tr,
-                                ),
-                                AppTextFormField(
-                                  controller: participators4,
-                                  validate: emailValidator.call,
-                                  title: 'participators4'.tr,
-                                  hintText: 'enterEmailAddress'.tr,
-                                ),
-                                AppTextFormField(
-                                  controller: participators5,
-                                  validate: emailValidator.call,
-                                  title: 'participators5'.tr,
-                                  hintText: 'enterEmailAddress'.tr,
+                                Text(
+                                  'optional'.tr,
+                                  style: openSans.get12.w400.textColor(
+                                      AppColors.appTextColor
+                                          .withOpacity(0.5)),
                                 ),
                               ],
                             ),
-                          AppButton(
-                            title: 'nextForClassDetails'.tr,
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {}
-                            },
-                            isDisable: isDisable,
                           ),
-                        ]),
-                  ),
-                ),
-              );
-            }),
-          );
-        });
+                          AppTextFormField(
+                            top: 0,
+                            controller: participators2,
+                            validate: emailValidator.call,
+                            title: 'participators2'.tr,
+                            hintText: 'enterEmailAddress'.tr,
+                          ),
+                          AppTextFormField(
+                            controller: participators3,
+                            validate: emailValidator.call,
+                            title: 'participators3'.tr,
+                            hintText: 'enterEmailAddress'.tr,
+                          ),
+                          AppTextFormField(
+                            controller: participators4,
+                            validate: emailValidator.call,
+                            title: 'participators4'.tr,
+                            hintText: 'enterEmailAddress'.tr,
+                          ),
+                          AppTextFormField(
+                            controller: participators5,
+                            validate: emailValidator.call,
+                            title: 'participators5'.tr,
+                            hintText: 'enterEmailAddress'.tr,
+                          ),
+                        ],
+                      ),
+                    AppButton(
+                      title: 'nextForClassDetails'.tr,
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {}
+                      },
+                      isDisable: isDisable,
+                    ),
+                  ]),
+            ),
+          ),
+        );
+      }),
+    );
   }
 
   Widget listData(int index, Address data, StateSetter setState) {
@@ -592,7 +583,7 @@ class _ClassDetailState extends State<ClassDetail> {
   }
 
   Future<void> calender(BuildContext context, TextEditingController controller,
-      ClassDetailViewModel classDetailViewModel) async {
+      ) async {
     await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -601,14 +592,14 @@ class _ClassDetailState extends State<ClassDetail> {
               (BuildContext context, void Function(void Function()) setState) {
             return AppCalender(
               selectedTime: (DateTime selectedTime) {
-                classDetailViewModel.selectedTimes = formatTime(selectedTime);
+                _classDetailController.selectedTimes = formatTime(selectedTime).obs;
                 controller.text =
-                    '${classDetailViewModel.selectedDate} ${classDetailViewModel.selectedTimes}';
+                    '${_classDetailController.selectedDate} ${_classDetailController.selectedTimes}';
               },
               selectedDate: (String selectedDate) {
-                classDetailViewModel.selectedDate = selectedDate;
+                _classDetailController.selectedDate.value = selectedDate;
                 controller.text =
-                    '${classDetailViewModel.selectedDate} ${classDetailViewModel.selectedTimes}';
+                    '${_classDetailController.selectedDate} ${_classDetailController.selectedTimes}';
               },
             );
           },
