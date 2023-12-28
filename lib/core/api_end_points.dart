@@ -91,6 +91,15 @@ class ApiEndpoint {
     }
   }
 
+ /// Returns the path for Downloader [endpoint].
+  static String downloader(DownloaderEndPoint endPoint) {
+    const String path = 'api/v1/file/';
+    switch(endPoint) {
+      case DownloaderEndPoint.BASE: return path;
+      case DownloaderEndPoint.DOWNLOAD: return '$path/file/download';
+    }
+  }
+
 }
 
 /// A collection of endpoints used for authentication purposes.
@@ -186,4 +195,11 @@ enum Public {
   COUNTRY,
   COUNTRY_ID
 
+}
+
+/// A collection of endpoints used for Download.
+enum DownloaderEndPoint {
+  /// An endpoint for teacgers' collection requests.
+  BASE,
+  DOWNLOAD,
 }
