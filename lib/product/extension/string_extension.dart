@@ -13,4 +13,21 @@ extension StringLocalization on String {
     final String imageUrl = '$baseUrl?type=$type&id=$this';
     return  imageUrl;
   }
+
+  //get the name of the User
+ String extractInitials() {
+  final List<String> names = split(' ');
+  String initials = '';
+
+  for (final String name in names) {
+    if (name.isNotEmpty) {
+      initials += name.substring(0, 2).toUpperCase();
+      if (initials.length >= 2) {
+        break; // Limit the result to a total of two characters
+      }
+    }
+  }
+
+  return initials;
+}
 }
