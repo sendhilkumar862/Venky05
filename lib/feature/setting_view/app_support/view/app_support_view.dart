@@ -16,7 +16,7 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/utils/typography.dart';
 import '../../view/widget/app_support/new_ticket_view.dart';
-import '../viewModel/app_support_view_model.dart';
+
 
 class AppSupportView extends StatefulWidget {
   const AppSupportView({super.key});
@@ -60,126 +60,117 @@ class _AppSupportViewState extends State<AppSupportView> {
   ];
   @override
   Widget build(BuildContext context) {
-    return BaseView<AppSupportViewModel>(
-        viewModel: AppSupportViewModel(),
-        onModelReady: (AppSupportViewModel appSupportViewModel) {
-          appSupportViewModel.setContext(context);
-          appSupportViewModel.init();
-        },
-        onPageBuilder:
-            (BuildContext context, AppSupportViewModel appSupportViewModel) {
-          return Scaffold(
-            appBar: HessaAppBar(
-              title: 'App Support',
-              isTitleOnly: true,
-            ),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+    return Scaffold(
+      appBar: HessaAppBar(
+        title: 'App Support',
+        isTitleOnly: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          children: <Widget>[
+            Expanded(
               child: Column(
-                children: <Widget>[
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15),
-                          child: InkWell(
-                            onTap: () {
-                              filterBottomSheet(context);
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                AppText(
-                                  'Sort / Filter',
-                                  fontSize: 14.px,
-                                  color: AppColors.appBlue,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                SizedBox(width: 5.px),
-                                AppImageAsset(
-                                  image: ImageConstants.filterSettings,
-                                  height: 16.px,
-                                  width: 16.px,
-                                ),
-                              ],
-                            ),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15),
+                    child: InkWell(
+                      onTap: () {
+                        filterBottomSheet(context);
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          AppText(
+                            'Sort / Filter',
+                            fontSize: 14.px,
+                            color: AppColors.appBlue,
+                            fontWeight: FontWeight.w600,
                           ),
-                        ),
-                        ListView.builder(
-                          itemCount: statusModelList.length,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (BuildContext context, int index) {
-                            var data = statusModelList[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              data.title,
-                                              style: openSans.get14.w500,
-                                            ),
-                                            Text(
-                                              data.idNum,
-                                              style: openSans.get10.w400
-                                                  .textColor(AppColors
-                                                      .appTextColor
-                                                      .withOpacity(0.5)),
-                                            ),
-                                            Text(
-                                              data.date,
-                                              style: openSans.get10.w400
-                                                  .textColor(AppColors
-                                                      .appTextColor
-                                                      .withOpacity(0.5)),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 10),
-                                          child: data.status),
-                                      Icon(
-                                        Icons.arrow_forward_ios_rounded,
-                                        size: 12,
-                                        color: AppColors.arrowColor,
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: Divider(
-                                      color: AppColors.appBorderColor
-                                          .withOpacity(0.5),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      ],
+                          SizedBox(width: 5.px),
+                          AppImageAsset(
+                            image: ImageConstants.filterSettings,
+                            height: 16.px,
+                            width: 16.px,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  AppButton(
-                      isDisable: false,
-                      title: 'Open New Ticket',
-                      onPressed: () {
-                        AppRouter.push(NewTicketView());
-                      })
+                  ListView.builder(
+                    itemCount: statusModelList.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, int index) {
+                      var data = statusModelList[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        data.title,
+                                        style: openSans.get14.w500,
+                                      ),
+                                      Text(
+                                        data.idNum,
+                                        style: openSans.get10.w400
+                                            .textColor(AppColors
+                                            .appTextColor
+                                            .withOpacity(0.5)),
+                                      ),
+                                      Text(
+                                        data.date,
+                                        style: openSans.get10.w400
+                                            .textColor(AppColors
+                                            .appTextColor
+                                            .withOpacity(0.5)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                    padding:
+                                    const EdgeInsets.only(right: 10),
+                                    child: data.status),
+                                Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  size: 12,
+                                  color: AppColors.arrowColor,
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Divider(
+                                color: AppColors.appBorderColor
+                                    .withOpacity(0.5),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
-          );
-        });
+            AppButton(
+                isDisable: false,
+                title: 'Open New Ticket',
+                onPressed: () {
+                  AppRouter.push(NewTicketView());
+                })
+          ],
+        ),
+      ),
+    );
   }
 
   void filterBottomSheet(BuildContext context) {
