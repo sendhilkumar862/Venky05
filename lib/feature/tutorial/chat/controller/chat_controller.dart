@@ -1,42 +1,20 @@
 import 'dart:io';
-
-
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:intl/intl.dart';
-import 'package:mobx/mobx.dart';
+import '../../../../product/network/local/key_value_storage_service.dart';
 
-import '../../../../product/base/model/base_view_model.dart';
 
-part 'chat_view_model.g.dart';
-
-class ChatViewModel = _ChatViewModelBase with _$ChatViewModel;
-
-abstract class _ChatViewModelBase extends BaseViewModel with Store {
-  @override
-  void setContext(BuildContext context) => viewModelContext = context;
-
-  @override
-  void init() {}
-
-  @observable
+class ChatController extends GetxController{
+  final KeyValueStorageService keyValueStorageService =
+  KeyValueStorageService();
   TextEditingController chatController = TextEditingController();
-
-  @observable
-  bool isOnTapMic = false;
-
-  @observable
-  bool isOnTapPause = false;
-
-  @observable
+  RxBool isOnTapMic = false.obs;
+  RxBool isOnTapPause = false.obs;
   File? selectedImage;
-
-  @observable
   List<Chat> message = <Chat>[];
+  RxBool isSwipeRight = false.obs;
 
-  @observable
-  bool isSwipeRight = false;
-
-  @action
   getChatTimeFormate(int time) {
     final int millisecondsSinceEpoch = time; // Example timestamp
 
@@ -46,7 +24,7 @@ abstract class _ChatViewModelBase extends BaseViewModel with Store {
     return formattedTime;
   }
 
-  @action
+
   String headerTimestamp(int timestamp) {
     final DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
     return DateFormat('MMM d, y').format(dateTime);
