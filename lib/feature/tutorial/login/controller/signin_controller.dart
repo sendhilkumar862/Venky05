@@ -9,7 +9,7 @@ import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
-import '../../../../repository/auth_repositoriy.dart';
+import '../repository/auth_repositoriy.dart';
 import '../model/login_model.dart';
 import '../model/refresh_model.dart';
 import '../repository/refresh_token_repository.dart';

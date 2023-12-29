@@ -69,6 +69,8 @@ class ApiEndpoint {
         return '$path/profile/certificates';
       case AuthEndpoint.PREFERENCE:
         return '$path/preference';
+      case AuthEndpoint.DASHBOARD_DETAIL:
+        return '$path/dashboard/details';
     }
   }
 
@@ -192,6 +194,9 @@ enum AuthEndpoint {
 
   /// An endpoint for get preference
   PREFERENCE,
+
+  /// An endpoint for get dashboard detail
+  DASHBOARD_DETAIL,
 }
 
 /// A collection of endpoints used for authentication purposes.

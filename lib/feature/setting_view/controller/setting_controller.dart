@@ -12,7 +12,6 @@ import '../../../product/constants/image/image_constants.dart';
 import '../../../product/network/local/key_value_storage_base.dart';
 import '../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/validators.dart';
-import '../../../repository/setting_repository.dart';
 import '../../home/controller/home_controller.dart';
 import '../../tutorial/language/model/country_model.dart';
 import '../repository/update_profile_photo_repository.dart';
@@ -63,7 +62,6 @@ class SettingController  extends GetxController{
   RxList<Country>filteredCountries = <Country>[].obs;
 
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-  final SettingRepository _settingRepository = SettingRepository();
 
   RxList<SettingHeading> studentSettingList = <SettingHeading>[
     SettingHeading(header: 'Personal Information', listDetail: <SettingData>[
