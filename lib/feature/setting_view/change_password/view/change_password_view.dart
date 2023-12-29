@@ -8,12 +8,11 @@ import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
-import '../../../../custom/sheet/app_bottom_sheet.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-import '../../../tutorial/view/bottomSheets/term&condition_bottom_sheet.dart';
 import '../controller/change_password_controller.dart';
+
 class ChangePasswordView extends StatefulWidget {
   const ChangePasswordView({super.key});
 
@@ -21,22 +20,22 @@ class ChangePasswordView extends StatefulWidget {
   State<ChangePasswordView> createState() => _ChangePasswordViewState();
 }
 
-final ChangePasswordController _changePasswordController = Get.put(ChangePasswordController());
+final ChangePasswordController _changePasswordController =
+    Get.put(ChangePasswordController());
 
 class _ChangePasswordViewState extends State<ChangePasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HessaAppBar(
-        leadingTap: (){
+        leadingTap: () {
           _changePasswordController.backButtonTapped();
           AppRouter.pop();
         },
         title: 'changePassword'.tr,
         isTitleOnly: true,
       ),
-      body:
-      Column(
+      body: Column(
         children: <Widget>[
           Expanded(
             child: Column(
@@ -50,22 +49,28 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                       padding: EdgeInsets.symmetric(horizontal: 15.px),
                       children: <Widget>[
                         Obx(
-                              () => TextFormsField(
-                                validate: _changePasswordController.isWrongOldPassword.value?0:null,
+                          () => TextFormsField(
+                            validate: _changePasswordController
+                                    .isWrongOldPassword.value
+                                ? 0
+                                : null,
                             title: 'Old Password'.tr,
-                            controller: _changePasswordController.oldPasswordController,
+                            controller:
+                                _changePasswordController.oldPasswordController,
                             hintText: 'Enter Your Old Password'.tr,
                             keyboardType: TextInputType.multiline,
-                            obscureText:
-                            !_changePasswordController.isOldPasswordVisible.value,
+                            obscureText: !_changePasswordController
+                                .isOldPasswordVisible.value,
                             suffixIcon: InkWell(
                               onTap: () {
-                                _changePasswordController.isOldPasswordVisible.value =
-                                !_changePasswordController.isOldPasswordVisible.value;
+                                _changePasswordController
+                                        .isOldPasswordVisible.value =
+                                    !_changePasswordController
+                                        .isOldPasswordVisible.value;
                               },
                               child: AppImageAsset(
-                                image:
-                                (_changePasswordController.isOldPasswordVisible.value)
+                                image: (_changePasswordController
+                                        .isOldPasswordVisible.value)
                                     ? ImageConstants.eye
                                     : ImageConstants.eyeCross,
                                 height: 22.px,
@@ -77,24 +82,35 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                             },
                           ),
                         ),
-                        Obx(()=> _changePasswordController.isWrongOldPassword.value?AppText('Password Incorrect. ${_changePasswordController.noOfAttempts.value} attempts remaining.',color: AppColors.appRed,fontSize: 12, fontWeight: FontWeight.w400,):const SizedBox.shrink()),
+                        Obx(() =>
+                            _changePasswordController.isWrongOldPassword.value
+                                ? AppText(
+                                    'Password Incorrect. ${_changePasswordController.noOfAttempts.value} attempts remaining.',
+                                    color: AppColors.appRed,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  )
+                                : const SizedBox.shrink()),
                         SizedBox(height: 10.px),
                         Obx(
-                              () => TextFormsField(
+                          () => TextFormsField(
                             title: 'New Password'.tr,
-                            controller: _changePasswordController.passwordController,
+                            controller:
+                                _changePasswordController.passwordController,
                             hintText: 'Enter Your New Password'.tr,
                             keyboardType: TextInputType.multiline,
-                            obscureText:
-                            !_changePasswordController.isPasswordVisible.value,
+                            obscureText: !_changePasswordController
+                                .isPasswordVisible.value,
                             suffixIcon: InkWell(
                               onTap: () {
-                                _changePasswordController.isPasswordVisible.value =
-                                !_changePasswordController.isPasswordVisible.value;
+                                _changePasswordController
+                                        .isPasswordVisible.value =
+                                    !_changePasswordController
+                                        .isPasswordVisible.value;
                               },
                               child: AppImageAsset(
-                                image:
-                                (_changePasswordController.isPasswordVisible.value)
+                                image: (_changePasswordController
+                                        .isPasswordVisible.value)
                                     ? ImageConstants.eye
                                     : ImageConstants.eyeCross,
                                 height: 22.px,
@@ -108,24 +124,24 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                         ),
                         SizedBox(height: 10.px),
                         Obx(
-                              () => TextFormsField(
+                          () => TextFormsField(
                             keyboardType: TextInputType.multiline,
                             title: 'Retype New Password'.tr,
-                            controller:
-                            _changePasswordController.retypedPasswordController,
+                            controller: _changePasswordController
+                                .retypedPasswordController,
                             hintText: 'Enter Your New Password Again'.tr,
                             obscureText: !_changePasswordController
                                 .isRetypePasswordVisible.value,
                             suffixIcon: InkWell(
                               onTap: () {
                                 _changePasswordController
-                                    .isRetypePasswordVisible.value =
-                                !_changePasswordController
-                                    .isRetypePasswordVisible.value;
+                                        .isRetypePasswordVisible.value =
+                                    !_changePasswordController
+                                        .isRetypePasswordVisible.value;
                               },
                               child: AppImageAsset(
                                 image: (_changePasswordController
-                                    .isRetypePasswordVisible.value)
+                                        .isRetypePasswordVisible.value)
                                     ? ImageConstants.eye
                                     : ImageConstants.eyeCross,
                                 height: 22.px,
@@ -146,27 +162,28 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                         Column(
                           children: List.generate(
                               _changePasswordController.passWordCriteria.length,
-                                  (int index) {
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 4.px),
-                                  child: Row(
-                                    children: <Widget>[
-                                      AppImageAsset(
-                                        image: (!_changePasswordController
+                              (int index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(vertical: 4.px),
+                              child: Row(
+                                children: <Widget>[
+                                  AppImageAsset(
+                                    image: (!_changePasswordController
                                             .isPassWordCriteria[index])
-                                            ? ImageConstants.checkbox
-                                            : ImageConstants.checkboxFilled,
-                                        height: 18.px,
-                                      ),
-                                      SizedBox(width: 8.px),
-                                      AppText(
-                                        _changePasswordController.passWordCriteria[index],
-                                        fontSize: 12.px,
-                                      )
-                                    ],
+                                        ? ImageConstants.checkbox
+                                        : ImageConstants.checkboxFilled,
+                                    height: 18.px,
                                   ),
-                                );
-                              }),
+                                  SizedBox(width: 8.px),
+                                  AppText(
+                                    _changePasswordController
+                                        .passWordCriteria[index],
+                                    fontSize: 12.px,
+                                  )
+                                ],
+                              ),
+                            );
+                          }),
                         ),
                       ],
                     );
@@ -178,7 +195,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
         ],
       ),
       bottomNavigationBar:
-      Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+          Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
         // Padding(
         //   padding: EdgeInsets.symmetric(horizontal: 15.px),
         //   child: Row(
@@ -216,35 +233,35 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
         // ),
         // SizedBox(height: 15.px),
         Obx(
-              () => PreLoginCommonButton(
+          () => PreLoginCommonButton(
               title: 'continue'.tr,
               onTap: _changePasswordController.isButtonActive.value
                   ? () async {
-                final bool success =
-                await _changePasswordController.requestChangePassword();
-                if (success) {
-                  // ignore: use_build_context_synchronously
-                  showModalBottomSheet(
-                    backgroundColor: Colors.white,
-                    context: context,
-                    constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width - 30,
-                      // here increase or decrease in width
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    builder: (BuildContext context) {
-                      return SuccessFailsInfoDialog(
-                        title: 'success'.tr,
-                        buttonTitle: 'done'.tr,
-                        content: 'youHaveSuccessfully'.tr,
-                        isRouting: 'back',
-                      );
-                    },
-                  );
-                }
-              }
+                      final bool success = await _changePasswordController
+                          .requestChangePassword();
+                      if (success) {
+                        // ignore: use_build_context_synchronously
+                        showModalBottomSheet(
+                          backgroundColor: Colors.white,
+                          context: context,
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width - 30,
+                            // here increase or decrease in width
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          builder: (BuildContext context) {
+                            return SuccessFailsInfoDialog(
+                              title: 'success'.tr,
+                              buttonTitle: 'done'.tr,
+                              content: 'youHaveSuccessfully'.tr,
+                              isRouting: 'back',
+                            );
+                          },
+                        );
+                      }
+                    }
                   : () {},
               isDisable: !_changePasswordController.isButtonActive.value),
         )

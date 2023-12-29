@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
-
-
 
 Future<void> showMyDialog() async {
   return Get.dialog(CupertinoAlertDialog(
@@ -15,11 +14,13 @@ Future<void> showMyDialog() async {
       ),
       CupertinoDialogAction(
           child: const Text(
-           'Settings',
+            'Settings',
           ),
-          onPressed: () {
+          onPressed: () async {
             Get.back();
             openAppSettings();
+            await Geolocator.openAppSettings();
+            await Geolocator.openLocationSettings();
           }),
     ],
   ));

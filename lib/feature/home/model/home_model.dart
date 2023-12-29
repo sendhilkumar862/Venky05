@@ -4,8 +4,8 @@ part 'home_model.g.dart';
 
 @freezed
 class HomeModel with _$HomeModel {
-  const factory HomeModel({
-      String? firstName,
+  const factory HomeModel(
+      {String? firstName,
       String? lastName,
       String? email,
       String? countryCode,
@@ -13,8 +13,7 @@ class HomeModel with _$HomeModel {
       String? country,
       String? userStatus,
       String? userId,
-      String? imageId
-  }) = _HomeModel;
+      String? imageId}) = _HomeModel;
 
   factory HomeModel.fromJson(Map<String, dynamic> json) =>
       _$HomeModelFromJson(json);

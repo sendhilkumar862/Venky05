@@ -13,7 +13,6 @@ import '../../../product/network/local/key_value_storage_service.dart';
 import '../../home/controller/home_controller.dart';
 import '../controller/home_view_controller.dart';
 
-
 class HomeViews extends StatefulWidget {
   const HomeViews({super.key});
 
@@ -25,8 +24,8 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
   String selectedUserStatus = '';
   String selectedProfile = '';
-  final HomeController _homeController=Get.find();
-  final HomeViewController _homeViewController =Get.put(HomeViewController());
+  final HomeController _homeController = Get.find();
+  final HomeViewController _homeViewController = Get.put(HomeViewController());
   @override
   void initState() {
     super.initState();
@@ -35,20 +34,22 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
         keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
             '';
     selectedUserStatus = keyValueStorageBase.getCommon(
-        String, KeyValueStorageService.userInfoStatus) ??
+            String, KeyValueStorageService.userInfoStatus) ??
         '';
   }
 
   @override
   Widget build(BuildContext context) {
-    return Obx(()=>
-       Scaffold(
+    return Obx(
+      () => Scaffold(
         backgroundColor: AppColors.appWhite,
         appBar: HessaAppBar(
           icon: ImageConstants.avtar,
           title: 'Welcome!',
-          subTitle:"${_homeController.homeData.value?.firstName??""} ${_homeController.homeData.value?.lastName??""}",
-          isSearchIconShown:!(selectedProfile == ApplicationConstants.tutor && selectedUserStatus != '99'),
+          subTitle:
+              "${_homeController.homeData.value?.firstName ?? ""} ${_homeController.homeData.value?.lastName ?? ""}",
+          isSearchIconShown: !(selectedProfile == ApplicationConstants.tutor &&
+              selectedUserStatus != '99'),
           onBellTap: () {
             AppRouter.pushNamed(Routes.notificationView);
           },
@@ -76,25 +77,24 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(
                   _homeViewController.bottomBarItems.length,
-                      (int index) => tabBarCardView(
-                          _homeViewController.bottomBarItems[index],
-                      index),
+                  (int index) => tabBarCardView(
+                      _homeViewController.bottomBarItems[index], index),
                 ),
               ),
             ),
             SizedBox(
               height: 2.px,
             ),
-            _homeViewController.bottomBarItems[_homeViewController.selectedIndex.value]
-            ['screenName'],
+            _homeViewController
+                    .bottomBarItems[_homeViewController.selectedIndex.value]
+                ['screenName'],
           ],
         ),
       ),
     );
   }
 
-  Widget tabBarCardView(
-      Map<String, dynamic> content, int index) {
+  Widget tabBarCardView(Map<String, dynamic> content, int index) {
     final bool isSelected = _homeViewController.selectedIndex == index;
     return Expanded(
       child: GestureDetector(

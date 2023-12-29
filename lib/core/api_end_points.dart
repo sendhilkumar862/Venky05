@@ -24,51 +24,77 @@ class ApiEndpoint {
   /// ```
   static const String baseUrl = 'http://167.99.93.83/api/v1/';
 
-  static const String profileSet='content/role/common/type/about_us';
-  static const String countryGet='public/countries/idd';
+  static const String profileSet = 'content/role/common/type/about_us';
+  static const String countryGet = 'public/countries/idd';
 
   /// Returns the path for an authentication [endpoint].
   static String auth(AuthEndpoint endpoint) {
     const String path = 'users';
     switch (endpoint) {
-      case AuthEndpoint.REGISTER: return '$path/register';
-      case AuthEndpoint.LOGIN: return '$path/login';
-      case AuthEndpoint.REFRESH_TOKEN: return '$path/refresh-token';
-      case AuthEndpoint.CHANGE_PASSWORD: return '$path/changePassword';
-      case AuthEndpoint.CHANGE_NAME: return '$path/changeName';
-      case AuthEndpoint.FORGOT_PW_SEND_OTP: return '$path/forgot/send-otp';
-      case AuthEndpoint.FORGOT_PW_VERIFY_OTP: return '$path/forgot/verify-otp';
-      case AuthEndpoint.FORGOT_PW_RESET_PASSWORD: return '$path/forgot/reset-password';
-      case AuthEndpoint.UPDATE_COUNTRY: return '$path/changeCountry/';
-      case AuthEndpoint.UPLOAD_PROFILE: return '$path/profile/photo/upload';
-      case AuthEndpoint.USER_ADDRESS: return '$path/:userId/address/';
-      case AuthEndpoint.ADD_NUMBER: return '$path/mobile/addNumber';
-      case AuthEndpoint.CHANGE_NUMBER: return '$path/mobile/changeNumber';
-      case AuthEndpoint.PERSONAL_INFO: return '$path/profile/personal';
-      case AuthEndpoint.TEACHING_INFO: return '$path/profile/teaching';
-      case AuthEndpoint.EXPERIENCE_INFO: return '$path/profile/experience';
-      case AuthEndpoint.FINANCE_INFO: return '$path/profile/iban/';
-      case AuthEndpoint.CERTIFICATE: return '$path/profile/certificates';
-      case AuthEndpoint.PREFERENCE: return '$path/preference';
-
+      case AuthEndpoint.REGISTER:
+        return '$path/register';
+      case AuthEndpoint.LOGIN:
+        return '$path/login';
+      case AuthEndpoint.REFRESH_TOKEN:
+        return '$path/refresh-token';
+      case AuthEndpoint.CHANGE_PASSWORD:
+        return '$path/changePassword';
+      case AuthEndpoint.CHANGE_NAME:
+        return '$path/changeName';
+      case AuthEndpoint.FORGOT_PW_SEND_OTP:
+        return '$path/forgot/send-otp';
+      case AuthEndpoint.FORGOT_PW_VERIFY_OTP:
+        return '$path/forgot/verify-otp';
+      case AuthEndpoint.FORGOT_PW_RESET_PASSWORD:
+        return '$path/forgot/reset-password';
+      case AuthEndpoint.UPDATE_COUNTRY:
+        return '$path/changeCountry/';
+      case AuthEndpoint.UPLOAD_PROFILE:
+        return '$path/profile/photo/upload';
+      case AuthEndpoint.USER_ADDRESS:
+        return '$path/:userId/address/';
+      case AuthEndpoint.ADD_NUMBER:
+        return '$path/mobile/addNumber';
+      case AuthEndpoint.CHANGE_NUMBER:
+        return '$path/mobile/changeNumber';
+      case AuthEndpoint.PERSONAL_INFO:
+        return '$path/profile/personal';
+      case AuthEndpoint.TEACHING_INFO:
+        return '$path/profile/teaching';
+      case AuthEndpoint.EXPERIENCE_INFO:
+        return '$path/profile/experience';
+      case AuthEndpoint.FINANCE_INFO:
+        return '$path/profile/iban/';
+      case AuthEndpoint.CERTIFICATE:
+        return '$path/profile/certificates';
+      case AuthEndpoint.PREFERENCE:
+        return '$path/preference';
     }
   }
+
   static String school(SchoolEndpoint endpoint) {
     const String path = 'school';
     switch (endpoint) {
-      case SchoolEndpoint.GRADES: return '$path/grades';
-      case SchoolEndpoint.CLASS_TYPE: return '$path/classtype';
-      case SchoolEndpoint.SUBJECTS: return '$path/subjects';
-      case SchoolEndpoint.TYPES: return '$path/types';
-      case SchoolEndpoint.CURRICULUM: return '$path/curriculum';
+      case SchoolEndpoint.GRADES:
+        return '$path/grades';
+      case SchoolEndpoint.CLASS_TYPE:
+        return '$path/classtype';
+      case SchoolEndpoint.SUBJECTS:
+        return '$path/subjects';
+      case SchoolEndpoint.TYPES:
+        return '$path/types';
+      case SchoolEndpoint.CURRICULUM:
+        return '$path/curriculum';
     }
   }
 
   static String country(Public endpoint) {
     const String path = 'public';
     switch (endpoint) {
-      case Public.COUNTRY: return '$path/countries';
-      case Public.COUNTRY_ID: return '$path/countries/idd';
+      case Public.COUNTRY:
+        return '$path/countries';
+      case Public.COUNTRY_ID:
+        return '$path/countries/idd';
     }
   }
 
@@ -77,10 +103,12 @@ class ApiEndpoint {
   /// Specify student [erp] to get the path for a specific student.
   ///
   /// Specify secondary [extendedResourceId] to get the path for a specific secondary resource.
-  static String students(StudentEndpoint endpoint, {String? erp, int? extendedResourceId}) {
+  static String students(StudentEndpoint endpoint,
+      {String? erp, int? extendedResourceId}) {
     const String path = '/students';
-    switch(endpoint){
-      case StudentEndpoint.BASE: return path;
+    switch (endpoint) {
+      case StudentEndpoint.BASE:
+        return path;
     }
   }
 
@@ -88,19 +116,21 @@ class ApiEndpoint {
   static String teachers(TeacherEndpoint endpoint) {
     const String path = '/teachers';
     switch (endpoint) {
-      case TeacherEndpoint.BASE: return path;
+      case TeacherEndpoint.BASE:
+        return path;
     }
   }
 
- /// Returns the path for Downloader [endpoint].
+  /// Returns the path for Downloader [endpoint].
   static String downloader(DownloaderEndPoint endPoint) {
     const String path = '${baseUrl}file';
-    switch(endPoint) {
-      case DownloaderEndPoint.BASE: return path;
-      case DownloaderEndPoint.DOWNLOAD: return '$path/download';
+    switch (endPoint) {
+      case DownloaderEndPoint.BASE:
+        return path;
+      case DownloaderEndPoint.DOWNLOAD:
+        return '$path/download';
     }
   }
-
 }
 
 /// A collection of endpoints used for authentication purposes.
@@ -146,6 +176,7 @@ enum AuthEndpoint {
 
   /// An endpoint for update personal.
   PERSONAL_INFO,
+
   /// An endpoint for update teaching.
   ///
   TEACHING_INFO,
@@ -191,14 +222,12 @@ enum StudentEndpoint {
 enum TeacherEndpoint {
   /// An endpoint for teacgers' collection requests.
   BASE,
-
 }
 
 enum Public {
   /// An endpoint for teacgers' collection requests.
   COUNTRY,
   COUNTRY_ID
-
 }
 
 /// A collection of endpoints used for Download.

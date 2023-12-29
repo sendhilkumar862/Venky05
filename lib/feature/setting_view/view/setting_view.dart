@@ -40,9 +40,9 @@ class SettingView extends StatefulWidget {
 class _SettingViewState extends State<SettingView> {
   CroppedFile? croppedFile;
   late PermissionStatus cameraPermissionStatus;
-  final SettingController _settingController=Get.put(SettingController());
-  final LanguageController _languageController=Get.put(LanguageController());
-  final HomeController _homeController=Get.find();
+  final SettingController _settingController = Get.put(SettingController());
+  final LanguageController _languageController = Get.put(LanguageController());
+  final HomeController _homeController = Get.find();
 
   Map<String, dynamic> arguments = <String, dynamic>{
     'id': '',
@@ -53,8 +53,8 @@ class _SettingViewState extends State<SettingView> {
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
-    return  Obx(()=>
-       Scaffold(
+    return Obx(
+      () => Scaffold(
         appBar: HessaAppBar(
           title: 'Settings',
           isTitleOnly: true,
@@ -68,24 +68,22 @@ class _SettingViewState extends State<SettingView> {
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: _settingController.selectedProfile.value ==
-                      ApplicationConstants.student
+                          ApplicationConstants.student
                       ? _settingController.studentSettingList.length
                       : _settingController.tutorSettingList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final SettingHeading data = _settingController
-                        .selectedProfile.value ==
-                        ApplicationConstants.student
-                        ? _settingController.studentSettingList[index]
-                        : _settingController.tutorSettingList[index];
-                    return settingListView(
-                        data );
+                    final SettingHeading data =
+                        _settingController.selectedProfile.value ==
+                                ApplicationConstants.student
+                            ? _settingController.studentSettingList[index]
+                            : _settingController.tutorSettingList[index];
+                    return settingListView(data);
                   }),
             ),
           ],
         ),
       ),
     );
-
   }
 
 //==============================================================================
@@ -93,18 +91,22 @@ class _SettingViewState extends State<SettingView> {
 //==============================================================================
 
   Widget profileWidget(
-      double width, BuildContext context,) {
-    return Obx(()=>
-      SizedBox(
+    double width,
+    BuildContext context,
+  ) {
+    return Obx(
+      () => SizedBox(
         width: width,
         child: Column(
           children: <Widget>[
             profileImageView(context),
             Padding(
               padding: const EdgeInsets.only(top: 13, bottom: 3),
-              child: Text("${_homeController.homeData.value?.firstName??""} ${_homeController.homeData.value?.lastName??""}"  , style: openSans.get20.w700.appTextColor),
+              child: Text(
+                  "${_homeController.homeData.value?.firstName ?? ""} ${_homeController.homeData.value?.lastName ?? ""}",
+                  style: openSans.get20.w700.appTextColor),
             ),
-            Text(_homeController.homeData.value?.email??"",
+            Text(_homeController.homeData.value?.email ?? "",
                 style: openSans.get14.w500
                     .textColor(AppColors.appTextColor.withOpacity(0.50))),
           ],
@@ -136,8 +138,7 @@ class _SettingViewState extends State<SettingView> {
               itemCount: data.listDetail.length,
               itemBuilder: (BuildContext context, int i) {
                 final SettingData response = data.listDetail[i];
-                return childSettingListView(data, i, context,
-                    response);
+                return childSettingListView(data, i, context, response);
               },
             )),
       ],
@@ -145,18 +146,21 @@ class _SettingViewState extends State<SettingView> {
   }
 
   Widget childSettingListView(
-      SettingHeading data,
-      int i,
-      BuildContext context,
-      SettingData response,
-      ) {
+    SettingHeading data,
+    int i,
+    BuildContext context,
+    SettingData response,
+  ) {
     final String title = data.listDetail[i].title;
     return Observer(builder: (context) {
       return Column(
         children: <Widget>[
           InkWell(
             onTap: () => handleTitleClick(
-                title, context, response,),
+              title,
+              context,
+              response,
+            ),
             child: childSettingListTile(
                 title: response.title, icon: response.surfixImage),
           ),
@@ -182,26 +186,34 @@ class _SettingViewState extends State<SettingView> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(left: 10),
-            child: Obx(()=>
-              Column(
+            child: Obx(
+              () => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title!='Add Mobile Number'?title:_homeController.homeData.value?.mobile!=null?'Change Mobile Number':title,
-                    style: openSans.get14.w400.textColor(AppColors.appDarkBlack),
+                    title != 'Add Mobile Number'
+                        ? title
+                        : _homeController.homeData.value?.mobile != null
+                            ? 'Change Mobile Number'
+                            : title,
+                    style:
+                        openSans.get14.w400.textColor(AppColors.appDarkBlack),
                   ),
-                  if(_homeController.homeData.value?.mobile!=null && title=='Add Mobile Number')Text(
-                    _homeController.homeData.value?.mobile??'',
-                    style: openSans.get14.w400.textColor(AppColors.appDarkBlack),
-                  ),
+                  if (_homeController.homeData.value?.mobile != null &&
+                      title == 'Add Mobile Number')
+                    Text(
+                      _homeController.homeData.value?.mobile ?? '',
+                      style:
+                          openSans.get14.w400.textColor(AppColors.appDarkBlack),
+                    ),
                 ],
               ),
             ),
           ),
         ),
         if (title == 'Change Country')
-          Obx(()=>
-            SizedBox(
+          Obx(
+            () => SizedBox(
               child: selectCardView(
                 icon: _languageController.selectedCountry.value?.flag_url,
                 title: _languageController.selectedCountry.value?.name,
@@ -209,21 +221,24 @@ class _SettingViewState extends State<SettingView> {
             ),
           ),
         if (title == 'Language')
-          Obx(()=>
-             SizedBox(
+          Obx(
+            () => SizedBox(
                 child: selectCardView(
-              icon:
-                  _languageController.languageIcon[_languageController.languageIndex.value],
-              title: _languageController.languages[_languageController.languageIndex.value],
+              icon: _languageController
+                  .languageIcon[_languageController.languageIndex.value],
+              title: _languageController
+                  .languages[_languageController.languageIndex.value],
             )),
           ),
         if (title == 'Login With Biometric')
-          Obx(()=>
-             AppSwitch(
-              isActive: _settingController.authenticated.value!=''?true:false,
-              onTap:(){
-                _settingController.authenticated.value==''?
-                _settingController.setLocalAuth(): _settingController.removeLocalAuth();
+          Obx(
+            () => AppSwitch(
+              isActive:
+                  _settingController.authenticated.value != '' ? true : false,
+              onTap: () {
+                _settingController.authenticated.value == ''
+                    ? _settingController.setLocalAuth()
+                    : _settingController.removeLocalAuth();
               },
             ),
           )
@@ -285,8 +300,7 @@ class _SettingViewState extends State<SettingView> {
 // ** Helper Widget **
 //==============================================================================
 
-  Widget profileImageView(
-      BuildContext context) {
+  Widget profileImageView(BuildContext context) {
     return InkWell(
         onTap: () {
           addImageBottomSheet(context);
@@ -307,28 +321,34 @@ class _SettingViewState extends State<SettingView> {
           ),
           width: 65,
           height: 65,
-          child: Obx(()=>
-          ClipOval(
-              child: _homeController.homeData.value?.imageId!=null &&_homeController.homeData.value!.imageId!.isNotEmpty
-                  ? SizedBox(height: 60,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(500),
-                  child: AppImageAsset(
-                    image: _homeController.homeData.value?.imageId?.getImageUrl('profile')??'',
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              )
-                  : Center(child: Text('${_homeController.homeData.value?.firstName ?? ''} ${_homeController.homeData.value?.lastName ?? ''}'.extractInitials('TU'), style: openSans.get20.w700.white)),
+          child: Obx(
+            () => ClipOval(
+              child: _homeController.homeData.value?.imageId != null &&
+                      _homeController.homeData.value!.imageId!.isNotEmpty
+                  ? SizedBox(
+                      height: 60,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(500),
+                        child: AppImageAsset(
+                          image: _homeController.homeData.value?.imageId
+                                  ?.getImageUrl('profile') ??
+                              '',
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    )
+                  : Center(
+                      child: Text(
+                          '${_homeController.homeData.value?.firstName ?? ''} ${_homeController.homeData.value?.lastName ?? ''}'
+                              .extractInitials('TU'),
+                          style: openSans.get20.w700.white)),
             ),
           ),
         ));
   }
 
-  void addImageBottomSheet(
-      BuildContext context) {
-    return showCommonBottomSheet(
-        context: context, commonWidget: profileView());
+  void addImageBottomSheet(BuildContext context) {
+    return showCommonBottomSheet(context: context, commonWidget: profileView());
   }
 
   Widget profileView() {
@@ -499,7 +519,7 @@ class _SettingViewState extends State<SettingView> {
               ),
             ]);
         if (cropFile != null) {
-          setState(() async{
+          setState(() async {
             croppedFile = cropFile;
             _settingController.croppedFilePath = cropFile.path;
             await _settingController.uploadProfilePhoto();
@@ -512,22 +532,25 @@ class _SettingViewState extends State<SettingView> {
   }
 
   void handleTitleClick(
-      String title,
-      BuildContext context,
-      SettingData response,) {
+    String title,
+    BuildContext context,
+    SettingData response,
+  ) {
     final SettingTitle settingTitle = getSettingTitle(title);
     switch (settingTitle) {
       case SettingTitle.changeName:
         AppRouter.pushNamed(Routes.changeNameView);
       case SettingTitle.addMobileNumber:
-        _homeController.homeData.value?.mobile!=null?AppRouter.push(ChangeMobileNumberView()):AppRouter.push(AddMobileNumberView());
+        _homeController.homeData.value?.mobile != null
+            ? AppRouter.push(ChangeMobileNumberView())
+            : AppRouter.push(AddMobileNumberView());
       case SettingTitle.changeMobileNumber:
         AppRouter.push(ChangeMobileNumberView());
       case SettingTitle.logout:
         _settingController.logout(context);
       case SettingTitle.manageAddress:
         AppRouter.push(ManageAddressScreen());
-        // manageAddressBottomSheet(context);
+      // manageAddressBottomSheet(context);
       case SettingTitle.changeCountry:
         showModalBottomSheet(
           isScrollControlled: true,
@@ -541,7 +564,8 @@ class _SettingViewState extends State<SettingView> {
             return StatefulBuilder(
               builder: (BuildContext context, setState) {
                 return CountryBottomsSheet(
-                    setState: setState,);
+                  setState: setState,
+                );
               },
             );
           },
