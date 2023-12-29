@@ -48,7 +48,7 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(()=>
+    return
       Scaffold(
           body: Stack(
             children: <Widget>[
@@ -81,31 +81,29 @@ class _HomeViewState extends State<HomeView> {
                 hapticFeedback: true,
                 horizontalPadding: 40,
               ),
-              if (selectedProfile == ApplicationConstants.student && _homeController.homeData.value?.userStatus=='4')
-                Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    Container(
-                      height: Get.height,
-                      color: Colors.grey.withOpacity(0.5),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30),
-                        ),
-                        child:
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.95, child: const PreferenceView()),
+              Obx(()=>  _homeController.homeData.value?.userStatus=='4' && selectedProfile ==ApplicationConstants.student? Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  Container(
+                    height: Get.height,
+                    color: Colors.grey.withOpacity(0.5),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
                       ),
+                      child:
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.95, child: const PreferenceView()),
                     ),
-                  ],
-                )
+                  ),
+                ],
+              ):const SizedBox.shrink())
             ],
           ),
-        ),
-    );
+        );
   }
 }
 

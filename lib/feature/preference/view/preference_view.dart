@@ -501,7 +501,7 @@ class _PreferenceViewState extends State<PreferenceView>
                               .selectedSchoolIndices.contains('Private')  && _preferenceController
                               .selectedCurriculumIndices.isNotEmpty  )
                             Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10),
+                              padding: const EdgeInsets.symmetric(vertical: 10),
                               child: Row(
                                 children: <Widget>[
                                   Text(
@@ -512,7 +512,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                   ),
                                   Padding(
                                     padding:
-                                    EdgeInsets.symmetric(horizontal: 5),
+                                    const EdgeInsets.symmetric(horizontal: 5),
                                     child: Text(
                                       'optional'.tr,
                                       style: const TextStyle(
