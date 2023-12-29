@@ -13,6 +13,7 @@ class ClassDetailsController extends GetxController{
 
   @override
   void onInit() {
+    super.onInit();
     fetchMap();
   }
   CameraPosition? kGooglePlex;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -8,9 +7,7 @@ import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../password/controller/password_controller.dart';
-import '../../password/view/password_view.dart';
-import '../../password/viewModel/password_view_model.dart';
-import '../../viewModel/tutorial_view_model.dart';
+
 
 class TermAndConditionBottomSheet extends StatelessWidget {
   TermAndConditionBottomSheet({ super.key});

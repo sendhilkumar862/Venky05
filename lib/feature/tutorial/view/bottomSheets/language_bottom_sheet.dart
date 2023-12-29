@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
-import 'package:hessah/feature/tutorial/language/controller/language_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../config/routes/app_router.dart';
@@ -12,7 +9,8 @@ import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/lang/language_manager.dart';
-import '../../language/viewModel/language_view_model.dart';
+import '../../language/controller/language_controller.dart';
+
 
 class LanguageBottomSheet extends StatelessWidget {
   LanguageBottomSheet({ super.key, this.setState});

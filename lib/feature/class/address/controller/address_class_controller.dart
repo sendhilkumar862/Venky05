@@ -1,34 +1,28 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobx/mobx.dart';
 
-import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/utils/validators.dart';
 
-part 'address_view_model.g.dart';
+class AddressClassController extends GetxController{
 
-class AddressViewModel = _AddressViewModelBase with _$AddressViewModel;
-
-abstract class _AddressViewModelBase extends BaseViewModel with Store {
-  @observable
   CameraPosition? kGooglePlex;
 
-  @observable
+
   Completer<GoogleMapController> mapController =
-      Completer<GoogleMapController>();
+  Completer<GoogleMapController>();
+
+
 
   @override
-  void setContext(BuildContext context) => viewModelContext = context;
-
-  @override
-  void init() {
+  void onInit() {
+    super.onInit();
     fetchMap();
   }
 
-  @action
+
   Future<void> fetchMap() async {
     try {
       kGooglePlex = CameraPosition(

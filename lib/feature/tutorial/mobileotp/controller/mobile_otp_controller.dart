@@ -1,50 +1,44 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:hessah/feature/tutorial/verify_otp/model/otp_model.dart';
-import 'package:mobx/mobx.dart';
+import 'package:get/get.dart' hide Response;
 
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../custom/countdown_timer/timer_count_down.dart';
-import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
+import '../../verify_otp/model/otp_model.dart';
 
-part 'mobile_otp_view_model.g.dart';
+class MobileOTPController extends GetxController{
 
-class MobileOtpViewModel = _MobileOtpViewModelBase with _$MobileOtpViewModel;
-
-abstract class _MobileOtpViewModelBase extends BaseViewModel with Store {
-  @observable
   CountdownController controller = CountdownController(autoStart: true);
 
-  @override
-  void setContext(BuildContext context) => viewModelContext = context;
+
 
   @override
-  void init() {
+  void onInit() {
+    super.onInit();
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-    currentProfile =
+    currentProfile.value =
         keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
             '';
     logs('current profile --> $currentProfile');
     controller.start();
   }
 
-  @observable
-  String currentProfile = '';
 
-  @observable
-  bool isCorrect = true;
+  RxString currentProfile = ''.obs;
 
-  @observable
-  String enteredOTP = '';
 
-  @observable
-  Map<String, dynamic> arguments = <String, dynamic>{'userId': ''};
+  RxBool isCorrect = true.obs;
+
+
+  RxString enteredOTP = ''.obs;
+
+
+  RxMap<String, dynamic> arguments = <String, dynamic>{'userId': ''}.obs;
 
   // @action
   // bool onChange(String value) {
@@ -57,7 +51,7 @@ abstract class _MobileOtpViewModelBase extends BaseViewModel with Store {
   //   }
   // }
 
-  @action
+
   Future<void> verifyOtp() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final Dio dio = Dio();
@@ -81,17 +75,17 @@ abstract class _MobileOtpViewModelBase extends BaseViewModel with Store {
         // otpModel = otpModel.fromJson(response.data);
 
         // Now you can access the parsed data using the otpModel object
-        logs('Parsed ID: ${otpModel.data!.item!.id}');
-        logs('Status Type: ${otpModel.status!.type}');
-        logs('Status Message: ${otpModel.status!.message}');
-        isCorrect = otpModel.status!.type == 'success';
+        logs('Parsed ID: ${otpModel.value.data!.item!.id}');
+        logs('Status Type: ${otpModel.value.status!.type}');
+        logs('Status Message: ${otpModel.value.status!.message}');
+        isCorrect.value = otpModel.value.status!.type == 'success';
 
-        if (otpModel.status!.type == 'success') {
+        if (otpModel.value.status!.type == 'success') {
           AppRouter.pushNamed(Routes.userInfoView, args: arguments);
         }
 
         logs('isCorrect--> $isCorrect');
-        enteredOTP = '';
+        enteredOTP.value = '';
       } else {
         EasyLoading.dismiss();
         logs('Error: ${response.statusCode}');
@@ -109,10 +103,10 @@ abstract class _MobileOtpViewModelBase extends BaseViewModel with Store {
     }
   }
 
-  @observable
-  OtpModel otpModel = const OtpModel();
 
-  @action
+  Rx<OtpModel> otpModel = const OtpModel().obs;
+
+
   void onTapSubmit() {
     verifyOtp();
   }
