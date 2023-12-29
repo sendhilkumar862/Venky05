@@ -29,7 +29,7 @@ class MobileEnterController extends GetxController{
   }
 
 
-  RxMap data = {}.obs;
+  Map data = {};
 
 
   TextEditingController mobileController = TextEditingController();

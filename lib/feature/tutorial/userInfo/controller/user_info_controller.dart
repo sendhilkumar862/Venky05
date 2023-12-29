@@ -20,7 +20,7 @@ class UserInfoController extends GetxController{
   }
 
 
-  RxMap data = <String, dynamic>{}.obs;
+  Map data = <String, dynamic>{};
 
 
   RxString currentProfile = ''.obs;
