@@ -17,10 +17,11 @@ class LoginModel with _$LoginModel {
 @freezed
 class Token with _$Token {
   const factory Token({
-     String? accessToken,
-     int? accessTokenExpiryTime,
-     String? refreshToken,
-     int? refreshTokenExpiryTime,
+    String? accessToken,
+    int? accessTokenExpiryTime,
+    String? refreshToken,
+    int? refreshTokenExpiryTime,
+    String? role,
   }) = _Token;
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);

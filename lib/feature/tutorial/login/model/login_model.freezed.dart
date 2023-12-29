@@ -177,6 +177,7 @@ mixin _$Token {
   int? get accessTokenExpiryTime => throw _privateConstructorUsedError;
   String? get refreshToken => throw _privateConstructorUsedError;
   int? get refreshTokenExpiryTime => throw _privateConstructorUsedError;
+  String? get role => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -192,7 +193,8 @@ abstract class $TokenCopyWith<$Res> {
       {String? accessToken,
       int? accessTokenExpiryTime,
       String? refreshToken,
-      int? refreshTokenExpiryTime});
+      int? refreshTokenExpiryTime,
+      String? role});
 }
 
 /// @nodoc
@@ -212,6 +214,7 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
     Object? accessTokenExpiryTime = freezed,
     Object? refreshToken = freezed,
     Object? refreshTokenExpiryTime = freezed,
+    Object? role = freezed,
   }) {
     return _then(_value.copyWith(
       accessToken: freezed == accessToken
@@ -230,6 +233,10 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
           ? _value.refreshTokenExpiryTime
           : refreshTokenExpiryTime // ignore: cast_nullable_to_non_nullable
               as int?,
+      role: freezed == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -245,7 +252,8 @@ abstract class _$$TokenImplCopyWith<$Res> implements $TokenCopyWith<$Res> {
       {String? accessToken,
       int? accessTokenExpiryTime,
       String? refreshToken,
-      int? refreshTokenExpiryTime});
+      int? refreshTokenExpiryTime,
+      String? role});
 }
 
 /// @nodoc
@@ -263,6 +271,7 @@ class __$$TokenImplCopyWithImpl<$Res>
     Object? accessTokenExpiryTime = freezed,
     Object? refreshToken = freezed,
     Object? refreshTokenExpiryTime = freezed,
+    Object? role = freezed,
   }) {
     return _then(_$TokenImpl(
       accessToken: freezed == accessToken
@@ -281,6 +290,10 @@ class __$$TokenImplCopyWithImpl<$Res>
           ? _value.refreshTokenExpiryTime
           : refreshTokenExpiryTime // ignore: cast_nullable_to_non_nullable
               as int?,
+      role: freezed == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -292,7 +305,8 @@ class _$TokenImpl implements _Token {
       {this.accessToken,
       this.accessTokenExpiryTime,
       this.refreshToken,
-      this.refreshTokenExpiryTime});
+      this.refreshTokenExpiryTime,
+      this.role});
 
   factory _$TokenImpl.fromJson(Map<String, dynamic> json) =>
       _$$TokenImplFromJson(json);
@@ -305,10 +319,12 @@ class _$TokenImpl implements _Token {
   final String? refreshToken;
   @override
   final int? refreshTokenExpiryTime;
+  @override
+  final String? role;
 
   @override
   String toString() {
-    return 'Token(accessToken: $accessToken, accessTokenExpiryTime: $accessTokenExpiryTime, refreshToken: $refreshToken, refreshTokenExpiryTime: $refreshTokenExpiryTime)';
+    return 'Token(accessToken: $accessToken, accessTokenExpiryTime: $accessTokenExpiryTime, refreshToken: $refreshToken, refreshTokenExpiryTime: $refreshTokenExpiryTime, role: $role)';
   }
 
   @override
@@ -323,13 +339,14 @@ class _$TokenImpl implements _Token {
             (identical(other.refreshToken, refreshToken) ||
                 other.refreshToken == refreshToken) &&
             (identical(other.refreshTokenExpiryTime, refreshTokenExpiryTime) ||
-                other.refreshTokenExpiryTime == refreshTokenExpiryTime));
+                other.refreshTokenExpiryTime == refreshTokenExpiryTime) &&
+            (identical(other.role, role) || other.role == role));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, accessToken,
-      accessTokenExpiryTime, refreshToken, refreshTokenExpiryTime);
+      accessTokenExpiryTime, refreshToken, refreshTokenExpiryTime, role);
 
   @JsonKey(ignore: true)
   @override
@@ -350,7 +367,8 @@ abstract class _Token implements Token {
       {final String? accessToken,
       final int? accessTokenExpiryTime,
       final String? refreshToken,
-      final int? refreshTokenExpiryTime}) = _$TokenImpl;
+      final int? refreshTokenExpiryTime,
+      final String? role}) = _$TokenImpl;
 
   factory _Token.fromJson(Map<String, dynamic> json) = _$TokenImpl.fromJson;
 
@@ -362,6 +380,8 @@ abstract class _Token implements Token {
   String? get refreshToken;
   @override
   int? get refreshTokenExpiryTime;
+  @override
+  String? get role;
   @override
   @JsonKey(ignore: true)
   _$$TokenImplCopyWith<_$TokenImpl> get copyWith =>

@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_textformfield/text_field.dart';
@@ -9,19 +9,18 @@ import '../../../../custom/cardView/warning_card_view.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/text/app_text.dart';
-import '../controller/signin_controller.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-
+import '../controller/signin_controller.dart';
 
 class LoginView extends StatelessWidget {
-   LoginView({super.key});
-  final SignInController _signInController=Get.put(SignInController());
+  LoginView({super.key});
+  final SignInController _signInController = Get.put(SignInController());
 
   @override
   Widget build(BuildContext context) {
-    return Obx(()=>
-    Scaffold(
+    return Obx(
+      () => Scaffold(
         body: Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
@@ -74,7 +73,8 @@ class LoginView extends StatelessWidget {
                             maxLines: 1,
                             suffixIcon: InkWell(
                               onTap: () {
-                                _signInController.isPasswordShow.value = !_signInController.isPasswordShow.value;
+                                _signInController.isPasswordShow.value =
+                                    !_signInController.isPasswordShow.value;
                                 setState(() {});
                               },
                               child: AppImageAsset(
@@ -88,7 +88,8 @@ class LoginView extends StatelessWidget {
                               _signInController.onPasswordChanged(value);
                               setState(() {});
                             },
-                            onSaved: (String value) => _signInController.login(context),
+                            onSaved: (String value) =>
+                                _signInController.login(context),
                           );
                         },
                       ),
@@ -97,19 +98,21 @@ class LoginView extends StatelessWidget {
                       ),
                       if (_signInController.loginStatus.value == 'error')
                         WarningCardView(
-                            color: AppColors.appLightRedTwo, error: _signInController.error.value),
-                      Obx((){
-                        return _signInController.authenticated.value!=''?
-                        GestureDetector(
-                          onTap: (){
-                            _signInController.setLocalAuth(context);
-                          },
-                          child: AppImageAsset(
-                            image: ImageConstants.faceId,
-                            height: 35.px,
-                          ),
-                        ):const SizedBox.shrink();})
-
+                            color: AppColors.appLightRedTwo,
+                            error: _signInController.error.value),
+                      Obx(() {
+                        return _signInController.authenticated.value != ''
+                            ? GestureDetector(
+                                onTap: () {
+                                  _signInController.setLocalAuth(context);
+                                },
+                                child: AppImageAsset(
+                                  image: ImageConstants.faceId,
+                                  height: 35.px,
+                                ),
+                              )
+                            : const SizedBox.shrink();
+                      })
                     ],
                   ),
                 ),
@@ -121,7 +124,9 @@ class LoginView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             PreLoginCommonButton(
-              onTap: () =>  !_signInController.isButtonDisabled.value?_signInController.onTapLoginSubmit(context):null,
+              onTap: () => !_signInController.isButtonDisabled.value
+                  ? _signInController.onTapLoginSubmit(context)
+                  : null,
               title: 'login'.tr,
               height: 15.px,
               isDisable: _signInController.isButtonDisabled.value,
