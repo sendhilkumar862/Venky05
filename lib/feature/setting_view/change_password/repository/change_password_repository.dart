@@ -1,4 +1,4 @@
-import 'package:hessah/Request/change_password_request.dart';
+import 'package:hessah/feature/setting_view/change_password/model/change_password_request.dart';
 import 'package:hessah/core/backend_service.dart';
 import 'package:hessah/core/base_response.dart';
 

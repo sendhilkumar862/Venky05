@@ -1,10 +1,10 @@
-import '../Request/sign_in_request.dart';
-import '../core/api_end_points.dart';
-import '../core/backend_service.dart';
-import '../core/base_request.dart';
-import '../core/base_response.dart';
-import '../core/hessah_exception.dart';
-import '../product/constants/enums/backend_services_method_enums.dart';
+import '../../login/model/sign_in_request.dart';
+import '../../../../core/api_end_points.dart';
+import '../../../../core/backend_service.dart';
+import '../../../../core/base_request.dart';
+import '../../../../core/base_response.dart';
+import '../../../../core/hessah_exception.dart';
+import '../../../../product/constants/enums/backend_services_method_enums.dart';
 
 class ProfileSetRepository {
   Future<BaseResponse> profileSet() async {

@@ -5,7 +5,7 @@ import '../../../../core/base_response.dart';
 import '../../../../custom/loader/easy_loader.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
-import '../../../../repository/profile_set_repository.dart';
+import '../repository/profile_set_repository.dart';
 import '../../onboarding/Controller/onboading_controller.dart';
 import '../../onboarding/view/onboading_view.dart';
 import '../model/about_model.dart';
