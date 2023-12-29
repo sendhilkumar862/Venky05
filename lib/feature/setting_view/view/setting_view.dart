@@ -340,7 +340,7 @@ class _SettingViewState extends State<SettingView> {
                   : Center(
                       child: Text(
                           '${_homeController.homeData.value?.firstName ?? ''} ${_homeController.homeData.value?.lastName ?? ''}'
-                              .extractInitials('TU'),
+                              .extractInitials(),
                           style: openSans.get20.w700.white)),
             ),
           ),

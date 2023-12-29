@@ -26,7 +26,7 @@ class HessaAppBar extends PreferredSize {
       this.trailingTap,
       this.isPro = false,
       this.isBack = true,
-        this.isSearchIconShown=true,
+      this.isSearchIconShown = true,
       this.onCallTap,
       this.trailingWidget,
       this.reviewStarLength = 0,
@@ -54,12 +54,13 @@ class HessaAppBar extends PreferredSize {
   final GestureTapCallback? onCallTap;
   final bool? isReviewStar;
   final int? reviewStarLength;
-  final HomeController _homeController=Get.put(HomeController());
+  final HomeController _homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
     double statusBarHeight = MediaQuery.of(context).padding.top;
-    double appBarHeight = kToolbarHeight + statusBarHeight; // Adjusted for status bar
+    double appBarHeight =
+        kToolbarHeight + statusBarHeight; // Adjusted for status bar
     return Container(
       alignment: Alignment.centerLeft,
       height: appBarHeight + 30,
@@ -77,17 +78,19 @@ class HessaAppBar extends PreferredSize {
               elevation: 0,
               actions: <Widget>[
                 TextButton(
-                    onPressed: trailingTap??()=> AppRouter.pop(),
+                    onPressed: trailingTap ?? () => AppRouter.pop(),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: Text(
                         trailingText ?? '',
-                        style: openSans.get12.w600.textColor(AppColors.appTextColor),
+                        style: openSans.get12.w600
+                            .textColor(AppColors.appTextColor),
                       ),
                     )),
                 Padding(
                   padding: EdgeInsets.only(right: 0.px),
-                  child: InkWell(onTap: trailingTap, child: trailingWidget ?? SizedBox()),
+                  child: InkWell(
+                      onTap: trailingTap, child: trailingWidget ?? SizedBox()),
                 )
               ],
               leadingWidth: 0,
@@ -147,32 +150,45 @@ class HessaAppBar extends PreferredSize {
                         ),
                       ],
                     ),
-                    child: Obx(()=>
-                       SizedBox(height: 60,
+                    child: Obx(
+                      () => SizedBox(
+                        height: 60,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(500),
                           child: GestureDetector(
                             onTap: onProfileTap,
-                            child:  _homeController.homeData.value?.imageId!=null && _homeController.homeData.value!.imageId!.isNotEmpty?AppImageAsset(
-                              image: _homeController.homeData.value?.imageId?.getImageUrl('profile')??'',
-                              fit: BoxFit.fill,
-                            ):Container(
-                                decoration: BoxDecoration(
-                                  color: AppColors.appProfile,
-                                  borderRadius: BorderRadius.circular(50),
-                                  boxShadow: <BoxShadow>[
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.2),
-                                      spreadRadius: 2,
-                                      blurRadius: 4,
-                                      offset:
-                                      const Offset(0, 2), // changes the position of the shadow
+                            child: _homeController.homeData.value?.imageId !=
+                                        null &&
+                                    _homeController
+                                        .homeData.value!.imageId!.isNotEmpty
+                                ? AppImageAsset(
+                                    image: _homeController
+                                            .homeData.value?.imageId
+                                            ?.getImageUrl('profile') ??
+                                        '',
+                                    fit: BoxFit.fill,
+                                  )
+                                : Container(
+                                    decoration: BoxDecoration(
+                                      color: AppColors.appProfile,
+                                      borderRadius: BorderRadius.circular(50),
+                                      boxShadow: <BoxShadow>[
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          spreadRadius: 2,
+                                          blurRadius: 4,
+                                          offset: const Offset(0,
+                                              2), // changes the position of the shadow
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                width: 65,
-                                height: 65,
-                                child:Center(child: Text('${_homeController.homeData.value?.firstName ?? ''} ${_homeController.homeData.value?.lastName ?? ''}'.extractInitials('TU'), style: openSans.get20.w700.white))),
+                                    width: 65,
+                                    height: 65,
+                                    child: Center(
+                                        child: Text(
+                                            '${_homeController.homeData.value?.firstName ?? ''} ${_homeController.homeData.value?.lastName ?? ''}'
+                                                .extractInitials(),
+                                            style: openSans.get20.w700.white))),
                           ),
                         ),
                       ),
@@ -201,7 +217,8 @@ class HessaAppBar extends PreferredSize {
                       if (isPro!) const SizedBox(height: 4),
                       if (isPro!)
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 3.px, horizontal: 8.px),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 3.px, horizontal: 8.px),
                           decoration: BoxDecoration(
                             color: AppColors.appDarkBlack,
                             borderRadius: BorderRadius.circular(30.px),
@@ -228,13 +245,16 @@ class HessaAppBar extends PreferredSize {
                     ],
                   ),
                   const Spacer(),
-                  if (isSearchIconShown) GestureDetector(
-                    onTap: onSearchTap,
-                    child: const AppImageAsset(
-                      image: ImageConstants.searchIcon,
-                      height: 25,
-                    ),
-                  ) else const SizedBox.shrink(),
+                  if (isSearchIconShown)
+                    GestureDetector(
+                      onTap: onSearchTap,
+                      child: const AppImageAsset(
+                        image: ImageConstants.searchIcon,
+                        height: 25,
+                      ),
+                    )
+                  else
+                    const SizedBox.shrink(),
                   const SizedBox(
                     width: 18,
                   ),
