@@ -115,7 +115,7 @@ class OnboardingView extends StatelessWidget {
               title: 'join'.tr,
               isDisable: false,
               onPressed: () {
-                AppRouter.push(const EmailView());
+                AppRouter.push( EmailView());
               },
             ),
             SizedBox(height: 15.px),

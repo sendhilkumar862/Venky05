@@ -1,103 +1,95 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobx/mobx.dart';
 
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
-import '../../../../product/base/model/base_view_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 
-part 'user_info_view_model.g.dart';
-
-class UserInfoViewModel = _UserInfoViewModelBase with _$UserInfoViewModel;
-
-abstract class _UserInfoViewModelBase extends BaseViewModel with Store {
-  @override
-  void setContext(BuildContext context) => viewModelContext = context;
+class UserInfoController extends GetxController{
 
   @override
-  void init() {
+  void onInit() {
+    super.onInit();
     KeyValueStorageBase.init();
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-     currentProfile = keyValueStorageBase.getCommon(String,KeyValueStorageService.profile) ?? '';
+    currentProfile.value = keyValueStorageBase.getCommon(String,KeyValueStorageService.profile) ?? '';
 
   }
 
-  @observable
-  Map data = <String, dynamic>{};
 
-  @observable
-  String currentProfile = '';
+  RxMap data = <String, dynamic>{}.obs;
 
-  @observable
+
+  RxString currentProfile = ''.obs;
+
+
   TextEditingController firstNameController = TextEditingController();
 
-  @observable
+
   TextEditingController lastNameController = TextEditingController();
 
-  @observable
-  String firstNameErrorText = '';
 
-  @observable
-  String lastNameErrorText = '';
+  RxString firstNameErrorText = ''.obs;
 
-  @observable
-  int firstNameValid = 2;
 
-  @observable
-  int lastNameValid = 2;
+  RxString lastNameErrorText = ''.obs;
+
+
+  RxInt firstNameValid = 2.obs;
+
+
+  RxInt lastNameValid = 2.obs;
 
   final Map<String, dynamic> arguments = <String, dynamic>{};
 
-  @observable
-  bool isActiveSwitch = false;
 
-  @action
+  RxBool isActiveSwitch = false.obs;
+
+
   void onTapSwitch() {
-    isActiveSwitch = !isActiveSwitch;
+    isActiveSwitch.value = !isActiveSwitch.value;
     arguments['hideUserName'] = isActiveSwitch;
     logs('isActiveSwitch-->$isActiveSwitch');
   }
 
-  @action
+
   void validateFirstName(String value) {
     if (value!.isEmpty) {
-      firstNameValid = 0;
-      firstNameErrorText = 'pleaseEnterFirstName'.tr;
+      firstNameValid.value = 0;
+      firstNameErrorText.value = 'pleaseEnterFirstName'.tr;
     } else if (Regexes.validateRegEx(
         firstNameController.text, Regexes.nameRegex)) {
-      firstNameValid = 0;
+      firstNameValid.value = 0;
 
-      firstNameErrorText = 'enterValidName'.tr;
+      firstNameErrorText.value = 'enterValidName'.tr;
     } else {
-      firstNameValid = 1;
-      firstNameErrorText = '';
+      firstNameValid.value = 1;
+      firstNameErrorText.value = '';
       logs('error--> $firstNameErrorText');
     }
   }
 
-  @action
+
   void validateLastName(String value) {
     if (value!.isEmpty) {
-      lastNameValid = 0;
-      lastNameErrorText = 'Please enter Last Name';
+      lastNameValid.value = 0;
+      lastNameErrorText.value = 'Please enter Last Name';
     } else if (Regexes.validateRegEx(
         lastNameController.text, Regexes.nameRegex)) {
-      lastNameValid = 0;
+      lastNameValid.value = 0;
 
-      lastNameErrorText = 'enterValidLastname';
+      lastNameErrorText.value = 'enterValidLastname';
     } else {
-      lastNameValid = 1;
-      lastNameErrorText = '';
+      lastNameValid.value = 1;
+      lastNameErrorText.value = '';
       logs('error--> $lastNameErrorText');
     }
   }
 
-  @action
+
   void onTapSubmitUserInfo() {
     if (firstNameValid == 1 && lastNameValid == 1) {
       arguments['userId'] = data['userId'];
@@ -108,7 +100,7 @@ abstract class _UserInfoViewModelBase extends BaseViewModel with Store {
     }
   }
 
-  @action
+
   bool isDisableUserInfoSubmit() {
     if (firstNameValid == 1 && lastNameValid == 1) {
       return false;

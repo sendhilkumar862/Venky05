@@ -1,10 +1,7 @@
 import 'package:dio/dio.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
-import 'package:mobx/mobx.dart';
 
-import '../../../../product/base/model/base_view_model.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../custom/loader/easy_loader.dart';
@@ -12,73 +9,67 @@ import '../../../product/constants/app/app_utils.dart';
 import '../../../product/utils/validators.dart';
 import '../model/response_model/reset_pass_email_response_model.dart';
 
-part 'tutorial_view_model.g.dart';
+class TutorialController extends GetxController{
 
-class TutorialViewModel = _TutorialViewModelBase with _$TutorialViewModel;
 
-abstract class _TutorialViewModelBase extends BaseViewModel with Store {
-  @override
-  void setContext(BuildContext context) => viewModelContext = context;
 
-  @override
-  void init() {}
 
-  @observable
-  String errors = '';
 
-  @observable
-  int selectedIndex = -1;
+  RxString errors = ''.obs;
 
-  @observable
+
+  // RxInt selectedIndex = -1.obs;
+
+
   TextEditingController firstNameController = TextEditingController();
 
-  @observable
-  ResetPassEmailResponseModel resetPassEmailResponseModel =
-      ResetPassEmailResponseModel();
 
-  @observable
+  Rx<ResetPassEmailResponseModel> resetPassEmailResponseModel =
+  ResetPassEmailResponseModel().obs;
+
+
   TextEditingController forgotEmailController = TextEditingController();
 
-  @observable
+
   TextEditingController emailController = TextEditingController();
 
-  @observable
+
   TextEditingController lastNameController = TextEditingController();
 
-  @observable
+
   List profileItems = <String>['Teacher', 'Parent/Student'];
 
-  @observable
-  bool isButtonDisabled = true;
 
-  @observable
-  int emailValid = 2;
+  RxBool isButtonDisabled = true.obs;
 
-  @observable
-  String emailErrorText = '';
 
-  @action
+  RxInt emailValid = 2.obs;
+
+
+  RxString emailErrorText = ''.obs;
+
+
   void validateEmail(String value) {
     if (value.isEmpty) {
-      emailValid = 0;
-      emailErrorText = 'pleaseEnter'.tr;
+      emailValid.value = 0;
+      emailErrorText.value = 'pleaseEnter'.tr;
     } else if (Regexes.validateRegEx(
         forgotEmailController.text, Regexes.emailRegex)) {
-      emailValid = 0;
-      emailErrorText = 'enterValidEmail'.tr;
+      emailValid.value = 0;
+      emailErrorText.value = 'enterValidEmail'.tr;
     } else {
-      emailValid = 1;
-      emailErrorText = '';
+      emailValid.value = 1;
+      emailErrorText.value = '';
     }
 
     if (emailValid != 1) {
-      isButtonDisabled = true;
+      isButtonDisabled.value = true;
     } else {
-      isButtonDisabled = false;
+      isButtonDisabled.value = false;
     }
   }
 
-  @action
+
   Future<void> forgotPassword() async {
     showLoading();
     final Dio dio = Dio();
@@ -93,7 +84,7 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
       );
       if (response.data['status']['type'] == 'success') {
         hideLoading();
-        resetPassEmailResponseModel =
+        resetPassEmailResponseModel.value =
             ResetPassEmailResponseModel.fromJson(response.data);
         AppRouter.pushNamed(Routes.restPassword);
       } else {
@@ -102,11 +93,11 @@ abstract class _TutorialViewModelBase extends BaseViewModel with Store {
       }
     } on DioException catch (error) {
       hideLoading();
-      resetPassEmailResponseModel =
+      resetPassEmailResponseModel.value =
           ResetPassEmailResponseModel.fromJson(error.response!.data);
-      errors = resetPassEmailResponseModel.status!.message!;
+      errors.value = resetPassEmailResponseModel.value.status!.message!;
 
-      logs('data --> ${resetPassEmailResponseModel.status!.message}');
+      logs('data --> ${resetPassEmailResponseModel.value.status!.message}');
     }
   }
 }
