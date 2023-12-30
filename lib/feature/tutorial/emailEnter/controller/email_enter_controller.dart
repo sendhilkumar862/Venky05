@@ -1,18 +1,21 @@
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get.dart' hide Response;
+import 'package:get/get.dart';
 
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
+import '../../../../core/base_response.dart';
 import '../../../../custom/loader/easy_loader.dart';
-import '../../../../product/base/model/base_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/enums/app_register_status_enums.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 import '../model/email_enter_model.dart';
+import '../model/email_enter_request.dart';
+import '../repository/register_mail_repository.dart';
+import '../repository/sent_OTP_repository.dart';
 
 class EmailEnterController extends GetxController{
 
@@ -24,6 +27,8 @@ class EmailEnterController extends GetxController{
   }
 
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+  final RegisterMailRepositoryRepository _registerMailRepositoryRepository=RegisterMailRepositoryRepository();
+  final SendOTPRepositoryRepository _sendOTPRepositoryRepository =SendOTPRepositoryRepository();
 
 
   Map<String, dynamic> arguments = <String, dynamic>{
@@ -32,101 +37,67 @@ class EmailEnterController extends GetxController{
   };
 
 
-  Rx<EmailEnterModel> data = EmailEnterModel().obs;
-
+  Rx<EmailEnterModel> data = const EmailEnterModel().obs;
 
   Future<void> registerMail() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    Dio dio = Dio();
-    try {
-      final Map<String, dynamic> body = <String, dynamic>{
-        'email': emailController.text,
-        'role': keyValueStorageBase.getCommon(String, KeyValueStorageService.profile),
-      };
-      logs(body.toString());
-      final Response response = await dio.post(
-        'http://167.99.93.83/api/v1/users/register/email',
-        data: body,
-      );
-
-      if (response.statusCode == 200) {
-        EasyLoading.dismiss();
-        final BaseResponse<EmailEnterModel> baseResponse =
-        BaseResponse<EmailEnterModel>.fromJson(response.data, EmailEnterModel.fromJson);
-        if (baseResponse.status.type == 'success') {
-          arguments['userId'] = baseResponse.data.item?.userId ?? '';
-          final Object status = baseResponse.data.item?.status ?? '';
-          if (status == RegistrationStatus.MOBILE.value) {
-            AppRouter.pushNamed(Routes.mobileView, args: arguments);
-          } else if (status == RegistrationStatus.EMAIL.value) {
-            sendOTP(baseResponse.data.item!.userId.toString());
-          } else if (status == RegistrationStatus.PROFILE_INCOMPLETE.value) {
-            AppRouter.pushNamed(Routes.userInfoView, args: arguments);
-          } else {
-            registerWarning.value = true;
-            registerWarningMessage.value = 'The email address you provided is already registered in our system.';
-          }
-        } else {
-          registerWarning.value = true;
-          registerWarningMessage.value = baseResponse.status.message;
-        }
+    final BaseResponse registerEmailResponse = await _registerMailRepositoryRepository.registerMail(
+        emailEnterModel: EmailEnterRequest(role:keyValueStorageBase.getCommon(String, KeyValueStorageService.profile),email: emailController.text, )
+       );
+    if (registerEmailResponse.status?.type == 'success') {
+      var emailRegisterData=registerEmailResponse.data!.item! as Map<String, dynamic>;
+      final EmailEnterModel emailEnterModel=EmailEnterModel.fromJson(emailRegisterData);
+      arguments['userId'] = emailEnterModel.userId ?? '';
+      final Object status = emailEnterModel.status ?? '';
+      if (status == RegistrationStatus.MOBILE.value) {
+        AppRouter.pushNamed(Routes.mobileView, args: arguments);
+      } else if (status == RegistrationStatus.EMAIL.value) {
+        sendOTP(emailEnterModel.userId.toString());
+      } else if (status == RegistrationStatus.PROFILE_INCOMPLETE.value) {
+        AppRouter.pushNamed(Routes.userInfoView, args: arguments);
       } else {
-        EasyLoading.dismiss();
-        logs('error not response');
+        registerWarning.value = true;
+        registerWarningMessage.value = 'The email address you provided is already registered in our system.';
       }
-    } on DioException catch (error) {
-      EasyLoading.dismiss();
-      final BaseResponse<EmailEnterModel> baseResponse =
-      BaseResponse<EmailEnterModel>.fromJson(error.response!.data, EmailEnterModel.fromJson);
-      registerWarning.value = baseResponse.status!.type == 'error';
-      registerWarningMessage.value = baseResponse.status!.message!;
-      logs('registerMail error --> $registerWarning');
+    } else {
+      registerWarning.value = true;
+      registerWarningMessage.value = registerEmailResponse.status?.message??'';
     }
+    EasyLoading.dismiss();
   }
-
 
   Future<void> sendOTP(String id) async {
     showLoading();
-    logs('Send OTP Entered');
-    final Dio dio = Dio();
-    try {
-      final Map body = <String, dynamic>{
-        'userId': id,
-      };
-      logs('body--> $body');
-      final Response response = await dio.post(
-        'http://167.99.93.83/api/v1/users/email/send-otp',
-        data: body,
+    final BaseResponse sendOTPResponse = await _sendOTPRepositoryRepository.sendOTP(
+        id:id
+    );
+    if (sendOTPResponse.status?.type == 'success') {
+      final Map<String, dynamic> emailRegisterData=sendOTPResponse.data!.item! as Map<String, dynamic>;
+      arguments['otp_id'] = emailRegisterData['otp_id'];
+      arguments['isScreen'] = true;
+      arguments['isPreLogin'] = true;
+      arguments['email']=emailController.text;
+      //   arguments['contact'] = emailController.text;
+
+      AppRouter.pushNamed(Routes.verifyOtpView, args: arguments);
+      AppUtils.showFlushBar(
+        icon: Icons.check_circle_outline_rounded,
+        iconColor: Colors.green,
+        context: AppRouter.navigatorKey.currentContext!,
+        message: sendOTPResponse.status?.message ?? 'Error occured',
       );
-      logs('status Code --> ${response.statusCode}');
-      if (response.statusCode == 200) {
-        EasyLoading.dismiss();
 
-        registerWarning.value = response!.data['status']['type'] == 'error';
-        arguments['otp_id'] = response.data['data']['item']['otp_id'];
-        arguments['isScreen'] = true;
-        arguments['isPreLogin'] = true;
-        arguments['email']=emailController.text;
-        //   arguments['contact'] = emailController.text;
-
-        AppRouter.pushNamed(Routes.verifyOtpView, args: arguments);
-        AppUtils.showFlushBar(
-          icon: Icons.check_circle_outline_rounded,
-          iconColor: Colors.green,
-          context: AppRouter.navigatorKey.currentContext!,
-          message: response.data['status']['message'] ?? 'Error occured',
-        );
-      } else {
-        EasyLoading.dismiss();
-        logs('error not response');
-      }
-    } on DioException catch (error) {
-      EasyLoading.dismiss();
-      registerWarning.value = error.response!.data['status']['type'] == 'error';
-      registerWarningMessage = error.response!.data['status']['message'];
-      logs('error message--> ${error.response!.data['status']['message']}');
-      logs('SendOtp error');
+    } else {
+      registerWarning.value = true;
+      registerWarningMessage.value = sendOTPResponse.status?.message ?? 'Error occured';
+      AppUtils.showFlushBar(
+        icon: Icons.check_circle_outline_rounded,
+        iconColor: Colors.red,
+        context: AppRouter.navigatorKey.currentContext!,
+        message: sendOTPResponse.status?.message ?? 'Error occured',
+      );
     }
+    EasyLoading.dismiss();
   }
 
 

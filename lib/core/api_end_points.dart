@@ -71,6 +71,13 @@ class ApiEndpoint {
         return '$path/preference';
       case AuthEndpoint.DASHBOARD_DETAIL:
         return '$path/dashboard/details';
+      case AuthEndpoint.REGISTER_EMAIL:
+        return '$path/register/email';
+      case AuthEndpoint.REGISTER_EMAIL:
+        return '$path/register/email';
+      case AuthEndpoint.SEND_OTP:
+        return '$path/email/send-otp';
+
     }
   }
 
@@ -197,6 +204,12 @@ enum AuthEndpoint {
 
   /// An endpoint for get dashboard detail
   DASHBOARD_DETAIL,
+
+  /// An endpoint for register email
+  REGISTER_EMAIL,
+
+  /// An endpoint for send otp
+  SEND_OTP,
 }
 
 /// A collection of endpoints used for authentication purposes.

@@ -135,14 +135,4 @@ class SignInController extends GetxController {
     }
     EasyLoading.dismiss();
   }
-
-  Future<void> logOut() async {}
-
-  Future<void> skipLogOut() async {}
-
-  Future<void> deleteAccount() async {}
-
-  Future<void> forgotPassword(String email) async {}
-
-  Future<void> validateToken(String token, String email) async {}
 }

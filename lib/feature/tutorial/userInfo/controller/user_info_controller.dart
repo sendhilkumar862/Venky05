@@ -57,7 +57,7 @@ class UserInfoController extends GetxController{
 
 
   void validateFirstName(String value) {
-    if (value!.isEmpty) {
+    if (value.isEmpty) {
       firstNameValid.value = 0;
       firstNameErrorText.value = 'pleaseEnterFirstName'.tr;
     } else if (Regexes.validateRegEx(
@@ -74,7 +74,7 @@ class UserInfoController extends GetxController{
 
 
   void validateLastName(String value) {
-    if (value!.isEmpty) {
+    if (value.isEmpty) {
       lastNameValid.value = 0;
       lastNameErrorText.value = 'Please enter Last Name';
     } else if (Regexes.validateRegEx(
@@ -91,7 +91,7 @@ class UserInfoController extends GetxController{
 
 
   void onTapSubmitUserInfo() {
-    if (firstNameValid == 1 && lastNameValid == 1) {
+    if (firstNameValid.value == 1 && lastNameValid.value == 1) {
       arguments['userId'] = data['userId'];
       arguments['firstName'] = firstNameController.text;
       arguments['lastName'] = lastNameController.text;
@@ -102,7 +102,7 @@ class UserInfoController extends GetxController{
 
 
   bool isDisableUserInfoSubmit() {
-    if (firstNameValid == 1 && lastNameValid == 1) {
+    if (firstNameValid.value == 1 && lastNameValid.value == 1) {
       return false;
     } else {
       return true;
