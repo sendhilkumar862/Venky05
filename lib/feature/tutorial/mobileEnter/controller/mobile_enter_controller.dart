@@ -1,18 +1,20 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get.dart' hide Response;
+import 'package:get/get.dart';
 
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
+import '../../../../core/base_response.dart';
 import '../../../../custom/loader/easy_loader.dart';
-import '../../../../product/base/model/base_model.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
+import '../../../pre_login/personalInfo/repository/get_country_repository.dart';
 import '../model/country_code_model.dart';
 import '../model/enter_mobile_model.dart';
+import '../repository/mobile_otp_repository.dart';
+import '../requestModel/mobile_enter_request.dart';
 
 class MobileEnterController extends GetxController{
 
@@ -28,10 +30,8 @@ class MobileEnterController extends GetxController{
         .split(',');
   }
 
-
-  Map data = {};
-
-
+  final GetCountryRepository _countryRepository =GetCountryRepository();
+  final MobileOTPSendRepository _mobileOTPSendRepository=MobileOTPSendRepository();
   TextEditingController mobileController = TextEditingController();
 
 
@@ -58,52 +58,39 @@ class MobileEnterController extends GetxController{
 
 
   Future<void> sendOTP() async {
-
     showLoading();
-    // viewModelContext.loaderOverlay.show();
-    Dio dio = Dio();
-    try {
-      Map body = <String, String>{
-        'userId': data['userId'].toString(),
-        'mobile': mobileController.text,
-        'countryCode': selectedCountryCode.replaceAll('+', '')
-      };
-
-      final Response response = await dio.post(
-        'http://167.99.93.83/api/v1/users/mobile/send-otp',
-        data: body,
+    final BaseResponse sendOTPResponse = await _mobileOTPSendRepository.mobileOTPSend(
+        mobileEnterRequest: MobileEnterRequest(mobile:mobileController.text,countryCode:selectedCountryCode.replaceAll('+', ''),userId:  arguments['userId'].toString(),)
+    );
+    if (sendOTPResponse.status?.type == 'success') {
+      final Map<String, dynamic> mobileOTPData=sendOTPResponse.data!.item! as Map<String, dynamic>;
+      final EnterMobileModel enterMobileModel=EnterMobileModel.fromJson(mobileOTPData);
+      AppUtils.showFlushBar(
+          icon: Icons.check_circle_outline_rounded,
+          iconColor: Colors.green,
+          context: AppRouter.navigatorKey.currentContext!,
+          message: sendOTPResponse.status?.message??'');
+      arguments['userId'] = arguments['userId'].toString();
+      arguments['otp_id'] = enterMobileModel.otpId ?? '';
+      arguments['mobile'] = mobileController.text.trim();
+      arguments['countryCode'] = selectedCountryCode.replaceAll('+', '');
+      arguments['isMobileUpdation']=false;
+      Future.delayed(
+          const Duration(milliseconds: 1000),
+              () => AppRouter.pushNamed(Routes.verifyOtpView, args: arguments)
       );
-      if (response.statusCode == 200) {
-        hideLoading();
-        final BaseResponse<EnterMobileModel> baseResponse =
-        BaseResponse<EnterMobileModel>.fromJson(response.data, EnterMobileModel.fromJson);
-        if (baseResponse.status.type == 'success') {
-          AppUtils.showFlushBar(
-              icon: Icons.check_circle_outline_rounded,
-              iconColor: Colors.green,
-              context: AppRouter.navigatorKey.currentContext!,
-              message: baseResponse.status.message);
-          arguments['userId'] = data['userId'].toString();
-          arguments['otp_id'] = baseResponse.data.item?.otpId ?? '';
-          arguments['mobile'] = mobileController.text.trim();
-          arguments['countryCode'] = selectedCountryCode.replaceAll('+', '');
-          arguments['isMobileUpdation']=false;
-          Future.delayed(
-              const Duration(milliseconds: 1000),
-                  () => AppRouter.pushNamed(Routes.verifyOtpView, args: arguments)
-          );
-        } else {
-          responseError.value = baseResponse.status.message;
-        }
-      } else {
-        hideLoading();
-        responseError.value = 'Some Error Occurred';
-      }
-    } on DioException {
-      hideLoading();
-    }
-  }
 
+    } else {
+      responseError.value = sendOTPResponse.status?.message??'';
+      AppUtils.showFlushBar(
+        icon: Icons.check_circle_outline_rounded,
+        iconColor: Colors.red,
+        context: AppRouter.navigatorKey.currentContext!,
+        message: sendOTPResponse.status?.message ?? 'Error occured',
+      );
+    }
+    EasyLoading.dismiss();
+  }
 
   void validateMobile(String value) {
     responseError.value = '';
@@ -142,26 +129,19 @@ class MobileEnterController extends GetxController{
 
   Future<void> fetchData() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    Dio dio = Dio();
-    try {
-      Response response =
-      await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
-
-      if (response.statusCode == 200) {
-        EasyLoading.dismiss();
-        final List<dynamic> countriesJson = response.data['data']['items'];
-        countries.value = countriesJson
-            .map((json) => CountryCodeModel.fromJson(json))
-            .toList();
-        tempList = countriesJson
-            .map((json) => CountryCodeModel.fromJson(json))
-            .toList();
-        selectedCountry = countries.firstWhere(
-                (CountryCodeModel element) => element.idd_code == '+965');
-      }
-    } catch (error) {
-      EasyLoading.dismiss();
+    final BaseResponse countryData = await _countryRepository.getCountry();
+    if (countryData.status?.type == 'success') {
+      final List<dynamic> countriesJson =countryData.data!.item as List<dynamic>;
+      countries.value = countriesJson
+          .map((json) => CountryCodeModel.fromJson(json))
+          .toList();
+      tempList = countriesJson
+          .map((json) => CountryCodeModel.fromJson(json))
+          .toList();
+      selectedCountry = countries.firstWhere(
+              (CountryCodeModel element) => element.idd_code == '+965');
     }
+    EasyLoading.dismiss();
   }
 
 
@@ -174,19 +154,19 @@ class MobileEnterController extends GetxController{
   int languageIndex = 1;
 
 
-  int countryIndex = 118;
+  RxInt countryIndex = 118.obs;
 
 
   TextEditingController countryController = TextEditingController();
 
 
   void selectCountry(int index) {
-    countryIndex = index;
+    countryIndex.value = index;
   }
 
 
   void filterCountries(String query, Function setState) {
-    countryIndex = 0;
+    countryIndex.value = 0;
     countries.value = countries
         .where((CountryCodeModel country) =>
     country.name?.toLowerCase().contains(query.toLowerCase()) ??

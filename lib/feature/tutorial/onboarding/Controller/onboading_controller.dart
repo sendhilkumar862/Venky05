@@ -8,33 +8,33 @@ class OnBoadingController extends GetxController {
 
   PageController pageController = PageController();
 
-  List studentAnimation = <String>[
+  List<String> studentAnimation = <String>[
     ImageConstants.onlineStudy,
     ImageConstants.book,
     ImageConstants.education,
   ];
 
-  List teacherAnimation = <String>[
+  List<String> teacherAnimation = <String>[
     ImageConstants.onlineStudy,
     ImageConstants.education,
     ImageConstants.timetable,
   ];
 
-  List studentTitle = <String>['exploreClasses'.tr, 'book'.tr, 'startClass'.tr];
+  List<String> studentTitle = <String>['exploreClasses'.tr, 'book'.tr, 'startClass'.tr];
 
-  List teacherTitle = [
+  List<String> teacherTitle = [
     'submitProposalTeacher'.tr,
     'startClass'.tr,
     'setAvailableTimes'.tr
   ];
 
-  List studentSubtitle = <String>[
+  List<String> studentSubtitle = <String>[
     'explore'.tr,
     'cantFind'.tr,
     'bookClasses'.tr
   ];
 
-  List teacherSubtitle = <String>[
+  List<String> teacherSubtitle = <String>[
     'exploreClassesCreated'.tr,
     'createAndClasses'.tr,
     'setAndGive'.tr

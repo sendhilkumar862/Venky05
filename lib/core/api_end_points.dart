@@ -75,9 +75,16 @@ class ApiEndpoint {
         return '$path/register/email';
       case AuthEndpoint.REGISTER_EMAIL:
         return '$path/register/email';
-      case AuthEndpoint.SEND_OTP:
+      case AuthEndpoint.EMAIL_OTP:
         return '$path/email/send-otp';
-
+      case AuthEndpoint.MOBILE_OTP:
+        return '$path/mobile/send-otp';
+      case AuthEndpoint.VERIFY_MOBILE_OTP:
+        return '$path/mobile/verify-otp';
+      case AuthEndpoint.VERIFY_EMAIL_OTP:
+        return '$path/email/verify-otp';
+      case AuthEndpoint.RESET_PASSWORD:
+        return '$path/request-reset';
     }
   }
 
@@ -208,8 +215,20 @@ enum AuthEndpoint {
   /// An endpoint for register email
   REGISTER_EMAIL,
 
-  /// An endpoint for send otp
-  SEND_OTP,
+  /// An endpoint for send otp email
+  EMAIL_OTP,
+
+  /// An endpoint for send otp mobile
+  MOBILE_OTP,
+
+  /// An endpoint for verify mobile otp
+  VERIFY_MOBILE_OTP,
+
+  /// An endpoint for verify email otp
+  VERIFY_EMAIL_OTP,
+
+  /// An endpoint for reset password
+  RESET_PASSWORD
 }
 
 /// A collection of endpoints used for authentication purposes.

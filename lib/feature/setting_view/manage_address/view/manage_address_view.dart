@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../../../config/routes/app_router.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/appbar/appbar.dart';
+import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
 import '../../add_address_screen/Model/request_address_model.dart' ;
@@ -129,7 +130,15 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
                     children: <Widget>[
                       GestureDetector(
                         onTap: (){
-                          _manageAddressController.deleteAddressData(data.id!);
+                          if(data.isDefault == 1){
+                            AppUtils.showFlushBar(
+                              context: AppRouter.navigatorKey.currentContext!,
+                              message: 'Can not delete default address',
+                            );
+                          }else{
+                            _manageAddressController.deleteAddressData(data.id!);
+                          }
+
                         },
                         child: iconButtonWidget(
                           icon: Icons.delete_outline_rounded,

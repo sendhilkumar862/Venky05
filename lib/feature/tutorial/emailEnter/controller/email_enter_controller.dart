@@ -14,8 +14,9 @@ import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 import '../model/email_enter_model.dart';
 import '../model/email_enter_request.dart';
+import '../repository/email_otp_repository.dart';
 import '../repository/register_mail_repository.dart';
-import '../repository/sent_OTP_repository.dart';
+
 
 class EmailEnterController extends GetxController{
 
@@ -34,6 +35,7 @@ class EmailEnterController extends GetxController{
   Map<String, dynamic> arguments = <String, dynamic>{
     'userId': '',
     'otp_id': '',
+    'isScreen': false,
   };
 
 

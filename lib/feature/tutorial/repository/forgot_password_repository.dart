@@ -6,15 +6,14 @@ import '../../../../core/base_request.dart';
 import '../../../../core/base_response.dart';
 import '../../../../core/hessah_exception.dart';
 import '../../../../product/constants/enums/backend_services_method_enums.dart';
-import '../model_request/verify_otp_request_model.dart';
 
 
-class VerifyOTPRepository {
-  Future<BaseResponse> verifyOTPSend(
-      {required VerifyOTPRequestModel verifyOTPRequestModel, required bool isMobile}) async {
+class ForgotPasswordRepository {
+  Future<BaseResponse> forgotPassword(
+      {required String email}) async {
     try {
       return await BackendService.post(
-          VerifyOTPAPIRequest(verifyOTPRequestModel: verifyOTPRequestModel,isMobile:isMobile ));
+          ForgotPasswordAPIRequest(email: email ));
     } catch (e) {
       if (e is HessahException) {
         return BaseResponse(status: Status(type: 'error', message: 'Something went wrong'));
@@ -23,16 +22,16 @@ class VerifyOTPRepository {
     }
   }
 }
-class VerifyOTPAPIRequest extends BaseRequest {
-  VerifyOTPAPIRequest({required this.verifyOTPRequestModel,required this.isMobile});
-  final VerifyOTPRequestModel verifyOTPRequestModel;
-  final bool isMobile;
+class ForgotPasswordAPIRequest extends BaseRequest {
+  ForgotPasswordAPIRequest({required this.email});
+  final String email;
+
 
 
   @override
-  String get endPoint => ApiEndpoint.auth(isMobile?AuthEndpoint.VERIFY_MOBILE_OTP:AuthEndpoint.VERIFY_EMAIL_OTP);
+  String get endPoint => ApiEndpoint.auth(AuthEndpoint.RESET_PASSWORD);
   @override
-  Map<String, dynamic> get body => verifyOTPRequestModel.toJson();
+  Map<String, dynamic> get body => { 'email': email};
 
   @override
   // TODO: implement apiMethod

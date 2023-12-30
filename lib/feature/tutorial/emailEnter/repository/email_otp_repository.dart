@@ -4,16 +4,14 @@ import '../../../../core/base_request.dart';
 import '../../../../core/base_response.dart';
 import '../../../../core/hessah_exception.dart';
 import '../../../../product/constants/enums/backend_services_method_enums.dart';
-import '../requestModel/mobile_enter_request.dart';
 
 
-
-class MobileEnterRepository {
-  Future<BaseResponse> sign(
-      {required String userId, required int countryCode, required int mobileNumber}) async {
+class SendOTPRepositoryRepository {
+  Future<BaseResponse> sendOTP(
+      {required String id}) async {
     try {
       return await BackendService.post(
-          MobileEnterAPIRequest(userId: userId, countryCode: countryCode, mobileNumber: mobileNumber));
+          SendOTPAPIRequest(id: id, ));
     } catch (e) {
       if (e is HessahException) {
         return BaseResponse(status: Status(type: 'error', message: 'Something went wrong'));
@@ -22,19 +20,17 @@ class MobileEnterRepository {
     }
   }
 }
-class MobileEnterAPIRequest extends BaseRequest {
-  MobileEnterAPIRequest({required this.userId, required this.countryCode,required this.mobileNumber});
-  final String userId;
-  final int countryCode;
-  final int mobileNumber;
-
+class SendOTPAPIRequest extends BaseRequest {
+  SendOTPAPIRequest({required this.id, });
+  final String id;
   @override
-  String get endPoint => ApiEndpoint.auth(AuthEndpoint.CHANGE_NUMBER);
+  String get endPoint => ApiEndpoint.auth(AuthEndpoint.EMAIL_OTP);
   @override
-  Map<String, dynamic> get body => MobileEnterRequest(userId:userId, countryCode:countryCode , mobile: mobileNumber ).toJson();
+  Map<String, dynamic> get body => {
+    'userId': id,
+  };
 
   @override
   // TODO: implement apiMethod
   BackEndServicesEnum get apiMethod =>BackEndServicesEnum.POST;
 }
-

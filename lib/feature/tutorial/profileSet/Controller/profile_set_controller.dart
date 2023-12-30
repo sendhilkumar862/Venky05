@@ -44,11 +44,11 @@ class ProfileSetController extends GetxController {
 
   Future<void> fetchData() async {
     showLoading();
-    final BaseResponse signInResponse =
+    final BaseResponse profileResponse =
         await _profileSetRepository.profileSet();
-    if (signInResponse.status?.type == 'success') {
+    if (profileResponse.status?.type == 'success') {
       // ignore: always_specify_types
-      final List responseData = signInResponse.data!.item! as List;
+      final List responseData = profileResponse.data!.item! as List;
       data.clear();
       for (var element in responseData) {
         data.add(AboutModel.fromJson(element));

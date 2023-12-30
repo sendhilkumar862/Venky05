@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import '../../../setting_view/add_address_screen/controller/add_address_controller.dart';
-import '../controller/add_mobile_number_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_textformfield/text_field.dart';
@@ -12,12 +10,14 @@ import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../mobileEnter/controller/mobile_enter_controller.dart';
 import '../../view/bottomSheets/country_code_bottom_sheet.dart';
+import '../controller/add_mobile_number_controller.dart';
 
 class AddMobileNumberView extends StatelessWidget {
   AddMobileNumberView({super.key});
   final AddMobileNumberController _addMobileNumberController =Get.put(AddMobileNumberController());
-  final AddAddressController _addAddressController=Get.put(AddAddressController());
+  final MobileEnterController _mobileEnterController =Get.put(MobileEnterController());
   @override
   Widget build(BuildContext context) {
     return Obx(()=>
@@ -41,7 +41,7 @@ class AddMobileNumberView extends StatelessWidget {
                       children: [
                         SizedBox(height: 30.px),
                         TextFormsField(
-                          prefix: (_addMobileNumberController.countries.isNotEmpty)
+                          prefix: (_mobileEnterController.countries.isNotEmpty)
                               ? GestureDetector(
                             onTap: () {
                               showModalBottomSheet(
@@ -70,8 +70,8 @@ class AddMobileNumberView extends StatelessWidget {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(700),
                                   child: AppImageAsset(
-                                    image: _addAddressController
-                                        .countries[_addAddressController.countryIndex.value]
+                                    image: _mobileEnterController
+                                        .countries[_mobileEnterController.countryIndex.value]
                                         .flag_url ??
                                         ImageConstants.globe,
                                     fit: BoxFit.fill,
@@ -81,8 +81,8 @@ class AddMobileNumberView extends StatelessWidget {
                                 ),
                                 SizedBox(width: 6.px),
                                 AppText(
-                                  _addAddressController
-                                      .countries[_addAddressController.countryIndex.value].idd_code ??
+                                  _mobileEnterController
+                                      .countries[_mobileEnterController.countryIndex.value].idd_code ??
                                       'select',
                                   fontWeight: FontWeight.w400,
                                   fontSize: 14.px,

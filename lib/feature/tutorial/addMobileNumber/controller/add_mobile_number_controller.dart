@@ -1,16 +1,16 @@
-import 'package:dio/dio.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get.dart' hide Response;
+import 'package:get/get.dart';
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../core/base_response.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../home/controller/home_controller.dart';
-import '../../../setting_view/add_address_screen/controller/add_address_controller.dart';
 import '../../changeMobileNumber/model/country_code_model.dart';
+import '../../mobileEnter/controller/mobile_enter_controller.dart';
 import '../repository/add_mobile_repository.dart';
 
 
@@ -20,13 +20,11 @@ class AddMobileNumberController extends GetxController{
   final HomeController _homeController=Get.find();
 
   final AddMobileNumberRepository _addMobileNumberRepository=AddMobileNumberRepository();
-  final AddAddressController _addAddressController=Get.put(AddAddressController());
+ final MobileEnterController _mobileEnterController =Get.put(MobileEnterController());
 
   @override
   void onInit() {
     super.onInit();
-    _addAddressController.fetchData();
-    fetchData();
     KeyValueStorageBase.init();
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
     countryCode.value = keyValueStorageBase
@@ -70,7 +68,7 @@ class AddMobileNumberController extends GetxController{
 
   Future<void> sendOTP() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    final BaseResponse changeNumberResponse = await _addMobileNumberRepository.addMobileNumber(userId:_homeController.homeData.value!.userId!.toString(),mobileNumber: int.parse(mobileController.text ),countryCode:int.parse(_addAddressController.countries[_addAddressController.countryIndex.value].idd_code!), );
+    final BaseResponse changeNumberResponse = await _addMobileNumberRepository.addMobileNumber(userId:_homeController.homeData.value!.userId!.toString(),mobileNumber: int.parse(mobileController.text ),countryCode:int.parse(_mobileEnterController.countries[_mobileEnterController.countryIndex.value].idd_code!), );
     if (changeNumberResponse.status?.type == 'success') {
       arguments['userId']=_homeController.homeData.value?.userId??'';
       Map otpId=changeNumberResponse.data!.item! as Map;
@@ -80,7 +78,7 @@ class AddMobileNumberController extends GetxController{
       AppRouter.pushNamed(Routes.verifyOtpView,args: arguments);
     }
     else
-    {}
+    {mobileErrorText.value=changeNumberResponse.status?.message??'';}
     EasyLoading.dismiss();
   }
 
@@ -129,30 +127,6 @@ class AddMobileNumberController extends GetxController{
 
 
   List<CountryCodeModel> filteredCountries = <CountryCodeModel>[];
-
-  Future<void> fetchData() async {
-    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    Dio dio = Dio();
-    try {
-      Response response =
-      await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
-
-      if (response.statusCode == 200) {
-        EasyLoading.dismiss();
-        final List<dynamic> countriesJson = response.data['data']['items'];
-        countries.value = countriesJson
-            .map((json) => CountryCodeModel.fromJson(json))
-            .toList();
-        tempList = countriesJson
-            .map((json) => CountryCodeModel.fromJson(json))
-            .toList();
-        selectedCountry = countries.firstWhere(
-                (CountryCodeModel element) => element.idd_code == '+965');
-      }
-    } catch (error) {
-      EasyLoading.dismiss();
-    }
-  }
 
 
   CountryCodeModel? selectedCountry;
