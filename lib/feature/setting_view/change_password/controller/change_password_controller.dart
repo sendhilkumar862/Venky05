@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:hessah/feature/setting_view/change_password/repository/change_password_repository.dart';
-import 'package:hessah/product/network/local/key_value_storage_base.dart';
 
 import '../../../../core/base_response.dart';
 import '../../../../product/constants/app/app_utils.dart';
+import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/utils/validators.dart';
 import '../../../tutorial/password/model/term_and_condition_model.dart';
+import '../repository/change_password_repository.dart';
 
 class ChangePasswordController extends GetxController {
   Map arguments = <String, dynamic>{};
   // RxBool isActive = false.obs;
-  TermAndConditionModel termAndConditionModel = const TermAndConditionModel();
+  TermAndConditionModel termAndConditionModel =  TermAndConditionModel();
   List<bool> isPassWordCriteria = List.filled(6, false);
   List<String> passWordCriteria = <String>[
     'minCharacters'.tr,

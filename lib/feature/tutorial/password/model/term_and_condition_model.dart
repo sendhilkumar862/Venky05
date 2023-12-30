@@ -1,49 +1,21 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'term_and_condition_model.freezed.dart';
-part 'term_and_condition_model.g.dart';
 
-@freezed
-class TermAndConditionModel with _$TermAndConditionModel {
-  const factory TermAndConditionModel({
-     Data? data,
-     Status? status,
-  }) = _TermAndConditionModel;
+class TermAndConditionModel {
+  TermAndConditionModel({this.title, this.id, this.content});
+  TermAndConditionModel.fromJson(Map<String, dynamic> json) {
+    title = json['title'];
+    id = json['id'];
+    content = json['content'];
+  }
+  String? title;
+  int? id;
+  String? content;
 
-  factory TermAndConditionModel.fromJson(Map<String, dynamic> json) =>
-      _$TermAndConditionModelFromJson(json);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['title'] = title;
+    data['id'] = id;
+    data['content'] = content;
+    return data;
+  }
 }
-
-@freezed
-class Data with _$Data {
-  const factory Data({
-     List<TermsItem>? items,
-     int? count,
-  }) = _Data;
-
-  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
-}
-
-@freezed
-class TermsItem with _$TermsItem {
-  const factory TermsItem({
-     int? id,
-     String? title,
-     String? content,
-  }) = _TermsItem;
-
-  factory TermsItem.fromJson(Map<String, dynamic> json) =>
-      _$TermsItemFromJson(json);
-}
-
-@freezed
-class Status with _$Status {
-  const factory Status({
-     String? type,
-     String? message,
-  }) = _Status;
-
-  factory Status.fromJson(Map<String, dynamic> json) =>
-      _$StatusFromJson(json);
-}
-
