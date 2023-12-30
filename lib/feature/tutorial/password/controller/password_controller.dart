@@ -3,15 +3,19 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get.dart' hide Response;
+import 'package:get/get.dart';
+import 'package:hessah/feature/tutorial/password/repository/password_repository.dart';
 import 'package:hessah/product/network/local/key_value_storage_base.dart';
 
-import '../../../../product/base/model/base_model.dart';
+
+import '../../../../core/base_response.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 import '../model/password_model.dart';
+import '../model/password_model_request.dart';
 import '../model/term_and_condition_model.dart';
+import '../repository/get_term_condition_repository.dart';
 
 class PasswordController extends GetxController{
 
@@ -28,7 +32,7 @@ class PasswordController extends GetxController{
   RxBool isActive = false.obs;
 
 
-  Rx<TermAndConditionModel> termAndConditionModel = TermAndConditionModel().obs;
+  RxList<TermAndConditionModel> termAndConditionModel = <TermAndConditionModel>[].obs;
 
   //========password========//
 
@@ -63,71 +67,39 @@ class PasswordController extends GetxController{
 
   TextEditingController retypePasswordController = TextEditingController();
 
+  final PasswordRepository _passwordRepository=PasswordRepository();
+  final GetTermRepository _getTermRepository =GetTermRepository();
 
   Future<void> fetchData() async {
-    Dio dio = Dio();
-    try {
-      Response response = await dio.get('http://167.99.93.83/api/v1/content/role/common/type/Terms_Conditions');
-      logs('statusCode -- > ${response.statusCode}');
-      if (response.statusCode == 200) {
-        EasyLoading.dismiss();
-        termAndConditionModel.value = TermAndConditionModel.fromJson(response.data);
-      } else {
-        logs('Failed to load data: ${response.statusCode}');
+    final BaseResponse termsResponse = await _getTermRepository.getTerms();
+    if (termsResponse.status?.type == 'success') {
+      EasyLoading.dismiss();
+      final List termsData=termsResponse.data!.item! as List;
+      for (var element in termsData) {
+        termAndConditionModel.add(TermAndConditionModel.fromJson(element));
       }
-    } catch (error) {
-      logs('Error: $error');
     }
   }
 
   Future<bool> registerUser() async {
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    final Dio dio = Dio();
-    try {
-      final Map<String, dynamic> body = {
-        'userId': arguments['userId'].toString(),
-        'password': passwordController.text,
-        'isTermsAccepted': isActive.value,
-        'firstName': arguments['firstName'],
-        'lastName': arguments['lastName'],
-        'hideUserName': arguments['hideUserName'] ?? false,
-        'country':keyValueStorageBase.getCommon(String, KeyValueStorageService.countryName)
-      };
-
-      logs('password set body--> $body');
-      final Response response = await dio.post('http://167.99.93.83/api/v1/users/register', data: body);
-      //logs(response.statusCode.toString());
-      if (response.statusCode == 200) {
-        final BaseResponse<PasswordModel> baseResponse =
-        BaseResponse<PasswordModel>.fromJson(response.data as Map<String, dynamic>, PasswordModel.fromJson);
-        logs('token--> ${baseResponse.data.item?.token.accessToken}');
+    final BaseResponse registerResponse = await _passwordRepository.register(registerRequest:RegisterRequest(userId: arguments['userId'].toString(),password: passwordController.text,isTermsAccepted: isActive.value,firstName:arguments['firstName'],lastName:arguments['firstName'],country:keyValueStorageBase.getCommon(String, KeyValueStorageService.countryName),hideUserName:arguments['hideUserName'] ?? false),);
+      if (registerResponse.status?.type == 'success') {
+        final Map<String,dynamic> dataResponse=registerResponse.data!.item! as Map<String,dynamic>;
+        final PasswordModel passwordModel=PasswordModel.fromJson(dataResponse);
         final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
-        await keyValueStorageService.setAuthToken(baseResponse.data.item?.token.accessToken.toString() ?? '');
+        await keyValueStorageService.setAuthToken(passwordModel.token.accessToken.toString() ?? '');
         EasyLoading.dismiss();
         return true;
-      } else {
-        EasyLoading.dismiss();
-        final BaseResponse<PasswordModel> baseResponse =
-        BaseResponse<PasswordModel>.fromJson(response.data as Map<String, dynamic>, PasswordModel.fromJson);
-        errors.value = baseResponse.status.message;
-        logs('Failed to load data: ${response.statusCode}');
-        return false;
-      }
-    } on DioException catch (error) {
-      {
-        // passwordModel = PasswordModel.fromJson(error.response!.data);
-        final BaseResponse<PasswordModel> baseResponse =
-        BaseResponse<PasswordModel>.fromJson(error.response!.data as Map<String, dynamic>, PasswordModel.fromJson);
-        errors.value = baseResponse.status.message;
-        EasyLoading.dismiss();
-        logs('Error: $error');
-        return false;
-      }
-    } catch (e) {
+    }
+    else
+    {
+      errors.value = registerResponse.status?.message??'Error found';
       EasyLoading.dismiss();
       return false;
     }
+
   }
 
 

@@ -52,14 +52,14 @@ class TermAndConditionBottomSheet extends StatelessWidget {
                       children: <Widget>[
                         AppText(
                           _passwordController
-                              .termAndConditionModel.value.data!.items![index].title
+                              .termAndConditionModel.value[index].title
                               .toString(),
                           fontWeight: FontWeight.w700,
                           textAlign: TextAlign.start,
                         ),
                         AppText(
                           _passwordController
-                              .termAndConditionModel.value.data!.items![index].content
+                              .termAndConditionModel.value[index].content
                               .toString(),
                           textAlign: TextAlign.start,
                         ),
@@ -70,7 +70,7 @@ class TermAndConditionBottomSheet extends StatelessWidget {
                     return SizedBox(height: 10.px);
                   },
                   itemCount:_passwordController
-                      .termAndConditionModel.value.data!.items!.length)
+                      .termAndConditionModel.value.length)
             ],
           ),
           InkWell(
