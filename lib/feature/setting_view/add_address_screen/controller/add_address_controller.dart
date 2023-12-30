@@ -33,16 +33,10 @@ class AddAddressController extends GetxController{
   void init() {
     // fetchFullData();
     KeyValueStorageBase.init();
-    final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-    countryCode.value = keyValueStorageBase
-        .getCommon(List<String>, KeyValueStorageService.countryCodeAndIDD)
-        .toString()
-        .split(',');
   }
 fetchFullData()async{
   EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
    await Future.wait(<Future<void>>[
-     fetchData(),
       fetchCity(),
       getPositionAddress()
     ]);
@@ -85,7 +79,6 @@ fetchFullData()async{
   RxInt mobileValid = 2.obs;
 
 
-  RxList<String> countryCode = <String>[].obs;
 
 
   Map<String, dynamic> arguments = {
@@ -130,25 +123,6 @@ fetchFullData()async{
 
   RxList<CountryCodeModel> filteredCountries = <CountryCodeModel>[].obs;
 
-  Future<void> fetchData() async {
-    Dio dio = Dio();
-    try {
-      Response response =
-      await dio.get('http://167.99.93.83/api/v1/public/countries/idd');
-      if (response.statusCode == 200) {
-        final List<dynamic> countriesJson = response.data['data']['items'];
-        countries.value = countriesJson
-            .map((json) => CountryCodeModel.fromJson(json))
-            .toList();
-        tempList.value = countriesJson
-            .map((json) => CountryCodeModel.fromJson(json))
-            .toList();
-        selectedCountry = countries.firstWhere(
-                (CountryCodeModel element) => element.idd_code == '+965');
-      }
-    } catch (error) {
-    }
-  }
   Future<Options> _headers() async {
     final KeyValueStorageService keyValueStorageService =
     KeyValueStorageService();

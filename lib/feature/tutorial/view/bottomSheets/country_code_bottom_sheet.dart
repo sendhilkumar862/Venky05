@@ -9,11 +9,12 @@ import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-import '../../../setting_view/add_address_screen/controller/add_address_controller.dart';
+import '../../mobileEnter/controller/mobile_enter_controller.dart';
+
 
 class CountryCodeBottomsSheet extends StatelessWidget {
   CountryCodeBottomsSheet({ super.key, this.setState});
-  final AddAddressController _addAddressController=Get.put(AddAddressController());
+  final MobileEnterController _mobileEnterController=Get.put(MobileEnterController());
   Function? setState;
 
   @override
@@ -66,10 +67,10 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                       color: AppColors.appGrey,
                     ),
                   ),
-                  controller: _addAddressController.countryController,
+                  controller: _mobileEnterController.countryController,
                   hintText: 'Search',
                   onChanged: (String value) {
-                    _addAddressController.filterCountries(value, setState!);
+                    _mobileEnterController.filterCountries(value, setState!);
                     // ignore: avoid_dynamic_calls
                     setState!(() {});
                   },
@@ -86,7 +87,7 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                       return GestureDetector(
                         onTap: () {
                           setState!(() {
-                            _addAddressController.selectCountry(index);
+                            _mobileEnterController.selectCountry(index);
                             Future.delayed(
                               const Duration(milliseconds: 200),
                                   () => AppRouter.pop(),
@@ -101,7 +102,7 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                             children: <Widget>[
                               ClipRRect(borderRadius: BorderRadius.circular(700),
                                 child: AppImageAsset(
-                                  image: _addAddressController.countries[index].flag_url?? ImageConstants.globe,
+                                  image: _mobileEnterController.countries[index].flag_url?? ImageConstants.globe,
                                   fit: BoxFit.fill,
                                   height: 20.px,
                                   width: 20,
@@ -109,14 +110,14 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                               ),
                               SizedBox(width: 10),
                               AppText(
-                                _addAddressController.countries[index].idd_code??'',
+                                _mobileEnterController.countries[index].idd_code??'',
                                 fontWeight: FontWeight.w400,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               SizedBox(width: 6.px),
                               Expanded(
                                 child: AppText(
-                                  _addAddressController.countries[index].name??'',
+                                  _mobileEnterController.countries[index].name??'',
                                   fontWeight: FontWeight.w400,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -132,7 +133,7 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                         child: AppDivider(),
                       );
                     },
-                    itemCount: _addAddressController.countries.length,
+                    itemCount: _mobileEnterController.countries.length,
                   ))
             ],
           )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
@@ -7,6 +8,7 @@ import '../../../custom/appbar/appbar.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/utils/typography.dart';
+import '../tutorial_controller/tutorial_controller.dart';
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({super.key});
@@ -16,6 +18,7 @@ class ResetPassword extends StatefulWidget {
 }
 
 class _ResetPasswordState extends State<ResetPassword> {
+  final TutorialController _tutorialController =Get.put(TutorialController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +60,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                     ),
                   ),
                   TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        _tutorialController.forgotPassword();
+                      },
                       icon: const Icon(
                         Icons.cached_outlined,
                         color: AppColors.appBlue,

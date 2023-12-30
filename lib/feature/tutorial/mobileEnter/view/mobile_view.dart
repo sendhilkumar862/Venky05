@@ -10,7 +10,8 @@ import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../view/bottomSheets/country_code_bottom_sheet.dart';
-import '../controller/controller.dart';
+import '../controller/mobile_enter_controller.dart';
+
 
 
 class MobileView extends StatelessWidget {
@@ -18,10 +19,9 @@ class MobileView extends StatelessWidget {
   final MobileEnterController _mobileEnterController=Get.put(MobileEnterController());
   @override
   Widget build(BuildContext context) {
-    _mobileEnterController.data = ModalRoute.of(context)!
+    _mobileEnterController.arguments = ModalRoute.of(context)!
         .settings
         .arguments! as Map<String, dynamic>;
-    _mobileEnterController.arguments['userId'] = _mobileEnterController.data['userId'];
     return   Obx(
       //warnWhenNoObservables: false,
           () {
@@ -85,7 +85,7 @@ class MobileView extends StatelessWidget {
                             child: AppImageAsset(
                               image: _mobileEnterController
                                   .countries[_mobileEnterController
-                                  .countryIndex]
+                                  .countryIndex.value]
                                   ?.flag_url ??
                                   ImageConstants.globe,
                               fit: BoxFit.fill,
@@ -97,7 +97,7 @@ class MobileView extends StatelessWidget {
                           AppText(
                             _mobileEnterController
                                 .countries[
-                            _mobileEnterController.countryIndex]
+                            _mobileEnterController.countryIndex.value]
                                 ?.idd_code ??
                                 'select',
                             fontWeight: FontWeight.w400,

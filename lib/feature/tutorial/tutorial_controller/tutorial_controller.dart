@@ -4,14 +4,16 @@ import 'package:get/get.dart' hide Response;
 
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
+import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
 import '../../../product/constants/app/app_utils.dart';
 import '../../../product/utils/validators.dart';
 import '../model/response_model/reset_pass_email_response_model.dart';
+import '../repository/forgot_password_repository.dart';
 
 class TutorialController extends GetxController{
 
-
+  final ForgotPasswordRepository _forgotPasswordRepository=ForgotPasswordRepository();
 
 
 
@@ -69,35 +71,18 @@ class TutorialController extends GetxController{
     }
   }
 
-
   Future<void> forgotPassword() async {
     showLoading();
-    final Dio dio = Dio();
-    try {
-      final Map<String, dynamic> body = <String, dynamic>{
-        'email': forgotEmailController.text,
-      };
-      logs('body--> $body');
-      final Response response = await dio.post(
-        'http://167.99.93.83/api/v1/users/request-reset',
-        data: body,
-      );
-      if (response.data['status']['type'] == 'success') {
+    final BaseResponse response = await _forgotPasswordRepository.forgotPassword(
+       email:  forgotEmailController.text,
+    );
+      if (response.status?.type == 'success') {
         hideLoading();
-        resetPassEmailResponseModel.value =
-            ResetPassEmailResponseModel.fromJson(response.data);
         AppRouter.pushNamed(Routes.restPassword);
       } else {
-        errors=response.data['status']['message'];
-        hideLoading();
+        errors.value=response.status?.message??'Error occured';
       }
-    } on DioException catch (error) {
       hideLoading();
-      resetPassEmailResponseModel.value =
-          ResetPassEmailResponseModel.fromJson(error.response!.data);
-      errors.value = resetPassEmailResponseModel.value.status!.message!;
 
-      logs('data --> ${resetPassEmailResponseModel.value.status!.message}');
-    }
   }
 }

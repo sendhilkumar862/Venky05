@@ -12,13 +12,14 @@ import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/image/image_constants.dart';
 
-import '../../../setting_view/add_address_screen/controller/add_address_controller.dart';
+
+import '../../mobileEnter/controller/mobile_enter_controller.dart';
 import '../controller/change_mobile_number_controller.dart';
 class ChangeMobileNumberView extends StatelessWidget {
   ChangeMobileNumberView({super.key});
   final ChangeMobileNumberController _changeMobileNumberController =Get.put(ChangeMobileNumberController());
 
-  final AddAddressController _addAddressController=Get.put(AddAddressController());
+   final MobileEnterController _mobileEnterController =Get.put(MobileEnterController());
   @override
   Widget build(BuildContext context) {
     return Obx(()=>
@@ -71,8 +72,8 @@ class ChangeMobileNumberView extends StatelessWidget {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(700),
                                     child: AppImageAsset(
-                                      image: _addAddressController
-                                          .countries[_addAddressController.countryIndex.value]
+                                      image: _mobileEnterController
+                                          .countries[_mobileEnterController.countryIndex.value]
                                           .flag_url ??
                                           ImageConstants.globe,
                                       fit: BoxFit.fill,
@@ -82,7 +83,7 @@ class ChangeMobileNumberView extends StatelessWidget {
                                   ),
                                   SizedBox(width: 6.px),
                                   AppText(
-                                    _addAddressController.countries[_addAddressController.countryIndex.value]?.idd_code ??
+                                    _mobileEnterController.countries[_mobileEnterController.countryIndex.value]?.idd_code ??
                                         'select',
                                     fontWeight: FontWeight.w400,
                                     fontSize: 14.px,

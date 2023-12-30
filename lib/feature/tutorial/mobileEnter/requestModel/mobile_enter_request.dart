@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'mobile_enter_request.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class MobileEnterRequest {
 
   MobileEnterRequest({this.userId, this.countryCode,this.mobile});
@@ -10,8 +10,8 @@ class MobileEnterRequest {
   factory MobileEnterRequest.fromJson(Map<String, dynamic> json) =>
       _$MobileEnterRequestFromJson(json);
   String? userId;
-  int? countryCode;
-  int? mobile;
+  String? countryCode;
+  String? mobile;
 
   Map<String, dynamic> toJson() => _$MobileEnterRequestToJson(this);
 }
