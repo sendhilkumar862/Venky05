@@ -25,23 +25,19 @@ class PasswordView extends StatefulWidget {
 class _PasswordViewState extends State<PasswordView> {
   final PasswordController _passwordController = Get.put(PasswordController());
 
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
   // ignore: always_declare_return_types
 
-   didChangeDependencies(){
-  _passwordController.arguments= ModalRoute.of(context)!
-      .settings
-      .arguments! as Map<String, dynamic>;
-  super.didChangeDependencies();
-
-
+  didChangeDependencies() {
+    _passwordController.arguments =
+        ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
+    super.didChangeDependencies();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +55,7 @@ class _PasswordViewState extends State<PasswordView> {
               Expanded(child: StatefulBuilder(
                 builder: (BuildContext context, setState) {
                   return ListView(
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
                     children: <Widget>[
                       SizedBox(height: 45.px),

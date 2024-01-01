@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -17,10 +16,9 @@ import '../../tutorial/language/model/country_model.dart';
 import '../repository/update_profile_photo_repository.dart';
 import '../view/setting_view.dart';
 
-
-class SettingController  extends GetxController{
+class SettingController extends GetxController {
   String croppedFilePath = '';
-  RxString error=''.obs;
+  RxString error = ''.obs;
   RxString loginStatus = ''.obs;
   RxString selectedProfile = ''.obs;
   RxString selectedCountryName = ''.obs;
@@ -28,11 +26,13 @@ class SettingController  extends GetxController{
   RxInt countryIndex = 118.obs;
   RxString selectedItem = ''.obs;
   RxInt languageIndex = 1.obs;
-  RxString authenticated =''.obs;
+  RxString authenticated = ''.obs;
   Rx<TextEditingController> countryController = TextEditingController().obs;
-  final UpdateProfilePhotoRepository _updateProfilePhotoRepository=UpdateProfilePhotoRepository();
-  final HomeController _homeController=Get.find();
-  final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
+  final UpdateProfilePhotoRepository _updateProfilePhotoRepository =
+      UpdateProfilePhotoRepository();
+  final HomeController _homeController = Get.find();
+  final KeyValueStorageService keyValueStorageService =
+      KeyValueStorageService();
   RxList<String> languages = <String>[
     'عربي',
     'English',
@@ -44,8 +44,6 @@ class SettingController  extends GetxController{
 
   // RxCountry? selectedCountry;
 
-
-
   @override
   void onInit() {
     fetchLocalAuth();
@@ -55,11 +53,11 @@ class SettingController  extends GetxController{
   }
 // ignore: always_declare_return_types
 
-  Rxn<Country?> selectedCountry= Rxn<Country>();
+  Rxn<Country?> selectedCountry = Rxn<Country>();
 
   RxList<Country> countries = <Country>[].obs;
 
-  RxList<Country>filteredCountries = <Country>[].obs;
+  RxList<Country> filteredCountries = <Country>[].obs;
 
   KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
 
@@ -68,7 +66,7 @@ class SettingController  extends GetxController{
       SettingData(
           surfixImage: 'assets/icons/profile.svg', title: 'Change Name'),
       SettingData(
-          surfixImage: 'assets/icons/mobile.svg', title:'Add Mobile Number'),
+          surfixImage: 'assets/icons/mobile.svg', title: 'Add Mobile Number'),
       SettingData(
           surfixImage: 'assets/icons/pin_location.svg',
           title: 'Manage Address'),
@@ -140,48 +138,51 @@ class SettingController  extends GetxController{
     ProfileList(text: 'Add File', icon: ImageConstants.attach),
   ].obs;
 
-
-
   Future<void> uploadProfilePhoto() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    final BaseResponse signInResponse = await _updateProfilePhotoRepository.updateProfilePhoto(croppedFilePath);
-    if (signInResponse.status?.type == 'success') {
+    final BaseResponse uploadResponse =
+        await _updateProfilePhotoRepository.updateProfilePhoto(croppedFilePath);
+    if (uploadResponse.status?.type == 'success') {
       _homeController.fetchData();
-      } else {
-
+    } else {
+      Get.snackbar('Upload Failed',
+          uploadResponse.status?.message ?? 'Some Error Occureed');
     }
     EasyLoading.dismiss();
-
-
   }
 
-  setLocalAuth()async{
+  setLocalAuth() async {
     final bool authenticatedStatus = await LocalAuth.authenticate();
-    if(authenticatedStatus){
-      final String authToken= await keyValueStorageService.getAuthToken();
+    if (authenticatedStatus) {
+      final String authToken = await keyValueStorageService.getAuthToken();
       keyValueStorageService.setAuthBiometric(authToken);
-      authenticated.value=authenticatedStatus.toString();
+      authenticated.value = authenticatedStatus.toString();
     }
   }
-  removeLocalAuth()async{
+
+  removeLocalAuth() async {
     final bool authenticatedStatus = await LocalAuth.authenticate();
-    if(authenticatedStatus){
+    if (authenticatedStatus) {
       keyValueStorageService.removeAuthBiometricToken();
-      authenticated.value='';}
+      authenticated.value = '';
+    }
   }
-  fetchLocalAuth()async{
-    authenticated.value= await keyValueStorageService.getBioMetricStatus();
+
+  fetchLocalAuth() async {
+    authenticated.value = await keyValueStorageService.getBioMetricStatus();
   }
-  logout(BuildContext context)async{
+
+  logout(BuildContext context) async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    final KeyValueStorageService keyValueStorageService = KeyValueStorageService();
+    final KeyValueStorageService keyValueStorageService =
+        KeyValueStorageService();
     await keyValueStorageService.removeAuthToken();
     await Get.deleteAll();
     EasyLoading.dismiss();
     // ignore: use_build_context_synchronously
-    AppRouter.pushNamedPopUntil( context,  route: Routes.loginView);
-
+    AppRouter.pushNamedPopUntil(context, route: Routes.loginView);
   }
+
   void selectLanguage(int index) {
     languageIndex = index.obs;
 
@@ -204,8 +205,7 @@ class SettingController  extends GetxController{
             '';
 
     selectedLanguage.value = keyValueStorageBase.getCommon(
-        String, KeyValueStorageService.language) ??
+            String, KeyValueStorageService.language) ??
         '';
   }
-
 }

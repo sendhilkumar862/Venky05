@@ -57,11 +57,11 @@ class SplashController extends GetxController {
         selectedLanguage == null ||
         selectedCountry!.isEmpty ||
         selectedLanguage!.isEmpty) {
-      navigation( LanguageView());
+      navigation(LanguageView());
     } else if (selectedProfile == null || selectedProfile!.isEmpty) {
-      navigation( ProfileSelectionView(continueRegistration: true));
+      navigation(ProfileSelectionView(continueRegistration: true));
     } else {
-      navigation( OnboardingView(continueRegistration: true));
+      navigation(OnboardingView(continueRegistration: true));
     }
   }
 

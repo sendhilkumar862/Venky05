@@ -1,49 +1,34 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart' hide Response;
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../../core/base_response.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../home/controller/home_controller.dart';
 import '../model/finance_info_update_model_request.dart';
 import '../repository/finance_update_repository.dart';
 
-class FinanceInfoController extends GetxController{
-
+class FinanceInfoController extends GetxController {
   TextEditingController ibanController = TextEditingController();
 
-
   TextEditingController nickNameController = TextEditingController();
-  final FinanceInfoUpdateRepository _financeInfoUpdateRepository= FinanceInfoUpdateRepository();
+  final FinanceInfoUpdateRepository _financeInfoUpdateRepository =
+      FinanceInfoUpdateRepository();
 
   RxString ibanError = ''.obs;
 
-
   RxBool isSuccess = false.obs;
 
-
-  var maskFormatter =  MaskTextInputFormatter(
-      mask: '+# (###) ###-##-##',
-      filter: { "#": RegExp(r'[0-9]') },
-      type: MaskAutoCompletionType.lazy
-  );
-
-  @override
-  Future<void> init() async {
-
-  }
-
-
   void validateIBAN(String value) {
+    final String iban = validateKuwaitIBAN(value);
     if (value.isEmpty) {
       ibanError.value = 'ibanError'.tr;
-    } else if (value.length != 37){
+    } else if (value.length != 30) {
       ibanError.value = 'ibanLengthError'.tr;
     } else if (!value.startsWith('KW')) {
       ibanError.value = 'ibanLocalError'.tr;
+    } else if (iban.isNotEmpty) {
+      ibanError.value = 'ibanInvalid'.tr;
     } else {
       ibanError.value = '';
     }
@@ -61,18 +46,19 @@ class FinanceInfoController extends GetxController{
     return iban;
   }
 
-
-
-
   Future<bool> financeInformationUpdate() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    final BaseResponse personalUpdate = await _financeInfoUpdateRepository.financeInfoUpdateRepository(FinanceInfoUpdateRequest(iban:ibanController.text,isDefault:true, nickName: nickNameController.text  ));
+    final BaseResponse personalUpdate = await _financeInfoUpdateRepository
+        .financeInfoUpdateRepository(FinanceInfoUpdateRequest(
+            iban: ibanController.text,
+            isDefault: true,
+            nickName: nickNameController.text));
     if (personalUpdate.status?.type == 'success') {
-      final HomeController home=Get.find();
+      final HomeController home = Get.find();
       home.fetchData();
       EasyLoading.dismiss();
       return true;
-    }else {
+    } else {
       EasyLoading.dismiss();
       return false;
     }
@@ -94,20 +80,20 @@ class IBANTextInputFormatter extends TextInputFormatter {
   String _addSeparator(String value, String separator) {
     value = value.replaceAll(' ', '');
     String newString = '';
-    bool separatorCheck(int localValue){
-      for(int i = 0; i < value.length; i++){
-        if(localValue==(4*(i+1)-1)) {
+    bool separatorCheck(int localValue) {
+      for (int i = 0; i < value.length; i++) {
+        if (localValue == (4 * (i + 1) - 1)) {
           return true;
         }
       }
       return false;
     }
+
     for (int i = 0; i < value.length; i++) {
       newString += value[i];
       if (separatorCheck(i)) {
         newString += separator;
       }
-
     }
     return newString;
   }

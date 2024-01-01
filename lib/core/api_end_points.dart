@@ -26,7 +26,8 @@ class ApiEndpoint {
 
   static const String profileSet = 'content/role/common/type/about_us';
   static const String countryGet = 'public/countries/idd';
-  static const String termCondition ='content/role/common/type/Terms_Conditions';
+  static const String termCondition =
+      'content/role/common/type/Terms_Conditions';
 
   /// Returns the path for an authentication [endpoint].
   static String auth(AuthEndpoint endpoint) {
@@ -72,8 +73,6 @@ class ApiEndpoint {
         return '$path/preference';
       case AuthEndpoint.DASHBOARD_DETAIL:
         return '$path/dashboard/details';
-      case AuthEndpoint.REGISTER_EMAIL:
-        return '$path/register/email';
       case AuthEndpoint.REGISTER_EMAIL:
         return '$path/register/email';
       case AuthEndpoint.EMAIL_OTP:

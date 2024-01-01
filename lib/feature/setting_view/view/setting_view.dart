@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,6 +6,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+
 import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../custom/appbar/appbar.dart';
@@ -17,6 +17,7 @@ import '../../../custom/text/app_text.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
+import '../../../product/extension/string_extension.dart';
 import '../../../product/utils/typography.dart';
 import '../../home/controller/home_controller.dart';
 import '../../tutorial/addMobileNumber/view/add_mobile_number_view.dart';
@@ -28,7 +29,6 @@ import '../controller/setting_controller.dart';
 import '../manage_address/view/manage_address_view.dart';
 import 'widget/available_times_view.dart';
 import 'widget/manage_adress_view.dart';
-import '../../../product/extension/string_extension.dart';
 
 class SettingView extends StatefulWidget {
   const SettingView({super.key});
@@ -280,6 +280,7 @@ class _SettingViewState extends State<SettingView> {
                 shape: BoxShape.circle,
               ),
               child: AppImageAsset(
+                fit: BoxFit.fill,
                 image: icon ?? ImageConstants.globe,
                 height: 16.px,
                 width: 16.px,
@@ -435,9 +436,8 @@ class _SettingViewState extends State<SettingView> {
                               onTap: () async {
                                 if (index == 0) {
                                   requestCameraPermission();
-                                  captureImage(context);
                                 } else if (index == 1) {
-                                  uploadImage(context);
+                                  uploadImage();
                                 }
                                 Navigator.pop(context);
                                 setState(() {});
@@ -469,6 +469,7 @@ class _SettingViewState extends State<SettingView> {
     if (status.isGranted) {
       // Access the camera
       print('Camera permission granted');
+      captureImage();
     } else if (status.isDenied) {
       // Permission denied
       print('Camera permission denied');
@@ -482,20 +483,26 @@ class _SettingViewState extends State<SettingView> {
     });
   }
 
-  Future<void> captureImage(BuildContext context) async {
-    final XFile? pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.camera);
+  Future<void> captureImage() async {
+    final XFile? pickedFile = await ImagePicker().pickImage(
+        source: ImageSource.camera,
+        imageQuality: 1,
+        maxHeight: 400,
+        maxWidth: 400);
     if (pickedFile != null) {
-      cropImage(pickedFile, context);
+      await cropImage(pickedFile);
     }
   }
 
-  Future<void> uploadImage(BuildContext context) async {
+  Future<void> uploadImage() async {
     try {
-      final XFile? pickedFile =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
+      final XFile? pickedFile = await ImagePicker().pickImage(
+          source: ImageSource.gallery,
+          imageQuality: 1,
+          maxHeight: 400,
+          maxWidth: 400);
       if (pickedFile != null) {
-        await cropImage(pickedFile, context);
+        await cropImage(pickedFile);
       }
     } catch (e) {
       print('Error picking image: $e');
@@ -503,13 +510,13 @@ class _SettingViewState extends State<SettingView> {
     }
   }
 
-  Future<void> cropImage(XFile? pickedFile, BuildContext context) async {
+  Future<void> cropImage(XFile? pickedFile) async {
     if (pickedFile != null) {
       try {
         final CroppedFile? cropFile = await ImageCropper().cropImage(
             sourcePath: pickedFile.path,
             compressFormat: ImageCompressFormat.png,
-            compressQuality: 100,
+            compressQuality: 30,
             aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
             uiSettings: <PlatformUiSettings>[
               AndroidUiSettings(
@@ -519,11 +526,10 @@ class _SettingViewState extends State<SettingView> {
               ),
             ]);
         if (cropFile != null) {
-          setState(() async {
-            croppedFile = cropFile;
-            _settingController.croppedFilePath = cropFile.path;
-            await _settingController.uploadProfilePhoto();
-          });
+          croppedFile = cropFile;
+          _settingController.croppedFilePath = cropFile.path;
+          await _settingController.uploadProfilePhoto();
+          // setState(() async {});
         }
       } catch (e) {
         print('Error cropping image: $e');
@@ -595,6 +601,10 @@ class _SettingViewState extends State<SettingView> {
         AppRouter.pushNamed(Routes.manageSubscription);
       case SettingTitle.manageAvailabilityTime:
         AppRouter.push(const AvailableTimesView());
+      case SettingTitle.loginWithBiometric:
+        _settingController.authenticated.value == ''
+            ? _settingController.setLocalAuth()
+            : _settingController.removeLocalAuth();
     }
   }
 
@@ -620,6 +630,8 @@ class _SettingViewState extends State<SettingView> {
         return SettingTitle.manageAvailabilityTime;
       case 'logout':
         return SettingTitle.logout;
+      case 'login with biometric':
+        return SettingTitle.loginWithBiometric;
       default:
         return SettingTitle.changeName;
     }
@@ -684,5 +696,6 @@ enum SettingTitle {
   appSupport,
   manageSubscription,
   manageAvailabilityTime,
-  logout
+  logout,
+  loginWithBiometric,
 }

@@ -8,53 +8,42 @@ import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 
-class UserInfoController extends GetxController{
-
+class UserInfoController extends GetxController {
   @override
   void onInit() {
     super.onInit();
     KeyValueStorageBase.init();
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-    currentProfile.value = keyValueStorageBase.getCommon(String,KeyValueStorageService.profile) ?? '';
-
+    currentProfile.value =
+        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
+            '';
   }
-
 
   Map data = <String, dynamic>{};
 
-
   RxString currentProfile = ''.obs;
-
 
   TextEditingController firstNameController = TextEditingController();
 
-
   TextEditingController lastNameController = TextEditingController();
-
 
   RxString firstNameErrorText = ''.obs;
 
-
   RxString lastNameErrorText = ''.obs;
 
-
   RxInt firstNameValid = 2.obs;
-
 
   RxInt lastNameValid = 2.obs;
 
   final Map<String, dynamic> arguments = <String, dynamic>{};
 
-
   RxBool isActiveSwitch = false.obs;
-
 
   void onTapSwitch() {
     isActiveSwitch.value = !isActiveSwitch.value;
-    arguments['hideUserName'] = isActiveSwitch;
+    arguments['hideUserName'] = isActiveSwitch.value;
     logs('isActiveSwitch-->$isActiveSwitch');
   }
-
 
   void validateFirstName(String value) {
     if (value.isEmpty) {
@@ -72,7 +61,6 @@ class UserInfoController extends GetxController{
     }
   }
 
-
   void validateLastName(String value) {
     if (value.isEmpty) {
       lastNameValid.value = 0;
@@ -89,7 +77,6 @@ class UserInfoController extends GetxController{
     }
   }
 
-
   void onTapSubmitUserInfo() {
     if (firstNameValid.value == 1 && lastNameValid.value == 1) {
       arguments['userId'] = data['userId'];
@@ -99,7 +86,6 @@ class UserInfoController extends GetxController{
       AppRouter.pushNamed(Routes.passwordView, args: arguments);
     }
   }
-
 
   bool isDisableUserInfoSubmit() {
     if (firstNameValid.value == 1 && lastNameValid.value == 1) {

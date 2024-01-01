@@ -56,9 +56,9 @@ class _FinancingViewState extends State<FinancingView> {
                           _financeInfoController.validateIBAN(value);
                         });
                       },
-                      inputFormatters: [
-                        IBANTextInputFormatter(),
-                      ],
+                      // inputFormatters: [
+                      //   IBANTextInputFormatter(),
+                      // ],
                     ),
                     AppTextFormField(
                       controller: _financeInfoController.nickNameController,

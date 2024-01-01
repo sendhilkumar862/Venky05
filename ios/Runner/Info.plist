@@ -57,6 +57,10 @@
 <string>This app needs access to location when open.</string>
 <key>NSLocationAlwaysUsageDescription</key>
 <string>This app needs access to location when in the background.</string>
+<key>NSCameraUsageDescription</key>
+<string>>This app needs access to Photos to upload Profile and Experience Proof of the user.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>>This app needs access to Photos to upload Profile and Experience Proof of the user.</string>
 
 	</dict>
 </plist>
