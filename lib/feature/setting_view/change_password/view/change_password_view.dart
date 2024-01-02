@@ -30,7 +30,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
       appBar: HessaAppBar(
         leadingTap: () {
           _changePasswordController.backButtonTapped();
-          AppRouter.pop();
+          Get.back();
         },
         title: 'changePassword'.tr,
         isTitleOnly: true,

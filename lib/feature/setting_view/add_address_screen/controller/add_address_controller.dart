@@ -163,7 +163,7 @@ fetchFullData()async{
         final ManageAddressController manageAddressController=Get.find();
         await manageAddressController.fetchAddressData();
         EasyLoading.dismiss();
-        AppRouter.pop();
+        Get.back();
       }
     } catch (error) {
     }

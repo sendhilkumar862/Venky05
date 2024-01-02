@@ -7,6 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../config/routes/app_router.dart';
+import '../../../config/routes/route.dart';
 import '../../../config/routes/routes.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/image/app_image_assets.dart';
@@ -151,7 +152,6 @@ class _SettingViewState extends State<SettingView> {
     SettingData response,
   ) {
     final String title = data.listDetail[i].title;
-    return Obx(() {
       return Column(
         children: <Widget>[
           InkWell(
@@ -171,7 +171,7 @@ class _SettingViewState extends State<SettingView> {
             )
         ],
       );
-    });
+
   }
 
   Widget childSettingListTile({
@@ -544,17 +544,17 @@ class _SettingViewState extends State<SettingView> {
     final SettingTitle settingTitle = getSettingTitle(title);
     switch (settingTitle) {
       case SettingTitle.changeName:
-        AppRouter.pushNamed(Routes.changeNameView);
+        Get.toNamed(Routes.changeNameView);
       case SettingTitle.addMobileNumber:
         _homeController.homeData.value?.mobile != null
-            ? AppRouter.push(ChangeMobileNumberView())
-            : AppRouter.push(AddMobileNumberView());
+            ?  Get.toNamed(Routes.changeMobileNumberView)
+            : Get.toNamed(Routes.addMobileView);
       case SettingTitle.changeMobileNumber:
-        AppRouter.push(ChangeMobileNumberView());
+        Get.toNamed(Routes.changeMobileNumberView);
       case SettingTitle.logout:
         _settingController.logout(context);
       case SettingTitle.manageAddress:
-        AppRouter.push(const ManageAddressScreen());
+        Get.toNamed(Routes.manageAddressView);
       // manageAddressBottomSheet(context);
       case SettingTitle.changeCountry:
         showModalBottomSheet(
@@ -593,13 +593,13 @@ class _SettingViewState extends State<SettingView> {
           },
         );
       case SettingTitle.appSupport:
-        AppRouter.pushNamed(Routes.appSupportView);
+        Get.toNamed(Routes.appSupportView);
       case SettingTitle.changePassword:
-        AppRouter.pushNamed(Routes.changePasswordView);
+        Get.toNamed(Routes.changePasswordView);
       case SettingTitle.manageSubscription:
-        AppRouter.pushNamed(Routes.manageSubscription);
+        Get.toNamed(Routes.manageSubscription);
       case SettingTitle.manageAvailabilityTime:
-        AppRouter.push(const AvailableTimesView());
+        Get.toNamed(Routes.availableTimesView);
       case SettingTitle.loginWithBiometric:
         _settingController.authenticated.value == ''
             ? _settingController.setLocalAuth()

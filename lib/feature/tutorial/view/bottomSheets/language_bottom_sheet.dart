@@ -76,7 +76,7 @@ class LanguageBottomSheet extends StatelessWidget {
                         Future.delayed(
                           const Duration(milliseconds: 200),
                           () {
-                            AppRouter.pop();
+                            Get.back();
                           },
                         );
                       },

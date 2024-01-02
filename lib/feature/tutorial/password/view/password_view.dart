@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/route.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/image/app_image_assets.dart';
@@ -213,7 +214,7 @@ class _PasswordViewState extends State<PasswordView> {
                       final bool success =
                           await _passwordController.registerUser();
                       if (success) {
-                        AppRouter.pushNamed(Routes.HomeScreenRoute);
+                        Get.toNamed(Routes.HomeScreenRoute);
                       }
                     }
                   : () {},

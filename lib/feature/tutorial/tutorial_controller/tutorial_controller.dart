@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
 
 import '../../../config/routes/app_router.dart';
+import '../../../config/routes/route.dart';
 import '../../../config/routes/routes.dart';
 import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
@@ -78,7 +79,7 @@ class TutorialController extends GetxController{
     );
       if (response.status?.type == 'success') {
         hideLoading();
-        AppRouter.pushNamed(Routes.restPassword);
+        Get.toNamed(Routes.restPassword);
       } else {
         errors.value=response.status?.message??'Error occured';
       }

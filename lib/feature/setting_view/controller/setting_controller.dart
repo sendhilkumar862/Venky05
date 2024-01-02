@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 import '../../../config/routes/app_router.dart';
+import '../../../config/routes/route.dart';
 import '../../../config/routes/routes.dart';
 import '../../../core/base_response.dart';
 import '../../../core/local_auth_services.dart';
@@ -180,7 +181,8 @@ class SettingController extends GetxController {
     await Get.deleteAll();
     EasyLoading.dismiss();
     // ignore: use_build_context_synchronously
-    AppRouter.pushNamedPopUntil(context, route: Routes.loginView);
+    // AppRouter.pushNamedPopUntil(context, route: Routes.loginView);
+    Get.offAndToNamed(Routes.loginView);
   }
 
   void selectLanguage(int index) {

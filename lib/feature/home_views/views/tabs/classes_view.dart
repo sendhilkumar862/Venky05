@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/route.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../custom/cardView/app_card_view.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
@@ -70,16 +71,16 @@ class _ClassesViewState extends State<ClassesView> {
                       } else {
                         if (_homeController.homeData.value?.userStatus ==
                             '50') {
-                          AppRouter.pushNamed(Routes.personalInfo);
+                          Get.toNamed(Routes.personalInfo);
                         } else if (_homeController.homeData.value?.userStatus ==
                             '60') {
-                          AppRouter.pushNamed(Routes.teachingInfo);
+                          Get.toNamed(Routes.teachingInfo);
                         } else if (_homeController.homeData.value?.userStatus ==
                             '70') {
-                          AppRouter.pushNamed(Routes.experienceInfo);
+                          Get.toNamed(Routes.experienceInfo);
                         } else if (_homeController.homeData.value?.userStatus ==
                             '80') {
-                          AppRouter.pushNamed(Routes.financingView);
+                          Get.toNamed(Routes.financingView);
                         } else {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
@@ -109,7 +110,7 @@ class _ClassesViewState extends State<ClassesView> {
                           isPending = !isPending;
                         });
                       } else {
-                        AppRouter.push(const ReUploadDocument());
+                        Get.toNamed(Routes.reUploadDocument);
                       }
                     },
                   ),
@@ -133,7 +134,7 @@ class _ClassesViewState extends State<ClassesView> {
                           isPending = !isPending;
                         });
                       } else {
-                        AppRouter.push(const ReUploadDocument());
+                        Get.toNamed(Routes.reUploadDocument);
                       }
                     },
                   ),
@@ -157,7 +158,7 @@ class _ClassesViewState extends State<ClassesView> {
                           isPending = !isPending;
                         });
                       } else {
-                        AppRouter.push(const ReUploadDocument());
+                        Get.toNamed(Routes.reUploadDocument);
                       }
                     },
                   ),
@@ -180,7 +181,7 @@ class _ClassesViewState extends State<ClassesView> {
                           isPending = !isPending;
                         });
                       } else {
-                        AppRouter.push(const ReUploadDocument());
+                        Get.toNamed(Routes.reUploadDocument);
                       }
                     },
                   ),

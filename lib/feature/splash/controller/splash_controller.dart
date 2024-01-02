@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../config/routes/app_router.dart';
+import '../../../config/routes/route.dart';
 import '../../../config/routes/routes.dart';
 import '../../../product/network/local/key_value_storage_base.dart';
 import '../../../product/network/local/key_value_storage_service.dart';
@@ -33,7 +34,7 @@ class SplashController extends GetxController {
     if (token.isNotEmpty) {
       logs('Token--> $token');
       Future.delayed(const Duration(milliseconds: 5000), () {
-        return AppRouter.pushNamed(Routes.HomeScreenRoute);
+        return Get.toNamed(Routes.HomeScreenRoute);
       });
     } else {
       checkTheStatus().whenComplete(() async => setRoute());
@@ -57,16 +58,23 @@ class SplashController extends GetxController {
         selectedLanguage == null ||
         selectedCountry!.isEmpty ||
         selectedLanguage!.isEmpty) {
-      navigation(LanguageView());
+      Get.toNamed(Routes.languageView);
     } else if (selectedProfile == null || selectedProfile!.isEmpty) {
-      navigation(ProfileSelectionView(continueRegistration: true));
+      var  data = {
+        'continueRegistration' : true,
+      };
+      Get.toNamed(Routes.onBoardingView,arguments: data);
     } else {
-      navigation(OnboardingView(continueRegistration: true));
+      var  data = {
+        'continueRegistration' : true,
+      };
+      Get.toNamed(Routes.onBoardingView,arguments: data);
+      // navigation(OnBoardingView(continueRegistration: true));
     }
   }
 
-  Future<void> navigation(Widget page) async => Future<void>.delayed(
-        const Duration(milliseconds: 5000),
-        () async => AppRouter.push(page),
-      );
+  // Future<void> navigation(Widget page) async => Future<void>.delayed(
+  //       const Duration(milliseconds: 5000),
+  //       () async => AppRouter.push(page),
+  //     );
 }

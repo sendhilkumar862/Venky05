@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../config/routes/app_router.dart';
-import '../../config/routes/routes.dart';
+import '../../config/routes/route.dart';
 import '../../feature/setting_view/view/setting_view.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
@@ -99,7 +100,8 @@ class SuccessFailsInfoDialog extends StatelessWidget {
               if(isRouting=='back'){
                 Navigator.of(context).pop();
                }else if(isRouting=='route'){
-                AppRouter.popUntil( Routes.settingView);
+                Get.offAndToNamed(Routes.settingView );
+                // AppRouter.popUntil( Routes.settingView);
               }
             },
           )

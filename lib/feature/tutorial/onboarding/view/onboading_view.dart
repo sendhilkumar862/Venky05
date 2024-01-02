@@ -6,6 +6,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/route.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/appbar/appBarOnBoard.dart';
@@ -18,10 +19,15 @@ import '../../emailEnter/view/email_view.dart';
 import '../Controller/onboading_controller.dart';
 
 
-class OnboardingView extends StatelessWidget {
-   OnboardingView({super.key, this.continueRegistration});
-  final bool? continueRegistration;
+class OnBoardingView extends StatelessWidget {
+   OnBoardingView({super.key,});
+    bool continueRegistration =false;
   final OnBoadingController _boadingController=Get.put(OnBoadingController());
+   @override
+   void initState() {
+     continueRegistration= Get.arguments['continueRegistration'];
+   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,13 +36,13 @@ class OnboardingView extends StatelessWidget {
           title: 'exploreApp'.tr,
           backNavigate: !(continueRegistration ?? false),
           icon: ImageConstants.layersIcon,
-          onTap: () => AppRouter.pushNamed(Routes.HomeScreenRoute),
+          onTap: () => Get.toNamed(Routes.HomeScreenRoute),
           onBackTap: () {
             final KeyValueStorageBase keyValueStorageBase =
             KeyValueStorageBase();
             keyValueStorageBase.setCommon(
                 KeyValueStorageService.profile, '');
-            AppRouter.pop(context);
+           Get.back();
           }),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.px),
@@ -115,12 +121,12 @@ class OnboardingView extends StatelessWidget {
               title: 'join'.tr,
               isDisable: false,
               onPressed: () {
-                AppRouter.push( EmailView());
+                Get.toNamed(Routes.emailView);
               },
             ),
             SizedBox(height: 15.px),
             GestureDetector(
-              onTap: () => AppRouter.pushNamed(Routes.loginView),
+              onTap: () => Get.toNamed(Routes.loginView),
               child: AppText(
                 'login'.tr,
                 fontWeight: FontWeight.w600,

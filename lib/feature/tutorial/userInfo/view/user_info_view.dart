@@ -16,8 +16,7 @@ class UserInfoView extends StatelessWidget {
   UserInfoController _userInfoController = Get.put(UserInfoController());
   @override
   Widget build(BuildContext context) {
-    _userInfoController.data =
-    ModalRoute.of(context)!.settings.arguments! as Map;
+    _userInfoController.data=Get.arguments! as Map<String,dynamic>;
     return Obx(() {
       return Scaffold(
         body: PreLoginCustomBody(
@@ -39,7 +38,7 @@ class UserInfoView extends StatelessWidget {
                           });
                         }
                             : () {
-                          AppRouter.pop();
+                          Get.back();
                         })),
                 SizedBox(height: 180.px),
                 Align(

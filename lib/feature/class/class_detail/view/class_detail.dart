@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
-import '../../../../config/routes/routes.dart';
+import '../../../../config/routes/route.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
@@ -568,7 +568,7 @@ class _ClassDetailState extends State<ClassDetail> {
                 padding: const EdgeInsets.only(top: 10),
                 child: TextButton(
                     onPressed: () {
-                      AppRouter.pushNamed(Routes.addressView);
+                      Get.toNamed(Routes.addressView);
                     },
                     child: Text(
                       'addNewAddress'.tr,

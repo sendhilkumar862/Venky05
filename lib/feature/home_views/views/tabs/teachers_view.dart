@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
-import '../../../../config/routes/app_router.dart';
-import '../../../../config/routes/routes.dart';
+import '../../../../config/routes/route.dart';
 import '../../../../custom/cardView/details_card_view.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';
@@ -56,7 +56,7 @@ class _TeachersViewState extends State<TeachersView> {
               "You don't have any pending activities that require your action. If there are scheduled classes or new proposals for the classes you created, etc...\nyou will find them here.",
               cardColor: AppColors.white,
               buttonTitle: 'Class Details',
-              buttonTap: () => AppRouter.pushNamed(Routes.classDetailsView),
+              buttonTap: () => Get.toNamed(Routes.classDetailsView),
             ),
             SizedBox(height: 20.px),
             HeadingCardView(

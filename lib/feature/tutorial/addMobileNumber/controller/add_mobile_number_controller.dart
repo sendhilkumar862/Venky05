@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/route.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../core/base_response.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
@@ -75,7 +76,7 @@ class AddMobileNumberController extends GetxController{
       arguments['otp_id']=otpId['otpId'];
       arguments['mobile']=mobileController.text;
       arguments['isMobileUpdation']=true;
-      AppRouter.pushNamed(Routes.verifyOtpView,args: arguments);
+      Get.toNamed(Routes.verifyOtpView,arguments: arguments);
     }
     else
     {mobileErrorText.value=changeNumberResponse.status?.message??'';}

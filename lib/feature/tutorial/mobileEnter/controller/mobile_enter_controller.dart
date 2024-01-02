@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/route.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../core/base_response.dart';
 import '../../../../custom/loader/easy_loader.dart';
@@ -66,7 +67,7 @@ class MobileEnterController extends GetxController {
       AppUtils.showFlushBar(
           icon: Icons.check_circle_outline_rounded,
           iconColor: Colors.green,
-          context: AppRouter.navigatorKey.currentContext!,
+          context: Routes.navigatorKey.currentContext!,
           message: sendOTPResponse.status?.message ?? '');
       arguments['userId'] = arguments['userId'].toString();
       arguments['otp_id'] = enterMobileModel.otpId ?? '';
@@ -76,13 +77,13 @@ class MobileEnterController extends GetxController {
       arguments['isPreLogin'] = true;
       arguments['isScreen'] = false;
       Future.delayed(const Duration(milliseconds: 1000),
-          () => AppRouter.pushNamed(Routes.verifyOtpView, args: arguments));
+          () => Get.toNamed(Routes.verifyOtpView, arguments: arguments));
     } else {
       responseError.value = sendOTPResponse.status?.message ?? '';
       AppUtils.showFlushBar(
         icon: Icons.check_circle_outline_rounded,
         iconColor: Colors.red,
-        context: AppRouter.navigatorKey.currentContext!,
+        context: Routes.navigatorKey.currentContext!,
         message: sendOTPResponse.status?.message ?? 'Error occured',
       );
     }

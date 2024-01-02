@@ -90,7 +90,7 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                             _mobileEnterController.selectCountry(index);
                             Future.delayed(
                               const Duration(milliseconds: 200),
-                                  () => AppRouter.pop(),
+                                  () => Get.back(),
                             );
                           });
                         },

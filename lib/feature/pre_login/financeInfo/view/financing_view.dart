@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../config/routes/routes.dart';
+import '../../../../config/routes/route.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/app_textformfield/text_field.dart';
@@ -145,7 +145,7 @@ class _FinancingViewState extends State<FinancingView> {
         );
       },
     ).whenComplete(() {
-      Navigator.popUntil(context, ModalRoute.withName(Routes.HomeScreenRoute));
+      Get.offAndToNamed(Routes.HomeScreenRoute);
     });
   }
 }

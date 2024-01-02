@@ -17,11 +17,14 @@ import '../controller/mobile_enter_controller.dart';
 class MobileView extends StatelessWidget {
    MobileView({super.key});
   final MobileEnterController _mobileEnterController=Get.put(MobileEnterController());
+
+
   @override
   Widget build(BuildContext context) {
-    _mobileEnterController.arguments = ModalRoute.of(context)!
-        .settings
-        .arguments! as Map<String, dynamic>;
+    _mobileEnterController.arguments= Get.arguments as Map<String,dynamic>;
+    // _mobileEnterController.arguments = ModalRoute.of(context)!
+    //     .settings
+    //     .arguments! as Map<String, dynamic>;
     return   Obx(
       //warnWhenNoObservables: false,
           () {

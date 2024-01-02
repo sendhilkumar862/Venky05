@@ -4,7 +4,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
-import '../../../../config/routes/routes.dart';
+
+import '../../../../config/routes/route.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
@@ -34,8 +35,8 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
         trailingText: 'Cancel',
         title: 'Complete Profile',
         isTitleOnly: true,
-        trailingTap: () => Navigator.popUntil(
-            context, ModalRoute.withName(Routes.HomeScreenRoute)),
+        trailingTap: () =>
+            Get.offAndToNamed(Routes.HomeScreenRoute),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),

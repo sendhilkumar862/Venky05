@@ -4,6 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/route.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../core/base_response.dart';
 import '../../../../custom/loader/easy_loader.dart';
@@ -52,11 +53,11 @@ class EmailEnterController extends GetxController{
       arguments['userId'] = emailEnterModel.userId ?? '';
       final Object status = emailEnterModel.status ?? '';
       if (status == RegistrationStatus.MOBILE.value) {
-        AppRouter.pushNamed(Routes.mobileView, args: arguments);
+        Get.toNamed(Routes.mobileView, arguments: arguments);
       } else if (status == RegistrationStatus.EMAIL.value) {
         sendOTP(emailEnterModel.userId.toString());
       } else if (status == RegistrationStatus.PROFILE_INCOMPLETE.value) {
-        AppRouter.pushNamed(Routes.userInfoView, args: arguments);
+        Get.toNamed(Routes.userInfoView, arguments: arguments);
       } else {
         registerWarning.value = true;
         registerWarningMessage.value = 'The email address you provided is already registered in our system.';
@@ -81,11 +82,11 @@ class EmailEnterController extends GetxController{
       arguments['email']=emailController.text;
       //   arguments['contact'] = emailController.text;
 
-      AppRouter.pushNamed(Routes.verifyOtpView, args: arguments);
+      Get.toNamed(Routes.verifyOtpView, arguments: arguments);
       AppUtils.showFlushBar(
         icon: Icons.check_circle_outline_rounded,
         iconColor: Colors.green,
-        context: AppRouter.navigatorKey.currentContext!,
+        context: Routes.navigatorKey.currentContext!,
         message: sendOTPResponse.status?.message ?? 'Error occured',
       );
 
@@ -95,7 +96,7 @@ class EmailEnterController extends GetxController{
       AppUtils.showFlushBar(
         icon: Icons.check_circle_outline_rounded,
         iconColor: Colors.red,
-        context: AppRouter.navigatorKey.currentContext!,
+        context: Routes.navigatorKey.currentContext!,
         message: sendOTPResponse.status?.message ?? 'Error occured',
       );
     }

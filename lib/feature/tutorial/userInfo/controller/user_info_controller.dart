@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/route.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/network/local/key_value_storage_base.dart';
@@ -83,7 +84,7 @@ class UserInfoController extends GetxController {
       arguments['firstName'] = firstNameController.text;
       arguments['lastName'] = lastNameController.text;
 
-      AppRouter.pushNamed(Routes.passwordView, args: arguments);
+      Get.toNamed(Routes.passwordView, arguments: arguments);
     }
   }
 

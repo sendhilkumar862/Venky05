@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
 
 import '../../../config/routes/app_router.dart';
+import '../../../config/routes/route.dart';
 import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
 import '../../../product/constants/app/app_utils.dart';
@@ -82,7 +83,7 @@ class PreferenceController extends GetxController {
       AppUtils.showFlushBar(
         icon: Icons.check_circle_outline_rounded,
         iconColor: Colors.green,
-        context: AppRouter.navigatorKey.currentContext!,
+        context: Routes.navigatorKey.currentContext!,
         message: errors.value ?? 'Error occured',
       );
     }
