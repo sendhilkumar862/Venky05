@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../config/routes/routes.dart';
@@ -163,7 +162,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
               suffix: Icon(Icons.keyboard_arrow_down),
             ),
             SizedBox(height: 40.px),
-            Observer(builder: (_) {
+            Obx( () {
               return AppButton(
                   title: 'Continue Experience Information',
                   onPressed: () {
@@ -256,7 +255,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     },
                     itemCount: listData.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Observer(builder: (_) {
+                      return Obx( () {
                         return ListTile(
                           title: Text(listData[index],
                               style: openSans.get16.w400

@@ -1,7 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
@@ -18,7 +17,6 @@ import '../../../../custom/calender/calender.dart';
 import '../../../../custom/choice/src/modal/button.dart';
 import '../../../../custom/switch/app_switch.dart';
 import '../../../../custom/text/app_text.dart';
-import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/common_function.dart';
@@ -98,7 +96,7 @@ class _ClassDetailState extends State<ClassDetail> {
         title: 'createClass'.tr,
         // normalAppbar: true,
       ),
-      body: Observer(builder: (BuildContext context) {
+      body: Obx(() {
         return Form(
           key: formKey,
           onChanged: () {

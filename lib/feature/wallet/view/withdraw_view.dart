@@ -1,11 +1,9 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:get/get.dart';
-import 'package:hessah/feature/wallet/view/set_bottom_sheet.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../../product/base/view/base_view.dart';
+import 'package:get/get.dart';
+import 'set_bottom_sheet.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../config/routes/app_router.dart';
 import '../../../custom/amount/app_amount_view.dart';
 import '../../../custom/app_button/app_button.dart';

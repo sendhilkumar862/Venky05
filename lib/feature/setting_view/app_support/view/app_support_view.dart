@@ -11,7 +11,6 @@ import '../../../../custom/choice/src/selection/controller/main.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/sheet/show_bottom_sheet.dart';
 import '../../../../custom/text/app_text.dart';
-import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/utils/typography.dart';

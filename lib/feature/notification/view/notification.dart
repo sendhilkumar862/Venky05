@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -49,7 +48,7 @@ class _NotificationViewState extends State<NotificationView> {
         title: 'notification'.tr,
         isBack: true,
       ),
-      body: Observer(builder: (context) {
+      body: Obx( () {
         return _notificationController.notificationDataList.isNotEmpty
             ? Padding(
           padding:
@@ -273,7 +272,7 @@ class _NotificationViewState extends State<NotificationView> {
               (BuildContext context, void Function(void Function()) setState) {
             return Padding(
               padding: const EdgeInsets.only(right: 15, left: 15, top: 15),
-              child: Observer(builder: (_) {
+              child: Obx( () {
                 return Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,

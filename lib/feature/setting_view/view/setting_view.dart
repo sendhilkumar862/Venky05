@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -152,7 +151,7 @@ class _SettingViewState extends State<SettingView> {
     SettingData response,
   ) {
     final String title = data.listDetail[i].title;
-    return Observer(builder: (context) {
+    return Obx(() {
       return Column(
         children: <Widget>[
           InkWell(

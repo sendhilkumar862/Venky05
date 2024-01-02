@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -33,8 +32,8 @@ class _ProfileViewState extends State<ProfileView> {
           title: 'User Profile',
         ),
         backgroundColor: Colors.white,
-        body: Observer(
-          builder: (BuildContext context) {
+        body: Obx(
+        () {
             return ListView(
               physics: const BouncingScrollPhysics(),
               children: <Widget>[
