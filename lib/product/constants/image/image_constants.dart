@@ -156,6 +156,8 @@ class ImageConstants {
   static const String usIcon = '${ApplicationConstants.iconPath}US.png';
   static const String usIconNew =
       '${ApplicationConstants.iconPath}united_states_new.png';
+  static const String ukIcon =
+      '${ApplicationConstants.iconPath}united_kingdom.png';
   static const String bookPerson =
       '${ApplicationConstants.iconPath}book_person.png';
   static const String graduateIcon =

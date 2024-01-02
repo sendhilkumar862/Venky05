@@ -36,7 +36,7 @@ class FinanceInfoController extends GetxController {
 
   String validateKuwaitIBAN(String iban) {
     // Kuwait IBAN format: KWkk bbbb cccc cccc cccc cccc cccc cc
-    final RegExp regex = RegExp(r'^KW\d{2}[A-Z]{4}\d{22}$');
+    final RegExp regex = RegExp(r'^KW\d{2}[A-Z]{4}\d{24}$');
     if (!regex.hasMatch(iban)) {
       return ''; // Invalid format
     }

@@ -65,9 +65,7 @@ class _FinancingViewState extends State<FinancingView> {
                       title: 'Bank Account Nickname',
                       hintText: 'Enter nickname',
                       onChanged: (String value) {
-                        setState(() {
-                          _financeInfoController.validateIBAN(value);
-                        });
+                        setState(() {});
                       },
                     ),
                     Padding(
@@ -117,7 +115,7 @@ class _FinancingViewState extends State<FinancingView> {
                 isDisable:
                     _financeInfoController.ibanController.text.isNotEmpty &&
                             _financeInfoController
-                                .nickNameController.text.isNotEmpty
+                                .nickNameController.text.isNotEmpty && _financeInfoController.ibanController.
                         ? false
                         : true)
           ],

@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -21,48 +20,43 @@ import '../repository/resend_otp_repository.dart';
 import '../repository/varify_mobile_update_otp_repository.dart';
 import '../repository/verify_otp_repository.dart';
 
-class VerifyOtpController extends  GetxController{
-
+class VerifyOtpController extends GetxController {
   CountdownController timerController = CountdownController(autoStart: true);
-  final VerifyMobileUpdateOTPRepository _mobileUpdateOTPRepository=VerifyMobileUpdateOTPRepository();
-  final VerifyOTPRepository _verifyOTPRepository=VerifyOTPRepository();
-  final ResendOTPRepository _resendOTPRepository=ResendOTPRepository();
-
+  final VerifyMobileUpdateOTPRepository _mobileUpdateOTPRepository =
+      VerifyMobileUpdateOTPRepository();
+  final VerifyOTPRepository _verifyOTPRepository = VerifyOTPRepository();
+  final ResendOTPRepository _resendOTPRepository = ResendOTPRepository();
 
   @override
   void onInit() {
     super.onInit();
     final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-    currentProfile.value = keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ?? '';
+    currentProfile.value =
+        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
+            '';
     timerController.start();
     isTimerRunning.value = true;
     logs('current profile --> $currentProfile');
   }
 
-
   RxMap enteredMail = <String, dynamic>{}.obs;
-
 
   RxString currentProfile = ''.obs;
 
-
   RxBool isCorrect = true.obs;
-
 
   RxString enteredOTP = ''.obs;
 
-
   RxBool isTimerRunning = false.obs;
-
 
   RxBool isMobileNumber = false.obs;
 
-
-  Map<String, dynamic> arguments = <String, dynamic>{'userId': '','changeMobileNumberScreen':''};
-
+  Map<String, dynamic> arguments = <String, dynamic>{
+    'userId': '',
+    'changeMobileNumberScreen': ''
+  };
 
   RxString otpId = ''.obs;
-
 
   bool onChange(String value) {
     if (value == enteredOTP.value) {
@@ -73,93 +67,101 @@ class VerifyOtpController extends  GetxController{
       return isCorrect.value;
     }
   }
+
   Future<void> verifyOtp(BuildContext context, bool isMobile) async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     try {
       final BaseResponse otpResponse = await _verifyOTPRepository.verifyOTPSend(
-          verifyOTPRequestModel: VerifyOTPRequestModel(otp:enteredOTP.value,otpId: "${arguments['otp_id']}",userId: "${arguments['userId']}" ),isMobile: isMobile
-      );
+          verifyOTPRequestModel: VerifyOTPRequestModel(
+              otp: enteredOTP.value,
+              otpId: "${arguments['otp_id']}",
+              userId: "${arguments['userId']}"),
+          isMobile: isMobile);
 
       if (otpResponse.status?.type == 'success') {
-        isCorrect.value =true;
+        isCorrect.value = true;
         enteredOTP.value = '';
         timerController.pause();
-        if(isMobile){
-            if (arguments['isPreLogin'] ?? false) {
-              AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
-            } else {
-              final HomeController homeController=Get.find();
-              homeController.fetchData();
-              popupScreen(context);
-            }
-        }else{
+        if (isMobile) {
+          if (arguments['isPreLogin'] ?? false) {
+            AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
+          } else {
+            final HomeController homeController = Get.find();
+            homeController.fetchData();
+            popupScreen(context);
+          }
+        } else {
           if (currentProfile == 'Tutor') {
             AppRouter.popAndPushNamed(Routes.mobileView, args: arguments);
           } else {
             AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
           }
         }
-      } else{
-        isCorrect.value=false;
+      } else {
+        isCorrect.value = false;
         AppUtils.showFlushBar(
           context: AppRouter.navigatorKey.currentContext!,
           message: otpResponse.status?.message ?? 'Error occured',
         );
       }
     } on DioException catch (error) {
-      isCorrect.value=false;
+      isCorrect.value = false;
       AppUtils.showFlushBar(
         context: AppRouter.navigatorKey.currentContext!,
         message: error.response?.data['status']['message'] ?? 'Error occured',
       );
       logs('Error: $error');
     } catch (error) {
-
       logs('Error: $error');
     }
     EasyLoading.dismiss();
   }
 
-
-  Future<void> verifyOtpMobileUpdate(BuildContext context,) async {
+  Future<void> verifyOtpMobileUpdate(
+    BuildContext context,
+  ) async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     try {
-      final BaseResponse otpResponse = await _mobileUpdateOTPRepository.verifyMobileUpdateOTPSend(
-          verifyMobileUpdateOTPRequestModel: VerifyMobileUpdateOTPRequestModel(otp:enteredOTP.value,otpId: "${arguments['otp_id']}",userId: "${arguments['userId']}",isMobileUpdation: true )
-      );
+      final BaseResponse otpResponse =
+          await _mobileUpdateOTPRepository.verifyMobileUpdateOTPSend(
+              verifyMobileUpdateOTPRequestModel:
+                  VerifyMobileUpdateOTPRequestModel(
+                      otp: enteredOTP.value,
+                      otpId: "${arguments['otp_id']}",
+                      userId: "${arguments['userId']}",
+                      isMobileUpdation: true));
       if (otpResponse.status?.type == 'success') {
         isCorrect.value = true;
         enteredOTP.value = '';
-          timerController.pause();
-          if (arguments['isPreLogin'] ?? false) {
-            AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
-          } else {
-            final HomeController homeController=Get.find();
-            homeController.fetchData();
-            popupScreen(context);
-          }
+        timerController.pause();
+        if (arguments['isPreLogin'] ?? false) {
+          AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
+        } else {
+          final HomeController homeController = Get.find();
+          homeController.fetchData();
+          popupScreen(context);
         }
-       else{
-        isCorrect.value=false;
+      } else {
+        isCorrect.value = false;
         AppUtils.showFlushBar(
           context: AppRouter.navigatorKey.currentContext!,
           message: otpResponse.status?.message ?? 'Error occured',
         );
       }
     } on DioException catch (error) {
-      isCorrect.value=false;
+      isCorrect.value = false;
       AppUtils.showFlushBar(
         context: AppRouter.navigatorKey.currentContext!,
         message: error.response?.data['status']['message'] ?? 'Error occured',
       );
       logs('Error: $error');
     } catch (error) {
-
       logs('Error: $error');
     }
     EasyLoading.dismiss();
   }
-  Future popupScreen(BuildContext context){
+
+  Future popupScreen(BuildContext context) {
     return showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context,
@@ -174,12 +176,15 @@ class VerifyOtpController extends  GetxController{
         return SuccessFailsInfoDialog(
           title: 'success'.tr,
           buttonTitle: 'done'.tr,
-          content: arguments['changeMobileNumberScreen']=='add'?'youHaveSuccessfullyAddedMobile'.tr:'youHaveSuccessfullyChangedMobile'.tr,
+          content: arguments['changeMobileNumberScreen'] == 'add'
+              ? 'youHaveSuccessfullyAddedMobile'.tr
+              : 'youHaveSuccessfullyChangedMobile'.tr,
           isRouting: 'route',
         );
       },
     );
   }
+
   Future<void> reSendEmailOTP(String id) async {
     showLoading();
     try {
@@ -192,22 +197,23 @@ class VerifyOtpController extends  GetxController{
         'mobile': arguments['mobile'],
         'countryCode': arguments['countryCode']
       };
-      final BaseResponse otpResponse = await _resendOTPRepository.resendOTPSend(bodyData: arguments['isScreen']?emailOtpBody:mobileOtpBody);
+      final BaseResponse otpResponse = await _resendOTPRepository.resendOTPSend(
+          bodyData: arguments['isScreen'] ? emailOtpBody : mobileOtpBody);
       if (otpResponse.status?.type == 'success') {
         timerController.restart();
         isTimerRunning.value = true;
-        final Map<String, dynamic> itemData=otpResponse.data!.item! as Map<String, dynamic>;
+        final Map<String, dynamic> itemData =
+            otpResponse.data!.item! as Map<String, dynamic>;
         otpId.value = itemData['otp_id'].toString();
         logs('otp ID--> $otpId');
         AppUtils.showFlushBar(
           icon: Icons.check_circle_outline_rounded,
           iconColor: Colors.green,
           context: AppRouter.navigatorKey.currentContext!,
-          message:otpResponse.status?.message ?? 'Error occured',
+          message: otpResponse.status?.message ?? 'Error occured',
         );
-      }
-      else{
-        isCorrect.value=false;
+      } else {
+        isCorrect.value = false;
         AppUtils.showFlushBar(
           context: AppRouter.navigatorKey.currentContext!,
           iconColor: Colors.red,
@@ -215,14 +221,13 @@ class VerifyOtpController extends  GetxController{
         );
       }
     } on DioException catch (error) {
-      isCorrect.value=false;
+      isCorrect.value = false;
       AppUtils.showFlushBar(
         context: AppRouter.navigatorKey.currentContext!,
         message: error.response?.data['status']['message'] ?? 'Error occured',
       );
       logs('Error: $error');
     } catch (error) {
-
       logs('Error: $error');
     }
     EasyLoading.dismiss();
@@ -232,20 +237,18 @@ class VerifyOtpController extends  GetxController{
     reSendEmailOTP(arguments['userId'].toString());
   }
 
-
   Rx<OtpModel> otpModel = const OtpModel().obs;
-
 
   void onTapSubmit(BuildContext context) {
     if (arguments['isScreen']) {
-      verifyOtp(context,false);
+      verifyOtp(context, false);
     } else {
-      if(arguments['isMobileUpdation']!=null && arguments['isMobileUpdation']){
-        verifyOtp(context,true);
-      }else{
+      if (arguments['isMobileUpdation'] != null &&
+          arguments['isMobileUpdation']) {
         verifyOtpMobileUpdate(context);
+      } else {
+        verifyOtp(context, true);
       }
-
     }
   }
 }

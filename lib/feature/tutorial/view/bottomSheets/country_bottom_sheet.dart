@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -11,16 +10,15 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../language/controller/language_controller.dart';
 
-
 class CountryBottomsSheet extends StatelessWidget {
-  CountryBottomsSheet({ super.key, this.setState});
+  CountryBottomsSheet({super.key, this.setState});
 
   Function? setState;
-  final LanguageController _languageController=Get.find();
+  final LanguageController _languageController = Get.find();
   @override
   Widget build(BuildContext context) {
-    return Obx(()
-      => Container(
+    return Obx(
+      () => Container(
         height: (MediaQuery.of(context).size.height * 0.80).px,
         decoration: BoxDecoration(
           color: AppColors.appWhite,
@@ -41,7 +39,8 @@ class CountryBottomsSheet extends StatelessWidget {
                 alignment: Alignment.center,
                 height: 25.px,
                 width: 25.px,
-                decoration: const BoxDecoration(color: AppColors.appLightGrey, shape: BoxShape.circle),
+                decoration: const BoxDecoration(
+                    color: AppColors.appLightGrey, shape: BoxShape.circle),
                 child: AppImageAsset(
                   image: ImageConstants.closeIcon,
                   height: 20.px,
@@ -53,7 +52,8 @@ class CountryBottomsSheet extends StatelessWidget {
                 SizedBox(
                   height: 25.px,
                 ),
-                AppText('Change Country', fontWeight: FontWeight.w700, fontSize: 14.px),
+                AppText('Change Country',
+                    fontWeight: FontWeight.w700, fontSize: 14.px),
                 SizedBox(
                   height: 10.px,
                 ),
@@ -85,8 +85,9 @@ class CountryBottomsSheet extends StatelessWidget {
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
-                        onTap: () async{
-                         await _languageController.selectCountry(_languageController.countries[index]);
+                        onTap: () async {
+                          await _languageController.selectCountry(
+                              _languageController.countries[index]);
                           Navigator.pop(context);
                         },
                         child: Container(
@@ -98,7 +99,8 @@ class CountryBottomsSheet extends StatelessWidget {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(30),
                                 child: AppImageAsset(
-                                  image: _languageController.countries[index].flag_url!,
+                                  image: _languageController
+                                      .countries[index].flag_url!,
                                   fit: BoxFit.fill,
                                   height: 25.px,
                                   width: 25.px,
@@ -118,10 +120,12 @@ class CountryBottomsSheet extends StatelessWidget {
                               AppImageAsset(
                                 image: ImageConstants.acceptedStatus,
                                 height: 23.px,
-                                color:
-                                    (_languageController.selectedCountry.value?.name == _languageController.countries[index].name)
-                                        ? AppColors.appBlue
-                                        : AppColors.appWhite,
+                                color: (_languageController
+                                            .selectedCountry.value?.name ==
+                                        _languageController
+                                            .countries[index].name)
+                                    ? AppColors.appBlue
+                                    : AppColors.appWhite,
                               ),
                               SizedBox(
                                 width: 5.px,

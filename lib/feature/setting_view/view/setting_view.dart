@@ -106,7 +106,7 @@ class _SettingViewState extends State<SettingView> {
                   "${_homeController.homeData.value?.firstName ?? ""} ${_homeController.homeData.value?.lastName ?? ""}",
                   style: openSans.get20.w700.appTextColor),
             ),
-            Text(_homeController.homeData.value?.email ?? "",
+            Text(_homeController.homeData.value?.email ?? '',
                 style: openSans.get14.w500
                     .textColor(AppColors.appTextColor.withOpacity(0.50))),
           ],
@@ -555,7 +555,7 @@ class _SettingViewState extends State<SettingView> {
       case SettingTitle.logout:
         _settingController.logout(context);
       case SettingTitle.manageAddress:
-        AppRouter.push(ManageAddressScreen());
+        AppRouter.push(const ManageAddressScreen());
       // manageAddressBottomSheet(context);
       case SettingTitle.changeCountry:
         showModalBottomSheet(

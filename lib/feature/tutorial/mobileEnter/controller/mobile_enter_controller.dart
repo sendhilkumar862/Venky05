@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -16,8 +15,7 @@ import '../model/enter_mobile_model.dart';
 import '../repository/mobile_otp_repository.dart';
 import '../requestModel/mobile_enter_request.dart';
 
-class MobileEnterController extends GetxController{
-
+class MobileEnterController extends GetxController {
   @override
   void onInit() {
     super.onInit();
@@ -30,25 +28,20 @@ class MobileEnterController extends GetxController{
         .split(',');
   }
 
-  final GetCountryRepository _countryRepository =GetCountryRepository();
-  final MobileOTPSendRepository _mobileOTPSendRepository=MobileOTPSendRepository();
+  final GetCountryRepository _countryRepository = GetCountryRepository();
+  final MobileOTPSendRepository _mobileOTPSendRepository =
+      MobileOTPSendRepository();
   TextEditingController mobileController = TextEditingController();
-
 
   RxString selectedCountryCode = '965'.obs;
 
-
   RxString mobileErrorText = ''.obs;
-
 
   RxString responseError = ''.obs;
 
-
   RxInt mobileValid = 2.obs;
 
-
   RxList<String> countryCode = <String>[].obs;
-
 
   Map<String, dynamic> arguments = {
     'id': '',
@@ -56,32 +49,36 @@ class MobileEnterController extends GetxController{
     'isScreen': false,
   };
 
-
   Future<void> sendOTP() async {
     showLoading();
-    final BaseResponse sendOTPResponse = await _mobileOTPSendRepository.mobileOTPSend(
-        mobileEnterRequest: MobileEnterRequest(mobile:mobileController.text,countryCode:selectedCountryCode.replaceAll('+', ''),userId:  arguments['userId'].toString(),)
-    );
+    final BaseResponse sendOTPResponse =
+        await _mobileOTPSendRepository.mobileOTPSend(
+            mobileEnterRequest: MobileEnterRequest(
+      mobile: mobileController.text,
+      countryCode: selectedCountryCode.replaceAll('+', ''),
+      userId: arguments['userId'].toString(),
+    ));
     if (sendOTPResponse.status?.type == 'success') {
-      final Map<String, dynamic> mobileOTPData=sendOTPResponse.data!.item! as Map<String, dynamic>;
-      final EnterMobileModel enterMobileModel=EnterMobileModel.fromJson(mobileOTPData);
+      final Map<String, dynamic> mobileOTPData =
+          sendOTPResponse.data!.item! as Map<String, dynamic>;
+      final EnterMobileModel enterMobileModel =
+          EnterMobileModel.fromJson(mobileOTPData);
       AppUtils.showFlushBar(
           icon: Icons.check_circle_outline_rounded,
           iconColor: Colors.green,
           context: AppRouter.navigatorKey.currentContext!,
-          message: sendOTPResponse.status?.message??'');
+          message: sendOTPResponse.status?.message ?? '');
       arguments['userId'] = arguments['userId'].toString();
       arguments['otp_id'] = enterMobileModel.otpId ?? '';
       arguments['mobile'] = mobileController.text.trim();
       arguments['countryCode'] = selectedCountryCode.replaceAll('+', '');
-      arguments['isMobileUpdation']=false;
-      Future.delayed(
-          const Duration(milliseconds: 1000),
-              () => AppRouter.pushNamed(Routes.verifyOtpView, args: arguments)
-      );
-
+      arguments['isMobileUpdation'] = false;
+      arguments['isPreLogin'] = true;
+      arguments['isScreen'] = false;
+      Future.delayed(const Duration(milliseconds: 1000),
+          () => AppRouter.pushNamed(Routes.verifyOtpView, args: arguments));
     } else {
-      responseError.value = sendOTPResponse.status?.message??'';
+      responseError.value = sendOTPResponse.status?.message ?? '';
       AppUtils.showFlushBar(
         icon: Icons.check_circle_outline_rounded,
         iconColor: Colors.red,
@@ -109,21 +106,16 @@ class MobileEnterController extends GetxController{
     else {
       mobileValid.value = 1;
       mobileErrorText.value = '';
-
     }
   }
-
 
   void onTapMobileSubmit() {
     sendOTP();
   }
 
-
   RxList<CountryCodeModel> countries = <CountryCodeModel>[].obs;
 
-
   List<CountryCodeModel> tempList = <CountryCodeModel>[];
-
 
   List<CountryCodeModel> filteredCountries = <CountryCodeModel>[];
 
@@ -131,47 +123,39 @@ class MobileEnterController extends GetxController{
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final BaseResponse countryData = await _countryRepository.getCountry();
     if (countryData.status?.type == 'success') {
-      final List<dynamic> countriesJson =countryData.data!.item as List<dynamic>;
-      countries.value = countriesJson
-          .map((json) => CountryCodeModel.fromJson(json))
-          .toList();
-      tempList = countriesJson
-          .map((json) => CountryCodeModel.fromJson(json))
-          .toList();
-      selectedCountry = countries.firstWhere(
-              (CountryCodeModel element) => element.idd_code == '+965');
+      final List<dynamic> countriesJson =
+          countryData.data!.item as List<dynamic>;
+      countries.value =
+          countriesJson.map((json) => CountryCodeModel.fromJson(json)).toList();
+      tempList =
+          countriesJson.map((json) => CountryCodeModel.fromJson(json)).toList();
+      selectedCountry = countries
+          .firstWhere((CountryCodeModel element) => element.idd_code == '+965');
     }
     EasyLoading.dismiss();
   }
 
-
   CountryCodeModel? selectedCountry;
-
 
   String selectedItem = '';
 
-
   int languageIndex = 1;
-
 
   RxInt countryIndex = 118.obs;
 
-
   TextEditingController countryController = TextEditingController();
-
 
   void selectCountry(int index) {
     countryIndex.value = index;
   }
 
-
   void filterCountries(String query, Function setState) {
     countryIndex.value = 0;
     countries.value = countries
         .where((CountryCodeModel country) =>
-    country.name?.toLowerCase().contains(query.toLowerCase()) ??
-        false ||
-            country.flag_url!.toLowerCase().contains(query.toLowerCase()))
+            country.name?.toLowerCase().contains(query.toLowerCase()) ??
+            false ||
+                country.flag_url!.toLowerCase().contains(query.toLowerCase()))
         .toList();
     if (countryController.text.isEmpty) {
       countries.value = tempList;

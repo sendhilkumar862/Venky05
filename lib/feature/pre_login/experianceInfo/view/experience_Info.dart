@@ -13,7 +13,6 @@ import '../../../../product/utils/typography.dart';
 import '../../personalInfo/controller/personal_info_controllere.dart';
 import '../controller/experience_info_controller.dart';
 
-
 class ExperienceInfo extends StatefulWidget {
   const ExperienceInfo({Key? key}) : super(key: key);
 
@@ -22,8 +21,10 @@ class ExperienceInfo extends StatefulWidget {
 }
 
 class _ExperienceInfoState extends State<ExperienceInfo> {
-  final PersonalInfoController _personalInfoController= Get.put(PersonalInfoController());
-  final ExperienceInfoController _experienceInfoController= Get.put(ExperienceInfoController());
+  final PersonalInfoController _personalInfoController =
+      Get.put(PersonalInfoController());
+  final ExperienceInfoController _experienceInfoController =
+      Get.put(ExperienceInfoController());
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
@@ -33,7 +34,8 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
         trailingText: 'Cancel',
         title: 'Complete Profile',
         isTitleOnly: true,
-        trailingTap: ()=> Navigator.popUntil(context, ModalRoute.withName(Routes.HomeScreenRoute)),
+        trailingTap: () => Navigator.popUntil(
+            context, ModalRoute.withName(Routes.HomeScreenRoute)),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -43,23 +45,25 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 30),
-                child: Text('Experience Information', style: openSans.get20.w700.textColor(AppColors.appTextColor)),
+                child: Text('Experience Information',
+                    style:
+                        openSans.get20.w700.textColor(AppColors.appTextColor)),
               ),
               AppTextFormField(
                 title: 'Education',
                 hintText: 'Enter your education',
                 controller: _experienceInfoController.educationController,
-                onChanged: (String value){
-                  setState(() {
-
-                  });
+                onChanged: (String value) {
+                  setState(() {});
                 },
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 30),
                 child: Row(
                   children: <Widget>[
-                    Text('Make it visible for users', style: openSans.get14.w500.textColor(AppColors.appTextColor)),
+                    Text('Make it visible for users',
+                        style: openSans.get14.w500
+                            .textColor(AppColors.appTextColor)),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: FlutterSwitch(
@@ -83,31 +87,29 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                 top: 0,
                 title: 'Experience Years',
                 hintText: 'Enter years of experience',
-                controller:  _experienceInfoController.experienceYearController,
+                controller: _experienceInfoController.experienceYearController,
                 keyboardType: TextInputType.number,
-                onChanged: (String value){
-                  setState(() {
-
-                  });
+                onChanged: (String value) {
+                  setState(() {});
                 },
               ),
               AppTextFormField(
                 maxLines: 3,
                 title: 'Experience Brief',
-                contentPadding: EdgeInsets.all( 10),
+                contentPadding: const EdgeInsets.all(10),
                 hintText: 'Enter experience brief',
-                controller:  _experienceInfoController.experienceBriefController,
-                onChanged: (String value){
-                  setState(() {
-
-                  });
+                controller: _experienceInfoController.experienceBriefController,
+                onChanged: (String value) {
+                  setState(() {});
                 },
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15),
                 child: Row(
                   children: <Widget>[
-                    Text('Make it visible for users', style: openSans.get14.w500.textColor(AppColors.appTextColor)),
+                    Text('Make it visible for users',
+                        style: openSans.get14.w500
+                            .textColor(AppColors.appTextColor)),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: FlutterSwitch(
@@ -119,7 +121,8 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                         inactiveColor: AppColors.gray.withOpacity(0.25),
                         onToggle: (bool value) {
                           setState(() {
-                            _experienceInfoController.isSwitchExperience = value;
+                            _experienceInfoController.isSwitchExperience =
+                                value;
                           });
                         },
                       ),
@@ -131,7 +134,8 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                 padding: const EdgeInsets.only(top: 20, bottom: 15),
                 child: Text(
                   'Certificates',
-                  style: openSans.get12.w400.textColor(AppColors.appTextColor.withOpacity(0.5)),
+                  style: openSans.get12.w400
+                      .textColor(AppColors.appTextColor.withOpacity(0.5)),
                 ),
               ),
               Center(
@@ -152,7 +156,8 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                if (_experienceInfoController.firstImage != null)
+                                if (_experienceInfoController.firstImage !=
+                                    null)
                                   SizedBox(
                                     width: 80,
                                     height: 80,
@@ -160,12 +165,18 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                                       children: [
                                         Container(
                                             decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(12),
-                                                border: Border.all(color: AppColors.appBorderColor.withOpacity(0.5))),
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
+                                                    color: AppColors
+                                                        .appBorderColor
+                                                        .withOpacity(0.5))),
                                             child: ClipRRect(
-                                                borderRadius: BorderRadius.circular(12),
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
                                                 child: Image.file(
-                                                  _experienceInfoController.firstImage!,
+                                                  _experienceInfoController
+                                                      .firstImage!,
                                                   width: 80,
                                                   height: 80,
                                                   fit: BoxFit.cover,
@@ -175,14 +186,21 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                                             child: InkWell(
                                               onTap: () {
                                                 setState(() {
-                                                  _experienceInfoController.firstImage = null;
+                                                  _experienceInfoController
+                                                      .firstImage = null;
                                                 });
                                               },
                                               child: Container(
-                                                  margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                                                  padding: const EdgeInsets.all(3),
+                                                  margin: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical: 5,
+                                                      horizontal: 5),
+                                                  padding:
+                                                      const EdgeInsets.all(3),
                                                   decoration: BoxDecoration(
-                                                      color: AppColors.downArrowColor.withOpacity(0.15),
+                                                      color: AppColors
+                                                          .downArrowColor
+                                                          .withOpacity(0.15),
                                                       shape: BoxShape.circle),
                                                   child: const Icon(
                                                     Icons.close,
@@ -192,7 +210,8 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                                       ],
                                     ),
                                   ),
-                                if (_experienceInfoController.secondImage != null)
+                                if (_experienceInfoController.secondImage !=
+                                    null)
                                   Padding(
                                     padding: const EdgeInsets.only(left: 10),
                                     child: SizedBox(
@@ -202,12 +221,18 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                                         children: [
                                           Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(12),
-                                                  border: Border.all(color: AppColors.appBorderColor.withOpacity(0.5))),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  border: Border.all(
+                                                      color: AppColors
+                                                          .appBorderColor
+                                                          .withOpacity(0.5))),
                                               child: ClipRRect(
-                                                  borderRadius: BorderRadius.circular(12),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
                                                   child: Image.file(
-                                                    _experienceInfoController.secondImage!,
+                                                    _experienceInfoController
+                                                        .secondImage!,
                                                     width: 80,
                                                     height: 80,
                                                     fit: BoxFit.cover,
@@ -217,14 +242,21 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                                               child: InkWell(
                                                 onTap: () {
                                                   setState(() {
-                                                    _experienceInfoController.secondImage = null;
+                                                    _experienceInfoController
+                                                        .secondImage = null;
                                                   });
                                                 },
                                                 child: Container(
-                                                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                                                    padding: const EdgeInsets.all(3),
+                                                    margin: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 5,
+                                                        horizontal: 5),
+                                                    padding:
+                                                        const EdgeInsets.all(3),
                                                     decoration: BoxDecoration(
-                                                        color: AppColors.downArrowColor.withOpacity(0.15),
+                                                        color: AppColors
+                                                            .downArrowColor
+                                                            .withOpacity(0.15),
                                                         shape: BoxShape.circle),
                                                     child: const Icon(
                                                       Icons.close,
@@ -237,17 +269,30 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                                   ),
                               ],
                             ),
-                            if (_experienceInfoController.secondImage == null || _experienceInfoController.firstImage == null)
+                            if (_experienceInfoController.secondImage == null ||
+                                _experienceInfoController.firstImage == null)
                               Padding(
-                                padding: EdgeInsets.only(top: _experienceInfoController.secondImage == null && _experienceInfoController.firstImage == null ? 0 : 15),
+                                padding: EdgeInsets.only(
+                                    top:
+                                        _experienceInfoController.secondImage ==
+                                                    null &&
+                                                _experienceInfoController
+                                                        .firstImage ==
+                                                    null
+                                            ? 0
+                                            : 15),
                                 child: Column(
                                   children: <Widget>[
-                                    const Icon(Icons.cloud_upload_outlined, color: AppColors.appBlue),
+                                    const Icon(Icons.cloud_upload_outlined,
+                                        color: AppColors.appBlue),
                                     Center(
                                         child: Text(
-                                          _experienceInfoController.firstImage != null ? 'Add More' : 'upload certificate',
-                                          style: openSans.get14.w500.appBlue,
-                                        )),
+                                      _experienceInfoController.firstImage !=
+                                              null
+                                          ? 'Add More'
+                                          : 'upload certificate',
+                                      style: openSans.get14.w500.appBlue,
+                                    )),
                                   ],
                                 ),
                               ),
@@ -260,7 +305,9 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                 padding: const EdgeInsets.only(top: 15, bottom: 25),
                 child: Row(
                   children: <Widget>[
-                    Text('Make it visible for users', style: openSans.get14.w500.textColor(AppColors.appTextColor)),
+                    Text('Make it visible for users',
+                        style: openSans.get14.w500
+                            .textColor(AppColors.appTextColor)),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: FlutterSwitch(
@@ -272,7 +319,8 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                         inactiveColor: AppColors.gray.withOpacity(0.25),
                         onToggle: (bool value) {
                           setState(() {
-                            _experienceInfoController.isSwitchCertificates = value;
+                            _experienceInfoController.isSwitchCertificates =
+                                value;
                           });
                         },
                       ),
@@ -283,17 +331,28 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
               AppButton(
                   title: 'Continue To Teaching Information',
                   onPressed: () {
-                    if(_experienceInfoController.experienceYearController.text.isNotEmpty && _experienceInfoController.educationController.text.isNotEmpty && _experienceInfoController.experienceBriefController.text.isNotEmpty) {
+                    if (_experienceInfoController
+                            .experienceYearController.text.isNotEmpty &&
+                        _experienceInfoController
+                            .educationController.text.isNotEmpty &&
+                        _experienceInfoController
+                            .experienceBriefController.text.isNotEmpty) {
                       _experienceInfoController.experienceInformationUpdate();
                     }
                   },
-                  isDisable: _experienceInfoController.experienceYearController.text.isNotEmpty && _experienceInfoController.educationController.text.isNotEmpty && _experienceInfoController.experienceBriefController.text.isNotEmpty ?false:true),
+                  isDisable: _experienceInfoController
+                              .experienceYearController.text.isNotEmpty &&
+                          _experienceInfoController
+                              .educationController.text.isNotEmpty &&
+                          _experienceInfoController
+                              .experienceBriefController.text.isNotEmpty
+                      ? false
+                      : true),
             ],
           ),
         ),
       ),
     );
-
   }
 
   Future<void> pickDocument() async {
@@ -302,14 +361,16 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
       allowedExtensions: <String>['pdf', 'png', 'jpeg', 'jpg'],
     );
     if (result != null) {
-      _personalInfoController.uploadDocument(result.files.single.path??'');
+      _personalInfoController.uploadDocument(result.files.single.path ?? '');
       if (_experienceInfoController.firstImage == null) {
         setState(() {
-          _experienceInfoController.firstImage = File(result.files.single.path ?? '');
+          _experienceInfoController.firstImage =
+              File(result.files.single.path ?? '');
         });
       } else {
         setState(() {
-          _experienceInfoController.secondImage = File(result.files.single.path ?? '');
+          _experienceInfoController.secondImage =
+              File(result.files.single.path ?? '');
         });
       }
     }

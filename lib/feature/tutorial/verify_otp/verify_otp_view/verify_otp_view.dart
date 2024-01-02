@@ -1,5 +1,3 @@
-
-
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,30 +12,28 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../controller/verify_otp_controller.dart';
 
-
 class VerifyOtpView extends StatelessWidget {
-   VerifyOtpView({super.key});
-  final RegExp _emailMaskRegExp = RegExp('^(.)(.*?)([^@]?)(?=@[^@]+\$)');
+  VerifyOtpView({super.key});
+  final RegExp _emailMaskRegExp = RegExp(r'^(.)(.*?)([^@]?)(?=@[^@]+$)');
 
   String maskEmail(String input, [int minFill = 4, String fillChar = '*']) {
-    minFill ??= 4;
-    fillChar ??= '*';
-    return input.replaceFirstMapped(_emailMaskRegExp, (m) {
-      var start = m.group(1);
-      var middle = fillChar * max(minFill, m.group(2)!.length);
-      var end = m.groupCount >= 3 ? m.group(3) : start;
+    return input.replaceFirstMapped(_emailMaskRegExp, (Match m) {
+      final String? start = m.group(1);
+      final String middle = fillChar * max(minFill, m.group(2)!.length);
+      final String? end = m.groupCount >= 3 ? m.group(3) : start;
       return start! + middle + end!;
     });
   }
-   final VerifyOtpController _verifyOtpController=Get.put(VerifyOtpController());
+
+  final VerifyOtpController _verifyOtpController =
+      Get.put(VerifyOtpController());
   @override
   Widget build(BuildContext context) {
-    _verifyOtpController.arguments = ModalRoute.of(context)!
-        .settings
-        .arguments! as Map<String, dynamic>;
+    _verifyOtpController.arguments =
+        ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
     _verifyOtpController.otpId.value =
         _verifyOtpController.arguments['otp_id'].toString();
-    return Obx( () {
+    return Obx(() {
       return Scaffold(
         body: PreLoginCustomBody(
           widget: Expanded(
@@ -63,8 +59,10 @@ class VerifyOtpView extends StatelessWidget {
                 AppText(
                   textAlign: TextAlign.start,
                   (_verifyOtpController.arguments['isScreen'])
-                      ? 'enterTheVerification'.tr+ maskEmail(_verifyOtpController.arguments['email'].toString())
-                      : 'enterTheCodeWe'.tr+_verifyOtpController.arguments['mobile'].toString().substring(0,2)+'XXXXXX'+_verifyOtpController.arguments['mobile'].toString().substring(_verifyOtpController.arguments['mobile'].toString().length-2,_verifyOtpController.arguments['mobile'].toString().length),
+                      ? 'enterTheVerification'.tr +
+                          maskEmail(_verifyOtpController.arguments['email']
+                              .toString())
+                      : '${'enterTheCodeWe'.tr}${_verifyOtpController.arguments['mobile'].toString().substring(0, 2)}XXXXXX${_verifyOtpController.arguments['mobile'].toString().substring(_verifyOtpController.arguments['mobile'].toString().length - 2, _verifyOtpController.arguments['mobile'].toString().length)}',
                   fontWeight: FontWeight.w400,
                 ),
                 SizedBox(height: 20.px),
@@ -79,8 +77,8 @@ class VerifyOtpView extends StatelessWidget {
                   //   focusedBorderColor: primaryColor,
                   // clearText: clearText,
                   showFieldAsBox: true,
-                  textStyle: TextStyle(
-                      fontWeight: FontWeight.w700, fontSize: 16.px),
+                  textStyle:
+                      TextStyle(fontWeight: FontWeight.w700, fontSize: 16.px),
                   onCodeChanged: (String value) {
                     _verifyOtpController.isCorrect.value = true;
                   },
@@ -134,8 +132,8 @@ class VerifyOtpView extends StatelessWidget {
                 GestureDetector(
                   onTap: (!_verifyOtpController.isTimerRunning.value)
                       ? () {
-                    _verifyOtpController.reSendOtp();
-                  }
+                          _verifyOtpController.reSendOtp();
+                        }
                       : () {},
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

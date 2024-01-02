@@ -11,11 +11,10 @@ import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/lang/language_manager.dart';
 import '../../language/controller/language_controller.dart';
 
-
 class LanguageBottomSheet extends StatelessWidget {
-  LanguageBottomSheet({ super.key, this.setState});
+  LanguageBottomSheet({super.key, this.setState});
 
-  final LanguageController _languageController=Get.find();
+  final LanguageController _languageController = Get.find();
   Function? setState;
 
   @override
@@ -69,13 +68,14 @@ class LanguageBottomSheet extends StatelessWidget {
                       onTap: () {
                         // ignore: avoid_dynamic_calls
 
-                          _languageController.selectLanguage(index);
-                          Get.updateLocale(index==0?LanguageManager.instance.enLocale:LanguageManager.instance.arLocale);
-
+                        _languageController.selectLanguage(index);
+                        Get.updateLocale(index == 0
+                            ? LanguageManager.instance.enLocale
+                            : LanguageManager.instance.arLocale);
 
                         Future.delayed(
                           const Duration(milliseconds: 200),
-                              () {
+                          () {
                             AppRouter.pop();
                           },
                         );
@@ -106,7 +106,8 @@ class LanguageBottomSheet extends StatelessWidget {
                             AppImageAsset(
                               image: ImageConstants.acceptedStatus,
                               height: 23.px,
-                              color: (_languageController.languageIndex.value == index)
+                              color: (_languageController.languageIndex.value ==
+                                      index)
                                   ? AppColors.appBlue
                                   : AppColors.appWhite,
                             ),
