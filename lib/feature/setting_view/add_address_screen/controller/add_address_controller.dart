@@ -8,8 +8,7 @@ import 'package:get/get.dart' hide Response;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../config/routes/app_router.dart';
 import '../../../../core/user_location.dart';
-import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
+import '../../../../product/cache/local_manager.dart';
 import '../../../tutorial/mobileEnter/model/country_code_model.dart';
 import '../../manage_address/controller/manage_controller.dart';
 import '../Model/request_address_model.dart';
@@ -32,7 +31,6 @@ class AddAddressController extends GetxController{
   @override
   void init() {
     // fetchFullData();
-    KeyValueStorageBase.init();
   }
 fetchFullData()async{
   EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
@@ -124,9 +122,8 @@ fetchFullData()async{
   RxList<CountryCodeModel> filteredCountries = <CountryCodeModel>[].obs;
 
   Future<Options> _headers() async {
-    final KeyValueStorageService keyValueStorageService =
-    KeyValueStorageService();
-    final String token = await keyValueStorageService.getAuthToken();
+
+    final String token =  LocaleManager.getAuthToken() ??'';
     print("get token ${token}");
     return Options(
       headers: {

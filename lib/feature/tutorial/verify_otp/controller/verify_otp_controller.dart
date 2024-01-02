@@ -8,9 +8,9 @@ import '../../../../core/base_response.dart';
 import '../../../../custom/countdown_timer/timer_count_down.dart';
 import '../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../custom/loader/easy_loader.dart';
+import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_utils.dart';
-import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 import '../../../home/controller/home_controller.dart';
 import '../model/otp_model.dart';
@@ -30,10 +30,9 @@ class VerifyOtpController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
+
     currentProfile.value =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
-            '';
+        LocaleManager.getValue( StorageKeys.profile) ??'';
     timerController.start();
     isTimerRunning.value = true;
     logs('current profile --> $currentProfile');

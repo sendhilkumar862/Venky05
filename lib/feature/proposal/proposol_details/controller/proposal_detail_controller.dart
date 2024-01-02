@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_constants.dart';
-import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 import '../../proposals_by/view/proposals_by.dart';
 
@@ -18,10 +18,6 @@ class ProposalDetailController extends GetxController{
     fetchMap();
     getProfile();
   }
-
-  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-  final KeyValueStorageService keyValueStorageService =
-  KeyValueStorageService();
 
 
   RxString selectedProfile = ''.obs;
@@ -72,7 +68,6 @@ class ProposalDetailController extends GetxController{
 
   void getProfile() {
     selectedProfile.value =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
-            ApplicationConstants.student;
+        LocaleManager.getValue(StorageKeys.profile) ?? ApplicationConstants.student;
   }
 }

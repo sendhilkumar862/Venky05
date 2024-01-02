@@ -6,9 +6,9 @@ import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../core/base_response.dart';
 import '../../../../custom/loader/easy_loader.dart';
+import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_utils.dart';
-import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../pre_login/personalInfo/repository/get_country_repository.dart';
 import '../model/country_code_model.dart';
 import '../model/enter_mobile_model.dart';
@@ -20,12 +20,8 @@ class MobileEnterController extends GetxController {
   void onInit() {
     super.onInit();
     fetchData();
-    KeyValueStorageBase.init();
-    final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-    countryCode.value = keyValueStorageBase
-        .getCommon(List<String>, KeyValueStorageService.countryCodeAndIDD)
-        .toString()
-        .split(',');
+    countryCode.value =  LocaleManager.getValue( StorageKeys.countryCodeAndIDD).toString().split(',');
+
   }
 
   final GetCountryRepository _countryRepository = GetCountryRepository();

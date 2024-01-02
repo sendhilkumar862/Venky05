@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../custom/navgation/navbar.dart';
 import '../../../custom/navgation/navbar_item.dart';
+import '../../../product/cache/key_value_storeage.dart';
+import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/extension/context_extension.dart';
-import '../../../product/network/local/key_value_storage_base.dart';
-import '../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/validators.dart';
 import '../../home_views/views/home_views.dart';
 import '../../preference/view/preference_view.dart';
@@ -23,30 +23,23 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-  final KeyValueStorageService keyValueStorageService =
-      KeyValueStorageService();
   String selectedProfile = '';
   bool getPreference = false;
   final HomeController _homeController = Get.put(HomeController());
   @override
   void initState() {
     super.initState();
-    KeyValueStorageBase.init();
     setData();
     _homeController.fetchToken();
   }
 
   Future<void> setData() async {
-    final String token = await keyValueStorageService.getAuthToken();
+    final String token = LocaleManager.getAuthToken() ?? '';
     if (token.isNotEmpty) {
       logs('Token--> $token');
-      selectedProfile = keyValueStorageBase.getCommon(
-              String, KeyValueStorageService.profile) ??
-          '';
-      getPreference = keyValueStorageBase.getCommon(
-              bool, KeyValueStorageService.setPreference) ??
-          false;
+      selectedProfile = LocaleManager.getValue(StorageKeys.profile) ??'';
+
+      getPreference = LocaleManager.getValue(StorageKeys.setPreference) ?? false;
       setState(() {});
     }
   }

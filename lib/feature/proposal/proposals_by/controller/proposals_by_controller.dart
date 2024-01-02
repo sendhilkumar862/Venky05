@@ -1,14 +1,9 @@
 import 'package:get/get.dart';
-
-import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
+import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/local_manager.dart';
 import '../view/proposals_by.dart';
 
 class ProposalsByController extends GetxController{
-  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-  final KeyValueStorageService keyValueStorageService =
-  KeyValueStorageService();
-
 
   RxString selectedProfile = ''.obs;
 
@@ -42,7 +37,6 @@ class ProposalsByController extends GetxController{
   void onInit() {
     super.onInit();
     selectedProfile.value =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
-            '';
+        LocaleManager.getValue(StorageKeys.profile) ??'';
   }
 }

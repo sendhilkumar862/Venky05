@@ -2,13 +2,10 @@ import 'dart:async';
 import 'dart:io';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/validators.dart';
 
 class ClassDetailsController extends GetxController{
-  final KeyValueStorageService keyValueStorageService =
-  KeyValueStorageService();
-  @override
+
 
 
   @override

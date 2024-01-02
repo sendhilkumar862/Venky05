@@ -5,11 +5,11 @@ import '../../../config/routes/app_router.dart';
 import '../../../config/routes/routes.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/text/app_text.dart';
+import '../../../product/cache/key_value_storeage.dart';
+import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
-import '../../../product/network/local/key_value_storage_base.dart';
-import '../../../product/network/local/key_value_storage_service.dart';
 import '../../home/controller/home_controller.dart';
 import '../controller/home_view_controller.dart';
 
@@ -21,7 +21,6 @@ class HomeViews extends StatefulWidget {
 }
 
 class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
-  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
   String selectedUserStatus = '';
   String selectedProfile = '';
   final HomeController _homeController = Get.find();
@@ -29,13 +28,10 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    KeyValueStorageBase.init();
+
     selectedProfile =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
-            '';
-    selectedUserStatus = keyValueStorageBase.getCommon(
-            String, KeyValueStorageService.userInfoStatus) ??
-        '';
+        LocaleManager.getValue(StorageKeys.profile) ??'';
+    selectedUserStatus =  LocaleManager.getValue(StorageKeys.userInfoStatus) ??'';
   }
 
   @override

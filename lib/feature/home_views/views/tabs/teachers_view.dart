@@ -6,27 +6,22 @@ import '../../../../config/routes/routes.dart';
 import '../../../../custom/cardView/details_card_view.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';
+import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
 import 'classes_view.dart';
 
 
 class TeachersView extends StatefulWidget {
   const TeachersView({Key? key}) : super(key: key);
 
-
-
-
   @override
   State<TeachersView> createState() => _TeachersViewState();
 }
 
 class _TeachersViewState extends State<TeachersView> {
-
-  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
   String selectedProfile = '';
   String selectedUserStatus = '';
   bool isPending = false;
@@ -35,10 +30,8 @@ class _TeachersViewState extends State<TeachersView> {
   void initState() {
     super.initState();
     selectedProfile =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
-            '';
-    selectedUserStatus = keyValueStorageBase.getCommon(
-        String, KeyValueStorageService.userInfoStatus) ?? '';
+        LocaleManager.getValue(StorageKeys.profile) ??'';
+    selectedUserStatus =  LocaleManager.getValue(StorageKeys.userInfoStatus) ??'';
   }
 
   @override
