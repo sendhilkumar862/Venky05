@@ -202,6 +202,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                               onTap: () {
                                                 setState(() {
                                                   firstImage = null;
+                                                  _personalInfoController.civilIds.removeAt(0);
                                                 });
                                               },
                                               child: Container(
@@ -246,6 +247,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                                 onTap: () {
                                                   setState(() {
                                                     secondImage = null;
+                                                    if( _personalInfoController.civilIds.length==2){
+                                                    _personalInfoController.civilIds.removeAt(1);}else{
+                                                      _personalInfoController.civilIds.removeAt(0);
+                                                    }
                                                   });
                                                 },
                                                 child: Container(
