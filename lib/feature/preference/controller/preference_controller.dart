@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
 
@@ -6,9 +6,6 @@ import '../../../config/routes/app_router.dart';
 import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
 import '../../../product/constants/app/app_utils.dart';
-import '../../../product/network/local/key_value_storage_base.dart';
-import '../../../product/network/local/key_value_storage_service.dart';
-import '../../tutorial/model/response_model/response_model.dart';
 import '../model/preference_model.dart';
 import '../model/preference_request.dart';
 import '../repository/get_user_reference_repository.dart';
@@ -48,19 +45,6 @@ class PreferenceController extends GetxController {
   void onInit() {
     super.onInit();
     getUserPreference();
-  }
-
-  Future<Options> _headers() async {
-    final KeyValueStorageService keyValueStorageService =
-        KeyValueStorageService();
-    final String token = await keyValueStorageService.getAuthToken();
-    print("get token ${token}");
-    return Options(
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Auth-Token': token,
-      },
-    );
   }
 
   Future<void> getUserPreference() async {

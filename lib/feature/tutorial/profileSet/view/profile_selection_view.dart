@@ -8,10 +8,10 @@ import '../../../../custom/appbar/appBarOnBoard.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/text/app_text.dart';
+import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../view/bottomSheets/about_app_bottom_view.dart';
 import '../Controller/profile_set_controller.dart';
 
@@ -42,10 +42,7 @@ class ProfileSelectionView extends StatelessWidget {
           );
         },
         onBackTap: () {
-          final KeyValueStorageBase keyValueStorageBase =
-          KeyValueStorageBase();
-          keyValueStorageBase.setCommon(
-              KeyValueStorageService.country, '');
+          LocaleManager.setValue( StorageKeys.country,'');
           AppRouter.pop(context);
         },
       ),

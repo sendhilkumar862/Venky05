@@ -111,6 +111,8 @@ class ApiEndpoint {
         return '$path/countries';
       case Public.COUNTRY_ID:
         return '$path/countries/idd';
+      case Public.CITIES:
+        return '$path/kw/cities';
     }
   }
 
@@ -264,7 +266,8 @@ enum TeacherEndpoint {
 enum Public {
   /// An endpoint for teacgers' collection requests.
   COUNTRY,
-  COUNTRY_ID
+  COUNTRY_ID,
+  CITIES
 }
 
 /// A collection of endpoints used for Download.

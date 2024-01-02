@@ -7,12 +7,12 @@ import '../../../config/routes/routes.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/choice/choice.dart';
 import '../../../custom/divider/divider.dart';
+import '../../../product/cache/key_value_storeage.dart';
+import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/extension/colors_extension.dart';
-import '../../../product/network/local/key_value_storage_base.dart';
-import '../../../product/network/local/key_value_storage_service.dart';
 import '../../home/controller/home_controller.dart';
 import '../controller/preference_controller.dart';
 import '../model/preference_model.dart';
@@ -30,7 +30,6 @@ class _PreferenceViewState extends State<PreferenceView>
   final PreferenceController _preferenceController =Get.put(PreferenceController());
   List<String> choicesValue = <String>[];
   late final AnimationController _controller;
-  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
   String selectedProfile = '';
 /*  Set<String> selectedGrade = <String>{};
   Set<String> selectedSchool = <String>{};*/
@@ -605,9 +604,7 @@ class _PreferenceViewState extends State<PreferenceView>
                           final HomeController _homeController=Get.put(HomeController());
                          await  _homeController.fetchData();
                           Navigator.of(context).pop();
-                          selectedProfile = keyValueStorageBase.getCommon(
-                              String, KeyValueStorageService.profile) ??
-                              '';
+                          LocaleManager.getValue(StorageKeys.profile) ??'';
                           if (selectedProfile ==
                               ApplicationConstants.student) {
                             AppRouter.pushNamed(Routes.HomeScreenRoute);

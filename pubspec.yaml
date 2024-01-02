@@ -46,6 +46,8 @@ dependencies:
 
   #getex
   get: ^4.6.6
+
+  # storage
   get_storage: ^2.1.1
 
   #rating bar:
@@ -93,9 +95,8 @@ dependencies:
   # animations
   lottie: ^2.7.0
 
-  # storage
-  shared_preferences: ^2.0.17
-  flutter_secure_storage: ^9.0.0
+
+
 
   #local_auth
   local_auth: ^2.1.7

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-
 import '../../../../core/base_response.dart';
 import '../../../../product/constants/app/app_utils.dart';
-import '../../../../product/network/local/key_value_storage_base.dart';
 import '../../../../product/utils/validators.dart';
 import '../../../tutorial/password/model/term_and_condition_model.dart';
 import '../repository/change_password_repository.dart';
@@ -39,7 +37,6 @@ class ChangePasswordController extends GetxController {
 
   @override
   void onInit() {
-    KeyValueStorageBase.init();
     fetchData();
     isWrongOldPassword.value = false;
     oldPasswordController.clear();

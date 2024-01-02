@@ -7,10 +7,10 @@ import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../core/base_response.dart';
 import '../../../../custom/loader/easy_loader.dart';
+import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/enums/app_register_status_enums.dart';
-import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 import '../model/email_enter_model.dart';
 import '../model/email_enter_request.dart';
@@ -24,10 +24,7 @@ class EmailEnterController extends GetxController{
   @override
   void onInit() {
     super.onInit();
-    KeyValueStorageBase.init();
   }
-
-  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
   final RegisterMailRepositoryRepository _registerMailRepositoryRepository=RegisterMailRepositoryRepository();
   final SendOTPRepositoryRepository _sendOTPRepositoryRepository =SendOTPRepositoryRepository();
 
@@ -44,7 +41,7 @@ class EmailEnterController extends GetxController{
   Future<void> registerMail() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final BaseResponse registerEmailResponse = await _registerMailRepositoryRepository.registerMail(
-        emailEnterModel: EmailEnterRequest(role:keyValueStorageBase.getCommon(String, KeyValueStorageService.profile),email: emailController.text, )
+        emailEnterModel: EmailEnterRequest(role:LocaleManager.getValue( StorageKeys.profile),email: emailController.text, )
        );
     if (registerEmailResponse.status?.type == 'success') {
       var emailRegisterData=registerEmailResponse.data!.item! as Map<String, dynamic>;

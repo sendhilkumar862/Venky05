@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide Response;
 
-import '../../../../product/network/local/key_value_storage_service.dart';
-
 
 class MessageController extends GetxController{
-  final KeyValueStorageService keyValueStorageService =
-  KeyValueStorageService();
+
   TextEditingController searchTeacherController = TextEditingController();
   RxInt selectedIndex = 1.obs;
   RxList<bool> isSelectReadStatus = [false, false].obs;

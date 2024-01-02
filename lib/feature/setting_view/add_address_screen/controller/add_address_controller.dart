@@ -1,18 +1,18 @@
 import 'dart:async';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:get/get.dart' hide Response;
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../config/routes/app_router.dart';
+import '../../../../core/base_response.dart';
 import '../../../../core/user_location.dart';
-import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
+import '../../../../product/constants/app/app_utils.dart';
 import '../../../tutorial/mobileEnter/model/country_code_model.dart';
 import '../../manage_address/controller/manage_controller.dart';
 import '../Model/request_address_model.dart';
+import '../repository/add_address_repository.dart';
+import '../repository/get_city_repository.dart';
 
 
 
@@ -21,6 +21,8 @@ class AddAddressController extends GetxController{
   TextEditingController addressFirst = TextEditingController();
   TextEditingController addressSecond = TextEditingController();
   TextEditingController mobileController = TextEditingController();
+  final AddAddressRepository _addAddressRepository=AddAddressRepository();
+  final GetCityRepository _getCityRepository=GetCityRepository();
   // ignore: always_specify_types
   RxList<String> city=<String>[].obs;
    RxString selectedCity=''.obs;
@@ -32,7 +34,6 @@ class AddAddressController extends GetxController{
   @override
   void init() {
     // fetchFullData();
-    KeyValueStorageBase.init();
   }
 fetchFullData()async{
   EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
@@ -78,18 +79,11 @@ fetchFullData()async{
 
   RxInt mobileValid = 2.obs;
 
-
-
-
   Map<String, dynamic> arguments = {
     'id': '',
     'otp_id': '',
     'isScreen': false,
   };
-
-
-
-
 
   void validateMobile(String value) {
     responseError.value = '';
@@ -123,50 +117,38 @@ fetchFullData()async{
 
   RxList<CountryCodeModel> filteredCountries = <CountryCodeModel>[].obs;
 
-  Future<Options> _headers() async {
-    final KeyValueStorageService keyValueStorageService =
-    KeyValueStorageService();
-    final String token = await keyValueStorageService.getAuthToken();
-    print("get token ${token}");
-    return Options(
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Auth-Token': token,
-      },
-    );
-  }
   Future<void> fetchCity() async {
-    Dio dio = Dio();
-    try {
-      Response response =
-      await dio.get('http://167.99.93.83/api/v1/public/kw/cities');
-      if (response.statusCode == 200) {
-        final List<dynamic> cityJson = response.data['data']['items'];
+    final BaseResponse cityResponse = await _getCityRepository.getCity();
+      if (cityResponse.status?.type == 'success') {
+        final List<dynamic> cityJson = cityResponse.data?.item as List<dynamic>;
         city.clear();
         for (var element in cityJson) {
           city.add(element['city_name']);
         }
         
+      }else{
+        AppUtils.showFlushBar(
+          context: AppRouter.navigatorKey.currentContext!,
+          message: cityResponse.status?.message ?? 'Error occured',
+        );
       }
-    } catch (error) {
-    }
+
   }
-  Future<void> addAddress(AddressRequestModel data) async {
-    Dio dio = Dio();
-    try {
-      EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-      Response response =
-      await dio.post('http://167.99.93.83/api/v1/users/:userId/address/',
-      options:  await _headers(),
-      data: data.toJson());
-      if (response.statusCode == 200) {
-        final ManageAddressController manageAddressController=Get.find();
-        await manageAddressController.fetchAddressData();
-        EasyLoading.dismiss();
-        AppRouter.pop();
-      }
-    } catch (error) {
+
+  Future<void> addAddress( AddressRequestModel userAddress) async {
+    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+    final BaseResponse addAddressResponse = await _addAddressRepository.addAddressRepository(userAddress);
+    if (addAddressResponse.status?.type == 'success') {
+      final ManageAddressController manageAddressController=Get.find();
+      await manageAddressController.fetchAddressData();
+      AppRouter.pop();
+    } else {
+      AppUtils.showFlushBar(
+        context: AppRouter.navigatorKey.currentContext!,
+        message: addAddressResponse.status?.message ?? 'Error occured',
+      );
     }
+    EasyLoading.dismiss();
   }
 
   CountryCodeModel? selectedCountry;

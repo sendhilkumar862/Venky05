@@ -12,11 +12,11 @@ import '../../../../custom/cardView/info_card_view.dart';
 import '../../../../custom/divider/divider.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
+import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../home/controller/home_controller.dart';
 import '../../../home_views/views/tabs/classes_view.dart';
 import '../../view/invoice_card_view.dart';
@@ -34,7 +34,6 @@ class WalletView extends StatefulWidget {
 
 class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
   bool isStudent = false;
-  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
   String selectedProfile = '';
   String selectedUserStatus = '';
   bool isPending = false;
@@ -44,11 +43,8 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     selectedProfile =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
-            '';
-    selectedUserStatus = keyValueStorageBase.getCommon(
-            String, KeyValueStorageService.userInfoStatus) ??
-        '';
+        LocaleManager.getValue( StorageKeys.profile) ??'';
+    selectedUserStatus =  LocaleManager.getValue( StorageKeys.userInfoStatus) ??'';
   }
 
   @override

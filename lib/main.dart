@@ -7,11 +7,11 @@ import 'package:get/get.dart' hide ScreenType;
 import 'package:get_storage/get_storage.dart';
 import 'package:mobx/mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+
 import 'config/routes/app_router.dart';
-import 'feature/splash/view/splash_view.dart';
 import 'feature/splash/controller/splash_controller.dart';
+import 'feature/splash/view/splash_view.dart';
 import 'locale.dart';
-import 'product/cache/locale_manager.dart';
 import 'product/lang/language_manager.dart';
 
 
@@ -21,7 +21,6 @@ Future<void> main() async {
   await GetStorage.init();
   mainContext.spy(print);
   WidgetsFlutterBinding.ensureInitialized(); // Initialize the Flutter binding
-  LocaleManager.prefrencesInit();
   runApp(
     const MyApp(),
   );
