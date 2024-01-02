@@ -38,7 +38,6 @@ class _HomeViewState extends State<HomeView> {
     if (token.isNotEmpty) {
       logs('Token--> $token');
       selectedProfile = LocaleManager.getValue(StorageKeys.profile) ??'';
-
       getPreference = LocaleManager.getValue(StorageKeys.setPreference) ?? false;
       setState(() {});
     }
