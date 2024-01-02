@@ -19,18 +19,23 @@ class FinanceInfoController extends GetxController {
 
   RxBool isSuccess = false.obs;
 
-  void validateIBAN(String value) {
+  bool validateIBAN(String value) {
     final String iban = validateKuwaitIBAN(value);
     if (value.isEmpty) {
       ibanError.value = 'ibanError'.tr;
+      return false;
     } else if (value.length != 30) {
       ibanError.value = 'ibanLengthError'.tr;
+      return false;
     } else if (!value.startsWith('KW')) {
       ibanError.value = 'ibanLocalError'.tr;
+      return false;
     } else if (iban.isNotEmpty) {
       ibanError.value = 'ibanInvalid'.tr;
+      return false;
     } else {
       ibanError.value = '';
+      return true;
     }
   }
 

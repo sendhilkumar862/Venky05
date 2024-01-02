@@ -115,7 +115,9 @@ class _FinancingViewState extends State<FinancingView> {
                 isDisable:
                     _financeInfoController.ibanController.text.isNotEmpty &&
                             _financeInfoController
-                                .nickNameController.text.isNotEmpty && _financeInfoController.ibanController.
+                                .nickNameController.text.isNotEmpty &&
+                            _financeInfoController.validateIBAN(
+                                _financeInfoController.ibanController.text)
                         ? false
                         : true)
           ],
