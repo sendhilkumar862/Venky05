@@ -16,7 +16,7 @@ class ClassDetailController extends GetxController{
   '';
 }
 
-
+  RxInt? selectedIndex =200.obs;
   RxString selectedProfile = ''.obs;
 
 

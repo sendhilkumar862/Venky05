@@ -252,20 +252,6 @@ class _SettingViewState extends State<SettingView> {
     );
   }
 
-  void manageAddressBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-        backgroundColor: Colors.white,
-        isScrollControlled: true,
-        // showDragHandle: true,
-        useSafeArea: true,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30), topLeft: Radius.circular(30))),
-        context: context,
-        builder: (BuildContext bc) {
-          return const ManageAddressView();
-        });
-  }
 
   Widget selectCardView({String? icon, String? title, VoidCallback? onTap}) {
     return GestureDetector(
@@ -556,7 +542,6 @@ class _SettingViewState extends State<SettingView> {
         _settingController.logout(context);
       case SettingTitle.manageAddress:
         AppRouter.push(const ManageAddressScreen());
-      // manageAddressBottomSheet(context);
       case SettingTitle.changeCountry:
         showModalBottomSheet(
           isScrollControlled: true,
