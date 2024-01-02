@@ -21,6 +21,6 @@ class LocaleManager {
   static void setValue(String key,  dynamic value)  {
      localeManager.write(key, value);
   }
-  static dynamic getValue(String key) => localeManager.read(key) ?? '';
+  static dynamic getValue(String key) => localeManager.read(key);
   static void removeValue(String key) => localeManager.remove(key);
 }
