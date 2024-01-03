@@ -1,6 +1,6 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/route.dart';
 import '../../../../core/base_response.dart';
 import '../../../../custom/loader/easy_loader.dart';
 import '../../../../product/cache/key_value_storeage.dart';
@@ -36,7 +36,7 @@ class ProfileSetController extends GetxController {
     if (selectedIndex.value != 2) {
       LocaleManager.setValue( StorageKeys.profile, selectedIndex == 0 ? 'Tutor' : 'Student');
       _onBoadingController.currentProfile.value=selectedIndex == 0 ? 'Tutor' : 'Student';
-      AppRouter.push( OnboardingView());
+      Get.toNamed(Routes.onBoardingView);
     }
   }
 

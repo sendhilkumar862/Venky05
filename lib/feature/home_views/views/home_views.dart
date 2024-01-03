@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../../config/routes/app_router.dart';
-import '../../../config/routes/routes.dart';
+import '../../../config/routes/route.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/cache/key_value_storeage.dart';
@@ -47,13 +46,13 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
           isSearchIconShown: !(selectedProfile == ApplicationConstants.tutor &&
               selectedUserStatus != '99'),
           onBellTap: () {
-            AppRouter.pushNamed(Routes.notificationView);
+            Get.toNamed(Routes.notificationView);
           },
           onSearchTap: () {
-            AppRouter.pushNamed(Routes.searchView);
+            Get.toNamed(Routes.searchView);
           },
           onProfileTap: () {
-            AppRouter.pushNamed(Routes.settingView);
+            Get.toNamed(Routes.settingView);
           },
         ),
         body: Column(

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
-import '../../../../config/routes/app_router.dart';
 import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/dialog/success_fail_dialog.dart';
@@ -30,7 +28,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
       appBar: HessaAppBar(
         leadingTap: () {
           _changePasswordController.backButtonTapped();
-          AppRouter.pop();
+          Get.back();
         },
         title: 'changePassword'.tr,
         isTitleOnly: true,

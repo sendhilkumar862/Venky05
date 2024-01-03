@@ -1,11 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../../config/routes/routes.dart';
 import '../../../../../custom/app_button/app_button.dart';
 import '../../../../../custom/app_textformfield/app_field.dart';
 import '../../../../../custom/appbar/appbar.dart';
-import '../../../../../custom/cardView/info_card_view.dart';
 import '../../../../../custom/cardView/warning_card_view.dart';
 import '../../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../../custom/sheet/show_bottom_sheet.dart';

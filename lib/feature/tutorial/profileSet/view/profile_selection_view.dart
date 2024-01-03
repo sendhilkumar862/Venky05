@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../../../config/routes/app_router.dart';
 import '../../../../custom/appbar/appBarOnBoard.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
@@ -16,9 +15,14 @@ import '../../view/bottomSheets/about_app_bottom_view.dart';
 import '../Controller/profile_set_controller.dart';
 
 class ProfileSelectionView extends StatelessWidget {
-   ProfileSelectionView({super.key, this.continueRegistration});
-  final bool? continueRegistration;
+   ProfileSelectionView({super.key, });
+   bool continueRegistration=false;
   final ProfileSetController _profileSetController= Get.put(ProfileSetController());
+
+   @override
+   void initState() {
+     continueRegistration = Get.arguments['continueRegistration'];
+   }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +47,7 @@ class ProfileSelectionView extends StatelessWidget {
         },
         onBackTap: () {
           LocaleManager.setValue( StorageKeys.country,'');
-          AppRouter.pop(context);
+          Get.back();
         },
       ),
       body: Padding(

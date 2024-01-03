@@ -2,8 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
-import '../../../../config/routes/app_router.dart';
 import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';
 import '../../../../custom/switch/app_switch.dart';
@@ -13,11 +11,10 @@ import '../controller/user_info_controller.dart';
 
 class UserInfoView extends StatelessWidget {
    UserInfoView({super.key});
-  UserInfoController _userInfoController = Get.put(UserInfoController());
+  final UserInfoController _userInfoController = Get.put(UserInfoController());
   @override
   Widget build(BuildContext context) {
-    _userInfoController.data =
-    ModalRoute.of(context)!.settings.arguments! as Map;
+    _userInfoController.data=Get.arguments;
     return Obx(() {
       return Scaffold(
         body: PreLoginCustomBody(
@@ -34,12 +31,12 @@ class UserInfoView extends StatelessWidget {
                         (_userInfoController.currentProfile.value == 'Tutor')
                             ? () {
                           int count = 0;
-                          Navigator.popUntil(context, (route) {
+                          Navigator.popUntil(context, (Route route) {
                             return count++ == 2;
                           });
                         }
                             : () {
-                          AppRouter.pop();
+                          Get.back();
                         })),
                 SizedBox(height: 180.px),
                 Align(

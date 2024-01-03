@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
-import '../../../../config/routes/app_router.dart';
-import '../../../../config/routes/routes.dart';
+
+import '../../../../config/routes/route.dart';
+
 import '../../../../core/base_response.dart';
 import '../../../../core/local_auth_services.dart';
 import '../../../../product/cache/key_value_storeage.dart';
@@ -92,7 +93,7 @@ class SignInController extends GetxController {
       if (responseData.token?.accessToken?.isNotEmpty ?? false) {
         LocaleManager.setAuthToken(responseData.token?.accessToken ?? '');
         LocaleManager.setValue(StorageKeys.profile, responseData.token?.role ?? '');
-        AppRouter.pushNamedPopUntil(context, route: Routes.HomeScreenRoute);
+        Get.offAndToNamed(Routes.HomeScreenRoute);
       }
     } else {
       loginStatus.value = signInResponse.status?.type ?? '';
@@ -122,7 +123,7 @@ class SignInController extends GetxController {
       if (responseData.auth?.accessToken?.isNotEmpty ?? false) {
         LocaleManager
             .setAuthToken(responseData.auth?.accessToken ?? '');
-        AppRouter.pushNamedPopUntil(context, route: Routes.HomeScreenRoute);
+        Get.offAndToNamed(Routes.HomeScreenRoute);
       }
     } else {
       loginStatus.value = signInResponse.status?.type ?? '';

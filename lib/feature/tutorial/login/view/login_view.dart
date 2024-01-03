@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../../../config/routes/route.dart';
 
-import '../../../../config/routes/app_router.dart';
-import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/cardView/warning_card_view.dart';
 import '../../../../custom/image/app_image_assets.dart';
@@ -132,7 +131,7 @@ class LoginView extends StatelessWidget {
               isDisable: _signInController.isButtonDisabled.value,
             ),
             GestureDetector(
-              onTap: () => AppRouter.pushNamed(Routes.forgotPasswordView),
+              onTap: () => Get.toNamed(Routes.forgotPasswordView),
               child: AppText(
                 'Forgot Password!',
                 fontSize: 14.px,
