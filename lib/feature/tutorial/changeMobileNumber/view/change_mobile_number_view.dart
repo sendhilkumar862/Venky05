@@ -42,7 +42,7 @@ class ChangeMobileNumberView extends StatelessWidget {
                       children: [
                         SizedBox(height: 30.px),
                         TextFormsField(
-                          prefix: (_changeMobileNumberController.countries.isNotEmpty)
+                          prefix: _mobileEnterController.countries.isNotEmpty
                               ? GestureDetector(
                             onTap: () {
                               showModalBottomSheet(
@@ -65,31 +65,30 @@ class ChangeMobileNumberView extends StatelessWidget {
                                 },
                               );
                             },
-                            child:  Obx(
-                                ()=> Row(
-                                children: [
-                                  SizedBox(width: 6.px),
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(700),
-                                    child: AppImageAsset(
-                                      image: _mobileEnterController
-                                          .countries[_mobileEnterController.countryIndex.value]
-                                          .flag_url ??
-                                          ImageConstants.globe,
-                                      fit: BoxFit.fill,
-                                      height: 16.px,
-                                      width: 16.px,
-                                    ),
+                            child: Row(
+                              children: [
+                                SizedBox(width: 6.px),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(700),
+                                  child: AppImageAsset(
+                                    image: _mobileEnterController
+                                        .countries[_mobileEnterController.countryIndex.value]
+                                        .flag_url ??
+                                        ImageConstants.globe,
+                                    fit: BoxFit.fill,
+                                    height: 16.px,
+                                    width: 16.px,
                                   ),
-                                  SizedBox(width: 6.px),
-                                  AppText(
-                                    _mobileEnterController.countries[_mobileEnterController.countryIndex.value]?.idd_code ??
-                                        'select',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14.px,
-                                  ),
-                                ],
-                              ),
+                                ),
+                                SizedBox(width: 6.px),
+                                AppText(
+                                  _mobileEnterController
+                                      .countries[_mobileEnterController.countryIndex.value].idd_code ??
+                                      'select',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14.px,
+                                )
+                              ],
                             ),
                           )
                               : const SizedBox(),

@@ -75,10 +75,10 @@ class PreferenceController extends GetxController {
     showLoading();
     final BaseResponse setpreferenceData = await _setUserPreferenceRepository
         .setUserPreferenceRepository(PreferenceRequest(
-      grade: selectedGrade,
-      schoolType: selectedSchoolIndices,
-      curriculum: selectedCurriculumIndices,
-      subject: selectedSubjectIndices,
+      grade: selectedGrade.toList(),
+      schoolType: selectedSchoolIndices.toList(),
+      curriculum: selectedCurriculumIndices.toList(),
+      subject: selectedSubjectIndices.toList(),
     ));
     if (setpreferenceData.status?.type == 'success') {
       hideLoading();

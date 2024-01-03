@@ -1,4 +1,7 @@
 
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -7,6 +10,7 @@ import '../../../../config/routes/route.dart';
 
 import '../../../../core/base_response.dart';
 import '../../../../custom/loader/easy_loader.dart';
+import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../home/controller/home_controller.dart';
 import '../../../tutorial/language/model/country_model.dart';
@@ -30,8 +34,7 @@ class PersonalInfoController extends GetxController{
 
 
   RxBool isSwitch = false.obs;
-
-
+   RxList<File>  imageFile=<File>[].obs;
   RxInt genderListIndex = 0.obs;
 
 
@@ -105,7 +108,18 @@ class PersonalInfoController extends GetxController{
       }
     EasyLoading.dismiss();
     }
-
+  Future<void> pickDocument() async {
+    final FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: <String>['pdf', 'png', 'jpeg', 'jpg'],
+    );
+    if (result != null) {
+      final bool isSuccess= await uploadDocument(result.files.single.path??'');
+      if(isSuccess){
+        imageFile.add(File(result.files.single.path ?? ''));
+      }
+    }
+  }
 
   void filterCountries(String query, Function setState) {
     countries.value = countries
@@ -122,9 +136,10 @@ class PersonalInfoController extends GetxController{
   Future<void> personalInformationUpdate() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final BaseResponse personalUpdate = await _personalUpdateRepository.updateCountry(PersonalInfoRequest(nationality:selectedCountry.value.name,languages: languageList.value,dob:dateController.text,
-      dobIsPublic: isSwitch.value,gender: genderListIndex.value==0?"male":"female",civilIds:civilIds ));
+      dobIsPublic: isSwitch.value,gender: genderListIndex.value==0?'male':'female',civilIds:civilIds ));
     if (personalUpdate.status?.type == 'success') {
       civilIds.clear();
+      imageFile.clear();
       final HomeController _home = Get.find();
       _home.fetchData();
       EasyLoading.dismiss();
@@ -134,15 +149,22 @@ class PersonalInfoController extends GetxController{
       }
   }
 
-  Future<void> uploadDocument(String path) async {
+  Future<bool> uploadDocument(String path) async {
+     bool status =false;
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    final BaseResponse signInResponse = await _uploadDocRepository.uploadDocument(path);
-    if (signInResponse.status?.type == 'success') {
-      var data =signInResponse.data?.item as Map<String, dynamic>;
+    final BaseResponse uploadResponse = await _uploadDocRepository.uploadDocument(path);
+    if (uploadResponse.status?.type == 'success') {
+      var data =uploadResponse.data?.item as Map<String, dynamic>;
       civilIds.add(data['id']);
+      status= true;
     } else {
-
+      AppUtils.showFlushBar(
+        context: AppRouter.navigatorKey.currentContext!,
+        message: uploadResponse.status?.message ?? 'Error occured',
+      );
+      status= false;
     }
     EasyLoading.dismiss();
+    return status;
   }
 }

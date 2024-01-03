@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
+import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
@@ -29,8 +30,6 @@ class PersonalInfo extends StatefulWidget {
 }
 
 class _PersonalInfoState extends State<PersonalInfo> {
-  File? firstImage;
-  File? secondImage;
   bool isSelected = false;
   int? isSelect;
   int? selectedIndex = 0;
@@ -159,134 +158,100 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 child: Text('Civil ID',
                     style: openSans.get12.w400.textColor(AppColors.appTextColor.withOpacity(0.5))),
               ),
-              Center(
-                child: SizedBox(
-                  width: width * 0.89,
-                  child: InkWell(
-                    onTap: () {
-                      pickDocument();
-                    },
-                    child: DottedBorder(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        borderType: BorderType.RRect,
-                        radius: const Radius.circular(15),
-                        color: AppColors.appBlue,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                if (firstImage != null)
-                                  SizedBox(
-                                    width: 80,
-                                    height: 80,
-                                    child: Stack(
-                                      children: <Widget>[
-                                        Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(12),
-                                                border: Border.all(
-                                                    color: AppColors.appBorderColor.withOpacity(0.5))),
-                                            child: ClipRRect(
-                                                borderRadius: BorderRadius.circular(12),
-                                                child: Image.file(
-                                                  firstImage!,
-                                                  width: 80,
-                                                  height: 80,
-                                                  fit: BoxFit.cover,
-                                                ))),
-                                        Align(
-                                            alignment: Alignment.topRight,
-                                            child: InkWell(
-                                              onTap: () {
-                                                setState(() {
-                                                  firstImage = null;
-                                                  _personalInfoController.civilIds.removeAt(0);
-                                                });
-                                              },
-                                              child: Container(
-                                                  margin:
-                                                  const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                                                  padding: const EdgeInsets.all(3),
-                                                  decoration: BoxDecoration(
-                                                      color: AppColors.downArrowColor.withOpacity(0.15),
-                                                      shape: BoxShape.circle),
-                                                  child: const Icon(
-                                                    Icons.close,
-                                                    size: 20,
-                                                  )),
-                                            ))
-                                      ],
-                                    ),
-                                  ),
-                                if (secondImage != null)
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: SizedBox(
-                                      width: 80,
-                                      height: 80,
-                                      child: Stack(
-                                        children: <Widget>[
-                                          Container(
-                                              decoration: BoxDecoration(
+              Obx(()=>
+                Center(
+                  child: SizedBox(
+                    width: width * 0.89,
+                    child: InkWell(
+                      onTap: () {
+                        _personalInfoController.pickDocument();
+                      },
+                      child: DottedBorder(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          borderType: BorderType.RRect,
+                          radius: const Radius.circular(15),
+                          color: AppColors.appBlue,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              SizedBox(
+                                height: _personalInfoController.imageFile.isNotEmpty?80:0,
+                                child: Align(
+                                  child: ListView.separated(
+                                    separatorBuilder: (_,i){
+                                      return const SizedBox(width: 10,);
+                                    },
+                                    itemCount: _personalInfoController.imageFile.length,
+                                    scrollDirection: Axis.horizontal,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemBuilder: (_,int index){
+                                      final File mediaFile= _personalInfoController.imageFile[index];
+                                      return SizedBox(
+                                        width: 80,
+                                        height: 80,
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    border: Border.all(
+                                                        color: AppColors.appBorderColor.withOpacity(0.5))),
+                                                child: ClipRRect(
                                                   borderRadius: BorderRadius.circular(12),
-                                                  border: Border.all(
-                                                      color: AppColors.appBorderColor.withOpacity(0.5))),
-                                              child: ClipRRect(
-                                                  borderRadius: BorderRadius.circular(12),
-                                                  child: Image.file(
-                                                    secondImage!,
+                                                  child:!mediaFile.path.contains('pdf')? Image.file(
+                                                    mediaFile,
                                                     width: 80,
                                                     height: 80,
                                                     fit: BoxFit.cover,
-                                                  ))),
-                                          Align(
-                                              alignment: Alignment.topRight,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    secondImage = null;
-                                                    if( _personalInfoController.civilIds.length==2){
-                                                    _personalInfoController.civilIds.removeAt(1);}else{
-                                                      _personalInfoController.civilIds.removeAt(0);
-                                                    }
-                                                  });
-                                                },
-                                                child: Container(
-                                                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                                                    padding: EdgeInsets.all(3),
-                                                    decoration: BoxDecoration(
-                                                        color: AppColors.downArrowColor.withOpacity(0.15),
-                                                        shape: BoxShape.circle),
-                                                    child: const Icon(
-                                                      Icons.close,
-                                                      size: 20,
-                                                    )),
-                                              ))
-                                        ],
-                                      ),
-                                    ),
+                                                  ):PdfView(path: mediaFile.path),)),
+                                            Align(
+                                                alignment: Alignment.topRight,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      _personalInfoController.imageFile.removeAt(index);
+                                                      _personalInfoController.civilIds.removeAt(index);
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                      margin:
+                                                      const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                                                      padding: const EdgeInsets.all(3),
+                                                      decoration: BoxDecoration(
+                                                          color: AppColors.downArrowColor.withOpacity(0.15),
+                                                          shape: BoxShape.circle),
+                                                      child: const Icon(
+                                                        Icons.close,
+                                                        size: 20,
+                                                      )),
+                                                ))
+                                          ],
+                                        ),
+                                      );
+                                    },
                                   ),
-                              ],
-                            ),
-                            if (secondImage == null || firstImage == null)
-                              Padding(
-                                padding:
-                                EdgeInsets.only(top: secondImage == null && firstImage == null ? 0 : 15),
-                                child: Column(
-                                  children: <Widget>[
-                                    const Icon(Icons.cloud_upload_outlined, color: AppColors.appBlue),
-                                    Center(
-                                        child: Text(
-                                          firstImage != null ? 'Add More' : 'Upload Civil ID',
-                                          style: openSans.get14.w500.appBlue,
-                                        )),
-                                  ],
                                 ),
                               ),
-                          ],
-                        )),
+                              if (_personalInfoController.imageFile.length!=2)
+                                Padding(
+                                  padding:
+                                  EdgeInsets.only(top: _personalInfoController.imageFile.length!=2 ? 0 : 15),
+                                  child: Column(
+                                    children: <Widget>[
+                                      const Icon(Icons.cloud_upload_outlined, color: AppColors.appBlue),
+                                      Center(
+                                          child: Text(
+                                            _personalInfoController.imageFile.isNotEmpty ? 'Add More' : 'Upload Civil ID',
+                                            style: openSans.get14.w500.appBlue,
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                            ],
+                          )),
+                    ),
                   ),
                 ),
               ),
@@ -330,24 +295,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
     );
   }
 
-  Future<void> pickDocument() async {
-    final FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: <String>['pdf', 'png', 'jpeg', 'jpg'],
-    );
-    if (result != null) {
-      _personalInfoController.uploadDocument(result.files.single.path??'');
-      if (firstImage == null) {
-        setState(() {
-          firstImage = File(result.files.single.path ?? '');
-        });
-      } else {
-        setState(() {
-          secondImage = File(result.files.single.path ?? '');
-        });
-      }
-    }
-  }
+
 
   Widget genderGridView() {
     return Obx( (){
@@ -532,7 +480,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 SizedBox(
                   width: 12.px,
                 ),
-                Icon(Icons.keyboard_arrow_down_sharp),
+                const Icon(Icons.keyboard_arrow_down_sharp),
               ],
             ),
           ),

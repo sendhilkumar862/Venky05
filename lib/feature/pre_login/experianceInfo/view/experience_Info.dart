@@ -1,11 +1,10 @@
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
-
-import '../../../../config/routes/route.dart';
+import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
+import '../../../../config/routes/routes.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
@@ -139,173 +138,103 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                       .textColor(AppColors.appTextColor.withOpacity(0.5)),
                 ),
               ),
-              Center(
-                child: SizedBox(
-                  width: width * 0.89,
-                  child: InkWell(
-                    onTap: () {
-                      pickDocument();
-                    },
-                    child: DottedBorder(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        borderType: BorderType.RRect,
-                        radius: const Radius.circular(15),
-                        color: AppColors.appBlue,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+              Obx(()=>
+                  Center(
+                    child: SizedBox(
+                      width: width * 0.89,
+                      child: InkWell(
+                        onTap: () {
+                          _personalInfoController.pickDocument();
+                        },
+                        child: DottedBorder(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            borderType: BorderType.RRect,
+                            radius: const Radius.circular(15),
+                            color: AppColors.appBlue,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                if (_experienceInfoController.firstImage !=
-                                    null)
-                                  SizedBox(
-                                    width: 80,
-                                    height: 80,
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                                border: Border.all(
-                                                    color: AppColors
-                                                        .appBorderColor
-                                                        .withOpacity(0.5))),
-                                            child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                                child: Image.file(
-                                                  _experienceInfoController
-                                                      .firstImage!,
-                                                  width: 80,
-                                                  height: 80,
-                                                  fit: BoxFit.cover,
-                                                ))),
-                                        Align(
-                                            alignment: Alignment.topRight,
-                                            child: InkWell(
-                                              onTap: () {
-                                                setState(() {
-                                                  _experienceInfoController
-                                                      .firstImage = null;
-                                                  _personalInfoController.civilIds.removeAt(0);
-                                                });
-                                              },
-                                              child: Container(
-                                                  margin: const EdgeInsets
-                                                      .symmetric(
-                                                      vertical: 5,
-                                                      horizontal: 5),
-                                                  padding:
-                                                      const EdgeInsets.all(3),
+                                SizedBox(
+                                  height: _personalInfoController.imageFile.isNotEmpty?80:0,
+                                  child: Align(
+                                    child: ListView.separated(
+                                      separatorBuilder: (_,i){
+                                        return const SizedBox(width: 10,);
+                                      },
+                                      itemCount: _personalInfoController.imageFile.length,
+                                      scrollDirection: Axis.horizontal,
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemBuilder: (_,int index){
+                                        final File mediaFile= _personalInfoController.imageFile[index];
+                                        return SizedBox(
+                                          width: 80,
+                                          height: 80,
+                                          child: Stack(
+                                            children: <Widget>[
+                                              Container(
                                                   decoration: BoxDecoration(
-                                                      color: AppColors
-                                                          .downArrowColor
-                                                          .withOpacity(0.15),
-                                                      shape: BoxShape.circle),
-                                                  child: const Icon(
-                                                    Icons.close,
-                                                    size: 20,
-                                                  )),
-                                            ))
+                                                      borderRadius: BorderRadius.circular(12),
+                                                      border: Border.all(
+                                                          color: AppColors.appBorderColor.withOpacity(0.5))),
+                                                  child: ClipRRect(
+                                                    borderRadius: BorderRadius.circular(12),
+                                                    child:!mediaFile.path.contains('pdf')? Image.file(
+                                                      mediaFile,
+                                                      width: 80,
+                                                      height: 80,
+                                                      fit: BoxFit.cover,
+                                                    ):PdfView(path: mediaFile.path),)),
+                                              Align(
+                                                  alignment: Alignment.topRight,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        _personalInfoController.imageFile.removeAt(index);
+                                                        _personalInfoController.civilIds.removeAt(index);
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                        margin:
+                                                        const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                                                        padding: const EdgeInsets.all(3),
+                                                        decoration: BoxDecoration(
+                                                            color: AppColors.downArrowColor.withOpacity(0.15),
+                                                            shape: BoxShape.circle),
+                                                        child: const Icon(
+                                                          Icons.close,
+                                                          size: 20,
+                                                        )),
+                                                  ))
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                if (_personalInfoController.imageFile.length!=2)
+                                  Padding(
+                                    padding:
+                                    EdgeInsets.only(top: _personalInfoController.imageFile.length!=2 ? 0 : 15),
+                                    child: Column(
+                                      children: <Widget>[
+                                        const Icon(Icons.cloud_upload_outlined, color: AppColors.appBlue),
+                                        Center(
+                                            child: Text(
+                                              _personalInfoController.imageFile.isNotEmpty ? 'Add More'
+                                                  : 'upload certificate',
+                                              style: openSans.get14.w500.appBlue,
+                                            )),
                                       ],
                                     ),
                                   ),
-                                if (_experienceInfoController.secondImage !=
-                                    null)
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: SizedBox(
-                                      width: 80,
-                                      height: 80,
-                                      child: Stack(
-                                        children: [
-                                          Container(
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                  border: Border.all(
-                                                      color: AppColors
-                                                          .appBorderColor
-                                                          .withOpacity(0.5))),
-                                              child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                  child: Image.file(
-                                                    _experienceInfoController
-                                                        .secondImage!,
-                                                    width: 80,
-                                                    height: 80,
-                                                    fit: BoxFit.cover,
-                                                  ))),
-                                          Align(
-                                              alignment: Alignment.topRight,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    _experienceInfoController
-                                                        .secondImage = null;
-                                                    if( _personalInfoController.civilIds.length==2){
-                                                      _personalInfoController.civilIds.removeAt(1);}else{
-                                                      _personalInfoController.civilIds.removeAt(0);
-                                                    }
-                                                  });
-                                                },
-                                                child: Container(
-                                                    margin: const EdgeInsets
-                                                        .symmetric(
-                                                        vertical: 5,
-                                                        horizontal: 5),
-                                                    padding:
-                                                        const EdgeInsets.all(3),
-                                                    decoration: BoxDecoration(
-                                                        color: AppColors
-                                                            .downArrowColor
-                                                            .withOpacity(0.15),
-                                                        shape: BoxShape.circle),
-                                                    child: const Icon(
-                                                      Icons.close,
-                                                      size: 20,
-                                                    )),
-                                              ))
-                                        ],
-                                      ),
-                                    ),
-                                  ),
                               ],
-                            ),
-                            if (_experienceInfoController.secondImage == null ||
-                                _experienceInfoController.firstImage == null)
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top:
-                                        _experienceInfoController.secondImage ==
-                                                    null &&
-                                                _experienceInfoController
-                                                        .firstImage ==
-                                                    null
-                                            ? 0
-                                            : 15),
-                                child: Column(
-                                  children: <Widget>[
-                                    const Icon(Icons.cloud_upload_outlined,
-                                        color: AppColors.appBlue),
-                                    Center(
-                                        child: Text(
-                                      _experienceInfoController.firstImage !=
-                                              null
-                                          ? 'Add More'
-                                          : 'upload certificate',
-                                      style: openSans.get14.w500.appBlue,
-                                    )),
-                                  ],
-                                ),
-                              ),
-                          ],
-                        )),
+                            )),
+                      ),
+                    ),
                   ),
-                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 25),
@@ -359,26 +288,5 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
         ),
       ),
     );
-  }
-
-  Future<void> pickDocument() async {
-    final FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: <String>['pdf', 'png', 'jpeg', 'jpg'],
-    );
-    if (result != null) {
-      _personalInfoController.uploadDocument(result.files.single.path ?? '');
-      if (_experienceInfoController.firstImage == null) {
-        setState(() {
-          _experienceInfoController.firstImage =
-              File(result.files.single.path ?? '');
-        });
-      } else {
-        setState(() {
-          _experienceInfoController.secondImage =
-              File(result.files.single.path ?? '');
-        });
-      }
-    }
   }
 }
