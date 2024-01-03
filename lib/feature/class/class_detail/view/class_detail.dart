@@ -17,10 +17,16 @@ import '../../../../custom/choice/src/modal/button.dart';
 import '../../../../custom/switch/app_switch.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/app/app_constants.dart';
+import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../../product/utils/validators.dart';
+import '../../../setting_view/add_address_screen/controller/add_address_controller.dart';
+import '../../../setting_view/add_address_screen/view/add_address_view.dart';
+import '../../../setting_view/manage_address/Model/get_address_model.dart'
+    hide Location;
+import '../../../setting_view/manage_address/controller/manage_controller.dart';
 import '../controller/class_detail_controller.dart';
 
 class ClassDetail extends StatefulWidget {
@@ -31,7 +37,10 @@ class ClassDetail extends StatefulWidget {
 }
 
 class _ClassDetailState extends State<ClassDetail> {
-  ClassDetailController _classDetailController =Get.put(ClassDetailController());
+  final ClassDetailController _classDetailController =
+      Get.put(ClassDetailController());
+  final ManageAddressController _manageAddressController =
+      Get.put(ManageAddressController());
   DateTime selectedDate = DateTime.now();
   int? isSelected;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -55,17 +64,6 @@ class _ClassDetailState extends State<ClassDetail> {
   double _lowerValue = 20.0;
   double _upperValue = 80.0;
 
-  List<Address> location = <Address>[
-    Address('Home', 'City, Block No., Street Name, Street Name 2, HouseNo.,',
-        'Floor No., Apartment No.'),
-    Address('Work', 'City, Block No., Street Name, Street Name 2, HouseNo.,',
-        'Floor No., Apartment No.'),
-    Address('Home', 'City, Block No., Street Name, Street Name 2, HouseNo.,',
-        'Floor No., Apartment No.'),
-    Address('Work', 'City, Block No., Street Name, Street Name 2, HouseNo.,',
-        'Floor No., Apartment No.'),
-  ];
-  int? selectedIndex;
   bool isChecked = false;
   List<String> dateAndTimeList = <String>[
     'abs',
@@ -95,317 +93,360 @@ class _ClassDetailState extends State<ClassDetail> {
         title: 'createClass'.tr,
         // normalAppbar: true,
       ),
-      body: Obx(() {
-        return Form(
-          key: formKey,
-          onChanged: () {
-            if (formKey.currentState!.validate()) {
-              setState(() {
-                isDisable = false;
-              });
-            } else {
-              setState(() {
-                isDisable = true;
-              });
-            }
-          },
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Text(
-                        'classDetails'.tr,
-                        style: openSans.get20.w700
-                            .textColor(AppColors.appTextColor),
-                      ),
+      body: Form(
+        key: formKey,
+        onChanged: () {
+          if (formKey.currentState!.validate()) {
+            setState(() {
+              isDisable = false;
+            });
+          } else {
+            setState(() {
+              isDisable = true;
+            });
+          }
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Text(
+                      'classDetails'.tr,
+                      style:
+                          openSans.get20.w700.textColor(AppColors.appTextColor),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Text(
-                        'participators'.tr,
-                        style: openSans.get12.w400.textColor(
-                            AppColors.appTextColor.withOpacity(0.5)),
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Text(
+                      'participators'.tr,
+                      style: openSans.get12.w400
+                          .textColor(AppColors.appTextColor.withOpacity(0.5)),
                     ),
-                    SizedBox(
-                      height: 50,
-                      child: FlutterSlider(
-                        rangeSlider: true,
-                        values: <double>[_lowerValue, _upperValue],
-                        max: 100,
-                        min: 0,
-                        onDragging:
-                            (int handlerIndex, lowerValue, upperValue) {
-                          setState(() {
-                            _lowerValue = lowerValue;
-                            _upperValue = upperValue;
-                          });
-                        },
-                        onDragCompleted: (_, __, ___) {
-                          // Optional: Add any additional logic when the dragging is completed.
-                        },
-                        tooltip: FlutterSliderTooltip(
-                          disabled: true,
-                          alwaysShowTooltip: false,
+                  ),
+                  SizedBox(
+                    height: 50,
+                    child: FlutterSlider(
+                      rangeSlider: true,
+                      values: <double>[_lowerValue, _upperValue],
+                      max: 100,
+                      min: 0,
+                      onDragging: (int handlerIndex, lowerValue, upperValue) {
+                        setState(() {
+                          _lowerValue = lowerValue;
+                          _upperValue = upperValue;
+                        });
+                      },
+                      onDragCompleted: (_, __, ___) {
+                        // Optional: Add any additional logic when the dragging is completed.
+                      },
+                      tooltip: FlutterSliderTooltip(
+                        disabled: true,
+                        alwaysShowTooltip: false,
+                      ),
+                      handler: FlutterSliderHandler(
+                        decoration: const BoxDecoration(
+                          color: AppColors.ctaSecondary,
+                          shape: BoxShape.circle,
                         ),
-                        handler: FlutterSliderHandler(
-                          decoration: const BoxDecoration(
-                            color: AppColors.ctaSecondary,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: Container(
-                              padding: const EdgeInsets.all(5),
-                              child: Text(
-                                '${_lowerValue.toInt()}',
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.white),
-                              ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: Container(
+                            padding: const EdgeInsets.all(5),
+                            child: Text(
+                              '${_lowerValue.toInt()}',
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.white),
                             ),
                           ),
                         ),
-                        rightHandler: FlutterSliderHandler(
-                          decoration: const BoxDecoration(
-                            color: AppColors.appBlue,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: Container(
-                              padding: const EdgeInsets.all(5),
-                              child: Text(
-                                '${_upperValue.toInt()}',
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        ),
-                        trackBar: FlutterSliderTrackBar(
-                          inactiveTrackBar: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.black12,
-                            border: Border.all(
-                                width: 3, color: AppColors.tabColor),
-                          ),
-                          activeTrackBar: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            color: AppColors.appBlue,
-                          ),
-                        ),
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text('minimum'.tr,
-                            style: openSans.get10.w400.textColor(
-                                AppColors.appTextColor.withOpacity(0.5))),
-                        Text('maximum'.tr,
-                            style: openSans.get10.w400.textColor(
-                                AppColors.appTextColor.withOpacity(0.5))),
-                      ],
-                    ),
-                    AppTextFormField(
-                      controller: classCost,
-                      keyboardType:
-                      const TextInputType.numberWithOptions(),
-                      validate: Validators.requiredValidator.call,
-                      suffix: Padding(
-                        padding: const EdgeInsets.only(top: 12),
-                        child:
-                        Text('kwd'.tr, style: openSans.get16.w400),
-                      ),
-                      hintText: 'classCost'.tr,
-                    ),
-                    AppTextFormField(
-                      controller: numberOfSession,
-                      validate: Validators.requiredValidator.call,
-                      hintText: 'numberOfSessions'.tr,
-                    ),
-                    AppTextFormField(
-                      validate: Validators.requiredValidator.call,
-                      controller: dateController,
-                      onTap: () {
-                        calender(context, dateController,);
-                      },
-                      hintText: 'selectDateAndTime'.tr,
-                      readOnly: true,
-                      suffix: const Icon(Icons.keyboard_arrow_down_sharp,
-                          color: AppColors.downArrowColor),
-                    ),
-                    AppTextFormField(
-                      validate: Validators.requiredValidator.call,
-                      hintText: 'selectClass2DateAndTime'.tr,
-                      controller: class2DateController,
-                      onTap: () {
-                        calender(context, class2DateController);
-                      },
-                      title: 'class2DateAndTime'.tr,
-                      readOnly: true,
-                      suffix: const Icon(Icons.keyboard_arrow_down_sharp,
-                          color: AppColors.downArrowColor),
-                    ),
-                    AppTextFormField(
-                      validate: Validators.requiredValidator.call,
-                      suffix: const Icon(Icons.keyboard_arrow_down_sharp,
-                          color: AppColors.downArrowColor),
-                      hintText: 'classDuration'.tr,
-                      title: 'classDuration'.tr,
-                      readOnly: true,
-                      controller: classDurationController,
-                      onTap: () {
-                        bottomSheetDropDownList();
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20, bottom: 7),
-                      child: Text(
-                        'selectLocation'.tr,
-                        style: TextStyle(
-                            color:
-                            const Color(0xff051335).withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                    SizedBox(
-                      width: width,
-                      child: DottedBorder(
-                          borderType: BorderType.RRect,
-                          radius: Radius.circular(15),
+                      rightHandler: FlutterSliderHandler(
+                        decoration: const BoxDecoration(
                           color: AppColors.appBlue,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 10),
-                            child: Column(
-                              children: <Widget>[
-                                Center(
-                                    child: Text(
+                          shape: BoxShape.circle,
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: Container(
+                            padding: const EdgeInsets.all(5),
+                            child: Text(
+                              '${_upperValue.toInt()}',
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                      trackBar: FlutterSliderTrackBar(
+                        inactiveTrackBar: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.black12,
+                          border:
+                              Border.all(width: 3, color: AppColors.tabColor),
+                        ),
+                        activeTrackBar: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          color: AppColors.appBlue,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text('minimum'.tr,
+                          style: openSans.get10.w400.textColor(
+                              AppColors.appTextColor.withOpacity(0.5))),
+                      Text('maximum'.tr,
+                          style: openSans.get10.w400.textColor(
+                              AppColors.appTextColor.withOpacity(0.5))),
+                    ],
+                  ),
+                  AppTextFormField(
+                    controller: classCost,
+                    keyboardType:
+                        // ignore: use_named_constants
+                        const TextInputType.numberWithOptions(),
+                    validate: Validators.requiredValidator.call,
+                    suffix: Padding(
+                      padding: const EdgeInsets.only(top: 12),
+                      child: Text('kwd'.tr, style: openSans.get16.w400),
+                    ),
+                    hintText: 'classCost'.tr,
+                  ),
+                  AppTextFormField(
+                    controller: numberOfSession,
+                    validate: Validators.requiredValidator.call,
+                    hintText: 'numberOfSessions'.tr,
+                  ),
+                  AppTextFormField(
+                    validate: Validators.requiredValidator.call,
+                    controller: dateController,
+                    onTap: () {
+                      calender(
+                        context,
+                        dateController,
+                      );
+                    },
+                    hintText: 'selectDateAndTime'.tr,
+                    readOnly: true,
+                    suffix: const Icon(Icons.keyboard_arrow_down_sharp,
+                        color: AppColors.downArrowColor),
+                  ),
+                  AppTextFormField(
+                    validate: Validators.requiredValidator.call,
+                    hintText: 'selectClass2DateAndTime'.tr,
+                    controller: class2DateController,
+                    onTap: () {
+                      calender(context, class2DateController);
+                    },
+                    title: 'class2DateAndTime'.tr,
+                    readOnly: true,
+                    suffix: const Icon(Icons.keyboard_arrow_down_sharp,
+                        color: AppColors.downArrowColor),
+                  ),
+                  AppTextFormField(
+                    validate: Validators.requiredValidator.call,
+                    suffix: const Icon(Icons.keyboard_arrow_down_sharp,
+                        color: AppColors.downArrowColor),
+                    hintText: 'classDuration'.tr,
+                    title: 'classDuration'.tr,
+                    readOnly: true,
+                    controller: classDurationController,
+                    onTap: () {
+                      bottomSheetDropDownList();
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20, bottom: 7),
+                    child: Text(
+                      'selectLocation'.tr,
+                      style: TextStyle(
+                          color: const Color(0xff051335).withOpacity(0.5),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  Obx(() {
+                    UserAddress data = UserAddress();
+                    if (_classDetailController.selectedIndex?.value != 200) {
+                      data = _manageAddressController
+                          .address[_classDetailController.selectedIndex!.value];
+                    }
+                    return SizedBox(
+                      width: width,
+                      child: _classDetailController.selectedIndex?.value != 200
+                          ? Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border:
+                                        Border.all(color: AppColors.appBlue),
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Text(data.shortName ?? '',
+                                                style: openSans.get17.w700),
+                                          ]),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 5, bottom: 13),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                                '${data.address1 ?? ''} ${data.address2 ?? ''}'),
+                                            Text(
+                                                '${data.city ?? ''} ${data.state ?? ''} ${data.country ?? ''}'),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ))
+                          : DottedBorder(
+                              borderType: BorderType.RRect,
+                              radius: Radius.circular(15),
+                              color: AppColors.appBlue,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 10),
+                                child: Column(
+                                  children: <Widget>[
+                                    Center(
+                                        child: Text(
                                       'noAddressFound'.tr,
                                       style: openSans.get16.w700,
                                     )),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 15),
-                                  child: AppButton(
-                                      borderRadius:
-                                      BorderRadius.circular(10),
-                                      borderColor: AppColors.appBlue,
-                                      isBorderOnly: true,
-                                      textStyle: const TextStyle(
-                                          color: AppColors.appBlue,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600),
-                                      height: 45,
-                                      width: width,
-                                      title: 'addAddressFound'.tr,
-                                      onPressed: () {
-                                        locationModalBottomSheet(context);
-                                      },
-                                      isDisable: isDisable),
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
-                    if (_classDetailController.selectedProfile ==
-                        ApplicationConstants.tutor)
-                      Padding(
-                        padding:
-                        const EdgeInsets.only(top: 15, bottom: 35),
-                        child: Row(
-                          children: <Widget>[
-                            AppText(
-                              'allowTheClassAtTheStudentPlace'.tr,
-                              fontSize: 14.px,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            SizedBox(width: 8.px),
-                            AppSwitch(
-                                onTap: () {
-                                  _classDetailController.onTapSwitch();
-                                },
-                                isActive: _classDetailController.isActive.value)
-                          ],
-                        ),
-                      ),
-                    if (_classDetailController.selectedProfile ==
-                        ApplicationConstants.student)
-                      Column(
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 15),
+                                      child: AppButton(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderColor: AppColors.appBlue,
+                                          isBorderOnly: true,
+                                          textStyle: const TextStyle(
+                                              color: AppColors.appBlue,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600),
+                                          height: 45,
+                                          width: width,
+                                          title: 'addAddressFound'.tr,
+                                          onPressed: () {
+                                            locationModalBottomSheet(context);
+                                          },
+                                          isDisable: isDisable),
+                                    )
+                                  ],
+                                ),
+                              )),
+                    );
+                  }),
+                  if (_classDetailController.selectedProfile ==
+                      ApplicationConstants.tutor)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15, bottom: 35),
+                      child: Row(
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 25, bottom: 10),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  'otherParticipators'.tr,
-                                  style: openSans.get20.w700
-                                      .textColor(AppColors.appTextColor),
-                                ),
-                                Text(
-                                  'optional'.tr,
-                                  style: openSans.get12.w400.textColor(
-                                      AppColors.appTextColor
-                                          .withOpacity(0.5)),
-                                ),
-                              ],
-                            ),
+                          AppText(
+                            'allowTheClassAtTheStudentPlace'.tr,
+                            fontSize: 14.px,
+                            fontWeight: FontWeight.w500,
                           ),
-                          AppTextFormField(
-                            top: 0,
-                            controller: participators2,
-                            validate: emailValidator.call,
-                            title: 'participators2'.tr,
-                            hintText: 'enterEmailAddress'.tr,
-                          ),
-                          AppTextFormField(
-                            controller: participators3,
-                            validate: emailValidator.call,
-                            title: 'participators3'.tr,
-                            hintText: 'enterEmailAddress'.tr,
-                          ),
-                          AppTextFormField(
-                            controller: participators4,
-                            validate: emailValidator.call,
-                            title: 'participators4'.tr,
-                            hintText: 'enterEmailAddress'.tr,
-                          ),
-                          AppTextFormField(
-                            controller: participators5,
-                            validate: emailValidator.call,
-                            title: 'participators5'.tr,
-                            hintText: 'enterEmailAddress'.tr,
-                          ),
+                          SizedBox(width: 8.px),
+                          AppSwitch(
+                              onTap: () {
+                                _classDetailController.onTapSwitch();
+                              },
+                              isActive: _classDetailController.isActive.value)
                         ],
                       ),
-                    AppButton(
-                      title: 'nextForClassDetails'.tr,
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {}
-                      },
-                      isDisable: isDisable,
                     ),
-                  ]),
-            ),
+                  if (_classDetailController.selectedProfile ==
+                      ApplicationConstants.student)
+                    Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 25, bottom: 10),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                'otherParticipators'.tr,
+                                style: openSans.get20.w700
+                                    .textColor(AppColors.appTextColor),
+                              ),
+                              Text(
+                                'optional'.tr,
+                                style: openSans.get12.w400.textColor(
+                                    AppColors.appTextColor.withOpacity(0.5)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        AppTextFormField(
+                          top: 0,
+                          controller: participators2,
+                          validate: emailValidator.call,
+                          title: 'participators2'.tr,
+                          hintText: 'enterEmailAddress'.tr,
+                        ),
+                        AppTextFormField(
+                          controller: participators3,
+                          validate: emailValidator.call,
+                          title: 'participators3'.tr,
+                          hintText: 'enterEmailAddress'.tr,
+                        ),
+                        AppTextFormField(
+                          controller: participators4,
+                          validate: emailValidator.call,
+                          title: 'participators4'.tr,
+                          hintText: 'enterEmailAddress'.tr,
+                        ),
+                        AppTextFormField(
+                          controller: participators5,
+                          validate: emailValidator.call,
+                          title: 'participators5'.tr,
+                          hintText: 'enterEmailAddress'.tr,
+                        ),
+                      ],
+                    ),
+                  AppButton(
+                    title: 'nextForClassDetails'.tr,
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {}
+                    },
+                    isDisable: isDisable,
+                  ),
+                ]),
           ),
-        );
-      }),
+        ),
+      ),
     );
   }
 
-  Widget listData(int index, Address data, StateSetter setState) {
+  Widget listData(int index, UserAddress data, StateSetter setState) {
     return Padding(
         padding: const EdgeInsets.all(8),
         child: Container(
           decoration: BoxDecoration(
               border: Border.all(
-                color: selectedIndex == index
+                color: _classDetailController.selectedIndex?.value == index
                     ? AppColors.appBlue
                     : AppColors.gray.withOpacity(0.25),
               ),
@@ -420,8 +461,10 @@ class _ClassDetailState extends State<ClassDetail> {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Text(data.heading, style: openSans.get17.w700),
-                          if (selectedIndex == index)
+                          Text(data.shortName ?? '',
+                              style: openSans.get17.w700),
+                          if (_classDetailController.selectedIndex?.value ==
+                              index)
                             Padding(
                               padding: const EdgeInsets.only(left: 8),
                               child: Container(
@@ -437,19 +480,24 @@ class _ClassDetailState extends State<ClassDetail> {
                             ),
                         ],
                       ),
-                      if (selectedIndex == index)
-                        const ChoiceConfirmButton(
-                          icon: Icon(
-                            Icons.check_circle,
-                            color: AppColors.appBlue,
-                          ),
-                        )
-                      else
-                        ChoiceConfirmButton(
-                            icon: Icon(
-                          Icons.circle_outlined,
-                          color: AppColors.gray.withOpacity(0.25),
-                        ))
+                      Obx(() => GestureDetector(
+                          onTap: () {
+                            _classDetailController.selectedIndex?.value = index;
+                          },
+                          child: _classDetailController.selectedIndex?.value ==
+                                  index
+                              ? const ChoiceConfirmButton(
+                                  icon: Icon(
+                                    Icons.check_circle,
+                                    color: AppColors.appBlue,
+                                  ),
+                                )
+                              : ChoiceConfirmButton(
+                                  icon: Icon(
+                                  Icons.circle_outlined,
+                                  color: AppColors.gray.withOpacity(0.25),
+                                ))))
+
                       // if (selectedIndex == index)
                       //   iconButtonWidget(
                       //       icon: Icons.done,
@@ -461,42 +509,83 @@ class _ClassDetailState extends State<ClassDetail> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(data.address1),
-                      Text(data.address2),
+                      Text('${data.address1 ?? ''} ${data.address2 ?? ''}'),
+                      Text(
+                          '${data.city ?? ''} ${data.state ?? ''} ${data.country ?? ''}'),
                     ],
                   ),
                 ),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      iconButtonWidget(
-                        icon: Icons.delete_outline_rounded,
-                        padding: 8,
-                        bgColor: AppColors.appRed,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: 10, right: selectedIndex != index ? 10 : 0),
+                      GestureDetector(
+                        onTap: () {
+                          if (data.isDefault == 1) {
+                            AppUtils.showFlushBar(
+                              context: AppRouter.navigatorKey.currentContext!,
+                              message: 'Can not delete default address',
+                            );
+                          } else {
+                            _manageAddressController
+                                .deleteAddressData(data.id!);
+                          }
+                        },
                         child: iconButtonWidget(
-                          icon: Icons.edit,
+                          icon: Icons.delete_outline_rounded,
                           padding: 8,
-                          bgColor: AppColors.appBlue,
+                          bgColor: AppColors.appRed,
                         ),
                       ),
-                      if (selectedIndex != index)
-                        ElevatedButton(
-                            onPressed: () {
-                              setState(() {});
-                              selectedIndex = index;
-                              print('selectedIndex:-- $selectedIndex');
-                            },
-                            style: const ButtonStyle(
-                                backgroundColor:
-                                    MaterialStatePropertyAll(AppColors.appBlue),
-                                shape:
-                                    MaterialStatePropertyAll(StadiumBorder())),
-                            child: Text('setDefault'.tr,
-                                style: TextStyle(color: AppColors.white)))
+                      GestureDetector(
+                        onTap: () {
+                          AppRouter.push(AddAddressScreen(
+                            userData: data,
+                            title: "Update Address",
+                          ));
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 10,
+                              right:
+                                  _classDetailController.selectedIndex?.value !=
+                                          index
+                                      ? 10
+                                      : 0),
+                          child: iconButtonWidget(
+                            icon: Icons.edit,
+                            padding: 8,
+                            bgColor: AppColors.appBlue,
+                          ),
+                        ),
+                      ),
+                      if (data.isDefault != 1)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                final AddressRequestModel updatedData =
+                                    AddressRequestModel(
+                                        isDefault: true,
+                                        shortName: data.shortName,
+                                        city: data.city,
+                                        state: data.state,
+                                        country: data.country,
+                                        address2: data.address2,
+                                        address1: data.address2,
+                                        location: Location(
+                                            lat: data.location?.lat,
+                                            long: data.location?.long));
+                                _manageAddressController.updateAddressData(
+                                    updatedData, data.id!);
+                              },
+                              style: const ButtonStyle(
+                                  backgroundColor: MaterialStatePropertyAll(
+                                      AppColors.appBlue),
+                                  shape: MaterialStatePropertyAll(
+                                      StadiumBorder())),
+                              child: const Text('Set Default',
+                                  style: TextStyle(color: AppColors.white))),
+                        )
                     ]),
               ],
             ),
@@ -542,26 +631,30 @@ class _ClassDetailState extends State<ClassDetail> {
                       )
                     ]),
               ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      ListView.builder(
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          itemCount: location.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final Address data = location[index];
-                            return listData(index, data, setState);
-                          }),
-                    ],
+              Obx(
+                () => Expanded(
+                  child: SingleChildScrollView(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: _manageAddressController.address.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final UserAddress data =
+                              _manageAddressController.address[index];
+                          return listData(index, data, setState);
+                        }),
                   ),
                 ),
               ),
-              AppButton(
-                onPressed: () {},
-                isDisable: false,
-                title: 'select'.tr,
+              Obx(
+                () => AppButton(
+                  onPressed: () {},
+                  // ignore: avoid_bool_literals_in_conditional_expressions
+                  isDisable: _classDetailController.selectedIndex?.value != 200
+                      ? false
+                      : true,
+                  title: 'select'.tr,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10),
@@ -579,8 +672,10 @@ class _ClassDetailState extends State<ClassDetail> {
         });
   }
 
-  Future<void> calender(BuildContext context, TextEditingController controller,
-      ) async {
+  Future<void> calender(
+    BuildContext context,
+    TextEditingController controller,
+  ) async {
     await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -589,7 +684,8 @@ class _ClassDetailState extends State<ClassDetail> {
               (BuildContext context, void Function(void Function()) setState) {
             return AppCalender(
               selectedTime: (DateTime selectedTime) {
-                _classDetailController.selectedTimes = formatTime(selectedTime).obs;
+                _classDetailController.selectedTimes =
+                    formatTime(selectedTime).obs;
                 controller.text =
                     '${_classDetailController.selectedDate} ${_classDetailController.selectedTimes}';
               },
@@ -756,12 +852,4 @@ class _ClassDetailState extends State<ClassDetail> {
       },
     );
   }
-}
-
-class Address {
-  Address(this.heading, this.address1, this.address2);
-
-  String heading;
-  String address1;
-  String address2;
 }

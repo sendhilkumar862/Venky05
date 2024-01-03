@@ -9,11 +9,11 @@ import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
+import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 import '../../../home_views/views/tabs/classes_view.dart';
 import '../controller/message_controller.dart';
@@ -27,7 +27,6 @@ class MessageView extends StatefulWidget {
 
 class _MessageViewState extends State<MessageView> {
   bool isStudent = false;
-  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
   String selectedProfile = '';
   String selectedUserStatus = '';
   bool isPending = false;
@@ -36,12 +35,8 @@ class _MessageViewState extends State<MessageView> {
   @override
   void initState() {
     super.initState();
-    selectedProfile =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
-            '';
-    selectedUserStatus = keyValueStorageBase.getCommon(
-        String, KeyValueStorageService.userInfoStatus) ??
-        '';
+    selectedProfile =  LocaleManager.getValue( StorageKeys.profile)??'';
+    selectedUserStatus = LocaleManager.getValue( StorageKeys.userInfoStatus)??'';
   }
 
   @override

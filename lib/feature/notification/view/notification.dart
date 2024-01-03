@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
@@ -28,7 +27,8 @@ class NotificationView extends StatefulWidget {
 class _NotificationViewState extends State<NotificationView> {
   Set<int> shortBy = <int>{};
   Set<int> filterBy = <int>{};
-  final NotificationController _notificationController = Get.put(NotificationController());
+  final NotificationController _notificationController =
+      Get.put(NotificationController());
 
   @override
   void initState() {
@@ -42,229 +42,221 @@ class _NotificationViewState extends State<NotificationView> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: HessaAppBar(
-        isTitleOnly: true,
-        title: 'notification'.tr,
-        isBack: true,
-      ),
-      body: Obx( () {
-        return _notificationController.notificationDataList.isNotEmpty
+    return Scaffold(
+        appBar: HessaAppBar(
+          isTitleOnly: true,
+          title: 'notification'.tr,
+          isBack: true,
+        ),
+        body: _notificationController.notificationDataList.isNotEmpty
             ? Padding(
-          padding:
-          EdgeInsets.only(left: 16.px, top: 10.px, bottom: 10.px),
-          child: Column(
-            children: [
-              InkWell(
-                onTap: () {
-                  filterBottomSheet(context);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 15),
-                  child: Row(
-                    children: <Widget>[
-                      AppImageAsset(
-                        image: ImageConstants.upDownArrow,
-                        height: 16.px,
-                        width: 16.px,
-                      ),
-                      SizedBox(width: 8.px),
-                      AppText(
-                        'Sort',
-                        fontSize: 14.px,
-                        color: AppColors.appBlue,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: 1,
-                  shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding:
-                          const EdgeInsets.only(top: 10, bottom: 5),
-                          child: Text('Today',
-                              style: openSans.get12.w700.copyWith(
-                                  color: AppColors.appTextColor
-                                      .withOpacity(0.5))),
+                padding:
+                    EdgeInsets.only(left: 16.px, top: 10.px, bottom: 10.px),
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        filterBottomSheet(context);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20, bottom: 15),
+                        child: Row(
+                          children: <Widget>[
+                            AppImageAsset(
+                              image: ImageConstants.upDownArrow,
+                              height: 16.px,
+                              width: 16.px,
+                            ),
+                            SizedBox(width: 8.px),
+                            AppText(
+                              'Sort',
+                              fontSize: 14.px,
+                              color: AppColors.appBlue,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ],
                         ),
-                        ListView.builder(
-                          itemCount: _notificationController
-                              .notificationDataList.length,
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder:
-                              (BuildContext context, int index) {
-                            var data = _notificationController
-                                .notificationDataList[index];
-                            return Column(
-                              children: [
-                                Slidable(
-                                  endActionPane: ActionPane(
-                                    motion: const ScrollMotion(),
-                                    extentRatio: 0.2,
-                                    dragDismissible: false,
-                                    dismissible: DismissiblePane(
-                                        onDismissed: () {}),
-                                    children: <Widget>[
-                                      SlidableAction(
-                                        onPressed:
-                                            (BuildContext context) {
-                                          setState(() {
-                                            _notificationController
-                                                .notificationDataList
-                                                .removeAt(index);
-                                          });
-                                        },
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        label: 'Delete',
-                                        backgroundColor:
-                                        AppColors.appLightRed,
-                                        foregroundColor:
-                                        AppColors.appBlue,
-                                        icon: Icons.ac_unit_rounded,
-                                      ),
-                                    ],
-                                  ),
-                                  key: const ValueKey(0),
-                                  closeOnScroll: true,
-                                  child: InkWell(
-                                    onTap: () {
-                                      setState(() {});
-                                      data.isRead = false;
-                                    },
-                                    child: Padding(
-                                      padding:
-                                      const EdgeInsets.symmetric(
-                                        vertical: 10,
-                                      ),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding:
-                                            const EdgeInsets.only(
-                                                right: 10),
-                                            child: Container(
-                                                height: 44,
-                                                width: 44,
-                                                decoration: BoxDecoration(
-                                                    color: Color(data
-                                                        .isRead
-                                                        ? 0xffD0F7DB
-                                                        : 0xFFFFEDEE),
-                                                    borderRadius:
-                                                    BorderRadius
-                                                        .circular(
-                                                        30)),
-                                                child: SvgPicture.asset(
-                                                  fit: BoxFit.scaleDown,
-                                                  data.icon,
-                                                )),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment
-                                                  .start,
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: 1,
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 10, bottom: 5),
+                                child: Text('Today',
+                                    style: openSans.get12.w700.copyWith(
+                                        color: AppColors.appTextColor
+                                            .withOpacity(0.5))),
+                              ),
+                              ListView.builder(
+                                itemCount: _notificationController
+                                    .notificationDataList.length,
+                                shrinkWrap: true,
+                                physics: const BouncingScrollPhysics(),
+                                itemBuilder: (BuildContext context, int index) {
+                                  var data = _notificationController
+                                      .notificationDataList[index];
+                                  return Column(
+                                    children: [
+                                      Slidable(
+                                        endActionPane: ActionPane(
+                                          motion: const ScrollMotion(),
+                                          extentRatio: 0.2,
+                                          dragDismissible: false,
+                                          dismissible: DismissiblePane(
+                                              onDismissed: () {}),
+                                          children: <Widget>[
+                                            SlidableAction(
+                                              onPressed:
+                                                  (BuildContext context) {
+                                                setState(() {
+                                                  _notificationController
+                                                      .notificationDataList
+                                                      .removeAt(index);
+                                                });
+                                              },
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10),
+                                              label: 'Delete',
+                                              backgroundColor:
+                                                  AppColors.appLightRed,
+                                              foregroundColor:
+                                                  AppColors.appBlue,
+                                              icon: Icons.ac_unit_rounded,
+                                            ),
+                                          ],
+                                        ),
+                                        key: const ValueKey(0),
+                                        closeOnScroll: true,
+                                        child: InkWell(
+                                          onTap: () {
+                                            setState(() {});
+                                            data.isRead = false;
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 10,
+                                            ),
+                                            child: Row(
                                               children: <Widget>[
-                                                Text(
-                                                  data.title,
-                                                  style: openSans
-                                                      .get14.w500,
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 10),
+                                                  child: Container(
+                                                      height: 44,
+                                                      width: 44,
+                                                      decoration: BoxDecoration(
+                                                          color: Color(
+                                                              data.isRead
+                                                                  ? 0xffD0F7DB
+                                                                  : 0xFFFFEDEE),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      30)),
+                                                      child: SvgPicture.asset(
+                                                        fit: BoxFit.scaleDown,
+                                                        data.icon,
+                                                      )),
                                                 ),
-                                                Text(data.description,
-                                                    style: openSans
-                                                        .get10.w400
-                                                        .textColor(AppColors
-                                                        .appTextColor
-                                                        .withOpacity(
-                                                        0.5))),
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        data.title,
+                                                        style:
+                                                            openSans.get14.w500,
+                                                      ),
+                                                      Text(data.description,
+                                                          style: openSans
+                                                              .get10.w400
+                                                              .textColor(AppColors
+                                                                  .appTextColor
+                                                                  .withOpacity(
+                                                                      0.5))),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Text(data.time,
+                                                        style: openSans
+                                                            .get10.w400
+                                                            .textColor(AppColors
+                                                                .appTextColor
+                                                                .withOpacity(
+                                                                    0.5))),
+                                                    if (data.isRead)
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                left: 5,
+                                                                right: 6),
+                                                        child: SvgPicture.asset(
+                                                          ImageConstants.alert,
+                                                        ),
+                                                      ),
+                                                    Icon(
+                                                      Icons
+                                                          .keyboard_arrow_right_rounded,
+                                                      color: AppColors
+                                                          .downArrowColor
+                                                          .withOpacity(0.5),
+                                                    ),
+                                                  ],
+                                                ),
                                               ],
                                             ),
                                           ),
-                                          Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                            children: [
-                                              Text(data.time,
-                                                  style: openSans
-                                                      .get10.w400
-                                                      .textColor(AppColors
-                                                      .appTextColor
-                                                      .withOpacity(
-                                                      0.5))),
-                                              if (data.isRead)
-                                                Padding(
-                                                  padding:
-                                                  const EdgeInsets
-                                                      .only(
-                                                      left: 5,
-                                                      right: 6),
-                                                  child:
-                                                  SvgPicture.asset(
-                                                    ImageConstants
-                                                        .alert,
-                                                  ),
-                                                ),
-                                              Icon(
-                                                Icons
-                                                    .keyboard_arrow_right_rounded,
-                                                color: AppColors
-                                                    .downArrowColor
-                                                    .withOpacity(0.5),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                Divider(
-                                  height: 1,
-                                  color: Color(0xffC5CEEE)
-                                      .withOpacity(0.5),
-                                )
-                              ],
-                            );
-                          },
-                        ),
-                      ],
-                    );
-                  },
+                                      Divider(
+                                        height: 1,
+                                        color:
+                                            Color(0xffC5CEEE).withOpacity(0.5),
+                                      )
+                                    ],
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        )
+              )
             : Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            InfoCardVIew(
-              isShowButton: false,
-              title: 'No Notifications!',
-              subTitle: "Use the app and get notifications",
-              cardColor: AppColors.white,
-              buttonTitle: 'Class Details',
-              buttonTap: () => null,
-            ),
-          ],
-        );
-      }),
-    );
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InfoCardVIew(
+                    isShowButton: false,
+                    title: 'No Notifications!',
+                    subTitle: "Use the app and get notifications",
+                    cardColor: AppColors.white,
+                    buttonTitle: 'Class Details',
+                    buttonTap: () => null,
+                  ),
+                ],
+              ));
   }
 
-  void filterBottomSheet(
-      BuildContext context) {
+  void filterBottomSheet(BuildContext context) {
     return showCommonBottomSheet(
         context: context,
         commonWidget: StatefulBuilder(
@@ -272,163 +264,159 @@ class _NotificationViewState extends State<NotificationView> {
               (BuildContext context, void Function(void Function()) setState) {
             return Padding(
               padding: const EdgeInsets.only(right: 15, left: 15, top: 15),
-              child: Obx( () {
-                return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Stack(
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(top: 20),
-                            child: Align(
-                              child: AppText('Sort',
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 14,
-                                  color: AppColors.appTextColor),
-                            ),
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Stack(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Align(
+                            child: AppText('Sort',
+                                fontWeight: FontWeight.w700,
+                                fontSize: 14,
+                                color: AppColors.appTextColor),
                           ),
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 80),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: AppColors.downArrowColor
-                                          .withOpacity(0.15)),
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(3),
-                                    child: Icon(Icons.close),
-                                  ),
+                        ),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 80),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: AppColors.downArrowColor
+                                        .withOpacity(0.15)),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(3),
+                                  child: Icon(Icons.close),
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 15, bottom: 2),
-                        child: AppText('Sort by',
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16,
-                            color: AppColors.appTextColor),
-                      ),
-                      InlineChoice<String>(
-                        clearable: true,
-                        value: _notificationController.shortByList,
-                        onChanged: _notificationController.setSchoolValue,
-                        itemCount: _notificationController.shortByList.length,
-                        itemBuilder:
-                            (ChoiceController<String> selection, int index) {
-                          return ChoiceChip(
-                            shape: StadiumBorder(
-                                side: BorderSide(
-                                    color: shortBy.contains(index)
-                                        ? AppColors.trans
-                                        : AppColors.appBorderColor
-                                            .withOpacity(0.25))),
-                            backgroundColor: AppColors.trans,
-                            selected: shortBy.contains(index),
-                            onSelected: (bool selected) {
-                              setState(() {
-                                if (selected) {
-                                  shortBy.add(
-                                      index); // Add to the set for multi-selection
-                                } else {
-                                  shortBy.remove(index); // Remove from the set
-                                }
-                              });
-                            },
-                            showCheckmark: false,
-                            label: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 6),
-                              child: Text(
-                                  _notificationController.shortByList[index],
-                                  style: openSans.get12.w600),
-                            ),
-                            selectedColor: AppColors.appBlue,
-                            // Change this to your desired color
-                            labelStyle: TextStyle(
-                              color: shortBy.contains(index)
-                                  ? AppColors.white
-                                  : AppColors.appTextColor
-                                      .withOpacity(0.5), // Change text color
-                            ),
-                          );
-                        },
-                        listBuilder: ChoiceList.createWrapped(),
-                      ),
-                      InlineChoice<String>(
-                        clearable: true,
-                        value: _notificationController.filterByList,
-                        onChanged: _notificationController.setSchoolValue,
-                        itemCount: _notificationController.filterByList.length,
-                        itemBuilder:
-                            (ChoiceController<String> selection, int index) {
-                          return ChoiceChip(
-                            shape: StadiumBorder(
-                                side: BorderSide(
-                                    color: filterBy.contains(index)
-                                        ? AppColors.trans
-                                        : AppColors.appBorderColor
-                                            .withOpacity(0.25))),
-                            backgroundColor: AppColors.trans,
-                            selected: filterBy.contains(index),
-                            onSelected: (bool selected) {
-                              setState(() {
-                                if (selected) {
-                                  filterBy.add(
-                                      index); // Add to the set for multi-selection
-                                } else {
-                                  filterBy.remove(index); // Remove from the set
-                                }
-                              });
-                            },
-                            showCheckmark: false,
-                            label: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 6),
-                              child: Text(
-                                  _notificationController.filterByList[index],
-                                  style: openSans.get12.w600),
-                            ),
-                            selectedColor: AppColors.appBlue,
-                            // Change this to your desired color
-                            labelStyle: TextStyle(
-                              color: filterBy.contains(index)
-                                  ? AppColors.white
-                                  : AppColors.appTextColor
-                                      .withOpacity(0.5), // Change text color
-                            ),
-                          );
-                        },
-                        listBuilder: ChoiceList.createWrapped(),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Divider(
-                          height: 1,
-                          color: Color(0xffC5CEEE).withOpacity(0.5),
                         ),
+                      ],
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 15, bottom: 2),
+                      child: AppText('Sort by',
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                          color: AppColors.appTextColor),
+                    ),
+                    InlineChoice<String>(
+                      clearable: true,
+                      value: _notificationController.shortByList,
+                      onChanged: _notificationController.setSchoolValue,
+                      itemCount: _notificationController.shortByList.length,
+                      itemBuilder:
+                          (ChoiceController<String> selection, int index) {
+                        return ChoiceChip(
+                          shape: StadiumBorder(
+                              side: BorderSide(
+                                  color: shortBy.contains(index)
+                                      ? AppColors.trans
+                                      : AppColors.appBorderColor
+                                          .withOpacity(0.25))),
+                          backgroundColor: AppColors.trans,
+                          selected: shortBy.contains(index),
+                          onSelected: (bool selected) {
+                            setState(() {
+                              if (selected) {
+                                shortBy.add(
+                                    index); // Add to the set for multi-selection
+                              } else {
+                                shortBy.remove(index); // Remove from the set
+                              }
+                            });
+                          },
+                          showCheckmark: false,
+                          label: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                                _notificationController.shortByList[index],
+                                style: openSans.get12.w600),
+                          ),
+                          selectedColor: AppColors.appBlue,
+                          // Change this to your desired color
+                          labelStyle: TextStyle(
+                            color: shortBy.contains(index)
+                                ? AppColors.white
+                                : AppColors.appTextColor
+                                    .withOpacity(0.5), // Change text color
+                          ),
+                        );
+                      },
+                      listBuilder: ChoiceList.createWrapped(),
+                    ),
+                    InlineChoice<String>(
+                      clearable: true,
+                      value: _notificationController.filterByList,
+                      onChanged: _notificationController.setSchoolValue,
+                      itemCount: _notificationController.filterByList.length,
+                      itemBuilder:
+                          (ChoiceController<String> selection, int index) {
+                        return ChoiceChip(
+                          shape: StadiumBorder(
+                              side: BorderSide(
+                                  color: filterBy.contains(index)
+                                      ? AppColors.trans
+                                      : AppColors.appBorderColor
+                                          .withOpacity(0.25))),
+                          backgroundColor: AppColors.trans,
+                          selected: filterBy.contains(index),
+                          onSelected: (bool selected) {
+                            setState(() {
+                              if (selected) {
+                                filterBy.add(
+                                    index); // Add to the set for multi-selection
+                              } else {
+                                filterBy.remove(index); // Remove from the set
+                              }
+                            });
+                          },
+                          showCheckmark: false,
+                          label: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                                _notificationController.filterByList[index],
+                                style: openSans.get12.w600),
+                          ),
+                          selectedColor: AppColors.appBlue,
+                          // Change this to your desired color
+                          labelStyle: TextStyle(
+                            color: filterBy.contains(index)
+                                ? AppColors.white
+                                : AppColors.appTextColor
+                                    .withOpacity(0.5), // Change text color
+                          ),
+                        );
+                      },
+                      listBuilder: ChoiceList.createWrapped(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Divider(
+                        height: 1,
+                        color: Color(0xffC5CEEE).withOpacity(0.5),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 25),
-                        child: AppButton(
-                          onPressed: () {},
-                          title: 'Clear Selections',
-                          isDisable: shortBy.isNotEmpty || filterBy.isNotEmpty
-                              ? false
-                              : true,
-                        ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 25),
+                      child: AppButton(
+                        onPressed: () {},
+                        title: 'Clear Selections',
+                        isDisable: shortBy.isNotEmpty || filterBy.isNotEmpty
+                            ? false
+                            : true,
                       ),
-                    ]);
-              }),
+                    ),
+                  ]),
             );
           },
         ));

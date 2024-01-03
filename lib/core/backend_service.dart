@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:hessah/core/api_end_points.dart';
+import '../product/cache/key_value_storeage.dart';
+import '../product/cache/local_manager.dart';
 import '../product/constants/enums/backend_services_method_enums.dart';
-import '../product/network/networking/api_endpoint.dart';
 import '../product/utils/validators.dart';
 import 'base_request.dart';
 import 'base_response.dart';
@@ -11,13 +13,13 @@ import 'status_code.dart';
 
 class BackendService {
   static Future<BaseResponse> post(BaseRequest request) async {
-    final String authToken = await keyValueStorageService.getAuthToken();
+    final String authToken =  LocaleManager.getAuthToken();
     if (authToken != '') {
       request.header.addAll({'X-Auth-Token': authToken});
     }
     if (request.endPoint.contains('refresh-token')) {
       final String authToken =
-          await keyValueStorageService.getBioMetricStatus();
+           LocaleManager.getValue(StorageKeys.authBiometric);
       request.header
           .addAll({'X-Auth-Token': authToken, 'X-Refresh-Token': authToken});
     }

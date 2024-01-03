@@ -7,9 +7,9 @@ import '../../../../config/routes/route.dart';
 
 import '../../../../core/base_response.dart';
 import '../../../../core/local_auth_services.dart';
+import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_utils.dart';
-import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../../product/utils/validators.dart';
 import '../model/login_model.dart';
 import '../model/refresh_model.dart';
@@ -24,9 +24,6 @@ class SignInController extends GetxController {
   RxInt emailValid = 2.obs;
   RxBool isButtonDisabled = true.obs;
   RxBool isPasswordShow = true.obs;
-  final KeyValueStorageService keyValueStorageService =
-      KeyValueStorageService();
-  final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   final AuthRepositoryRepository _authRepositoryRepository =
@@ -68,7 +65,7 @@ class SignInController extends GetxController {
   }
 
   fetchLocalAuth() async {
-    authenticated.value = await keyValueStorageService.getBioMetricStatus();
+    authenticated.value = await   LocaleManager.getValue(StorageKeys.authBiometric);
   }
 
   void onPasswordChanged(String value) {
@@ -94,11 +91,8 @@ class SignInController extends GetxController {
       final LoginModel responseData = LoginModel.fromJson(
           signInResponse.data!.item! as Map<String, dynamic>);
       if (responseData.token?.accessToken?.isNotEmpty ?? false) {
-        keyValueStorageService
-            .setAuthToken(responseData.token?.accessToken ?? '');
-        keyValueStorageBase.setCommon(
-            KeyValueStorageService.profile, responseData.token?.role ?? '');
-
+        LocaleManager.setAuthToken(responseData.token?.accessToken ?? '');
+        LocaleManager.setValue(StorageKeys.profile, responseData.token?.role ?? '');
         Get.offAndToNamed(Routes.HomeScreenRoute);
       }
     } else {
@@ -112,8 +106,8 @@ class SignInController extends GetxController {
     final bool authenticatedStatus = await LocalAuth.authenticate();
     if (authenticatedStatus) {
       final String authToken =
-          await keyValueStorageService.getBioMetricStatus();
-      keyValueStorageService.setAuthBiometric(authToken);
+          await LocaleManager.getValue(StorageKeys.authBiometric);
+      LocaleManager.setValue(authToken, authToken??'');
       authenticated.value = authenticatedStatus.toString();
       refreshToken(context);
     }
@@ -127,7 +121,7 @@ class SignInController extends GetxController {
       final RefreshModelClass responseData = RefreshModelClass.fromJson(
           signInResponse.data!.item! as Map<String, dynamic>);
       if (responseData.auth?.accessToken?.isNotEmpty ?? false) {
-        keyValueStorageService
+        LocaleManager
             .setAuthToken(responseData.auth?.accessToken ?? '');
         Get.offAndToNamed(Routes.HomeScreenRoute);
       }

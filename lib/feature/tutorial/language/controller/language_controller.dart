@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import '../../../../core/base_response.dart';
+import '../../../../config/routes/route.dart';
+import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/local_manager.dart';
 import 'package:hessah/core/base_response.dart';
 import '../../../../config/routes/route.dart';
 
 import '../../../../product/constants/image/image_constants.dart';
-import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
-import '../repository/country_update_repository.dart';
-import '../repository/language_repository.dart';
 import '../../../home/controller/home_controller.dart';
 import '../model/country_model.dart';
+import '../repository/country_update_repository.dart';
+import '../repository/language_repository.dart';
 
 class LanguageController extends GetxController {
   RxString error = ''.obs;
@@ -38,14 +40,9 @@ class LanguageController extends GetxController {
 
   @override
   void onInit() {
-    KeyValueStorageBase.init();
     fetchData();
     super.onInit();
   }
-
-  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-  final KeyValueStorageService keyValueStorageService =
-      KeyValueStorageService();
 
   Future<void> fetchData() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
@@ -81,9 +78,9 @@ class LanguageController extends GetxController {
   Future<void> selectCountry(Country country) async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     selectedCountry.value = country;
-    keyValueStorageBase.setCommon(
-        KeyValueStorageService.countryCodeAndIDD, country.idd_code);
-    final String token = await keyValueStorageService.getAuthToken();
+    LocaleManager.setValue(
+        StorageKeys.countryCodeAndIDD, country.idd_code);
+    final String token =  LocaleManager.getAuthToken();
     if (token != '') {
       await _countryUpdateRepository.updateCountry(country.name ?? '');
       _homeController.fetchData();
@@ -106,12 +103,12 @@ class LanguageController extends GetxController {
   }
 
   void onPressedContinue() {
-    keyValueStorageBase.setCommon(
-        KeyValueStorageService.country, selectedCountry.value?.flag_url ?? '');
-    keyValueStorageBase.setCommon(
-        KeyValueStorageService.countryName, selectedCountry.value?.name ?? '');
-    keyValueStorageBase.setCommon(
-        KeyValueStorageService.language, languageIndex == 0 ? 'en' : 'ar');
+    LocaleManager.setValue(
+        StorageKeys.country, selectedCountry.value?.flag_url ?? '');
+    LocaleManager.setValue(
+        StorageKeys.countryName, selectedCountry.value?.name ?? '');
+    LocaleManager.setValue(
+        StorageKeys.language, languageIndex == 0 ? 'en' : 'ar');
     Get.toNamed(Routes.profileSelectionView);
   }
 }

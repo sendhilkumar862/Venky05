@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -10,14 +8,11 @@ import 'config/routes/route.dart';
 import 'feature/splash/controller/splash_controller.dart';
 import 'feature/splash/view/splash_view.dart';
 import 'locale.dart';
-import 'product/cache/locale_manager.dart';
 import 'product/lang/language_manager.dart';
-
 
 Future<void> main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized(); // Initialize the Flutter binding
-  LocaleManager.prefrencesInit();
   runApp(
     const MyApp(),
   );
@@ -33,8 +28,9 @@ class MyApp extends StatelessWidget {
           ScreenType screenType) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          localizationsDelegates:  const [
-            GlobalMaterialLocalizations.delegate, // uses `flutter_localizations`
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations
+                .delegate, // uses `flutter_localizations`
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
@@ -56,6 +52,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class initialBinding extends Bindings {
   @override
   void dependencies() {

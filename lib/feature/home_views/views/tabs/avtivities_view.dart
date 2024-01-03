@@ -1,4 +1,4 @@
-import 'dart:ffi';
+
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,10 +10,10 @@ import '../../../../custom/cardView/app_card_view.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';
 import '../../../../custom/cardView/info_card_view_horizontal.dart';
+import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../../home/controller/home_controller.dart';
 import 'classes_view.dart';
 class ActivitiesView extends StatefulWidget {
@@ -24,7 +24,6 @@ class ActivitiesView extends StatefulWidget {
 }
 
 class _ActivitiesViewState extends State<ActivitiesView> {
-  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
   String selectedProfile = '';
   String selectedUserStatus = '';
   bool isPending = false;
@@ -33,8 +32,7 @@ class _ActivitiesViewState extends State<ActivitiesView> {
   @override
   void initState() {
     super.initState();
-    selectedProfile =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ?? '';
+    selectedProfile = LocaleManager.getValue(StorageKeys.profile) ??'';
   }
 
 

@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import '../../../../config/routes/route.dart';
 import '../../../../core/base_response.dart';
 import '../../../../custom/loader/easy_loader.dart';
-import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
+import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/local_manager.dart';
 import '../repository/profile_set_repository.dart';
 import '../../onboarding/Controller/onboading_controller.dart';
 import '../../onboarding/view/onboading_view.dart';
@@ -18,10 +18,9 @@ class ProfileSetController extends GetxController {
   void onInit() {
     super.onInit();
     fetchData();
-    KeyValueStorageBase.init();
+
   }
 
-  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
 
   RxInt selectedIndex = 2.obs;
 
@@ -35,8 +34,7 @@ class ProfileSetController extends GetxController {
 
   void onTapSubmit() {
     if (selectedIndex.value != 2) {
-      keyValueStorageBase.setCommon(KeyValueStorageService.profile,
-          selectedIndex == 0 ? 'Tutor' : 'Student');
+      LocaleManager.setValue( StorageKeys.profile, selectedIndex == 0 ? 'Tutor' : 'Student');
       _onBoadingController.currentProfile.value=selectedIndex == 0 ? 'Tutor' : 'Student';
       Get.toNamed(Routes.onBoardingView);
     }

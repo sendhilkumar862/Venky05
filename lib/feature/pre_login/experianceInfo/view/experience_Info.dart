@@ -189,6 +189,7 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                                                 setState(() {
                                                   _experienceInfoController
                                                       .firstImage = null;
+                                                  _personalInfoController.civilIds.removeAt(0);
                                                 });
                                               },
                                               child: Container(
@@ -245,6 +246,10 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
                                                   setState(() {
                                                     _experienceInfoController
                                                         .secondImage = null;
+                                                    if( _personalInfoController.civilIds.length==2){
+                                                      _personalInfoController.civilIds.removeAt(1);}else{
+                                                      _personalInfoController.civilIds.removeAt(0);
+                                                    }
                                                   });
                                                 },
                                                 child: Container(

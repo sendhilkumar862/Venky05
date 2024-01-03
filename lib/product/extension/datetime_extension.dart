@@ -4,10 +4,10 @@ import 'package:intl/intl.dart';
 
 extension DateExt on DateTime {
   String toTimeAgoLabel({bool numericIntervals = false}) {
-    final now = DateTime.now();
-    final durationSinceNow = now.difference(this);
+    final DateTime now = DateTime.now();
+    final Duration durationSinceNow = now.difference(this);
 
-    final inDays = durationSinceNow.inDays;
+    final int inDays = durationSinceNow.inDays;
     if (inDays >= 1) {
       if ((inDays / 7).floor() >= 1) {
         return numericIntervals ? '1 week ago' : 'Last week';
@@ -18,7 +18,7 @@ extension DateExt on DateTime {
       }
     }
 
-    final inHours = durationSinceNow.inHours;
+    final int inHours = durationSinceNow.inHours;
     if (inHours >= 1) {
       if (inHours >= 2) {
         return '$inHours hours ago';
@@ -27,7 +27,7 @@ extension DateExt on DateTime {
       }
     }
 
-    final inMinutes = durationSinceNow.inMinutes;
+    final int inMinutes = durationSinceNow.inMinutes;
     if (inMinutes >= 1) {
       if (inMinutes >= 2) {
         return '$inMinutes minutes ago';
@@ -36,15 +36,15 @@ extension DateExt on DateTime {
       }
     }
 
-    final inSeconds = durationSinceNow.inSeconds;
+    final int inSeconds = durationSinceNow.inSeconds;
     return inSeconds >= 3 ? '$inSeconds seconds ago' : 'Just now';
   }
 
   String toTimeToGoLabel({bool numericIntervals = false}) {
-    final now = DateTime.now();
-    final durationToNow = this.difference(now);
+    final DateTime now = DateTime.now();
+    final Duration durationToNow = this.difference(now);
 
-    final inDays = durationToNow.inDays;
+    final int inDays = durationToNow.inDays;
     if (inDays >= 1) {
       if ((inDays / 7).floor() >= 1) {
         return numericIntervals ? 'In 1 week' : 'Next week';
@@ -55,7 +55,7 @@ extension DateExt on DateTime {
       }
     }
 
-    final inHours = durationToNow.inHours;
+    final int inHours = durationToNow.inHours;
     if (inHours >= 1) {
       if (inHours >= 2) {
         return 'In $inHours hours';
@@ -64,7 +64,7 @@ extension DateExt on DateTime {
       }
     }
 
-    final inMinutes = durationToNow.inMinutes;
+    final int inMinutes = durationToNow.inMinutes;
     if (inMinutes >= 1) {
       if (inMinutes >= 2) {
         return 'In $inMinutes minutes';
@@ -73,7 +73,7 @@ extension DateExt on DateTime {
       }
     }
 
-    final inSeconds = durationToNow.inSeconds;
+    final int inSeconds = durationToNow.inSeconds;
     return inSeconds >= 3 ? 'In $inSeconds seconds' : 'Just about now';
   }
 

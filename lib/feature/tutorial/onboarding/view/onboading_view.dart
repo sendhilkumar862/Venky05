@@ -10,10 +10,10 @@ import '../../../../config/routes/route.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/appbar/appBarOnBoard.dart';
 import '../../../../custom/text/app_text.dart';
+import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
 import '../../emailEnter/view/email_view.dart';
 import '../Controller/onboading_controller.dart';
 
@@ -37,11 +37,9 @@ class OnBoardingView extends StatelessWidget {
           icon: ImageConstants.layersIcon,
           onTap: () => Get.toNamed(Routes.HomeScreenRoute),
           onBackTap: () {
-            final KeyValueStorageBase keyValueStorageBase =
-            KeyValueStorageBase();
-            keyValueStorageBase.setCommon(
-                KeyValueStorageService.profile, '');
-           Get.back();
+            LocaleManager.setValue(
+                StorageKeys.profile,'');
+            Get.back();
           }),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.px),

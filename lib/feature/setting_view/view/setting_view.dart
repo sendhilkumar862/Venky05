@@ -5,11 +5,11 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../../config/routes/route.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/sheet/show_bottom_sheet.dart';
 import '../../../custom/switch/app_switch.dart';
+import '../../../config/routes/route.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
@@ -21,7 +21,8 @@ import '../../tutorial/language/controller/language_controller.dart';
 import '../../tutorial/view/bottomSheets/country_bottom_sheet.dart';
 import '../../tutorial/view/bottomSheets/language_bottom_sheet.dart';
 import '../controller/setting_controller.dart';
-import 'widget/manage_adress_view.dart';
+import '../manage_address/view/manage_address_view.dart';
+import 'widget/available_times_view.dart';
 
 class SettingView extends StatefulWidget {
   const SettingView({super.key});
@@ -145,26 +146,26 @@ class _SettingViewState extends State<SettingView> {
     SettingData response,
   ) {
     final String title = data.listDetail[i].title;
-      return Column(
-        children: <Widget>[
-          InkWell(
-            onTap: () => handleTitleClick(
-              title,
-              context,
-              response,
-            ),
-            child: childSettingListTile(
-                title: response.title, icon: response.surfixImage),
-          ),
-          if (i < data.listDetail.length - 1)
-            Divider(
-              height: 30,
-              thickness: 1,
-              color: AppColors.appBorderColor.withOpacity(0.5),
-            )
-        ],
-      );
 
+    return Column(
+      children: <Widget>[
+        InkWell(
+          onTap: () => handleTitleClick(
+            title,
+            context,
+            response,
+          ),
+          child: childSettingListTile(
+              title: response.title, icon: response.surfixImage),
+        ),
+        if (i < data.listDetail.length - 1)
+          Divider(
+            height: 30,
+            thickness: 1,
+            color: AppColors.appBorderColor.withOpacity(0.5),
+          )
+      ],
+    );
   }
 
   Widget childSettingListTile({
@@ -242,21 +243,6 @@ class _SettingViewState extends State<SettingView> {
           )
       ],
     );
-  }
-
-  void manageAddressBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-        backgroundColor: Colors.white,
-        isScrollControlled: true,
-        // showDragHandle: true,
-        useSafeArea: true,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30), topLeft: Radius.circular(30))),
-        context: context,
-        builder: (BuildContext bc) {
-          return const ManageAddressView();
-        });
   }
 
   Widget selectCardView({String? icon, String? title, VoidCallback? onTap}) {
@@ -548,7 +534,6 @@ class _SettingViewState extends State<SettingView> {
         _settingController.logout(context);
       case SettingTitle.manageAddress:
         Get.toNamed(Routes.manageAddressView);
-      // manageAddressBottomSheet(context);
       case SettingTitle.changeCountry:
         showModalBottomSheet(
           isScrollControlled: true,

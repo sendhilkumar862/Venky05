@@ -25,8 +25,9 @@ class WithdrawView extends StatefulWidget {
   State<WithdrawView> createState() => _WithdrawViewState();
 }
 
-class _WithdrawViewState extends State<WithdrawView> with TickerProviderStateMixin {
-  final WalletController _walletController =Get.put(WalletController());
+class _WithdrawViewState extends State<WithdrawView>
+    with TickerProviderStateMixin {
+  final WalletController _walletController = Get.put(WalletController());
   List<CommonClass> bankAccount = [
     CommonClass(
       'Main Account',
@@ -50,15 +51,27 @@ class _WithdrawViewState extends State<WithdrawView> with TickerProviderStateMix
     ),
   ];
   List<CommonClass> location = [
-    CommonClass('Home', 'City, Block No., Street Name, Street Name 2, HouseNo.,', 'Floor No., Apartment No.'),
-    CommonClass('Work', 'City, Block No., Street Name, Street Name 2, HouseNo.,', 'Floor No., Apartment No.'),
-    CommonClass('Home', 'City, Block No., Street Name, Street Name 2, HouseNo.,', 'Floor No., Apartment No.'),
-    CommonClass('Work', 'City, Block No., Street Name, Street Name 2, HouseNo.,', 'Floor No., Apartment No.'),
+    CommonClass(
+        'Home',
+        'City, Block No., Street Name, Street Name 2, HouseNo.,',
+        'Floor No., Apartment No.'),
+    CommonClass(
+        'Work',
+        'City, Block No., Street Name, Street Name 2, HouseNo.,',
+        'Floor No., Apartment No.'),
+    CommonClass(
+        'Home',
+        'City, Block No., Street Name, Street Name 2, HouseNo.,',
+        'Floor No., Apartment No.'),
+    CommonClass(
+        'Work',
+        'City, Block No., Street Name, Street Name 2, HouseNo.,',
+        'Floor No., Apartment No.'),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return   Obx(() {
+    return Obx(() {
       return Scaffold(
         backgroundColor: AppColors.appWhite,
         appBar: HessaAppBar(
@@ -76,8 +89,8 @@ class _WithdrawViewState extends State<WithdrawView> with TickerProviderStateMix
               titleColor: (_walletController.amountError.value.isEmpty)
                   ? AppColors.appGrey
                   : ('valid' == _walletController.amountError.value)
-                  ? AppColors.appRed
-                  : AppColors.appBlue,
+                      ? AppColors.appRed
+                      : AppColors.appBlue,
               controller: _walletController.withdrawController,
               title: 'Withdraw Amount',
               height: 10,
@@ -102,7 +115,9 @@ class _WithdrawViewState extends State<WithdrawView> with TickerProviderStateMix
                   fontWeight: FontWeight.w500,
                 ),
                 SizedBox(width: 8.px),
-                AppSwitch(onTap: () => _walletController.onTapSwitch(), isActive: _walletController.isActive.value)
+                AppSwitch(
+                    onTap: () => _walletController.onTapSwitch(),
+                    isActive: _walletController.isActive.value)
               ],
             ),
             SizedBox(height: 20.px),
@@ -123,25 +138,30 @@ class _WithdrawViewState extends State<WithdrawView> with TickerProviderStateMix
                         return Column(children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.all(20),
-                            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
-                              Text('Bank Account', style: openSans.get20.w700),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 70),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle, color: AppColors.gray.withOpacity(0.3)),
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(3),
-                                      child: Icon(Icons.close),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  Text('Bank Account',
+                                      style: openSans.get20.w700),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 70),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: AppColors.gray
+                                                .withOpacity(0.3)),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(3),
+                                          child: Icon(Icons.close),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              )
-                            ]),
+                                  )
+                                ]),
                           ),
                           Expanded(
                             child: SingleChildScrollView(
@@ -150,8 +170,11 @@ class _WithdrawViewState extends State<WithdrawView> with TickerProviderStateMix
                                   ListData(
                                     commonList: bankAccount,
                                     label: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                                      child: Text('IBAN', style: openSans.get12.w500.textColor(AppColors.gray)),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5),
+                                      child: Text('IBAN',
+                                          style: openSans.get12.w500
+                                              .textColor(AppColors.gray)),
                                     ),
                                     image: Image.asset(
                                       ImageConstants.ellipse1,
@@ -183,14 +206,18 @@ class _WithdrawViewState extends State<WithdrawView> with TickerProviderStateMix
               },
               child: Container(
                 alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(vertical: 10.px, horizontal: 5.px),
+                padding:
+                    EdgeInsets.symmetric(vertical: 10.px, horizontal: 5.px),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.px),
                   border: Border.all(color: AppColors.lightPurple),
                 ),
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [AppText('Main Account', fontWeight: FontWeight.w400), Icon(Icons.arrow_drop_down)],
+                  children: [
+                    AppText('Main Account', fontWeight: FontWeight.w400),
+                    Icon(Icons.arrow_drop_down)
+                  ],
                 ),
               ),
             ),
@@ -205,7 +232,9 @@ class _WithdrawViewState extends State<WithdrawView> with TickerProviderStateMix
               AppButton(
                 title: 'Withdraw',
                 borderColor: AppColors.appBlue,
-                onPressed: (_walletController.amountError.value == 'valid') ? () {} : () {},
+                onPressed: (_walletController.amountError.value == 'valid')
+                    ? () {}
+                    : () {},
               ),
               SizedBox(height: 30.px),
             ],

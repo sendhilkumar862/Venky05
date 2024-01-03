@@ -2,8 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../theme/app_theme_light.dart';
-
 // MEDIA
 extension ContextExtension on BuildContext {
   MediaQueryData get mediaQuery => MediaQuery.of(this);
@@ -23,13 +21,6 @@ extension MediaQueryExtension on BuildContext {
   double dynamicHeight(double val) => height * val;
 }
 
-// THEME
-extension ThemeExtension on BuildContext {
-  ThemeData get theme => Theme.of(this);
-  TextTheme get textTheme => theme.textTheme;
-  ColorScheme get colors => AppThemeLight.instance.theme.colorScheme;
-}
-
 // PADDING ALLL
 extension PaddingExtensionAll on BuildContext {
   EdgeInsets get paddingLow => EdgeInsets.all(lowValue);
@@ -42,15 +33,22 @@ extension PaddingExtensionAll on BuildContext {
 extension PaddingExtensionSymetric on BuildContext {
   // VERTICAL PADDİNG
   EdgeInsets get paddingLowVertical => EdgeInsets.symmetric(vertical: lowValue);
-  EdgeInsets get paddingNormalVertical => EdgeInsets.symmetric(vertical: normalValue);
-  EdgeInsets get paddingMediumVertical => EdgeInsets.symmetric(vertical: mediumValue);
-  EdgeInsets get paddingHighVertical => EdgeInsets.symmetric(vertical: highValue);
+  EdgeInsets get paddingNormalVertical =>
+      EdgeInsets.symmetric(vertical: normalValue);
+  EdgeInsets get paddingMediumVertical =>
+      EdgeInsets.symmetric(vertical: mediumValue);
+  EdgeInsets get paddingHighVertical =>
+      EdgeInsets.symmetric(vertical: highValue);
 
   // HORIZONTAL PADDİNG
-  EdgeInsets get paddingLowHorizontal => EdgeInsets.symmetric(horizontal: lowValue);
-  EdgeInsets get paddingNormalHorizontal => EdgeInsets.symmetric(horizontal: normalValue);
-  EdgeInsets get paddingMediumHorizontal => EdgeInsets.symmetric(horizontal: mediumValue);
-  EdgeInsets get paddingHighHorizontal => EdgeInsets.symmetric(horizontal: highValue);
+  EdgeInsets get paddingLowHorizontal =>
+      EdgeInsets.symmetric(horizontal: lowValue);
+  EdgeInsets get paddingNormalHorizontal =>
+      EdgeInsets.symmetric(horizontal: normalValue);
+  EdgeInsets get paddingMediumHorizontal =>
+      EdgeInsets.symmetric(horizontal: mediumValue);
+  EdgeInsets get paddingHighHorizontal =>
+      EdgeInsets.symmetric(horizontal: highValue);
 }
 
 // RANDOM COLOR

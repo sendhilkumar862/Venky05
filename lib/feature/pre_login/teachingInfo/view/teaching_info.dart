@@ -18,7 +18,8 @@ class TeachingInfo extends StatefulWidget {
 }
 
 class _TeachingInfoState extends State<TeachingInfo> {
-  final TeachingInfoController _teachingInfoController = Get.put(TeachingInfoController());
+  final TeachingInfoController _teachingInfoController =
+      Get.put(TeachingInfoController());
   @override
   void initState() {
     super.initState();
@@ -164,25 +165,11 @@ class _TeachingInfoState extends State<TeachingInfo> {
               suffix: Icon(Icons.keyboard_arrow_down),
             ),
             SizedBox(height: 40.px),
-            Obx( () {
-              return AppButton(
-                  title: 'Continue Experience Information',
-                  onPressed: () {
-                    if( _teachingInfoController.gradeController.text.isNotEmpty &&
-                        _teachingInfoController
-                            .classTypeController.text.isNotEmpty &&
-                        _teachingInfoController
-                            .curriculumController.text.isNotEmpty &&
-                        _teachingInfoController
-                            .schoolController.text.isNotEmpty &&
-                        _teachingInfoController
-                            .subjectController.text.isNotEmpty
-                    ) {
-                      _teachingInfoController.teachingInformationUpdate();
-                    }
-                  },
-                  isDisable:
-                  _teachingInfoController.gradeController.text.isNotEmpty &&
+
+            AppButton(
+                title: 'Continue Experience Information',
+                onPressed: () {
+                  if (_teachingInfoController.gradeController.text.isNotEmpty &&
                       _teachingInfoController
                           .classTypeController.text.isNotEmpty &&
                       _teachingInfoController
@@ -190,16 +177,28 @@ class _TeachingInfoState extends State<TeachingInfo> {
                       _teachingInfoController
                           .schoolController.text.isNotEmpty &&
                       _teachingInfoController
-                          .subjectController.text.isNotEmpty
-                      ? false
-                      : true);
-            })
+                          .subjectController.text.isNotEmpty) {
+                    _teachingInfoController.teachingInformationUpdate();
+                  }
+                },
+                isDisable:
+                    _teachingInfoController.gradeController.text.isNotEmpty &&
+                            _teachingInfoController
+                                .classTypeController.text.isNotEmpty &&
+                            _teachingInfoController
+                                .curriculumController.text.isNotEmpty &&
+                            _teachingInfoController
+                                .schoolController.text.isNotEmpty &&
+                            _teachingInfoController
+                                .subjectController.text.isNotEmpty
+                        ? false
+                        : true)
 
             // teachingInfoStore.selectedCurriculum.isNotEmpty && teachingInfoStore.selectedSchoolType.isNotEmpty && teachingInfoStore.selectedClassType.isNotEmpty && teachingInfoStore.selectedGrade.isNotEmpty && teachingInfoStore.schoolTypeList.isNotEmpty ?false:true)
           ],
         ),
       ),
-    ) ;
+    );
   }
 
   void bottomSheetDropDownList({
@@ -257,29 +256,26 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     },
                     itemCount: listData.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Obx( () {
-                        return ListTile(
-                          title: Text(listData[index],
-                              style: openSans.get16.w400
-                                  .textColor(AppColors.appTextColor)),
-                          onTap: () {
-
-                            onTap(
-                                index);
-                            setState((){});// Pass the value to the onTap function
-                          },
-                          trailing: selectedList.contains(listData[index])
-                              ? const Icon(
-                                  Icons.check_circle,
-                                  color: AppColors.appBlue,
-                                )
-                              : Icon(
-                                  Icons.circle_outlined,
-                                  color: AppColors.downArrowColor
-                                      .withOpacity(0.25),
-                                ),
-                        );
-                      });
+                      return ListTile(
+                        title: Text(listData[index],
+                            style: openSans.get16.w400
+                                .textColor(AppColors.appTextColor)),
+                        onTap: () {
+                          onTap(index);
+                          setState(
+                              () {}); // Pass the value to the onTap function
+                        },
+                        trailing: selectedList.contains(listData[index])
+                            ? const Icon(
+                                Icons.check_circle,
+                                color: AppColors.appBlue,
+                              )
+                            : Icon(
+                                Icons.circle_outlined,
+                                color:
+                                    AppColors.downArrowColor.withOpacity(0.25),
+                              ),
+                      );
                     },
                   ),
                 ),

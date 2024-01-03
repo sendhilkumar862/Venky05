@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import '../../../config/routes/route.dart';
 import '../../../core/base_response.dart';
 import '../../../core/local_auth_services.dart';
+import '../../../product/cache/key_value_storeage.dart';
+import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
-import '../../../product/network/local/key_value_storage_base.dart';
-import '../../../product/network/local/key_value_storage_service.dart';
 import '../../../product/utils/validators.dart';
 import '../../home/controller/home_controller.dart';
 import '../../tutorial/language/model/country_model.dart';
@@ -29,8 +29,7 @@ class SettingController extends GetxController {
   final UpdateProfilePhotoRepository _updateProfilePhotoRepository =
       UpdateProfilePhotoRepository();
   final HomeController _homeController = Get.put(HomeController());
-  final KeyValueStorageService keyValueStorageService =
-      KeyValueStorageService();
+
   RxList<String> languages = <String>[
     'عربي',
     'English',
@@ -46,7 +45,6 @@ class SettingController extends GetxController {
   void onInit() {
     fetchLocalAuth();
     getProfileData();
-    KeyValueStorageBase.init();
     super.onInit();
   }
 
@@ -57,8 +55,6 @@ class SettingController extends GetxController {
   RxList<Country> countries = <Country>[].obs;
 
   RxList<Country> filteredCountries = <Country>[].obs;
-
-  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
 
   RxList<SettingHeading> studentSettingList = <SettingHeading>[
     SettingHeading(header: 'Personal Information', listDetail: <SettingData>[
@@ -153,8 +149,9 @@ class SettingController extends GetxController {
   setLocalAuth() async {
     final bool authenticatedStatus = await LocalAuth.authenticate();
     if (authenticatedStatus) {
-      final String authToken = await keyValueStorageService.getAuthToken();
-      keyValueStorageService.setAuthBiometric(authToken);
+      final String authToken = LocaleManager.getAuthToken() ??'';
+      LocaleManager.setValue(StorageKeys.authBiometric,authToken ??'');
+
       authenticated.value = authenticatedStatus.toString();
     }
   }
@@ -162,24 +159,20 @@ class SettingController extends GetxController {
   removeLocalAuth() async {
     final bool authenticatedStatus = await LocalAuth.authenticate();
     if (authenticatedStatus) {
-      keyValueStorageService.removeAuthBiometricToken();
+      LocaleManager.removeValue(StorageKeys.authBiometric);
       authenticated.value = '';
     }
   }
 
   fetchLocalAuth() async {
-    authenticated.value = await keyValueStorageService.getBioMetricStatus();
+    authenticated.value =  LocaleManager.getValue(StorageKeys.authBiometric) ??'';
   }
 
   logout(BuildContext context) async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    final KeyValueStorageService keyValueStorageService =
-        KeyValueStorageService();
-    await keyValueStorageService.removeAuthToken();
+     LocaleManager.removeAuthToken();
     await Get.deleteAll();
     EasyLoading.dismiss();
-    // ignore: use_build_context_synchronously
-    // AppRouter.pushNamedPopUntil(context, route: Routes.loginView);
     Get.offAllNamed(Routes.loginView);
   }
 
@@ -187,9 +180,9 @@ class SettingController extends GetxController {
     languageIndex = index.obs;
 
     if (languages[index] == 0) {
-      keyValueStorageBase.setCommon(KeyValueStorageService.language, 'en');
+      LocaleManager.setValue(StorageKeys.language, 'en');
     } else {
-      keyValueStorageBase.setCommon(KeyValueStorageService.language, 'ar');
+      LocaleManager.setValue(StorageKeys.language, 'ar');
     }
 
     logs('selected lang-->$languageIndex');
@@ -197,15 +190,15 @@ class SettingController extends GetxController {
 
   void getProfileData() {
     selectedProfile.value =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile) ??
+        LocaleManager.getValue( StorageKeys.profile) ??
             ApplicationConstants.tutor;
 
     selectedCountryName.value =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.country) ??
+        LocaleManager.getValue( StorageKeys.country) ??
             '';
 
-    selectedLanguage.value = keyValueStorageBase.getCommon(
-            String, KeyValueStorageService.language) ??
+    selectedLanguage.value =  LocaleManager.getValue(
+        StorageKeys.language) ??
         '';
   }
 }

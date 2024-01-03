@@ -1,13 +1,15 @@
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:hessah/feature/tutorial/password/repository/password_repository.dart';
-import 'package:hessah/product/network/local/key_value_storage_base.dart';
+
 
 import '../../../../core/base_response.dart';
+import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_utils.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
+
 import '../../../../product/utils/validators.dart';
 import '../model/password_model.dart';
 import '../model/password_model_request.dart';
@@ -18,7 +20,6 @@ class PasswordController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    KeyValueStorageBase.init();
     fetchData();
   }
 
@@ -71,7 +72,6 @@ class PasswordController extends GetxController {
   }
 
   Future<bool> registerUser() async {
-    final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final BaseResponse registerResponse = await _passwordRepository.register(
       registerRequest: RegisterRequest(
@@ -80,17 +80,15 @@ class PasswordController extends GetxController {
           isTermsAccepted: isActive.value,
           firstName: arguments['firstName'],
           lastName: arguments['lastName'],
-          country: keyValueStorageBase.getCommon(
-              String, KeyValueStorageService.countryName),
+          country:    LocaleManager.getValue(
+              StorageKeys.countryName),
           hideUserName: arguments['hideUserName'] ?? false),
     );
     if (registerResponse.status?.type == 'success') {
       final Map<String, dynamic> dataResponse =
           registerResponse.data!.item! as Map<String, dynamic>;
       final PasswordModel passwordModel = PasswordModel.fromJson(dataResponse);
-      final KeyValueStorageService keyValueStorageService =
-          KeyValueStorageService();
-      await keyValueStorageService
+      LocaleManager
           .setAuthToken(passwordModel.token.accessToken);
       EasyLoading.dismiss();
       return true;

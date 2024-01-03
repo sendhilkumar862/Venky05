@@ -5,8 +5,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import '../../../../config/routes/route.dart';
 import '../../../../core/base_response.dart';
-import '../../../../product/network/local/key_value_storage_base.dart';
-import '../../../../product/network/local/key_value_storage_service.dart';
+import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/local_manager.dart';
 import '../../../home/controller/home_controller.dart';
 import '../../changeMobileNumber/model/country_code_model.dart';
 import '../../mobileEnter/controller/mobile_enter_controller.dart';
@@ -24,12 +24,7 @@ class AddMobileNumberController extends GetxController{
   @override
   void onInit() {
     super.onInit();
-    KeyValueStorageBase.init();
-    final KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-    countryCode.value = keyValueStorageBase
-        .getCommon(List<String>, KeyValueStorageService.countryCodeAndIDD)
-        .toString()
-        .split(',');
+    countryCode.value =  LocaleManager.getValue( StorageKeys.countryCodeAndIDD).toString().split(',');
   }
 
 

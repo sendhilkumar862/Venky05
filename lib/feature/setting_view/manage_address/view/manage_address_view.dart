@@ -42,18 +42,14 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
           Expanded(
             child: _manageAddressController.address.isNotEmpty?SingleChildScrollView(
               child:
-                Column(
-                children: <Widget>[
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: _manageAddressController.address.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final UserAddress data =_manageAddressController.address[index];
-                        return listData(index, data);
-                      })
-                ],
-              )
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: _manageAddressController.address.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final UserAddress data =_manageAddressController.address[index];
+                    return listData(index, data);
+                  })
             ): const Center(child: Text('No address added'),),
           ),
           Padding(

@@ -1,17 +1,11 @@
 
 import 'package:get/get.dart';
 import '../../../config/routes/route.dart';
-import '../../../product/network/local/key_value_storage_base.dart';
-import '../../../product/network/local/key_value_storage_service.dart';
+import '../../../product/cache/key_value_storeage.dart';
+import '../../../product/cache/local_manager.dart';
 import '../../../product/utils/validators.dart';
-import '../../tutorial/language/view/language_view.dart';
-import '../../tutorial/onboarding/view/onboading_view.dart';
-import '../../tutorial/profileSet/view/profile_selection_view.dart';
 
 class SplashController extends GetxController {
-  KeyValueStorageBase keyValueStorageBase = KeyValueStorageBase();
-  final KeyValueStorageService keyValueStorageService =
-      KeyValueStorageService();
   String? selectedCountry;
   String? selectedLanguage;
   String? selectedProfile;
@@ -23,11 +17,10 @@ class SplashController extends GetxController {
   }
 
   Future<void> init() async {
-    await KeyValueStorageBase.init();
     // await keyValueStorageBase.clearEncrypted();
     // await keyValueStorageBase.clearCommon();
 
-    final String token = await keyValueStorageService.getAuthToken();
+    final String token = LocaleManager.getAuthToken();
     if (token.isNotEmpty) {
       logs('Token--> $token');
       Future.delayed(const Duration(milliseconds: 5000), () {
@@ -39,15 +32,13 @@ class SplashController extends GetxController {
   }
 
   Future<void> checkTheStatus() async {
-    await KeyValueStorageBase.init();
-    selectedCountry =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.country);
+    selectedCountry =  LocaleManager.getValue( StorageKeys.country) ??'';
 
     selectedLanguage =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.language);
+        LocaleManager.getValue( StorageKeys.language) ??'';
 
     selectedProfile =
-        keyValueStorageBase.getCommon(String, KeyValueStorageService.profile);
+        LocaleManager.getValue( StorageKeys.profile) ??'';
   }
 
   Future<void> setRoute() async {
@@ -66,12 +57,7 @@ class SplashController extends GetxController {
         'continueRegistration' : true,
       };
       Get.toNamed(Routes.onBoardingView,arguments: data);
-      // navigation(OnBoardingView(continueRegistration: true));
     }
   }
 
-  // Future<void> navigation(Widget page) async => Future<void>.delayed(
-  //       const Duration(milliseconds: 5000),
-  //       () async => AppRouter.push(page),
-  //     );
 }
