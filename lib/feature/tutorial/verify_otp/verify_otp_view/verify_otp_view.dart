@@ -29,8 +29,7 @@ class VerifyOtpView extends StatelessWidget {
       Get.put(VerifyOtpController());
   @override
   Widget build(BuildContext context) {
-    _verifyOtpController.arguments =
-        ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
+    _verifyOtpController.arguments = Get.arguments;
     _verifyOtpController.otpId.value =
         _verifyOtpController.arguments['otp_id'].toString();
     return Obx(() {
@@ -48,7 +47,7 @@ class VerifyOtpView extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: AppText(
                     textAlign: TextAlign.start,
-                    (_verifyOtpController.arguments['isScreen'])
+                    (_verifyOtpController.arguments['isScreen']==true)
                         ? 'verifyEmailAddress'.tr
                         : 'verifyMobileNumber'.tr,
                     fontSize: 24.px,
@@ -58,7 +57,7 @@ class VerifyOtpView extends StatelessWidget {
                 SizedBox(height: 15.px),
                 AppText(
                   textAlign: TextAlign.start,
-                  (_verifyOtpController.arguments['isScreen'])
+                  (_verifyOtpController.arguments['isScreen']==true)
                       ? 'enterTheVerification'.tr +
                           maskEmail(_verifyOtpController.arguments['email']
                               .toString())

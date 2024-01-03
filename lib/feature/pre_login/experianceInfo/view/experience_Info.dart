@@ -34,8 +34,8 @@ class _ExperienceInfoState extends State<ExperienceInfo> {
         trailingText: 'Cancel',
         title: 'Complete Profile',
         isTitleOnly: true,
-        trailingTap: () => Navigator.popUntil(
-            context, ModalRoute.withName(Routes.HomeScreenRoute)),
+        trailingTap: () =>
+            Get.offAndToNamed(Routes.HomeScreenRoute),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),

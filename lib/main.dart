@@ -4,8 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart' hide ScreenType;
 import 'package:get_storage/get_storage.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
-import 'config/routes/app_router.dart';
+import 'config/routes/route.dart';
 import 'feature/splash/controller/splash_controller.dart';
 import 'feature/splash/view/splash_view.dart';
 import 'locale.dart';
@@ -35,12 +34,14 @@ class MyApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          onGenerateRoute: AppRouter.generateRoute,
+          // onGenerateRoute: Routes.generateRoute,
           locale: LanguageManager.instance.enLocale,
           supportedLocales: LanguageManager.instance.supportedLocales,
-          navigatorKey: AppRouter.navigatorKey,
+           navigatorKey: Routes.navigatorKey,
           translations: Messages(),
-          fallbackLocale: LanguageManager.instance.arLocale,
+            initialRoute: Routes.AppRootRoute,
+            fallbackLocale:LanguageManager.instance.arLocale,
+          getPages:Routes.router,
           // theme: context.watch<ThemeNotifier>().currentTheme,
           initialBinding: initialBinding(),
           home: const SplashView(),

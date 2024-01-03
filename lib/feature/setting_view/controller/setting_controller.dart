@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-
-import '../../../config/routes/app_router.dart';
-import '../../../config/routes/routes.dart';
+import '../../../config/routes/route.dart';
 import '../../../core/base_response.dart';
 import '../../../core/local_auth_services.dart';
 import '../../../product/cache/key_value_storeage.dart';
@@ -30,7 +28,8 @@ class SettingController extends GetxController {
   Rx<TextEditingController> countryController = TextEditingController().obs;
   final UpdateProfilePhotoRepository _updateProfilePhotoRepository =
       UpdateProfilePhotoRepository();
-  final HomeController _homeController = Get.find();
+  final HomeController _homeController = Get.put(HomeController());
+
   RxList<String> languages = <String>[
     'عربي',
     'English',
@@ -48,6 +47,7 @@ class SettingController extends GetxController {
     getProfileData();
     super.onInit();
   }
+
 // ignore: always_declare_return_types
 
   Rxn<Country?> selectedCountry = Rxn<Country>();
@@ -173,8 +173,7 @@ class SettingController extends GetxController {
      LocaleManager.removeAuthToken();
     await Get.deleteAll();
     EasyLoading.dismiss();
-    // ignore: use_build_context_synchronously
-    AppRouter.pushNamedPopUntil(context, route: Routes.loginView);
+    Get.offAllNamed(Routes.loginView);
   }
 
   void selectLanguage(int index) {

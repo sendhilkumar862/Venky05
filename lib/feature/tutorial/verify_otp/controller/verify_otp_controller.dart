@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import '../../../../config/routes/app_router.dart';
-import '../../../../config/routes/routes.dart';
+import '../../../../config/routes/route.dart';
+
 import '../../../../core/base_response.dart';
 import '../../../../custom/countdown_timer/timer_count_down.dart';
 import '../../../../custom/dialog/success_fail_dialog.dart';
@@ -83,7 +83,8 @@ class VerifyOtpController extends GetxController {
         timerController.pause();
         if (isMobile) {
           if (arguments['isPreLogin'] ?? false) {
-            AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
+            Get.offAndToNamed(Routes.userInfoView, arguments: arguments);
+            // AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
           } else {
             final HomeController homeController = Get.find();
             homeController.fetchData();
@@ -91,22 +92,22 @@ class VerifyOtpController extends GetxController {
           }
         } else {
           if (currentProfile == 'Tutor') {
-            AppRouter.popAndPushNamed(Routes.mobileView, args: arguments);
+            Get.offAndToNamed(Routes.mobileView, arguments: arguments);
           } else {
-            AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
+            Get.offAndToNamed(Routes.userInfoView, arguments: arguments);
           }
         }
       } else {
         isCorrect.value = false;
         AppUtils.showFlushBar(
-          context: AppRouter.navigatorKey.currentContext!,
+          context: Routes.navigatorKey.currentContext!,
           message: otpResponse.status?.message ?? 'Error occured',
         );
       }
     } on DioException catch (error) {
       isCorrect.value = false;
       AppUtils.showFlushBar(
-        context: AppRouter.navigatorKey.currentContext!,
+        context: Routes.navigatorKey.currentContext!,
         message: error.response?.data['status']['message'] ?? 'Error occured',
       );
       logs('Error: $error');
@@ -134,7 +135,7 @@ class VerifyOtpController extends GetxController {
         enteredOTP.value = '';
         timerController.pause();
         if (arguments['isPreLogin'] ?? false) {
-          AppRouter.popAndPushNamed(Routes.userInfoView, args: arguments);
+          Get.offAndToNamed(Routes.userInfoView, arguments: arguments);
         } else {
           final HomeController homeController = Get.find();
           homeController.fetchData();
@@ -143,14 +144,14 @@ class VerifyOtpController extends GetxController {
       } else {
         isCorrect.value = false;
         AppUtils.showFlushBar(
-          context: AppRouter.navigatorKey.currentContext!,
+          context: Routes.navigatorKey.currentContext!,
           message: otpResponse.status?.message ?? 'Error occured',
         );
       }
     } on DioException catch (error) {
       isCorrect.value = false;
       AppUtils.showFlushBar(
-        context: AppRouter.navigatorKey.currentContext!,
+        context: Routes.navigatorKey.currentContext!,
         message: error.response?.data['status']['message'] ?? 'Error occured',
       );
       logs('Error: $error');
@@ -208,13 +209,13 @@ class VerifyOtpController extends GetxController {
         AppUtils.showFlushBar(
           icon: Icons.check_circle_outline_rounded,
           iconColor: Colors.green,
-          context: AppRouter.navigatorKey.currentContext!,
+          context: Routes.navigatorKey.currentContext!,
           message: otpResponse.status?.message ?? 'Error occured',
         );
       } else {
         isCorrect.value = false;
         AppUtils.showFlushBar(
-          context: AppRouter.navigatorKey.currentContext!,
+          context: Routes.navigatorKey.currentContext!,
           iconColor: Colors.red,
           message: otpResponse.status?.message ?? 'Error occured',
         );
@@ -222,7 +223,7 @@ class VerifyOtpController extends GetxController {
     } on DioException catch (error) {
       isCorrect.value = false;
       AppUtils.showFlushBar(
-        context: AppRouter.navigatorKey.currentContext!,
+        context: Routes.navigatorKey.currentContext!,
         message: error.response?.data['status']['message'] ?? 'Error occured',
       );
       logs('Error: $error');

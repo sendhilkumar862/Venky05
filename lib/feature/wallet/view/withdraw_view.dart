@@ -1,9 +1,10 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../config/routes/app_router.dart';
+import 'package:get/get.dart';
+import '../../../config/routes/route.dart';
+import 'set_bottom_sheet.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../custom/amount/app_amount_view.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/app_textformfield/app_field.dart';
@@ -15,7 +16,7 @@ import '../../../product/constants/image/image_constants.dart';
 import '../../../product/utils/typography.dart';
 import '../addBank/view/add_bank_view.dart';
 import '../controller/wallet_controller.dart';
-import 'set_bottom_sheet.dart';
+
 
 class WithdrawView extends StatefulWidget {
   const WithdrawView({super.key});
@@ -277,7 +278,7 @@ class _WithdrawViewState extends State<WithdrawView>
                   borderRadius: BorderRadius.circular(10.px),
                   borderColor: AppColors.appBlue,
                   isBorderOnly: true,
-                  onPressed: () => AppRouter.push(AddBankView()),
+                  onPressed: () => Get.toNamed(Routes.addBankView),
                 )
               ],
             ),

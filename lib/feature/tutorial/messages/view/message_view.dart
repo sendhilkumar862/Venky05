@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../../../config/routes/app_router.dart';
-import '../../../../config/routes/routes.dart';
+import '../../../../config/routes/route.dart';
+
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/appbar/appbar.dart';
@@ -297,7 +297,7 @@ class _MessageViewState extends State<MessageView> {
           ]),
           child: GestureDetector(
             onTap: () {
-              AppRouter.pushNamed(Routes.chatView);
+              Get.toNamed(Routes.chatView);
             },
             onLongPress: () {
               _messageController.teacherLongPress.value =

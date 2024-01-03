@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
-import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/route.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/cardView/status_card_view.dart';
@@ -160,7 +160,7 @@ class _AppSupportViewState extends State<AppSupportView> {
                 isDisable: false,
                 title: 'Open New Ticket',
                 onPressed: () {
-                  AppRouter.push(NewTicketView());
+                  Get.toNamed(Routes.newTicketView);
                 })
           ],
         ),

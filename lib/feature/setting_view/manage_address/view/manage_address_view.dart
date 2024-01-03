@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../config/routes/app_router.dart';
+import '../../../../config/routes/route.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/appbar/appbar.dart';
 import '../../../../product/constants/app/app_utils.dart';
@@ -8,7 +8,6 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
 import '../../add_address_screen/Model/request_address_model.dart' ;
 import '../../add_address_screen/controller/add_address_controller.dart';
-import '../../add_address_screen/view/add_address_view.dart';
 import '../Model/get_address_model.dart' hide Location;
 import '../controller/manage_controller.dart' ;
 
@@ -59,7 +58,10 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
               isDisable: false,
               onPressed: () {
                 Get.delete<AddAddressController>();
-                AppRouter.push( AddAddressScreen(title: 'Add New Addresses'));
+                var  titleData = {
+                  'title' : 'Add New Addresses',
+                };
+                Get.toNamed(Routes.addAddressView,arguments: titleData);
               },
               title: 'Add New Address',
             ),
@@ -128,7 +130,7 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
                         onTap: (){
                           if(data.isDefault == 1){
                             AppUtils.showFlushBar(
-                              context: AppRouter.navigatorKey.currentContext!,
+                              context: Routes.navigatorKey.currentContext!,
                               message: 'Can not delete default address',
                             );
                           }else{
@@ -144,7 +146,12 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
                       ),
                       GestureDetector(
                         onTap: (){
-                          AppRouter.push( AddAddressScreen(userData: data,title: "Update Address",));
+                          var  titleData = {
+                            'title' : 'Update Address',
+                            'userData':data
+                          };
+                          Get.toNamed(Routes.addAddressView,arguments: titleData);
+                          // AppRouter.push( AddAddressScreen(userData: data,title: "Update Address",));
                         },
                         child: Padding(
                           padding: EdgeInsets.only(

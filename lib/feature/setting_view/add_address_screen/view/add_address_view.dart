@@ -1,9 +1,10 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../../../config/routes/app_router.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
@@ -17,9 +18,7 @@ import '../controller/add_address_controller.dart';
 
 
 class AddAddressScreen extends StatefulWidget {
-  final UserAddress? userData;
-  final String title;
-   AddAddressScreen({Key? key,this.userData,required this.title}) : super(key: key);
+   AddAddressScreen({Key? key,}) : super(key: key);
 
   @override
   State<AddAddressScreen> createState() => _AddAddressScreenState();
@@ -28,20 +27,23 @@ class AddAddressScreen extends StatefulWidget {
 class _AddAddressScreenState extends State<AddAddressScreen> {
   final AddAddressController _addAddressController=Get.put(AddAddressController());
   final ManageAddressController _manageAddressController=Get.find();
-
+  late UserAddress? userData;
+  late String title;
   @override
   void initState() {
     // TODO: implement initState
     _addAddressController.fetchFullData();
-    if(widget.userData!=null){
+    title= Get.arguments['title'];
+    userData= Get.arguments['userData'];
+    if(userData!=null){
       _addAddressController.isTap=false;
       // ignore: unnecessary_statements
-      _addAddressController.selectedCity.value=widget.userData?.city??'';
-      _addAddressController.addressFirst.text=widget.userData?.address1??'';
-      _addAddressController.addressSecond.text= widget.userData?.address2??'';
-      _addAddressController.shortName.text=widget.userData?.shortName??'';
+      _addAddressController.selectedCity.value=userData?.city??'';
+      _addAddressController.addressFirst.text=userData?.address1??'';
+      _addAddressController.addressSecond.text= userData?.address2??'';
+      _addAddressController.shortName.text=userData?.shortName??'';
       // _addAddressController.mobileController.text=widget.userData?.mobile??'';
-      _addAddressController.isSwitchExperience.value=widget.userData?.isDefault==1?true:false;
+      _addAddressController.isSwitchExperience.value=userData?.isDefault==1?true:false;
     }
     super.initState();
   }
@@ -50,7 +52,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HessaAppBar(
-      title: widget.title,
+      title: title,
       isTitleOnly: true,
     ),
       body:  Obx(()=>
@@ -64,7 +66,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                     AppDropdown(
                       options: _addAddressController.city.value,
                       title: 'Area',
-                      hintStyle:widget.title=='Update Address'? openSans.black.w500.get16.textColor(AppColors.appTextColor): openSans.w400
+                      hintStyle:title=='Update Address'? openSans.black.w500.get16.textColor(AppColors.appTextColor): openSans.w400
                           .textColor(AppColors.appTextColor.withOpacity(0.25))
                           .get14,
                       value:  '',
@@ -258,18 +260,18 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               isDisable: (_addAddressController.selectedCity.value!='' && _addAddressController.addressFirst.text!='' && _addAddressController.addressSecond.text!='' && _addAddressController.shortName.text!='')?false:true,
               onPressed: () async{
                 if(_addAddressController.selectedCity.value!='' && _addAddressController.addressFirst.text!='' && _addAddressController.addressSecond.text!='' && _addAddressController.shortName.text!=''){
-                 if(widget.userData!=null){
+                 if(userData!=null){
                  await _manageAddressController.updateAddressData(AddressRequestModel(
                     shortName: _addAddressController.shortName.text,
                     address1: _addAddressController.addressFirst.text,
                     address2: _addAddressController.addressSecond.text,
                     city:   _addAddressController.selectedCity.value,
-                    state: _addAddressController.isTap?_addAddressController.address[0].administrativeArea:widget.userData?.state??'',
-                    country: _addAddressController.isTap?_addAddressController.address[0].country:widget.userData?.country??'',
+                    state: _addAddressController.isTap?_addAddressController.address[0].administrativeArea:userData?.state??'',
+                    country: _addAddressController.isTap?_addAddressController.address[0].country:userData?.country??'',
                     isDefault:  _addAddressController.isSwitchExperience.value,
-                    location: _addAddressController.isTap?Location(lat:_addAddressController.position.value.latitude.toString(),long:  _addAddressController.position.value.longitude.toString(),):Location(lat:widget.userData?.location?.lat,long:  widget.userData?.location?.long,),
-                  ),widget.userData!.id!);
-                  AppRouter.pop();
+                    location: _addAddressController.isTap?Location(lat:_addAddressController.position.value.latitude.toString(),long:  _addAddressController.position.value.longitude.toString(),):Location(lat:userData?.location?.lat,long: userData?.location?.long,),
+                  ),userData!.id!);
+                  Get.back();
 
                 }else{
                   _addAddressController.addAddress(AddressRequestModel(shortName:_addAddressController.shortName.text,address1: _addAddressController.addressFirst.text,address2:_addAddressController.addressSecond.text,country: _addAddressController.address[0].country,city: _addAddressController.selectedCity.value,state: _addAddressController.address[0].administrativeArea,isDefault: _addAddressController.isSwitchExperience.value,location: Location(lat:_addAddressController.position.value.latitude.toString(),long:_addAddressController.position.value.longitude.toString())  )
@@ -277,7 +279,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 }}
 
               },
-              title: widget.userData!=null?'Update Address':'Add New Address',
+              title: userData!=null?'Update Address':'Add New Address',
             ),
           ),
         ]),

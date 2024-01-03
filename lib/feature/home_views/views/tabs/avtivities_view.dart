@@ -3,8 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../../../config/routes/app_router.dart';
-import '../../../../config/routes/routes.dart';
+
+import '../../../../config/routes/route.dart';
+
 import '../../../../custom/cardView/app_card_view.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';
@@ -54,7 +55,8 @@ class _ActivitiesViewState extends State<ActivitiesView> {
                  cardColor: AppColors.white,
                  buttonTitle: 'Create Class',
                  buttonTap: () {
-                   AppRouter.pushNamed(Routes.createClass);
+                   Get.toNamed(Routes.createClass);
+                   // AppRouter.pushNamed(Routes.createClass);
                  },
                ),
                SizedBox(
@@ -97,7 +99,8 @@ class _ActivitiesViewState extends State<ActivitiesView> {
                        reViewLength: 3,
                        teacherName: 'Ahmed Ali',
                        buttonTap: () {
-                         AppRouter.pushNamed(Routes.proposalDetailsView);
+                         Get.toNamed(Routes.proposalDetailsView);
+                         // AppRouter.pushNamed(Routes.proposalDetailsView);
                        },
                      );
                    },

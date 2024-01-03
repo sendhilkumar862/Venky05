@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../../../config/routes/routes.dart';
+import '../../../../config/routes/route.dart';
+
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
@@ -32,8 +33,8 @@ class _TeachingInfoState extends State<TeachingInfo> {
         trailingText: 'Cancel',
         title: 'Complete Profile',
         isTitleOnly: true,
-        trailingTap: () => Navigator.popUntil(
-            context, ModalRoute.withName(Routes.HomeScreenRoute)),
+        trailingTap: ()=>
+            Get.offAndToNamed(Routes.HomeScreenRoute),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -58,7 +59,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
                         _teachingInfoController.gradeController.text =
                             _teachingInfoController
                                 .listToCommaSeparatedString(
-                                    _teachingInfoController.selectedGrade)
+                                _teachingInfoController.selectedGrade)
                                 .replaceAll(',', ' -');
                       });
                     });
@@ -82,7 +83,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
                       _teachingInfoController.subjectController.text =
                           _teachingInfoController
                               .listToCommaSeparatedString(
-                                  _teachingInfoController.selectedSubject)
+                              _teachingInfoController.selectedSubject)
                               .replaceAll(',', ' -');
                     });
                   },
@@ -106,7 +107,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
                       _teachingInfoController.schoolController.text =
                           _teachingInfoController
                               .listToCommaSeparatedString(
-                                  _teachingInfoController.selectedSchoolType)
+                              _teachingInfoController.selectedSchoolType)
                               .replaceAll(',', ' -');
                     });
                   },
@@ -129,7 +130,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
                     _teachingInfoController.curriculumController.text =
                         _teachingInfoController
                             .listToCommaSeparatedString(
-                                _teachingInfoController.selectedCurriculum)
+                            _teachingInfoController.selectedCurriculum)
                             .replaceAll(',', ' -');
                   },
                 );
@@ -152,7 +153,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
                       _teachingInfoController.classTypeController.text =
                           _teachingInfoController
                               .listToCommaSeparatedString(
-                                  _teachingInfoController.selectedClassType)
+                              _teachingInfoController.selectedClassType)
                               .replaceAll(',', ' -');
                     });
                   },

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../../config/routes/app_router.dart';
 import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/divider/divider.dart';
 import '../../../../custom/image/app_image_assets.dart';
@@ -90,7 +89,7 @@ class CountryCodeBottomsSheet extends StatelessWidget {
                             _mobileEnterController.selectCountry(index);
                             Future.delayed(
                               const Duration(milliseconds: 200),
-                                  () => AppRouter.pop(),
+                                  () => Get.back(),
                             );
                           });
                         },

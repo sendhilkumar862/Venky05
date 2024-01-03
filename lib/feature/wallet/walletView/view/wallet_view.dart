@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import '../../../../config/routes/app_router.dart';
-import '../../../../config/routes/routes.dart';
+import '../../../../config/routes/route.dart';
+
 import '../../../../custom/amount/app_amount_view.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/appbar/appbar.dart';
@@ -65,13 +65,13 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
           "${_homeController.homeData.value?.firstName ?? ""} ${_homeController.homeData.value?.lastName ?? ""}",
           // isPro: walletViewModel.isProfileTeacher,
           onBellTap: () {
-            AppRouter.pushNamed(Routes.notificationView);
+            Get.toNamed(Routes.notificationView);
           },
           onSearchTap: () {
-            AppRouter.pushNamed(Routes.searchView);
+            Get.toNamed(Routes.searchView);
           },
           onProfileTap: () {
-            AppRouter.pushNamed(Routes.settingView);
+            Get.toNamed(Routes.settingView);
           },
         ),
         body: selectedProfile == ApplicationConstants.tutor
@@ -138,7 +138,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
               child: _walletViewController.isProfileTeacher.value
                   ? screenButton(
                   onTap: () {
-                    AppRouter.push(WithDrawScreen());
+                    Get.toNamed(Routes.withdrawView);
                   },
                   title: 'Top Up Wallet',
                   icon: ImageConstants.walletIcon)
@@ -166,7 +166,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                   SizedBox(width: 15.px),
                   screenButton(
                       onTap: () =>
-                          AppRouter.push(const WithdrawView()),
+                          Get.toNamed(Routes.withdrawView),
                       title: 'Withdraw',
                       icon: ImageConstants.walletIcon),
                 ],
@@ -180,7 +180,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
             HeadingCardView(
               title: 'Last Invoices',
               isViewAllIcon: true,
-              onTap: () => AppRouter.push(const ViewAllView()),
+              onTap: () => Get.toNamed(Routes.viewAllView),
             ),
             SizedBox(height: 18.px),
             SizedBox(
@@ -205,7 +205,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                     amount: '.500 KWD',
                     date: '',
                     onTap: () {
-                      AppRouter.pushNamed(
+                      Get.toNamed(
                           Routes.invoiceDetails);
                     },
                   );
