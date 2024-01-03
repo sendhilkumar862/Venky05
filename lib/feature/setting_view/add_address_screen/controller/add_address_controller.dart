@@ -4,6 +4,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../../../config/routes/route.dart';
+import '../../../../core/base_response.dart';
 import '../../../../core/user_location.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../tutorial/mobileEnter/model/country_code_model.dart';
@@ -26,6 +28,9 @@ class AddAddressController extends GetxController{
   final Completer<GoogleMapController> controllerGoogleMap = Completer();
   Rx<LatLng> position = const LatLng(56.0, 58.0).obs;
   late GoogleMapController googleMapController;
+
+  final AddAddressRepository _addAddressRepository=AddAddressRepository();
+  final GetCityRepository _getCityRepository=GetCityRepository();
   bool isTap=false;
   @override
   void init() {
@@ -124,7 +129,7 @@ fetchFullData()async{
         
       }else{
         AppUtils.showFlushBar(
-          context: AppRouter.navigatorKey.currentContext!,
+          context: Routes.navigatorKey.currentContext!,
           message: cityResponse.status?.message ?? 'Error occured',
         );
       }
@@ -137,10 +142,10 @@ fetchFullData()async{
     if (addAddressResponse.status?.type == 'success') {
       final ManageAddressController manageAddressController=Get.find();
       await manageAddressController.fetchAddressData();
-      AppRouter.pop();
+      Get.back();
     } else {
       AppUtils.showFlushBar(
-        context: AppRouter.navigatorKey.currentContext!,
+        context: Routes.navigatorKey.currentContext!,
         message: addAddressResponse.status?.message ?? 'Error occured',
       );
     }

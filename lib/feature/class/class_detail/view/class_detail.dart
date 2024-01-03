@@ -22,6 +22,7 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../../product/utils/validators.dart';
+import '../../../setting_view/add_address_screen/Model/request_address_model.dart';
 import '../../../setting_view/add_address_screen/controller/add_address_controller.dart';
 import '../../../setting_view/add_address_screen/view/add_address_view.dart';
 import '../../../setting_view/manage_address/Model/get_address_model.dart'
@@ -522,7 +523,7 @@ class _ClassDetailState extends State<ClassDetail> {
                         onTap: () {
                           if (data.isDefault == 1) {
                             AppUtils.showFlushBar(
-                              context: AppRouter.navigatorKey.currentContext!,
+                              context: Routes.navigatorKey.currentContext!,
                               message: 'Can not delete default address',
                             );
                           } else {
@@ -538,10 +539,11 @@ class _ClassDetailState extends State<ClassDetail> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          AppRouter.push(AddAddressScreen(
-                            userData: data,
-                            title: "Update Address",
-                          ));
+                          var arguments={
+                            'title': 'Update Address',
+                            'userData': data
+                          };
+                          Get.toNamed(Routes.addAddressView,arguments:arguments );
                         },
                         child: Padding(
                           padding: EdgeInsets.only(
