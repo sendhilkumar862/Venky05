@@ -82,7 +82,12 @@ class _ClassDetailState extends State<ClassDetail> {
     '2 Hour - 45 Minutes',
     '3 Hour',
   ];
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _manageAddressController.fetchAddressData();
+  }
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
@@ -282,45 +287,48 @@ class _ClassDetailState extends State<ClassDetail> {
                     return SizedBox(
                       width: width,
                       child: _classDetailController.selectedIndex?.value != 200
-                          ? Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: AppColors.appBlue),
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Text(data.shortName ?? '',
-                                                style: openSans.get17.w700),
-                                          ]),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 5, bottom: 13),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                                '${data.address1 ?? ''} ${data.address2 ?? ''}'),
-                                            Text(
-                                                '${data.city ?? ''} ${data.state ?? ''} ${data.country ?? ''}'),
-                                          ],
+                          ? GestureDetector(
+                        onTap: ()=> locationModalBottomSheet(context),
+                            child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: AppColors.appBlue),
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Text(data.shortName ?? '',
+                                                  style: openSans.get17.w700),
+                                            ]),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 5, bottom: 13),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(
+                                                  '${data.address1 ?? ''} ${data.address2 ?? ''}'),
+                                              Text(
+                                                  '${data.city ?? ''} ${data.state ?? ''} ${data.country ?? ''}'),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ))
+                                )),
+                          )
                           : DottedBorder(
                               borderType: BorderType.RRect,
                               radius: Radius.circular(15),
@@ -498,12 +506,6 @@ class _ClassDetailState extends State<ClassDetail> {
                                   Icons.circle_outlined,
                                   color: AppColors.gray.withOpacity(0.25),
                                 ))))
-
-                      // if (selectedIndex == index)
-                      //   iconButtonWidget(
-                      //       icon: Icons.done,
-                      //       bgColor: AppColors.appColor,
-                      //       iconSize: 18),
                     ]),
                 Padding(
                   padding: const EdgeInsets.only(top: 5, bottom: 13),
@@ -529,6 +531,9 @@ class _ClassDetailState extends State<ClassDetail> {
                           } else {
                             _manageAddressController
                                 .deleteAddressData(data.id!);
+                            if( _classDetailController.selectedIndex?.value == index){
+                              _classDetailController.selectedIndex?.value =200;
+                            }
                           }
                         },
                         child: iconButtonWidget(
@@ -650,7 +655,7 @@ class _ClassDetailState extends State<ClassDetail> {
               ),
               Obx(
                 () => AppButton(
-                  onPressed: () {},
+                  onPressed: () =>Get.back(),
                   // ignore: avoid_bool_literals_in_conditional_expressions
                   isDisable: _classDetailController.selectedIndex?.value != 200
                       ? false
@@ -662,7 +667,10 @@ class _ClassDetailState extends State<ClassDetail> {
                 padding: const EdgeInsets.only(top: 10),
                 child: TextButton(
                     onPressed: () {
-                      Get.toNamed(Routes.addressView);
+                      final Map<String, dynamic>  titleData = {
+                        'title' : 'Add New Addresses',
+                      };
+                      Get.toNamed(Routes.addAddressView,arguments: titleData);
                     },
                     child: Text(
                       'addNewAddress'.tr,

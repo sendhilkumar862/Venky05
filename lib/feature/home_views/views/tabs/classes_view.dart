@@ -78,7 +78,8 @@ class _ClassesViewState extends State<ClassesView> {
                           Get.toNamed(Routes.experienceInfo);
                         } else if (_homeController.homeData.value?.userStatus ==
                             '80') {
-                          Get.toNamed(Routes.financingView);
+                          Get.toNamed(Routes.createClass);
+                          // Get.toNamed(Routes.financingView);
                         } else {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
