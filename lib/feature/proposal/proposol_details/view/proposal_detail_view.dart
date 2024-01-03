@@ -5,9 +5,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../../custom/appbar/appbar.dart';
-import '../../../../config/routes/app_router.dart';
+
 import '../../../../config/routes/route.dart';
-import '../../../../config/routes/routes.dart';
+
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/cardView/details_card_view.dart';
 import '../../../../custom/cardView/details_card_view_horizontal.dart';

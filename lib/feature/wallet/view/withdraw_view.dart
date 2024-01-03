@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import '../../../config/routes/route.dart';
 import 'set_bottom_sheet.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../../config/routes/app_router.dart';
 import '../../../custom/amount/app_amount_view.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/app_textformfield/app_field.dart';

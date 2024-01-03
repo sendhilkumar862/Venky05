@@ -6,8 +6,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart' hide ScreenType;
 import 'package:get_storage/get_storage.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
-import 'config/routes/app_router.dart';
 import 'config/routes/route.dart';
 import 'feature/splash/controller/splash_controller.dart';
 import 'feature/splash/view/splash_view.dart';

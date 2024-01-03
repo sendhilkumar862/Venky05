@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
-import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/route.dart';
-import '../../../../config/routes/routes.dart';
+
 import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/preLoginWidget/pre_login_widget.dart';

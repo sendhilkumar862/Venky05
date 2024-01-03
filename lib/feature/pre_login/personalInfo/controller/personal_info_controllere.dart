@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import '../../../../config/routes/app_router.dart';
+
 import '../../../../config/routes/route.dart';
-import '../../../../config/routes/routes.dart';
+
 import '../../../../core/base_response.dart';
 import '../../../../custom/loader/easy_loader.dart';
 import '../../../../product/constants/image/image_constants.dart';

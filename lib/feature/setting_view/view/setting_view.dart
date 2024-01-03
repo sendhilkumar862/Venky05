@@ -5,10 +5,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
-import '../../../config/routes/app_router.dart';
 import '../../../config/routes/route.dart';
-import '../../../config/routes/routes.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/sheet/show_bottom_sheet.dart';
@@ -20,14 +17,10 @@ import '../../../product/constants/image/image_constants.dart';
 import '../../../product/extension/string_extension.dart';
 import '../../../product/utils/typography.dart';
 import '../../home/controller/home_controller.dart';
-import '../../tutorial/addMobileNumber/view/add_mobile_number_view.dart';
-import '../../tutorial/changeMobileNumber/view/change_mobile_number_view.dart';
 import '../../tutorial/language/controller/language_controller.dart';
 import '../../tutorial/view/bottomSheets/country_bottom_sheet.dart';
 import '../../tutorial/view/bottomSheets/language_bottom_sheet.dart';
 import '../controller/setting_controller.dart';
-import '../manage_address/view/manage_address_view.dart';
-import 'widget/available_times_view.dart';
 import 'widget/manage_adress_view.dart';
 
 class SettingView extends StatefulWidget {

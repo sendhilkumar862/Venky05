@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
-import '../../config/routes/app_router.dart';
 import '../../feature/home/controller/home_controller.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';

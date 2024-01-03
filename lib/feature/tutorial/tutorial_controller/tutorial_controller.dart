@@ -1,10 +1,9 @@
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
 
-import '../../../config/routes/app_router.dart';
 import '../../../config/routes/route.dart';
-import '../../../config/routes/routes.dart';
+
 import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
 import '../../../product/constants/app/app_utils.dart';

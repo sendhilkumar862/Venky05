@@ -1,6 +1,5 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/route.dart';
 import '../../../../core/base_response.dart';
 import '../../../../custom/loader/easy_loader.dart';

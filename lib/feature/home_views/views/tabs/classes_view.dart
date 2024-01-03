@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../../config/routes/app_router.dart';
+
 import '../../../../config/routes/route.dart';
-import '../../../../config/routes/routes.dart';
+
 import '../../../../custom/cardView/app_card_view.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';

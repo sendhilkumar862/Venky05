@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/route.dart';
-import '../../../../config/routes/routes.dart';
+
 import '../../../../custom/amount/app_amount_view.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/appbar/appbar.dart';
