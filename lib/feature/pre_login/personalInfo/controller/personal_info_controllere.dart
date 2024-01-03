@@ -159,7 +159,7 @@ class PersonalInfoController extends GetxController{
       status= true;
     } else {
       AppUtils.showFlushBar(
-        context: AppRouter.navigatorKey.currentContext!,
+        context: Routes.navigatorKey.currentContext!,
         message: uploadResponse.status?.message ?? 'Error occured',
       );
       status= false;

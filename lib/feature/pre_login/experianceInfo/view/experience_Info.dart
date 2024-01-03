@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
-import '../../../../config/routes/routes.dart';
+import '../../../../config/routes/route.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
