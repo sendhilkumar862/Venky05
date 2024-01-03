@@ -10,6 +10,7 @@ import '../../../../custom/choice/src/inline/main.dart';
 import '../../../../custom/choice/src/selection/controller/main.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
+import '../../class_detail/controller/class_detail_controller.dart';
 
 class SchoolList {
   SchoolList({
@@ -29,42 +30,7 @@ class CreateClass extends StatefulWidget {
 }
 
 class _CreateClassState extends State<CreateClass> {
-  List<String> grade = <String>[
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12',
-    'University',
-  ];
-  List<String> school = <String>['Public', 'Private'];
-  List<String> subject = <String>[
-    'Arabic',
-    'Math',
-    'Science',
-    'Islamic',
-    'physics',
-    'Chemistry',
-    'English',
-    'French',
-    'Deutsch',
-    'Arts'
-  ];
-  int isGradeSelect = -1;
-  int isSchoolSelect = -1;
-  int isSubjectSelect = -1;
-
-  void setSchoolValue(List<String> value) {
-    setState(() => school = value);
-  }
-
+  final ClassDetailController _classDetailController =Get.put(ClassDetailController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,37 +59,37 @@ class _CreateClassState extends State<CreateClass> {
               ),
               InlineChoice<String>(
                 clearable: true,
-                value: grade,
-                onChanged: setSchoolValue,
-                itemCount: grade.length,
+                value: _classDetailController.grade,
+                onChanged: _classDetailController.setSchoolValue,
+                itemCount: _classDetailController.grade.length,
                 itemBuilder: (ChoiceController<String> selection, int index) {
                   return ChoiceChip(
                     shape: StadiumBorder(
                         side: BorderSide(
-                            color: isGradeSelect == index
+                            color: _classDetailController.isGradeSelect == index
                                 ? AppColors.trans
                                 : AppColors.appBorderColor)),
                     backgroundColor: AppColors.trans,
-                    selected: isGradeSelect == index,
+                    selected: _classDetailController.isGradeSelect == index,
                     onSelected: (bool selected) {
                       setState(() {
                         if (selected) {
-                          isGradeSelect =
+                          _classDetailController.isGradeSelect =
                               index; // Add to the set for multi-selection
                         } else {
-                          isGradeSelect = -1; // Remove from the set
+                          _classDetailController.isGradeSelect = -1; // Remove from the set
                         }
                       });
                     },
                     showCheckmark: false,
                     label: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(grade[index], style: openSans.get12.w600),
+                      child: Text(_classDetailController.grade[index], style: openSans.get12.w600),
                     ),
                     selectedColor: AppColors.appBlue,
                     // Change this to your desired color
                     labelStyle: TextStyle(
-                      color: isGradeSelect == index
+                      color: _classDetailController.isGradeSelect == index
                           ? AppColors.white
                           : AppColors.black, // Change text color
                     ),
@@ -137,34 +103,34 @@ class _CreateClassState extends State<CreateClass> {
                       fontSize: 16, fontWeight: FontWeight.w700)),
               InlineChoice<String>(
                 clearable: true,
-                value: school,
-                onChanged: setSchoolValue,
-                itemCount: school.length,
+                value: _classDetailController.school,
+                onChanged: _classDetailController.setSchoolValue,
+                itemCount: _classDetailController.school.length,
                 itemBuilder: (ChoiceController<String> selection, int index) {
                   return ChoiceChip(
                     shape: StadiumBorder(
                         side: BorderSide(
-                            color: isSchoolSelect == index
+                            color: _classDetailController.isSchoolSelect == index
                                 ? AppColors.trans
                                 : AppColors.appBorderColor)),
                     backgroundColor: AppColors.trans,
-                    selected: isSchoolSelect == index,
+                    selected: _classDetailController.isSchoolSelect == index,
                     onSelected: (bool selected) {
                       setState(() {
                         if (selected) {
-                          isSchoolSelect =
+                          _classDetailController.isSchoolSelect =
                               index; // Add to the set for multi-selection
                         } else {
-                          isSchoolSelect = -1; // Remove from the set
+                          _classDetailController.isSchoolSelect = -1; // Remove from the set
                         }
                       });
                     },
                     showCheckmark: false,
-                    label: Text(school[index], style: openSans.get12.w600),
+                    label: Text(_classDetailController.school[index], style: openSans.get12.w600),
                     selectedColor: AppColors.appBlue,
                     // Change this to your desired color
                     labelStyle: TextStyle(
-                      color: isSchoolSelect == index
+                      color: _classDetailController.isSchoolSelect == index
                           ? AppColors.white
                           : AppColors.black, // Change text color
                     ),
@@ -181,34 +147,34 @@ class _CreateClassState extends State<CreateClass> {
               ),
               InlineChoice<String>(
                 clearable: true,
-                value: subject,
-                onChanged: setSchoolValue,
-                itemCount: subject.length,
+                value: _classDetailController.subject,
+                onChanged: _classDetailController.setSchoolValue,
+                itemCount: _classDetailController.subject.length,
                 itemBuilder: (ChoiceController<String> selection, int index) {
                   return ChoiceChip(
                     shape: StadiumBorder(
                         side: BorderSide(
-                            color: isSubjectSelect == index
+                            color: _classDetailController.isSubjectSelect == index
                                 ? AppColors.trans
                                 : AppColors.appBorderColor)),
                     backgroundColor: AppColors.trans,
-                    selected: isSubjectSelect == index,
+                    selected: _classDetailController.isSubjectSelect == index,
                     onSelected: (bool selected) {
                       setState(() {
                         if (selected) {
-                          isSubjectSelect =
+                          _classDetailController.isSubjectSelect =
                               index; // Add to the set for multi-selection
                         } else {
-                          isSubjectSelect = -1; // Remove from the set
+                          _classDetailController.isSubjectSelect = -1; // Remove from the set
                         }
                       });
                     },
                     showCheckmark: false,
-                    label: Text(subject[index], style: openSans.get12.w600),
+                    label: Text(_classDetailController.subject[index], style: openSans.get12.w600),
                     selectedColor: AppColors.appBlue,
                     // Change this to your desired color
                     labelStyle: TextStyle(
-                      color: isSubjectSelect == index
+                      color: _classDetailController.isSubjectSelect == index
                           ? AppColors.white
                           : AppColors.black, // Change text color
                     ),
@@ -228,6 +194,7 @@ class _CreateClassState extends State<CreateClass> {
                 contentPadding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                 height: 30,
+                controller:  _classDetailController.classSummaryController,
               ),
               const Padding(
                 padding: EdgeInsets.only(
@@ -239,10 +206,13 @@ class _CreateClassState extends State<CreateClass> {
                 ),
               ),
               AppButton(
-                isDisable: false,
+                // ignore: avoid_bool_literals_in_conditional_expressions
+                isDisable: _classDetailController.isGradeSelect!=-1 && _classDetailController.isSchoolSelect!=-1 && _classDetailController.isSubjectSelect!=-1?  false:true,
                 title: 'nextForClassDetails'.tr,
                 onPressed: () {
-                  Get.toNamed(Routes.classDetail);
+                  if(_classDetailController.isGradeSelect!=-1 && _classDetailController.isSchoolSelect!=-1 && _classDetailController.isGradeSelect!=-1) {
+                    Get.toNamed(Routes.classDetail);
+                  }
                 },
               )
             ],
@@ -251,12 +221,4 @@ class _CreateClassState extends State<CreateClass> {
       ),
     );
   }
-}
-
-class EmiAmount {
-  EmiAmount({
-    required this.std,
-  });
-
-  final String std;
 }
