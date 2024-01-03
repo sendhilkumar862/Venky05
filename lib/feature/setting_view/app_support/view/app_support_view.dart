@@ -11,12 +11,10 @@ import '../../../../custom/choice/src/selection/controller/main.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/sheet/show_bottom_sheet.dart';
 import '../../../../custom/text/app_text.dart';
-import '../../../../product/base/view/base_view.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/utils/typography.dart';
 import '../../view/widget/app_support/new_ticket_view.dart';
-
 
 class AppSupportView extends StatefulWidget {
   const AppSupportView({super.key});
@@ -112,7 +110,7 @@ class _AppSupportViewState extends State<AppSupportView> {
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         data.title,
@@ -120,24 +118,21 @@ class _AppSupportViewState extends State<AppSupportView> {
                                       ),
                                       Text(
                                         data.idNum,
-                                        style: openSans.get10.w400
-                                            .textColor(AppColors
-                                            .appTextColor
-                                            .withOpacity(0.5)),
+                                        style: openSans.get10.w400.textColor(
+                                            AppColors.appTextColor
+                                                .withOpacity(0.5)),
                                       ),
                                       Text(
                                         data.date,
-                                        style: openSans.get10.w400
-                                            .textColor(AppColors
-                                            .appTextColor
-                                            .withOpacity(0.5)),
+                                        style: openSans.get10.w400.textColor(
+                                            AppColors.appTextColor
+                                                .withOpacity(0.5)),
                                       ),
                                     ],
                                   ),
                                 ),
                                 Padding(
-                                    padding:
-                                    const EdgeInsets.only(right: 10),
+                                    padding: const EdgeInsets.only(right: 10),
                                     child: data.status),
                                 Icon(
                                   Icons.arrow_forward_ios_rounded,
@@ -149,8 +144,8 @@ class _AppSupportViewState extends State<AppSupportView> {
                             Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: Divider(
-                                color: AppColors.appBorderColor
-                                    .withOpacity(0.5),
+                                color:
+                                    AppColors.appBorderColor.withOpacity(0.5),
                               ),
                             )
                           ],

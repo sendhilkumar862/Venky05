@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -28,7 +27,6 @@ import '../../tutorial/view/bottomSheets/language_bottom_sheet.dart';
 import '../controller/setting_controller.dart';
 import '../manage_address/view/manage_address_view.dart';
 import 'widget/available_times_view.dart';
-import 'widget/manage_adress_view.dart';
 
 class SettingView extends StatefulWidget {
   const SettingView({super.key});
@@ -152,27 +150,26 @@ class _SettingViewState extends State<SettingView> {
     SettingData response,
   ) {
     final String title = data.listDetail[i].title;
-    return Observer(builder: (context) {
-      return Column(
-        children: <Widget>[
-          InkWell(
-            onTap: () => handleTitleClick(
-              title,
-              context,
-              response,
-            ),
-            child: childSettingListTile(
-                title: response.title, icon: response.surfixImage),
+
+    return Column(
+      children: <Widget>[
+        InkWell(
+          onTap: () => handleTitleClick(
+            title,
+            context,
+            response,
           ),
-          if (i < data.listDetail.length - 1)
-            Divider(
-              height: 30,
-              thickness: 1,
-              color: AppColors.appBorderColor.withOpacity(0.5),
-            )
-        ],
-      );
-    });
+          child: childSettingListTile(
+              title: response.title, icon: response.surfixImage),
+        ),
+        if (i < data.listDetail.length - 1)
+          Divider(
+            height: 30,
+            thickness: 1,
+            color: AppColors.appBorderColor.withOpacity(0.5),
+          )
+      ],
+    );
   }
 
   Widget childSettingListTile({
@@ -251,7 +248,6 @@ class _SettingViewState extends State<SettingView> {
       ],
     );
   }
-
 
   Widget selectCardView({String? icon, String? title, VoidCallback? onTap}) {
     return GestureDetector(

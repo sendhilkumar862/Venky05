@@ -1,7 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
@@ -20,7 +19,6 @@ import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
-import '../../../../product/constants/enums/app_register_status_enums.dart';
 import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../../product/utils/validators.dart';
@@ -281,85 +279,92 @@ class _ClassDetailState extends State<ClassDetail> {
                           fontWeight: FontWeight.w400),
                     ),
                   ),
-                  Obx((){
-                     UserAddress data =UserAddress() ;
-                    if(_classDetailController.selectedIndex?.value!=200){
-                     data =
-                    _manageAddressController.address[_classDetailController.selectedIndex!.value];}
-                     return SizedBox(
+                  Obx(() {
+                    UserAddress data = UserAddress();
+                    if (_classDetailController.selectedIndex?.value != 200) {
+                      data = _manageAddressController
+                          .address[_classDetailController.selectedIndex!.value];
+                    }
+                    return SizedBox(
                       width: width,
-                      child: _classDetailController.selectedIndex?.value!=200?Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: AppColors.appBlue
-
-                                ),
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text(data.shortName ?? '',
-                                            style: openSans.get17.w700),
-
-                                      ]),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 5, bottom: 13),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text('${data.address1 ?? ''} ${data.address2 ?? ''}'),
-                                        Text(
-                                            '${data.city ?? ''} ${data.state ?? ''} ${data.country ?? ''}'),
-                                      ],
-                                    ),
+                      child: _classDetailController.selectedIndex?.value != 200
+                          ? Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border:
+                                        Border.all(color: AppColors.appBlue),
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Text(data.shortName ?? '',
+                                                style: openSans.get17.w700),
+                                          ]),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 5, bottom: 13),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                                '${data.address1 ?? ''} ${data.address2 ?? ''}'),
+                                            Text(
+                                                '${data.city ?? ''} ${data.state ?? ''} ${data.country ?? ''}'),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
-                          )):DottedBorder(
-                          borderType: BorderType.RRect,
-                          radius: Radius.circular(15),
-                          color: AppColors.appBlue,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 10),
-                            child: Column(
-                              children: <Widget>[
-                                Center(
-                                    child: Text(
-                                  'noAddressFound'.tr,
-                                  style: openSans.get16.w700,
-                                )),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 15),
-                                  child: AppButton(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderColor: AppColors.appBlue,
-                                      isBorderOnly: true,
-                                      textStyle: const TextStyle(
-                                          color: AppColors.appBlue,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600),
-                                      height: 45,
-                                      width: width,
-                                      title: 'addAddressFound'.tr,
-                                      onPressed: () {
-                                        locationModalBottomSheet(context);
-                                      },
-                                      isDisable: isDisable),
-                                )
-                              ],
-                            ),
-                          )),
-                    );}
-                  ),
+                                ),
+                              ))
+                          : DottedBorder(
+                              borderType: BorderType.RRect,
+                              radius: Radius.circular(15),
+                              color: AppColors.appBlue,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 10),
+                                child: Column(
+                                  children: <Widget>[
+                                    Center(
+                                        child: Text(
+                                      'noAddressFound'.tr,
+                                      style: openSans.get16.w700,
+                                    )),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 15),
+                                      child: AppButton(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderColor: AppColors.appBlue,
+                                          isBorderOnly: true,
+                                          textStyle: const TextStyle(
+                                              color: AppColors.appBlue,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600),
+                                          height: 45,
+                                          width: width,
+                                          title: 'addAddressFound'.tr,
+                                          onPressed: () {
+                                            locationModalBottomSheet(context);
+                                          },
+                                          isDisable: isDisable),
+                                    )
+                                  ],
+                                ),
+                              )),
+                    );
+                  }),
                   if (_classDetailController.selectedProfile ==
                       ApplicationConstants.tutor)
                     Padding(
@@ -648,11 +653,13 @@ class _ClassDetailState extends State<ClassDetail> {
                   ),
                 ),
               ),
-              Obx(()=>
-                AppButton(
+              Obx(
+                () => AppButton(
                   onPressed: () {},
                   // ignore: avoid_bool_literals_in_conditional_expressions
-                  isDisable: _classDetailController.selectedIndex?.value!=200?false:true,
+                  isDisable: _classDetailController.selectedIndex?.value != 200
+                      ? false
+                      : true,
                   title: 'select'.tr,
                 ),
               ),

@@ -24,7 +24,6 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   String selectedProfile = '';
-  bool getPreference = false;
   final HomeController _homeController = Get.put(HomeController());
   @override
   void initState() {
@@ -34,11 +33,10 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Future<void> setData() async {
-    final String token = LocaleManager.getAuthToken() ?? '';
+    final String token = LocaleManager.getAuthToken();
     if (token.isNotEmpty) {
       logs('Token--> $token');
-      selectedProfile = LocaleManager.getValue(StorageKeys.profile) ??'';
-      getPreference = LocaleManager.getValue(StorageKeys.setPreference) ?? false;
+      selectedProfile = LocaleManager.getValue(StorageKeys.profile) ?? '';
       setState(() {});
     }
   }

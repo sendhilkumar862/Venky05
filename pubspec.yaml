@@ -2,7 +2,7 @@ name: hessah
 description: EDU APP IKYAM BUILD FOR HESSAH - VENKYKOWSHIK
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.1.4 <4.0.0'
+  sdk: ">=3.1.4 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -32,11 +32,6 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-
-  # State Management
-  mobx: ^2.1.3+1
-  flutter_mobx: ^2.0.6+5 
-  mobx_codegen: 
 
   #Image
   flutter_svg: ^2.0.8
@@ -58,7 +53,6 @@ dependencies:
   syncfusion_flutter_sliders: ^23.1.43
   syncfusion_flutter_calendar:
     path: ./calendar
-  
 
   #UI responsive:
   responsive_sizer: ^3.1.1
@@ -82,7 +76,7 @@ dependencies:
   image_picker: ^1.0.4
 
   # Network
-  dio: 
+  dio:
   dio_cache_interceptor: ^3.2.7
   dio_cache_interceptor_hive_store: ^3.1.1
   freezed_annotation: ^2.4.1
@@ -94,9 +88,6 @@ dependencies:
 
   # animations
   lottie: ^2.7.0
-
-
-
 
   #local_auth
   local_auth: ^2.1.7
@@ -127,6 +118,8 @@ dependencies:
   # Range slider
   flutter_xlider: ^3.5.0
   flutter_native_splash: ^2.3.7
+  local_auth_android: ^1.0.36
+  local_auth_ios: ^1.1.5
 
 dev_dependencies:
   flutter_test:
@@ -146,7 +139,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -205,7 +197,6 @@ analyzer:
   language:
     enableSuperMixins: true
 flutter_native_splash:
-
   # This package generates native code to customize Flutter's default white native splash screen
   # with background color and splash image.
   # Customize the parameters below, and run the following command in the terminal:
@@ -254,19 +245,19 @@ flutter_native_splash:
   # https://developer.android.com/guide/topics/ui/splash-screen
   # Following are Android 12 specific parameter.
   android_12:
-  # The image parameter sets the splash screen icon image.  If this parameter is not specified,
-  # the app's launcher icon will be used instead.
-  # Please note that the splash screen will be clipped to a circle on the center of the screen.
-  # App icon with an icon background: This should be 960×960 pixels, and fit within a circle
-  # 640 pixels in diameter.
-  # App icon without an icon background: This should be 1152×1152 pixels, and fit within a circle
-  # 768 pixels in diameter.
+    # The image parameter sets the splash screen icon image.  If this parameter is not specified,
+    # the app's launcher icon will be used instead.
+    # Please note that the splash screen will be clipped to a circle on the center of the screen.
+    # App icon with an icon background: This should be 960×960 pixels, and fit within a circle
+    # 640 pixels in diameter.
+    # App icon without an icon background: This should be 1152×1152 pixels, and fit within a circle
+    # 768 pixels in diameter.
     image: assets/images/appbar_bg.png
 
-  # Splash screen background color.
+    # Splash screen background color.
     color: "#002BC7"
 
-  # App icon background color.
+    # App icon background color.
     icon_background_color: "#eeeeee"
 
   # The branding property allows you to specify an image used as branding in the splash screen.
@@ -277,7 +268,7 @@ flutter_native_splash:
   # parameters from above.
   #image_dark: assets/android12splash-invert.png
   #color_dark: "#042a49"
-    #icon_background_color_dark: "#111111"
+  #icon_background_color_dark: "#111111"
 
   # The android, ios and web parameters can be used to disable generating a splash screen on a given
   # platform.

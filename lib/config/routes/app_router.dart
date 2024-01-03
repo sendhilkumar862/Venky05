@@ -63,11 +63,12 @@ class AppRouter {
     );
   }
 
-
-
-  static Future<dynamic> pushNamedPopUntil(BuildContext context, {required String route}) {
-    return Navigator.of(context).pushNamedAndRemoveUntil(route, (Route route) => false);
+  static Future<dynamic> pushNamedPopUntil(BuildContext context,
+      {required String route}) {
+    return Navigator.of(context)
+        .pushNamedAndRemoveUntil(route, (Route route) => false);
   }
+
   /// This method is used to navigate all the way back to a specific screen.
   ///
   /// The [routeName] is the name of the screen we want to go back to.

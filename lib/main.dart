@@ -1,11 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart' hide ScreenType;
 import 'package:get_storage/get_storage.dart';
-import 'package:mobx/mobx.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'config/routes/app_router.dart';
@@ -14,12 +11,8 @@ import 'feature/splash/view/splash_view.dart';
 import 'locale.dart';
 import 'product/lang/language_manager.dart';
 
-
 Future<void> main() async {
-  mainContext.config = mainContext.config
-      .clone(isSpyEnabled: true, disableErrorBoundaries: false);
   await GetStorage.init();
-  mainContext.spy(print);
   WidgetsFlutterBinding.ensureInitialized(); // Initialize the Flutter binding
   runApp(
     const MyApp(),
@@ -36,8 +29,9 @@ class MyApp extends StatelessWidget {
           ScreenType screenType) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          localizationsDelegates:  const [
-            GlobalMaterialLocalizations.delegate, // uses `flutter_localizations`
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations
+                .delegate, // uses `flutter_localizations`
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
@@ -46,7 +40,7 @@ class MyApp extends StatelessWidget {
           supportedLocales: LanguageManager.instance.supportedLocales,
           navigatorKey: AppRouter.navigatorKey,
           translations: Messages(),
-            fallbackLocale:LanguageManager.instance.arLocale,
+          fallbackLocale: LanguageManager.instance.arLocale,
           // theme: context.watch<ThemeNotifier>().currentTheme,
           initialBinding: initialBinding(),
           home: const SplashView(),
@@ -57,6 +51,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class initialBinding extends Bindings {
   @override
   void dependencies() {

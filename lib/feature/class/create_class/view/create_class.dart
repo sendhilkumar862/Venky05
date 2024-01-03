@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hessah/product/base/view/base_view.dart';
 
 import '../../../../config/routes/app_router.dart';
 import '../../../../config/routes/routes.dart';
@@ -85,8 +83,8 @@ class _CreateClassState extends State<CreateClass> {
             children: <Widget>[
               Text(
                 'classInfo'.tr,
-                style: const TextStyle(
-                    fontSize: 20, fontWeight: FontWeight.w700),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15),
@@ -99,35 +97,34 @@ class _CreateClassState extends State<CreateClass> {
                 value: grade,
                 onChanged: setSchoolValue,
                 itemCount: grade.length,
-                itemBuilder:
-                    (ChoiceController<String> selection, int index) {
+                itemBuilder: (ChoiceController<String> selection, int index) {
                   return ChoiceChip(
                     shape: StadiumBorder(
                         side: BorderSide(
-                            color: isGradeSelect==index
+                            color: isGradeSelect == index
                                 ? AppColors.trans
                                 : AppColors.appBorderColor)),
                     backgroundColor: AppColors.trans,
-                    selected: isGradeSelect==index,
+                    selected: isGradeSelect == index,
                     onSelected: (bool selected) {
                       setState(() {
                         if (selected) {
-                          isGradeSelect=index; // Add to the set for multi-selection
+                          isGradeSelect =
+                              index; // Add to the set for multi-selection
                         } else {
-                          isGradeSelect=-1; // Remove from the set
+                          isGradeSelect = -1; // Remove from the set
                         }
                       });
                     },
                     showCheckmark: false,
                     label: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child:
-                      Text(grade[index], style: openSans.get12.w600),
+                      child: Text(grade[index], style: openSans.get12.w600),
                     ),
                     selectedColor: AppColors.appBlue,
                     // Change this to your desired color
                     labelStyle: TextStyle(
-                      color: isGradeSelect==index
+                      color: isGradeSelect == index
                           ? AppColors.white
                           : AppColors.black, // Change text color
                     ),
@@ -144,32 +141,31 @@ class _CreateClassState extends State<CreateClass> {
                 value: school,
                 onChanged: setSchoolValue,
                 itemCount: school.length,
-                itemBuilder:
-                    (ChoiceController<String> selection, int index) {
+                itemBuilder: (ChoiceController<String> selection, int index) {
                   return ChoiceChip(
                     shape: StadiumBorder(
                         side: BorderSide(
-                            color: isSchoolSelect==index
+                            color: isSchoolSelect == index
                                 ? AppColors.trans
                                 : AppColors.appBorderColor)),
                     backgroundColor: AppColors.trans,
-                    selected: isSchoolSelect==index,
+                    selected: isSchoolSelect == index,
                     onSelected: (bool selected) {
                       setState(() {
                         if (selected) {
-                          isSchoolSelect=index; // Add to the set for multi-selection
+                          isSchoolSelect =
+                              index; // Add to the set for multi-selection
                         } else {
-                          isSchoolSelect=-1; // Remove from the set
+                          isSchoolSelect = -1; // Remove from the set
                         }
                       });
                     },
                     showCheckmark: false,
-                    label:
-                    Text(school[index], style: openSans.get12.w600),
+                    label: Text(school[index], style: openSans.get12.w600),
                     selectedColor: AppColors.appBlue,
                     // Change this to your desired color
                     labelStyle: TextStyle(
-                      color: isSchoolSelect==index
+                      color: isSchoolSelect == index
                           ? AppColors.white
                           : AppColors.black, // Change text color
                     ),
@@ -189,32 +185,31 @@ class _CreateClassState extends State<CreateClass> {
                 value: subject,
                 onChanged: setSchoolValue,
                 itemCount: subject.length,
-                itemBuilder:
-                    (ChoiceController<String> selection, int index) {
+                itemBuilder: (ChoiceController<String> selection, int index) {
                   return ChoiceChip(
                     shape: StadiumBorder(
                         side: BorderSide(
-                            color: isSubjectSelect==index
+                            color: isSubjectSelect == index
                                 ? AppColors.trans
                                 : AppColors.appBorderColor)),
                     backgroundColor: AppColors.trans,
-                    selected: isSubjectSelect==index,
+                    selected: isSubjectSelect == index,
                     onSelected: (bool selected) {
                       setState(() {
                         if (selected) {
-                          isSubjectSelect=index; // Add to the set for multi-selection
+                          isSubjectSelect =
+                              index; // Add to the set for multi-selection
                         } else {
-                          isSubjectSelect=-1; // Remove from the set
+                          isSubjectSelect = -1; // Remove from the set
                         }
                       });
                     },
                     showCheckmark: false,
-                    label:
-                    Text(subject[index], style: openSans.get12.w600),
+                    label: Text(subject[index], style: openSans.get12.w600),
                     selectedColor: AppColors.appBlue,
                     // Change this to your desired color
                     labelStyle: TextStyle(
-                      color: isSubjectSelect==index
+                      color: isSubjectSelect == index
                           ? AppColors.white
                           : AppColors.black, // Change text color
                     ),
@@ -231,8 +226,8 @@ class _CreateClassState extends State<CreateClass> {
                 titleColor: AppColors.appBlue,
                 title: 'classSummary'.tr,
                 top: 0,
-                contentPadding: const EdgeInsets.symmetric(
-                    vertical: 12, horizontal: 12),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                 height: 30,
               ),
               const Padding(
