@@ -604,7 +604,7 @@ class _PreferenceViewState extends State<PreferenceView>
                           final HomeController _homeController=Get.put(HomeController());
                          await  _homeController.fetchData();
                           Navigator.of(context).pop();
-                          LocaleManager.getValue(StorageKeys.profile) ??'';
+                          selectedProfile =LocaleManager.getValue(StorageKeys.profile) ??'';
                           if (selectedProfile ==
                               ApplicationConstants.student) {
                             AppRouter.pushNamed(Routes.HomeScreenRoute);

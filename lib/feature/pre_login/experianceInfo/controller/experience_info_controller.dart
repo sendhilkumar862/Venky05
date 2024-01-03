@@ -30,6 +30,7 @@ class ExperienceInfoController extends GetxController{
     final BaseResponse personalUpdate = await _experienceInfoUpdateRepository.updateExperienceInfo(ExperienceInfoUpdateRequest(education:educationController.text,educationIsPublic:isSwitchEduction,experience:int.parse(experienceYearController.text),experienceDetails: experienceBriefController.text,experienceIsPublic:isSwitchExperience,certificateIds: _personalInfoController.civilIds,certificateIsPublic: isSwitchCertificates));
     if (personalUpdate.status?.type == 'success') {
       _personalInfoController.civilIds.clear();
+      _personalInfoController.imageFile.clear();
       final HomeController home=Get.find();
       home.fetchData();
       EasyLoading.dismiss();

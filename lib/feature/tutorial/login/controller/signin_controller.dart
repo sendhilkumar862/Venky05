@@ -64,7 +64,7 @@ class SignInController extends GetxController {
   }
 
   fetchLocalAuth() async {
-    authenticated.value = await   LocaleManager.getValue(StorageKeys.authBiometric);
+    authenticated.value = await   LocaleManager.getValue(StorageKeys.authBiometric)??'';
   }
 
   void onPasswordChanged(String value) {
