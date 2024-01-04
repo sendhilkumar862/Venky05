@@ -99,7 +99,9 @@ class SuccessFailsInfoDialog extends StatelessWidget {
                 Navigator.of(context).pop();
                }else if(isRouting=='route'){
                 Get.offAndToNamed(Routes.settingView );
-                // AppRouter.popUntil( Routes.settingView);
+              }
+              else if(isRouting!=''){
+                Get.offAndToNamed(isRouting! );
               }
             },
           )

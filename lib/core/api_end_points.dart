@@ -101,6 +101,8 @@ class ApiEndpoint {
         return '$path/types';
       case SchoolEndpoint.CURRICULUM:
         return '$path/curriculum';
+      case SchoolEndpoint.CREATE_CLASS:
+        return path;
     }
   }
 
@@ -249,6 +251,9 @@ enum SchoolEndpoint {
 
   /// An endpoint for class type requests.
   CLASS_TYPE,
+
+  /// An endpoint for create class type requests.
+  CREATE_CLASS,
 }
 
 /// A collection of endpoints used for students.

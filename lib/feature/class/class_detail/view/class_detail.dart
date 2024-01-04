@@ -2,11 +2,9 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import '../../../../config/routes/route.dart';
 import '../../../../custom/app_button/app_button.dart';
@@ -14,6 +12,7 @@ import '../../../../custom/app_textformfield/app_field.dart';
 import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/calender/calender.dart';
 import '../../../../custom/choice/src/modal/button.dart';
+import '../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../custom/switch/app_switch.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/app/app_constants.dart';
@@ -22,9 +21,8 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../../product/utils/validators.dart';
+import '../../../pre_login/teachingInfo/controller/teaching_info_controller.dart';
 import '../../../setting_view/add_address_screen/Model/request_address_model.dart';
-import '../../../setting_view/add_address_screen/controller/add_address_controller.dart';
-import '../../../setting_view/add_address_screen/view/add_address_view.dart';
 import '../../../setting_view/manage_address/Model/get_address_model.dart'
     hide Location;
 import '../../../setting_view/manage_address/controller/manage_controller.dart';
@@ -40,48 +38,9 @@ class ClassDetail extends StatefulWidget {
 class _ClassDetailState extends State<ClassDetail> {
   final ClassDetailController _classDetailController =
       Get.put(ClassDetailController());
+  final TeachingInfoController _teachingInfoController= Get.put(TeachingInfoController());
   final ManageAddressController _manageAddressController =
       Get.put(ManageAddressController());
-  DateTime selectedDate = DateTime.now();
-  int? isSelected;
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  TextEditingController dateController = TextEditingController();
-  TextEditingController timeController = TextEditingController();
-  TextEditingController class2DateController = TextEditingController();
-  TextEditingController classCost = TextEditingController();
-  TextEditingController numberOfSession = TextEditingController();
-  TextEditingController participators2 = TextEditingController();
-  TextEditingController participators3 = TextEditingController();
-  TextEditingController participators4 = TextEditingController();
-  TextEditingController participators5 = TextEditingController();
-  TextEditingController classDurationController = TextEditingController();
-  final EmailValidator emailValidator = EmailValidator(
-      errorText: 'Enter a valid email address (e.g., name@example.com)');
-  SfRangeValues sliderValue = const SfRangeValues(40, 40);
-  bool isDisable = true;
-  String dateAndTime = '';
-  String classDuration = '';
-  DateTime time = DateTime(2016, 5, 10, 22, 35);
-  double _lowerValue = 20.0;
-  double _upperValue = 80.0;
-
-  bool isChecked = false;
-  List<String> dateAndTimeList = <String>[
-    'abs',
-    'hello',
-    'guys',
-  ];
-  List<String> classDurationList = <String>[
-    '1 Hours',
-    '1 Hour - 15 Minutes',
-    '1 Hour - 30 Minutes',
-    '1 Hour - 45 Minutes',
-    '2 Hours',
-    '2 Hour - 15 Minutes',
-    '2 Hour - 30 Minutes',
-    '2 Hour - 45 Minutes',
-    '3 Hour',
-  ];
 @override
   void initState() {
     // TODO: implement initState
@@ -100,15 +59,15 @@ class _ClassDetailState extends State<ClassDetail> {
         // normalAppbar: true,
       ),
       body: Form(
-        key: formKey,
+        key: _classDetailController.formKey,
         onChanged: () {
-          if (formKey.currentState!.validate()) {
+          if (_classDetailController.formKey.currentState!.validate()) {
             setState(() {
-              isDisable = false;
+              _classDetailController.isDisable = false;
             });
           } else {
             setState(() {
-              isDisable = true;
+              _classDetailController.isDisable = true;
             });
           }
         },
@@ -138,13 +97,14 @@ class _ClassDetailState extends State<ClassDetail> {
                     height: 50,
                     child: FlutterSlider(
                       rangeSlider: true,
-                      values: <double>[_lowerValue, _upperValue],
+                      values: <double>[_classDetailController.lowerValue, _classDetailController.upperValue],
                       max: 100,
                       min: 0,
+                      // ignore: always_specify_types
                       onDragging: (int handlerIndex, lowerValue, upperValue) {
                         setState(() {
-                          _lowerValue = lowerValue;
-                          _upperValue = upperValue;
+                          _classDetailController.lowerValue = lowerValue;
+                          _classDetailController.upperValue = upperValue;
                         });
                       },
                       onDragCompleted: (_, __, ___) {
@@ -164,7 +124,7 @@ class _ClassDetailState extends State<ClassDetail> {
                           child: Container(
                             padding: const EdgeInsets.all(5),
                             child: Text(
-                              '${_lowerValue.toInt()}',
+                              '${_classDetailController.lowerValue.toInt()}',
                               style: const TextStyle(
                                   fontSize: 12, color: Colors.white),
                             ),
@@ -181,7 +141,7 @@ class _ClassDetailState extends State<ClassDetail> {
                           child: Container(
                             padding: const EdgeInsets.all(5),
                             child: Text(
-                              '${_upperValue.toInt()}',
+                              '${_classDetailController.upperValue.toInt()}',
                               style: const TextStyle(
                                   fontSize: 12, color: Colors.white),
                             ),
@@ -214,7 +174,7 @@ class _ClassDetailState extends State<ClassDetail> {
                     ],
                   ),
                   AppTextFormField(
-                    controller: classCost,
+                    controller: _classDetailController.classCost,
                     keyboardType:
                         // ignore: use_named_constants
                         const TextInputType.numberWithOptions(),
@@ -226,17 +186,20 @@ class _ClassDetailState extends State<ClassDetail> {
                     hintText: 'classCost'.tr,
                   ),
                   AppTextFormField(
-                    controller: numberOfSession,
+                    controller: _classDetailController.numberOfSession,
+                    keyboardType:
+                    // ignore: use_named_constants
+                    const TextInputType.numberWithOptions(),
                     validate: Validators.requiredValidator.call,
                     hintText: 'numberOfSessions'.tr,
                   ),
                   AppTextFormField(
                     validate: Validators.requiredValidator.call,
-                    controller: dateController,
+                    controller: _classDetailController.dateController,
                     onTap: () {
                       calender(
                         context,
-                        dateController,
+                        _classDetailController.dateController,
                       );
                     },
                     hintText: 'selectDateAndTime'.tr,
@@ -245,17 +208,32 @@ class _ClassDetailState extends State<ClassDetail> {
                         color: AppColors.downArrowColor),
                   ),
                   AppTextFormField(
+                    controller: _classDetailController.class2DateController,
                     validate: Validators.requiredValidator.call,
-                    hintText: 'selectClass2DateAndTime'.tr,
-                    controller: class2DateController,
                     onTap: () {
-                      calender(context, class2DateController);
+                      bottomSheetDropDownList(_teachingInfoController.curriculumTypeList, _classDetailController.isSelected??-1,myValueGetter: (index){
+                        _classDetailController.isCurriculumSelected = index;
+                        _classDetailController.class2DateController.text =_teachingInfoController.curriculumTypeList[index];
+                        Navigator.pop(context);
+                      });
                     },
-                    title: 'class2DateAndTime'.tr,
                     readOnly: true,
-                    suffix: const Icon(Icons.keyboard_arrow_down_sharp,
-                        color: AppColors.downArrowColor),
+                    title: 'Curriculum',
+                    hintText: 'Select curriculum',
+                    suffix: const Icon(Icons.keyboard_arrow_down),
                   ),
+                  // AppTextFormField(
+                  //   validate: Validators.requiredValidator.call,
+                  //   hintText: 'selectClass2DateAndTime'.tr,
+                  //   controller: _classDetailController.class2DateController,
+                  //   onTap: () {
+                  //     calender(context, _classDetailController.class2DateController);
+                  //   },
+                  //   title: 'class2DateAndTime'.tr,
+                  //   readOnly: true,
+                  //   suffix: const Icon(Icons.keyboard_arrow_down_sharp,
+                  //       color: AppColors.downArrowColor),
+                  // ),
                   AppTextFormField(
                     validate: Validators.requiredValidator.call,
                     suffix: const Icon(Icons.keyboard_arrow_down_sharp,
@@ -263,9 +241,13 @@ class _ClassDetailState extends State<ClassDetail> {
                     hintText: 'classDuration'.tr,
                     title: 'classDuration'.tr,
                     readOnly: true,
-                    controller: classDurationController,
+                    controller: _classDetailController.classDurationController,
                     onTap: () {
-                      bottomSheetDropDownList();
+                      bottomSheetDropDownList(_classDetailController.classDurationList, _classDetailController.isSelected??-1,myValueGetter: (index){
+                        _classDetailController.isSelected = index;
+                        _classDetailController.classDurationController.text = _classDetailController.classDurationList[index];
+                        Navigator.pop(context);
+                      });
                     },
                   ),
                   Padding(
@@ -360,33 +342,33 @@ class _ClassDetailState extends State<ClassDetail> {
                                           onPressed: () {
                                             locationModalBottomSheet(context);
                                           },
-                                          isDisable: isDisable),
+                                          isDisable: _classDetailController.isDisable),
                                     )
                                   ],
                                 ),
                               )),
                     );
                   }),
-                  if (_classDetailController.selectedProfile ==
-                      ApplicationConstants.tutor)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15, bottom: 35),
-                      child: Row(
-                        children: <Widget>[
-                          AppText(
-                            'allowTheClassAtTheStudentPlace'.tr,
-                            fontSize: 14.px,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          SizedBox(width: 8.px),
-                          AppSwitch(
-                              onTap: () {
-                                _classDetailController.onTapSwitch();
-                              },
-                              isActive: _classDetailController.isActive.value)
-                        ],
-                      ),
-                    ),
+                  // if (_classDetailController.selectedProfile ==
+                  //     ApplicationConstants.tutor)
+                  //   Padding(
+                  //     padding: const EdgeInsets.only(top: 15, bottom: 35),
+                  //     child: Row(
+                  //       children: <Widget>[
+                  //         AppText(
+                  //           'allowTheClassAtTheStudentPlace'.tr,
+                  //           fontSize: 14.px,
+                  //           fontWeight: FontWeight.w500,
+                  //         ),
+                  //         SizedBox(width: 8.px),
+                  //         AppSwitch(
+                  //             onTap: () {
+                  //               _classDetailController.onTapSwitch();
+                  //             },
+                  //             isActive: _classDetailController.isActive.value)
+                  //       ],
+                  //     ),
+                  //   ),
                   if (_classDetailController.selectedProfile ==
                       ApplicationConstants.student)
                     Column(
@@ -410,37 +392,65 @@ class _ClassDetailState extends State<ClassDetail> {
                         ),
                         AppTextFormField(
                           top: 0,
-                          controller: participators2,
-                          validate: emailValidator.call,
+                          controller: _classDetailController.participators2,
+                          validate: _classDetailController.emailValidator.call,
                           title: 'participators2'.tr,
                           hintText: 'enterEmailAddress'.tr,
                         ),
                         AppTextFormField(
-                          controller: participators3,
-                          validate: emailValidator.call,
+                          controller: _classDetailController.participators3,
+                          validate: _classDetailController.emailValidator.call,
                           title: 'participators3'.tr,
                           hintText: 'enterEmailAddress'.tr,
                         ),
                         AppTextFormField(
-                          controller: participators4,
-                          validate: emailValidator.call,
+                          controller: _classDetailController.participators4,
+                          validate: _classDetailController.emailValidator.call,
                           title: 'participators4'.tr,
                           hintText: 'enterEmailAddress'.tr,
                         ),
                         AppTextFormField(
-                          controller: participators5,
-                          validate: emailValidator.call,
+                          controller: _classDetailController.participators5,
+                          validate: _classDetailController.emailValidator.call,
                           title: 'participators5'.tr,
                           hintText: 'enterEmailAddress'.tr,
                         ),
                       ],
                     ),
-                  AppButton(
-                    title: 'nextForClassDetails'.tr,
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {}
-                    },
-                    isDisable: isDisable,
+                  Obx(()=>
+                   AppButton(
+                      title: 'nextForClassDetails'.tr,
+                      onPressed: () async{
+                        if (_classDetailController.formKey.currentState!.validate()) {
+                     if(_classDetailController.selectedIndex?.value!=200) {
+                          final bool success=await  _classDetailController.createClass();
+                          if (success) {
+                            // ignore: use_build_context_synchronously
+                            showModalBottomSheet(
+                              backgroundColor: Colors.white,
+                              context: context,
+                              constraints: BoxConstraints(
+                                maxWidth: MediaQuery.of(context).size.width - 30,
+                                // here increase or decrease in width
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              builder: (BuildContext context) {
+                                return SuccessFailsInfoDialog(
+                                  title: 'success'.tr,
+                                  buttonTitle: 'done'.tr,
+                                  content: 'You have successfully created class',
+                                  isRouting: Routes.classDetail,
+                                );
+                              },
+                            );
+                          }
+                        }}
+                      },
+                      // ignore: avoid_bool_literals_in_conditional_expressions
+                      isDisable: _classDetailController.isDisable || _classDetailController.selectedIndex?.value==200?true:false,
+                    ),
                   ),
                 ]),
           ),
@@ -743,7 +753,7 @@ class _ClassDetailState extends State<ClassDetail> {
       // Handle the selected time
       final String formattedTime =
           '${selectedTime.hour}:${selectedTime.minute}';
-      timeController.text = formattedTime;
+      _classDetailController.timeController.text = formattedTime;
     }
   }
 
@@ -789,7 +799,7 @@ class _ClassDetailState extends State<ClassDetail> {
     }
   }
 
-  void bottomSheetDropDownList() {
+  void bottomSheetDropDownList(List<String> data,int isSelected, {required Function(int) myValueGetter}) {
     final double width = MediaQuery.sizeOf(context).width;
     showModalBottomSheet(
       shape: const RoundedRectangleBorder(
@@ -836,23 +846,21 @@ class _ClassDetailState extends State<ClassDetail> {
                 separatorBuilder: (BuildContext context, int index) {
                   return const Divider();
                 },
-                itemCount: classDurationList.length,
+                itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
-                    title: Text(classDurationList[index],
+                    title: Text(data[index],
                         style: openSans.get16.w400
                             .textColor(AppColors.appTextColor)),
                     onTap: () {
-                      isSelected = index;
-                      classDurationController.text = classDurationList[index];
-                      Navigator.pop(context);
+                      myValueGetter(index);
                     },
                     trailing: isSelected == index
                         ? const Icon(
                             Icons.check_circle,
                             color: AppColors.appBlue,
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                   );
                 },
               ),
