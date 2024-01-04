@@ -23,6 +23,9 @@ class AppCardView extends StatelessWidget {
     this.reViewLength,
     this.avtar,
     this.teacherName,
+    this.grade,
+    this.minParticipants,
+    this.maxParticipants,
     this.proposals,
     super.key,
   });
@@ -35,10 +38,13 @@ class AppCardView extends StatelessWidget {
   String? avtar;
   String? teacherName;
   String? countryIcon;
+  String? grade;
   String? countryName;
   num? reViewLength;
   num? proposals;
   bool? isPro;
+  int?minParticipants;
+  int?maxParticipants;
   VoidCallback? buttonTap;
 
   @override
@@ -72,8 +78,20 @@ class AppCardView extends StatelessWidget {
               SizedBox(
                 height: 10.px,
               ),
-              tagCardView(
-                title: 'Grade 2',
+              Row(
+                children: [
+                  tagCardView(
+                    title: grade,
+                  ),
+                  tagCardView(
+                      title: countryName,
+                  ),
+                  tagCardView(
+                      title: '$minParticipants/$maxParticipants',
+                      icon: ImageConstants.groupIcon,
+                      isBold: true
+                  ),
+                ],
               ),
               SizedBox(
                 height: 10.px,
@@ -127,7 +145,33 @@ class AppCardView extends StatelessWidget {
     );
   }
 
-  Widget tagCardView({String? title, String? icon}) {
+  Widget tagCardView({String? title, String? icon,bool isBold=false}) {
+    return Container(
+      margin: EdgeInsets.only(right: 5.px),
+      padding: EdgeInsets.symmetric(horizontal: 10.px, vertical: 5.px),
+      decoration: BoxDecoration(
+        color: AppColors.lightPurple,
+        borderRadius: BorderRadius.circular(30.px),
+      ),
+      child: Row(
+        children: <Widget>[
+          if (icon != null &&
+              icon.isNotEmpty) // Check if icon is not null and not empty
+            AppImageAsset(
+              image: icon,
+              height: 12.px,
+            ),
+          if (icon != null &&
+              icon.isNotEmpty) // Another check for spacing
+            SizedBox(width: 4.px),
+          AppText(
+            title ?? ''!,
+            fontSize: 10.px,
+            fontWeight: isBold?FontWeight.w700:FontWeight.w500,
+          ),
+        ],
+      ),
+    );
     return SizedBox(
       height: 22.px,
       child: Align(
@@ -138,32 +182,7 @@ class AppCardView extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
-            return Container(
-              margin: EdgeInsets.only(right: 5.px),
-              padding: EdgeInsets.symmetric(horizontal: 10.px, vertical: 5.px),
-              decoration: BoxDecoration(
-                color: AppColors.lightPurple,
-                borderRadius: BorderRadius.circular(30.px),
-              ),
-              child: Row(
-                children: <Widget>[
-                  if (icon != null &&
-                      icon.isNotEmpty) // Check if icon is not null and not empty
-                    AppImageAsset(
-                      image: icon,
-                      height: 12.px,
-                    ),
-                  if (icon != null &&
-                      icon.isNotEmpty) // Another check for spacing
-                    SizedBox(width: 4.px),
-                  AppText(
-                    title ?? ''!,
-                    fontSize: 10.px,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ],
-              ),
-            );
+
           },
         ),
       ),

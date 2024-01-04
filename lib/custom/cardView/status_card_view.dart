@@ -16,33 +16,33 @@ class StatusCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return statuses(status ?? 'COMPLETED'!);
+    return statuses(status ?? 'Completed'!);
   }
 
   Widget statuses(String status) {
     switch (status) {
-      case 'COMPLETED':
+      case 'Completed':
         return customStatusView(
           title: 'Completed',
           icon: ImageConstants.acceptedStatus,
           cardColor: AppColors.appGreen,
           iconColor: AppColors.appWhite,
         );
-      case 'ACTION NEEDED':
+      case 'Action Needed':
         return customStatusView(
           title: 'Action Needed',
           icon: ImageConstants.warningIcon,
           cardColor: AppColors.appOrange,
           iconColor: AppColors.appWhite,
         );
-      case 'REJECTED':
+      case 'Rejected':
         return customStatusView(
           title: 'Rejected',
           icon: ImageConstants.inCompletedStatus,
           cardColor: AppColors.secondaryRed,
           iconColor: AppColors.appWhite,
         );
-      case 'SUSPENDED':
+      case 'Suspended':
         return customStatusView(
           title: 'Suspended',
           icon: ImageConstants.warningIcon,
@@ -50,7 +50,7 @@ class StatusCardView extends StatelessWidget {
           iconColor: AppColors.appWhite,
         );
 
-      case 'ACCEPTED':
+      case 'Accepted':
         return customStatusView(
           title: 'Accepted',
           icon: ImageConstants.acceptedStatus,
@@ -58,14 +58,14 @@ class StatusCardView extends StatelessWidget {
           iconColor: AppColors.appWhite,
         );
 
-      case 'PENDING':
+      case 'Pending':
         return customStatusView(
           title: 'Pending',
           icon: ImageConstants.pendingStatus,
           cardColor: AppColors.appYellow,
           iconColor: AppColors.appDarkBlack,
         );
-      case 'PENDING ACCOUNT':
+      case 'Pending Account':
         return customStatusView(
           title: 'Pending Account',
           icon: ImageConstants.pendingStatus,
@@ -73,7 +73,7 @@ class StatusCardView extends StatelessWidget {
           iconColor: AppColors.appDarkBlack,
         );
 
-      case 'INCOMPLETE':
+      case 'Incomplete':
         return customStatusView(
           title: 'Incomplete',
           icon: ImageConstants.inCompletedStatus,
@@ -81,7 +81,7 @@ class StatusCardView extends StatelessWidget {
           iconColor: AppColors.appDarkBlack,
         );
 
-      case 'CANCELLED':
+      case 'Cancelled':
         return customStatusView(
           title: 'Cancelled',
           icon: ImageConstants.inCompletedStatus,
@@ -89,7 +89,7 @@ class StatusCardView extends StatelessWidget {
           iconColor: AppColors.appWhite,
         );
 
-      case 'CREATED':
+      case 'Created':
         return customStatusView(
           title: 'Created',
           icon: ImageConstants.pendingStatus,
@@ -97,7 +97,7 @@ class StatusCardView extends StatelessWidget {
           iconColor: AppColors.appWhite,
         );
 
-      case 'CANCELLING':
+      case 'Cancelling':
         return customStatusView(
           title: 'Cancelling',
           icon: ImageConstants.cancellingStatus,
@@ -113,35 +113,35 @@ class StatusCardView extends StatelessWidget {
           iconColor: AppColors.appWhite,
         );
 
-      case 'PAYING':
+      case 'Paying':
         return customStatusView(
           title: 'Paying',
           icon: ImageConstants.payingIcon,
           cardColor: AppColors.appOrange,
           iconColor: AppColors.appWhite,
         );
-      case 'NEW':
+      case 'New':
         return customStatusView(
           title: 'New',
           icon: ImageConstants.done,
           cardColor: AppColors.appLightBlue,
           iconColor: AppColors.appWhite,
         );
-      case 'IN PROGRESS':
+      case 'In Progress':
         return customStatusView(
           title: 'Inprogress',
           icon: ImageConstants.inProgress,
           cardColor: AppColors.appOrange,
           iconColor: AppColors.appWhite,
         );
-      case 'SOLVED':
+      case 'Solved':
         return customStatusView(
           title: 'Solved',
           icon: ImageConstants.check,
           cardColor: AppColors.appGreen,
           iconColor: AppColors.appWhite,
         );
-      case 'CANCEL':
+      case 'Cancel':
         return customStatusView(
           title: 'Cancelled',
           icon: ImageConstants.cancel,

@@ -18,4 +18,6 @@ class HomeViewController extends GetxController{
     selectedIndex.value = index;
   }
 
+
+
 }
