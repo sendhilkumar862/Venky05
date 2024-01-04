@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 
@@ -13,6 +14,7 @@ import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../../../product/extension/string_extension.dart';
 import '../../../home/controller/home_controller.dart';
 import '../reupload_documents.dart';
 
@@ -221,8 +223,8 @@ class _ClassesViewState extends State<ClassesView> {
                   return AppCardView(
                     proposals: 0,
                     cardTitle: _homeController.classList[index].subject,
-                    date: '12/12 12:30pm',
-                    timer: '1h 30m',
+                    date: _homeController.classList[index].classTime!.toString().epochToNormal(),
+                    timer: _homeController.classList[index].duration.toString().timeConvert(),
                     money: "${_homeController.classList[index].cost??''} ${_homeController.classList[index].currency??''}",
                     status: _homeController.classList[index].status,
                     isPro: true,
@@ -234,7 +236,9 @@ class _ClassesViewState extends State<ClassesView> {
                     grade: _homeController.classList[index].grade,
                     minParticipants: _homeController.classList[index].minParticipants,
                     maxParticipants:_homeController.classList[index].maxParticipants,
-                    buttonTap: () {},
+                    buttonTap: () {
+                      Get.toNamed(Routes.classDetailsView,arguments: _homeController.classList[index].classNumber);
+                    },
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {
@@ -298,3 +302,5 @@ class _ClassesViewState extends State<ClassesView> {
     );
   }
 }
+
+

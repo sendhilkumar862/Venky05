@@ -104,7 +104,7 @@ class ApiEndpoint {
       case SchoolEndpoint.CREATE_CLASS:
         return path;
       case SchoolEndpoint.DETAILS:
-        return '$path/details';
+        return '/details';
       case SchoolEndpoint.GET:
         return '$path/get';
     }

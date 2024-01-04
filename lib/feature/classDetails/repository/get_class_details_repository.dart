@@ -6,10 +6,10 @@ import '../../../../core/hessah_exception.dart';
 import '../../../../product/constants/enums/backend_services_method_enums.dart';
 
 class GetClassDetailRepository {
-  Future<BaseResponse> getClassDetail () async {
+  Future<BaseResponse> getClassDetail (String id) async {
     try {
       return await BackendService.post(
-          ClassDetailAPIRequest());
+          ClassDetailAPIRequest(id: id));
     } catch (e) {
       if (e is HessahException) {
         return BaseResponse(status: Status(type: 'error', message: 'Something went wrong'));
@@ -19,10 +19,11 @@ class GetClassDetailRepository {
   }
 }
 class ClassDetailAPIRequest extends BaseRequest {
-  ClassDetailAPIRequest();
+  ClassDetailAPIRequest({required this.id});
+  final String id;
 
   @override
-  String get endPoint => '4037c31f-7fcf-11ee-89b6-52af172c937c${ApiEndpoint.school(SchoolEndpoint.CLASS_TYPE)}';
+  String get endPoint => '${ApiEndpoint.school(SchoolEndpoint.CREATE_CLASS)}/$id${ApiEndpoint.school(SchoolEndpoint.DETAILS)}';
   @override
   Map<String, dynamic> get body =>{};
 

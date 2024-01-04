@@ -17,7 +17,7 @@ class ClassDetailsController extends GetxController{
   void onInit() {
     super.onInit();
     fetchMap();
-    getClassDetails();
+    getClassDetails(Get.arguments);
   }
   CameraPosition? kGooglePlex;
 
@@ -40,14 +40,14 @@ class ClassDetailsController extends GetxController{
     }
   }
 
-  // Rx<ClassDetailsModel?> classData =  ClassDetailsModel().obs;
+   Rx<ClassDetailsModel?> classData =  ClassDetailsModel().obs;
 
-  Future<void> getClassDetails() async {
+  Future<void> getClassDetails(String id) async {
     showLoading();
-    final BaseResponse classDataResponse = await _getClassDetailRepository.getClassDetail();
+    final BaseResponse classDataResponse = await _getClassDetailRepository.getClassDetail(id);
     if (classDataResponse.status?.type == 'success') {
       final  Map<String, dynamic> classDetailData=classDataResponse.data!.item! as Map<String ,dynamic>;
-      // classData.value = ClassDetailsModel.fromJson(classDetailData);
+       classData.value = ClassDetailsModel.fromJson(classDetailData);
     }
     hideLoading();
   }

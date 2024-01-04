@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../core/api_end_points.dart';
 
@@ -47,20 +48,32 @@ extension StringLocalization on String {
   }
   String time12to24Format(String time) {
 // var time = "12:01 AM";
-    int h = int.parse(time.split(":").first);
-    int m = int.parse(time.split(":").last.split(" ").first);
-    String meridium = time.split(":").last.split(" ").last.toLowerCase();
-    if (meridium == "pm") {
+    int h = int.parse(time.split(':').first);
+    int m = int.parse(time.split(':').last.split(' ').first);
+    String meridium = time.split(':').last.split(' ').last.toLowerCase();
+    if (meridium == 'pm') {
       if (h != 12) {
         h = h + 12;
       }
     }
-    if (meridium == "am") {
+    if (meridium == 'am') {
       if (h == 12) {
         h = 00;
       }
     }
     String newTime = "${h == 0 ? "00" :(h.toString().length==1?'0$h':h)}:${m == 0 ? "00" : (m.toString().length==1?'0$m':m)}";
     return newTime;
+  }
+
+  String epochToNormal(){
+    final DateTime timeStamp = DateTime.fromMillisecondsSinceEpoch(int.parse(this));
+    return DateFormat('MM/dd hh:mma').format(timeStamp);
+  }
+  String timeConvert() {
+    int h, m;
+    h = int.parse(this) ~/ 3600;
+    // ignore: unnecessary_parenthesis
+    m = ((int.parse(this) - h * 3600)) ~/ 60;
+    return '${h}h ${m}m';
   }
 }
