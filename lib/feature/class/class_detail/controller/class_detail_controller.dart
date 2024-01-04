@@ -10,6 +10,7 @@ import '../../../../product/cache/key_value_storeage.dart';
 import '../../../../product/cache/local_manager.dart';
 import '../../../../product/extension/string_extension.dart';
 import '../../../../product/utils/common_function.dart';
+import '../../../pre_login/teachingInfo/controller/teaching_info_controller.dart';
 import '../../../setting_view/manage_address/controller/manage_controller.dart';
 import '../model/create_class_request_model.dart';
 import '../repository/create_class_repository.dart';
@@ -18,6 +19,7 @@ import '../repository/create_class_repository.dart';
 class ClassDetailController extends GetxController{
   final CreateClassRepository _createClassRepository=CreateClassRepository();
   final ManageAddressController _manageAddressController = Get.put(ManageAddressController());
+  final TeachingInfoController _teachingInfoController= Get.put(TeachingInfoController());
   @override
   void onInit() {
   selectedProfile.value =
@@ -37,6 +39,7 @@ class ClassDetailController extends GetxController{
 
   RxBool isActive = false.obs;
   int? isSelected;
+  int? isCurriculumSelected;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
@@ -114,7 +117,7 @@ class ClassDetailController extends GetxController{
   Future<bool> createClass() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final BaseResponse signInResponse = await _createClassRepository.createClassRepository(CreateClassRequestModel(grade:grade[isGradeSelect],school:school[isSchoolSelect],subject: subject[isSubjectSelect],summary:classSummaryController.text,minParticipants:lowerValue.toInt(),
-    maxParticipants: upperValue.toInt(),cost:int.parse(classCost.text),sessions: int.parse(numberOfSession.text),classTime:dateController.text.toEpoch(),currency: 'USD',duration:3600+isSelected!*900,location:_manageAddressController.address[selectedIndex!.value].id,otherParticipants: [] ,curriculum: 'American' ));
+    maxParticipants: upperValue.toInt(),cost:int.parse(classCost.text),sessions: int.parse(numberOfSession.text),classTime:dateController.text.toEpoch(),currency: 'KWD',duration:isSelected!.toString().toSecond(),location:_manageAddressController.address[selectedIndex!.value].id,otherParticipants: [] ,curriculum: _teachingInfoController.curriculumTypeList[isCurriculumSelected!] ));
     if (signInResponse.status?.type == 'success') {
       EasyLoading.dismiss();
       return true;

@@ -21,6 +21,7 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../../product/utils/validators.dart';
+import '../../../pre_login/teachingInfo/controller/teaching_info_controller.dart';
 import '../../../setting_view/add_address_screen/Model/request_address_model.dart';
 import '../../../setting_view/manage_address/Model/get_address_model.dart'
     hide Location;
@@ -37,7 +38,7 @@ class ClassDetail extends StatefulWidget {
 class _ClassDetailState extends State<ClassDetail> {
   final ClassDetailController _classDetailController =
       Get.put(ClassDetailController());
-
+  final TeachingInfoController _teachingInfoController= Get.put(TeachingInfoController());
   final ManageAddressController _manageAddressController =
       Get.put(ManageAddressController());
 @override
@@ -186,6 +187,9 @@ class _ClassDetailState extends State<ClassDetail> {
                   ),
                   AppTextFormField(
                     controller: _classDetailController.numberOfSession,
+                    keyboardType:
+                    // ignore: use_named_constants
+                    const TextInputType.numberWithOptions(),
                     validate: Validators.requiredValidator.call,
                     hintText: 'numberOfSessions'.tr,
                   ),
@@ -204,17 +208,32 @@ class _ClassDetailState extends State<ClassDetail> {
                         color: AppColors.downArrowColor),
                   ),
                   AppTextFormField(
-                    validate: Validators.requiredValidator.call,
-                    hintText: 'selectClass2DateAndTime'.tr,
                     controller: _classDetailController.class2DateController,
+                    validate: Validators.requiredValidator.call,
                     onTap: () {
-                      calender(context, _classDetailController.class2DateController);
+                      bottomSheetDropDownList(_teachingInfoController.curriculumTypeList, _classDetailController.isSelected??-1,myValueGetter: (index){
+                        _classDetailController.isCurriculumSelected = index;
+                        _classDetailController.class2DateController.text =_teachingInfoController.curriculumTypeList[index];
+                        Navigator.pop(context);
+                      });
                     },
-                    title: 'class2DateAndTime'.tr,
                     readOnly: true,
-                    suffix: const Icon(Icons.keyboard_arrow_down_sharp,
-                        color: AppColors.downArrowColor),
+                    title: 'Curriculum',
+                    hintText: 'Select curriculum',
+                    suffix: const Icon(Icons.keyboard_arrow_down),
                   ),
+                  // AppTextFormField(
+                  //   validate: Validators.requiredValidator.call,
+                  //   hintText: 'selectClass2DateAndTime'.tr,
+                  //   controller: _classDetailController.class2DateController,
+                  //   onTap: () {
+                  //     calender(context, _classDetailController.class2DateController);
+                  //   },
+                  //   title: 'class2DateAndTime'.tr,
+                  //   readOnly: true,
+                  //   suffix: const Icon(Icons.keyboard_arrow_down_sharp,
+                  //       color: AppColors.downArrowColor),
+                  // ),
                   AppTextFormField(
                     validate: Validators.requiredValidator.call,
                     suffix: const Icon(Icons.keyboard_arrow_down_sharp,
@@ -224,7 +243,11 @@ class _ClassDetailState extends State<ClassDetail> {
                     readOnly: true,
                     controller: _classDetailController.classDurationController,
                     onTap: () {
-                      bottomSheetDropDownList();
+                      bottomSheetDropDownList(_classDetailController.classDurationList, _classDetailController.isSelected??-1,myValueGetter: (index){
+                        _classDetailController.isSelected = index;
+                        _classDetailController.classDurationController.text = _classDetailController.classDurationList[index];
+                        Navigator.pop(context);
+                      });
                     },
                   ),
                   Padding(
@@ -326,26 +349,26 @@ class _ClassDetailState extends State<ClassDetail> {
                               )),
                     );
                   }),
-                  if (_classDetailController.selectedProfile ==
-                      ApplicationConstants.tutor)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15, bottom: 35),
-                      child: Row(
-                        children: <Widget>[
-                          AppText(
-                            'allowTheClassAtTheStudentPlace'.tr,
-                            fontSize: 14.px,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          SizedBox(width: 8.px),
-                          AppSwitch(
-                              onTap: () {
-                                _classDetailController.onTapSwitch();
-                              },
-                              isActive: _classDetailController.isActive.value)
-                        ],
-                      ),
-                    ),
+                  // if (_classDetailController.selectedProfile ==
+                  //     ApplicationConstants.tutor)
+                  //   Padding(
+                  //     padding: const EdgeInsets.only(top: 15, bottom: 35),
+                  //     child: Row(
+                  //       children: <Widget>[
+                  //         AppText(
+                  //           'allowTheClassAtTheStudentPlace'.tr,
+                  //           fontSize: 14.px,
+                  //           fontWeight: FontWeight.w500,
+                  //         ),
+                  //         SizedBox(width: 8.px),
+                  //         AppSwitch(
+                  //             onTap: () {
+                  //               _classDetailController.onTapSwitch();
+                  //             },
+                  //             isActive: _classDetailController.isActive.value)
+                  //       ],
+                  //     ),
+                  //   ),
                   if (_classDetailController.selectedProfile ==
                       ApplicationConstants.student)
                     Column(
@@ -394,36 +417,40 @@ class _ClassDetailState extends State<ClassDetail> {
                         ),
                       ],
                     ),
-                  AppButton(
-                    title: 'nextForClassDetails'.tr,
-                    onPressed: () async{
-                      if (_classDetailController.formKey.currentState!.validate()) {
-                        final bool success=await  _classDetailController.createClass();
-                        if (success) {
-                          // ignore: use_build_context_synchronously
-                          showModalBottomSheet(
-                            backgroundColor: Colors.white,
-                            context: context,
-                            constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width - 30,
-                              // here increase or decrease in width
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            builder: (BuildContext context) {
-                              return SuccessFailsInfoDialog(
-                                title: 'success'.tr,
-                                buttonTitle: 'done'.tr,
-                                content: 'You have successfully created class',
-                                isRouting: Routes.classDetail,
-                              );
-                            },
-                          );
-                        }
-                      }
-                    },
-                    isDisable: _classDetailController.isDisable,
+                  Obx(()=>
+                   AppButton(
+                      title: 'nextForClassDetails'.tr,
+                      onPressed: () async{
+                        if (_classDetailController.formKey.currentState!.validate()) {
+                     if(_classDetailController.selectedIndex?.value!=200) {
+                          final bool success=await  _classDetailController.createClass();
+                          if (success) {
+                            // ignore: use_build_context_synchronously
+                            showModalBottomSheet(
+                              backgroundColor: Colors.white,
+                              context: context,
+                              constraints: BoxConstraints(
+                                maxWidth: MediaQuery.of(context).size.width - 30,
+                                // here increase or decrease in width
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              builder: (BuildContext context) {
+                                return SuccessFailsInfoDialog(
+                                  title: 'success'.tr,
+                                  buttonTitle: 'done'.tr,
+                                  content: 'You have successfully created class',
+                                  isRouting: Routes.classDetail,
+                                );
+                              },
+                            );
+                          }
+                        }}
+                      },
+                      // ignore: avoid_bool_literals_in_conditional_expressions
+                      isDisable: _classDetailController.isDisable || _classDetailController.selectedIndex?.value==200?true:false,
+                    ),
                   ),
                 ]),
           ),
@@ -772,7 +799,7 @@ class _ClassDetailState extends State<ClassDetail> {
     }
   }
 
-  void bottomSheetDropDownList() {
+  void bottomSheetDropDownList(List<String> data,int isSelected, {required Function(int) myValueGetter}) {
     final double width = MediaQuery.sizeOf(context).width;
     showModalBottomSheet(
       shape: const RoundedRectangleBorder(
@@ -819,23 +846,21 @@ class _ClassDetailState extends State<ClassDetail> {
                 separatorBuilder: (BuildContext context, int index) {
                   return const Divider();
                 },
-                itemCount: _classDetailController.classDurationList.length,
+                itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
-                    title: Text(_classDetailController.classDurationList[index],
+                    title: Text(data[index],
                         style: openSans.get16.w400
                             .textColor(AppColors.appTextColor)),
                     onTap: () {
-                      _classDetailController.isSelected = index;
-                      _classDetailController.classDurationController.text = _classDetailController.classDurationList[index];
-                      Navigator.pop(context);
+                      myValueGetter(index);
                     },
-                    trailing: _classDetailController.isSelected == index
+                    trailing: isSelected == index
                         ? const Icon(
                             Icons.check_circle,
                             color: AppColors.appBlue,
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                   );
                 },
               ),

@@ -42,6 +42,9 @@ extension StringLocalization on String {
     final DateTime datetime= DateTime.parse('$date $time:00');
     return datetime.millisecondsSinceEpoch;
   }
+  int toSecond(){
+    return 3600+int.parse(this)*900;
+  }
   String time12to24Format(String time) {
 // var time = "12:01 AM";
     int h = int.parse(time.split(":").first);
