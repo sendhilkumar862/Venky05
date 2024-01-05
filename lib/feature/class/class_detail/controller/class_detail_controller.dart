@@ -67,9 +67,10 @@ class ClassDetailController extends GetxController{
   int isGradeSelect = -1;
   int isSchoolSelect = -1;
   int isSubjectSelect = -1;
+  String? classId;
 
 
-  Future<bool> createClass() async {
+  Future<String?> createClass() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     if(participators2.text!=''){
       otherParticipants.add(OtherParticipants(email:participators2.text ));
@@ -83,14 +84,15 @@ class ClassDetailController extends GetxController{
     if(participators5.text!=''){
       otherParticipants.add(OtherParticipants(email:participators5.text ));
     }
-    final BaseResponse signInResponse = await _createClassRepository.createClassRepository(CreateClassRequestModel(grade: masterData.value.grades![isGradeSelect],school: masterData.value.schoolTypes![isSchoolSelect],subject:  masterData.value.subjects![isSubjectSelect],summary:classSummaryController.text,minParticipants:lowerValue.toInt(),
+    final BaseResponse classResponse = await _createClassRepository.createClassRepository(CreateClassRequestModel(grade: masterData.value.grades![isGradeSelect],school: masterData.value.schoolTypes![isSchoolSelect],subject:  masterData.value.subjects![isSubjectSelect],summary:classSummaryController.text,minParticipants:lowerValue.toInt(),
     maxParticipants: upperValue.toInt(),cost:int.parse(classCost.text),sessions: int.parse(numberOfSession.text),classTime:dateController.text.toEpoch(),currency: 'KWD',duration:masterData.value.sessionDurations![isSelected!],location:_manageAddressController.address[selectedIndex!.value].id,otherParticipants: otherParticipants ,curriculum: masterData.value.curriculum![isCurriculumSelected!] ));
-    if (signInResponse.status?.type == 'success') {
+    if (classResponse.status?.type == 'success') {
+      final Map<String, dynamic> classData= classResponse.data!.item! as Map<String, dynamic>;
       EasyLoading.dismiss();
-      return true;
+      return classData['classId'];
     } else {
       EasyLoading.dismiss();
-      return false;
+      return null;
     }
   }
   Future<void> getMasterDataClass() async {

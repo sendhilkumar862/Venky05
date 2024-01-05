@@ -399,8 +399,8 @@ class _ClassDetailState extends State<ClassDetail> {
                         onPressed: () async{
                           if (_classDetailController.formKey.currentState!.validate()) {
                        if(locationIndex!=200) {
-                            final bool success=await  _classDetailController.createClass();
-                            if (success) {
+                            final String? success=await  _classDetailController.createClass();
+                            if (success!=null) {
                               // ignore: use_build_context_synchronously
                               showModalBottomSheet(
                                 backgroundColor: Colors.white,
@@ -417,7 +417,8 @@ class _ClassDetailState extends State<ClassDetail> {
                                     title: 'success'.tr,
                                     buttonTitle: 'done'.tr,
                                     content: 'You have successfully created class',
-                                    isRouting: Routes.homeViews,
+                                    isRouting: Routes.classDetailsView,
+                                    argument:success
                                   );
                                 },
                               );
