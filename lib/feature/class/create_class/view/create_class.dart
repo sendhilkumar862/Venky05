@@ -40,182 +40,184 @@ class _CreateClassState extends State<CreateClass> {
         title: 'createClass'.tr,
         isBack: false,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'classInfo'.tr,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: Text('grade'.tr,
+      body: Obx(()=>
+         SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'classInfo'.tr,
+                  style:
+                      const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15),
+                  child: Text('grade'.tr,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w700)),
+                ),
+                if(_classDetailController.masterData.value.grades!=null)InlineChoice<String>(
+                  clearable: true,
+                  value: _classDetailController.masterData.value.grades!,
+                  // onChanged: _classDetailController.setSchoolValue,
+                  itemCount: _classDetailController.masterData.value.grades!.length,
+                  itemBuilder: (ChoiceController<String> selection, int index) {
+                    return ChoiceChip(
+                      shape: StadiumBorder(
+                          side: BorderSide(
+                              color: _classDetailController.isGradeSelect == index
+                                  ? AppColors.trans
+                                  : AppColors.appBorderColor)),
+                      backgroundColor: AppColors.trans,
+                      selected: _classDetailController.isGradeSelect == index,
+                      onSelected: (bool selected) {
+                        setState(() {
+                          if (selected) {
+                            _classDetailController.isGradeSelect =
+                                index; // Add to the set for multi-selection
+                          } else {
+                            _classDetailController.isGradeSelect = -1; // Remove from the set
+                          }
+                        });
+                      },
+                      showCheckmark: false,
+                      label: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                        child: Text(_classDetailController.masterData.value.grades![index], style: openSans.get12.w600),
+                      ),
+                      selectedColor: AppColors.appBlue,
+                      // Change this to your desired color
+                      labelStyle: TextStyle(
+                        color: _classDetailController.isGradeSelect == index
+                            ? AppColors.white
+                            : AppColors.black, // Change text color
+                      ),
+                    );
+                  },
+                  listBuilder: ChoiceList.createWrapped(),
+                ),
+                const Divider(),
+                Text('school'.tr,
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.w700)),
-              ),
-              InlineChoice<String>(
-                clearable: true,
-                value: _classDetailController.grade,
-                onChanged: _classDetailController.setSchoolValue,
-                itemCount: _classDetailController.grade.length,
-                itemBuilder: (ChoiceController<String> selection, int index) {
-                  return ChoiceChip(
-                    shape: StadiumBorder(
-                        side: BorderSide(
-                            color: _classDetailController.isGradeSelect == index
-                                ? AppColors.trans
-                                : AppColors.appBorderColor)),
-                    backgroundColor: AppColors.trans,
-                    selected: _classDetailController.isGradeSelect == index,
-                    onSelected: (bool selected) {
-                      setState(() {
-                        if (selected) {
-                          _classDetailController.isGradeSelect =
-                              index; // Add to the set for multi-selection
-                        } else {
-                          _classDetailController.isGradeSelect = -1; // Remove from the set
-                        }
-                      });
-                    },
-                    showCheckmark: false,
-                    label: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(_classDetailController.grade[index], style: openSans.get12.w600),
-                    ),
-                    selectedColor: AppColors.appBlue,
-                    // Change this to your desired color
-                    labelStyle: TextStyle(
-                      color: _classDetailController.isGradeSelect == index
-                          ? AppColors.white
-                          : AppColors.black, // Change text color
-                    ),
-                  );
-                },
-                listBuilder: ChoiceList.createWrapped(),
-              ),
-              const Divider(),
-              Text('school'.tr,
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w700)),
-              InlineChoice<String>(
-                clearable: true,
-                value: _classDetailController.school,
-                onChanged: _classDetailController.setSchoolValue,
-                itemCount: _classDetailController.school.length,
-                itemBuilder: (ChoiceController<String> selection, int index) {
-                  return ChoiceChip(
-                    shape: StadiumBorder(
-                        side: BorderSide(
-                            color: _classDetailController.isSchoolSelect == index
-                                ? AppColors.trans
-                                : AppColors.appBorderColor)),
-                    backgroundColor: AppColors.trans,
-                    selected: _classDetailController.isSchoolSelect == index,
-                    onSelected: (bool selected) {
-                      setState(() {
-                        if (selected) {
-                          _classDetailController.isSchoolSelect =
-                              index; // Add to the set for multi-selection
-                        } else {
-                          _classDetailController.isSchoolSelect = -1; // Remove from the set
-                        }
-                      });
-                    },
-                    showCheckmark: false,
-                    label: Text(_classDetailController.school[index], style: openSans.get12.w600),
-                    selectedColor: AppColors.appBlue,
-                    // Change this to your desired color
-                    labelStyle: TextStyle(
-                      color: _classDetailController.isSchoolSelect == index
-                          ? AppColors.white
-                          : AppColors.black, // Change text color
-                    ),
-                  );
-                },
-                listBuilder: ChoiceList.createWrapped(),
-              ),
-              const Divider(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Text('subject'.tr,
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w700)),
-              ),
-              InlineChoice<String>(
-                clearable: true,
-                value: _classDetailController.subject,
-                onChanged: _classDetailController.setSchoolValue,
-                itemCount: _classDetailController.subject.length,
-                itemBuilder: (ChoiceController<String> selection, int index) {
-                  return ChoiceChip(
-                    shape: StadiumBorder(
-                        side: BorderSide(
-                            color: _classDetailController.isSubjectSelect == index
-                                ? AppColors.trans
-                                : AppColors.appBorderColor)),
-                    backgroundColor: AppColors.trans,
-                    selected: _classDetailController.isSubjectSelect == index,
-                    onSelected: (bool selected) {
-                      setState(() {
-                        if (selected) {
-                          _classDetailController.isSubjectSelect =
-                              index; // Add to the set for multi-selection
-                        } else {
-                          _classDetailController.isSubjectSelect = -1; // Remove from the set
-                        }
-                      });
-                    },
-                    showCheckmark: false,
-                    label: Text(_classDetailController.subject[index], style: openSans.get12.w600),
-                    selectedColor: AppColors.appBlue,
-                    // Change this to your desired color
-                    labelStyle: TextStyle(
-                      color: _classDetailController.isSubjectSelect == index
-                          ? AppColors.white
-                          : AppColors.black, // Change text color
-                    ),
-                  );
-                },
-                listBuilder: ChoiceList.createWrapped(),
-              ),
-              const Divider(),
-              AppTextFormField(
-                minLines: 4,
-                maxLines: 10,
-                hintText: 'classSummary'.tr,
-                borderColor: AppColors.appBlue,
-                titleColor: AppColors.appBlue,
-                title: 'classSummary'.tr,
-                top: 0,
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                height: 30,
-                controller:  _classDetailController.classSummaryController,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(
-                  top: 15,
+                if(_classDetailController.masterData.value.schoolTypes!=null)InlineChoice<String>(
+                  clearable: true,
+                  value:_classDetailController.masterData.value.schoolTypes!,
+                  // onChanged: _classDetailController.setSchoolValue,
+                  itemCount: _classDetailController.masterData.value.schoolTypes!.length,
+                  itemBuilder: (ChoiceController<String> selection, int index) {
+                    return ChoiceChip(
+                      shape: StadiumBorder(
+                          side: BorderSide(
+                              color: _classDetailController.isSchoolSelect == index
+                                  ? AppColors.trans
+                                  : AppColors.appBorderColor)),
+                      backgroundColor: AppColors.trans,
+                      selected: _classDetailController.isSchoolSelect == index,
+                      onSelected: (bool selected) {
+                        setState(() {
+                          if (selected) {
+                            _classDetailController.isSchoolSelect =
+                                index; // Add to the set for multi-selection
+                          } else {
+                            _classDetailController.isSchoolSelect = -1; // Remove from the set
+                          }
+                        });
+                      },
+                      showCheckmark: false,
+                      label: Text(_classDetailController.masterData.value.schoolTypes![index], style: openSans.get12.w600),
+                      selectedColor: AppColors.appBlue,
+                      // Change this to your desired color
+                      labelStyle: TextStyle(
+                        color: _classDetailController.isSchoolSelect == index
+                            ? AppColors.white
+                            : AppColors.black, // Change text color
+                      ),
+                    );
+                  },
+                  listBuilder: ChoiceList.createWrapped(),
                 ),
-                child: Divider(
-                  height: 1,
-                  color: Color(0xffC5CEEE),
+                const Divider(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Text('subject'.tr,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w700)),
                 ),
-              ),
-              AppButton(
-                // ignore: avoid_bool_literals_in_conditional_expressions
-                isDisable: _classDetailController.isGradeSelect!=-1 && _classDetailController.isSchoolSelect!=-1 && _classDetailController.isSubjectSelect!=-1?  false:true,
-                title: 'nextForClassDetails'.tr,
-                onPressed: () {
-                  if(_classDetailController.isGradeSelect!=-1 && _classDetailController.isSchoolSelect!=-1 && _classDetailController.isGradeSelect!=-1) {
-                    Get.toNamed(Routes.classDetail);
-                  }
-                },
-              )
-            ],
+                if(_classDetailController.masterData.value.subjects!=null) InlineChoice<String>(
+                  clearable: true,
+                  value: _classDetailController.masterData.value.subjects!,
+                  // onChanged: _classDetailController.setSchoolValue,
+                  itemCount: _classDetailController.masterData.value.subjects!.length,
+                  itemBuilder: (ChoiceController<String> selection, int index) {
+                    return ChoiceChip(
+                      shape: StadiumBorder(
+                          side: BorderSide(
+                              color: _classDetailController.isSubjectSelect == index
+                                  ? AppColors.trans
+                                  : AppColors.appBorderColor)),
+                      backgroundColor: AppColors.trans,
+                      selected: _classDetailController.isSubjectSelect == index,
+                      onSelected: (bool selected) {
+                        setState(() {
+                          if (selected) {
+                            _classDetailController.isSubjectSelect =
+                                index; // Add to the set for multi-selection
+                          } else {
+                            _classDetailController.isSubjectSelect = -1; // Remove from the set
+                          }
+                        });
+                      },
+                      showCheckmark: false,
+                      label: Text(_classDetailController.masterData.value.subjects![index], style: openSans.get12.w600),
+                      selectedColor: AppColors.appBlue,
+                      // Change this to your desired color
+                      labelStyle: TextStyle(
+                        color: _classDetailController.isSubjectSelect == index
+                            ? AppColors.white
+                            : AppColors.black, // Change text color
+                      ),
+                    );
+                  },
+                  listBuilder: ChoiceList.createWrapped(),
+                ),
+                const Divider(),
+                AppTextFormField(
+                  minLines: 4,
+                  maxLines: 10,
+                  hintText: 'classSummary'.tr,
+                  borderColor: AppColors.appBlue,
+                  titleColor: AppColors.appBlue,
+                  title: 'classSummary'.tr,
+                  top: 0,
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                  height: 30,
+                  controller:  _classDetailController.classSummaryController,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(
+                    top: 15,
+                  ),
+                  child: Divider(
+                    height: 1,
+                    color: Color(0xffC5CEEE),
+                  ),
+                ),
+                AppButton(
+                  // ignore: avoid_bool_literals_in_conditional_expressions
+                  isDisable: _classDetailController.isGradeSelect!=-1 && _classDetailController.isSchoolSelect!=-1 && _classDetailController.isSubjectSelect!=-1?  false:true,
+                  title: 'nextForClassDetails'.tr,
+                  onPressed: () {
+                    if(_classDetailController.isGradeSelect!=-1 && _classDetailController.isSchoolSelect!=-1 && _classDetailController.isGradeSelect!=-1) {
+                      Get.toNamed(Routes.classDetail);
+                    }
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),
