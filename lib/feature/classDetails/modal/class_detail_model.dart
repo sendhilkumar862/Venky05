@@ -1,92 +1,106 @@
+
+
+
 class ClassDetailsModel {
-  String? grade;
-  String? school;
-  String? subject;
-  String? summary;
-  String? curriculum;
-  int? minParticipants;
-  int? maxParticipants;
-  int? cost;
-  String? currency;
-  int? sessions;
-  int? duration;
-  int? classTime;
-  int? location;
-  List<OtherParticipants>? otherParticipants;
 
   ClassDetailsModel(
-      {this.grade,
-        this.school,
+      {this.classNumber,
         this.subject,
-        this.summary,
+        this.school,
         this.curriculum,
+        this.grade,
+        this.description,
+        this.sessions,
         this.minParticipants,
         this.maxParticipants,
-        this.cost,
-        this.currency,
-        this.sessions,
         this.duration,
         this.classTime,
+        this.cost,
+        this.currency,
+        this.status,
+        this.address,
         this.location,
-        this.otherParticipants});
+        this.isOwner});
 
   ClassDetailsModel.fromJson(Map<String, dynamic> json) {
-    grade = json['grade'];
-    school = json['school'];
+    classNumber = json['classNumber'];
     subject = json['subject'];
-    summary = json['summary'];
+    school = json['school'];
     curriculum = json['curriculum'];
-    minParticipants = json['min_participants'];
-    maxParticipants = json['max_participants'];
+    grade = json['grade'];
+    description = json['description'];
+    sessions = json['sessions'];
+    minParticipants = json['minParticipants'];
+    maxParticipants = json['maxParticipants'];
+    duration = json['duration'];
+    classTime = json['classTime'];
     cost = json['cost'];
     currency = json['currency'];
-    sessions = json['sessions'];
-    duration = json['duration'];
-    classTime = json['class_time'];
-    location = json['location'];
-    if (json['other_participants'] != null) {
-      otherParticipants = <OtherParticipants>[];
-      json['other_participants'].forEach((v) {
-        otherParticipants!.add(new OtherParticipants.fromJson(v));
-      });
-    }
+    status = json['status'];
+    address = json['address'];
+    location = json['location'] != null
+        ? new Location.fromJson(json['location'])
+        : null;
+    isOwner = json['isOwner'];
   }
+  String? classNumber;
+  String? subject;
+  String? school;
+  String? curriculum;
+  String? grade;
+  String? description;
+  int? sessions;
+  int? minParticipants;
+  int? maxParticipants;
+  int? duration;
+  int? classTime;
+  String? cost;
+  String? currency;
+  String? status;
+  String? address;
+  Location? location;
+  int? isOwner;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['grade'] = this.grade;
-    data['school'] = this.school;
-    data['subject'] = this.subject;
-    data['summary'] = this.summary;
-    data['curriculum'] = this.curriculum;
-    data['min_participants'] = this.minParticipants;
-    data['max_participants'] = this.maxParticipants;
-    data['cost'] = this.cost;
-    data['currency'] = this.currency;
-    data['sessions'] = this.sessions;
-    data['duration'] = this.duration;
-    data['class_time'] = this.classTime;
-    data['location'] = this.location;
-    if (this.otherParticipants != null) {
-      data['other_participants'] =
-          this.otherParticipants!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['classNumber'] = classNumber;
+    data['subject'] = subject;
+    data['school'] = school;
+    data['curriculum'] = curriculum;
+    data['grade'] = grade;
+    data['description'] = description;
+    data['sessions'] = sessions;
+    data['minParticipants'] = minParticipants;
+    data['maxParticipants'] = maxParticipants;
+    data['duration'] = duration;
+    data['classTime'] = classTime;
+    data['cost'] = cost;
+    data['currency'] = currency;
+    data['status'] = status;
+    data['address'] = address;
+    if (location != null) {
+      data['location'] = location!.toJson();
     }
+    data['isOwner'] = isOwner;
     return data;
   }
 }
 
-class OtherParticipants {
-  String? email;
+class Location {
 
-  OtherParticipants({this.email});
+  Location({this.lat, this.long});
 
-  OtherParticipants.fromJson(Map<String, dynamic> json) {
-    email = json['email'];
+  Location.fromJson(Map<String, dynamic> json) {
+    lat = json['lat'];
+    long = json['long'];
   }
+  String? lat;
+  String? long;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['email'] = this.email;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['lat'] = lat;
+    data['long'] = long;
     return data;
   }
 }

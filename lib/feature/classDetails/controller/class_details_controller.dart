@@ -8,32 +8,41 @@ import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
 import '../../../product/utils/validators.dart';
 import '../modal/class_detail_model.dart';
+import '../modal/proposal_model.dart';
 import '../repository/get_class_details_repository.dart';
+import '../repository/get_proposal_detail_repository.dart';
 
 class ClassDetailsController extends GetxController{
 
   final GetClassDetailRepository _getClassDetailRepository = GetClassDetailRepository();
+  final GetProposalDetailRepository _getProposalDetailRepository=GetProposalDetailRepository();
 
   @override
   void onInit() {
     super.onInit();
-    fetchMap();
-    getClassDetails(Get.arguments);
+    fetchData();
+
   }
-  CameraPosition? kGooglePlex;
+  Rx<CameraPosition> kGooglePlex=const CameraPosition( target: LatLng(24.7136,46.6753),
+    zoom: 14.4746,).obs;
 
   Completer<GoogleMapController> mapController = Completer<GoogleMapController>();
 
   //AIzaSyBT8CFEhdKhFteNf6L4NaY3Z3UKFfpRy2w
 
-
-  Future<void> fetchMap() async {
+  // ignore: always_declare_return_types
+  fetchData()async{
+    showLoading();
+    await Future.wait([
+      getProposalDetails(Get.arguments),
+    getClassDetails(Get.arguments),
+    ]);
+    hideLoading();
+  }
+  Future<void> fetchMap(LatLng latlong) async {
     try {
-      kGooglePlex = CameraPosition(
-        target: LatLng(
-          double.parse('24.7136'),
-          double.parse('46.6753'),
-        ),
+      kGooglePlex.value = CameraPosition(
+        target: latlong,
         zoom: 14.4746,
       );
     } on SocketException catch (e) {
@@ -41,17 +50,25 @@ class ClassDetailsController extends GetxController{
     }
   }
 
-   Rx<ClassDetailsModel?> classData =  ClassDetailsModel().obs;
+   Rx<ClassDetailsModel> classData =  ClassDetailsModel().obs;
+  List<ProposalModel> proposalList=<ProposalModel>[];
 
   Future<void> getClassDetails(String id) async {
-    showLoading();
     final BaseResponse classDataResponse = await _getClassDetailRepository.getClassDetail(id);
     if (classDataResponse.status?.type == 'success') {
-      final  Map<String, dynamic> classDetailData=classDataResponse.data!.item! as Map<String ,dynamic>;
-       classData.value = ClassDetailsModel.fromJson(classDetailData);
+      final  List classDetailData=classDataResponse.data!.item! as List;
+       classData.value = ClassDetailsModel.fromJson(classDetailData[0]);
+      await fetchMap(LatLng(double.parse(classData.value.location?.lat??'0.0'),double.parse(classData.value.location?.long??'0.0')));
     }
-    hideLoading();
   }
-
+  Future<void> getProposalDetails(String id) async {
+    final BaseResponse classDataResponse = await _getProposalDetailRepository.getProposalDetail(id);
+    if (classDataResponse.status?.type == 'success') {
+      // final  List classDetailData=classDataResponse.data?.item as List;
+      // for (var element in classDetailData) {
+      //   proposalList.add(ProposalModel.fromJson(element));
+      // }
+    }
+  }
 }
 
