@@ -103,6 +103,10 @@ class ApiEndpoint {
         return '$path/curriculum';
       case SchoolEndpoint.CREATE_CLASS:
         return path;
+      case SchoolEndpoint.DETAILS:
+        return '/details';
+      case SchoolEndpoint.GET:
+        return '$path/get';
       case SchoolEndpoint.MASTER:
         return '$path/master';
     }
@@ -256,6 +260,13 @@ enum SchoolEndpoint {
 
   /// An endpoint for create class type requests.
   CREATE_CLASS,
+
+  /// An endpoint for class details.
+  DETAILS,
+
+  /// An endpoint for class List get.
+  GET,
+
   /// An endpoint for get master data.
   MASTER
 }

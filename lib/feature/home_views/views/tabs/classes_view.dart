@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 
@@ -13,6 +14,7 @@ import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../../../product/extension/string_extension.dart';
 import '../../../home/controller/home_controller.dart';
 import '../reupload_documents.dart';
 
@@ -207,37 +209,44 @@ class _ClassesViewState extends State<ClassesView> {
           SizedBox(
             height: 10.px,
           ),
-          SizedBox(
-            height: 226.px,
-            child: ListView.separated(
-              padding: const EdgeInsets.only(
-                  right: 15, top: 5, bottom: 20, left: 15),
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              itemCount: 3 ?? 0,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index) {
-                return AppCardView(
-                  proposals: 0,
-                  cardTitle: 'Math',
-                  date: '12/12 12:30pm',
-                  timer: '1h 30m',
-                  money: '5.500 KWD',
-                  status: 'COMPLETED',
-                  isPro: true,
-                  avtar: ImageConstants.teacherAvtar,
-                  countryIcon: ImageConstants.countryIcon,
-                  countryName: 'Kuwait',
-                  reViewLength: 3,
-                  teacherName: 'Ahmed Ali',
-                  buttonTap: () {},
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(
-                  width: 15,
-                );
-              },
+          Obx(
+            ()=> SizedBox(
+              height: 226.px,
+              child: ListView.separated(
+                padding: const EdgeInsets.only(
+                    right: 15, top: 5, bottom: 20, left: 15),
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                itemCount: _homeController.classList.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, int index) {
+                  return AppCardView(
+                    proposals: 0,
+                    cardTitle: _homeController.classList[index].subject,
+                    date: _homeController.classList[index].classTime!.toString().epochToNormal(),
+                    timer: _homeController.classList[index].duration.toString().timeConvert(),
+                    money: "${_homeController.classList[index].cost??''} ${_homeController.classList[index].currency??''}",
+                    status: _homeController.classList[index].status,
+                    isPro: true,
+                    avtar: ImageConstants.teacherAvtar,
+                    countryIcon: ImageConstants.countryIcon,
+                    countryName: 'Kuwait',
+                    reViewLength: _homeController.classList.length,
+                    teacherName: _homeController.classList[index].name,
+                    grade: _homeController.classList[index].grade,
+                    minParticipants: _homeController.classList[index].minParticipants,
+                    maxParticipants:_homeController.classList[index].maxParticipants,
+                    buttonTap: () {
+                      Get.toNamed(Routes.classDetailsView,arguments: _homeController.classList[index].classNumber);
+                    },
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const SizedBox(
+                    width: 15,
+                  );
+                },
+              ),
             ),
           ),
           const SizedBox(
@@ -250,38 +259,38 @@ class _ClassesViewState extends State<ClassesView> {
             height: 10,
           ),
           SizedBox(
-            height: 226.px,
-            child: ListView.separated(
-              padding: const EdgeInsets.only(
-                  right: 15, top: 5, bottom: 20, left: 15),
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              itemCount: 3 ?? 0,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index) {
-                return AppCardView(
-                  proposals: 0,
-                  cardTitle: 'Math',
-                  date: '12/12 12:30pm',
-                  timer: '1h 30m',
-                  money: '5.500 KWD',
-                  status: 'COMPLETED',
-                  isPro: true,
-                  avtar: ImageConstants.teacherAvtar,
-                  countryIcon: ImageConstants.countryIcon,
-                  countryName: 'Kuwait',
-                  reViewLength: 3,
-                  teacherName: 'Ahmed Ali',
-                  buttonTap: () {},
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(
-                  width: 15,
-                );
-              },
+              height: 226.px,
+              child: ListView.separated(
+                padding: const EdgeInsets.only(
+                    right: 15, top: 5, bottom: 20, left: 15),
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                itemCount: 3 ?? 0,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, int index) {
+                  return AppCardView(
+                    proposals: 0,
+                    cardTitle: 'Math',
+                    date: '12/12 12:30pm',
+                    timer: '1h 30m',
+                    money: '5.500 KWD',
+                    status: 'COMPLETED',
+                    isPro: true,
+                    avtar: ImageConstants.teacherAvtar,
+                    countryIcon: ImageConstants.countryIcon,
+                    countryName: 'Kuwait',
+                    reViewLength: 3,
+                    teacherName: 'Ahmed Ali',
+                    buttonTap: () {},
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const SizedBox(
+                    width: 15,
+                  );
+                },
+              ),
             ),
-          ),
           const SizedBox(
             height: 5,
           ),
@@ -293,3 +302,5 @@ class _ClassesViewState extends State<ClassesView> {
     );
   }
 }
+
+

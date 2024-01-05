@@ -26,6 +26,9 @@ class ClassDetailsView extends StatefulWidget {
 ClassDetailsController _classDetailsController = Get.put(ClassDetailsController());
 class _ClassDetailsViewState extends State<ClassDetailsView>
     with TickerProviderStateMixin {
+
+  final ClassDetailsController _classDetailsController = Get.put(ClassDetailsController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
