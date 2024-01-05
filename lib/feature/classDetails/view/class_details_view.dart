@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/instance_manager.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../custom/app_button/app_button.dart';
@@ -23,10 +23,8 @@ class ClassDetailsView extends StatefulWidget {
   @override
   State<ClassDetailsView> createState() => _ClassDetailsViewState();
 }
-ClassDetailsController _classDetailsController = Get.put(ClassDetailsController());
 class _ClassDetailsViewState extends State<ClassDetailsView>
     with TickerProviderStateMixin {
-
   final ClassDetailsController _classDetailsController = Get.put(ClassDetailsController());
 
   @override
@@ -223,28 +221,30 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   ],
                 ),
                 SizedBox(height: 15.px),
-                Container(
-                  height: 90.px,
-                  width: double.infinity,
-                  decoration:
-                  const BoxDecoration(color: AppColors.appWhite),
-                  child: GoogleMap(
-                    markers: <Marker>{
-                      Marker(
-                        markerId: const MarkerId('riyadh1'),
-                        position: LatLng(
-                          double.parse('24.7136'),
-                          double.parse('46.6753'),
-                        ),
-                      )
-                    },
-                    initialCameraPosition:
-                    _classDetailsController.kGooglePlex!,
-                    zoomControlsEnabled: false,
-                    zoomGesturesEnabled: false,
-                    onMapCreated: (GoogleMapController controllers) =>
-                        _classDetailsController.mapController
-                            .complete(controllers),
+                Obx(()=>
+                  Container(
+                    height: 90.px,
+                    width: double.infinity,
+                    decoration:
+                    const BoxDecoration(color: AppColors.appWhite),
+                    child: GoogleMap(
+                      markers: <Marker>{
+                        Marker(
+                          markerId: const MarkerId('riyadh1'),
+                          position: LatLng(
+                            double.parse('24.7136'),
+                            double.parse('46.6753'),
+                          ),
+                        )
+                      },
+                      initialCameraPosition:
+                      _classDetailsController.kGooglePlex.value,
+                      zoomControlsEnabled: false,
+                      zoomGesturesEnabled: false,
+                      onMapCreated: (GoogleMapController controllers) =>
+                          _classDetailsController.mapController
+                              .complete(controllers),
+                    ),
                   ),
                 ),
               ],
