@@ -48,7 +48,6 @@ import '../../feature/wallet/addBank/view/add_bank_view.dart';
 import '../../feature/wallet/view/invoice_details.dart';
 import '../../feature/wallet/view/view_all_view.dart';
 import '../../feature/wallet/view/withdraw.dart';
-import '../../product/constants/typedefs.dart';
 
 /// A utility class that holds screen names for named navigation.
 /// This class has no constructor and all variables are `static`.
