@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../../../config/routes/route.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
@@ -13,18 +11,14 @@ import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/calender/calender.dart';
 import '../../../../custom/choice/src/modal/button.dart';
 import '../../../../custom/dialog/success_fail_dialog.dart';
-import '../../../../custom/switch/app_switch.dart';
-import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../../product/utils/validators.dart';
-import '../../../pre_login/teachingInfo/controller/teaching_info_controller.dart';
 import '../../../setting_view/add_address_screen/Model/request_address_model.dart';
-import '../../../setting_view/manage_address/Model/get_address_model.dart'
-    hide Location;
+import '../../../setting_view/manage_address/Model/get_address_model.dart' hide Location;
 import '../../../setting_view/manage_address/controller/manage_controller.dart';
 import '../controller/class_detail_controller.dart';
 
@@ -38,7 +32,6 @@ class ClassDetail extends StatefulWidget {
 class _ClassDetailState extends State<ClassDetail> {
   final ClassDetailController _classDetailController =
       Get.put(ClassDetailController());
-  final TeachingInfoController _teachingInfoController= Get.put(TeachingInfoController());
   final ManageAddressController _manageAddressController =
       Get.put(ManageAddressController());
 @override
@@ -211,9 +204,9 @@ class _ClassDetailState extends State<ClassDetail> {
                     controller: _classDetailController.class2DateController,
                     validate: Validators.requiredValidator.call,
                     onTap: () {
-                      bottomSheetDropDownList(_teachingInfoController.curriculumTypeList, _classDetailController.isSelected??-1,myValueGetter: (index){
+                      bottomSheetDropDownList(_classDetailController.masterData.value.curriculum!, _classDetailController.isSelected??-1,myValueGetter: (index){
                         _classDetailController.isCurriculumSelected = index;
-                        _classDetailController.class2DateController.text =_teachingInfoController.curriculumTypeList[index];
+                        _classDetailController.class2DateController.text =_classDetailController.masterData.value.curriculum![index];
                         Navigator.pop(context);
                       });
                     },
@@ -243,9 +236,9 @@ class _ClassDetailState extends State<ClassDetail> {
                     readOnly: true,
                     controller: _classDetailController.classDurationController,
                     onTap: () {
-                      bottomSheetDropDownList(_classDetailController.classDurationList, _classDetailController.isSelected??-1,myValueGetter: (index){
+                      bottomSheetDropDownList(_classDetailController.masterData.value.sessionDurations!.map((el) => el.toString()).toList(), _classDetailController.isSelected??-1,myValueGetter: (index){
                         _classDetailController.isSelected = index;
-                        _classDetailController.classDurationController.text = _classDetailController.classDurationList[index];
+                        _classDetailController.classDurationController.text = _classDetailController.masterData.value.sessionDurations![index].toString();
                         Navigator.pop(context);
                       });
                     },
@@ -349,26 +342,7 @@ class _ClassDetailState extends State<ClassDetail> {
                               )),
                     );
                   }),
-                  // if (_classDetailController.selectedProfile ==
-                  //     ApplicationConstants.tutor)
-                  //   Padding(
-                  //     padding: const EdgeInsets.only(top: 15, bottom: 35),
-                  //     child: Row(
-                  //       children: <Widget>[
-                  //         AppText(
-                  //           'allowTheClassAtTheStudentPlace'.tr,
-                  //           fontSize: 14.px,
-                  //           fontWeight: FontWeight.w500,
-                  //         ),
-                  //         SizedBox(width: 8.px),
-                  //         AppSwitch(
-                  //             onTap: () {
-                  //               _classDetailController.onTapSwitch();
-                  //             },
-                  //             isActive: _classDetailController.isActive.value)
-                  //       ],
-                  //     ),
-                  //   ),
+                  // ignore: unrelated_type_equality_checks
                   if (_classDetailController.selectedProfile ==
                       ApplicationConstants.student)
                     Column(
@@ -417,41 +391,42 @@ class _ClassDetailState extends State<ClassDetail> {
                         ),
                       ],
                     ),
-                  Obx(()=>
-                   AppButton(
-                      title: 'nextForClassDetails'.tr,
-                      onPressed: () async{
-                        if (_classDetailController.formKey.currentState!.validate()) {
-                     if(_classDetailController.selectedIndex?.value!=200) {
-                          final bool success=await  _classDetailController.createClass();
-                          if (success) {
-                            // ignore: use_build_context_synchronously
-                            showModalBottomSheet(
-                              backgroundColor: Colors.white,
-                              context: context,
-                              constraints: BoxConstraints(
-                                maxWidth: MediaQuery.of(context).size.width - 30,
-                                // here increase or decrease in width
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              builder: (BuildContext context) {
-                                return SuccessFailsInfoDialog(
-                                  title: 'success'.tr,
-                                  buttonTitle: 'done'.tr,
-                                  content: 'You have successfully created class',
-                                  isRouting: Routes.classDetail,
-                                );
-                              },
-                            );
-                          }
-                        }}
-                      },
-                      // ignore: avoid_bool_literals_in_conditional_expressions
-                      isDisable: _classDetailController.isDisable || _classDetailController.selectedIndex?.value==200?true:false,
-                    ),
-                  ),
+                   Obx((){
+                     final int? locationIndex=_classDetailController.selectedIndex?.value;
+                     return AppButton(
+                        title: 'nextForClassDetails'.tr,
+                        onPressed: () async{
+                          if (_classDetailController.formKey.currentState!.validate()) {
+                       if(locationIndex!=200) {
+                            final bool success=await  _classDetailController.createClass();
+                            if (success) {
+                              // ignore: use_build_context_synchronously
+                              showModalBottomSheet(
+                                backgroundColor: Colors.white,
+                                context: context,
+                                constraints: BoxConstraints(
+                                  maxWidth: MediaQuery.of(context).size.width - 30,
+                                  // here increase or decrease in width
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                builder: (BuildContext context) {
+                                  return SuccessFailsInfoDialog(
+                                    title: 'success'.tr,
+                                    buttonTitle: 'done'.tr,
+                                    content: 'You have successfully created class',
+                                    isRouting: Routes.homeViews,
+                                  );
+                                },
+                              );
+                            }
+                          }}
+                        },
+                        // ignore: avoid_bool_literals_in_conditional_expressions
+                        isDisable: _classDetailController.isDisable || locationIndex==200?true:false,
+                      );}
+                   ),
                 ]),
           ),
         ),

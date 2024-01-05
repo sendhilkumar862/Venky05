@@ -107,6 +107,8 @@ class ApiEndpoint {
         return '/details';
       case SchoolEndpoint.GET:
         return '$path/get';
+      case SchoolEndpoint.MASTER:
+        return '$path/master';
     }
   }
 
@@ -265,6 +267,8 @@ enum SchoolEndpoint {
   /// An endpoint for class List get.
   GET,
 
+  /// An endpoint for get master data.
+  MASTER
 }
 
 /// A collection of endpoints used for students.
