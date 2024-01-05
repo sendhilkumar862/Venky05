@@ -1,13 +1,10 @@
 // ignore_for_file: constant_identifier_names, always_specify_types
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
-
-import '../../feature/class/address/view/address_view.dart';
 import '../../feature/class/class_detail/view/class_detail.dart';
 import '../../feature/class/create_class/view/create_class.dart';
 import '../../feature/classDetails/view/class_details_view.dart';
 import '../../feature/home/view/home_view.dart';
-// Helpers
 import '../../feature/home_views/views/home_views.dart';
 import '../../feature/home_views/views/reupload_documents.dart';
 import '../../feature/notification/view/notification.dart';
@@ -103,7 +100,6 @@ class Routes {
   static const String profileSelectionView = '/profileSelectionView';
   static const String profileView = '/profileView';
   static const String classDetail = '/classDetail';
-  static const String addressView = '/addressView';
   static const String manageAddressView = '/manageAddressView';
   static const String availableTimesView = '/availableTimesView';
   static const String changeNameView = '/changeNameView';
@@ -161,7 +157,6 @@ class Routes {
     GetPage(name: profileSelectionView, page: () => ProfileSelectionView()),
     GetPage(name: profileView, page: () => const ProfileView()),
     GetPage(name: classDetail, page: () => const ClassDetail()),
-    GetPage(name: addressView, page: () => const AddressView()),
     GetPage(name: changeNameView, page: () => const ChangeNameView()),
     GetPage(name: appSupportView, page: () => const AppSupportView()),
     GetPage(name: manageSubscription, page: () => const ManageSubscription()),
