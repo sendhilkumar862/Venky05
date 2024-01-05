@@ -162,10 +162,19 @@ class DetailsCardView extends StatelessWidget {
                   height: 6.px,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AppText(subjects ?? ''!, fontSize: 10.px),
-                    AppText('+2', fontSize: 10.px),
+                  children: <Widget>[
+                   // Check if icon is not null and not empty
+                      AppImageAsset(
+                        image: ImageConstants.moneyIcon,
+                        height: 14.px,
+                      ),
+                     // Another check for spacing
+                      SizedBox(width: 5.px),
+                    AppText(
+                      subjects ?? '',
+                      fontSize: 10.px,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ],
                 ),
               ],
