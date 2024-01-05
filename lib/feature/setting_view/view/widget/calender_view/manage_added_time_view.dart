@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../custom/app_button/app_button.dart';
@@ -50,12 +49,12 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.sizeOf(context).width;
-    return  Scaffold(
+    return Scaffold(
       appBar: HessaAppBar(
         title: 'addFreeTime'.tr,
         isTitleOnly: true,
       ),
-      body:  Padding(
+      body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           children: <Widget>[
@@ -68,9 +67,8 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                         color: AppColors.downArrowColor),
                     title: 'date'.tr,
                     readOnly: true,
-                    controller:  startTimeDurationController,
-                    onTap: () {
-                    },
+                    controller: startTimeDurationController,
+                    onTap: () {},
                   ),
                   AppTextFormField(
                     validate: Validators.requiredValidator.call,
@@ -79,9 +77,11 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                     hintText: 'selectStartTime'.tr,
                     title: 'startTime'.tr,
                     readOnly: true,
-                    controller:  startTimeDurationController,
+                    controller: startTimeDurationController,
                     onTap: () {
-                      timeDurationSheet(context, width,
+                      timeDurationSheet(
+                        context,
+                        width,
                       );
                     },
                   ),
@@ -92,7 +92,7 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                     hintText: 'selectEndTime'.tr,
                     title: 'endTime'.tr,
                     readOnly: true,
-                    controller:  endTimeDurationController,
+                    controller: endTimeDurationController,
                     onTap: () {
                       showCommonBottomSheet(
                           context: context,
@@ -101,12 +101,14 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                               Column(
                                 children: <Widget>[
                                   Padding(
-                                    padding:
-                                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 20),
                                     child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: <Widget>[
-                                          Text('selectEndTime'.tr, style: openSans.get14.w700),
+                                          Text('selectEndTime'.tr,
+                                              style: openSans.get14.w700),
                                           SizedBox(
                                             width: width * 0.25,
                                           ),
@@ -115,8 +117,9 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                                               width: 30,
                                               decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
-                                                  color:
-                                                  AppColors.downArrowColor.withOpacity(0.15)),
+                                                  color: AppColors
+                                                      .downArrowColor
+                                                      .withOpacity(0.15)),
                                               child: IconButton(
                                                 onPressed: () {
                                                   Navigator.pop(context);
@@ -132,47 +135,48 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                               ),
                               Expanded(
                                 child: ListView.separated(
-                                  separatorBuilder: (BuildContext context, index) {
+                                  separatorBuilder:
+                                      (BuildContext context, index) {
                                     return const Divider();
                                   },
                                   itemCount: timeDurationList.length,
                                   itemBuilder: (BuildContext context, index) {
                                     return ListTile(
                                       title: Text(timeDurationList[index],
-                                          style: openSans.get16.w400
-                                              .textColor(AppColors.appTextColor)),
+                                          style: openSans.get16.w400.textColor(
+                                              AppColors.appTextColor)),
                                       onTap: () {
-
                                         endTime = index;
-                                        endTimeDurationController.text = timeDurationList[index];
+                                        endTimeDurationController.text =
+                                            timeDurationList[index];
                                         Navigator.pop(context);
                                       },
                                       trailing: startTime == index
                                           ? const Icon(
-                                        Icons.check_circle,
-                                        color: AppColors.appBlue,
-                                      )
+                                              Icons.check_circle,
+                                              color: AppColors.appBlue,
+                                            )
                                           : const SizedBox(),
                                     );
                                   },
                                 ),
                               ),
-
                             ],
-                          )
-                      );
+                          ));
                     },
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top:15),
-                    child: WarningCardView(error: 'anotherFreeTimeIs'.tr,),
+                    padding: const EdgeInsets.only(top: 15),
+                    child: WarningCardView(
+                      error: 'anotherFreeTimeIs'.tr,
+                    ),
                   )
                 ],
               ),
             ),
             AppButton(
                 title: 'addAvailableTeachingTime'.tr,
-                onPressed: (){
+                onPressed: () {
                   showModalBottomSheet(
                     backgroundColor: Colors.white,
                     context: context,
@@ -195,80 +199,81 @@ class _ManageAddedTimeViewState extends State<ManageAddedTimeView> {
                       );
                     },
                   );
-                }
-            )
+                })
           ],
         ),
       ),
     );
   }
 
-  void timeDurationSheet(BuildContext context, double width,) {
+  void timeDurationSheet(
+    BuildContext context,
+    double width,
+  ) {
     return showCommonBottomSheet(
-                context: context,
-                commonWidget: Column(
-                  children: [
-                    Column(
+        context: context,
+        commonWidget: Column(
+          children: [
+            Column(
+              children: <Widget>[
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Padding(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Text('Select Start Time', style: openSans.get14.w700),
-                                SizedBox(
-                                  width: width * 0.25,
-                                ),
-                                Container(
-                                    height: 30,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color:
-                                        AppColors.downArrowColor.withOpacity(0.15)),
-                                    child: IconButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      icon: Icon(
-                                        Icons.close,
-                                        size: 15,
-                                      ),
-                                    ))
-                              ]),
+                        Text('Select Start Time', style: openSans.get14.w700),
+                        SizedBox(
+                          width: width * 0.25,
                         ),
-                      ],
-                    ),
-                    Expanded(
-                      child: ListView.separated(
-                        separatorBuilder: (BuildContext context, index) {
-                          return const Divider();
-                        },
-                        itemCount: timeDurationList.length,
-                        itemBuilder: (BuildContext context, index) {
-                          return ListTile(
-                            title: Text(timeDurationList[index],
-                                style: openSans.get16.w400
-                                    .textColor(AppColors.appTextColor)),
-                            onTap: () {
-
-                              startTime = index;
-                              startTimeDurationController.text = timeDurationList[index];
-                              Navigator.pop(context);
-                            },
-                            trailing: startTime == index
-                                ? const Icon(
-                              Icons.check_circle,
-                              color: AppColors.appBlue,
-                            )
-                                : const SizedBox(),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                )
-            );
+                        Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color:
+                                    AppColors.downArrowColor.withOpacity(0.15)),
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(
+                                Icons.close,
+                                size: 15,
+                              ),
+                            ))
+                      ]),
+                ),
+              ],
+            ),
+            Expanded(
+              child: ListView.separated(
+                separatorBuilder: (BuildContext context, index) {
+                  return const Divider();
+                },
+                itemCount: timeDurationList.length,
+                itemBuilder: (BuildContext context, index) {
+                  return ListTile(
+                    title: Text(timeDurationList[index],
+                        style: openSans.get16.w400
+                            .textColor(AppColors.appTextColor)),
+                    onTap: () {
+                      startTime = index;
+                      startTimeDurationController.text =
+                          timeDurationList[index];
+                      Navigator.pop(context);
+                    },
+                    trailing: startTime == index
+                        ? const Icon(
+                            Icons.check_circle,
+                            color: AppColors.appBlue,
+                          )
+                        : const SizedBox(),
+                  );
+                },
+              ),
+            ),
+          ],
+        ));
   }
 }

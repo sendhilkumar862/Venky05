@@ -4,7 +4,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../text/app_text.dart';
 
 class AppAmountView extends StatelessWidget {
-  AppAmountView({
+  const AppAmountView({
     this.amount,
     this.fontWeight,
     this.decimalSize,
@@ -12,10 +12,10 @@ class AppAmountView extends StatelessWidget {
     super.key,
   });
 
-  String? amount;
-  FontWeight? fontWeight;
-  double? firstFontSize;
-  double? decimalSize;
+  final String? amount;
+  final FontWeight? fontWeight;
+  final double? firstFontSize;
+  final double? decimalSize;
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +37,6 @@ class AppAmountView extends StatelessWidget {
   }
 
   List<String> separator(String amt) {
-    // ignore: always_specify_types
-    List amount = <String>[];
-    return amount = amt.split('.');
+    return amt.split('.');
   }
 }

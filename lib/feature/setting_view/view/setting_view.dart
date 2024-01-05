@@ -5,11 +5,12 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+
+import '../../../config/routes/route.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/sheet/show_bottom_sheet.dart';
 import '../../../custom/switch/app_switch.dart';
-import '../../../config/routes/route.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
@@ -21,8 +22,6 @@ import '../../tutorial/language/controller/language_controller.dart';
 import '../../tutorial/view/bottomSheets/country_bottom_sheet.dart';
 import '../../tutorial/view/bottomSheets/language_bottom_sheet.dart';
 import '../controller/setting_controller.dart';
-import '../manage_address/view/manage_address_view.dart';
-import 'widget/available_times_view.dart';
 
 class SettingView extends StatefulWidget {
   const SettingView({super.key});
@@ -464,9 +463,9 @@ class _SettingViewState extends State<SettingView> {
   Future<void> captureImage() async {
     final XFile? pickedFile = await ImagePicker().pickImage(
         source: ImageSource.camera,
-        imageQuality: 1,
-        maxHeight: 400,
-        maxWidth: 400);
+        imageQuality: 100,
+        maxHeight: 800,
+        maxWidth: 800);
     if (pickedFile != null) {
       await cropImage(pickedFile);
     }
@@ -476,9 +475,9 @@ class _SettingViewState extends State<SettingView> {
     try {
       final XFile? pickedFile = await ImagePicker().pickImage(
           source: ImageSource.gallery,
-          imageQuality: 1,
-          maxHeight: 400,
-          maxWidth: 400);
+          imageQuality: 100,
+          maxHeight: 800,
+          maxWidth: 800);
       if (pickedFile != null) {
         await cropImage(pickedFile);
       }
@@ -526,7 +525,7 @@ class _SettingViewState extends State<SettingView> {
         Get.toNamed(Routes.changeNameView);
       case SettingTitle.addMobileNumber:
         _homeController.homeData.value?.mobile != null
-            ?  Get.toNamed(Routes.changeMobileNumberView)
+            ? Get.toNamed(Routes.changeMobileNumberView)
             : Get.toNamed(Routes.addMobileView);
       case SettingTitle.changeMobileNumber:
         Get.toNamed(Routes.changeMobileNumberView);

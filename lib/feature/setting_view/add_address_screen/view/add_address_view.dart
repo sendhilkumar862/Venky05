@@ -11,39 +11,42 @@ import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/common_dropdown/app_dropdown.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
-import '../../manage_address/Model/get_address_model.dart'hide Location;
+import '../../manage_address/Model/get_address_model.dart' hide Location;
 import '../../manage_address/controller/manage_controller.dart';
-import '../Model/request_address_model.dart' ;
+import '../Model/request_address_model.dart';
 import '../controller/add_address_controller.dart';
 
-
 class AddAddressScreen extends StatefulWidget {
-   AddAddressScreen({Key? key,}) : super(key: key);
+  AddAddressScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<AddAddressScreen> createState() => _AddAddressScreenState();
 }
 
 class _AddAddressScreenState extends State<AddAddressScreen> {
-  final AddAddressController _addAddressController=Get.put(AddAddressController());
-  final ManageAddressController _manageAddressController=Get.find();
+  final AddAddressController _addAddressController =
+      Get.put(AddAddressController());
+  final ManageAddressController _manageAddressController = Get.find();
   late UserAddress? userData;
   late String title;
   @override
   void initState() {
     // TODO: implement initState
     _addAddressController.fetchFullData();
-    title= Get.arguments['title'];
-    userData= Get.arguments['userData'];
-    if(userData!=null){
-      _addAddressController.isTap=false;
+    title = Get.arguments['title'];
+    userData = Get.arguments['userData'];
+    if (userData != null) {
+      _addAddressController.isTap = false;
       // ignore: unnecessary_statements
-      _addAddressController.selectedCity.value=userData?.city??'';
-      _addAddressController.addressFirst.text=userData?.address1??'';
-      _addAddressController.addressSecond.text= userData?.address2??'';
-      _addAddressController.shortName.text=userData?.shortName??'';
+      _addAddressController.selectedCity.value = userData?.city ?? '';
+      _addAddressController.addressFirst.text = userData?.address1 ?? '';
+      _addAddressController.addressSecond.text = userData?.address2 ?? '';
+      _addAddressController.shortName.text = userData?.shortName ?? '';
       // _addAddressController.mobileController.text=widget.userData?.mobile??'';
-      _addAddressController.isSwitchExperience.value=userData?.isDefault==1?true:false;
+      _addAddressController.isSwitchExperience.value =
+          userData?.isDefault == 1 ? true : false;
     }
     super.initState();
   }
@@ -52,12 +55,12 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HessaAppBar(
-      title: title,
-      isTitleOnly: true,
-    ),
-      body:  Obx(()=>
-         Column(children: <Widget>[
-           Expanded(
+        title: title,
+        isTitleOnly: true,
+      ),
+      body: Obx(
+        () => Column(children: <Widget>[
+          Expanded(
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -66,34 +69,36 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                     AppDropdown(
                       options: _addAddressController.city.value,
                       title: 'Area',
-                      hintStyle:title=='Update Address'? openSans.black.w500.get16.textColor(AppColors.appTextColor): openSans.w400
-                          .textColor(AppColors.appTextColor.withOpacity(0.25))
-                          .get14,
-                      value:  '',
-                      hintText:  _addAddressController.selectedCity.value==''?'Select Area':_addAddressController.selectedCity.value,
-                      onChanged: (String? city){
-                        _addAddressController.selectedCity.value=city??'';
+                      hintStyle: title == 'Update Address'
+                          ? openSans.black.w500.get16
+                              .textColor(AppColors.appTextColor)
+                          : openSans.w400
+                              .textColor(
+                                  AppColors.appTextColor.withOpacity(0.25))
+                              .get14,
+                      value: '',
+                      hintText: _addAddressController.selectedCity.value == ''
+                          ? 'Select Area'
+                          : _addAddressController.selectedCity.value,
+                      onChanged: (String? city) {
+                        _addAddressController.selectedCity.value = city ?? '';
                       },
                     ),
-                     AppTextFormField(
-                       controller: _addAddressController.addressFirst,
+                    AppTextFormField(
+                      controller: _addAddressController.addressFirst,
                       title: 'Address 1',
                       hintText: 'Enter Address 1',
-                       onChanged: (v){
-                         setState(() {
-
-                         });
-                       },
+                      onChanged: (v) {
+                        setState(() {});
+                      },
                     ),
-                     AppTextFormField(
+                    AppTextFormField(
                       controller: _addAddressController.addressSecond,
                       title: 'Address 2 (Optional)',
                       hintText: 'Enter Address 2',
-                       onChanged: (v){
-                         setState(() {
-
-                         });
-                       },
+                      onChanged: (v) {
+                        setState(() {});
+                      },
                     ),
                     // TextFormsField(
                     //   prefix: (_addAddressController.countries.isNotEmpty)
@@ -169,81 +174,86 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       controller: _addAddressController.shortName,
                       title: 'Short Name',
                       hintText: 'Short Name',
-                      onChanged: (val){
-                        setState(() {
-
-                        });
+                      onChanged: (val) {
+                        setState(() {});
                       },
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 15.0),
-                        child: Text('Location',style:  TextStyle(
-                        color:  AppColors.appTextColor.withOpacity(0.5),
-                                  fontSize: 12.px,
-                                  fontWeight: FontWeight.w400),),
+                        child: Text(
+                          'Location',
+                          style: TextStyle(
+                              color: AppColors.appTextColor.withOpacity(0.5),
+                              fontSize: 12.px,
+                              fontWeight: FontWeight.w400),
+                        ),
                       ),
                     ),
-                    Obx(()=>
-                       Container(
+                    Obx(
+                      () => Container(
                         height: 150.px,
                         width: double.infinity,
-                        padding: const EdgeInsets.only(top:12),
+                        padding: const EdgeInsets.only(top: 12),
                         decoration:
-                        const BoxDecoration(color: AppColors.appWhite),
+                            const BoxDecoration(color: AppColors.appWhite),
                         child: GoogleMap(
-                          markers: <Marker>{
-                            Marker(
-                              markerId: const MarkerId('riyadh1'),
-                              position: _addAddressController.position.value,
-                            )
-                          },
-                           initialCameraPosition:CameraPosition(
-                             target: LatLng(
-                               double.parse('24.7136'),
-                               double.parse('46.6753'),
-                             ),
-                             zoom: 3,
-                           ),
-                            onTap: (value)async{
-                              _addAddressController.isTap=true;
-                            _addAddressController.position.value=value;
-                            _addAddressController.getAddress(value);
-                              _addAddressController.googleMapController.animateCamera(CameraUpdate.newCameraPosition(
-                                  CameraPosition(target: value, zoom: 5)));
+                            markers: <Marker>{
+                              Marker(
+                                markerId: const MarkerId('riyadh1'),
+                                position: _addAddressController.position.value,
+                              )
                             },
-                          // proposalDetailsViewModel.kGooglePlex!,
-                          zoomControlsEnabled: false,
-                          zoomGesturesEnabled: true,
-                          onMapCreated: (GoogleMapController controllers) {
-                            _addAddressController.googleMapController=controllers;
+                            initialCameraPosition: CameraPosition(
+                              target: LatLng(
+                                double.parse('24.7136'),
+                                double.parse('46.6753'),
+                              ),
+                              zoom: 3,
+                            ),
+                            onTap: (value) async {
+                              _addAddressController.isTap = true;
+                              _addAddressController.position.value = value;
+                              _addAddressController.getAddress(value);
+                              _addAddressController.googleMapController
+                                  .animateCamera(CameraUpdate.newCameraPosition(
+                                      CameraPosition(target: value, zoom: 5)));
+                            },
+                            // proposalDetailsViewModel.kGooglePlex!,
+                            zoomControlsEnabled: false,
+                            zoomGesturesEnabled: true,
+                            onMapCreated: (GoogleMapController controllers) {
+                              _addAddressController.googleMapController =
+                                  controllers;
                               _addAddressController.controllerGoogleMap
                                   .complete(controllers);
-
-                          }
-                        ),
+                            }),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
                       child: Row(
                         children: <Widget>[
-                          Text('Set as Default Address', style: openSans.get14.w500.textColor(AppColors.appTextColor)),
+                          Text('Set as Default Address',
+                              style: openSans.get14.w500
+                                  .textColor(AppColors.appTextColor)),
                           Padding(
                             padding: const EdgeInsets.only(left: 10),
-                            child: Obx(()=>
-                                FlutterSwitch(
-                                  value: _addAddressController.isSwitchExperience.value,
-                                  height: 16.29,
-                                  width: 27.63,
-                                  toggleSize: 12,
-                                  activeColor: AppColors.appBlue,
-                                  inactiveColor: AppColors.gray.withOpacity(0.25),
-                                  onToggle: (bool value) {
-                                    _addAddressController.isSwitchExperience.value = value;
-                                  },
-                                ),
+                            child: Obx(
+                              () => FlutterSwitch(
+                                value: _addAddressController
+                                    .isSwitchExperience.value,
+                                height: 16.29,
+                                width: 27.63,
+                                toggleSize: 12,
+                                activeColor: AppColors.appBlue,
+                                inactiveColor: AppColors.gray.withOpacity(0.25),
+                                onToggle: (bool value) {
+                                  _addAddressController
+                                      .isSwitchExperience.value = value;
+                                },
+                              ),
                             ),
                           ),
                         ],
@@ -254,32 +264,72 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               ),
             ),
           ),
-          Obx(()=>
-             AppButton(
+          Obx(
+            () => AppButton(
               // ignore: avoid_bool_literals_in_conditional_expressions
-              isDisable: (_addAddressController.selectedCity.value!='' && _addAddressController.addressFirst.text!='' && _addAddressController.addressSecond.text!='' && _addAddressController.shortName.text!='')?false:true,
-              onPressed: () async{
-                if(_addAddressController.selectedCity.value!='' && _addAddressController.addressFirst.text!='' && _addAddressController.addressSecond.text!='' && _addAddressController.shortName.text!=''){
-                 if(userData!=null){
-                 await _manageAddressController.updateAddressData(AddressRequestModel(
-                    shortName: _addAddressController.shortName.text,
-                    address1: _addAddressController.addressFirst.text,
-                    address2: _addAddressController.addressSecond.text,
-                    city:   _addAddressController.selectedCity.value,
-                    state: _addAddressController.isTap?_addAddressController.address[0].administrativeArea:userData?.state??'',
-                    country: _addAddressController.isTap?_addAddressController.address[0].country:userData?.country??'',
-                    isDefault:  _addAddressController.isSwitchExperience.value,
-                    location: _addAddressController.isTap?Location(lat:_addAddressController.position.value.latitude.toString(),long:  _addAddressController.position.value.longitude.toString(),):Location(lat:userData?.location?.lat,long: userData?.location?.long,),
-                  ),userData!.id!);
-                  Get.back();
-
-                }else{
-                  _addAddressController.addAddress(AddressRequestModel(shortName:_addAddressController.shortName.text,address1: _addAddressController.addressFirst.text,address2:_addAddressController.addressSecond.text,country: _addAddressController.address[0].country,city: _addAddressController.selectedCity.value,state: _addAddressController.address[0].administrativeArea,isDefault: _addAddressController.isSwitchExperience.value,location: Location(lat:_addAddressController.position.value.latitude.toString(),long:_addAddressController.position.value.longitude.toString())  )
-                  );
-                }}
-
+              isDisable: (_addAddressController.selectedCity.value != '' &&
+                      _addAddressController.addressFirst.text != '' &&
+                      _addAddressController.addressSecond.text != '' &&
+                      _addAddressController.shortName.text != '')
+                  ? false
+                  : true,
+              onPressed: () async {
+                if (_addAddressController.selectedCity.value != '' &&
+                    _addAddressController.addressFirst.text != '' &&
+                    _addAddressController.addressSecond.text != '' &&
+                    _addAddressController.shortName.text != '') {
+                  if (userData != null) {
+                    await _manageAddressController.updateAddressData(
+                        AddressRequestModel(
+                          shortName: _addAddressController.shortName.text,
+                          address1: _addAddressController.addressFirst.text,
+                          address2: _addAddressController.addressSecond.text,
+                          city: _addAddressController.selectedCity.value,
+                          state: _addAddressController.isTap
+                              ? _addAddressController
+                                  .address[0].administrativeArea
+                              : userData?.state ?? '',
+                          country: _addAddressController.isTap
+                              ? _addAddressController.address[0].country
+                              : userData?.country ?? '',
+                          isDefault:
+                              _addAddressController.isSwitchExperience.value,
+                          location: _addAddressController.isTap
+                              ? Location(
+                                  lat: _addAddressController
+                                      .position.value.latitude
+                                      .toString(),
+                                  long: _addAddressController
+                                      .position.value.longitude
+                                      .toString(),
+                                )
+                              : Location(
+                                  lat: userData?.location?.lat,
+                                  long: userData?.location?.long,
+                                ),
+                        ),
+                        userData!.id!);
+                    Get.back();
+                  } else {
+                    _addAddressController.addAddress(AddressRequestModel(
+                        shortName: _addAddressController.shortName.text,
+                        address1: _addAddressController.addressFirst.text,
+                        address2: _addAddressController.addressSecond.text,
+                        country: _addAddressController.address[0].country,
+                        city: _addAddressController.selectedCity.value,
+                        state:
+                            _addAddressController.address[0].administrativeArea,
+                        isDefault:
+                            _addAddressController.isSwitchExperience.value,
+                        location: Location(
+                            lat: _addAddressController.position.value.latitude
+                                .toString(),
+                            long: _addAddressController.position.value.longitude
+                                .toString())));
+                  }
+                }
               },
-              title: userData!=null?'Update Address':'Add New Address',
+              title: userData != null ? 'Update Address' : 'Add New Address',
             ),
           ),
         ]),

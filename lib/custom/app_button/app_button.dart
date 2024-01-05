@@ -5,6 +5,24 @@ import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/utils/typography.dart';
 
 class AppButton extends StatelessWidget {
+  const AppButton({
+    super.key,
+    required this.title,
+    required this.onPressed,
+    this.height,
+    this.width,
+    this.borderRadius,
+    this.textStyle,
+    this.copyText,
+    this.showCopySnackbar = true,
+    this.isBorderOnly = false,
+    this.borderColor,
+    this.isDisable = true,
+    this.top,
+    this.padding =
+        const EdgeInsets.only(left: 2, right: 2, top: 10, bottom: 10),
+  });
+
   final String title;
   final Function() onPressed;
   final double? height;
@@ -19,23 +37,6 @@ class AppButton extends StatelessWidget {
   final double? top;
   final EdgeInsets padding;
 
-  const AppButton({
-    super.key,
-    required this.title,
-    required this.onPressed,
-    this.height,
-    this.width,
-    this.borderRadius,
-    this.textStyle,
-    this.copyText,
-    this.showCopySnackbar = true,
-    this.isBorderOnly = false,
-    this.borderColor,
-    this.isDisable = true,
-    this.top, 
-    this.padding = const EdgeInsets.only(left: 2, right: 2, top: 10, bottom: 10),
-  });
-
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -47,8 +48,7 @@ class AppButton extends StatelessWidget {
           onPressed();
         },
         child: Padding(
-          padding:
-              padding,
+          padding: padding,
           child: Container(
             height: height ?? 50,
             width: width,

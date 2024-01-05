@@ -51,7 +51,6 @@ import '../../feature/wallet/addBank/view/add_bank_view.dart';
 import '../../feature/wallet/view/invoice_details.dart';
 import '../../feature/wallet/view/view_all_view.dart';
 import '../../feature/wallet/view/withdraw.dart';
-import '../../product/constants/typedefs.dart';
 
 /// A utility class that holds screen names for named navigation.
 /// This class has no constructor and all variables are `static`.
@@ -63,7 +62,7 @@ class Routes {
   static const String fallbackRoute = NotFoundScreenRoute;
 
   static final GlobalKey<NavigatorState> navigatorKey =
-       GlobalKey<NavigatorState>();
+      GlobalKey<NavigatorState>();
 
   /// The route to be loaded when app launches
   static const String initialRoute = AppStartupScreenRoute;
@@ -122,21 +121,18 @@ class Routes {
   static const String viewAllView = '/viewAllView';
   static const String languageView = '/languageView';
 
-
-
   /// The name of the route for unrecognized route screen
   static const String NotFoundScreenRoute = '/route-not-found-screen';
-
 
   static List<GetPage<dynamic>> router = [
     GetPage(name: AppRootRoute, page: () => const SplashView()),
     GetPage(name: HomeScreenRoute, page: () => const HomeView()),
     GetPage(name: PreferencesScreen, page: () => const PreferenceView()),
-    GetPage(name:  invoiceDetails, page: () => const InvoiceDetails()),
-    GetPage(name:  RatingScreen, page: () => const RatingView()),
+    GetPage(name: invoiceDetails, page: () => const InvoiceDetails()),
+    GetPage(name: RatingScreen, page: () => const RatingView()),
     GetPage(name: teachingInfo, page: () => const TeachingInfo()),
     GetPage(name: experienceInfo, page: () => const ExperienceInfo()),
-    GetPage(name: financingView, page: () =>const FinancingView()),
+    GetPage(name: financingView, page: () => const FinancingView()),
     GetPage(name: personalInfo, page: () => const PersonalInfo()),
     GetPage(name: NotFoundScreenRoute, page: () => const SizedBox.shrink()),
     GetPage(name: AppStartupScreenRoute, page: () => const SizedBox.shrink()),
@@ -149,15 +145,15 @@ class Routes {
     GetPage(name: loginView, page: () => LoginView()),
     GetPage(name: forgotPasswordView, page: () => ForgotPassWordView()),
     GetPage(name: restPassword, page: () => const ResetPassword()),
-    GetPage(name:  passwordView, page: () => const PasswordView()),
+    GetPage(name: passwordView, page: () => const PasswordView()),
     GetPage(name: changePasswordView, page: () => const ChangePasswordView()),
     GetPage(name: homeViews, page: () => const HomeViews()),
     GetPage(name: searchView, page: () => const SearchView()),
     GetPage(name: settingView, page: () => const SettingView()),
-    GetPage(name:  messageView, page: () => const MessageView()),
+    GetPage(name: messageView, page: () => const MessageView()),
     GetPage(name: notificationView, page: () => const NotificationView()),
     GetPage(name: chatView, page: () => const ChatView()),
-    GetPage(name: verifyOtpView, page: () =>  VerifyOtpView()),
+    GetPage(name: verifyOtpView, page: () => VerifyOtpView()),
     GetPage(name: profileSelectionView, page: () => ProfileSelectionView()),
     GetPage(name: profileView, page: () => const ProfileView()),
     GetPage(name: classDetail, page: () => const ClassDetail()),
@@ -165,21 +161,22 @@ class Routes {
     GetPage(name: changeNameView, page: () => const ChangeNameView()),
     GetPage(name: appSupportView, page: () => const AppSupportView()),
     GetPage(name: manageSubscription, page: () => const ManageSubscription()),
-    GetPage(name:  proposalDetailsView, page: () => const ProposalDetailsView()),
-    GetPage(name:  createProposal, page: () => const CreateProposal()),
-    GetPage(name:  manageAddressView, page: () => const ManageAddressScreen()),
-    GetPage(name:  availableTimesView, page: () => const AvailableTimesView()),
-    GetPage(name:   reUploadDocument, page: () => const ReUploadDocument()),
-    GetPage(name:   newTicketView, page: () => const NewTicketView()),
-    GetPage(name:   addAddressView, page: () => AddAddressScreen()),
-    GetPage(name:   manageAddedTimeView, page: () => ManageAddedTimeView()),
-    GetPage(name:   onBoardingView, page: () => OnBoardingView()),
-    GetPage(name:   addBankView, page: () => AddBankView()),
-    GetPage(name:   withdrawView, page: () => const  WithDrawScreen()),
-    GetPage(name:   viewAllView, page: () => const  ViewAllView()),
-    GetPage(name:   languageView, page: () =>   LanguageView()),
-    GetPage(name:   classDetailsView, page: () =>  const ClassDetailsView(),)
+    GetPage(name: proposalDetailsView, page: () => const ProposalDetailsView()),
+    GetPage(name: createProposal, page: () => const CreateProposal()),
+    GetPage(name: manageAddressView, page: () => const ManageAddressScreen()),
+    GetPage(name: availableTimesView, page: () => const AvailableTimesView()),
+    GetPage(name: reUploadDocument, page: () => const ReUploadDocument()),
+    GetPage(name: newTicketView, page: () => const NewTicketView()),
+    GetPage(name: addAddressView, page: () => AddAddressScreen()),
+    GetPage(name: manageAddedTimeView, page: () => ManageAddedTimeView()),
+    GetPage(name: onBoardingView, page: () => OnBoardingView()),
+    GetPage(name: addBankView, page: () => AddBankView()),
+    GetPage(name: withdrawView, page: () => const WithDrawScreen()),
+    GetPage(name: viewAllView, page: () => const ViewAllView()),
+    GetPage(name: languageView, page: () => LanguageView()),
+    GetPage(
+      name: classDetailsView,
+      page: () => const ClassDetailsView(),
+    )
   ];
 }
-
-
