@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hessah/core/base_response.dart';
-import 'package:hessah/feature/classDetails/modal/class_detail_model.dart';
-import 'package:hessah/feature/classDetails/repository/get_class_details_repository.dart';
+
+import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
 import '../../../product/utils/validators.dart';
+import '../modal/class_detail_model.dart';
+import '../repository/get_class_details_repository.dart';
 
 class ClassDetailsController extends GetxController{
 

@@ -18,6 +18,7 @@ class SuccessFailsInfoDialog extends StatelessWidget {
       this.buttonTitle,
       this.tranId,
         this.isRouting='',
+        this.argument='',
       this.verticalPadding,
       super.key});
 
@@ -26,6 +27,7 @@ class SuccessFailsInfoDialog extends StatelessWidget {
   String? buttonTitle;
   String? tranId;
   String? isRouting;
+  String? argument;
   double? verticalPadding;
 
   @override
@@ -101,7 +103,7 @@ class SuccessFailsInfoDialog extends StatelessWidget {
                 Get.offAndToNamed(Routes.settingView );
               }
               else if(isRouting!=''){
-                Get.offAndToNamed(isRouting! );
+                Get.offAndToNamed(isRouting!, arguments: argument );
               }
             },
           )

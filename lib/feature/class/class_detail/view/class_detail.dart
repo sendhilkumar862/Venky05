@@ -14,6 +14,7 @@ import '../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
+import '../../../../product/extension/string_extension.dart';
 import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../../product/utils/validators.dart';
@@ -238,9 +239,9 @@ class _ClassDetailState extends State<ClassDetail> {
                     onTap: () {
                       bottomSheetDropDownList(_classDetailController.masterData.value.sessionDurations!.map((el) => el.toString()).toList(), _classDetailController.isSelected??-1,myValueGetter: (index){
                         _classDetailController.isSelected = index;
-                        _classDetailController.classDurationController.text = _classDetailController.masterData.value.sessionDurations![index].toString();
+                        _classDetailController.classDurationController.text = _classDetailController.masterData.value.sessionDurations![index].toString().timeConvert();
                         Navigator.pop(context);
-                      });
+                      },isClassDuration: true);
                     },
                   ),
                   Padding(
@@ -398,8 +399,8 @@ class _ClassDetailState extends State<ClassDetail> {
                         onPressed: () async{
                           if (_classDetailController.formKey.currentState!.validate()) {
                        if(locationIndex!=200) {
-                            final bool success=await  _classDetailController.createClass();
-                            if (success) {
+                            final String? success=await  _classDetailController.createClass();
+                            if (success!=null) {
                               // ignore: use_build_context_synchronously
                               showModalBottomSheet(
                                 backgroundColor: Colors.white,
@@ -416,7 +417,8 @@ class _ClassDetailState extends State<ClassDetail> {
                                     title: 'success'.tr,
                                     buttonTitle: 'done'.tr,
                                     content: 'You have successfully created class',
-                                    isRouting: Routes.homeViews,
+                                    isRouting: Routes.classDetailsView,
+                                    argument:success
                                   );
                                 },
                               );
@@ -774,7 +776,7 @@ class _ClassDetailState extends State<ClassDetail> {
     }
   }
 
-  void bottomSheetDropDownList(List<String> data,int isSelected, {required Function(int) myValueGetter}) {
+  void bottomSheetDropDownList(List<String> data,int isSelected, {required Function(int) myValueGetter, bool? isClassDuration}) {
     final double width = MediaQuery.sizeOf(context).width;
     showModalBottomSheet(
       shape: const RoundedRectangleBorder(
@@ -824,7 +826,7 @@ class _ClassDetailState extends State<ClassDetail> {
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
-                    title: Text(data[index],
+                    title: Text(isClassDuration!=null?data[index].timeConvert():data[index],
                         style: openSans.get16.w400
                             .textColor(AppColors.appTextColor)),
                     onTap: () {
