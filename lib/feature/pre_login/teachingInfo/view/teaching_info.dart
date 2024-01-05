@@ -162,7 +162,7 @@ class _TeachingInfoState extends State<TeachingInfo> {
               readOnly: true,
               title: 'Type Of Class',
               hintText: 'Select class type',
-              suffix: Icon(Icons.keyboard_arrow_down),
+              suffix: const Icon(Icons.keyboard_arrow_down),
             ),
             SizedBox(height: 40.px),
 

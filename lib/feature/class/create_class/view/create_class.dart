@@ -41,7 +41,8 @@ class _CreateClassState extends State<CreateClass> {
         isBack: false,
       ),
       body: Obx(()=>
-         SingleChildScrollView(
+          _classDetailController.masterData.value.schoolTypes!=null?
+          SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
@@ -102,7 +103,7 @@ class _CreateClassState extends State<CreateClass> {
                 Text('school'.tr,
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.w700)),
-                if(_classDetailController.masterData.value.schoolTypes!=null)InlineChoice<String>(
+                InlineChoice<String>(
                   clearable: true,
                   value:_classDetailController.masterData.value.schoolTypes!,
                   // onChanged: _classDetailController.setSchoolValue,
@@ -146,7 +147,7 @@ class _CreateClassState extends State<CreateClass> {
                       style: const TextStyle(
                           fontSize: 16, fontWeight: FontWeight.w700)),
                 ),
-                if(_classDetailController.masterData.value.subjects!=null) InlineChoice<String>(
+                InlineChoice<String>(
                   clearable: true,
                   value: _classDetailController.masterData.value.subjects!,
                   // onChanged: _classDetailController.setSchoolValue,
@@ -219,7 +220,8 @@ class _CreateClassState extends State<CreateClass> {
               ],
             ),
           ),
-        ),
+        ):
+          const SizedBox.shrink(),
       ),
     );
   }

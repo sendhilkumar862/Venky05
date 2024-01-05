@@ -46,10 +46,10 @@ class ClassDetailController extends GetxController{
   TextEditingController class2DateController = TextEditingController();
   TextEditingController classCost = TextEditingController();
   TextEditingController numberOfSession = TextEditingController();
-  TextEditingController participators2 = TextEditingController();
-  TextEditingController participators3 = TextEditingController();
-  TextEditingController participators4 = TextEditingController();
-  TextEditingController participators5 = TextEditingController();
+  TextEditingController participators2 = TextEditingController(text: '');
+  TextEditingController participators3 = TextEditingController(text: '');
+  TextEditingController participators4 = TextEditingController(text: '');
+  TextEditingController participators5 = TextEditingController(text: '');
   TextEditingController classDurationController = TextEditingController();
   TextEditingController classSummaryController = TextEditingController(text: '');
   final EmailValidator emailValidator = EmailValidator(
@@ -62,13 +62,8 @@ class ClassDetailController extends GetxController{
   double lowerValue = 20.0;
   double upperValue = 80.0;
    Rx<MasterDataModel> masterData=MasterDataModel().obs;
-
   bool isChecked = false;
-
-
-
-
-
+   List<OtherParticipants> otherParticipants=<OtherParticipants>[];
   int isGradeSelect = -1;
   int isSchoolSelect = -1;
   int isSubjectSelect = -1;
@@ -76,8 +71,20 @@ class ClassDetailController extends GetxController{
 
   Future<bool> createClass() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+    if(participators2.text!=''){
+      otherParticipants.add(OtherParticipants(email:participators2.text ));
+    }
+    if(participators3.text!=''){
+      otherParticipants.add(OtherParticipants(email:participators3.text ));
+    }
+    if(participators4.text!=''){
+      otherParticipants.add(OtherParticipants(email:participators4.text ));
+    }
+    if(participators5.text!=''){
+      otherParticipants.add(OtherParticipants(email:participators5.text ));
+    }
     final BaseResponse signInResponse = await _createClassRepository.createClassRepository(CreateClassRequestModel(grade: masterData.value.grades![isGradeSelect],school: masterData.value.schoolTypes![isSchoolSelect],subject:  masterData.value.subjects![isSubjectSelect],summary:classSummaryController.text,minParticipants:lowerValue.toInt(),
-    maxParticipants: upperValue.toInt(),cost:int.parse(classCost.text),sessions: int.parse(numberOfSession.text),classTime:dateController.text.toEpoch(),currency: 'KWD',duration:int.parse(classDurationController.text),location:_manageAddressController.address[selectedIndex!.value].id,otherParticipants: [] ,curriculum: masterData.value.curriculum![isCurriculumSelected!] ));
+    maxParticipants: upperValue.toInt(),cost:int.parse(classCost.text),sessions: int.parse(numberOfSession.text),classTime:dateController.text.toEpoch(),currency: 'KWD',duration:masterData.value.sessionDurations![isSelected!],location:_manageAddressController.address[selectedIndex!.value].id,otherParticipants: otherParticipants ,curriculum: masterData.value.curriculum![isCurriculumSelected!] ));
     if (signInResponse.status?.type == 'success') {
       EasyLoading.dismiss();
       return true;
