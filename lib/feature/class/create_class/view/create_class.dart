@@ -12,16 +12,6 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/utils/typography.dart';
 import '../../class_detail/controller/class_detail_controller.dart';
 
-class SchoolList {
-  SchoolList({
-    required this.isSelect,
-    required this.title,
-  });
-
-  final String title;
-  late bool isSelect;
-}
-
 class CreateClass extends StatefulWidget {
   const CreateClass({super.key});
 
@@ -100,10 +90,10 @@ class _CreateClassState extends State<CreateClass> {
                   listBuilder: ChoiceList.createWrapped(),
                 ),
                 const Divider(),
-                Text('school'.tr,
+                if( _classDetailController.isGradeSelect!=-1)Text('school'.tr,
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.w700)),
-                InlineChoice<String>(
+                if( _classDetailController.isGradeSelect!=-1)InlineChoice<String>(
                   clearable: true,
                   value:_classDetailController.masterData.value.schoolTypes!,
                   // onChanged: _classDetailController.setSchoolValue,
@@ -140,17 +130,57 @@ class _CreateClassState extends State<CreateClass> {
                   },
                   listBuilder: ChoiceList.createWrapped(),
                 ),
-                const Divider(),
-                Padding(
+                if( _classDetailController.isGradeSelect!=-1) const Divider(),
+                if( _classDetailController.isGradeSelect!=-1 &&  _classDetailController.isSchoolSelect != -1)Text('curriculum'.tr,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w700)),
+                if( _classDetailController.isGradeSelect!=-1  &&  _classDetailController.isSchoolSelect != -1)InlineChoice<String>(
+                  clearable: true,
+                  value:_classDetailController.masterData.value.curriculum!,
+                  // onChanged: _classDetailController.setSchoolValue,
+                  itemCount: _classDetailController.masterData.value.curriculum!.length,
+                  itemBuilder: (ChoiceController<String> selection, int index) {
+                    return ChoiceChip(
+                      shape: StadiumBorder(
+                          side: BorderSide(
+                              color: _classDetailController.isCurriculumSelect == index
+                                  ? AppColors.trans
+                                  : AppColors.appBorderColor)),
+                      backgroundColor: AppColors.trans,
+                      selected: _classDetailController.isCurriculumSelect == index,
+                      onSelected: (bool selected) {
+                        setState(() {
+                          if (selected) {
+                            _classDetailController.isCurriculumSelect =
+                                index; // Add to the set for multi-selection
+                          } else {
+                            _classDetailController.isCurriculumSelect = -1; // Remove from the set
+                          }
+                        });
+                      },
+                      showCheckmark: false,
+                      label: Text(_classDetailController.masterData.value.curriculum![index], style: openSans.get12.w600),
+                      selectedColor: AppColors.appBlue,
+                      // Change this to your desired color
+                      labelStyle: TextStyle(
+                        color: _classDetailController.isCurriculumSelect == index
+                            ? AppColors.white
+                            : AppColors.black, // Change text color
+                      ),
+                    );
+                  },
+                  listBuilder: ChoiceList.createWrapped(),
+                ),
+                if( _classDetailController.isGradeSelect!=-1  &&  _classDetailController.isSchoolSelect != -1) const Divider(),
+                if( _classDetailController.isGradeSelect!=-1 &&   _classDetailController.isSchoolSelect != -1 &&  _classDetailController.isCurriculumSelect != -1) Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text('subject'.tr,
                       style: const TextStyle(
                           fontSize: 16, fontWeight: FontWeight.w700)),
                 ),
-                InlineChoice<String>(
+                if( _classDetailController.isGradeSelect!=-1 &&   _classDetailController.isSchoolSelect != -1 &&  _classDetailController.isCurriculumSelect != -1) InlineChoice<String>(
                   clearable: true,
                   value: _classDetailController.masterData.value.subjects!,
-                  // onChanged: _classDetailController.setSchoolValue,
                   itemCount: _classDetailController.masterData.value.subjects!.length,
                   itemBuilder: (ChoiceController<String> selection, int index) {
                     return ChoiceChip(
@@ -184,8 +214,8 @@ class _CreateClassState extends State<CreateClass> {
                   },
                   listBuilder: ChoiceList.createWrapped(),
                 ),
-                const Divider(),
-                AppTextFormField(
+                if( _classDetailController.isGradeSelect!=-1 &&   _classDetailController.isSchoolSelect != -1 &&  _classDetailController.isCurriculumSelect != -1)const Divider(),
+                if( _classDetailController.isGradeSelect!=-1 &&   _classDetailController.isSchoolSelect != -1 &&  _classDetailController.isCurriculumSelect != -1)AppTextFormField(
                   minLines: 4,
                   maxLines: 10,
                   hintText: 'classSummary'.tr,
@@ -197,8 +227,14 @@ class _CreateClassState extends State<CreateClass> {
                       const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                   height: 30,
                   controller:  _classDetailController.classSummaryController,
+                  onChanged: (v){
+                    setState(() {
+
+                    });
+                  },
+
                 ),
-                const Padding(
+                if( _classDetailController.isGradeSelect!=-1 &&   _classDetailController.isSchoolSelect != -1 &&  _classDetailController.isCurriculumSelect != -1 && _classDetailController.classSummaryController.text!='')const Padding(
                   padding: EdgeInsets.only(
                     top: 15,
                   ),
@@ -209,10 +245,10 @@ class _CreateClassState extends State<CreateClass> {
                 ),
                 AppButton(
                   // ignore: avoid_bool_literals_in_conditional_expressions
-                  isDisable: _classDetailController.isGradeSelect!=-1 && _classDetailController.isSchoolSelect!=-1 && _classDetailController.isSubjectSelect!=-1?  false:true,
+                  isDisable: _classDetailController.isGradeSelect!=-1 && _classDetailController.isSchoolSelect!=-1 && _classDetailController.isSubjectSelect!=-1 &&  _classDetailController.isCurriculumSelect != -1 && _classDetailController.classSummaryController.text!=''?  false:true,
                   title: 'nextForClassDetails'.tr,
                   onPressed: () {
-                    if(_classDetailController.isGradeSelect!=-1 && _classDetailController.isSchoolSelect!=-1 && _classDetailController.isGradeSelect!=-1) {
+                    if(_classDetailController.isGradeSelect!=-1 && _classDetailController.isSchoolSelect!=-1 && _classDetailController.isGradeSelect!=-1 &&  _classDetailController.isCurriculumSelect != -1 && _classDetailController.classSummaryController.text!='') {
                       Get.toNamed(Routes.classDetail);
                     }
                   },

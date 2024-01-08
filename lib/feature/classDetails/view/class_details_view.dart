@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/instance_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../../config/routes/route.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/cardView/details_card_view.dart';
@@ -31,265 +31,273 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.appWhite,
-      appBar: HessaAppBar(
-        title: 'Class Details',
-        isTitleOnly: true,
-      ),
-      body: Obx(
-        () => ListView(
-          padding: EdgeInsets.symmetric(horizontal: 15.px, vertical: 5.px),
-          children: <Widget>[
-            SizedBox(
-              height: 20.px,
-            ),
-            AppText(
-              _classDetailsController.classData.value.subject ?? '',
-              fontSize: 20.px,
-              fontWeight: FontWeight.w800,
-            ),
-            SizedBox(
-              height: 10.px,
-            ),
-            AppText(
-              _classDetailsController.classData.value.description ?? '',
-              fontWeight: FontWeight.w400,
-              fontSize: 14.px,
-            ),
-            SizedBox(
-              height: 20.px,
-            ),
-            HeadingCardView(
-              title: 'Curriculum',
-              padding: 0,
-            ),
-            SizedBox(
-              height: 10.px,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
-              children: [
-                curriculumWidget(
-                    heading: 'Grade',
-                    detail:
-                        _classDetailsController.classData.value.grade ?? ''),
-                curriculumWidget(
-                    heading: 'School',
-                    detail:
-                        _classDetailsController.classData.value.school ?? ''),
-                curriculumWidget(
-                    heading: 'Curriculum',
-                    detail:
-                        _classDetailsController.classData.value.curriculum ??
-                            ''),
-                curriculumWidget(
-                    heading: 'Class Number',
-                    detail:
-                        _classDetailsController.classData.value.classNumber ??
-                            '')
-              ],
-            ),
-            SizedBox(
-              height: 20.px,
-            ),
-            Obx(
-              () => HeadingCardView(
-                  padding: 0,
-                  title: 'Favorites Teachers',
-                  totalItem:
-                      _classDetailsController.proposalList.length.toString(),
-                  onTap: () {},
-                  // ignore: avoid_bool_literals_in_conditional_expressions
-                  isViewAllIcon: _classDetailsController.proposalList.length > 2
-                      ? true
-                      : false),
-            ),
-            SizedBox(
-              height: 5.px,
-            ),
-            Obx(
-              () => _classDetailsController.proposalList.isNotEmpty
-                  ? SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.300,
-                      child: ListView.builder(
-                        itemCount: 5,
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (BuildContext context, int index) {
-                          return DetailsCardView(
-                              cardMargin: EdgeInsets.only(
-                                  right: 15.px, top: 10.px, bottom: 27.px),
-                              reViewLength: 3,
-                              name: 'User Name',
-                              avatar: ImageConstants.teacherAvtar,
-                              countryIcon: ImageConstants.countryIcon,
-                              countryName: 'Kuwait',
-                              isPro: true,
-                              isBookmarked: true,
-                              subjects: 'Science - Accounta..');
-                        },
-                      ),
-                    )
-                  : AppButton(
-                      isDisable: true,
-                      height: 60.px,
-                      title: 'No proposals received!',
-                      textStyle: TextStyle(
-                          color: AppColors.black,
-                          fontSize: 18.px,
-                          fontWeight: FontWeight.w600),
-                      borderRadius: BorderRadius.circular(12.px),
-                      borderColor: AppColors.appLightGrey,
-                      isBorderOnly: true,
-                      onPressed: () {},
-                    ),
-            ),
-            SizedBox(
-              height: 20.px,
-            ),
-            Container(
-              padding: context.paddingNormal,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.px),
-                color: AppColors.lightestPurple,
-                border:
-                    Border.all(color: AppColors.lightestPurple, width: 1.1.px),
+    return  PopScope(
+      canPop: false,
+      child: Scaffold(
+        backgroundColor: AppColors.appWhite,
+        appBar: HessaAppBar(
+          title: 'Class Details',
+          isTitleOnly: true,
+            leadingTap:(){
+              Get.close(2);
+            }
+      
+        ),
+        body: Obx(
+          () => ListView(
+            padding: EdgeInsets.symmetric(horizontal: 15.px, vertical: 5.px),
+            children: <Widget>[
+              SizedBox(
+                height: 20.px,
               ),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      AppText(
-                        'Class Details',
-                        fontWeight: FontWeight.w800,
-                        fontSize: 16.px,
-                      ),
-                      const Spacer(),
-                      StatusCardView(status: 'PAYING'),
-                    ],
-                  ),
-                  SizedBox(height: 15.px),
-                  Row(
-                    children: [
-                      tagCardView(
-                          title:
-                              'Group ${_classDetailsController.classData.value.minParticipants}/${_classDetailsController.classData.value.maxParticipants}',
-                          icon: ImageConstants.groupIcon),
-                      tagCardView(
-                          title: _classDetailsController
-                              .classData.value.classTime
-                              ?.toString()
-                              .epochToNormal(),
-                          icon: ImageConstants.dateIcon),
-                      tagCardView(
-                          title: _classDetailsController
-                              .classData.value.duration
-                              ?.toString()
-                              .timeConvert(),
-                          icon: ImageConstants.timerIcon),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      tagCardView(
-                          title:
-                              '${_classDetailsController.classData.value.cost} ${_classDetailsController.classData.value.currency} per Session',
-                          icon: ImageConstants.moneyIcon),
-                      tagCardView(
-                          title:
-                              'Session ${_classDetailsController.classData.value.sessions} of 5',
-                          icon: ImageConstants.readBookIcon),
-                    ],
-                  ),
-                  SizedBox(height: 5.px),
-                  Row(
-                    children: <Widget>[
-                      AppImageAsset(
-                        image: ImageConstants.pinLocation,
-                        height: 20.px,
-                      ),
-                      SizedBox(
-                        width: 260.px,
-                        child: AppText(
-                          _classDetailsController.classData.value.address ?? '',
-                          fontSize: 10.px,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 15.px),
-                  Obx(
-                    () => Container(
-                      height: 90.px,
-                      width: double.infinity,
-                      decoration:
-                          const BoxDecoration(color: AppColors.appWhite),
-                      child: GoogleMap(
-                        markers: <Marker>{
-                          Marker(
-                              markerId: const MarkerId('riyadh1'),
-                              position: _classDetailsController
-                                  .kGooglePlex.value.target)
-                        },
-                        initialCameraPosition:
-                            _classDetailsController.kGooglePlex.value,
-                        zoomControlsEnabled: false,
-                        zoomGesturesEnabled: false,
-                        onMapCreated: (GoogleMapController controllers) =>
-                            _classDetailsController.mapController
-                                .complete(controllers),
-                      ),
-                    ),
-                  ),
+              AppText(
+                _classDetailsController.classData.value.subject ?? '',
+                fontSize: 20.px,
+                fontWeight: FontWeight.w800,
+              ),
+              SizedBox(
+                height: 10.px,
+              ),
+              AppText(
+                _classDetailsController.classData.value.description ?? '',
+                fontWeight: FontWeight.w400,
+                fontSize: 14.px,
+              ),
+              SizedBox(
+                height: 20.px,
+              ),
+              HeadingCardView(
+                title: 'Curriculum',
+                padding: 0,
+              ),
+              SizedBox(
+                height: 10.px,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      
+                children: [
+                  curriculumWidget(
+                      heading: 'Grade',
+                      detail:
+                          _classDetailsController.classData.value.grade ?? ''),
+                  curriculumWidget(
+                      heading: 'School',
+                      detail:
+                          _classDetailsController.classData.value.school ?? ''),
+                  curriculumWidget(
+                      heading: 'Curriculum',
+                      detail:
+                          _classDetailsController.classData.value.curriculum ??
+                              ''),
+                  curriculumWidget(
+                      heading: 'Class Number',
+                      detail:
+                          _classDetailsController.classData.value.classNumber ??
+                              '')
                 ],
               ),
-            ),
-            SizedBox(
-              height: 20.px,
-            ),
-            AppButton(
-              isDisable: false,
-              title: 'Reschedule',
-              borderColor: AppColors.appBlue,
-              onPressed: () {
-                showModalBottomSheet(
-                  isScrollControlled: true,
-                  context: context,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(25.0),
+              SizedBox(
+                height: 20.px,
+              ),
+              Obx(
+                () => HeadingCardView(
+                    padding: 0,
+                    title: 'Favorites Teachers',
+                    totalItem:
+                        _classDetailsController.proposalList.length.toString(),
+                    onTap: () {},
+                    // ignore: avoid_bool_literals_in_conditional_expressions
+                    isViewAllIcon: _classDetailsController.proposalList.length > 2
+                        ? true
+                        : false),
+              ),
+              SizedBox(
+                height: 5.px,
+              ),
+              Obx(
+                () => _classDetailsController.proposalList.isNotEmpty
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.300,
+                        child: ListView.builder(
+                          itemCount: 5,
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int index) {
+                            return DetailsCardView(
+                                cardMargin: EdgeInsets.only(
+                                    right: 15.px, top: 10.px, bottom: 27.px),
+                                reViewLength: 3,
+                                name: 'User Name',
+                                avatar: ImageConstants.teacherAvtar,
+                                countryIcon: ImageConstants.countryIcon,
+                                countryName: 'Kuwait',
+                                isPro: true,
+                                isBookmarked: true,
+                                subjects: 'Science - Accounta..');
+                          },
+                        ),
+                      )
+                    : AppButton(
+                        isDisable: true,
+                        height: 60.px,
+                        title: 'No proposals received!',
+                        textStyle: TextStyle(
+                            color: AppColors.black,
+                            fontSize: 18.px,
+                            fontWeight: FontWeight.w600),
+                        borderRadius: BorderRadius.circular(12.px),
+                        borderColor: AppColors.appLightGrey,
+                        isBorderOnly: true,
+                        onPressed: () {},
+                      ),
+              ),
+              SizedBox(
+                height: 20.px,
+              ),
+              Container(
+                padding: context.paddingNormal,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.px),
+                  color: AppColors.lightestPurple,
+                  border:
+                      Border.all(color: AppColors.lightestPurple, width: 1.1.px),
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        AppText(
+                          'Class Details',
+                          fontWeight: FontWeight.w800,
+                          fontSize: 16.px,
+                        ),
+                        const Spacer(),
+                        StatusCardView(status: 'PAYING'),
+                      ],
                     ),
-                  ),
-                  builder: (BuildContext context) {
-                    return BookingBottomSheet();
-                  },
-                );
-              },
-            ),
-            SizedBox(
-              height: 20.px,
-            ),
-            GestureDetector(
-              onTap: () {},
-              child: Center(
-                child: AppText(
-                  'Cancel Your Class',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16.px,
-                  color: AppColors.appRed,
+                    SizedBox(height: 15.px),
+                    Row(
+                      children: [
+                        tagCardView(
+                            title:
+                                'Group ${_classDetailsController.classData.value.minParticipants}/${_classDetailsController.classData.value.maxParticipants}',
+                            icon: ImageConstants.groupIcon),
+                        tagCardView(
+                            title: _classDetailsController
+                                .classData.value.classTime
+                                ?.toString()
+                                .epochToNormal(),
+                            icon: ImageConstants.dateIcon),
+                        tagCardView(
+                            title: _classDetailsController
+                                .classData.value.duration
+                                ?.toString()
+                                .timeConvert(),
+                            icon: ImageConstants.timerIcon),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        tagCardView(
+                            title:
+                                '${_classDetailsController.classData.value.cost} ${_classDetailsController.classData.value.currency} per Session',
+                            icon: ImageConstants.moneyIcon),
+                        tagCardView(
+                            title:
+                                'Session ${_classDetailsController.classData.value.sessions} of 5',
+                            icon: ImageConstants.readBookIcon),
+                      ],
+                    ),
+                    SizedBox(height: 5.px),
+                    Row(
+                      children: <Widget>[
+                        AppImageAsset(
+                          image: ImageConstants.pinLocation,
+                          height: 20.px,
+                        ),
+                        SizedBox(
+                          width: 260.px,
+                          child: AppText(
+                            _classDetailsController.classData.value.address ?? '',
+                            fontSize: 10.px,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 15.px),
+                    Obx(
+                      () => Container(
+                        height: 90.px,
+                        width: double.infinity,
+                        decoration:
+                            const BoxDecoration(color: AppColors.appWhite),
+                        child: GoogleMap(
+                          markers: <Marker>{
+                            Marker(
+                                markerId: const MarkerId('riyadh1'),
+                                position: _classDetailsController
+                                    .kGooglePlex.value.target)
+                          },
+                          initialCameraPosition:
+                              _classDetailsController.kGooglePlex.value,
+                          zoomControlsEnabled: false,
+                          zoomGesturesEnabled: false,
+                          onMapCreated: (GoogleMapController controllers) =>
+                              _classDetailsController.mapController
+                                  .complete(controllers),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            SizedBox(
-              height: 40.px,
-            ),
-          ],
+              SizedBox(
+                height: 20.px,
+              ),
+              AppButton(
+                isDisable: false,
+                title: 'Reschedule',
+                borderColor: AppColors.appBlue,
+                onPressed: () {
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(25.0),
+                      ),
+                    ),
+                    builder: (BuildContext context) {
+                      return BookingBottomSheet();
+                    },
+                  );
+                },
+              ),
+              SizedBox(
+                height: 20.px,
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: Center(
+                  child: AppText(
+                    'Cancel Your Class',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16.px,
+                    color: AppColors.appRed,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 40.px,
+              ),
+            ],
+          ),
         ),
       ),
     );
