@@ -77,7 +77,7 @@ class _ActivitiesViewState extends State<ActivitiesView> {
                  height: 10.px,
                ),
                SizedBox(
-                 height: MediaQuery.of(context).size.height * 0.290,
+                 height: MediaQuery.of(context).size.height * 0.300,
                  child: ListView.separated(
                    padding: EdgeInsets.only(
                        right: 15.px, top: 5.px, bottom: 20.px, left: 15.px),
@@ -117,7 +117,7 @@ class _ActivitiesViewState extends State<ActivitiesView> {
                  height: 10.px,
                ),
                SizedBox(
-                 height: MediaQuery.of(context).size.height * 0.290,
+                 height: MediaQuery.of(context).size.height * 0.300,
                  child: ListView.separated(
                    padding: EdgeInsets.only(
                        right: 15.px, top: 5.px, bottom: 20.px, left: 15.px),

@@ -11,6 +11,7 @@ class InfoCardViewHorizontal extends StatelessWidget {
   InfoCardViewHorizontal({
     this.heading,
     this.isShowButton,
+    this.isClassScreen=false,
     this.title,
     this.cardColor,
     this.isViewAllIcon,
@@ -23,6 +24,7 @@ class InfoCardViewHorizontal extends StatelessWidget {
   String? title;
   bool? isShowButton;
   bool? isViewAllIcon;
+  bool isClassScreen;
   Color? cardColor;
   VoidCallback? viewAllOnTap;
   VoidCallback? buttonTap;
@@ -36,7 +38,7 @@ class InfoCardViewHorizontal extends StatelessWidget {
           isViewAllIcon: isViewAllIcon ?? false,
           onTap: viewAllOnTap,
         ),
-        SizedBox(height: 15.px),
+        if (isClassScreen) const SizedBox.shrink() else SizedBox(height: 15.px),
         Container(
           width: double.infinity,
           margin: EdgeInsets.symmetric(horizontal: 16.px),
