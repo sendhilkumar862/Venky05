@@ -6,6 +6,7 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../config/routes/route.dart';
 import '../../../../custom/cardView/details_card_view.dart';
+import '../../../../custom/cardView/details_card_view_student.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';
 import '../../../../product/cache/key_value_storeage.dart';
@@ -57,21 +58,20 @@ class _TeachersViewState extends State<StudentsView> {
               height: MediaQuery
                   .of(context)
                   .size
-                  .height * 0.300,
+                  .height * 0.240,
               child: ListView.builder(
                 itemCount: 4,
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  return DetailsCardView(
-                      reViewLength: 3,
+                  return DetailsCardViewStudent(
+
                       name: 'User Name',
                       avatar: ImageConstants.teacherAvtar,
-                      isTeacher: true,
 
                       isBookmarked: true,
-                      subjects: 'Grade1');
+                      grades: 'Grade1');
                 },
               ),
             ) else Padding(
@@ -94,7 +94,7 @@ class _TeachersViewState extends State<StudentsView> {
             SizedBox(
               height: 5.px,
             ),
-            if (_homeController.relatedStudentsList.isNotEmpty) SizedBox(
+             SizedBox(
               height: MediaQuery
                   .of(context)
                   .size
@@ -105,29 +105,16 @@ class _TeachersViewState extends State<StudentsView> {
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  return DetailsCardView(
-                      reViewLength: 3,
+                  return DetailsCardViewStudent(
+
                       name: 'User Name',
                       avatar: ImageConstants.teacherAvtar,
-                      countryIcon: ImageConstants.countryIcon,
-                      countryName: 'Kuwait',
-                      isPro: true,
+
                       isBookmarked: true,
-                      subjects: 'Science - Accounta..');
+                      grades: 'Grade1');
                 },
               ),
-            ) else Padding(
-              padding: const EdgeInsets.only(top:10.0,bottom:20.0),
-              child: InfoCardVIew(
-                isShowButton: false,
-                title: 'No Other Students!',
-                subTitle:
-                'Your preferred students are exclusively in your favourite list, no other matches are based on your preferences.',
-                cardColor: AppColors.white,
-                buttonTitle: 'Class Details',
-                buttonTap: () => Get.toNamed(Routes.classDetailsView),
-              ),
-            ),
+            ) ,
             SizedBox(
               height: 200.px,
             )

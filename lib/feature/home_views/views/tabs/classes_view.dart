@@ -42,7 +42,7 @@ class _ClassesViewState extends State<ClassesView> {
     if (selectedProfile == ApplicationConstants.tutor) {
       return Obx(
         () =>
-        _homeController.homeData.value?.userStatus != '99'
+        _homeController.homeData.value?.userStatus == '99'
             ? activeScreen()
             : Column(
                 children: <Widget>[
