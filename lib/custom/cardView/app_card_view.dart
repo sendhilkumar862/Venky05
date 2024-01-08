@@ -143,7 +143,6 @@ class AppCardView extends StatelessWidget {
       ),
     );
   }
-
   Widget tagCardView({String? title, String? icon, bool isBold = false}) {
     return Container(
       margin: EdgeInsets.only(right: 5.px),
