@@ -388,6 +388,7 @@ class _ClassDetailState extends State<ClassDetail> {
                               showModalBottomSheet(
                                 backgroundColor: Colors.white,
                                 context: context,
+                                isDismissible: false,
                                 constraints: BoxConstraints(
                                   maxWidth:
                                       MediaQuery.of(context).size.width - 30,
@@ -681,6 +682,7 @@ class _ClassDetailState extends State<ClassDetail> {
                 controller.text =
                     '${_classDetailController.selectedDate} ${_classDetailController.selectedTimes}';
               },
+                startDate:DateTime.now()
             );
           },
         );
