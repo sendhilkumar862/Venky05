@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/instance_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/appbar/appbar.dart';
-import '../../../custom/cardView/details_card_view_horizontal.dart';
+import '../../../custom/cardView/details_card_view.dart';
 import '../../../custom/cardView/heading_card_view.dart';
 import '../../../custom/cardView/status_card_view.dart';
-import '../../../custom/cardView/student_card_view.dart';
 import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/extension/context_extension.dart';
+import '../../../product/extension/string_extension.dart';
 import '../controller/class_details_controller.dart';
 import 'bottomSheetView/booking_bottom_view.dart';
-import 'bottomSheetView/student_bottom_view.dart';
 
 class ClassDetailsView extends StatefulWidget {
   const ClassDetailsView({super.key});
@@ -23,9 +23,11 @@ class ClassDetailsView extends StatefulWidget {
   @override
   State<ClassDetailsView> createState() => _ClassDetailsViewState();
 }
+
 class _ClassDetailsViewState extends State<ClassDetailsView>
     with TickerProviderStateMixin {
-  final ClassDetailsController _classDetailsController = Get.put(ClassDetailsController());
+  final ClassDetailsController _classDetailsController =
+      Get.put(ClassDetailsController());
 
   @override
   Widget build(BuildContext context) {
@@ -35,358 +37,318 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
         title: 'Class Details',
         isTitleOnly: true,
       ),
-      body: ListView(
-        padding:
-        EdgeInsets.symmetric(horizontal: 15.px, vertical: 5.px),
-        children: <Widget>[
-          SizedBox(
-            height: 20.px,
-          ),
-          AppText(
-            'Math',
-            fontSize: 20.px,
-            fontWeight: FontWeight.w800,
-          ),
-          SizedBox(
-            height: 10.px,
-          ),
-          AppText(
-            'Explore the world of math with interactive games, puzzles, and challenges. Join us for fun learning adventures and make math your favorite subject!',
-            fontWeight: FontWeight.w400,
-            fontSize: 14.px,
-          ),
-          SizedBox(
-            height: 20.px,
-          ),
-          HeadingCardView(
-            title: 'Class Info',
-            padding: 0,
-          ),
-          SizedBox(
-            height: 20.px,
-          ),
-          SizedBox(
-            height: 60.px,
-            child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return SizedBox(
-                    width: 80.px,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        AppText('Grade 2',
-                            fontSize: 12.px,
-                            color: AppColors.appLightBlack),
-                        SizedBox(
-                          height: 5.px,
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 6.px, vertical: 3.px),
-                          decoration: BoxDecoration(
-                              color: AppColors.lightPurple,
-                              borderRadius:
-                              BorderRadius.circular(30.px)),
-                          child: AppText('Grade',
-                              fontSize: 10.px,
-                              color: AppColors.appLightBlack),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(
-                    width: 6.px,
-                  );
-                },
-                itemCount: 4),
-          ),
-          SizedBox(
-            height: 20.px,
-          ),
-          HeadingCardView(
-            padding: 0,
-            title: 'Teachers',
-            isViewAllIcon: true,
-            trailingWidget: Row(
-              children: <Widget>[
-                AppText('Accept or Reject Students',
-                    fontSize: 14.px,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.appBlue),
-                SizedBox(width: 5.px),
-                AppImageAsset(
-                  image: ImageConstants.editIcon,
-                  height: 18.px,
-                  color: AppColors.appBlue,
-                )
+      body: Obx(
+        () => ListView(
+          padding: EdgeInsets.symmetric(horizontal: 15.px, vertical: 5.px),
+          children: <Widget>[
+            SizedBox(
+              height: 20.px,
+            ),
+            AppText(
+              _classDetailsController.classData.value.subject ?? '',
+              fontSize: 20.px,
+              fontWeight: FontWeight.w800,
+            ),
+            SizedBox(
+              height: 10.px,
+            ),
+            AppText(
+              _classDetailsController.classData.value.description ?? '',
+              fontWeight: FontWeight.w400,
+              fontSize: 14.px,
+            ),
+            SizedBox(
+              height: 20.px,
+            ),
+            HeadingCardView(
+              title: 'Curriculum',
+              padding: 0,
+            ),
+            SizedBox(
+              height: 10.px,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+              children: [
+                curriculumWidget(
+                    heading: 'Grade',
+                    detail:
+                        _classDetailsController.classData.value.grade ?? ''),
+                curriculumWidget(
+                    heading: 'School',
+                    detail:
+                        _classDetailsController.classData.value.school ?? ''),
+                curriculumWidget(
+                    heading: 'Curriculum',
+                    detail:
+                        _classDetailsController.classData.value.curriculum ??
+                            ''),
+                curriculumWidget(
+                    heading: 'Class Number',
+                    detail:
+                        _classDetailsController.classData.value.classNumber ??
+                            '')
               ],
             ),
-            onTap: () {
-              showModalBottomSheet(
-                isScrollControlled: true,
-                context: context,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(25.0),
-                  ),
-                ),
-                builder: (BuildContext context) {
-                  return const StudentBottomSheet();
-                },
-              );
-            },
-          ),
-          SizedBox(
-            height: 18.px,
-          ),
-          SizedBox(
-            height: 70.px,
-            child: ListView.separated(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return const StudentCardView();
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(width: 14.px);
-                },
-                itemCount: 10),
-          ),
-          SizedBox(height: 18.px),
-          InkWell(
-            onTap: () {},
-            child: DetailsCardViewHorizontal(
-                heading: 'Teacher',
-                reViewLength: 3,
-                name: 'User Name',
-                avatar: ImageConstants.teacherAvtar,
-                countryIcon: ImageConstants.countryIcon,
-                countryName: 'Kuwait',
-                isPro: true,
-                isBookmarked: true,
-                subjects: 'Science - Account..'),
-          ),
-          SizedBox(
-            height: 20.px,
-          ),
-          Container(
-            padding: context.paddingNormal,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.px),
-              color: AppColors.lightPurple,
-              border: Border.all(
-                  color: AppColors.lightPurple, width: 1.1.px),
+            SizedBox(
+              height: 20.px,
             ),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    AppText(
-                      'Class Details',
-                      fontWeight: FontWeight.w800,
-                      fontSize: 16.px,
-                    ),
-                    const Spacer(),
-                    StatusCardView(status: 'PAYING'),
-                  ],
-                ),
-                SizedBox(height: 15.px),
-                tagCardView(
-                    title: 'Private 1/1',
-                    icon: ImageConstants.groupIcon),
-                tagCardView(
-                    title: 'Sessions', icon: ImageConstants.moneyIcon),
-                SizedBox(height: 5.px),
-                Row(
-                  children: <Widget>[
-                    AppImageAsset(
-                      image: ImageConstants.pinLocation,
-                      height: 20.px,
-                    ),
-                    SizedBox(
-                      width: 260.px,
-                      child: AppText(
-                        'City, Block No., Street Name, Street Name 2, House No., Floor No., Apartment No.',
-                        fontSize: 10.px,
-                        fontWeight: FontWeight.w500,
+            Obx(
+              () => HeadingCardView(
+                  padding: 0,
+                  title: 'Favorites Teachers',
+                  totalItem:
+                      _classDetailsController.proposalList.length.toString(),
+                  onTap: () {},
+                  // ignore: avoid_bool_literals_in_conditional_expressions
+                  isViewAllIcon: _classDetailsController.proposalList.length > 2
+                      ? true
+                      : false),
+            ),
+            SizedBox(
+              height: 5.px,
+            ),
+            Obx(
+              () => _classDetailsController.proposalList.isNotEmpty
+                  ? SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.300,
+                      child: ListView.builder(
+                        itemCount: 5,
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          return DetailsCardView(
+                              cardMargin: EdgeInsets.only(
+                                  right: 15.px, top: 10.px, bottom: 27.px),
+                              reViewLength: 3,
+                              name: 'User Name',
+                              avatar: ImageConstants.teacherAvtar,
+                              countryIcon: ImageConstants.countryIcon,
+                              countryName: 'Kuwait',
+                              isPro: true,
+                              isBookmarked: true,
+                              subjects: 'Science - Accounta..');
+                        },
                       ),
                     )
-                  ],
-                ),
-                SizedBox(height: 15.px),
-                Obx(()=>
-                  Container(
-                    height: 90.px,
-                    width: double.infinity,
-                    decoration:
-                    const BoxDecoration(color: AppColors.appWhite),
-                    child: GoogleMap(
-                      markers: <Marker>{
-                        Marker(
-                          markerId: const MarkerId('riyadh1'),
-                          position: LatLng(
-                            double.parse('24.7136'),
-                            double.parse('46.6753'),
-                          ),
-                        )
-                      },
-                      initialCameraPosition:
-                      _classDetailsController.kGooglePlex.value,
-                      zoomControlsEnabled: false,
-                      zoomGesturesEnabled: false,
-                      onMapCreated: (GoogleMapController controllers) =>
-                          _classDetailsController.mapController
-                              .complete(controllers),
+                  : AppButton(
+                      isDisable: true,
+                      height: 60.px,
+                      title: 'No proposals received!',
+                      textStyle: TextStyle(
+                          color: AppColors.black,
+                          fontSize: 18.px,
+                          fontWeight: FontWeight.w600),
+                      borderRadius: BorderRadius.circular(12.px),
+                      borderColor: AppColors.appLightGrey,
+                      isBorderOnly: true,
+                      onPressed: () {},
+                    ),
+            ),
+            SizedBox(
+              height: 20.px,
+            ),
+            Container(
+              padding: context.paddingNormal,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.px),
+                color: AppColors.lightestPurple,
+                border:
+                    Border.all(color: AppColors.lightestPurple, width: 1.1.px),
+              ),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      AppText(
+                        'Class Details',
+                        fontWeight: FontWeight.w800,
+                        fontSize: 16.px,
+                      ),
+                      const Spacer(),
+                      StatusCardView(status: 'PAYING'),
+                    ],
+                  ),
+                  SizedBox(height: 15.px),
+                  Row(
+                    children: [
+                      tagCardView(
+                          title:
+                              'Group ${_classDetailsController.classData.value.minParticipants}/${_classDetailsController.classData.value.maxParticipants}',
+                          icon: ImageConstants.groupIcon),
+                      tagCardView(
+                          title: _classDetailsController
+                              .classData.value.classTime
+                              ?.toString()
+                              .epochToNormal(),
+                          icon: ImageConstants.dateIcon),
+                      tagCardView(
+                          title: _classDetailsController
+                              .classData.value.duration
+                              ?.toString()
+                              .timeConvert(),
+                          icon: ImageConstants.timerIcon),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      tagCardView(
+                          title:
+                              '${_classDetailsController.classData.value.cost} ${_classDetailsController.classData.value.currency} per Session',
+                          icon: ImageConstants.moneyIcon),
+                      tagCardView(
+                          title:
+                              'Session ${_classDetailsController.classData.value.sessions} of 5',
+                          icon: ImageConstants.readBookIcon),
+                    ],
+                  ),
+                  SizedBox(height: 5.px),
+                  Row(
+                    children: <Widget>[
+                      AppImageAsset(
+                        image: ImageConstants.pinLocation,
+                        height: 20.px,
+                      ),
+                      SizedBox(
+                        width: 260.px,
+                        child: AppText(
+                          _classDetailsController.classData.value.address ?? '',
+                          fontSize: 10.px,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 15.px),
+                  Obx(
+                    () => Container(
+                      height: 90.px,
+                      width: double.infinity,
+                      decoration:
+                          const BoxDecoration(color: AppColors.appWhite),
+                      child: GoogleMap(
+                        markers: <Marker>{
+                          Marker(
+                              markerId: const MarkerId('riyadh1'),
+                              position: _classDetailsController
+                                  .kGooglePlex.value.target)
+                        },
+                        initialCameraPosition:
+                            _classDetailsController.kGooglePlex.value,
+                        zoomControlsEnabled: false,
+                        zoomGesturesEnabled: false,
+                        onMapCreated: (GoogleMapController controllers) =>
+                            _classDetailsController.mapController
+                                .complete(controllers),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: 20.px,
-          ),
-          screenButton(
-            isPaying: true,
-            onTap: () {},
-          ),
-          SizedBox(
-            height: 25.px,
-          ),
-          AppButton(
-            title: 'Book Now',
-            borderColor: AppColors.appBlue,
-            onPressed: () {
-              showModalBottomSheet(
-                isScrollControlled: true,
-                context: context,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(25.0),
+            SizedBox(
+              height: 20.px,
+            ),
+            AppButton(
+              isDisable: false,
+              title: 'Reschedule',
+              borderColor: AppColors.appBlue,
+              onPressed: () {
+                showModalBottomSheet(
+                  isScrollControlled: true,
+                  context: context,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(25.0),
+                    ),
                   ),
+                  builder: (BuildContext context) {
+                    return BookingBottomSheet();
+                  },
+                );
+              },
+            ),
+            SizedBox(
+              height: 20.px,
+            ),
+            GestureDetector(
+              onTap: () {},
+              child: Center(
+                child: AppText(
+                  'Cancel Your Class',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16.px,
+                  color: AppColors.appRed,
                 ),
-                builder: (BuildContext context) {
-                  return BookingBottomSheet();
-                },
-              );
-            },
+              ),
+            ),
+            SizedBox(
+              height: 40.px,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget curriculumWidget({required String heading, required String detail}) {
+    return SizedBox(
+      height: 65.px,
+      // width: 80.px,
+      child: Column(
+        children: <Widget>[
+          Center(
+            child: AppText(heading,
+                fontSize: 12.px,
+                color: AppColors.appLightBlack),
           ),
           SizedBox(
-            height: 40.px,
+            height: 5.px,
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 5.px, vertical: 5.px),
+            decoration: BoxDecoration(
+                color: AppColors.lightPurple,
+                borderRadius: BorderRadius.circular(30.px)),
+            child: AppText(detail,
+
+                overflow: TextOverflow.ellipsis,
+                fontSize: 10.px, color: AppColors.appLightBlack),
           ),
         ],
       ),
     );
   }
 
-  Widget screenButton({bool? isPaying, VoidCallback? onTap}) {
-    return Container(
-      alignment: Alignment.center,
-      height: 80.px,
-      padding: context.paddingNormal,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(13.px),
-        color:
-        (isPaying!) ? AppColors.appTransparent : AppColors.lightPurpleTwo,
-      ),
-      child: isPaying
-          ? Row(children: <Widget>[
-        Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              AppText('Total amount to pay',
-                  color: AppColors.appGrey,
-                  fontSize: 12.px,
-                  fontWeight: FontWeight.w500),
-              SizedBox(height: 3.px),
-              Row(
-                children: <Widget>[
-                  AppText('27',
-                      fontSize: 16.px, fontWeight: FontWeight.w700),
-                  AppText('.500 KWD',
-                      fontSize: 12.px, fontWeight: FontWeight.w700),
-                ],
-              ),
-            ]),
-        const Spacer(),
-        AppButton(
-          width: 150.px,
-          title: 'Book Now',
-          borderColor: AppColors.appBlue,
-          borderRadius: BorderRadius.circular(10.px),
-          onPressed: isPaying ? onTap! : () {},
-        )
-      ])
-          : Row(children: <Widget>[
-        AppImageAsset(
-          image: ImageConstants.infoIcon,
-          height: 23.px,
-        ),
-        SizedBox(
-          width: 10.px,
-        ),
-        SizedBox(
-          width: 260.px,
-          child: AppText(
-            'You wil pay after the class accepted by the teacher.',
-            fontSize: 12.px,
-            fontWeight: FontWeight.w400,
-          ),
-        )
-      ]),
-    );
-  }
-
   Widget tagCardView({String? title, String? icon}) {
-    return SizedBox(
+    return Container(
       height: 24.px,
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: ListView.builder(
-          padding: EdgeInsets.only(right: 5.px),
-          itemCount: 3,
-          shrinkWrap: true,
-          physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              padding: EdgeInsets.symmetric(horizontal: 4.px, vertical: 5.px),
-              decoration: BoxDecoration(
-                color: AppColors.lightPurple,
-                borderRadius: BorderRadius.circular(30.px),
-              ),
-              child: Row(
-                children: <Widget>[
-                  if (icon != null &&
-                      icon.isNotEmpty) // Check if icon is not null and not empty
-                    AppImageAsset(
-                      image: icon,
-                      height: 14.px,
-                    ),
-                  if (icon != null &&
-                      icon.isNotEmpty) // Another check for spacing
-                    SizedBox(width: 5.px),
-                  AppText(
-                    title ?? '',
-                    fontSize: 10.px,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
+      padding: EdgeInsets.symmetric(horizontal: 4.px, vertical: 5.px),
+      decoration: BoxDecoration(
+        color: AppColors.lightestPurple,
+        borderRadius: BorderRadius.circular(30.px),
+      ),
+      child: Row(
+        children: <Widget>[
+          if (icon != null &&
+              icon.isNotEmpty) // Check if icon is not null and not empty
+            AppImageAsset(
+              image: icon,
+              height: 14.px,
+            ),
+          if (icon != null && icon.isNotEmpty) // Another check for spacing
+            SizedBox(width: 5.px),
+          AppText(
+            title ?? '',
+            fontSize: 10.px,
+            fontWeight: FontWeight.w500,
+          ),
+        ],
       ),
     );
   }
 }
-

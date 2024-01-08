@@ -91,8 +91,8 @@ class Location {
   Location({this.lat, this.long});
 
   Location.fromJson(Map<String, dynamic> json) {
-    lat = json['lat'];
-    long = json['long'];
+    lat = json['lat'].toString();
+    long = json['long'].toString();
   }
   String? lat;
   String? long;

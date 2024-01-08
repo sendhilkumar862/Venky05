@@ -51,7 +51,7 @@ class ClassDetailsController extends GetxController{
   }
 
    Rx<ClassDetailsModel> classData =  ClassDetailsModel().obs;
-  List<ProposalModel> proposalList=<ProposalModel>[];
+   RxList<ProposalModel> proposalList = <ProposalModel>[].obs;
 
   Future<void> getClassDetails(String id) async {
     final BaseResponse classDataResponse = await _getClassDetailRepository.getClassDetail(id);
@@ -62,10 +62,11 @@ class ClassDetailsController extends GetxController{
     }
   }
   Future<void> getProposalDetails(String id) async {
-    final BaseResponse classDataResponse = await _getProposalDetailRepository.getProposalDetail(id);
-    if (classDataResponse.status?.type == 'success') {
-      // final  List classDetailData=classDataResponse.data?.item as List;
-      // for (var element in classDetailData) {
+    final BaseResponse getProposalsDataResponse = await _getProposalDetailRepository.getProposalDetail(id);
+    if (getProposalsDataResponse.status?.type == 'success') {
+      // final List proposalListData=getProposalsDataResponse.data!.item! as List;
+      // proposalList.clear();
+      // for (var element in proposalListData) {
       //   proposalList.add(ProposalModel.fromJson(element));
       // }
     }

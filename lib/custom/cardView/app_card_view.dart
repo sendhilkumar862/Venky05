@@ -17,7 +17,7 @@ class AppCardView extends StatelessWidget {
     this.money,
     this.buttonTap,
     this.status,
-    this.isPro,
+    this.isPro = false,
     this.countryIcon,
     this.countryName,
     this.reViewLength,
@@ -43,8 +43,8 @@ class AppCardView extends StatelessWidget {
   num? reViewLength;
   num? proposals;
   bool? isPro;
-  int?minParticipants;
-  int?maxParticipants;
+  int? minParticipants;
+  int? maxParticipants;
   VoidCallback? buttonTap;
 
   @override
@@ -84,13 +84,12 @@ class AppCardView extends StatelessWidget {
                     title: grade,
                   ),
                   tagCardView(
-                      title: countryName,
+                    title: countryName,
                   ),
                   tagCardView(
                       title: '$minParticipants/$maxParticipants',
                       icon: ImageConstants.groupIcon,
-                      isBold: true
-                  ),
+                      isBold: true),
                 ],
               ),
               SizedBox(
@@ -144,8 +143,7 @@ class AppCardView extends StatelessWidget {
       ),
     );
   }
-
-  Widget tagCardView({String? title, String? icon,bool isBold=false}) {
+  Widget tagCardView({String? title, String? icon, bool isBold = false}) {
     return Container(
       margin: EdgeInsets.only(right: 5.px),
       padding: EdgeInsets.symmetric(horizontal: 10.px, vertical: 5.px),
@@ -161,13 +159,12 @@ class AppCardView extends StatelessWidget {
               image: icon,
               height: 12.px,
             ),
-          if (icon != null &&
-              icon.isNotEmpty) // Another check for spacing
+          if (icon != null && icon.isNotEmpty) // Another check for spacing
             SizedBox(width: 4.px),
           AppText(
             title ?? ''!,
             fontSize: 10.px,
-            fontWeight: isBold?FontWeight.w700:FontWeight.w500,
+            fontWeight: isBold ? FontWeight.w700 : FontWeight.w500,
           ),
         ],
       ),
@@ -181,9 +178,7 @@ class AppCardView extends StatelessWidget {
           shrinkWrap: true,
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
-          itemBuilder: (BuildContext context, int index) {
-
-          },
+          itemBuilder: (BuildContext context, int index) {},
         ),
       ),
     );
@@ -339,43 +334,24 @@ class AppCardView extends StatelessWidget {
                       width: 10.px,
                     ),
                     Stack(
-                      alignment: Alignment.centerLeft,
-                      children: <Widget>[
-                        AppImageAsset(
-                          image: ImageConstants.teacherAvtar,
-                          height: 40.px,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 16.px),
-                          child: AppImageAsset(
-                            image: ImageConstants.avtar,
-                            height: 40.px,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 32.px),
-                          child: AppImageAsset(
-                            image: ImageConstants.avtar,
-                            height: 40.px,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 48.px),
-                          child: AppImageAsset(
-                            image: ImageConstants.avtar,
-                            height: 40.px,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 64.px),
-                          child: CircleAvatar(
-                            child: AppText('+5',
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.appWhite),
-                          ),
-                        )
-                      ],
-                    )
+                      children: List.generate(
+                          5,
+                          (index) => Padding(
+                                padding: EdgeInsets.only(
+                                    left:
+                                        index.toDouble()* 16.px),
+                                child: index != 4
+                                    ? AppImageAsset(
+                                        image: ImageConstants.teacherAvtar,
+                                        height: 40.px,
+                                      )
+                                    : const CircleAvatar(
+                                        child: AppText('+5',
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.appWhite),
+                                      ),
+                              )),
+                    ),
                   ])
             else
               Row(
