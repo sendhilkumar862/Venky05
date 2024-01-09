@@ -103,7 +103,12 @@ class SuccessFailsInfoDialog extends StatelessWidget {
                 Get.offAndToNamed(Routes.settingView );
               }
               else if(isRouting!=''){
-                Get.offAndToNamed(isRouting!, arguments: argument );
+                if(isRouting==Routes.homeViews){
+                  Get.close(2);
+                }else{
+                  Get.offAndToNamed(isRouting!, arguments: argument );
+                }
+
               }
             },
           )
