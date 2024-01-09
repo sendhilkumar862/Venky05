@@ -325,7 +325,7 @@ class _ClassDetailState extends State<ClassDetail> {
                   }),
                   // ignore: unrelated_type_equality_checks
                   if (_classDetailController.selectedProfile ==
-                      ApplicationConstants.student)
+                      ApplicationConstants.student &&   _classDetailController.upperValue>1)
                     Column(
                       children: <Widget>[
                         Padding(
@@ -345,26 +345,26 @@ class _ClassDetailState extends State<ClassDetail> {
                             ],
                           ),
                         ),
-                        AppTextFormField(
+                        if( _classDetailController.upperValue>1)AppTextFormField(
                           top: 0,
                           controller: _classDetailController.participators2,
                           validate: _classDetailController.emailValidator.call,
                           title: 'participators2'.tr,
                           hintText: 'enterEmailAddress'.tr,
                         ),
-                        AppTextFormField(
+                        if( _classDetailController.upperValue>2) AppTextFormField(
                           controller: _classDetailController.participators3,
                           validate: _classDetailController.emailValidator.call,
                           title: 'participators3'.tr,
                           hintText: 'enterEmailAddress'.tr,
                         ),
-                        AppTextFormField(
+                        if( _classDetailController.upperValue>3)AppTextFormField(
                           controller: _classDetailController.participators4,
                           validate: _classDetailController.emailValidator.call,
                           title: 'participators4'.tr,
                           hintText: 'enterEmailAddress'.tr,
                         ),
-                        AppTextFormField(
+                        if( _classDetailController.upperValue>4) AppTextFormField(
                           controller: _classDetailController.participators5,
                           validate: _classDetailController.emailValidator.call,
                           title: 'participators5'.tr,
@@ -428,151 +428,154 @@ class _ClassDetailState extends State<ClassDetail> {
   Widget listData(int index, UserAddress data, StateSetter setState) {
     return Padding(
         padding: const EdgeInsets.all(8),
-        child: Container(
-          decoration: BoxDecoration(
-              border: Border.all(
-                color: _classDetailController.selectedIndex.value == index
-                    ? AppColors.appBlue
-                    : AppColors.gray.withOpacity(0.25),
-              ),
-              borderRadius: BorderRadius.circular(20)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Text(data.shortName ?? '',
-                              style: openSans.get17.w700),
-                          if (_classDetailController.selectedIndex.value ==
-                              index)
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    color: const Color(0xfff0f5ff),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 8),
-                                    child: Text('default'.tr),
-                                  )),
-                            ),
-                        ],
-                      ),
-                      Obx(() => GestureDetector(
-                          onTap: () {
-                            _classDetailController.selectedIndex.value = index;
-                          },
-                          child: _classDetailController.selectedIndex.value ==
-                                  index
-                              ? const ChoiceConfirmButton(
-                                  icon: Icon(
-                                    Icons.check_circle,
-                                    color: AppColors.appBlue,
-                                  ),
-                                )
-                              : ChoiceConfirmButton(
-                                  icon: Icon(
-                                  Icons.circle_outlined,
-                                  color: AppColors.gray.withOpacity(0.25),
-                                ))))
-                    ]),
-                Padding(
-                  padding: const EdgeInsets.only(top: 5, bottom: 13),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text('${data.address1 ?? ''} ${data.address2 ?? ''}'),
-                      Text(
-                          '${data.city ?? ''} ${data.state ?? ''} ${data.country ?? ''}'),
-                    ],
-                  ),
+        child: Obx(()=>
+           Container(
+            decoration: BoxDecoration(
+                border: Border.all(
+                  color:  _classDetailController.selectedIndex.value ==
+                      index
+                      ? AppColors.appBlue
+                      : AppColors.gray.withOpacity(0.25),
                 ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () async{
-                          if (data.isDefault == 1) {
-                            AppUtils.showFlushBar(
-                              context: Routes.navigatorKey.currentContext!,
-                              message: 'Can not delete default address',
-                            );
-                          } else {
-                           await _manageAddressController
-                                .deleteAddressData(data.id!);
+                borderRadius: BorderRadius.circular(20)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Text(data.shortName ?? '',
+                                style: openSans.get17.w700),
                             if (_classDetailController.selectedIndex.value ==
-                                index) {
-                              _classDetailController.selectedIndex.value = 200;
-                            }
-                          }
-                        },
-                        child: iconButtonWidget(
-                          icon: Icons.delete_outline_rounded,
-                          padding: 8,
-                          bgColor: AppColors.appRed,
+                                index)
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: const Color(0xfff0f5ff),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 8),
+                                      child: Text('default'.tr),
+                                    )),
+                              ),
+                          ],
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          var arguments = {
-                            'title': 'Update Address',
-                            'userData': data
-                          };
-                          Get.toNamed(Routes.addAddressView,
-                              arguments: arguments);
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 10,
-                              right:
-                                  _classDetailController.selectedIndex?.value !=
-                                          index
-                                      ? 10
-                                      : 0),
+                         GestureDetector(
+                            onTap: () {
+                              _classDetailController.selectedIndex.value = index;
+                            },
+                            child: _classDetailController.selectedIndex.value ==
+                                    index
+                                ? const ChoiceConfirmButton(
+                                    icon: Icon(
+                                      Icons.check_circle,
+                                      color: AppColors.appBlue,
+                                    ),
+                                  )
+                                : ChoiceConfirmButton(
+                                    icon: Icon(
+                                    Icons.circle_outlined,
+                                    color: AppColors.gray.withOpacity(0.25),
+                                  )))
+                      ]),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5, bottom: 13),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('${data.address1 ?? ''} ${data.address2 ?? ''}'),
+                        Text(
+                            '${data.city ?? ''} ${data.state ?? ''} ${data.country ?? ''}'),
+                      ],
+                    ),
+                  ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: () async{
+                            if (data.isDefault == 1) {
+                              AppUtils.showFlushBar(
+                                context: Routes.navigatorKey.currentContext!,
+                                message: 'Can not delete default address',
+                              );
+                            } else {
+                             await _manageAddressController
+                                  .deleteAddressData(data.id!);
+                              if (_classDetailController.selectedIndex.value ==
+                                  index) {
+                                _classDetailController.selectedIndex.value = 200;
+                              }
+                            }
+                          },
                           child: iconButtonWidget(
-                            icon: Icons.edit,
+                            icon: Icons.delete_outline_rounded,
                             padding: 8,
-                            bgColor: AppColors.appBlue,
+                            bgColor: AppColors.appRed,
                           ),
                         ),
-                      ),
-                      if (data.isDefault != 1)
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: ElevatedButton(
-                              onPressed: () {
-                                final AddressRequestModel updatedData =
-                                    AddressRequestModel(
-                                        isDefault: true,
-                                        shortName: data.shortName,
-                                        city: data.city,
-                                        state: data.state,
-                                        country: data.country,
-                                        address2: data.address2,
-                                        address1: data.address2,
-                                        location: Location(
-                                            lat: data.location?.lat,
-                                            long: data.location?.long));
-                                _manageAddressController.updateAddressData(
-                                    updatedData, data.id!);
-                              },
-                              style: const ButtonStyle(
-                                  backgroundColor: MaterialStatePropertyAll(
-                                      AppColors.appBlue),
-                                  shape: MaterialStatePropertyAll(
-                                      StadiumBorder())),
-                              child: const Text('Set Default',
-                                  style: TextStyle(color: AppColors.white))),
-                        )
-                    ]),
-              ],
+                        GestureDetector(
+                          onTap: () {
+                            var arguments = {
+                              'title': 'Update Address',
+                              'userData': data
+                            };
+                            Get.toNamed(Routes.addAddressView,
+                                arguments: arguments);
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 10,
+                                right:
+                                    _classDetailController.selectedIndex?.value !=
+                                            index
+                                        ? 10
+                                        : 0),
+                            child: iconButtonWidget(
+                              icon: Icons.edit,
+                              padding: 8,
+                              bgColor: AppColors.appBlue,
+                            ),
+                          ),
+                        ),
+                        if (data.isDefault != 1)
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  final AddressRequestModel updatedData =
+                                      AddressRequestModel(
+                                          isDefault: true,
+                                          shortName: data.shortName,
+                                          city: data.city,
+                                          state: data.state,
+                                          country: data.country,
+                                          address2: data.address2,
+                                          address1: data.address2,
+                                          location: Location(
+                                              lat: data.location?.lat,
+                                              long: data.location?.long));
+                                  _manageAddressController.updateAddressData(
+                                      updatedData, data.id!);
+                                },
+                                style: const ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(
+                                        AppColors.appBlue),
+                                    shape: MaterialStatePropertyAll(
+                                        StadiumBorder())),
+                                child: const Text('Set Default',
+                                    style: TextStyle(color: AppColors.white))),
+                          )
+                      ]),
+                ],
+              ),
             ),
           ),
         ));

@@ -135,13 +135,13 @@ class _PreferenceViewState extends State<PreferenceView>
                               const BoxConstraints(maxWidth: 500),
                               child: InlineChoice<Grade>(
                                 clearable: true,
-                                loading: _preferenceController.grade?.isEmpty ??
+                                loading: _preferenceController.grade.isEmpty ??
                                     true,
                                 value: _preferenceController.grade ??
                                     <Grade>[],
                                 //onChanged: setChoicesValue,
                                 itemCount:
-                                _preferenceController.grade?.length ?? 0,
+                                _preferenceController.grade.length ?? 0,
                                 itemBuilder:
                                     (ChoiceController<Grade> selection,
                                     int index) {
@@ -152,7 +152,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                                 .selectedGrade
                                                 .contains(
                                                 _preferenceController
-                                                    .grade?[index]
+                                                    .grade[index]
                                                     .value ??
                                                     emptyString)
                                                 ? AppColors.trans
@@ -161,19 +161,19 @@ class _PreferenceViewState extends State<PreferenceView>
                                     selected: _preferenceController
                                         .selectedGrade
                                         .contains(_preferenceController
-                                        .grade?[index].value ??
+                                        .grade[index].value ??
                                         emptyString),
                                     onSelected: (bool isSelected) {
                                       setState(() {
                                         if (isSelected) {
                                           _preferenceController.selectedGrade
                                               .add(_preferenceController
-                                              .grade?[index].value ??
+                                              .grade[index].value ??
                                               emptyString);
                                         } else {
                                           _preferenceController.selectedGrade
                                               .remove(_preferenceController
-                                              .grade?[index].value ??
+                                              .grade[index].value ??
                                               emptyString);
                                         }
                                       });
@@ -183,7 +183,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 8),
                                       child: Text(_preferenceController
-                                          .grade?[index].value ??
+                                          .grade[index].value ??
                                           emptyString),
                                     ),
                                     selectedColor: AppColors
@@ -191,7 +191,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                     labelStyle: TextStyle(
                                       color: _preferenceController.selectedGrade
                                           .contains(_preferenceController
-                                          .grade?[index].value ??
+                                          .grade[index].value ??
                                           emptyString)
                                           ? AppColors.white
                                           : AppColors
@@ -234,12 +234,12 @@ class _PreferenceViewState extends State<PreferenceView>
                             InlineChoice<Grade>(
                               clearable: true,
                               loading:
-                              _preferenceController.schoolType?.isEmpty ??
+                              _preferenceController.schoolType.isEmpty ??
                                   true,
                               value: _preferenceController.schoolType ??
                                   <Grade>[],
                               itemCount:
-                              _preferenceController.schoolType?.length ?? 0,
+                              _preferenceController.schoolType.length ?? 0,
                               itemBuilder:
                                   (ChoiceController<Grade> selection,
                                   int index) {
@@ -250,7 +250,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                               .selectedSchoolIndices
                                               .contains(
                                               _preferenceController
-                                                  .schoolType?[
+                                                  .schoolType[
                                               index]
                                                   .value ??
                                                   emptyString)
@@ -260,7 +260,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                   selected: _preferenceController
                                       .selectedSchoolIndices
                                       .contains(_preferenceController
-                                      .schoolType?[index].value ??
+                                      .schoolType[index].value ??
                                       emptyString),
                                   onSelected: (bool selected) {
                                     setState(() {
@@ -272,14 +272,14 @@ class _PreferenceViewState extends State<PreferenceView>
                                         _preferenceController
                                             .selectedSchoolIndices
                                             .add(_preferenceController
-                                            .schoolType?[index]
+                                            .schoolType[index]
                                             .value ??
                                             emptyString); // Add to the set for multi-selection
                                       } else {
                                         _preferenceController
                                             .selectedSchoolIndices
                                             .remove(_preferenceController
-                                            .schoolType?[index]
+                                            .schoolType[index]
                                             .value ??
                                             emptyString); // Remove from the set
                                       }
@@ -295,7 +295,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                     color: _preferenceController
                                         .selectedSchoolIndices
                                         .contains(_preferenceController
-                                        .schoolType?[index]
+                                        .schoolType[index]
                                         .value ??
                                         emptyString)
                                         ? AppColors.white
@@ -333,11 +333,11 @@ class _PreferenceViewState extends State<PreferenceView>
                               value: _preferenceController.curriculum ??
                                   <Grade>[],
                               loading:
-                              _preferenceController.curriculum?.isEmpty ??
+                              _preferenceController.curriculum.isEmpty ??
                                   true,
                               //onChanged: setSchoolValue,
                               itemCount:
-                              _preferenceController.curriculum?.length ?? 0,
+                              _preferenceController.curriculum.length ?? 0,
                               itemBuilder:
                                   (ChoiceController<Grade> selection,
                                   int index) {
@@ -348,7 +348,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                               .selectedCurriculumIndices
                                               .contains(
                                               _preferenceController
-                                                  .curriculum?[
+                                                  .curriculum[
                                               index]
                                                   .value ??
                                                   emptyString)
@@ -358,7 +358,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                   selected: _preferenceController
                                       .selectedCurriculumIndices
                                       .contains(_preferenceController
-                                      .curriculum?[index].value ??
+                                      .curriculum[index].value ??
                                       emptyString),
                                   onSelected: (bool selected) {
                                     setState(() {
@@ -366,7 +366,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                         _preferenceController
                                             .selectedCurriculumIndices
                                             .add(_preferenceController
-                                            .curriculum?[index]
+                                            .curriculum[index]
                                             .value ??
                                             emptyString); // Add to the set for multi-selection
                                       } else {
@@ -381,7 +381,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                   },
                                   showCheckmark: false,
                                   label: Text(_preferenceController
-                                      .curriculum?[index].value ??
+                                      .curriculum[index].value ??
                                       emptyString),
                                   selectedColor: AppColors
                                       .appBlue, // Change this to your desired color
@@ -389,7 +389,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                     color: _preferenceController
                                         .selectedCurriculumIndices
                                         .contains(_preferenceController
-                                        .curriculum?[index]
+                                        .curriculum[index]
                                         .value ??
                                         emptyString)
                                         ? AppColors.white
@@ -435,13 +435,13 @@ class _PreferenceViewState extends State<PreferenceView>
                               .selectedSchoolIndices.contains('Private'))
                             InlineChoice<Grade>(
                               clearable: true,
-                              loading: _preferenceController.subject?.isEmpty ??
+                              loading: _preferenceController.subject.isEmpty ??
                                   true,
                               value: _preferenceController.subject ??
                                   <Grade>[],
                               //onChanged: setSchoolValue,
                               itemCount:
-                              _preferenceController.subject?.length ?? 0,
+                              _preferenceController.subject.length ?? 0,
                               itemBuilder:
                                   (ChoiceController<Grade> selection,
                                   int index) {
@@ -457,7 +457,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                   selected: _preferenceController
                                       .selectedSubjectIndices
                                       .contains(_preferenceController
-                                      .subject?[index].value ??
+                                      .subject[index].value ??
                                       emptyString),
                                   onSelected: (bool selected) {
                                     setState(() {
@@ -465,20 +465,20 @@ class _PreferenceViewState extends State<PreferenceView>
                                         _preferenceController
                                             .selectedSubjectIndices
                                             .add(_preferenceController
-                                            .subject?[index].value ??
+                                            .subject[index].value ??
                                             emptyString); // Add to the set for multi-selection
                                       } else {
                                         _preferenceController
                                             .selectedSubjectIndices
                                             .remove(_preferenceController
-                                            .subject?[index].value ??
+                                            .subject[index].value ??
                                             emptyString); // Remove from the set
                                       }
                                     });
                                   },
                                   showCheckmark: false,
                                   label: Text(_preferenceController
-                                      .subject?[index].value ??
+                                      .subject[index].value ??
                                       emptyString),
                                   selectedColor: AppColors
                                       .appBlue, // Change this to your desired color
@@ -486,7 +486,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                     color: _preferenceController
                                         .selectedSubjectIndices
                                         .contains(_preferenceController
-                                        .subject?[index].value ??
+                                        .subject[index].value ??
                                         emptyString)
                                         ? AppColors.white
                                         : AppColors
@@ -529,13 +529,13 @@ class _PreferenceViewState extends State<PreferenceView>
                               .selectedCurriculumIndices.isNotEmpty)
                             InlineChoice<Grade>(
                               clearable: true,
-                              loading: _preferenceController.subject?.isEmpty ??
+                              loading: _preferenceController.subject.isEmpty ??
                                   true,
                               value: _preferenceController.subject ??
                                   <Grade>[],
                               //onChanged: setSchoolValue,
                               itemCount:
-                              _preferenceController.subject?.length ?? 0,
+                              _preferenceController.subject.length ?? 0,
                               itemBuilder:
                                   (ChoiceController<Grade> selection,
                                   int index) {
@@ -551,7 +551,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                   selected: _preferenceController
                                       .selectedSubjectIndices
                                       .contains(_preferenceController
-                                      .subject?[index].value ??
+                                      .subject[index].value ??
                                       emptyString),
                                   onSelected: (bool selected) {
                                     setState(() {
@@ -559,20 +559,20 @@ class _PreferenceViewState extends State<PreferenceView>
                                         _preferenceController
                                             .selectedSubjectIndices
                                             .add(_preferenceController
-                                            .subject?[index].value ??
+                                            .subject[index].value ??
                                             emptyString); // Add to the set for multi-selection
                                       } else {
                                         _preferenceController
                                             .selectedSubjectIndices
                                             .remove(_preferenceController
-                                            .subject?[index].value ??
+                                            .subject[index].value ??
                                             emptyString); // Remove from the set
                                       }
                                     });
                                   },
                                   showCheckmark: false,
                                   label: Text(_preferenceController
-                                      .subject?[index].value ??
+                                      .subject[index].value ??
                                       emptyString),
                                   selectedColor: AppColors
                                       .appBlue, // Change this to your desired color
@@ -580,7 +580,7 @@ class _PreferenceViewState extends State<PreferenceView>
                                     color: _preferenceController
                                         .selectedSubjectIndices
                                         .contains(_preferenceController
-                                        .subject?[index].value ??
+                                        .subject[index].value ??
                                         emptyString)
                                         ? AppColors.white
                                         : AppColors
