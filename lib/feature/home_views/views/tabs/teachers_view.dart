@@ -42,7 +42,7 @@ class _TeachersViewState extends State<TeachersView> {
     if (selectedProfile == ApplicationConstants.tutor) {
       return ClassesView();
     } else {
-      return (_homeController.relatedTeachersList.isEmpty&&_homeController.favouriteTeachersList.isEmpty)? Padding(
+      return Obx(() => !_homeController.isCreatedClass.value? Padding(
         padding: EdgeInsets.only( right: 8.px, top:20.px, bottom: 10.px, left: 8.px),
         child: SizedBox(
           height: MediaQuery
@@ -152,7 +152,7 @@ class _TeachersViewState extends State<TeachersView> {
             )
           ],
         ),
-      );
+      ));
     }
   }
 }

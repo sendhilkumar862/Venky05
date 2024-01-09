@@ -38,7 +38,6 @@ class _ClassesViewState extends State<ClassesView> {
   void initState() {
     super.initState();
     selectedProfile = LocaleManager.getValue(StorageKeys.profile) ?? '';
-
   }
 
   @override
@@ -202,252 +201,263 @@ class _ClassesViewState extends State<ClassesView> {
   }
 
   Widget activeScreen() {
-    return
-    Obx(()=>_homeController.isCreatedClass.value?Expanded(
-      child: ListView(
-        children: <Widget>[
-          Obx(
-                () => _homeController.upComingClassList.isNotEmpty
-                ? InfoCardViewHorizontal(
-              isClassScreen: true,
-              isShowButton: true,
-              title:
-              'Create a new class and receive proposals from teachers',
-              cardColor: AppColors.lightPurple,
-              buttonTap: () {
-                Get.toNamed(Routes.createClass);
-              },
-            )
-                : const SizedBox.shrink(),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Obx(
-                () => HeadingCardView(
-              // ignore: avoid_bool_literals_in_conditional_expressions
-                title: 'Upcoming Classes',
-                onTap: () {},
-                totalItem: _homeController.upComingClassList.isNotEmpty
-                    ? _homeController.upComingClassList.length.toString()
-                    : '',
-                isViewAllIcon: _homeController.upComingClassList.isNotEmpty
-                    ? true
-                    : false),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Obx(
-                () => _homeController.upComingClassList.isNotEmpty
-                ? SizedBox(
-              height: 226.px,
-              child: ListView.separated(
-                padding: const EdgeInsets.only(
-                    right: 15, top: 5, bottom: 20, left: 15),
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                itemCount: 3 ?? 0,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  return AppCardView(
-                    proposals: 5,
-                    cardTitle: 'Math',
-                    date: '12/12 12:30pm',
-                    timer: '1h 30m',
-                    money: '5.500 KWD',
-                    status: 'Pending',
-                    isPro: true,
-                    grade: 'Grade1',
-                    avtar: ImageConstants.teacherAvtar,
-                    countryIcon: ImageConstants.countryIcon,
-                    countryName: 'Kuwait',
-                    reViewLength: _homeController.upComingClassList.length,
-                    teacherName: 'Ahmed Ali',
-                    buttonTap: () {},
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(
-                    width: 15,
-                  );
-                },
-              ),
-            )
-                : InfoCardVIew(
-              isShowButton: true,
-              title: 'No Booked Classes Yet!',
-              subTitle: 'Search about Classes or Create New',
-              cardColor: AppColors.white,
-              buttonTitle: 'Create Class',
-              buttonTap: () {
-                Get.toNamed(Routes.createClass);
-                // AppRouter.pushNamed(Routes.createClass);
-              },
+    return Obx(() => _homeController.isCreatedClass.value
+        ? Expanded(
+            child: ListView(
+              children: <Widget>[
+                Obx(
+                  () => _homeController.upComingClassList.isNotEmpty
+                      ? InfoCardViewHorizontal(
+                          isClassScreen: true,
+                          isShowButton: true,
+                          title:
+                              'Create a new class and receive proposals from teachers',
+                          cardColor: AppColors.lightPurple,
+                          buttonTap: () {
+                            Get.toNamed(Routes.createClass);
+                          },
+                        )
+                      : const SizedBox.shrink(),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Obx(
+                  () => HeadingCardView(
+                      // ignore: avoid_bool_literals_in_conditional_expressions
+                      title: 'Upcoming Classes',
+                      onTap: () {},
+                      totalItem: _homeController.upComingClassList.isNotEmpty
+                          ? _homeController.upComingClassList.length.toString()
+                          : '',
+                      isViewAllIcon:
+                          _homeController.upComingClassList.isNotEmpty
+                              ? true
+                              : false),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Obx(
+                  () => _homeController.upComingClassList.isNotEmpty
+                      ? SizedBox(
+                          height: 226.px,
+                          child: ListView.separated(
+                            padding: const EdgeInsets.only(
+                                right: 15, top: 5, bottom: 20, left: 15),
+                            shrinkWrap: true,
+                            physics: const BouncingScrollPhysics(),
+                            itemCount: 3 ?? 0,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (BuildContext context, int index) {
+                              return AppCardView(
+                                proposals: 5,
+                                cardTitle: 'Math',
+                                date: '12/12 12:30pm',
+                                timer: '1h 30m',
+                                money: '5.500 KWD',
+                                status: 'Pending',
+                                isPro: true,
+                                grade: 'Grade1',
+                                avtar: ImageConstants.teacherAvtar,
+                                countryIcon: ImageConstants.countryIcon,
+                                countryName: 'Kuwait',
+                                reViewLength:
+                                    _homeController.upComingClassList.length,
+                                teacherName: 'Ahmed Ali',
+                                buttonTap: () {},
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const SizedBox(
+                                width: 15,
+                              );
+                            },
+                          ),
+                        )
+                      : InfoCardVIew(
+                          isShowButton: true,
+                          title: 'No Booked Classes Yet!',
+                          subTitle: 'Search about Classes or Create New',
+                          cardColor: AppColors.white,
+                          buttonTitle: 'Create Class',
+                          buttonTap: () {
+                            Get.toNamed(Routes.createClass);
+                            // AppRouter.pushNamed(Routes.createClass);
+                          },
+                        ),
+                ),
+                SizedBox(
+                  height: 10.px,
+                ),
+                Obx(
+                  () => HeadingCardView(
+                    title: 'Related Classes',
+                    onTap: () {},
+                    totalItem: _homeController.classList.isNotEmpty
+                        ? _homeController.classList.length.toString()
+                        : '',
+                    isViewAllIcon:
+                        _homeController.classList.isNotEmpty ? true : false,
+                  ),
+                ),
+                SizedBox(
+                  height: 10.px,
+                ),
+                Obx(
+                  () => _homeController.classList.isNotEmpty
+                      ? SizedBox(
+                          height: 226.px,
+                          child: ListView.separated(
+                            padding: const EdgeInsets.only(
+                                right: 15, top: 5, bottom: 20, left: 15),
+                            shrinkWrap: true,
+                            physics: const BouncingScrollPhysics(),
+                            itemCount: _homeController.classList.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (BuildContext context, int index) {
+                              return AppCardView(
+                                proposals: 5,
+                                cardTitle:
+                                    _homeController.classList[index].subject,
+                                date: _homeController
+                                    .classList[index].classTime!
+                                    .toString()
+                                    .epochToNormal(),
+                                timer: _homeController.classList[index].duration
+                                    .toString()
+                                    .timeConvert(),
+                                money:
+                                    "${_homeController.classList[index].cost ?? ''} ${_homeController.classList[index].currency ?? ''}",
+                                status: _homeController.classList[index].status,
+                                // isPro: true,
+                                avtar: ImageConstants.teacherAvtar,
+                                countryIcon: ImageConstants.countryIcon,
+                                countryName: 'Kuwait',
+                                reViewLength: 3,
+                                teacherName:
+                                    _homeController.classList[index].name,
+                                grade: _homeController.classList[index].grade,
+                                minParticipants: _homeController
+                                    .classList[index].minParticipants,
+                                maxParticipants: _homeController
+                                    .classList[index].maxParticipants,
+                                buttonTap: () {
+                                  Get.toNamed(Routes.classDetailsView,
+                                      arguments: _homeController
+                                          .classList[index].classNumber);
+                                },
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const SizedBox(
+                                width: 15,
+                              );
+                            },
+                          ),
+                        )
+                      : InfoCardVIew(
+                          isShowButton: false,
+                          title: 'No Related Classes Yet!',
+                          subTitle: 'Search about Classes or Create New',
+                          cardColor: AppColors.white,
+                          buttonTitle: '',
+                          buttonTap: () {},
+                        ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                SizedBox(height: 20.px),
+                Obx(
+                  () => HeadingCardView(
+                    title: 'History',
+                    onTap: () {},
+                    totalItem: _homeController.historyClassList.isNotEmpty
+                        ? _homeController.historyClassList.length.toString()
+                        : '',
+                    isViewAllIcon: _homeController.historyClassList.isNotEmpty
+                        ? true
+                        : false,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Obx(
+                  () => _homeController.historyClassList.isNotEmpty
+                      ? SizedBox(
+                          height: 226.px,
+                          child: ListView.separated(
+                            padding: const EdgeInsets.only(
+                                right: 15, top: 5, bottom: 20, left: 15),
+                            shrinkWrap: true,
+                            physics: const BouncingScrollPhysics(),
+                            itemCount: _homeController.historyClassList.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (BuildContext context, int index) {
+                              return AppCardView(
+                                proposals: 5,
+                                cardTitle: 'Math',
+                                date: '12/12 12:30pm',
+                                timer: '1h 30m',
+                                money: '5.500 KWD',
+                                status: 'COMPLETED',
+                                isPro: true,
+                                avtar: ImageConstants.teacherAvtar,
+                                countryIcon: ImageConstants.countryIcon,
+                                countryName: 'Kuwait',
+                                grade: 'Grade3',
+                                reViewLength: 3,
+                                teacherName: 'Ahmed Ali',
+                                buttonTap: () {},
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const SizedBox(
+                                width: 15,
+                              );
+                            },
+                          ),
+                        )
+                      : InfoCardVIew(
+                          isShowButton: false,
+                          title: 'No History Classes Found!',
+                          subTitle: 'Search about history Classes ',
+                          cardColor: AppColors.white,
+                          buttonTitle: '',
+                          buttonTap: () {},
+                        ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                const SizedBox(
+                  height: 200,
+                )
+              ],
             ),
-          ),
-          SizedBox(
-            height: 10.px,
-          ),
-          Obx(
-                () => HeadingCardView(
-              title: 'Related Classes',
-              onTap: () {},
-              totalItem: _homeController.classList.isNotEmpty?_homeController.classList.length.toString():'',
-              isViewAllIcon: _homeController.classList.isNotEmpty?true:false,
-            ),
-          ),
-          SizedBox(
-            height: 10.px,
-          ),
-          Obx(
-                () => _homeController.classList.isNotEmpty?SizedBox(
-              height: 226.px,
-              child: ListView.separated(
-                padding: const EdgeInsets.only(
-                    right: 15, top: 5, bottom: 20, left: 15),
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                itemCount: _homeController.classList.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  return AppCardView(
-                    proposals: 5,
-                    cardTitle: _homeController.classList[index].subject,
-                    date: _homeController.classList[index].classTime!
-                        .toString()
-                        .epochToNormal(),
-                    timer: _homeController.classList[index].duration
-                        .toString()
-                        .timeConvert(),
-                    money:
-                    "${_homeController.classList[index].cost ?? ''} ${_homeController.classList[index].currency ?? ''}",
-                    status: _homeController.classList[index].status,
-                    // isPro: true,
-                    avtar: ImageConstants.teacherAvtar,
-                    countryIcon: ImageConstants.countryIcon,
-                    countryName: 'Kuwait',
-                    reViewLength: 3,
-                    teacherName: _homeController.classList[index].name,
-                    grade: _homeController.classList[index].grade,
-                    minParticipants:
-                    _homeController.classList[index].minParticipants,
-                    maxParticipants:
-                    _homeController.classList[index].maxParticipants,
-                    buttonTap: () {
-                      Get.toNamed(Routes.classDetailsView,
-                          arguments:
-                          _homeController.classList[index].classNumber);
-                    },
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(
-                    width: 15,
-                  );
-                },
-              ),
-            )
-                :InfoCardVIew(
-              isShowButton: false,
-              title: 'No Related Classes Yet!',
-              subTitle: 'Search about Classes or Create New',
-              cardColor: AppColors.white,
-              buttonTitle: '',
-              buttonTap: () {},
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          SizedBox(height: 20.px),
-          Obx(
-                () => HeadingCardView(
-              title: 'History',
-              onTap: () {},
-              totalItem: _homeController.historyClassList.isNotEmpty
-                  ? _homeController.historyClassList.length.toString()
-                  : '',
-              isViewAllIcon:
-              _homeController.historyClassList.isNotEmpty ? true : false,
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Obx(
-                ()=> _homeController.historyClassList.isNotEmpty?SizedBox(
-              height: 226.px,
-              child: ListView.separated(
-                padding: const EdgeInsets.only(
-                    right: 15, top: 5, bottom: 20, left: 15),
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                itemCount: _homeController.historyClassList.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  return AppCardView(
-                    proposals: 5,
-                    cardTitle: 'Math',
-                    date: '12/12 12:30pm',
-                    timer: '1h 30m',
-                    money: '5.500 KWD',
-                    status: 'COMPLETED',
-                    isPro: true,
-                    avtar: ImageConstants.teacherAvtar,
-                    countryIcon: ImageConstants.countryIcon,
-                    countryName: 'Kuwait',
-                    grade: 'Grade3',
-                    reViewLength: 3,
-                    teacherName: 'Ahmed Ali',
-                    buttonTap: () {},
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(
-                    width: 15,
-                  );
-                },
-              ),
-            )
-                :InfoCardVIew(
-              isShowButton: false,
-              title: 'No History Classes Found!',
-              subTitle: 'Search about history Classes ',
-              cardColor: AppColors.white,
-              buttonTitle: '',
-              buttonTap: () {},
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          const SizedBox(
-            height: 200,
           )
-        ],
-      ),
-    ):
-        Padding(
-        padding: EdgeInsets.only( right: 8.px, top:20.px, bottom: 10.px, left: 8.px),
-    child: SizedBox(
-    height: MediaQuery
-        .of(context)
-        .size
-        .height * 0.300,
-    child: InfoCardVIew(
-    isShowButton: true,
-    title: 'No Booked Classes Yet!',
-    subTitle: 'Search about Classes or Create New',
-    cardColor: AppColors.white,
-    buttonTitle: 'Create Class',
-    buttonTap: () {
-    Get.toNamed(Routes.createClass);
-    // AppRouter.pushNamed(Routes.createClass);
-    },
-    ),
-    ),
-    ));
-
+        : Padding(
+            padding: EdgeInsets.only(
+                right: 8.px, top: 20.px, bottom: 10.px, left: 8.px),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.300,
+              child: InfoCardVIew(
+                isShowButton: true,
+                title: 'No Booked Classes Yet!',
+                subTitle: 'Search about Classes or Create New',
+                cardColor: AppColors.white,
+                buttonTitle: 'Create Class',
+                buttonTap: () {
+                  Get.toNamed(Routes.createClass);
+                  // AppRouter.pushNamed(Routes.createClass);
+                },
+              ),
+            ),
+          ));
   }
 }

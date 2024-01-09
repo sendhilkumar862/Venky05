@@ -49,7 +49,7 @@ class _StudentsViewState extends State<StudentsView> {
         }
         else {
 
-    return (_homeController.relatedStudentsList.isEmpty&&_homeController.favouriteStudentsList.isEmpty)?
+    return Obx(() => !_homeController.isCreatedClass.value?
     SizedBox(
       height: MediaQuery
           .of(context)
@@ -146,7 +146,7 @@ class _StudentsViewState extends State<StudentsView> {
           )
         ],
       ),
-    );
+    ));
 
         }}else{
         return const SizedBox.shrink();
