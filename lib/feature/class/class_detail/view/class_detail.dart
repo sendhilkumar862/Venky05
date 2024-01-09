@@ -370,6 +370,18 @@ class _ClassDetailState extends State<ClassDetail> {
                           title: 'participators5'.tr,
                           hintText: 'enterEmailAddress'.tr,
                         ),
+                        if( _classDetailController.upperValue>5) AppTextFormField(
+                          controller: _classDetailController.participators6,
+                          validate: _classDetailController.emailValidator.call,
+                          title: 'participators6'.tr,
+                          hintText: 'enterEmailAddress'.tr,
+                        ),
+                        if( _classDetailController.upperValue>6) AppTextFormField(
+                          controller: _classDetailController.participators7,
+                          validate: _classDetailController.emailValidator.call,
+                          title: 'participators7'.tr,
+                          hintText: 'enterEmailAddress'.tr,
+                        ),
                       ],
                     ),
                   Obx(() {
