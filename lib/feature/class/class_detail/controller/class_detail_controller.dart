@@ -29,7 +29,7 @@ class ClassDetailController extends GetxController{
   getMasterDataClass();
 }
 
-  RxInt? selectedIndex =200.obs;
+  RxInt selectedIndex =200.obs;
   RxString selectedProfile = ''.obs;
 
   RxString selectedTimes = formatTime(DateTime.now()).obs;
@@ -39,7 +39,6 @@ class ClassDetailController extends GetxController{
 
   RxBool isActive = false.obs;
   int? isSelected;
-  int? isCurriculumSelected;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
@@ -51,6 +50,7 @@ class ClassDetailController extends GetxController{
   TextEditingController participators4 = TextEditingController(text: '');
   TextEditingController participators5 = TextEditingController(text: '');
   TextEditingController classDurationController = TextEditingController();
+  TextEditingController classLocationController = TextEditingController();
   TextEditingController classSummaryController = TextEditingController(text: '');
   final EmailValidator emailValidator = EmailValidator(
       errorText: 'Enter a valid email address (e.g., name@example.com)');
@@ -59,13 +59,14 @@ class ClassDetailController extends GetxController{
   String dateAndTime = '';
   String classDuration = '';
   DateTime time = DateTime(2016, 5, 10, 22, 35);
-  double lowerValue = 20.0;
-  double upperValue = 80.0;
+  double lowerValue = 1.0;
+  double upperValue = 1.0;
    Rx<MasterDataModel> masterData=MasterDataModel().obs;
   bool isChecked = false;
    List<OtherParticipants> otherParticipants=<OtherParticipants>[];
   int isGradeSelect = -1;
   int isSchoolSelect = -1;
+  int isCurriculumSelect = -1;
   int isSubjectSelect = -1;
   String? classId;
 
@@ -85,7 +86,7 @@ class ClassDetailController extends GetxController{
       otherParticipants.add(OtherParticipants(email:participators5.text ));
     }
     final BaseResponse classResponse = await _createClassRepository.createClassRepository(CreateClassRequestModel(grade: masterData.value.grades![isGradeSelect],school: masterData.value.schoolTypes![isSchoolSelect],subject:  masterData.value.subjects![isSubjectSelect],summary:classSummaryController.text,minParticipants:lowerValue.toInt(),
-    maxParticipants: upperValue.toInt(),cost:int.parse(classCost.text),sessions: int.parse(numberOfSession.text),classTime:dateController.text.toEpoch(),currency: 'KWD',duration:masterData.value.sessionDurations![isSelected!],location:_manageAddressController.address[selectedIndex!.value].id,otherParticipants: otherParticipants ,curriculum: masterData.value.curriculum![isCurriculumSelected!] ));
+    maxParticipants: upperValue.toInt(),cost:int.parse(classCost.text),sessions: int.parse(numberOfSession.text),classTime:dateController.text.toEpoch(),currency: 'KWD',duration:masterData.value.sessionDurations![isSelected!],location:_manageAddressController.address[selectedIndex!.value].id,otherParticipants: otherParticipants ,curriculum: masterData.value.curriculum![isCurriculumSelect!] ));
     if (classResponse.status?.type == 'success') {
       final Map<String, dynamic> classData= classResponse.data!.item! as Map<String, dynamic>;
       EasyLoading.dismiss();

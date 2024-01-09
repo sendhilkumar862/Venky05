@@ -175,7 +175,9 @@ class Messages extends Translations {
           'ibanError': 'IBAN is Empty',
           'ibanInvalid': 'IBAN is invalid',
           'ibanLengthError': 'Minimum IBAN Length should be 30 digits',
-          'iabnLocalError': 'You have to enter local Bank Account Number'
+          'iabnLocalError': 'You have to enter local Bank Account Number',
+          'classLocation': 'Class Location',
+          'selectAddress':'Select Address'
         },
         'ar_AR': {
           'welcome': 'مرحبًا في تطبيقي',
@@ -348,6 +350,8 @@ class Messages extends Translations {
           'ibanLengthError': 'Minimum IBAN Length should be 30 digits',
           'iabnLocalError': 'You have to enter local Bank Account Number',
           'ibanInvalid': 'IBAN is invalid',
+          'classLocation': 'Class Location',
+          'selectAddress':'Select Address'
         }
       };
 }

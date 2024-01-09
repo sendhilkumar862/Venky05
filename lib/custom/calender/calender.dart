@@ -9,7 +9,8 @@ class AppCalender extends StatefulWidget {
   Function(String) selectedDate;
   Function(DateTime) selectedTime;
   String selectTime = formatTime(DateTime.now());
-  AppCalender( {required this.selectedTime,required this.selectedDate,super.key});
+  DateTime? startDate;
+  AppCalender( {required this.selectedTime,required this.selectedDate,super.key, this.startDate});
 
   @override
   State<AppCalender> createState() => _AppCalenderState();
@@ -53,6 +54,7 @@ class _AppCalenderState extends State<AppCalender> {
                       'FRI',
                       'SAT',
                     ],
+                    firstDate: widget.startDate,
                     customModePickerIcon: const Icon(
                       Icons.arrow_forward_ios,
                       size: 17,

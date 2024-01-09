@@ -19,7 +19,8 @@ import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../../product/utils/validators.dart';
 import '../../../setting_view/add_address_screen/Model/request_address_model.dart';
-import '../../../setting_view/manage_address/Model/get_address_model.dart' hide Location;
+import '../../../setting_view/manage_address/Model/get_address_model.dart'
+    hide Location;
 import '../../../setting_view/manage_address/controller/manage_controller.dart';
 import '../controller/class_detail_controller.dart';
 
@@ -35,12 +36,13 @@ class _ClassDetailState extends State<ClassDetail> {
       Get.put(ClassDetailController());
   final ManageAddressController _manageAddressController =
       Get.put(ManageAddressController());
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _manageAddressController.fetchAddressData();
   }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
@@ -91,7 +93,10 @@ class _ClassDetailState extends State<ClassDetail> {
                     height: 50,
                     child: FlutterSlider(
                       rangeSlider: true,
-                      values: <double>[_classDetailController.lowerValue, _classDetailController.upperValue],
+                      values: <double>[
+                        _classDetailController.lowerValue,
+                        _classDetailController.upperValue
+                      ],
                       max: 100,
                       min: 0,
                       // ignore: always_specify_types
@@ -182,8 +187,8 @@ class _ClassDetailState extends State<ClassDetail> {
                   AppTextFormField(
                     controller: _classDetailController.numberOfSession,
                     keyboardType:
-                    // ignore: use_named_constants
-                    const TextInputType.numberWithOptions(),
+                        // ignore: use_named_constants
+                        const TextInputType.numberWithOptions(),
                     validate: Validators.requiredValidator.call,
                     hintText: 'numberOfSessions'.tr,
                   ),
@@ -202,33 +207,6 @@ class _ClassDetailState extends State<ClassDetail> {
                         color: AppColors.downArrowColor),
                   ),
                   AppTextFormField(
-                    controller: _classDetailController.class2DateController,
-                    validate: Validators.requiredValidator.call,
-                    onTap: () {
-                      bottomSheetDropDownList(_classDetailController.masterData.value.curriculum!, _classDetailController.isSelected??-1,myValueGetter: (index){
-                        _classDetailController.isCurriculumSelected = index;
-                        _classDetailController.class2DateController.text =_classDetailController.masterData.value.curriculum![index];
-                        Navigator.pop(context);
-                      });
-                    },
-                    readOnly: true,
-                    title: 'Curriculum',
-                    hintText: 'Select curriculum',
-                    suffix: const Icon(Icons.keyboard_arrow_down),
-                  ),
-                  // AppTextFormField(
-                  //   validate: Validators.requiredValidator.call,
-                  //   hintText: 'selectClass2DateAndTime'.tr,
-                  //   controller: _classDetailController.class2DateController,
-                  //   onTap: () {
-                  //     calender(context, _classDetailController.class2DateController);
-                  //   },
-                  //   title: 'class2DateAndTime'.tr,
-                  //   readOnly: true,
-                  //   suffix: const Icon(Icons.keyboard_arrow_down_sharp,
-                  //       color: AppColors.downArrowColor),
-                  // ),
-                  AppTextFormField(
                     validate: Validators.requiredValidator.call,
                     suffix: const Icon(Icons.keyboard_arrow_down_sharp,
                         color: AppColors.downArrowColor),
@@ -237,77 +215,73 @@ class _ClassDetailState extends State<ClassDetail> {
                     readOnly: true,
                     controller: _classDetailController.classDurationController,
                     onTap: () {
-                      bottomSheetDropDownList(_classDetailController.masterData.value.sessionDurations!.map((el) => el.toString()).toList(), _classDetailController.isSelected??-1,myValueGetter: (index){
+                      bottomSheetDropDownList(
+                          _classDetailController
+                              .masterData.value.sessionDurations!
+                              .map((el) => el.toString())
+                              .toList(),
+                          _classDetailController.isSelected ?? -1,
+                          myValueGetter: (index) {
                         _classDetailController.isSelected = index;
-                        _classDetailController.classDurationController.text = _classDetailController.masterData.value.sessionDurations![index].toString().timeConvert();
+                        _classDetailController.classDurationController.text =
+                            _classDetailController
+                                .masterData.value.sessionDurations![index]
+                                .toString()
+                                .timeConvert();
                         Navigator.pop(context);
-                      },isClassDuration: true);
+                      }, isClassDuration: true);
                     },
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20, bottom: 7),
-                    child: Text(
-                      'selectLocation'.tr,
-                      style: TextStyle(
-                          color: const Color(0xff051335).withOpacity(0.5),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ),
+                  Obx(() => _manageAddressController.address.isEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 20, bottom: 7),
+                          child: Text(
+                            'selectLocation'.tr,
+                            style: TextStyle(
+                                color: const Color(0xff051335).withOpacity(0.5),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        )
+                      : const SizedBox.shrink()),
+
                   Obx(() {
                     UserAddress data = UserAddress();
-                    if (_classDetailController.selectedIndex?.value != 200) {
+                    if (_classDetailController.selectedIndex.value != 200) {
                       data = _manageAddressController
-                          .address[_classDetailController.selectedIndex!.value];
+                          .address[_classDetailController.selectedIndex.value];
+                    }else{
+                      if(  _manageAddressController.address.length==1){
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          _classDetailController.selectedIndex.value=0;
+                        });
+
+                        data = _manageAddressController.address[0];
+                      }
                     }
+                    _classDetailController.classLocationController.text =
+                        data.shortName ?? '';
                     return SizedBox(
                       width: width,
-                      child: _classDetailController.selectedIndex?.value != 200
+                      child: _manageAddressController.address.isNotEmpty
                           ? GestureDetector(
-                        onTap: ()=> locationModalBottomSheet(context),
-                            child: Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      border:
-                                          Border.all(color: AppColors.appBlue),
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 10),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              Text(data.shortName ?? '',
-                                                  style: openSans.get17.w700),
-                                            ]),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 5, bottom: 13),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text(
-                                                  '${data.address1 ?? ''} ${data.address2 ?? ''}'),
-                                              Text(
-                                                  '${data.city ?? ''} ${data.state ?? ''} ${data.country ?? ''}'),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )),
-                          )
+                              onTap: () => locationModalBottomSheet(context),
+                              child: AppTextFormField(
+                                validate: Validators.requiredValidator.call,
+                                suffix: const Icon(
+                                    Icons.keyboard_arrow_down_sharp,
+                                    color: AppColors.downArrowColor),
+                                hintText: 'selectAddress'.tr,
+                                title: 'classLocation'.tr,
+                                readOnly: true,
+                                controller: _classDetailController
+                                    .classLocationController,
+                                onTap: () => locationModalBottomSheet(context),
+                              ),
+                            )
                           : DottedBorder(
                               borderType: BorderType.RRect,
-                              radius: Radius.circular(15),
+                              radius: const Radius.circular(15),
                               color: AppColors.appBlue,
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -334,9 +308,15 @@ class _ClassDetailState extends State<ClassDetail> {
                                           width: width,
                                           title: 'addAddressFound'.tr,
                                           onPressed: () {
-                                            locationModalBottomSheet(context);
+                                            final Map<String, dynamic>
+                                                titleData = {
+                                              'title': 'Add New Addresses',
+                                            };
+                                            Get.toNamed(Routes.addAddressView,
+                                                arguments: titleData);
                                           },
-                                          isDisable: _classDetailController.isDisable),
+                                          isDisable:
+                                              _classDetailController.isDisable),
                                     )
                                   ],
                                 ),
@@ -392,21 +372,26 @@ class _ClassDetailState extends State<ClassDetail> {
                         ),
                       ],
                     ),
-                   Obx((){
-                     final int? locationIndex=_classDetailController.selectedIndex?.value;
-                     return AppButton(
-                        title: 'nextForClassDetails'.tr,
-                        onPressed: () async{
-                          if (_classDetailController.formKey.currentState!.validate()) {
-                       if(locationIndex!=200) {
-                            final String? success=await  _classDetailController.createClass();
-                            if (success!=null) {
+                  Obx(() {
+                    final int? locationIndex =
+                        _classDetailController.selectedIndex?.value;
+                    return AppButton(
+                      title: 'nextForClassDetails'.tr,
+                      onPressed: () async {
+                        if (_classDetailController.formKey.currentState!
+                            .validate()) {
+                          if (locationIndex != 200) {
+                            final String? success =
+                                await _classDetailController.createClass();
+                            if (success != null) {
                               // ignore: use_build_context_synchronously
                               showModalBottomSheet(
                                 backgroundColor: Colors.white,
                                 context: context,
+                                isDismissible: false,
                                 constraints: BoxConstraints(
-                                  maxWidth: MediaQuery.of(context).size.width - 30,
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width - 30,
                                   // here increase or decrease in width
                                 ),
                                 shape: RoundedRectangleBorder(
@@ -414,21 +399,25 @@ class _ClassDetailState extends State<ClassDetail> {
                                 ),
                                 builder: (BuildContext context) {
                                   return SuccessFailsInfoDialog(
-                                    title: 'success'.tr,
-                                    buttonTitle: 'done'.tr,
-                                    content: 'You have successfully created class',
-                                    isRouting: Routes.classDetailsView,
-                                    argument:success
-                                  );
+                                      title: 'success'.tr,
+                                      buttonTitle: 'done'.tr,
+                                      content:
+                                          'You have successfully creates a new class And awaiting proposals from teachers.',
+                                      isRouting: Routes.classDetailsView,
+                                      argument: success);
                                 },
                               );
                             }
-                          }}
-                        },
-                        // ignore: avoid_bool_literals_in_conditional_expressions
-                        isDisable: _classDetailController.isDisable || locationIndex==200?true:false,
-                      );}
-                   ),
+                          }
+                        }
+                      },
+                      // ignore: avoid_bool_literals_in_conditional_expressions
+                      isDisable: _classDetailController.isDisable ||
+                              locationIndex == 200
+                          ? true
+                          : false,
+                    );
+                  }),
                 ]),
           ),
         ),
@@ -442,7 +431,7 @@ class _ClassDetailState extends State<ClassDetail> {
         child: Container(
           decoration: BoxDecoration(
               border: Border.all(
-                color: _classDetailController.selectedIndex?.value == index
+                color: _classDetailController.selectedIndex.value == index
                     ? AppColors.appBlue
                     : AppColors.gray.withOpacity(0.25),
               ),
@@ -459,7 +448,7 @@ class _ClassDetailState extends State<ClassDetail> {
                         children: <Widget>[
                           Text(data.shortName ?? '',
                               style: openSans.get17.w700),
-                          if (_classDetailController.selectedIndex?.value ==
+                          if (_classDetailController.selectedIndex.value ==
                               index)
                             Padding(
                               padding: const EdgeInsets.only(left: 8),
@@ -478,9 +467,9 @@ class _ClassDetailState extends State<ClassDetail> {
                       ),
                       Obx(() => GestureDetector(
                           onTap: () {
-                            _classDetailController.selectedIndex?.value = index;
+                            _classDetailController.selectedIndex.value = index;
                           },
-                          child: _classDetailController.selectedIndex?.value ==
+                          child: _classDetailController.selectedIndex.value ==
                                   index
                               ? const ChoiceConfirmButton(
                                   icon: Icon(
@@ -509,17 +498,18 @@ class _ClassDetailState extends State<ClassDetail> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async{
                           if (data.isDefault == 1) {
                             AppUtils.showFlushBar(
                               context: Routes.navigatorKey.currentContext!,
                               message: 'Can not delete default address',
                             );
                           } else {
-                            _manageAddressController
+                           await _manageAddressController
                                 .deleteAddressData(data.id!);
-                            if( _classDetailController.selectedIndex?.value == index){
-                              _classDetailController.selectedIndex?.value =200;
+                            if (_classDetailController.selectedIndex.value ==
+                                index) {
+                              _classDetailController.selectedIndex.value = 200;
                             }
                           }
                         },
@@ -531,11 +521,12 @@ class _ClassDetailState extends State<ClassDetail> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          var arguments={
+                          var arguments = {
                             'title': 'Update Address',
                             'userData': data
                           };
-                          Get.toNamed(Routes.addAddressView,arguments:arguments );
+                          Get.toNamed(Routes.addAddressView,
+                              arguments: arguments);
                         },
                         child: Padding(
                           padding: EdgeInsets.only(
@@ -642,7 +633,7 @@ class _ClassDetailState extends State<ClassDetail> {
               ),
               Obx(
                 () => AppButton(
-                  onPressed: () =>Get.back(),
+                  onPressed: () => Get.back(),
                   // ignore: avoid_bool_literals_in_conditional_expressions
                   isDisable: _classDetailController.selectedIndex?.value != 200
                       ? false
@@ -654,10 +645,10 @@ class _ClassDetailState extends State<ClassDetail> {
                 padding: const EdgeInsets.only(top: 10),
                 child: TextButton(
                     onPressed: () {
-                      final Map<String, dynamic>  titleData = {
-                        'title' : 'Add New Addresses',
+                      final Map<String, dynamic> titleData = {
+                        'title': 'Add New Addresses',
                       };
-                      Get.toNamed(Routes.addAddressView,arguments: titleData);
+                      Get.toNamed(Routes.addAddressView, arguments: titleData);
                     },
                     child: Text(
                       'addNewAddress'.tr,
@@ -691,6 +682,7 @@ class _ClassDetailState extends State<ClassDetail> {
                 controller.text =
                     '${_classDetailController.selectedDate} ${_classDetailController.selectedTimes}';
               },
+                startDate:DateTime.now()
             );
           },
         );
@@ -776,7 +768,8 @@ class _ClassDetailState extends State<ClassDetail> {
     }
   }
 
-  void bottomSheetDropDownList(List<String> data,int isSelected, {required Function(int) myValueGetter, bool? isClassDuration}) {
+  void bottomSheetDropDownList(List<String> data, int isSelected,
+      {required Function(int) myValueGetter, bool? isClassDuration}) {
     final double width = MediaQuery.sizeOf(context).width;
     showModalBottomSheet(
       shape: const RoundedRectangleBorder(
@@ -826,7 +819,10 @@ class _ClassDetailState extends State<ClassDetail> {
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
-                    title: Text(isClassDuration!=null?data[index].timeConvert():data[index],
+                    title: Text(
+                        isClassDuration != null
+                            ? data[index].timeConvert()
+                            : data[index],
                         style: openSans.get16.w400
                             .textColor(AppColors.appTextColor)),
                     onTap: () {
