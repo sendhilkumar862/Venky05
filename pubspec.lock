@@ -1004,6 +1004,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  mirrorfly_plugin:
+    dependency: "direct main"
+    description:
+      name: mirrorfly_plugin
+      sha256: "6f83eced749450d123008f6325f4645cdb6718790a600e563b72d86a0c235524"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.13"
   nested:
     dependency: "direct main"
     description:

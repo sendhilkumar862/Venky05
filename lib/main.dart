@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart' hide ScreenType;
 import 'package:get_storage/get_storage.dart';
+import 'package:mirrorfly_plugin/flychat.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'config/routes/route.dart';
 import 'feature/splash/controller/splash_controller.dart';
@@ -12,7 +13,10 @@ import 'product/lang/language_manager.dart';
 
 Future<void> main() async {
   await GetStorage.init();
-  WidgetsFlutterBinding.ensureInitialized(); // Initialize the Flutter binding
+  WidgetsFlutterBinding.ensureInitialized();// Initialize the Flutter binding
+  Mirrorfly.initializeSDK(
+      licenseKey: 'Your_Mirrorfly_Licence_Key',
+      iOSContainerID: 'Your_iOS_app_Group_id');
   runApp(
     const MyApp(),
   );
