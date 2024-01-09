@@ -171,6 +171,7 @@ class SettingController extends GetxController {
   logout(BuildContext context) async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
      LocaleManager.removeAuthToken();
+    LocaleManager.removeCreatedClassToken();
     await Get.deleteAll();
     EasyLoading.dismiss();
     Get.offAllNamed(Routes.loginView);

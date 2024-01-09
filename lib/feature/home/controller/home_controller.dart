@@ -7,6 +7,7 @@ import 'package:hessah/feature/home/repository/get_class_list_repository.dart';
 import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
 
+import '../../../product/cache/key_value_storeage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../model/home_model.dart';
 import '../repository/get_dashboard_detail_repository.dart';
@@ -15,14 +16,18 @@ class HomeController extends GetxController {
 
   final GetDashboardDetailRepository _dashboardDetailRepository = GetDashboardDetailRepository();
   final GetClassListRepository _getClassListRepository = GetClassListRepository();
-
+  RxBool isCreatedClass = false.obs;
   // ignore: always_declare_return_types
   fetchToken() async {
     final String token = LocaleManager.getAuthToken() ?? '';
     if (token != '') {
       getData();
+      isCreatedClass.value =
+          LocaleManager.getValue(StorageKeys.createdClass) ??false;
     }
   }
+
+
 
   getData()async{
     showLoading();
@@ -35,10 +40,12 @@ class HomeController extends GetxController {
 
   Rx<HomeModel?> homeData = const HomeModel().obs;
   RxList upComingClassList = [].obs;
-  RxList favouriteTeachersList = [1].obs;
+  RxList historyClassList = [1].obs;
+  RxList favouriteTeachersList = [].obs;
   RxList relatedTeachersList = [].obs;
-  RxList favouriteStudentsList = [1].obs;
+  RxList favouriteStudentsList = [].obs;
   RxList relatedStudentsList = [].obs;
+  RxList activitiesList = [].obs;
 
 
   Future<void> fetchData() async {

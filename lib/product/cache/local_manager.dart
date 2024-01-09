@@ -17,6 +17,10 @@ class LocaleManager {
     localeManager.remove(StorageKeys.authTokenKey);
   }
 
+  static void removeCreatedClassToken() {
+    localeManager.remove(StorageKeys.createdClass);
+  }
+
   static void setValue(String key, dynamic value) {
     localeManager.write(key, value);
   }

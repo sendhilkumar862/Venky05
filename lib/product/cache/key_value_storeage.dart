@@ -10,6 +10,7 @@ class StorageKeys {
   static String country = 'country';
   static String countryName = 'countryName';
   static String countryCodeAndIDD = 'countryCode';
+  static String createdClass = 'createClass';
   static String language = 'language';
   static String token = 'token';
   static String setPreference = 'setPreference';
