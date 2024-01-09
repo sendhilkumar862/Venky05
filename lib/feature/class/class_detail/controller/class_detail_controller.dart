@@ -10,6 +10,7 @@ import '../../../../product/cache/key_value_storeage.dart';
 import '../../../../product/cache/local_manager.dart';
 import '../../../../product/extension/string_extension.dart';
 import '../../../../product/utils/common_function.dart';
+import '../../../home/controller/home_controller.dart';
 import '../../../setting_view/manage_address/controller/manage_controller.dart';
 import '../model/create_class_request_model.dart';
 import '../model/master_data_model.dart';
@@ -21,6 +22,7 @@ class ClassDetailController extends GetxController{
   final CreateClassRepository _createClassRepository=CreateClassRepository();
   final GetMasterDataRepository _getMasterDataRepository=GetMasterDataRepository();
   final ManageAddressController _manageAddressController = Get.put(ManageAddressController());
+  final HomeController _homeController = Get.find();
   @override
   void onInit() {
   selectedProfile.value =
@@ -89,6 +91,8 @@ class ClassDetailController extends GetxController{
     maxParticipants: upperValue.toInt(),cost:int.parse(classCost.text),sessions: int.parse(numberOfSession.text),classTime:dateController.text.toEpoch(),currency: 'KWD',duration:masterData.value.sessionDurations![isSelected!],location:_manageAddressController.address[selectedIndex!.value].id,otherParticipants: otherParticipants ,curriculum: masterData.value.curriculum![isCurriculumSelect!] ));
     if (classResponse.status?.type == 'success') {
       final Map<String, dynamic> classData= classResponse.data!.item! as Map<String, dynamic>;
+      LocaleManager.setValue(StorageKeys.createdClass,true);
+      _homeController.fetchToken();
       EasyLoading.dismiss();
       return classData['classId'];
     } else {

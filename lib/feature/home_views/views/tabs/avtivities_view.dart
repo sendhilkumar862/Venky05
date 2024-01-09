@@ -48,8 +48,8 @@ class _ActivitiesViewState extends State<ActivitiesView> {
            child: ListView(
              children: <Widget>[
                SizedBox(height: 20.px),
-               Padding(
-                 padding: EdgeInsets.only( right: 8.px, top: 2.px, bottom: 10.px, left: 8.px),
+               if (_homeController.activitiesList.isEmpty) Padding(
+                 padding: EdgeInsets.only( right: 8.px, bottom: 10.px, left: 8.px),
                  child: InfoCardVIew(
                    isShowButton: true,
                    title: 'No Activities Found!',
@@ -62,9 +62,7 @@ class _ActivitiesViewState extends State<ActivitiesView> {
                      // AppRouter.pushNamed(Routes.createClass);
                    },
                  ),
-               ),
-               SizedBox(height: 20.px),
-               SizedBox(
+               ) else SizedBox(
                  width: MediaQuery.of(context).size.height * 0.90,
                  child: ListView.separated(
                    padding: EdgeInsets.only(

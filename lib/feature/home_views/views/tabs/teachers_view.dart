@@ -42,19 +42,27 @@ class _TeachersViewState extends State<TeachersView> {
     if (selectedProfile == ApplicationConstants.tutor) {
       return ClassesView();
     } else {
-      return Expanded(
+      return (_homeController.relatedTeachersList.isEmpty&&_homeController.favouriteTeachersList.isEmpty)? Padding(
+        padding: EdgeInsets.only( right: 8.px, top:20.px, bottom: 10.px, left: 8.px),
+        child: SizedBox(
+          height: MediaQuery
+              .of(context)
+              .size
+              .height * 0.275,
+          child: InfoCardVIew(
+            isShowButton: false,
+            title: 'No Teachers Found!',
+            subTitle:
+            'No teachers found matching your preferences.',
+            cardColor: AppColors.white,
+            buttonTitle: '',
+            buttonTap: (){},
+          ),
+        ),
+      ):Expanded(
         child: ListView(
           children: <Widget>[
-            // InfoCardVIew(
-            //   isShowButton: true,
-            //   title: 'No Activities Found!',
-            //   subTitle:
-            //   "You don't have any pending activities that require your action. If there are scheduled classes or new proposals for the classes you created, etc...\nyou will find them here.",
-            //   cardColor: AppColors.white,
-            //   buttonTitle: 'Class Details',
-            //   buttonTap: () => Get.toNamed(Routes.classDetailsView),
-            // ),
-             SizedBox(height: 20.px),
+            SizedBox(height: 20.px),
             HeadingCardView(
                 title: 'Favorites Teachers',
                 totalItem:  _homeController.favouriteTeachersList.isNotEmpty?_homeController.favouriteTeachersList.length.toString():'',

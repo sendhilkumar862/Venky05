@@ -403,7 +403,7 @@ class _ClassDetailState extends State<ClassDetail> {
                                       buttonTitle: 'done'.tr,
                                       content:
                                           'You have successfully creates a new class And awaiting proposals from teachers.',
-                                      isRouting: Routes.classDetailsView,
+                                      isRouting: _classDetailController.selectedProfile == ApplicationConstants.student?Routes.classDetailsView:Routes.homeViews,
                                       argument: success);
                                 },
                               );
