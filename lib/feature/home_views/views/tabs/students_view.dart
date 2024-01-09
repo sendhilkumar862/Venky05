@@ -1,9 +1,12 @@
+// ignore_for_file: avoid_bool_literals_in_conditional_expressions
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../config/routes/route.dart';
 import '../../../../custom/cardView/details_card_view.dart';
+import '../../../../custom/cardView/details_card_view_student.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';
 import '../../../../product/cache/key_value_storeage.dart';
@@ -15,14 +18,14 @@ import '../../../home/controller/home_controller.dart';
 import 'classes_view.dart';
 
 
-class TeachersView extends StatefulWidget {
-  const TeachersView({Key? key}) : super(key: key);
+class StudentsView extends StatefulWidget {
+  const StudentsView({Key? key}) : super(key: key);
 
   @override
-  State<TeachersView> createState() => _TeachersViewState();
+  State<StudentsView> createState() => _TeachersViewState();
 }
 
-class _TeachersViewState extends State<TeachersView> {
+class _TeachersViewState extends State<StudentsView> {
   String selectedProfile = '';
   String selectedUserStatus = '';
   bool isPending = false;
@@ -39,50 +42,36 @@ class _TeachersViewState extends State<TeachersView> {
 
   @override
   Widget build(BuildContext context) {
-    if (selectedProfile == ApplicationConstants.tutor) {
-      return ClassesView();
-    } else {
-      return Expanded(
+    return Expanded(
         child: ListView(
           children: <Widget>[
-            // InfoCardVIew(
-            //   isShowButton: true,
-            //   title: 'No Activities Found!',
-            //   subTitle:
-            //   "You don't have any pending activities that require your action. If there are scheduled classes or new proposals for the classes you created, etc...\nyou will find them here.",
-            //   cardColor: AppColors.white,
-            //   buttonTitle: 'Class Details',
-            //   buttonTap: () => Get.toNamed(Routes.classDetailsView),
-            // ),
-             SizedBox(height: 20.px),
+            SizedBox(height: 20.px),
             HeadingCardView(
-                title: 'Favorites Teachers',
-                totalItem:  _homeController.favouriteTeachersList.isNotEmpty?_homeController.favouriteTeachersList.length.toString():'',
+                title: 'Favorites Students',
+                totalItem:  _homeController.favouriteStudentsList.isNotEmpty?_homeController.favouriteStudentsList.length.toString():'',
                 onTap: () {},
-                isViewAllIcon: _homeController.favouriteTeachersList.isNotEmpty?true:false),
+                isViewAllIcon: _homeController.favouriteStudentsList.isNotEmpty?true:false),
             SizedBox(
               height: 5.px,
             ),
-            if (_homeController.favouriteTeachersList.isNotEmpty) SizedBox(
+            if (_homeController.favouriteStudentsList.isNotEmpty) SizedBox(
               height: MediaQuery
                   .of(context)
                   .size
-                  .height * 0.300,
+                  .height * 0.240,
               child: ListView.builder(
-                itemCount: 5,
+                itemCount: 4,
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  return DetailsCardView(
-                      reViewLength: 3,
+                  return DetailsCardViewStudent(
+
                       name: 'User Name',
                       avatar: ImageConstants.teacherAvtar,
-                      countryIcon: ImageConstants.countryIcon,
-                      countryName: 'Kuwait',
-                      isPro: true,
+
                       isBookmarked: true,
-                      subjects: 'Science - Accounta..');
+                      grades: 'Grade1');
                 },
               ),
             ) else Padding(
@@ -91,21 +80,21 @@ class _TeachersViewState extends State<TeachersView> {
                 isShowButton: false,
                 title: 'No Favourite Teachers!',
                 subTitle:
-                'Discover teachers and add them to your favourites to reach them and communicate with them quickly.',
+                'Discover students and add them to your favourites to reach them and communicate with them quickly.',
                 cardColor: AppColors.white,
                 buttonTitle: 'Class Details',
                 buttonTap: () => Get.toNamed(Routes.classDetailsView),
               ),
             ),
             HeadingCardView(
-                title: 'Related Teachers',
-                totalItem:  _homeController.relatedTeachersList.isNotEmpty?_homeController.relatedTeachersList.length.toString():'',
+                title: 'Related Students',
+                totalItem:  _homeController.relatedStudentsList.isNotEmpty?_homeController.relatedStudentsList.length.toString():'',
                 onTap: () {},
-                isViewAllIcon: _homeController.relatedTeachersList.isNotEmpty?true:false),
+                isViewAllIcon: _homeController.relatedStudentsList.isNotEmpty?true:false),
             SizedBox(
               height: 5.px,
             ),
-            if (_homeController.relatedTeachersList.isNotEmpty) SizedBox(
+             SizedBox(
               height: MediaQuery
                   .of(context)
                   .size
@@ -116,36 +105,23 @@ class _TeachersViewState extends State<TeachersView> {
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  return DetailsCardView(
-                      reViewLength: 3,
+                  return DetailsCardViewStudent(
+
                       name: 'User Name',
                       avatar: ImageConstants.teacherAvtar,
-                      countryIcon: ImageConstants.countryIcon,
-                      countryName: 'Kuwait',
-                      isPro: true,
+
                       isBookmarked: true,
-                      subjects: 'Science - Accounta..');
+                      grades: 'Grade1');
                 },
               ),
-            ) else Padding(
-              padding: const EdgeInsets.only(top:10.0,bottom:20.0),
-              child: InfoCardVIew(
-                isShowButton: false,
-                title: 'No Other Teachers!',
-                subTitle:
-                'Your preferred teachers are exclusively in your favourite list, no other matches are based on your preferences.',
-                cardColor: AppColors.white,
-                buttonTitle: 'Class Details',
-                buttonTap: () => Get.toNamed(Routes.classDetailsView),
-              ),
-            ),
+            ) ,
             SizedBox(
               height: 200.px,
             )
           ],
         ),
       );
-    }
+
   }
 }
 

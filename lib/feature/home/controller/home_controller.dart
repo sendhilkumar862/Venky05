@@ -34,6 +34,13 @@ class HomeController extends GetxController {
   }
 
   Rx<HomeModel?> homeData = const HomeModel().obs;
+  RxList upComingClassList = [].obs;
+  RxList favouriteTeachersList = [1].obs;
+  RxList relatedTeachersList = [].obs;
+  RxList favouriteStudentsList = [1].obs;
+  RxList relatedStudentsList = [].obs;
+
+
   Future<void> fetchData() async {
     final BaseResponse dashboardDataResponse = await _dashboardDetailRepository.getDashboardDetail();
     if (dashboardDataResponse.status?.type == 'success') {
