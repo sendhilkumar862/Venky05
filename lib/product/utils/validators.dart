@@ -5,6 +5,8 @@ import 'package:form_field_validator/form_field_validator.dart';
 class Validators {
   static final RequiredValidator requiredValidator =
       RequiredValidator(errorText: 'this field is required');
+  static final RequiredCostValidator requiredCostValidator =
+  RequiredCostValidator(errorText: 'this field is required');
   static final RequiredValidator requiredValidator1 =
       RequiredValidator(errorText: 'Minimum Top Up amount is 1 KWD');
   static final RequiredValidator addressValidator =
