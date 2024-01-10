@@ -15,6 +15,7 @@ import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/utils/validators.dart';
+import '../../../home/controller/home_controller.dart';
 import '../../../home_views/views/tabs/classes_view.dart';
 import '../controller/message_controller.dart';
 
@@ -28,15 +29,13 @@ class MessageView extends StatefulWidget {
 class _MessageViewState extends State<MessageView> {
   bool isStudent = false;
   String selectedProfile = '';
-  String selectedUserStatus = '';
   bool isPending = false;
   final MessageController _messageController=Get.put(MessageController());
-
+  final HomeController _homeController = Get.find();
   @override
   void initState() {
     super.initState();
     selectedProfile =  LocaleManager.getValue( StorageKeys.profile)??'';
-    selectedUserStatus = LocaleManager.getValue( StorageKeys.userInfoStatus)??'';
   }
 
   @override
@@ -48,14 +47,11 @@ class _MessageViewState extends State<MessageView> {
         isTitleOnly: true,
         title: 'Messages',
         isBack: false,
-        trailingText: (selectedProfile == ApplicationConstants.tutor && selectedUserStatus != '99')?'':'Done',
+        trailingText: (selectedProfile == ApplicationConstants.tutor && _homeController.homeData.value?.userStatus != '99')?'':'Done',
         trailingTap: () {},
       ),
-      body: selectedProfile == ApplicationConstants.tutor
-          ? Padding(
-        padding: const EdgeInsets.only(top: 64.0),
-        child: const ClassesView(),
-      )
+      body: selectedProfile == ApplicationConstants.tutor &&  _homeController.homeData.value?.userStatus != '99'
+          ? const ClassesView()
           : StatefulBuilder(
         builder: (BuildContext context, setState) {
           return ListView(

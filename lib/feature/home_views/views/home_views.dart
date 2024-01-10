@@ -20,7 +20,7 @@ class HomeViews extends StatefulWidget {
 }
 
 class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
-  String selectedUserStatus = '';
+
   String selectedProfile = '';
   final HomeController _homeController = Get.find();
   final HomeViewController _homeViewController = Get.put(HomeViewController());
@@ -28,10 +28,8 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
     selectedProfile = LocaleManager.getValue(StorageKeys.profile) ?? '';
-    selectedUserStatus =
-        LocaleManager.getValue(StorageKeys.userInfoStatus) ?? '';
+
   }
 
   @override
@@ -45,7 +43,7 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
             subTitle:
                 "${_homeController.homeData.value?.firstName ?? ""} ${_homeController.homeData.value?.lastName ?? ""}",
             isSearchIconShown: !(selectedProfile == ApplicationConstants.tutor &&
-                selectedUserStatus != '99'),
+                _homeController.homeData.value?.userStatus != '99'),
             onBellTap: () {
               Get.toNamed(Routes.notificationView);
             },

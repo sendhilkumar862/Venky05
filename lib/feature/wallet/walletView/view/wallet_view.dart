@@ -75,10 +75,11 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
           },
         ),
         body: selectedProfile == ApplicationConstants.tutor
-            ? const Padding(
-          padding: EdgeInsets.only(top: 64.0),
-          child: ClassesView(),
-        )
+            ? const Column(
+              children: [
+                ClassesView(),
+              ],
+            )
             : ListView(
           children: <Widget>[
             SizedBox(height: 30.px),

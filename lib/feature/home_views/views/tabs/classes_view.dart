@@ -29,16 +29,10 @@ class ClassesView extends StatefulWidget {
 
 class _ClassesViewState extends State<ClassesView> {
   String selectedProfile = '';
-  String selectedUserStatus = '';
-
   bool isPending = false;
   final HomeController _homeController = Get.find();
 
-  @override
-  void initState() {
-    super.initState();
-    selectedProfile = LocaleManager.getValue(StorageKeys.profile) ?? '';
-  }
+
 
   @override
   Widget build(BuildContext context) {
