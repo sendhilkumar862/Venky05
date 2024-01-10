@@ -13,8 +13,11 @@ import '../../../../custom/sheet/show_bottom_sheet.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../../../product/extension/string_extension.dart';
 import '../../../../product/utils/typography.dart';
 import '../../view/widget/app_support/new_ticket_view.dart';
+import '../controller/app_support_controller.dart';
+
 
 class AppSupportView extends StatefulWidget {
   const AppSupportView({super.key});
@@ -46,6 +49,9 @@ class _AppSupportViewState extends State<AppSupportView> {
   Set<int> shortBy = <int>{};
   Set<int> filterBy = <int>{};
 
+  final AppSupportController _appSupportController =
+  Get.put(AppSupportController());
+
   List<StatusModel> statusModelList = <StatusModel>[
     StatusModel(StatusCardView(status: 'NEW'),
         title: 'Refund', idNum: '#1234567890', date: 'Created On: 12/10/2023'),
@@ -63,107 +69,113 @@ class _AppSupportViewState extends State<AppSupportView> {
         title: 'App Support',
         isTitleOnly: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15),
-                    child: InkWell(
-                      onTap: () {
-                        filterBottomSheet(context);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          AppText(
-                            'Sort / Filter',
-                            fontSize: 14.px,
-                            color: AppColors.appBlue,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          SizedBox(width: 5.px),
-                          AppImageAsset(
-                            image: ImageConstants.filterSettings,
-                            height: 16.px,
-                            width: 16.px,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  ListView.builder(
-                    itemCount: statusModelList.length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) {
-                      var data = statusModelList[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        data.title,
-                                        style: openSans.get14.w500,
-                                      ),
-                                      Text(
-                                        data.idNum,
-                                        style: openSans.get10.w400.textColor(
-                                            AppColors.appTextColor
-                                                .withOpacity(0.5)),
-                                      ),
-                                      Text(
-                                        data.date,
-                                        style: openSans.get10.w400.textColor(
-                                            AppColors.appTextColor
-                                                .withOpacity(0.5)),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                    padding: const EdgeInsets.only(right: 10),
-                                    child: data.status),
-                                Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: 12,
-                                  color: AppColors.arrowColor,
-                                )
-                              ],
+      body: Obx(
+          ()=> _appSupportController.getTicketsList.isNotEmpty?Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: InkWell(
+                        onTap: () {
+                          filterBottomSheet(context);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            AppText(
+                              'Sort / Filter',
+                              fontSize: 14.px,
+                              color: AppColors.appBlue,
+                              fontWeight: FontWeight.w600,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Divider(
-                                color:
-                                    AppColors.appBorderColor.withOpacity(0.5),
-                              ),
-                            )
+                            SizedBox(width: 5.px),
+                            AppImageAsset(
+                              image: ImageConstants.filterSettings,
+                              height: 16.px,
+                              width: 16.px,
+                            ),
                           ],
                         ),
-                      );
-                    },
-                  ),
-                ],
+                      ),
+                    ),
+                    ListView.builder(
+                      itemCount: _appSupportController.getTicketsList.isNotEmpty?_appSupportController.getTicketsList.length:statusModelList.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        var data = statusModelList[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          _appSupportController.getTicketsList[index].title!=null?_appSupportController.getTicketsList[index].title!:'',
+                                          style: openSans.get14.w500,
+                                        ),
+                                        Text(
+                                          _appSupportController.getTicketsList[index].ticketId!=null?'#${_appSupportController.getTicketsList[index].ticketId!}':'',
+                                          style: openSans.get10.w400.textColor(
+                                              AppColors.appTextColor
+                                                  .withOpacity(0.5)),
+                                        ),
+                                        Text(
+                                          _appSupportController.getTicketsList[index].createdAt!=null?_appSupportController.getTicketsList[index].createdAt!.toString().epochToNormal():'',
+                                          style: openSans.get10.w400.textColor(
+                                              AppColors.appTextColor
+                                                  .withOpacity(0.5)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: StatusCardView(status: _appSupportController.getTicketsList[index].status!=null? _appSupportController.getTicketsList[index].status!:'',),),
+                                  Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    size: 12,
+                                    color: AppColors.arrowColor,
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Divider(
+                                  color:
+                                      AppColors.appBorderColor.withOpacity(0.5),
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-            AppButton(
-                isDisable: false,
-                title: 'Open New Ticket',
-                onPressed: () {
-                  Get.toNamed(Routes.newTicketView);
-                })
-          ],
-        ),
+
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: AppButton(
+                    isDisable: false,
+                    title: 'Open New Ticket',
+                    onPressed: () {
+                      Get.toNamed(Routes.newTicketView);
+                    }),
+              )
+            ],
+          ),
+        ):SizedBox.shrink(),
       ),
     );
   }

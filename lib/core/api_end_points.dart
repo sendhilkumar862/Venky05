@@ -159,6 +159,16 @@ class ApiEndpoint {
         return '$path/download';
     }
   }
+
+  /// Returns the path for teachers [endpoint].
+  static String support(SupportEndpoint endpoint) {
+    const String path = 'support';
+    switch (endpoint) {
+      case SupportEndpoint.GET_TICKETS:
+        return '$path/ticket/get';
+    }
+  }
+
 }
 
 /// A collection of endpoints used for authentication purposes.
@@ -300,4 +310,10 @@ enum DownloaderEndPoint {
   /// An endpoint for teacgers' collection requests.
   BASE,
   DOWNLOAD,
+}
+
+
+/// A collection of endpoints used for Support.
+enum SupportEndpoint {
+ GET_TICKETS
 }
