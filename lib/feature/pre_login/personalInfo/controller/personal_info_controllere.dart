@@ -89,10 +89,9 @@ class PersonalInfoController extends GetxController{
 
 
   List<String> languageIcon = <String>[
-    ImageConstants.usIconNew,
-    ImageConstants.saudiArabiaNew,
+    ImageConstants.ukIcon,
+    ImageConstants.kuwaitFlag,
   ];
-
   Future<void> fetchData() async {
     showLoading();
     final BaseResponse countryData = await _countryRepository.getCountry();
