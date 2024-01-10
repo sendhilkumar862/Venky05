@@ -74,98 +74,94 @@ class _AppSupportViewState extends State<AppSupportView> {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             children: <Widget>[
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15),
-                    child: InkWell(
-                      onTap: () {
-                        filterBottomSheet(context);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          AppText(
-                            'Sort / Filter',
-                            fontSize: 14.px,
-                            color: AppColors.appBlue,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          SizedBox(width: 5.px),
-                          AppImageAsset(
-                            image: ImageConstants.filterSettings,
-                            height: 16.px,
-                            width: 16.px,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  ListView.builder(
-                    itemCount: _appSupportController.getTicketsList.isNotEmpty?_appSupportController.getTicketsList.length:statusModelList.length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) {
-                      var data = statusModelList[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        _appSupportController.getTicketsList[index].title!=null?_appSupportController.getTicketsList[index].title!:'',
-                                        style: openSans.get14.w500,
-                                      ),
-                                      Text(
-                                        _appSupportController.getTicketsList[index].ticketId!=null?'#${_appSupportController.getTicketsList[index].ticketId!}':'',
-                                        style: openSans.get10.w400.textColor(
-                                            AppColors.appTextColor
-                                                .withOpacity(0.5)),
-                                      ),
-                                      Text(
-                                        _appSupportController.getTicketsList[index].createdAt!=null?_appSupportController.getTicketsList[index].createdAt!.toString().epochToNormal():'',
-                                        style: openSans.get10.w400.textColor(
-                                            AppColors.appTextColor
-                                                .withOpacity(0.5)),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                    padding: const EdgeInsets.only(right: 10),
-                                    child:   Text(
-                                      'NEW',
-                                      // _appSupportController.getTicketsList[index].status!=null? _appSupportController.getTicketsList[index].status!:'',
-                                      style: openSans.get10.w400.textColor(
-                                          AppColors.appTextColor
-                                              .withOpacity(0.5)),
-                                    ),),
-                                Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: 12,
-                                  color: AppColors.arrowColor,
-                                )
-                              ],
+              Expanded(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: InkWell(
+                        onTap: () {
+                          filterBottomSheet(context);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            AppText(
+                              'Sort / Filter',
+                              fontSize: 14.px,
+                              color: AppColors.appBlue,
+                              fontWeight: FontWeight.w600,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Divider(
-                                color:
-                                    AppColors.appBorderColor.withOpacity(0.5),
-                              ),
-                            )
+                            SizedBox(width: 5.px),
+                            AppImageAsset(
+                              image: ImageConstants.filterSettings,
+                              height: 16.px,
+                              width: 16.px,
+                            ),
                           ],
                         ),
-                      );
-                    },
-                  ),
-                ],
+                      ),
+                    ),
+                    ListView.builder(
+                      itemCount: _appSupportController.getTicketsList.isNotEmpty?_appSupportController.getTicketsList.length:statusModelList.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        var data = statusModelList[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          _appSupportController.getTicketsList[index].title!=null?_appSupportController.getTicketsList[index].title!:'',
+                                          style: openSans.get14.w500,
+                                        ),
+                                        Text(
+                                          _appSupportController.getTicketsList[index].ticketId!=null?'#${_appSupportController.getTicketsList[index].ticketId!}':'',
+                                          style: openSans.get10.w400.textColor(
+                                              AppColors.appTextColor
+                                                  .withOpacity(0.5)),
+                                        ),
+                                        Text(
+                                          _appSupportController.getTicketsList[index].createdAt!=null?_appSupportController.getTicketsList[index].createdAt!.toString().epochToNormal():'',
+                                          style: openSans.get10.w400.textColor(
+                                              AppColors.appTextColor
+                                                  .withOpacity(0.5)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: StatusCardView(status: _appSupportController.getTicketsList[index].status!=null? _appSupportController.getTicketsList[index].status!:'',),),
+                                  Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    size: 12,
+                                    color: AppColors.arrowColor,
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Divider(
+                                  color:
+                                      AppColors.appBorderColor.withOpacity(0.5),
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
 
               Align(
