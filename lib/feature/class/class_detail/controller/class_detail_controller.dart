@@ -53,6 +53,9 @@ class ClassDetailController extends GetxController{
   TextEditingController participators5 = TextEditingController(text: '');
   TextEditingController participators6 = TextEditingController(text: '');
   TextEditingController participators7 = TextEditingController(text: '');
+  TextEditingController participators8 = TextEditingController(text: '');
+  TextEditingController participators9 = TextEditingController(text: '');
+  TextEditingController participators10 = TextEditingController(text: '');
   TextEditingController classDurationController = TextEditingController();
   TextEditingController classLocationController = TextEditingController();
   TextEditingController classSummaryController = TextEditingController(text: '');
@@ -94,6 +97,15 @@ class ClassDetailController extends GetxController{
     }
     if(participators7.text!=''){
       otherParticipants.add(OtherParticipants(email:participators7.text ));
+    }
+    if(participators8.text!=''){
+      otherParticipants.add(OtherParticipants(email:participators8.text ));
+    }
+    if(participators9.text!=''){
+      otherParticipants.add(OtherParticipants(email:participators9.text ));
+    }
+    if(participators10.text!=''){
+      otherParticipants.add(OtherParticipants(email:participators10.text ));
     }
     final BaseResponse classResponse = await _createClassRepository.createClassRepository(CreateClassRequestModel(grade: masterData.value.grades![isGradeSelect],school: masterData.value.schoolTypes![isSchoolSelect],subject:  masterData.value.subjects![isSubjectSelect],summary:classSummaryController.text,minParticipants:lowerValue.toInt(),
     maxParticipants: upperValue.toInt(),cost:int.parse(classCost.text),sessions: int.parse(numberOfSession.text),classTime:dateController.text.toEpoch(),currency: 'KWD',duration:masterData.value.sessionDurations![isSelected!],location:_manageAddressController.address[selectedIndex!.value].id,otherParticipants: otherParticipants ,curriculum: isCurriculumSelect!=-1?masterData.value.curriculum![isCurriculumSelect]:'Public' ));

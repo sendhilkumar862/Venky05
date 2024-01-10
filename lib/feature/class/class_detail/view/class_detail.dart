@@ -84,7 +84,7 @@ class _ClassDetailState extends State<ClassDetail> {
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: Text(
-                      'participators'.tr,
+                      'participants'.tr,
                       style: openSans.get12.w400
                           .textColor(AppColors.appTextColor.withOpacity(0.5)),
                     ),
@@ -177,7 +177,7 @@ class _ClassDetailState extends State<ClassDetail> {
                     keyboardType:
                         // ignore: use_named_constants
                         const TextInputType.numberWithOptions(),
-                    validate: Validators.requiredValidator.call,
+                    validate: Validators.requiredCostValidator.call,
                     suffix: Padding(
                       padding: const EdgeInsets.only(top: 12),
                       child: Text('kwd'.tr, style: openSans.get16.w400),
@@ -333,7 +333,7 @@ class _ClassDetailState extends State<ClassDetail> {
                           child: Row(
                             children: <Widget>[
                               Text(
-                                'otherParticipators'.tr,
+                                'otherParticipants'.tr,
                                 style: openSans.get20.w700
                                     .textColor(AppColors.appTextColor),
                               ),
@@ -349,37 +349,55 @@ class _ClassDetailState extends State<ClassDetail> {
                           top: 0,
                           controller: _classDetailController.participators2,
                           validate: _classDetailController.emailValidator.call,
-                          title: 'participators2'.tr,
+                          title: 'participants2'.tr,
                           hintText: 'enterEmailAddress'.tr,
                         ),
                         if( _classDetailController.upperValue>2) AppTextFormField(
                           controller: _classDetailController.participators3,
                           validate: _classDetailController.emailValidator.call,
-                          title: 'participators3'.tr,
+                          title: 'participants3'.tr,
                           hintText: 'enterEmailAddress'.tr,
                         ),
                         if( _classDetailController.upperValue>3)AppTextFormField(
                           controller: _classDetailController.participators4,
                           validate: _classDetailController.emailValidator.call,
-                          title: 'participators4'.tr,
+                          title: 'participants4'.tr,
                           hintText: 'enterEmailAddress'.tr,
                         ),
                         if( _classDetailController.upperValue>4) AppTextFormField(
                           controller: _classDetailController.participators5,
                           validate: _classDetailController.emailValidator.call,
-                          title: 'participators5'.tr,
+                          title: 'participants5'.tr,
                           hintText: 'enterEmailAddress'.tr,
                         ),
                         if( _classDetailController.upperValue>5) AppTextFormField(
                           controller: _classDetailController.participators6,
                           validate: _classDetailController.emailValidator.call,
-                          title: 'participators6'.tr,
+                          title: 'participants6'.tr,
                           hintText: 'enterEmailAddress'.tr,
                         ),
                         if( _classDetailController.upperValue>6) AppTextFormField(
                           controller: _classDetailController.participators7,
                           validate: _classDetailController.emailValidator.call,
-                          title: 'participators7'.tr,
+                          title: 'participants7'.tr,
+                          hintText: 'enterEmailAddress'.tr,
+                        ),
+                        if( _classDetailController.upperValue>7) AppTextFormField(
+                          controller: _classDetailController.participators8,
+                          validate: _classDetailController.emailValidator.call,
+                          title: 'participants8'.tr,
+                          hintText: 'enterEmailAddress'.tr,
+                        ),
+                        if( _classDetailController.upperValue>8) AppTextFormField(
+                          controller: _classDetailController.participators9,
+                          validate: _classDetailController.emailValidator.call,
+                          title: 'participants9'.tr,
+                          hintText: 'enterEmailAddress'.tr,
+                        ),
+                        if( _classDetailController.upperValue>9) AppTextFormField(
+                          controller: _classDetailController.participators10,
+                          validate: _classDetailController.emailValidator.call,
+                          title: 'participants10'.tr,
                           hintText: 'enterEmailAddress'.tr,
                         ),
                       ],
