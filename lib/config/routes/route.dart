@@ -25,7 +25,7 @@ import '../../feature/setting_view/change_password/view/change_password_view.dar
 import '../../feature/setting_view/manage_address/view/manage_address_view.dart';
 import '../../feature/setting_view/manage_subscription/view/manage_subscription.dart';
 import '../../feature/setting_view/view/setting_view.dart';
-import '../../feature/setting_view/view/widget/app_support/new_ticket_view.dart';
+import '../../feature/setting_view/view/widget/app_support/new_ticket/view/new_ticket_view.dart';
 import '../../feature/setting_view/view/widget/available_times_view.dart';
 import '../../feature/setting_view/view/widget/calender_view/manage_added_time_view.dart';
 import '../../feature/splash/view/splash_view.dart';

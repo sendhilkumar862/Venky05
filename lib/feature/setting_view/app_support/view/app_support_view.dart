@@ -15,8 +15,8 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/extension/string_extension.dart';
 import '../../../../product/utils/typography.dart';
-import '../../view/widget/app_support/new_ticket_view.dart';
 import '../controller/app_support_controller.dart';
+
 
 
 class AppSupportView extends StatefulWidget {

@@ -2,16 +2,16 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import '../../../../../custom/app_button/app_button.dart';
-import '../../../../../custom/app_textformfield/app_field.dart';
-import '../../../../../custom/appbar/appbar.dart';
-import '../../../../../custom/dialog/success_fail_dialog.dart';
-import '../../../../../custom/image/app_image_assets.dart';
-import '../../../../../custom/sheet/show_bottom_sheet.dart';
-import '../../../../../custom/text/app_text.dart';
-import '../../../../../product/constants/colors/app_colors_constants.dart';
-import '../../../../../product/constants/image/image_constants.dart';
-import '../../../../../product/utils/typography.dart';
+import '../../../../../../../custom/app_button/app_button.dart';
+import '../../../../../../../custom/app_textformfield/app_field.dart';
+import '../../../../../../../custom/appbar/appbar.dart';
+import '../../../../../../../custom/dialog/success_fail_dialog.dart';
+import '../../../../../../../custom/image/app_image_assets.dart';
+import '../../../../../../../custom/sheet/show_bottom_sheet.dart';
+import '../../../../../../../custom/text/app_text.dart';
+import '../../../../../../../product/constants/colors/app_colors_constants.dart';
+import '../../../../../../../product/constants/image/image_constants.dart';
+import '../../../../../../../product/utils/typography.dart';
 
 class NewTicketView extends StatefulWidget {
   const NewTicketView({super.key});
