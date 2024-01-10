@@ -25,11 +25,9 @@ class MasterDataAppSupportAPIRequest extends BaseRequest {
   MasterDataAppSupportAPIRequest();
 
   @override
-  String get endPoint => ApiEndpoint.school( SchoolEndpoint.MASTER);
+  String get endPoint => ApiEndpoint.support(SupportEndpoint.MASTER_DATA);
   @override
   Map<String, dynamic> get body =>{};
-
-
   @override
   // TODO: implement apiMethod
   BackEndServicesEnum get apiMethod =>BackEndServicesEnum.GET;

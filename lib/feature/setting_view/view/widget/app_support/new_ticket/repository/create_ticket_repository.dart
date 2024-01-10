@@ -9,7 +9,7 @@ import '../../../../../../../product/constants/enums/backend_services_method_enu
 import '../model/create_ticket_request_model.dart';
 
 class CreateTicketRepository {
-  Future<BaseResponse> updateCountry (CreateTicketRequestModel createTicketBody) async {
+  Future<BaseResponse> createNewTicket (CreateTicketRequestModel createTicketBody) async {
     try {
       return await BackendService.post(
           CreateTicketAPIRequest(createTicketBody: createTicketBody));
@@ -24,14 +24,11 @@ class CreateTicketRepository {
 class CreateTicketAPIRequest extends BaseRequest {
   CreateTicketAPIRequest({required this.createTicketBody});
   CreateTicketRequestModel createTicketBody;
-
   @override
-  String get endPoint => ApiEndpoint.auth(AuthEndpoint.PERSONAL_INFO);
+  String get endPoint => ApiEndpoint.support( SupportEndpoint.CREATE_TICKET);
   @override
   Map<String, dynamic> get body => createTicketBody.toJson();
-
-
   @override
   // TODO: implement apiMethod
-  BackEndServicesEnum get apiMethod =>BackEndServicesEnum.PUT;
+  BackEndServicesEnum get apiMethod =>BackEndServicesEnum.POST;
 }
