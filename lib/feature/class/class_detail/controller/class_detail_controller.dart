@@ -108,7 +108,7 @@ class ClassDetailController extends GetxController{
       otherParticipants.add(OtherParticipants(email:participators10.text ));
     }
     final BaseResponse classResponse = await _createClassRepository.createClassRepository(CreateClassRequestModel(grade: masterData.value.grades![isGradeSelect],school: masterData.value.schoolTypes![isSchoolSelect],subject:  masterData.value.subjects![isSubjectSelect],summary:classSummaryController.text,minParticipants:lowerValue.toInt(),
-    maxParticipants: upperValue.toInt(),cost:int.parse(classCost.text),sessions: int.parse(numberOfSession.text),classTime:dateController.text.toEpoch(),currency: 'KWD',duration:masterData.value.sessionDurations![isSelected!],location:_manageAddressController.address[selectedIndex!.value].id,otherParticipants: otherParticipants ,curriculum: isCurriculumSelect!=-1?masterData.value.curriculum![isCurriculumSelect]:'Public' ));
+    maxParticipants: upperValue.toInt(),cost:int.parse(classCost.text),sessions: int.parse(numberOfSession.text),classTime:dateController.text.toEpoch(),currency: 'KWD',duration:masterData.value.sessionDurations![isSelected!],location:_manageAddressController.address[selectedIndex!.value].id,otherParticipants: otherParticipants ,curriculum: isCurriculumSelect!=-1?masterData.value.curriculum![isCurriculumSelect]:'Public',allowAtStudentLoc: isActive.value ));
     if (classResponse.status?.type == 'success') {
       final Map<String, dynamic> classData= classResponse.data!.item! as Map<String, dynamic>;
       LocaleManager.setValue(StorageKeys.createdClass,true);

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../config/routes/route.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/app_field.dart';
@@ -11,9 +12,12 @@ import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/calender/calender.dart';
 import '../../../../custom/choice/src/modal/button.dart';
 import '../../../../custom/dialog/success_fail_dialog.dart';
+import '../../../../custom/switch/app_switch.dart';
+import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
+import '../../../../product/constants/enums/app_register_status_enums.dart';
 import '../../../../product/extension/string_extension.dart';
 import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/typography.dart';
@@ -323,6 +327,29 @@ class _ClassDetailState extends State<ClassDetail> {
                               )),
                     );
                   }),
+                  if (_classDetailController.selectedProfile ==
+                      ApplicationConstants.tutor)
+                    Padding(
+                      padding:
+                      const EdgeInsets.only(top: 15, bottom: 35),
+                      child: Row(
+                        children: <Widget>[
+                          AppText(
+                            'allowTheClassAtTheStudentPlace'.tr,
+                            fontSize: 14.px,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          SizedBox(width: 8.px),
+                          Obx(()=>
+                             AppSwitch(
+                                onTap: () {
+                                  _classDetailController.onTapSwitch();
+                                },
+                                isActive: _classDetailController.isActive.value),
+                          )
+                        ],
+                      ),
+                    ),
                   // ignore: unrelated_type_equality_checks
                   if (_classDetailController.selectedProfile ==
                       ApplicationConstants.student &&   _classDetailController.upperValue>1)
@@ -403,8 +430,8 @@ class _ClassDetailState extends State<ClassDetail> {
                       ],
                     ),
                   Obx(() {
-                    final int? locationIndex =
-                        _classDetailController.selectedIndex?.value;
+                    final int locationIndex =
+                        _classDetailController.selectedIndex.value;
                     return AppButton(
                       title: 'nextForClassDetails'.tr,
                       onPressed: () async {
