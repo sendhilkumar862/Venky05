@@ -13,6 +13,7 @@ class CreateClassRequestModel {
         this.duration,
         this.classTime,
         this.location,
+        this.allowAtStudentLoc,
         this.otherParticipants});
 
   CreateClassRequestModel.fromJson(Map<String, dynamic> json) {
@@ -29,9 +30,10 @@ class CreateClassRequestModel {
     duration = json['duration'];
     classTime = json['class_time'];
     location = json['location'];
+    allowAtStudentLoc = json['allow_at_student_loc'];
     if (json['other_participants'] != null) {
       otherParticipants = <OtherParticipants>[];
-      // ignore: avoid_dynamic_calls, always_specify_types
+      // ignore: avoid_dynamic_calls
       json['other_participants'].forEach((v) {
         otherParticipants!.add(OtherParticipants.fromJson(v));
       });
@@ -50,6 +52,7 @@ class CreateClassRequestModel {
   int? duration;
   int? classTime;
   int? location;
+  bool? allowAtStudentLoc;
   List<OtherParticipants>? otherParticipants;
 
   Map<String, dynamic> toJson() {
@@ -67,6 +70,7 @@ class CreateClassRequestModel {
     data['duration'] = duration;
     data['class_time'] = classTime;
     data['location'] = location;
+    data['allow_at_student_loc'] = allowAtStudentLoc;
     if (otherParticipants != null) {
       data['other_participants'] =
           otherParticipants!.map((v) => v.toJson()).toList();
