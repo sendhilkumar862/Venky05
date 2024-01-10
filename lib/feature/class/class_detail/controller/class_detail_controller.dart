@@ -112,7 +112,7 @@ class ClassDetailController extends GetxController{
     if (classResponse.status?.type == 'success') {
       final Map<String, dynamic> classData= classResponse.data!.item! as Map<String, dynamic>;
       LocaleManager.setValue(StorageKeys.createdClass,true);
-      _homeController.fetchToken();
+      _homeController.refreshToken();
       EasyLoading.dismiss();
       return classData['classId'];
     } else {

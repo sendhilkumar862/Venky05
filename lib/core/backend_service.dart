@@ -19,12 +19,6 @@ class BackendService {
     if (authToken != '') {
       request.header.addAll({'X-Auth-Token': authToken});
     }
-    if (request.endPoint.contains('refresh-token')) {
-      final String authToken =
-          LocaleManager.getValue(StorageKeys.authBiometric);
-      request.header
-          .addAll({'X-Auth-Token': authToken, 'X-Refresh-Token': authToken});
-    }
     final Dio dio = Dio();
     try {
       final ConnectivityResult connectivityResult =
