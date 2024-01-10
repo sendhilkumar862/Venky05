@@ -34,7 +34,7 @@ class _AppSupportViewState extends State<AppSupportView> {
   ];
   List<String> filterByList = <String>[
     'New',
-    'Inprogress',
+    'InProgress',
     'Solved',
   ];
 
@@ -103,7 +103,7 @@ class _AppSupportViewState extends State<AppSupportView> {
                       ),
                     ),
                     ListView.builder(
-                      itemCount: _appSupportController.getTicketsList.isNotEmpty?_appSupportController.getTicketsList.length:statusModelList.length,
+                      itemCount: _appSupportController.getTicketsList.length,
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
@@ -141,7 +141,7 @@ class _AppSupportViewState extends State<AppSupportView> {
                                   Padding(
                                       padding: const EdgeInsets.only(right: 10),
                                       child: StatusCardView(status: _appSupportController.getTicketsList[index].status!=null? _appSupportController.getTicketsList[index].status!:'',),),
-                                  Icon(
+                                  const Icon(
                                     Icons.arrow_forward_ios_rounded,
                                     size: 12,
                                     color: AppColors.arrowColor,
@@ -175,7 +175,7 @@ class _AppSupportViewState extends State<AppSupportView> {
               )
             ],
           ),
-        ):SizedBox.shrink(),
+        ):const SizedBox.shrink(),
       ),
     );
   }
