@@ -29,7 +29,7 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     setData();
-    _homeController.fetchToken();
+    _homeController.refreshToken();
   }
 
   Future<void> setData() async {

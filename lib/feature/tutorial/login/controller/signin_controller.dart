@@ -14,7 +14,8 @@ import '../../../../product/utils/validators.dart';
 import '../model/login_model.dart';
 import '../model/refresh_model.dart';
 import '../repository/auth_repositoriy.dart';
-import '../repository/refresh_token_repository.dart';
+import '../repository/biometric_token_repository.dart';
+
 
 class SignInController extends GetxController {
   RxString error = ''.obs;
@@ -28,8 +29,8 @@ class SignInController extends GetxController {
   TextEditingController emailController = TextEditingController();
   final AuthRepositoryRepository _authRepositoryRepository =
       AuthRepositoryRepository();
-  final RefreshTokenRepositoryRepository _refreshTokenRepositoryRepository =
-      RefreshTokenRepositoryRepository();
+  final BiometricTokenRepository _bioTokenRepositoryRepository =
+  BiometricTokenRepository();
   RxString authenticated = ''.obs;
 
   @override
@@ -116,7 +117,7 @@ class SignInController extends GetxController {
   Future<void> refreshToken(BuildContext context) async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final BaseResponse signInResponse =
-        await _refreshTokenRepositoryRepository.refreshToken();
+        await _bioTokenRepositoryRepository.biometricRefreshToken();
     if (signInResponse.status?.type == 'success') {
       final RefreshModelClass responseData = RefreshModelClass.fromJson(
           signInResponse.data!.item! as Map<String, dynamic>);
