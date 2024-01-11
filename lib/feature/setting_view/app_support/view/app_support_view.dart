@@ -1,9 +1,12 @@
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../config/routes/route.dart';
 import '../../../../custom/app_button/app_button.dart';
+import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/appbar/appbar.dart';
+import '../../../../custom/cardView/info_card_view.dart';
 import '../../../../custom/cardView/status_card_view.dart';
 import '../../../../custom/choice/src/inline/list.dart';
 import '../../../../custom/choice/src/inline/main.dart';
@@ -15,8 +18,8 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/extension/string_extension.dart';
 import '../../../../product/utils/typography.dart';
+import '../Model/get_tickets_request_model.dart';
 import '../controller/app_support_controller.dart';
-
 
 
 class AppSupportView extends StatefulWidget {
@@ -27,41 +30,18 @@ class AppSupportView extends StatefulWidget {
 }
 
 class _AppSupportViewState extends State<AppSupportView> {
-  List<String> shortByList = <String>[
-    'Date',
-    'Old to New',
-    'New to Old',
-  ];
-  List<String> filterByList = <String>[
-    'New',
-    'Inprogress',
-    'Solved',
-  ];
 
-  void filterByValue(List<String> value) {
-    setState(() => shortByList = value);
-  }
+
 
   void setSchoolValue(List<String> value) {
-    setState(() => filterByList = value);
+    setState(() => _appSupportController.filterByList = value);
   }
 
-  Set<int> shortBy = <int>{};
-  Set<int> filterBy = <int>{};
+
 
   final AppSupportController _appSupportController =
   Get.put(AppSupportController());
 
-  List<StatusModel> statusModelList = <StatusModel>[
-    StatusModel(StatusCardView(status: 'NEW'),
-        title: 'Refund', idNum: '#1234567890', date: 'Created On: 12/10/2023'),
-    StatusModel(StatusCardView(status: 'IN PROGRESS'),
-        title: 'Refund', idNum: '#1234597890', date: 'Created On: 12/10/2023'),
-    StatusModel(StatusCardView(status: 'SOLVED'),
-        title: 'Refund', idNum: '#1234567890', date: 'Created On: 12/10/2023'),
-    StatusModel(StatusCardView(status: 'CANCEL'),
-        title: 'Refund', idNum: '#1234567890', date: 'Created On: 12/10/2023'),
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,112 +49,157 @@ class _AppSupportViewState extends State<AppSupportView> {
         title: 'App Support',
         isTitleOnly: true,
       ),
-      body: Obx(
-          ()=> _appSupportController.getTicketsList.isNotEmpty?Padding(
+      body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: InkWell(
-                        onTap: () {
-                          filterBottomSheet(context);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            AppText(
-                              'Sort / Filter',
-                              fontSize: 14.px,
-                              color: AppColors.appBlue,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            SizedBox(width: 5.px),
-                            AppImageAsset(
-                              image: ImageConstants.filterSettings,
-                              height: 16.px,
-                              width: 16.px,
-                            ),
-                          ],
-                        ),
-                      ),
+          child: Obx(()=>
+            _appSupportController.isInitial.value?activeScreen():InfoCardVIew(
+              isShowButton: true,
+              title: 'No Tickets Found!',
+              subTitle:
+              'No tickets found. Please refine your search.',
+              cardColor: AppColors.white,
+              buttonTitle: 'Open New Ticket',
+              buttonTap: (){
+                Get.toNamed(Routes.newTicketView);
+              },
+            ),
+          ),
+        )
+    );
+  }
+
+  Widget activeScreen(){
+    return Obx(()=>
+       Expanded(
+        child: Column(
+          children: <Widget>[
+            TextFormsField(
+              controller: _appSupportController
+                  .searchTicketController,
+              // ignore: always_specify_types
+              onChanged: (searchValue){
+                if(searchValue.isNotEmpty)
+                {
+                  EasyDebounce.debounce(
+                      'my-debounced', // <-- An ID for this particular debouncer
+                      const Duration(milliseconds: 500), // <-- The debounce duration
+                          ()=> _appSupportController.getTickets());
+
+                }
+              },
+              hintText: 'search Tickets',
+              prefix: Padding(
+                padding: EdgeInsets.only(left: 10.px),
+                child: const AppImageAsset(
+                    image: ImageConstants.searchIcon,
+                    height: 20),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: InkWell(
+                onTap: () {
+                  filterBottomSheet(context);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    AppText(
+                      'Sort / Filter',
+                      fontSize: 14.px,
+                      color: AppColors.appBlue,
+                      fontWeight: FontWeight.w600,
                     ),
-                    ListView.builder(
-                      itemCount: _appSupportController.getTicketsList.isNotEmpty?_appSupportController.getTicketsList.length:statusModelList.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          _appSupportController.getTicketsList[index].title!=null?_appSupportController.getTicketsList[index].title!:'',
-                                          style: openSans.get14.w500,
-                                        ),
-                                        Text(
-                                          _appSupportController.getTicketsList[index].ticketId!=null?'#${_appSupportController.getTicketsList[index].ticketId!}':'',
-                                          style: openSans.get10.w400.textColor(
-                                              AppColors.appTextColor
-                                                  .withOpacity(0.5)),
-                                        ),
-                                        Text(
-                                          _appSupportController.getTicketsList[index].createdAt!=null?_appSupportController.getTicketsList[index].createdAt!.toString().epochToNormal():'',
-                                          style: openSans.get10.w400.textColor(
-                                              AppColors.appTextColor
-                                                  .withOpacity(0.5)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: StatusCardView(status: _appSupportController.getTicketsList[index].status!=null? _appSupportController.getTicketsList[index].status!:'',),),
-                                  Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    size: 12,
-                                    color: AppColors.arrowColor,
-                                  )
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Divider(
-                                  color:
-                                      AppColors.appBorderColor.withOpacity(0.5),
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-                      },
+                    SizedBox(width: 5.px),
+                    AppImageAsset(
+                      image: ImageConstants.filterSettings,
+                      height: 16.px,
+                      width: 16.px,
                     ),
                   ],
                 ),
               ),
+            ),
+            if(_appSupportController.getTicketsList.isEmpty)const Spacer(),
+            if (_appSupportController.getTicketsList.isNotEmpty) Expanded(
+                child: ListView.builder(
+                  itemCount: _appSupportController.getTicketsList.length,
+                  shrinkWrap: true,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      _appSupportController.getTicketsList[index].title!=null?_appSupportController.getTicketsList[index].title!:'',
+                                      style: openSans.get14.w500,
+                                    ),
+                                    Text(
+                                      _appSupportController.getTicketsList[index].ticketId!=null?'#${_appSupportController.getTicketsList[index].ticketId!}':'',
+                                      style: openSans.get10.w400.textColor(
+                                          AppColors.appTextColor
+                                              .withOpacity(0.5)),
+                                    ),
+                                    Text(
+                                      _appSupportController.getTicketsList[index].createdAt!=null?_appSupportController.getTicketsList[index].createdAt!.toString().epochToNormal():'',
+                                      style: openSans.get10.w400.textColor(
+                                          AppColors.appTextColor
+                                              .withOpacity(0.5)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: StatusCardView(status: _appSupportController.getTicketsList[index].status!=null? _appSupportController.getTicketsList[index].status!:'',),),
+                              const Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 12,
+                                color: AppColors.arrowColor,
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Divider(
+                              color:
+                              AppColors.appBorderColor.withOpacity(0.5),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ) else InfoCardVIew(
+                isShowButton: false,
+                title: 'No Tickets Found!',
+                subTitle:
+                'No tickets found. Please refine your search.',
+                cardColor: AppColors.white,
+                buttonTitle: 'Open New Ticket',
+              ),
 
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: AppButton(
-                    isDisable: false,
-                    title: 'Open New Ticket',
-                    onPressed: () {
-                      Get.toNamed(Routes.newTicketView);
-                    }),
-              )
-            ],
-          ),
-        ):SizedBox.shrink(),
+            if(_appSupportController.getTicketsList.isEmpty)const Spacer(),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: AppButton(
+                  isDisable: false,
+                  title: 'Open New Ticket',
+                  onPressed: () {
+                    Get.toNamed(Routes.newTicketView);
+                  }),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -232,55 +257,71 @@ class _AppSupportViewState extends State<AppSupportView> {
                           fontSize: 16,
                           color: AppColors.appTextColor),
                     ),
-                    InlineChoice<String>(
-                      clearable: true,
-                      value: shortByList,
-                      onChanged: setSchoolValue,
-                      itemCount: shortByList.length,
-                      itemBuilder:
-                          (ChoiceController<String> selection, int index) {
-                        return ChoiceChip(
-                          shape: StadiumBorder(
-                              side: BorderSide(
-                                  color: shortBy.contains(index)
-                                      ? AppColors.trans
-                                      : AppColors.appBorderColor
-                                          .withOpacity(0.25))),
-                          backgroundColor: AppColors.trans,
-                          selected: shortBy.contains(index),
-                          onSelected: (bool selected) {
-                            setState(() {
-                              if (selected) {
-                                shortBy.add(
-                                    index); // Add to the set for multi-selection
-                              } else {
-                                shortBy.remove(index); // Remove from the set
-                              }
-                            });
-                          },
-                          showCheckmark: false,
-                          label: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 6),
-                            child: Text(shortByList[index],
-                                style: openSans.get12.w600),
+
+                    Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(right:10.0),
+                          child: AppText('Date',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                              color: AppColors.appGrey),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width-100.px,
+                          child: InlineChoice<String>(
+                            clearable: true,
+                            value: _appSupportController.shortByList,
+                            onChanged: setSchoolValue,
+                            itemCount: _appSupportController.shortByList.length,
+                            itemBuilder:
+                                (ChoiceController<String> selection, int index) {
+                              return ChoiceChip(
+                                shape: StadiumBorder(
+                                    side: BorderSide(
+                                        color: _appSupportController.shortBy==index
+                                            ? AppColors.trans
+                                            : AppColors.appBorderColor
+                                                .withOpacity(0.25))),
+                                backgroundColor: AppColors.trans,
+                                selected: _appSupportController.shortBy==index,
+                                onSelected: (bool selected) {
+                                  setState(() {
+                                    if (selected) {
+                                      _appSupportController.shortBy=index; // Add to the set for multi-selection
+                                    } else {
+                                      _appSupportController.shortBy=-1; // Remove from the set
+                                    }
+
+                                  });
+                                  _appSupportController.getTickets();
+                                },
+                                showCheckmark: false,
+                                label: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                                  child: Text(_appSupportController.shortByList[index],
+                                      style: openSans.get12.w600),
+                                ),
+                                selectedColor: AppColors.appBlue,
+                                // Change this to your desired color
+                                labelStyle: TextStyle(
+                                  color: _appSupportController.shortBy==index
+                                      ? AppColors.white
+                                      : AppColors.appTextColor
+                                          .withOpacity(0.5), // Change text color
+                                ),
+                              );
+                            },
+                            listBuilder: ChoiceList.createWrapped(),
                           ),
-                          selectedColor: AppColors.appBlue,
-                          // Change this to your desired color
-                          labelStyle: TextStyle(
-                            color: shortBy.contains(index)
-                                ? AppColors.white
-                                : AppColors.appTextColor
-                                    .withOpacity(0.5), // Change text color
-                          ),
-                        );
-                      },
-                      listBuilder: ChoiceList.createWrapped(),
+                        ),
+                      ],
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 10, bottom: 15),
+                      padding: const EdgeInsets.only(top: 10, bottom: 15),
                       child: Divider(
                         height: 1,
-                        color: Color(0xffC5CEEE).withOpacity(0.5),
+                        color: const Color(0xffC5CEEE).withOpacity(0.5),
                       ),
                     ),
                     const Padding(
@@ -292,40 +333,41 @@ class _AppSupportViewState extends State<AppSupportView> {
                     ),
                     InlineChoice<String>(
                       clearable: true,
-                      value: filterByList,
+                      value: _appSupportController.filterByList,
                       onChanged: setSchoolValue,
-                      itemCount: filterByList.length,
+                      itemCount: _appSupportController.filterByList.length,
                       itemBuilder:
                           (ChoiceController<String> selection, int index) {
                         return ChoiceChip(
                           shape: StadiumBorder(
                               side: BorderSide(
-                                  color: filterBy.contains(index)
+                                  color: _appSupportController.filterBy.contains(_appSupportController.filterByList[index])
                                       ? AppColors.trans
                                       : AppColors.appBorderColor
                                           .withOpacity(0.25))),
                           backgroundColor: AppColors.trans,
-                          selected: filterBy.contains(index),
+                          selected: _appSupportController.filterBy.contains(_appSupportController.filterByList[index]),
                           onSelected: (bool selected) {
                             setState(() {
                               if (selected) {
-                                filterBy.add(
-                                    index); // Add to the set for multi-selection
+                                _appSupportController.filterBy.add(_appSupportController.filterByList[index]);
+                                _appSupportController.getTickets();// Add to the set for multi-selection
                               } else {
-                                filterBy.remove(index); // Remove from the set
+                                _appSupportController.filterBy.remove(_appSupportController.filterByList[index]);
+                                _appSupportController.getTickets();// Remove from the set
                               }
                             });
                           },
                           showCheckmark: false,
                           label: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 6),
-                            child: Text(filterByList[index],
+                            child: Text(_appSupportController.filterByList[index],
                                 style: openSans.get12.w600),
                           ),
                           selectedColor: AppColors.appBlue,
                           // Change this to your desired color
                           labelStyle: TextStyle(
-                            color: filterBy.contains(index)
+                            color: _appSupportController.filterBy.contains(_appSupportController.filterByList[index])
                                 ? AppColors.white
                                 : AppColors.appTextColor
                                     .withOpacity(0.5), // Change text color
@@ -337,9 +379,16 @@ class _AppSupportViewState extends State<AppSupportView> {
                     Padding(
                       padding: const EdgeInsets.only(top: 25),
                       child: AppButton(
-                        onPressed: () {},
+                        onPressed: () {
+                        setState(() {
+                          _appSupportController.shortBy=-1;
+                          _appSupportController.filterBy.clear();
+                           });
+                        _appSupportController.getTickets();
+                        },
                         title: 'Clear Selections',
-                        isDisable: shortBy.isNotEmpty || filterBy.isNotEmpty
+                        // ignore: avoid_bool_literals_in_conditional_expressions
+                        isDisable: _appSupportController.shortBy!=-1 || _appSupportController.filterBy.isNotEmpty
                             ? false
                             : true,
                       ),
@@ -350,21 +399,3 @@ class _AppSupportViewState extends State<AppSupportView> {
         ));
   }
 }
-
-class StatusModel {
-  StatusModel(this.status,
-      {required this.title, required this.idNum, required this.date});
-  final StatusCardView status;
-  final String title;
-  final String idNum;
-  final String date;
-}
-// InfoCardVIew(
-// isShowButton: true,
-// title: 'No Tickets!',
-// subTitle:
-// "No tickets created yet? If you have issues, submit a ticket anytime. We're here to assist!",
-// cardColor: AppColors.white,
-// buttonTitle: 'Open New Ticket',
-// buttonTap: () => null,
-// ),
