@@ -257,6 +257,7 @@ class _AppSupportViewState extends State<AppSupportView> {
                           fontSize: 16,
                           color: AppColors.appTextColor),
                     ),
+
                     Row(
                       children: [
                         const Padding(
