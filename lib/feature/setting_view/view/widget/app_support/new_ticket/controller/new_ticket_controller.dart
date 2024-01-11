@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import '../../../../../../../core/base_response.dart';
-import '../../../../../app_support/controller/app_support_controller.dart';
 import '../model/create_ticket_request_model.dart';
 import '../repository/create_ticket_repository.dart';
 import '../repository/master_data_app_support_repository.dart';
@@ -15,12 +14,12 @@ class NewTicketController extends GetxController {
   final CreateTicketRepository _createTicketRepository =
       CreateTicketRepository();
 
-  RxList masterData = [].obs;
-  File? firstImage;
-  File? secondImage;
+  RxList<String> masterData = <String>[].obs;
+  RxList<File> attachments=<File>[].obs;
   bool isSwitch = false;
-  TextEditingController ticketType = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
+  int? ticketId;
+  TextEditingController ticketType = TextEditingController(text: '');
+  TextEditingController descriptionController = TextEditingController(text: '');
 
   @override
   void onInit() {
@@ -49,6 +48,8 @@ class NewTicketController extends GetxController {
     final BaseResponse masterDataResponse =
         await _createTicketRepository.createNewTicket(createTicketBody);
     if (masterDataResponse.status?.type == 'success') {
+      final Map<String, dynamic> data=masterDataResponse.data!.item! as Map<String, dynamic>;
+      ticketId=data['ticketId'];
       status = true;
     } else {
       status = false;

@@ -3,6 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../../../custom/app_button/app_button.dart';
 import '../../../../../../../custom/app_textformfield/app_field.dart';
 import '../../../../../../../custom/appbar/appbar.dart';
@@ -40,18 +41,18 @@ class _NewTicketViewState extends State<NewTicketView> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Column(
-                children: <Widget>[
-                  fieldView(),
-                  addAttachmentView(),
-                ],
-              ),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                fieldView(),
+                addAttachmentView(),
+                const SizedBox(height: 100,),
+                footerView(context)
+              ],
             ),
-            footerView(context)
-          ],
+          ),
         ),
       ),
     );
@@ -62,36 +63,39 @@ class _NewTicketViewState extends State<NewTicketView> {
 //==============================================================================
   AppButton footerView(BuildContext context) {
     return AppButton(
-        isDisable: false,
+        // ignore: avoid_bool_literals_in_conditional_expressions
+        isDisable: _newTicketController.ticketType.text!='' && _newTicketController.descriptionController.text!='' && _newTicketController.attachments.isNotEmpty?false:true,
         title: 'Submit Your Ticket',
         onPressed: () async{
-         bool success= await _newTicketController.createNewTicket(CreateTicketRequestModel(ticketType:_newTicketController.ticketType.text ,description:_newTicketController.descriptionController.text ));
-         if(success) {
-           final AppSupportController appSupportController=Get.find();
-           appSupportController.getTickets();
-           // ignore: use_build_context_synchronously
-           showModalBottomSheet(
-            backgroundColor: Colors.white,
-            context: context,
-            constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width - 30,
-              // here increase or decrease in width
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            builder: (BuildContext context) {
-              return SuccessFailsInfoDialog(
-                verticalPadding: 10,
-                title: 'Success',
-                buttonTitle: 'Done',
-                content: 'You have successfully submitted your ticket.',
-                tranId: '#232132',
-                isRouting: 'back',
+          if(_newTicketController.ticketType.text!='' && _newTicketController.descriptionController.text!='' && _newTicketController.attachments.isNotEmpty) {
+            final bool success= await _newTicketController.createNewTicket(CreateTicketRequestModel(ticketType:_newTicketController.ticketType.text ,description:_newTicketController.descriptionController.text,attachments: _newTicketController.attachments ));
+            if(success) {
+              final AppSupportController appSupportController=Get.find();
+              appSupportController.getTickets();
+              // ignore: use_build_context_synchronously
+              showModalBottomSheet(
+                backgroundColor: Colors.white,
+                context: context,
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width - 30,
+                  // here increase or decrease in width
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                builder: (BuildContext context) {
+                  return SuccessFailsInfoDialog(
+                    verticalPadding: 10,
+                    title: 'Success',
+                    buttonTitle: 'Done',
+                    content: 'You have successfully submitted your ticket.',
+                    tranId: _newTicketController.ticketId?.toString()??'',
+                    isRouting: 'back',
+                  );
+                },
               );
-            },
-          );
-         }
+            }
+          }
         });
   }
 
@@ -140,35 +144,28 @@ class _NewTicketViewState extends State<NewTicketView> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    if (_newTicketController.firstImage != null)
-                      addAttachmentImage(
-                          image: _newTicketController.firstImage!,
+                SizedBox(
+                  height: _newTicketController.attachments.isNotEmpty ?80.0:0.0,
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    separatorBuilder: (_,i)=> const SizedBox(width: 10,),
+                   itemCount: _newTicketController.attachments.length,
+                    itemBuilder: (_,int index)=>Align(
+                      child: addAttachmentImage(
+                          image: _newTicketController.attachments[index],
                           onClose: () {
                             setState(() {
-                              _newTicketController.firstImage = null;
+                              _newTicketController.attachments.removeAt(index);
                             });
                           }),
-                    if (_newTicketController.secondImage != null)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: addAttachmentImage(
-                            image: _newTicketController.secondImage!,
-                            onClose: () {
-                              setState(() {
-                                _newTicketController.secondImage = null;
-                              });
-                            }),
-                      ),
-                  ],
+                    ),
+                  ),
                 ),
-                if (_newTicketController.secondImage == null || _newTicketController.firstImage == null)
-                  Padding(
+                if (_newTicketController.attachments.length<=2) Padding(
                     padding: EdgeInsets.only(
                         top:
-                        _newTicketController.secondImage == null && _newTicketController.firstImage == null ? 0 : 15),
+                        _newTicketController.attachments.isEmpty ? 0 : 15),
                     child: Column(
                       children: <Widget>[
                         const Padding(
@@ -179,11 +176,17 @@ class _NewTicketViewState extends State<NewTicketView> {
                         ),
                         Center(
                             child: Text(
-                              _newTicketController.firstImage != null ? 'Add More' : 'Add Attachment',
+                              _newTicketController.attachments.isEmpty ? 'Add More' : 'Add Attachment',
                           style: openSans.get14.w500.appBlue,
                         )),
                       ],
                     ),
+                  ) else Padding(
+                  padding: EdgeInsets.only(
+                      top:
+                      _newTicketController.attachments.isEmpty ? 0 : 15),
+                    child:  SizedBox(width: 1000.px,
+                    height: 10,),
                   ),
               ],
             )),
@@ -197,15 +200,10 @@ class _NewTicketViewState extends State<NewTicketView> {
       allowedExtensions: <String>['pdf', 'png', 'jpeg', 'jpg'],
     );
     if (result != null) {
-      if (_newTicketController.firstImage == null) {
         setState(() {
-          _newTicketController.firstImage = File(result.files.single.path ?? '');
+          _newTicketController.attachments.add(File(result.files.single.path ?? ''));
         });
-      } else {
-        setState(() {
-          _newTicketController.secondImage = File(result.files.single.path ?? '');
-        });
-      }
+
     }
   }
 

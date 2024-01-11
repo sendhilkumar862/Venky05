@@ -29,5 +29,5 @@ class CreateTicketAPIRequest extends BaseRequest {
   Map<String, dynamic> get body => createTicketBody.toJson();
   @override
   // TODO: implement apiMethod
-  BackEndServicesEnum get apiMethod =>BackEndServicesEnum.POST;
+  BackEndServicesEnum get apiMethod =>BackEndServicesEnum.CUSTOM;
 }
