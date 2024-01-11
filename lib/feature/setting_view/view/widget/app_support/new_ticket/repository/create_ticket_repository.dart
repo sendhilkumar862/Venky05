@@ -7,7 +7,6 @@ import '../../../../../../../core/base_response.dart';
 import '../../../../../../../core/hessah_exception.dart';
 import '../../../../../../../product/constants/enums/backend_services_method_enums.dart';
 import '../model/create_ticket_request_model.dart';
-
 class CreateTicketRepository {
   Future<BaseResponse> createNewTicket (CreateTicketRequestModel createTicketBody) async {
     try {
