@@ -307,7 +307,7 @@ class _NewTicketViewState extends State<NewTicketView> {
                     ),
                     ListView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: ticketTypeList.length,
                       itemBuilder: (context, index) {
                         return InkWell(
