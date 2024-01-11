@@ -166,6 +166,10 @@ class ApiEndpoint {
     switch (endpoint) {
       case SupportEndpoint.GET_TICKETS:
         return '$path/ticket/get';
+      case SupportEndpoint.MASTER_DATA:
+        return '$path/master';
+      case SupportEndpoint.CREATE_TICKET:
+        return '$path/ticket/create';
     }
   }
 
@@ -315,5 +319,7 @@ enum DownloaderEndPoint {
 
 /// A collection of endpoints used for Support.
 enum SupportEndpoint {
- GET_TICKETS
+ GET_TICKETS,
+  MASTER_DATA,
+  CREATE_TICKET
 }

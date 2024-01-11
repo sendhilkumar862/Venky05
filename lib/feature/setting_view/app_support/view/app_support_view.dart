@@ -15,8 +15,8 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/extension/string_extension.dart';
 import '../../../../product/utils/typography.dart';
-import '../../view/widget/app_support/new_ticket_view.dart';
 import '../controller/app_support_controller.dart';
+
 
 
 class AppSupportView extends StatefulWidget {
@@ -105,9 +105,8 @@ class _AppSupportViewState extends State<AppSupportView> {
                     ListView.builder(
                       itemCount: _appSupportController.getTicketsList.isNotEmpty?_appSupportController.getTicketsList.length:statusModelList.length,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
-                        var data = statusModelList[index];
                         return Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: Column(
