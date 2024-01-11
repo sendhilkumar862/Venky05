@@ -13,6 +13,12 @@ extension StringLocalization on String {
 
     return imageUrl;
   }
+  String getAttachmentUrl(String id) {
+    final String baseUrl = ApiEndpoint.attachmentDownloader(DownloaderAttachmentEndPoint.BASE);
+    final String imageUrl = '$baseUrl$id?id=$this';
+
+    return imageUrl;
+  }
 
   //get the name of the User
   String extractInitials() {
@@ -69,7 +75,12 @@ extension StringLocalization on String {
     final DateTime timeStamp = DateTime.fromMillisecondsSinceEpoch(int.parse(this));
     return DateFormat('MM/dd hh:mma').format(timeStamp);
   }
-  String timeConvert() {
+  String epochToDate() {
+    final DateTime timeStamp = DateTime.fromMillisecondsSinceEpoch(
+        int.parse(this));
+    return DateFormat('MM/dd/yyyy').format(timeStamp);
+  }
+    String timeConvert() {
     int h, m;
     h = int.parse(this) ~/ 3600;
     // ignore: unnecessary_parenthesis

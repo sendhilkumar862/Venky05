@@ -1,12 +1,4 @@
 class GetTicketsResponseModel {
-  int? ticketId;
-  String? title;
-  String? description;
-  String? status;
-  String? statusCode;
-  int? createdAt;
-  int? updatedAt;
-  List<String>? attachments;
 
   GetTicketsResponseModel(
       {this.ticketId,
@@ -26,19 +18,51 @@ class GetTicketsResponseModel {
     statusCode = json['status_code'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    attachments = json['attachments'].cast<String>();
+    if (json['attachments'] != null) {
+      attachments = <Attachments>[];
+      // ignore: avoid_dynamic_calls
+      json['attachments'].forEach((v) {
+        attachments!.add(Attachments.fromJson(v));
+      });
+    }
   }
+  int? ticketId;
+  String? title;
+  String? description;
+  String? status;
+  String? statusCode;
+  int? createdAt;
+  int? updatedAt;
+  List<Attachments>? attachments;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ticket_id'] = this.ticketId;
-    data['title'] = this.title;
-    data['description'] = this.description;
-    data['status'] = this.status;
-    data['status_code'] = this.statusCode;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['attachments'] = this.attachments;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ticket_id'] = ticketId;
+    data['title'] = title;
+    data['description'] = description;
+    data['status'] = status;
+    data['status_code'] = statusCode;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (attachments != null) {
+      data['attachments'] = attachments!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Attachments {
+
+  Attachments({this.attachmentId});
+
+  Attachments.fromJson(Map<String, dynamic> json) {
+    attachmentId = json['attachment_id'];
+  }
+  String? attachmentId;
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['attachment_id'] = attachmentId;
     return data;
   }
 }

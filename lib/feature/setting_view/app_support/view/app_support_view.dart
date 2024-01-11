@@ -130,40 +130,45 @@ class _AppSupportViewState extends State<AppSupportView> {
                      padding: const EdgeInsets.only(top: 10),
                      child: Column(
                        children: <Widget>[
-                         Row(
-                           children: <Widget>[
-                             Column(
-                               crossAxisAlignment:
-                               CrossAxisAlignment.start,
-                               children: <Widget>[
-                                 Text(
-                                   _appSupportController.getTicketsList[index].title!=null?_appSupportController.getTicketsList[index].title!:'',
-                                   style: openSans.get14.w500,
-                                 ),
-                                 Text(
-                                   _appSupportController.getTicketsList[index].ticketId!=null?'#${_appSupportController.getTicketsList[index].ticketId!}':'',
-                                   style: openSans.get10.w400.textColor(
-                                       AppColors.appTextColor
-                                           .withOpacity(0.5)),
-                                 ),
-                                 Text(
-                                   _appSupportController.getTicketsList[index].createdAt!=null?_appSupportController.getTicketsList[index].createdAt!.toString().epochToNormal():'',
-                                   style: openSans.get10.w400.textColor(
-                                       AppColors.appTextColor
-                                           .withOpacity(0.5)),
-                                 ),
-                               ],
-                             ),
-                             const Spacer(),
-                             Padding(
-                               padding: const EdgeInsets.only(right: 10),
-                               child: StatusCardView(status: _appSupportController.getTicketsList[index].status!=null? _appSupportController.getTicketsList[index].status!:'',),),
-                             const Icon(
-                               Icons.arrow_forward_ios_rounded,
-                               size: 12,
-                               color: AppColors.arrowColor,
-                             )
-                           ],
+                         GestureDetector(
+                           onTap: (){
+                             _appSupportController.appSupportDetailIndex=index;
+                             Get.toNamed(Routes.pendingTickets);},
+                           child: Row(
+                             children: <Widget>[
+                               Column(
+                                 crossAxisAlignment:
+                                 CrossAxisAlignment.start,
+                                 children: <Widget>[
+                                   Text(
+                                     _appSupportController.getTicketsList[index].title!=null?_appSupportController.getTicketsList[index].title!:'',
+                                     style: openSans.get14.w500,
+                                   ),
+                                   Text(
+                                     _appSupportController.getTicketsList[index].ticketId!=null?'#${_appSupportController.getTicketsList[index].ticketId!}':'',
+                                     style: openSans.get10.w400.textColor(
+                                         AppColors.appTextColor
+                                             .withOpacity(0.5)),
+                                   ),
+                                   Text(
+                                     _appSupportController.getTicketsList[index].createdAt!=null?_appSupportController.getTicketsList[index].createdAt!.toString().epochToNormal():'',
+                                     style: openSans.get10.w400.textColor(
+                                         AppColors.appTextColor
+                                             .withOpacity(0.5)),
+                                   ),
+                                 ],
+                               ),
+                               const Spacer(),
+                               Padding(
+                                 padding: const EdgeInsets.only(right: 10),
+                                 child: StatusCardView(status: _appSupportController.getTicketsList[index].status!=null? _appSupportController.getTicketsList[index].status!:'',),),
+                               const Icon(
+                                 Icons.arrow_forward_ios_rounded,
+                                 size: 12,
+                                 color: AppColors.arrowColor,
+                               )
+                             ],
+                           ),
                          ),
                          Padding(
                            padding: const EdgeInsets.only(top: 8.0),

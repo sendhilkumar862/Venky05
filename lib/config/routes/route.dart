@@ -26,6 +26,7 @@ import '../../feature/setting_view/manage_address/view/manage_address_view.dart'
 import '../../feature/setting_view/manage_subscription/view/manage_subscription.dart';
 import '../../feature/setting_view/view/setting_view.dart';
 import '../../feature/setting_view/view/widget/app_support/new_ticket/view/new_ticket_view.dart';
+import '../../feature/setting_view/view/widget/app_support/pending_tickets.dart';
 import '../../feature/setting_view/view/widget/available_times_view.dart';
 import '../../feature/setting_view/view/widget/calender_view/manage_added_time_view.dart';
 import '../../feature/splash/view/splash_view.dart';
@@ -116,6 +117,7 @@ class Routes {
   static const String withdrawView = '/withdrawView';
   static const String viewAllView = '/viewAllView';
   static const String languageView = '/languageView';
+  static const String pendingTickets = '/pendingTickets';
 
   /// The name of the route for unrecognized route screen
   static const String NotFoundScreenRoute = '/route-not-found-screen';
@@ -163,12 +165,14 @@ class Routes {
     GetPage(name: reUploadDocument, page: () => const ReUploadDocument()),
     GetPage(name: newTicketView, page: () => const NewTicketView()),
     GetPage(name: addAddressView, page: () => AddAddressScreen()),
-    GetPage(name: manageAddedTimeView, page: () => ManageAddedTimeView()),
+    GetPage(name: manageAddedTimeView, page: () => const ManageAddedTimeView()),
     GetPage(name: onBoardingView, page: () => OnBoardingView()),
     GetPage(name: addBankView, page: () => AddBankView()),
     GetPage(name: withdrawView, page: () => const WithDrawScreen()),
     GetPage(name: viewAllView, page: () => const ViewAllView()),
     GetPage(name: languageView, page: () => LanguageView()),
+    GetPage(name: pendingTickets, page: () => const PendingTickets()),
+
     GetPage(
       name: classDetailsView,
       page: () => const ClassDetailsView(),

@@ -159,7 +159,13 @@ class ApiEndpoint {
         return '$path/download';
     }
   }
-
+  static String attachmentDownloader(DownloaderAttachmentEndPoint endPoint) {
+    const String path = '${baseUrl}support/ticket/attachment/';
+    switch (endPoint) {
+      case DownloaderAttachmentEndPoint.BASE:
+        return path;
+    }
+  }
   /// Returns the path for teachers [endpoint].
   static String support(SupportEndpoint endpoint) {
     const String path = 'support';
@@ -316,6 +322,10 @@ enum DownloaderEndPoint {
   DOWNLOAD,
 }
 
+enum DownloaderAttachmentEndPoint {
+  /// An endpoint for teacgers' collection requests.
+  BASE,
+}
 
 /// A collection of endpoints used for Support.
 enum SupportEndpoint {

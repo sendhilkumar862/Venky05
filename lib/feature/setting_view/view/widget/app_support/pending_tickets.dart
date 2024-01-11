@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../../../custom/appbar/appbar.dart';
 import '../../../../../custom/cardView/status_card_view.dart';
 import '../../../../../custom/cardView/warning_card_view.dart';
+import '../../../../../custom/image/app_image_assets.dart';
 import '../../../../../product/constants/colors/app_colors_constants.dart';
+import '../../../../../product/extension/string_extension.dart';
 import '../../../../../product/utils/typography.dart';
+import '../../../app_support/controller/app_support_controller.dart';
 
 class PendingTickets extends StatefulWidget {
   const PendingTickets({super.key});
@@ -13,6 +17,7 @@ class PendingTickets extends StatefulWidget {
 }
 
 class _PendingTicketsState extends State<PendingTickets> {
+  final AppSupportController _appSupportController = Get.find();
   List<TicketInfo> ticketInfoList = [
     TicketInfo(title: 'Ticket Date', data: '12/10/2023'),
     TicketInfo(title: 'Ticket Number', data: '#232132'),
@@ -45,41 +50,119 @@ class _PendingTicketsState extends State<PendingTickets> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: ticketInfoList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
-                                    child: Text(
-                                      ticketInfoList[index].title,
-                                      style: openSans.get12.w500.textColor(
-                                          AppColors.appTextColor
-                                              .withOpacity(0.5)),
-                                    ),
-                                  ),
-                                ],
+                   Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Text(
+                            'Ticket Date',
+                          style: openSans.get12.w500.textColor(
+                              AppColors.appTextColor
+                                  .withOpacity(0.5)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          _appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].createdAt.toString().epochToDate(),
+                          style: openSans.get16.w500.appTextColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                  'Ticket Number',
+                                style: openSans.get12.w500.textColor(
+                                    AppColors.appTextColor
+                                        .withOpacity(0.5)),
                               ),
-                              Column(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
-                                    child: Text(
-                                      ticketInfoList[index].data ?? "",
-                                      style: openSans.get16.w500.appTextColor,
-                                    ),
-                                  ),
-                                ],
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                _appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].ticketId.toString(),
+                                style: openSans.get16.w500.appTextColor,
                               ),
-                            ],
-                          );
-                        }),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                  'Ticket Type',
+                                style: openSans.get12.w500.textColor(
+                                    AppColors.appTextColor
+                                        .withOpacity(0.5)),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                _appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].ticketId.toString(),
+                                style: openSans.get16.w500.appTextColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                'Transaction State',
+                                style: openSans.get12.w500.textColor(
+                                    AppColors.appTextColor
+                                        .withOpacity(0.5)),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: StatusCardView(status:    _appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].status??'',),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                     Divider(
                       height: 1,
                       color: AppColors.appBorderColor.withOpacity(0.5),
@@ -93,7 +176,7 @@ class _PendingTicketsState extends State<PendingTickets> {
                       ),
                     ),
                     Text(
-                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.",
+                      _appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].description??'',
                       style: openSans.get16.w400,
                     ),
                     Padding(
@@ -110,14 +193,32 @@ class _PendingTicketsState extends State<PendingTickets> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
-                      child: Container(
-                        height: 80,
-                        width: 80,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6.67),
-                            border: Border.all(
-                              color: AppColors.appBorderColor.withOpacity(0.5),
-                            )),
+                      child: SizedBox(
+                        width: 500,
+                        height: 100,
+                        child: ListView.separated(
+                          separatorBuilder: (_,i){
+                            return const SizedBox(width: 10,);
+                          },
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount:  _appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].attachments?.length??0,
+                          itemBuilder:(BuildContext context, int index) {
+                            return Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6.67),
+                                  border: Border.all(
+                                    color: AppColors.appBorderColor.withOpacity(0.5),
+                                  )),
+                              child: AppImageAsset(
+                                image: _appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].attachments![index].attachmentId!.getAttachmentUrl(_appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].ticketId.toString()),
+                                fit: BoxFit.fill,
+                              ),
+                            );
+                          }
+                        ),
                       ),
                     )
                   ]),
