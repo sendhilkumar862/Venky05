@@ -60,6 +60,31 @@ class BackendService {
           ),
           data: request.body,
         );
+      } else if (request.apiMethod == BackEndServicesEnum.CUSTOM) {
+        final List<File> body=request.body['attachments'];
+        final FormData data = FormData.fromMap({
+          'attachments': <MultipartFile>[
+            await MultipartFile.fromFile(body[0].path,
+                filename: body[0].path.split('/').last),
+            if(body.length==2)
+            await MultipartFile.fromFile(body[1].path,
+                filename: body[1].path.split('/').last),
+            if(body.length==3)
+            await MultipartFile.fromFile(body[2].path,
+                filename: body[2].path.split('/').last),
+
+          ],
+          'ticketType': request.body['ticketType'],
+          'description': request.body['description'],
+        });
+
+        response = await dio.post(
+          ApiEndpoint.baseUrl + request.endPoint,
+          options: Options(
+            headers: request.header,
+          ),
+          data: data,
+        );
       } else {
         final FormData data = FormData.fromMap({
           'file': <MultipartFile>[

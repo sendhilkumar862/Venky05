@@ -2,16 +2,21 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import '../../../../../custom/app_button/app_button.dart';
-import '../../../../../custom/app_textformfield/app_field.dart';
-import '../../../../../custom/appbar/appbar.dart';
-import '../../../../../custom/dialog/success_fail_dialog.dart';
-import '../../../../../custom/image/app_image_assets.dart';
-import '../../../../../custom/sheet/show_bottom_sheet.dart';
-import '../../../../../custom/text/app_text.dart';
-import '../../../../../product/constants/colors/app_colors_constants.dart';
-import '../../../../../product/constants/image/image_constants.dart';
-import '../../../../../product/utils/typography.dart';
+import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../../../../../../custom/app_button/app_button.dart';
+import '../../../../../../../custom/app_textformfield/app_field.dart';
+import '../../../../../../../custom/appbar/appbar.dart';
+import '../../../../../../../custom/dialog/success_fail_dialog.dart';
+import '../../../../../../../custom/image/app_image_assets.dart';
+import '../../../../../../../custom/sheet/show_bottom_sheet.dart';
+import '../../../../../../../custom/text/app_text.dart';
+import '../../../../../../../product/constants/colors/app_colors_constants.dart';
+import '../../../../../../../product/constants/image/image_constants.dart';
+import '../../../../../../../product/utils/typography.dart';
+import '../../../../../app_support/controller/app_support_controller.dart';
+import '../controller/new_ticket_controller.dart';
+import '../model/create_ticket_request_model.dart';
 
 class NewTicketView extends StatefulWidget {
   const NewTicketView({super.key});
@@ -21,23 +26,8 @@ class NewTicketView extends StatefulWidget {
 }
 
 class _NewTicketViewState extends State<NewTicketView> {
-//==============================================================================
-// ** Properties **
-//==============================================================================
-  List ticketTypeList = [
-    'General Inquiry',
-    "Can't Create Class",
-    'Problem About Booked Class',
-    "Can't Book Class",
-    'Problem With Teacher',
-    'Refund Issue',
-    'Top Up Issue',
-    'Problem About Account Settings',
-  ];
-  File? firstImage;
-  File? secondImage;
-  bool isSwitch = false;
-  TextEditingController ticketType = TextEditingController();
+  final NewTicketController _newTicketController=Get.put(NewTicketController());
+
 
 //==============================================================================
 // ** Life Cycle **
@@ -51,18 +41,18 @@ class _NewTicketViewState extends State<NewTicketView> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Column(
-                children: <Widget>[
-                  fieldView(),
-                  addAttachmentView(),
-                ],
-              ),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                fieldView(),
+                addAttachmentView(),
+                const SizedBox(height: 100,),
+                footerView(context)
+              ],
             ),
-            footerView(context)
-          ],
+          ),
         ),
       ),
     );
@@ -73,32 +63,39 @@ class _NewTicketViewState extends State<NewTicketView> {
 //==============================================================================
   AppButton footerView(BuildContext context) {
     return AppButton(
-        isDisable: false,
+        // ignore: avoid_bool_literals_in_conditional_expressions
+        isDisable: _newTicketController.ticketType.text!='' && _newTicketController.descriptionController.text!='' && _newTicketController.attachments.isNotEmpty?false:true,
         title: 'Submit Your Ticket',
-        onPressed: () {
-          showModalBottomSheet(
-            backgroundColor: Colors.white,
-            context: context,
-            constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width - 30,
-              // here increase or decrease in width
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            builder: (BuildContext context) {
-              return SuccessFailsInfoDialog(
-                // onPressed: () {
-                //   AppRouter.push(PendingTickets());
-                // },
-                verticalPadding: 10,
-                title: 'Success',
-                buttonTitle: 'Done',
-                content: 'You have successfully submitted your ticket.',
-                tranId: '#232132',
+        onPressed: () async{
+          if(_newTicketController.ticketType.text!='' && _newTicketController.descriptionController.text!='' && _newTicketController.attachments.isNotEmpty) {
+            final bool success= await _newTicketController.createNewTicket(CreateTicketRequestModel(ticketType:_newTicketController.ticketType.text ,description:_newTicketController.descriptionController.text,attachments: _newTicketController.attachments ));
+            if(success) {
+              final AppSupportController appSupportController=Get.find();
+              appSupportController.getTickets();
+              // ignore: use_build_context_synchronously
+              showModalBottomSheet(
+                backgroundColor: Colors.white,
+                context: context,
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width - 30,
+                  // here increase or decrease in width
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                builder: (BuildContext context) {
+                  return SuccessFailsInfoDialog(
+                    verticalPadding: 10,
+                    title: 'Success',
+                    buttonTitle: 'Done',
+                    content: 'You have successfully submitted your ticket.',
+                    tranId: _newTicketController.ticketId?.toString()??'',
+                    isRouting: 'back',
+                  );
+                },
               );
-            },
-          );
+            }
+          }
         });
   }
 
@@ -109,11 +106,11 @@ class _NewTicketViewState extends State<NewTicketView> {
           title: 'Ticket Type',
           hintText: 'Select type',
           suffix: const Icon(Icons.keyboard_arrow_down, color: Colors.black),
-          controller: ticketType,
+          controller: _newTicketController.ticketType,
           onTap: () {
             bottomSheetDropDownList();
           },
-          validate: (p0) {
+          validate: (String? p0) {
             if (p0 == null || p0.isEmpty) {
               return 'Please Select Your City';
             }
@@ -121,11 +118,12 @@ class _NewTicketViewState extends State<NewTicketView> {
           },
           readOnly: true,
         ),
-        const AppTextFormField(
+         AppTextFormField(
           contentPadding: EdgeInsets.only(top: 15, left: 15),
           maxLines: 3,
           title: 'Ticket Description',
           hintText: 'Enter description',
+          controller: _newTicketController.descriptionController,
         )
       ],
     );
@@ -146,35 +144,28 @@ class _NewTicketViewState extends State<NewTicketView> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    if (firstImage != null)
-                      addAttachmentImage(
-                          image: firstImage!,
+                SizedBox(
+                  height: _newTicketController.attachments.isNotEmpty ?80.0:0.0,
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    separatorBuilder: (_,i)=> const SizedBox(width: 10,),
+                   itemCount: _newTicketController.attachments.length,
+                    itemBuilder: (_,int index)=>Align(
+                      child: addAttachmentImage(
+                          image: _newTicketController.attachments[index],
                           onClose: () {
                             setState(() {
-                              firstImage = null;
+                              _newTicketController.attachments.removeAt(index);
                             });
                           }),
-                    if (secondImage != null)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: addAttachmentImage(
-                            image: secondImage!,
-                            onClose: () {
-                              setState(() {
-                                secondImage = null;
-                              });
-                            }),
-                      ),
-                  ],
+                    ),
+                  ),
                 ),
-                if (secondImage == null || firstImage == null)
-                  Padding(
+                if (_newTicketController.attachments.length<=2) Padding(
                     padding: EdgeInsets.only(
                         top:
-                            secondImage == null && firstImage == null ? 0 : 15),
+                        _newTicketController.attachments.isEmpty ? 0 : 15),
                     child: Column(
                       children: <Widget>[
                         const Padding(
@@ -185,11 +176,17 @@ class _NewTicketViewState extends State<NewTicketView> {
                         ),
                         Center(
                             child: Text(
-                          firstImage != null ? 'Add More' : 'Add Attachment',
+                              _newTicketController.attachments.isEmpty ? 'Add More' : 'Add Attachment',
                           style: openSans.get14.w500.appBlue,
                         )),
                       ],
                     ),
+                  ) else Padding(
+                  padding: EdgeInsets.only(
+                      top:
+                      _newTicketController.attachments.isEmpty ? 0 : 15),
+                    child:  SizedBox(width: 1000.px,
+                    height: 10,),
                   ),
               ],
             )),
@@ -197,24 +194,16 @@ class _NewTicketViewState extends State<NewTicketView> {
     );
   }
 
-//==============================================================================
-// ** Helper Widget **
-//==============================================================================
   Future<void> pickDocument() async {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: <String>['pdf', 'png', 'jpeg', 'jpg'],
     );
     if (result != null) {
-      if (firstImage == null) {
         setState(() {
-          firstImage = File(result.files.single.path ?? '');
+          _newTicketController.attachments.add(File(result.files.single.path ?? ''));
         });
-      } else {
-        setState(() {
-          secondImage = File(result.files.single.path ?? '');
-        });
-      }
+
     }
   }
 
@@ -233,7 +222,7 @@ class _NewTicketViewState extends State<NewTicketView> {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Image.file(
-                    image!,
+                    image,
                     width: 80,
                     height: 80,
                     fit: BoxFit.cover,
@@ -245,7 +234,7 @@ class _NewTicketViewState extends State<NewTicketView> {
                 child: Container(
                     margin:
                         const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                    padding: EdgeInsets.all(3),
+                    padding: const EdgeInsets.all(3),
                     decoration: BoxDecoration(
                         color: AppColors.downArrowColor.withOpacity(0.15),
                         shape: BoxShape.circle),
@@ -305,33 +294,35 @@ class _NewTicketViewState extends State<NewTicketView> {
                         ),
                       ],
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: ticketTypeList.length,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            ticketType.text = ticketTypeList[index];
-                            Navigator.pop(context);
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 10, bottom: 7),
-                                child: Text(ticketTypeList[index],
-                                    style: openSans.get16.w400.black),
-                              ),
-                              Divider(
-                                color:
-                                    AppColors.appBorderColor.withOpacity(0.5),
-                              )
-                            ],
-                          ),
-                        );
-                      },
+                    Obx(()=>
+                     ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: _newTicketController.masterData.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return InkWell(
+                            onTap: () {
+                              _newTicketController.ticketType.text = _newTicketController.masterData[index];
+                              Navigator.pop(context);
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 10, bottom: 7),
+                                  child: Text(_newTicketController.masterData[index],
+                                      style: openSans.get16.w400.black),
+                                ),
+                                Divider(
+                                  color:
+                                      AppColors.appBorderColor.withOpacity(0.5),
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ]),
             );
