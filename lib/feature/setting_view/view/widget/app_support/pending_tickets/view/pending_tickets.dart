@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hessah/product/constants/image/image_constants.dart';
+import '../../../../../../../config/routes/route.dart';
+import '../../../../../../../product/constants/image/image_constants.dart';
 import '../../../../../../../custom/app_button/app_button.dart';
 import '../../../../../../../custom/appbar/appbar.dart';
 import '../../../../../../../custom/cardView/status_card_view.dart';
@@ -243,34 +244,39 @@ class _PendingTicketsState extends State<PendingTickets> {
                   ),
 
 
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Container(
-                        height: 40,
-                        width: 140,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.appPurple),
-                            borderRadius: BorderRadius.circular(15),
-                            color: AppColors.appPurple),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            AppImageAsset(
-                              color: AppColors.appWhite,
-                              image: ImageConstants.replyMessage,
-                              height: 30,
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              'Send Reply',
-                              style: TextStyle(
-                                  color: AppColors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ],
+                  GestureDetector(
+                    onTap: (){
+                      Get.toNamed(Routes.newTicketView, arguments: true);
+                    },
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Container(
+                          height: 40,
+                          width: 140,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: AppColors.appPurple),
+                              borderRadius: BorderRadius.circular(15),
+                              color: AppColors.appPurple),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              AppImageAsset(
+                                color: AppColors.appWhite,
+                                image: ImageConstants.replyMessage,
+                                height: 30,
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                'Send Reply',
+                                style: TextStyle(
+                                    color: AppColors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

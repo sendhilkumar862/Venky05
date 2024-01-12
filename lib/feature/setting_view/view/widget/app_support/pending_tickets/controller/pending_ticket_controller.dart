@@ -41,12 +41,13 @@ class PendingTicketController extends GetxController {
 
 
   Future<void> replyChatTicket(
-      int id,String msg) async {
+      String msg) async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final BaseResponse masterDataResponse =
-    await _replyTicketRepository.replyTicket(id,msg);
+    await _replyTicketRepository.replyTicket(_appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].ticketId!,msg);
     if (masterDataResponse.status?.type == 'success') {
-      getChatTicket(id);
+      Get.back();
+      getChatTicket(_appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].ticketId!);
     }else{
       EasyLoading.dismiss();
     }

@@ -15,6 +15,7 @@ import '../../../../../../../product/constants/colors/app_colors_constants.dart'
 import '../../../../../../../product/constants/image/image_constants.dart';
 import '../../../../../../../product/utils/typography.dart';
 import '../../../../../app_support/controller/app_support_controller.dart';
+import '../../pending_tickets/controller/pending_ticket_controller.dart';
 import '../controller/new_ticket_controller.dart';
 import '../model/create_ticket_request_model.dart';
 
@@ -29,9 +30,16 @@ class _NewTicketViewState extends State<NewTicketView> {
   final NewTicketController _newTicketController=Get.put(NewTicketController());
 
 
-//==============================================================================
-// ** Life Cycle **
-//==============================================================================
+
+  @override
+  void initState() {
+    super.initState();
+    _newTicketController.isReply=Get.arguments;
+
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +57,7 @@ class _NewTicketViewState extends State<NewTicketView> {
                 fieldView(),
                 addAttachmentView(),
                 const SizedBox(height: 100,),
-                footerView(context)
+                if (_newTicketController.isReply) footerReplyView(context) else footerView(context)
               ],
             ),
           ),
@@ -99,11 +107,23 @@ class _NewTicketViewState extends State<NewTicketView> {
           }
         });
   }
+  AppButton footerReplyView(BuildContext context) {
+    return AppButton(
+      // ignore: avoid_bool_literals_in_conditional_expressions
+        isDisable: _newTicketController.descriptionController.text!=''?false:true,
+        title: 'Reply',
+        onPressed: () async{
+          if( _newTicketController.descriptionController.text!='' ) {
+             final PendingTicketController pendingTicketController=Get.find();
+             await pendingTicketController.replyChatTicket(  _newTicketController.descriptionController.text);
+          }
+        });
+  }
 
   Column fieldView() {
     return Column(
       children: <Widget>[
-        AppTextFormField(
+       if(  !_newTicketController.isReply) AppTextFormField(
           title: 'Ticket Type',
           hintText: 'Select type',
           suffix: const Icon(Icons.keyboard_arrow_down, color: Colors.black),
@@ -120,11 +140,16 @@ class _NewTicketViewState extends State<NewTicketView> {
           readOnly: true,
         ),
          AppTextFormField(
-          contentPadding: EdgeInsets.only(top: 15, left: 15),
+          contentPadding: const EdgeInsets.only(top: 15, left: 15),
           maxLines: 3,
           title: 'Ticket Description',
           hintText: 'Enter description',
           controller: _newTicketController.descriptionController,
+           onChanged: (v){
+            setState(() {
+
+            });
+           },
         )
       ],
     );

@@ -25,9 +25,9 @@ class ReplyTicketAPIRequest extends BaseRequest {
   int id;
   String msg;
   @override
-  String get endPoint => ApiEndpoint.support( SupportEndpoint.CREATE_TICKET)+id.toString();
+  String get endPoint => ApiEndpoint.support( SupportEndpoint.REPLY_MESSAGE)+id.toString();
   @override
-  Map<String, dynamic> get body => { "message" : msg};
+  Map<String, dynamic> get body => { 'message' : msg};
   @override
   // TODO: implement apiMethod
   BackEndServicesEnum get apiMethod =>BackEndServicesEnum.POST;

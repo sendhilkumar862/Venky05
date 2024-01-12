@@ -18,6 +18,7 @@ class NewTicketController extends GetxController {
   RxList<File> attachments=<File>[].obs;
   bool isSwitch = false;
   int? ticketId;
+  bool isReply=false;
   TextEditingController ticketType = TextEditingController(text: '');
   TextEditingController descriptionController = TextEditingController(text: '');
 

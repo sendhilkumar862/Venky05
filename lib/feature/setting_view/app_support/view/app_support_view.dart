@@ -60,7 +60,7 @@ class _AppSupportViewState extends State<AppSupportView> {
               cardColor: AppColors.white,
               buttonTitle: 'Open New Ticket',
               buttonTap: (){
-                Get.toNamed(Routes.newTicketView);
+                Get.toNamed(Routes.newTicketView,arguments: false);
               },
             ),
           ),
@@ -198,7 +198,7 @@ class _AppSupportViewState extends State<AppSupportView> {
                  isDisable: false,
                  title: 'Open New Ticket',
                  onPressed: () {
-                   Get.toNamed(Routes.newTicketView);
+                   Get.toNamed(Routes.newTicketView,arguments: false);
                  }),
            )
          ],
