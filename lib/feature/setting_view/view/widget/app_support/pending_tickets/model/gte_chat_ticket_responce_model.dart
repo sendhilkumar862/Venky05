@@ -16,10 +16,10 @@ class ChatTicketResponseModel {
     createdAt = json['created_at'];
     createdBy = json['created_by'];
     if (json['attachments'] != null) {
-      attachments = <Attachments>[];
+      attachments = <Attachment>[];
       // ignore: avoid_dynamic_calls
       json['attachments'].forEach((v) {
-        attachments!.add(Attachments.fromJson(v));
+        attachments!.add(Attachment.fromJson(v));
       });
     }
     profileImageId = json['profile_image_id'];
@@ -29,7 +29,7 @@ class ChatTicketResponseModel {
   int? isAdminReply;
   int? createdAt;
   String? createdBy;
-  List<Attachments>? attachments;
+  List<Attachment>? attachments;
   String? profileImageId;
 
   Map<String, dynamic> toJson() {
@@ -47,11 +47,11 @@ class ChatTicketResponseModel {
   }
 }
 
-class Attachments {
+class Attachment {
 
-  Attachments({this.attachmentId});
+  Attachment({this.attachmentId});
 
-  Attachments.fromJson(Map<String, dynamic> json) {
+  Attachment.fromJson(Map<String, dynamic> json) {
     attachmentId = json['attachment_id'];
   }
   String? attachmentId;

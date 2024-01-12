@@ -24,7 +24,7 @@ class ChatReplyTicketAPIRequest extends BaseRequest {
   ChatReplyTicketAPIRequest({required this.id});
   int id;
   @override
-  String get endPoint => ApiEndpoint.support( SupportEndpoint.UPDATE_TICKET_STATUS)+id.toString();
+  String get endPoint => ApiEndpoint.support( SupportEndpoint.CHAT_MESSAGE)+id.toString();
   @override
   Map<String, dynamic> get body => {};
   @override

@@ -1,3 +1,5 @@
+import '../../view/widget/app_support/pending_tickets/model/gte_chat_ticket_responce_model.dart';
+
 class GetTicketsResponseModel {
 
   GetTicketsResponseModel(
@@ -19,10 +21,10 @@ class GetTicketsResponseModel {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     if (json['attachments'] != null) {
-      attachments = <Attachments>[];
+      attachments = <Attachment>[];
       // ignore: avoid_dynamic_calls
       json['attachments'].forEach((v) {
-        attachments!.add(Attachments.fromJson(v));
+        attachments!.add(Attachment.fromJson(v));
       });
     }
   }
@@ -33,7 +35,7 @@ class GetTicketsResponseModel {
   String? statusCode;
   int? createdAt;
   int? updatedAt;
-  List<Attachments>? attachments;
+  List<Attachment>? attachments;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -47,22 +49,6 @@ class GetTicketsResponseModel {
     if (attachments != null) {
       data['attachments'] = attachments!.map((v) => v.toJson()).toList();
     }
-    return data;
-  }
-}
-
-class Attachments {
-
-  Attachments({this.attachmentId});
-
-  Attachments.fromJson(Map<String, dynamic> json) {
-    attachmentId = json['attachment_id'];
-  }
-  String? attachmentId;
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['attachment_id'] = attachmentId;
     return data;
   }
 }

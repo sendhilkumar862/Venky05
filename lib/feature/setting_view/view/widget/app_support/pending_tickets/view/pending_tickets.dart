@@ -11,6 +11,8 @@ import '../../../../../../../product/constants/colors/app_colors_constants.dart'
 import '../../../../../../../product/extension/string_extension.dart';
 import '../../../../../../../product/utils/typography.dart';
 import '../../../../../app_support/controller/app_support_controller.dart';
+import '../controller/pending_ticket_controller.dart';
+import '../model/gte_chat_ticket_responce_model.dart';
 
 class PendingTickets extends StatefulWidget {
   const PendingTickets({super.key});
@@ -21,16 +23,7 @@ class PendingTickets extends StatefulWidget {
 
 class _PendingTicketsState extends State<PendingTickets> {
   final AppSupportController _appSupportController = Get.find();
-  List<TicketInfo> ticketInfoList = [
-    TicketInfo(title: 'Ticket Date', data: '12/10/2023'),
-    TicketInfo(title: 'Ticket Number', data: '#232132'),
-    TicketInfo(title: 'Ticket Type', data: "Can't Create Class"),
-    TicketInfo(
-      title: 'Transaction State',
-      status: StatusCardView(status: 'NEW'),
-    ),
-  ];
-
+  final PendingTicketController _pendingTicketController=Get.put(PendingTicketController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +42,7 @@ class _PendingTicketsState extends State<PendingTickets> {
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
                     child: Container(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         border: Border.all(
@@ -223,288 +216,33 @@ class _PendingTicketsState extends State<PendingTickets> {
                                   '',
                               style: openSans.get16.w400,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Divider(
-                                height: 1,
-                                color:
-                                    AppColors.appBorderColor.withOpacity(0.5),
-                              ),
-                            ),
-                            Text(
-                              'Attachments',
-                              style: openSans.get12.w500.textColor(
-                                  AppColors.appTextColor.withOpacity(0.5)),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: SizedBox(
-                                width: 500,
-                                height: 100,
-                                child: ListView.separated(
-                                    separatorBuilder: (_, i) {
-                                      return const SizedBox(
-                                        width: 10,
-                                      );
-                                    },
-                                    scrollDirection: Axis.horizontal,
-                                    shrinkWrap: true,
-                                    itemCount: _appSupportController
-                                            .getTicketsList[
-                                                _appSupportController
-                                                    .appSupportDetailIndex]
-                                            .attachments
-                                            ?.length ??
-                                        0,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Container(
-                                        height: 80,
-                                        width: 80,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(6.67),
-                                            border: Border.all(
-                                              color: AppColors.appBorderColor
-                                                  .withOpacity(0.5),
-                                            )),
-                                        child: AppImageAsset(
-                                          image: _appSupportController
-                                              .getTicketsList[
-                                                  _appSupportController
-                                                      .appSupportDetailIndex]
-                                              .attachments![index]
-                                              .attachmentId!
-                                              .getAttachmentUrl(
-                                                  _appSupportController
-                                                      .getTicketsList[
-                                                          _appSupportController
-                                                              .appSupportDetailIndex]
-                                                      .ticketId
-                                                      .toString()),
-                                          fit: BoxFit.fill,
-                                        ),
-                                      );
-                                    }),
-                              ),
-                            )
-                          ]),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15),
-                    child: WarningCardView(error: 'No replies yet from Hessah'),
-                  ),
-                  const Row(
-                    children: [
-                      AppImageAsset(
-                          image: ImageConstants.replyHessahIcon, height: 40),
-                      Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: AppText(
-                          'Hessah',
-                          fontWeight: FontWeight.w700,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Container(
-                      padding: EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(
-                            color: AppColors.appBorderColor.withOpacity(0.5)),
-                      ),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: Text(
-                                'Reply on 12/10/2023',
-                                style: openSans.get12.w500.textColor(
-                                    AppColors.appTextColor.withOpacity(0.5)),
-                              ),
-                            ),
-                            Text(
-                              '',
-                              style: openSans.get16.w400,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Divider(
-                                height: 1,
-                                color:
-                                    AppColors.appBorderColor.withOpacity(0.5),
-                              ),
-                            ),
-                            Text(
-                              'Attachments',
-                              style: openSans.get12.w500.textColor(
-                                  AppColors.appTextColor.withOpacity(0.5)),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: SizedBox(
-                                width: 500,
-                                height: 100,
-                                child: ListView.separated(
-                                    separatorBuilder: (_, i) {
-                                      return const SizedBox(
-                                        width: 10,
-                                      );
-                                    },
-                                    scrollDirection: Axis.horizontal,
-                                    shrinkWrap: true,
-                                    itemCount: 0,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Container(
-                                        height: 80,
-                                        width: 80,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(6.67),
-                                            border: Border.all(
-                                              color: AppColors.appBorderColor
-                                                  .withOpacity(0.5),
-                                            )),
-                                        child: AppImageAsset(
-                                          image: _appSupportController
-                                              .getTicketsList[
-                                                  _appSupportController
-                                                      .appSupportDetailIndex]
-                                              .attachments![index]
-                                              .attachmentId!
-                                              .getAttachmentUrl(
-                                                  _appSupportController
-                                                      .getTicketsList[
-                                                          _appSupportController
-                                                              .appSupportDetailIndex]
-                                                      .ticketId
-                                                      .toString()),
-                                          fit: BoxFit.fill,
-                                        ),
-                                      );
-                                    }),
-                              ),
-                            ),
+                            if(_appSupportController
+                                .getTicketsList[
+                            _appSupportController
+                                .appSupportDetailIndex].attachments!.isNotEmpty)attachments(_appSupportController
+                                .getTicketsList[
+                            _appSupportController
+                                .appSupportDetailIndex].attachments!),
                           ]),
                     ),
                   ),
 
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(right: 10),
-                          child: AppText(
-                            'You',
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
-                          ),
-                        ),
-                        Container(
-                          height: 28,
-                          decoration:
-                              const BoxDecoration(shape: BoxShape.circle),
-                          child: const AppImageAsset(
-                              image: ImageConstants.teacherAvtar),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Container(
-                      padding: EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(
-                            color: AppColors.appBorderColor.withOpacity(0.5)),
+                  Obx(()=>
+                     Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: _pendingTicketController.chatMessage.length,
+                        itemBuilder: (_, int index){
+                          return _pendingTicketController.chatMessage[index].isAdminReply==0? youReplied( _pendingTicketController.chatMessage[index]):hessaReplyMessage( _pendingTicketController.chatMessage[index]);
+                        },
+
                       ),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: Text(
-                                'Reply on 12/10/2023',
-                                style: openSans.get12.w500.textColor(
-                                    AppColors.appTextColor.withOpacity(0.5)),
-                              ),
-                            ),
-                            Text(
-                              '',
-                              style: openSans.get16.w400,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Divider(
-                                height: 1,
-                                color:
-                                    AppColors.appBorderColor.withOpacity(0.5),
-                              ),
-                            ),
-                            Text(
-                              'Attachments',
-                              style: openSans.get12.w500.textColor(
-                                  AppColors.appTextColor.withOpacity(0.5)),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: SizedBox(
-                                width: 500,
-                                height: 100,
-                                child: ListView.separated(
-                                    separatorBuilder: (_, i) {
-                                      return const SizedBox(
-                                        width: 10,
-                                      );
-                                    },
-                                    scrollDirection: Axis.horizontal,
-                                    shrinkWrap: true,
-                                    itemCount: 0,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Container(
-                                        height: 80,
-                                        width: 80,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(6.67),
-                                            border: Border.all(
-                                              color: AppColors.appBorderColor
-                                                  .withOpacity(0.5),
-                                            )),
-                                        child: AppImageAsset(
-                                          image: _appSupportController
-                                              .getTicketsList[
-                                                  _appSupportController
-                                                      .appSupportDetailIndex]
-                                              .attachments![index]
-                                              .attachmentId!
-                                              .getAttachmentUrl(
-                                                  _appSupportController
-                                                      .getTicketsList[
-                                                          _appSupportController
-                                                              .appSupportDetailIndex]
-                                                      .ticketId
-                                                      .toString()),
-                                          fit: BoxFit.fill,
-                                        ),
-                                      );
-                                    }),
-                              ),
-                            ),
-                          ]),
                     ),
                   ),
+
+
                   Align(
                     alignment: Alignment.centerRight,
                     child: Padding(
@@ -557,16 +295,170 @@ class _PendingTicketsState extends State<PendingTickets> {
       ),
     );
   }
+  Widget hessaReplyMessage( ChatTicketResponseModel chatTicketResponseModel){
+    return  SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: WarningCardView(error: 'No replies yet from Hessah'),
+          ),
+          const Row(
+            children: [
+              AppImageAsset(
+                  image: ImageConstants.replyHessahIcon, height: 40),
+              Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: AppText(
+                  'Hessah',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+          Container(
+            padding: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(
+                  color: AppColors.appBorderColor.withOpacity(0.5)),
+            ),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      'Reply on ${chatTicketResponseModel.createdAt.toString().epochToDate()}',
+                      style: openSans.get12.w500.textColor(
+                          AppColors.appTextColor.withOpacity(0.5)),
+                    ),
+                  ),
+                  Text(
+                    chatTicketResponseModel.message??'',
+                    style: openSans.get16.w400,
+                  ),
+                  if(chatTicketResponseModel.attachments!.isNotEmpty)attachments(chatTicketResponseModel.attachments!)
+                ]),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget youReplied(ChatTicketResponseModel chatTicketResponseModel){
+    return Column(children: [
+      Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: AppText(
+                'You',
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
+              ),
+            ),
+            Container(
+              height: 28,
+              decoration:
+              const BoxDecoration(shape: BoxShape.circle),
+              child: const AppImageAsset(
+                  image: ImageConstants.teacherAvtar),
+            ),
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(
+                color: AppColors.appBorderColor.withOpacity(0.5)),
+          ),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Reply on ${chatTicketResponseModel.createdAt.toString().epochToDate()}',
+                    style: openSans.get12.w500.textColor(
+                        AppColors.appTextColor.withOpacity(0.5)),
+                  ),
+                ),
+                Text(
+                  chatTicketResponseModel.message??'',
+                  style: openSans.get16.w400,
+                ),
+                if(chatTicketResponseModel.attachments!.isNotEmpty)attachments(chatTicketResponseModel.attachments!)
+              ]),
+        ),
+      ),
+    ],);
+  }
+  Widget attachments(List<Attachment> attachments){
+    return Column(
+      crossAxisAlignment:  CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Divider(
+            height: 1,
+            color:
+            AppColors.appBorderColor.withOpacity(0.5),
+          ),
+        ),
+        Text(
+          'Attachments',
+          style: openSans.get12.w500.textColor(
+              AppColors.appTextColor.withOpacity(0.5)),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 5),
+          child: SizedBox(
+            width: 500,
+            height: 100,
+            child: ListView.separated(
+                separatorBuilder: (_, i) {
+                  return const SizedBox(
+                    width: 10,
+                  );
+                },
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemCount: attachments.length,
+                itemBuilder:
+                    (BuildContext context, int index) {
+                  return Container(
+                    height: 80,
+                    width: 80,
+                    decoration: BoxDecoration(
+                        borderRadius:
+                        BorderRadius.circular(6.67),
+                        border: Border.all(
+                          color: AppColors.appBorderColor
+                              .withOpacity(0.5),
+                        )),
+                    child: AppImageAsset(
+                      image: attachments[index].attachmentId!
+                          .getAttachmentUrl(
+                          attachments[index].attachmentId!),
+                      fit: BoxFit.fill,
+                    ),
+                  );
+                }),
+          ),
+        ),
+      ],);
+  }
 }
 
-class TicketInfo {
-  TicketInfo({
-    required this.title,
-    this.data,
-    this.status,
-  });
 
-  final String title;
-  final String? data;
-  final StatusCardView? status;
-}
+
