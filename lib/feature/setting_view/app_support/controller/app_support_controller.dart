@@ -23,7 +23,7 @@ class AppSupportController extends GetxController{
     'InProgress',
     'Solved',
   ];
-
+  int appSupportDetailIndex=-1;
   int? shortBy=-1;
   List<String> filterBy = <String>[];
 

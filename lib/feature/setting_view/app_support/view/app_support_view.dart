@@ -70,137 +70,139 @@ class _AppSupportViewState extends State<AppSupportView> {
 
   Widget activeScreen(){
     return Obx(()=>
-       Expanded(
-        child: Column(
-          children: <Widget>[
-            TextFormsField(
-              controller: _appSupportController
-                  .searchTicketController,
-              // ignore: always_specify_types
-              onChanged: (searchValue){
-                if(searchValue.isNotEmpty)
-                {
-                  EasyDebounce.debounce(
-                      'my-debounced', // <-- An ID for this particular debouncer
-                      const Duration(milliseconds: 500), // <-- The debounce duration
-                          ()=> _appSupportController.getTickets());
+       Column(
+         children: <Widget>[
+           TextFormsField(
+             controller: _appSupportController
+                 .searchTicketController,
+             // ignore: always_specify_types
+             onChanged: (searchValue){
+               if(searchValue.isNotEmpty)
+               {
+                 EasyDebounce.debounce(
+                     'my-debounced', // <-- An ID for this particular debouncer
+                     const Duration(milliseconds: 500), // <-- The debounce duration
+                         ()=> _appSupportController.getTickets());
 
-                }
-              },
-              hintText: 'search Tickets',
-              prefix: Padding(
-                padding: EdgeInsets.only(left: 10.px),
-                child: const AppImageAsset(
-                    image: ImageConstants.searchIcon,
-                    height: 20),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: InkWell(
-                onTap: () {
-                  filterBottomSheet(context);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    AppText(
-                      'Sort / Filter',
-                      fontSize: 14.px,
-                      color: AppColors.appBlue,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    SizedBox(width: 5.px),
-                    AppImageAsset(
-                      image: ImageConstants.filterSettings,
-                      height: 16.px,
-                      width: 16.px,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            if(_appSupportController.getTicketsList.isEmpty)const Spacer(),
-            if (_appSupportController.getTicketsList.isNotEmpty) Expanded(
-                child: ListView.builder(
-                  itemCount: _appSupportController.getTicketsList.length,
-                  shrinkWrap: true,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      _appSupportController.getTicketsList[index].title!=null?_appSupportController.getTicketsList[index].title!:'',
-                                      style: openSans.get14.w500,
-                                    ),
-                                    Text(
-                                      _appSupportController.getTicketsList[index].ticketId!=null?'#${_appSupportController.getTicketsList[index].ticketId!}':'',
-                                      style: openSans.get10.w400.textColor(
-                                          AppColors.appTextColor
-                                              .withOpacity(0.5)),
-                                    ),
-                                    Text(
-                                      _appSupportController.getTicketsList[index].createdAt!=null?_appSupportController.getTicketsList[index].createdAt!.toString().epochToNormal():'',
-                                      style: openSans.get10.w400.textColor(
-                                          AppColors.appTextColor
-                                              .withOpacity(0.5)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: StatusCardView(status: _appSupportController.getTicketsList[index].status!=null? _appSupportController.getTicketsList[index].status!:'',),),
-                              const Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                size: 12,
-                                color: AppColors.arrowColor,
-                              )
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Divider(
-                              color:
-                              AppColors.appBorderColor.withOpacity(0.5),
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ) else InfoCardVIew(
-                isShowButton: false,
-                title: 'No Tickets Found!',
-                subTitle:
-                'No tickets found. Please refine your search.',
-                cardColor: AppColors.white,
-                buttonTitle: 'Open New Ticket',
-              ),
+               }
+             },
+             hintText: 'search Tickets',
+             prefix: Padding(
+               padding: EdgeInsets.only(left: 10.px),
+               child: const AppImageAsset(
+                   image: ImageConstants.searchIcon,
+                   height: 20),
+             ),
+           ),
+           Padding(
+             padding: const EdgeInsets.only(top: 10),
+             child: InkWell(
+               onTap: () {
+                 filterBottomSheet(context);
+               },
+               child: Row(
+                 mainAxisAlignment: MainAxisAlignment.end,
+                 children: <Widget>[
+                   AppText(
+                     'Sort / Filter',
+                     fontSize: 14.px,
+                     color: AppColors.appBlue,
+                     fontWeight: FontWeight.w600,
+                   ),
+                   SizedBox(width: 5.px),
+                   AppImageAsset(
+                     image: ImageConstants.filterSettings,
+                     height: 16.px,
+                     width: 16.px,
+                   ),
+                 ],
+               ),
+             ),
+           ),
+           if(_appSupportController.getTicketsList.isEmpty)const Spacer(),
+           if (_appSupportController.getTicketsList.isNotEmpty) Expanded(
+               child: ListView.builder(
+                 itemCount: _appSupportController.getTicketsList.length,
+                 shrinkWrap: true,
+                 physics: const AlwaysScrollableScrollPhysics(),
+                 itemBuilder: (BuildContext context, int index) {
+                   return Padding(
+                     padding: const EdgeInsets.only(top: 10),
+                     child: Column(
+                       children: <Widget>[
+                         GestureDetector(
+                           onTap: (){
+                             _appSupportController.appSupportDetailIndex=index;
+                             Get.toNamed(Routes.pendingTickets);},
+                           child: Row(
+                             children: <Widget>[
+                               Column(
+                                 crossAxisAlignment:
+                                 CrossAxisAlignment.start,
+                                 children: <Widget>[
+                                   Text(
+                                     _appSupportController.getTicketsList[index].title!=null?_appSupportController.getTicketsList[index].title!:'',
+                                     style: openSans.get14.w500,
+                                   ),
+                                   Text(
+                                     _appSupportController.getTicketsList[index].ticketId!=null?'#${_appSupportController.getTicketsList[index].ticketId!}':'',
+                                     style: openSans.get10.w400.textColor(
+                                         AppColors.appTextColor
+                                             .withOpacity(0.5)),
+                                   ),
+                                   Text(
+                                     _appSupportController.getTicketsList[index].createdAt!=null?_appSupportController.getTicketsList[index].createdAt!.toString().epochToNormal():'',
+                                     style: openSans.get10.w400.textColor(
+                                         AppColors.appTextColor
+                                             .withOpacity(0.5)),
+                                   ),
+                                 ],
+                               ),
+                               const Spacer(),
+                               Padding(
+                                 padding: const EdgeInsets.only(right: 10),
+                                 child: StatusCardView(status: _appSupportController.getTicketsList[index].status!=null? _appSupportController.getTicketsList[index].status!:'',),),
+                               const Icon(
+                                 Icons.arrow_forward_ios_rounded,
+                                 size: 12,
+                                 color: AppColors.arrowColor,
+                               )
+                             ],
+                           ),
+                         ),
+                         Padding(
+                           padding: const EdgeInsets.only(top: 8.0),
+                           child: Divider(
+                             color:
+                             AppColors.appBorderColor.withOpacity(0.5),
+                           ),
+                         )
+                       ],
+                     ),
+                   );
+                 },
+               ),
+             ) else InfoCardVIew(
+               isShowButton: false,
+               title: 'No Tickets Found!',
+               subTitle:
+               'No tickets found. Please refine your search.',
+               cardColor: AppColors.white,
+               buttonTitle: 'Open New Ticket',
+             ),
 
-            if(_appSupportController.getTicketsList.isEmpty)const Spacer(),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: AppButton(
-                  isDisable: false,
-                  title: 'Open New Ticket',
-                  onPressed: () {
-                    Get.toNamed(Routes.newTicketView);
-                  }),
-            )
-          ],
-        ),
-      ),
+           if(_appSupportController.getTicketsList.isEmpty)const Spacer(),
+           Align(
+             alignment: Alignment.bottomCenter,
+             child: AppButton(
+                 isDisable: false,
+                 title: 'Open New Ticket',
+                 onPressed: () {
+                   Get.toNamed(Routes.newTicketView);
+                 }),
+           )
+         ],
+       ),
     );
   }
 

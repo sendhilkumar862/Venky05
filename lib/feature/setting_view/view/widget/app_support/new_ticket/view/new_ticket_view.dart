@@ -72,6 +72,7 @@ class _NewTicketViewState extends State<NewTicketView> {
             if(success) {
               final AppSupportController appSupportController=Get.find();
               appSupportController.getTickets();
+
               // ignore: use_build_context_synchronously
               showModalBottomSheet(
                 backgroundColor: Colors.white,
