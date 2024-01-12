@@ -66,10 +66,12 @@ class HomeController extends GetxController {
       final RefreshModelClass responseData = RefreshModelClass.fromJson(
           signInResponse.data!.item! as Map<String, dynamic>);
       if (responseData.auth?.accessToken?.isNotEmpty ?? false) {
+        LocaleManager
+            .setAuthToken(responseData.auth?.accessToken ?? '');
         fetchToken();
       }
     } else {
-
+      hideLoading();
     }
   }
 

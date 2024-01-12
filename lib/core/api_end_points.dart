@@ -176,6 +176,13 @@ class ApiEndpoint {
         return '$path/master';
       case SupportEndpoint.CREATE_TICKET:
         return '$path/ticket/create';
+      case SupportEndpoint.CHAT_MESSAGE:
+        return '$path/ticket/chat/';
+      case SupportEndpoint.REPLY_MESSAGE:
+        return '$path/ticket/reply/';
+      case SupportEndpoint.UPDATE_TICKET_STATUS:
+        return '$path/ticket/status/';
+
     }
   }
 
@@ -331,5 +338,8 @@ enum DownloaderAttachmentEndPoint {
 enum SupportEndpoint {
  GET_TICKETS,
   MASTER_DATA,
-  CREATE_TICKET
+  CREATE_TICKET,
+  CHAT_MESSAGE,
+  REPLY_MESSAGE,
+  UPDATE_TICKET_STATUS
 }
