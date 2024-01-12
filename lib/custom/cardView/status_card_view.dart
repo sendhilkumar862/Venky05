@@ -127,9 +127,9 @@ class StatusCardView extends StatelessWidget {
           cardColor: AppColors.appLightBlue,
           iconColor: AppColors.appWhite,
         );
-      case 'In Progress':
+      case 'Inprogress':
         return customStatusView(
-          title: 'Inprogress',
+          title: 'InProgress',
           icon: ImageConstants.inProgress,
           cardColor: AppColors.appOrange,
           iconColor: AppColors.appWhite,
