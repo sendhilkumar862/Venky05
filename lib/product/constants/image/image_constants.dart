@@ -45,6 +45,8 @@ class ImageConstants {
       '${ApplicationConstants.imagePath}teacher_avtar.png';
   static const String starSecondary =
       '${ApplicationConstants.imagePath}star_secondary.png';
+  static const String replyHessahIcon =
+      '${ApplicationConstants.iconPath}icon_hessah_reply.png';
   static const String successCircle =
       '${ApplicationConstants.imagePath}success_circle.png';
   static const String applePayLogo =
