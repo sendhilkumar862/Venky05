@@ -1,7 +1,9 @@
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import '../../../../../../../config/routes/route.dart';
 import '../../../../../../../core/base_response.dart';
+import '../../../../../../../product/constants/app/app_utils.dart';
 import '../../../../../app_support/controller/app_support_controller.dart';
 import '../../new_ticket/model/create_ticket_request_model.dart';
 import '../model/gte_chat_ticket_responce_model.dart';
@@ -19,6 +21,7 @@ class PendingTicketController extends GetxController {
 
 
   RxList<ChatTicketResponseModel> chatMessage=<ChatTicketResponseModel>[].obs;
+  RxString error=''.obs;
 
   @override
   void onInit() {
@@ -37,6 +40,8 @@ class PendingTicketController extends GetxController {
       for (var element in data) {
         chatMessage.add(ChatTicketResponseModel.fromJson(element));
       }
+    }else{
+      error.value=masterDataResponse.status?.message??'Error occured';
     }
     EasyLoading.dismiss();
   }
@@ -52,6 +57,10 @@ class PendingTicketController extends GetxController {
       Get.back();
       getChatTicket(_appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].ticketId!);
     }else{
+      AppUtils.showFlushBar(
+        context: Routes.navigatorKey.currentContext!,
+        message: masterDataResponse.status?.message ?? 'Error occured',
+      );
       EasyLoading.dismiss();
     }
 
@@ -59,12 +68,16 @@ class PendingTicketController extends GetxController {
   Future<void> updateTicketStatus(
       int id,String status) async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    final BaseResponse masterDataResponse =
+    final BaseResponse updateStatusResponse =
     await _updateTicketRepository.updateTicket(id,status);
-    if (masterDataResponse.status?.type == 'success') {
+    if (updateStatusResponse.status?.type == 'success') {
       await _appSupportController.getTickets();
       await getChatTicket(id);
     }else{
+      AppUtils.showFlushBar(
+        context: Routes.navigatorKey.currentContext!,
+        message: updateStatusResponse.status?.message ?? 'Error occured',
+      );
       EasyLoading.dismiss();
     }
   }
