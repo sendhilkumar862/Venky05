@@ -209,6 +209,7 @@ class _AppSupportViewState extends State<AppSupportView> {
   void filterBottomSheet(BuildContext context) {
     return showCommonBottomSheet(
         context: context,
+        showDragHandle: false,
         commonWidget: StatefulBuilder(
           builder:
               (BuildContext context, void Function(void Function()) setState) {
@@ -218,48 +219,35 @@ class _AppSupportViewState extends State<AppSupportView> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        const Padding(
-                          padding: EdgeInsets.only(top: 20),
-                          child: Align(
-                            child: AppText('Sort / Filter',
-                                fontWeight: FontWeight.w700,
-                                fontSize: 14,
-                                color: AppColors.appTextColor),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 80),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppColors.downArrowColor
-                                        .withOpacity(0.15)),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(3),
-                                  child: Icon(Icons.close),
-                                ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0,horizontal: 10),
+                      child: Row(children: [
+                        const Spacer(flex: 2,),
+                        const AppText('Sort / Filter',
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14,
+                            color: AppColors.appTextColor),
+                        const Spacer(flex: 1,),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 80),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColors.downArrowColor
+                                      .withOpacity(0.15)),
+                              child: const Padding(
+                                padding: EdgeInsets.all(3),
+                                child: Icon(Icons.close),
                               ),
                             ),
                           ),
                         ),
-                      ],
+                      ],),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 15, bottom: 2),
-                      child: AppText('Sort by',
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16,
-                          color: AppColors.appTextColor),
-                    ),
-
                     Row(
                       children: [
                         const Padding(
