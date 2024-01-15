@@ -3,7 +3,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import '../../../../../../../core/base_response.dart';
 import '../../../../../app_support/controller/app_support_controller.dart';
+import '../../new_ticket/model/create_ticket_request_model.dart';
 import '../model/gte_chat_ticket_responce_model.dart';
+import '../model/reply_ticket_rquest_model.dart';
 import '../repository/get_chat_ticket_reply_repository.dart';
 import '../repository/reply_ticket_chat_repository.dart';
 import '../repository/update_ticket_status_repository.dart';
@@ -41,10 +43,10 @@ class PendingTicketController extends GetxController {
 
 
   Future<void> replyChatTicket(
-      String msg) async {
+      ReplyTicketRequestModel createTicketBody) async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final BaseResponse masterDataResponse =
-    await _replyTicketRepository.replyTicket(_appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].ticketId!,msg);
+    await _replyTicketRepository.replyTicket(_appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].ticketId!,createTicketBody);
     if (masterDataResponse.status?.type == 'success') {
       await _appSupportController.getTickets();
       Get.back();
@@ -60,7 +62,8 @@ class PendingTicketController extends GetxController {
     final BaseResponse masterDataResponse =
     await _updateTicketRepository.updateTicket(id,status);
     if (masterDataResponse.status?.type == 'success') {
-      getChatTicket(id);
+      await _appSupportController.getTickets();
+      await getChatTicket(id);
     }else{
       EasyLoading.dismiss();
     }

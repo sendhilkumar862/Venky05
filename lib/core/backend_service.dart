@@ -64,18 +64,23 @@ class BackendService {
         final List<File> body=request.body['attachments'];
         final FormData data = FormData.fromMap({
           'attachments': <MultipartFile>[
+            if(body.isNotEmpty)
             await MultipartFile.fromFile(body[0].path,
                 filename: body[0].path.split('/').last),
-            if(body.length==2)
+            if(body.length>=2)
             await MultipartFile.fromFile(body[1].path,
                 filename: body[1].path.split('/').last),
-            if(body.length==3)
+            if(body.length>=3)
             await MultipartFile.fromFile(body[2].path,
                 filename: body[2].path.split('/').last),
 
           ],
+          if(request.body['description']!=null && request.body['ticketType']!='')
           'ticketType': request.body['ticketType'],
+          if(request.body['description']!=null && request.body['description']!='')
           'description': request.body['description'],
+          if(request.body['message']!=null && request.body['message']!='')
+            'message': request.body['message'],
         });
 
         response = await dio.post(
@@ -127,6 +132,9 @@ class BackendService {
       return BaseResponse(
           status: Status(type: 'error', message: 'SomeThing went wrong'));
     } on TimeoutException catch (_) {
+      return BaseResponse(
+          status: Status(type: 'error', message: 'SomeThing went wrong'));
+    } on DioException catch (_) {
       return BaseResponse(
           status: Status(type: 'error', message: 'SomeThing went wrong'));
     } catch (_) {

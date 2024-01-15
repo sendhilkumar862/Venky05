@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 void showCommonBottomSheet(
-    {required BuildContext context, required Widget commonWidget}) {
+    {required BuildContext context, required Widget commonWidget, bool? showDragHandle}) {
   showModalBottomSheet(
-      showDragHandle: true,
+      showDragHandle: showDragHandle??true,
       useSafeArea: true,
       isScrollControlled: true,
       enableDrag: false,

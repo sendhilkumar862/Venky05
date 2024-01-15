@@ -265,9 +265,9 @@ class _PendingTicketsState extends State<PendingTickets> {
                             .getTicketsList[
                                 _appSupportController.appSupportDetailIndex]
                             .statusCode! ==
-                        '0')
+                        '20')
                       Padding(
-                        padding: EdgeInsets.only(top: 15),
+                        padding: const EdgeInsets.only(top: 15),
                         child: WarningCardView(
                             error: 'No replies yet from Hessah'),
                       ),
@@ -275,15 +275,7 @@ class _PendingTicketsState extends State<PendingTickets> {
                             .getTicketsList[
                                 _appSupportController.appSupportDetailIndex]
                             .statusCode!) ==
-                        '20'||(_appSupportController
-                        .getTicketsList[
-                    _appSupportController.appSupportDetailIndex]
-                        .statusCode!) ==
-                        '30'||(_appSupportController
-                        .getTicketsList[
-                    _appSupportController.appSupportDetailIndex]
-                        .statusCode!) ==
-                        '40')
+                        '0')
                       GestureDetector(
                           onTap: () {
                             Get.toNamed(Routes.newTicketView, arguments: true);
@@ -342,7 +334,9 @@ class _PendingTicketsState extends State<PendingTickets> {
                   child: AppButton(
                       isDisable: false,
                       title: 'Mark Ticket As Solved',
-                      onPressed: () {}),
+                      onPressed: () {
+                        _pendingTicketController.updateTicketStatus(_appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].ticketId!, '30');
+                      }),
                 ),
               if ((_appSupportController
                           .getTicketsList[
@@ -358,20 +352,28 @@ class _PendingTicketsState extends State<PendingTickets> {
               _appSupportController.appSupportDetailIndex]
                   .statusCode!) ==
                   '10')
-                const AppText(
-                  'Cancel Ticket',
-                  color: AppColors.appBlue,
-                  fontWeight: FontWeight.w600,
+                GestureDetector(
+                  onTap: (){
+                    _pendingTicketController.updateTicketStatus(_appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].ticketId!, '40');
+                  },
+                  child: const AppText(
+                    'Cancel Ticket',
+                    color: AppColors.appBlue,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               if ((_appSupportController
                       .getTicketsList[
                           _appSupportController.appSupportDetailIndex]
                       .statusCode!) ==
                   '30')
-                const AppText(
-                  'Ticket is Resolved',
-                  color: AppColors.appBlue,
-                  fontWeight: FontWeight.w600,
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  child: AppText(
+                    'Ticket is Resolved',
+                    color: AppColors.appBlue,
+                    fontWeight: FontWeight.w600,
+                  ),
                 )
               else
                 ((_appSupportController
@@ -379,11 +381,14 @@ class _PendingTicketsState extends State<PendingTickets> {
                                 _appSupportController.appSupportDetailIndex]
                             .statusCode!) ==
                         '40')
-                    ? const AppText(
-                        'Ticket is cancelled',
-                        color: AppColors.appBlue,
-                        fontWeight: FontWeight.w600,
-                      )
+                    ? const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20.0),
+                      child: AppText(
+                          'Ticket is cancelled',
+                          color: AppColors.appBlue,
+                          fontWeight: FontWeight.w600,
+                        ),
+                    )
                     : const SizedBox.shrink()
             ],
           ),
@@ -397,10 +402,6 @@ class _PendingTicketsState extends State<PendingTickets> {
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: WarningCardView(error: 'No replies yet from Hessah'),
-          ),
           const Row(
             children: [
               AppImageAsset(image: ImageConstants.replyHessahIcon, height: 40),
@@ -416,6 +417,7 @@ class _PendingTicketsState extends State<PendingTickets> {
           ),
           Container(
             padding: const EdgeInsets.all(15),
+            width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               border:
@@ -449,7 +451,7 @@ class _PendingTicketsState extends State<PendingTickets> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 10.0),
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -469,35 +471,32 @@ class _PendingTicketsState extends State<PendingTickets> {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 20),
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              border:
-                  Border.all(color: AppColors.appBorderColor.withOpacity(0.5)),
-            ),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      'Reply on ${chatTicketResponseModel.createdAt.toString().epochToDate()}',
-                      style: openSans.get12.w500
-                          .textColor(AppColors.appTextColor.withOpacity(0.5)),
-                    ),
-                  ),
-                  Text(
-                    chatTicketResponseModel.message ?? '',
-                    style: openSans.get16.w400,
-                  ),
-                  if (chatTicketResponseModel.attachments!.isNotEmpty)
-                    attachments(chatTicketResponseModel.attachments!)
-                ]),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            border:
+                Border.all(color: AppColors.appBorderColor.withOpacity(0.5)),
           ),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'Reply on ${chatTicketResponseModel.createdAt.toString().epochToDate()}',
+                    style: openSans.get12.w500
+                        .textColor(AppColors.appTextColor.withOpacity(0.5)),
+                  ),
+                ),
+                Text(
+                  chatTicketResponseModel.message ?? '',
+                  style: openSans.get16.w400,
+                ),
+                if (chatTicketResponseModel.attachments!.isNotEmpty)
+                  attachments(chatTicketResponseModel.attachments!)
+              ]),
         ),
       ],
     );
@@ -545,7 +544,7 @@ class _PendingTicketsState extends State<PendingTickets> {
                     child: AppImageAsset(
                       image: attachments[index]
                           .attachmentId!
-                          .getAttachmentUrl(attachments[index].attachmentId!),
+                          .getAttachmentUrl(attachments[index].attachmentId!,_appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].ticketId?.toString()??''),
                       fit: BoxFit.fill,
                     ),
                   );
