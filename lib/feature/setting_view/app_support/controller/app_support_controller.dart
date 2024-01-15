@@ -57,6 +57,7 @@ class AppSupportController extends GetxController{
       }
       for (var element in ticketsListData) {
         getTicketsList.add(GetTicketsResponseModel.fromJson(element));
+        print('ticket :->$getTicketsList');
       }
       initialCount=false;
     }

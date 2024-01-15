@@ -46,6 +46,7 @@ class PendingTicketController extends GetxController {
     final BaseResponse masterDataResponse =
     await _replyTicketRepository.replyTicket(_appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].ticketId!,msg);
     if (masterDataResponse.status?.type == 'success') {
+      await _appSupportController.getTickets();
       Get.back();
       getChatTicket(_appSupportController.getTicketsList[_appSupportController.appSupportDetailIndex].ticketId!);
     }else{
