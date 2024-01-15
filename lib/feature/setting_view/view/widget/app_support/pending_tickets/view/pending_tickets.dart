@@ -265,7 +265,7 @@ class _PendingTicketsState extends State<PendingTickets> {
                             .getTicketsList[
                                 _appSupportController.appSupportDetailIndex]
                             .statusCode! ==
-                        '20')
+                        '0')
                       Padding(
                         padding: const EdgeInsets.only(top: 15),
                         child: WarningCardView(
@@ -275,7 +275,7 @@ class _PendingTicketsState extends State<PendingTickets> {
                             .getTicketsList[
                                 _appSupportController.appSupportDetailIndex]
                             .statusCode!) ==
-                        '0')
+                        '20')
                       GestureDetector(
                           onTap: () {
                             Get.toNamed(Routes.newTicketView, arguments: true);
