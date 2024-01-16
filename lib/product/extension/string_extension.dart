@@ -13,10 +13,10 @@ extension StringLocalization on String {
 
     return imageUrl;
   }
-  String getAttachmentUrl(String id) {
+  String getAttachmentUrl(String attachmentId,String id) {
     final String baseUrl = ApiEndpoint.attachmentDownloader(DownloaderAttachmentEndPoint.BASE);
-    final String imageUrl = '$baseUrl$id?id=$this';
-
+    final String imageUrl = '$baseUrl$id?id=$attachmentId';
+   print(imageUrl);
     return imageUrl;
   }
 

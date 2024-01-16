@@ -16,6 +16,7 @@ import '../../../../../../../product/constants/image/image_constants.dart';
 import '../../../../../../../product/utils/typography.dart';
 import '../../../../../app_support/controller/app_support_controller.dart';
 import '../../pending_tickets/controller/pending_ticket_controller.dart';
+import '../../pending_tickets/model/reply_ticket_rquest_model.dart';
 import '../controller/new_ticket_controller.dart';
 import '../model/create_ticket_request_model.dart';
 
@@ -57,7 +58,7 @@ class _NewTicketViewState extends State<NewTicketView> {
                 fieldView(),
                 addAttachmentView(),
                 const SizedBox(height: 100,),
-                if (_newTicketController.isReply) footerReplyView(context) else footerView(context)
+                if (_newTicketController.isReply) footerReplyView() else footerView(context)
               ],
             ),
           ),
@@ -107,7 +108,7 @@ class _NewTicketViewState extends State<NewTicketView> {
           }
         });
   }
-  AppButton footerReplyView(BuildContext context) {
+  AppButton footerReplyView() {
     return AppButton(
       // ignore: avoid_bool_literals_in_conditional_expressions
         isDisable: _newTicketController.descriptionController.text!=''?false:true,
@@ -115,7 +116,7 @@ class _NewTicketViewState extends State<NewTicketView> {
         onPressed: () async{
           if( _newTicketController.descriptionController.text!='' ) {
              final PendingTicketController pendingTicketController=Get.find();
-             await pendingTicketController.replyChatTicket(  _newTicketController.descriptionController.text);
+             await pendingTicketController.replyChatTicket( ReplyTicketRequestModel(description:_newTicketController.descriptionController.text,attachments:_newTicketController.attachments  ) );
           }
         });
   }
@@ -277,49 +278,47 @@ class _NewTicketViewState extends State<NewTicketView> {
   void bottomSheetDropDownList() {
     return showCommonBottomSheet(
         context: context,
+        showDragHandle: false,
         commonWidget: StatefulBuilder(
           builder:
               (BuildContext context, void Function(void Function()) setState) {
             return Padding(
-              padding: const EdgeInsets.only(right: 15, left: 15, top: 15),
+              padding: const EdgeInsets.only(right: 15, left: 15),
               child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        const Padding(
-                          padding: EdgeInsets.only(top: 20),
-                          child: Align(
-                            child: AppText('Ticket Type',
-                                fontWeight: FontWeight.w700,
-                                fontSize: 14,
-                                color: AppColors.appTextColor),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 80),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppColors.downArrowColor
-                                        .withOpacity(0.15)),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(3),
-                                  child: Icon(Icons.close),
-                                ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0,horizontal: 10),
+                      child: Row(children: [
+                        const Spacer(flex: 2,),
+                        const AppText('Ticket Type',
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                            color: AppColors.appTextColor),
+                        const Spacer(flex: 1,),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 80),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColors.downArrowColor
+                                      .withOpacity(0.15)),
+                              child: const Padding(
+                                padding: EdgeInsets.all(3),
+                                child: Icon(Icons.close),
                               ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ],),
+                    )
+
+                  ,
                     Obx(()=>
                      ListView.builder(
                         shrinkWrap: true,
