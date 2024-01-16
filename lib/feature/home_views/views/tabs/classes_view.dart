@@ -451,7 +451,7 @@ class _ClassesViewState extends State<ClassesView> {
                 title: 'No Booked Classes Yet!',
                 subTitle: 'Search about Classes or Create New',
                 cardColor: AppColors.white,
-                buttonTitle: 'Create Class',
+                buttonTitle: 'Create New Class',
                 buttonTap: () {
                   Get.toNamed(Routes.createClass);
                   // AppRouter.pushNamed(Routes.createClass);

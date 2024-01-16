@@ -42,13 +42,14 @@ class HomeController extends GetxController {
   }
 
   Rx<HomeModel?> homeData = const HomeModel().obs;
-  RxList upComingClassList = [].obs;
-  RxList historyClassList = [1].obs;
-  RxList favouriteTeachersList = [].obs;
-  RxList relatedTeachersList = [].obs;
-  RxList favouriteStudentsList = [].obs;
-  RxList relatedStudentsList = [].obs;
-  RxList activitiesList = [].obs;
+  RxList<String> upComingClassList = <String>[].obs;
+  RxList<int> historyClassList = <int>[1].obs;
+  RxList<String> favouriteTeachersList = <String>[].obs;
+  RxList<String> relatedTeachersList = <String>[].obs;
+  RxList<String> favouriteStudentsList = <String>[].obs;
+  RxList<String> relatedStudentsList = <String>[].obs;
+  RxList<String> activitiesList = <String>[].obs;
+  RxList<GetClassListModel> classList = <GetClassListModel>[].obs;
 
 
   Future<void> fetchData() async {
@@ -76,7 +77,7 @@ class HomeController extends GetxController {
   }
 
 
-  RxList<GetClassListModel> classList = <GetClassListModel>[].obs;
+
 
   Future<void> getClassList() async {
     final BaseResponse classListDataResponse = await _getClassListRepository.getClassList(GetClassRequestModel(limit: '30',startIndex: '1',sortColumn:'created_at',sortDirection: 'desc' ));

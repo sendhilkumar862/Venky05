@@ -29,6 +29,7 @@ mixin _$HomeModel {
   String? get userStatus => throw _privateConstructorUsedError;
   String? get userId => throw _privateConstructorUsedError;
   String? get imageId => throw _privateConstructorUsedError;
+  String? get username => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,7 +51,8 @@ abstract class $HomeModelCopyWith<$Res> {
       String? country,
       String? userStatus,
       String? userId,
-      String? imageId});
+      String? imageId,
+      String? username});
 }
 
 /// @nodoc
@@ -75,6 +77,7 @@ class _$HomeModelCopyWithImpl<$Res, $Val extends HomeModel>
     Object? userStatus = freezed,
     Object? userId = freezed,
     Object? imageId = freezed,
+    Object? username = freezed,
   }) {
     return _then(_value.copyWith(
       firstName: freezed == firstName
@@ -113,6 +116,10 @@ class _$HomeModelCopyWithImpl<$Res, $Val extends HomeModel>
           ? _value.imageId
           : imageId // ignore: cast_nullable_to_non_nullable
               as String?,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -134,7 +141,8 @@ abstract class _$$HomeModelImplCopyWith<$Res>
       String? country,
       String? userStatus,
       String? userId,
-      String? imageId});
+      String? imageId,
+      String? username});
 }
 
 /// @nodoc
@@ -157,6 +165,7 @@ class __$$HomeModelImplCopyWithImpl<$Res>
     Object? userStatus = freezed,
     Object? userId = freezed,
     Object? imageId = freezed,
+    Object? username = freezed,
   }) {
     return _then(_$HomeModelImpl(
       firstName: freezed == firstName
@@ -195,6 +204,10 @@ class __$$HomeModelImplCopyWithImpl<$Res>
           ? _value.imageId
           : imageId // ignore: cast_nullable_to_non_nullable
               as String?,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -211,7 +224,8 @@ class _$HomeModelImpl implements _HomeModel {
       this.country,
       this.userStatus,
       this.userId,
-      this.imageId});
+      this.imageId,
+      this.username});
 
   factory _$HomeModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$HomeModelImplFromJson(json);
@@ -234,10 +248,12 @@ class _$HomeModelImpl implements _HomeModel {
   final String? userId;
   @override
   final String? imageId;
+  @override
+  final String? username;
 
   @override
   String toString() {
-    return 'HomeModel(firstName: $firstName, lastName: $lastName, email: $email, countryCode: $countryCode, mobile: $mobile, country: $country, userStatus: $userStatus, userId: $userId, imageId: $imageId)';
+    return 'HomeModel(firstName: $firstName, lastName: $lastName, email: $email, countryCode: $countryCode, mobile: $mobile, country: $country, userStatus: $userStatus, userId: $userId, imageId: $imageId, username: $username)';
   }
 
   @override
@@ -257,13 +273,15 @@ class _$HomeModelImpl implements _HomeModel {
             (identical(other.userStatus, userStatus) ||
                 other.userStatus == userStatus) &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.imageId, imageId) || other.imageId == imageId));
+            (identical(other.imageId, imageId) || other.imageId == imageId) &&
+            (identical(other.username, username) ||
+                other.username == username));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, firstName, lastName, email,
-      countryCode, mobile, country, userStatus, userId, imageId);
+      countryCode, mobile, country, userStatus, userId, imageId, username);
 
   @JsonKey(ignore: true)
   @override
@@ -289,7 +307,8 @@ abstract class _HomeModel implements HomeModel {
       final String? country,
       final String? userStatus,
       final String? userId,
-      final String? imageId}) = _$HomeModelImpl;
+      final String? imageId,
+      final String? username}) = _$HomeModelImpl;
 
   factory _HomeModel.fromJson(Map<String, dynamic> json) =
       _$HomeModelImpl.fromJson;
@@ -312,6 +331,8 @@ abstract class _HomeModel implements HomeModel {
   String? get userId;
   @override
   String? get imageId;
+  @override
+  String? get username;
   @override
   @JsonKey(ignore: true)
   _$$HomeModelImplCopyWith<_$HomeModelImpl> get copyWith =>
