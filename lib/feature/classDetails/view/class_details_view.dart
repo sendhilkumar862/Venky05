@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../../config/routes/route.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/cardView/details_card_view.dart';
@@ -10,6 +9,7 @@ import '../../../custom/cardView/heading_card_view.dart';
 import '../../../custom/cardView/status_card_view.dart';
 import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/text/app_text.dart';
+import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/extension/context_extension.dart';
@@ -31,7 +31,6 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
 
   @override
   Widget build(BuildContext context) {
-
     return  PopScope(
       canPop: false,
       child: Scaffold(
@@ -40,7 +39,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
           title: 'Class Details',
           isTitleOnly: true,
             leadingTap:(){
-              Get.close(2);
+            Get.close(1);
             }
       
         ),
@@ -68,7 +67,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 height: 20.px,
               ),
               HeadingCardView(
-                title: 'Curriculum',
+                title:  _classDetailsController.selectedProfile ==
+                    ApplicationConstants.student?'Curriculum':'Class Info',
                 padding: 0,
               ),
               SizedBox(
@@ -104,7 +104,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               Obx(
                 () => HeadingCardView(
                     padding: 0,
-                    title: 'Favorites Teachers',
+                    title: _classDetailsController.selectedProfile ==
+                        ApplicationConstants.student?'Proposals':'Students',
                     totalItem:
                         _classDetailsController.proposalList.length.toString(),
                     onTap: () {},
@@ -177,7 +178,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                           fontSize: 16.px,
                         ),
                         const Spacer(),
-                        StatusCardView(status: 'PAYING'),
+                        StatusCardView(status: _classDetailsController.classData.value.status??''),
                       ],
                     ),
                     SizedBox(height: 15.px),
@@ -248,9 +249,11 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                               _classDetailsController.kGooglePlex.value,
                           zoomControlsEnabled: false,
                           zoomGesturesEnabled: false,
-                          onMapCreated: (GoogleMapController controllers) =>
+                          onMapCreated: (GoogleMapController controllers) {
+                            _classDetailsController.googleMapController =
+                                controllers;
                               _classDetailsController.mapController
-                                  .complete(controllers),
+                                  .complete(controllers);}
                         ),
                       ),
                     ),

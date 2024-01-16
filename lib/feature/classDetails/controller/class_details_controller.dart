@@ -6,6 +6,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
+import '../../../product/cache/key_value_storeage.dart';
+import '../../../product/cache/local_manager.dart';
 import '../../../product/utils/validators.dart';
 import '../modal/class_detail_model.dart';
 import '../modal/proposal_model.dart';
@@ -16,10 +18,15 @@ class ClassDetailsController extends GetxController{
 
   final GetClassDetailRepository _getClassDetailRepository = GetClassDetailRepository();
   final GetProposalDetailRepository _getProposalDetailRepository=GetProposalDetailRepository();
+  RxString selectedProfile = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
+    selectedProfile.value =
+        LocaleManager.getValue(StorageKeys.profile) ??
+            '';
+
     fetchData();
 
   }
@@ -27,7 +34,7 @@ class ClassDetailsController extends GetxController{
     zoom: 14.4746,).obs;
 
   Completer<GoogleMapController> mapController = Completer<GoogleMapController>();
-
+  late GoogleMapController googleMapController;
   //AIzaSyBT8CFEhdKhFteNf6L4NaY3Z3UKFfpRy2w
 
   // ignore: always_declare_return_types
@@ -45,6 +52,8 @@ class ClassDetailsController extends GetxController{
         target: latlong,
         zoom: 14.4746,
       );
+      googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(target: kGooglePlex.value.target, zoom: 5)));
     } on SocketException catch (e) {
       logs('Catch SocketException in getContactUsInfo --> ${e.message}');
     }

@@ -17,7 +17,6 @@ import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
-import '../../../../product/constants/enums/app_register_status_enums.dart';
 import '../../../../product/extension/string_extension.dart';
 import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/typography.dart';
@@ -101,7 +100,7 @@ class _ClassDetailState extends State<ClassDetail> {
                         _classDetailController.lowerValue,
                         _classDetailController.upperValue
                       ],
-                      max: 100,
+                      max: 10,
                       min: 0,
                       // ignore: always_specify_types
                       onDragging: (int handlerIndex, lowerValue, upperValue) {
@@ -328,7 +327,7 @@ class _ClassDetailState extends State<ClassDetail> {
                     );
                   }),
                   if (_classDetailController.selectedProfile ==
-                      ApplicationConstants.tutor)
+                      ApplicationConstants.student)
                     Padding(
                       padding:
                       const EdgeInsets.only(top: 15, bottom: 35),
@@ -459,7 +458,8 @@ class _ClassDetailState extends State<ClassDetail> {
                                       title: 'success'.tr,
                                       buttonTitle: 'done'.tr,
                                       content:
-                                          'You have successfully creates a new class And awaiting proposals from teachers.',
+                                      _classDetailController.selectedProfile ==
+                                          ApplicationConstants.student?'You have successfully creates a new class And awaiting proposals from teachers.':'You have successfully creates a new class.',
                                       isRouting: _classDetailController.selectedProfile == ApplicationConstants.student?Routes.classDetailsView:Routes.homeViews,
                                       argument: success);
                                 },
