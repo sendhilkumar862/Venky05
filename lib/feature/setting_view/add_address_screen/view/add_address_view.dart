@@ -17,9 +17,9 @@ import '../Model/request_address_model.dart';
 import '../controller/add_address_controller.dart';
 
 class AddAddressScreen extends StatefulWidget {
-  AddAddressScreen({
-    Key? key,
-  }) : super(key: key);
+  const AddAddressScreen({
+    super.key,
+  });
 
   @override
   State<AddAddressScreen> createState() => _AddAddressScreenState();

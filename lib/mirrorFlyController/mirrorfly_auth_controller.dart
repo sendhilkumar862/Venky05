@@ -33,7 +33,7 @@ class MirrorFlyAuthController extends GetxController {
         }
       // ignore: always_specify_types
       }).catchError((error) {
-
+     print(error);
       });
     }
 

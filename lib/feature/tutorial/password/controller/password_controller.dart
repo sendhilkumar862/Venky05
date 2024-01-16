@@ -6,6 +6,7 @@ import 'package:hessah/feature/tutorial/password/repository/password_repository.
 
 
 import '../../../../core/base_response.dart';
+import '../../../../mirrorFlyController/mirrorfly_auth_controller.dart';
 import '../../../../product/cache/key_value_storeage.dart';
 import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_utils.dart';
@@ -17,6 +18,8 @@ import '../model/term_and_condition_model.dart';
 import '../repository/get_term_condition_repository.dart';
 
 class PasswordController extends GetxController {
+
+  final MirrorFlyAuthController _mirrorFlyAuthController=Get.put(MirrorFlyAuthController());
   @override
   void onInit() {
     super.onInit();
@@ -90,6 +93,7 @@ class PasswordController extends GetxController {
       final PasswordModel passwordModel = PasswordModel.fromJson(dataResponse);
       LocaleManager
           .setAuthToken(passwordModel.token.accessToken);
+      await _mirrorFlyAuthController.registerAccount(passwordModel.username??'');
       EasyLoading.dismiss();
       return true;
     } else {
