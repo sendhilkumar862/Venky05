@@ -13,10 +13,13 @@ import 'product/lang/language_manager.dart';
 
 Future<void> main() async {
   await GetStorage.init();
-  WidgetsFlutterBinding.ensureInitialized();// Initialize the Flutter binding
-  Mirrorfly.initializeSDK(
-      licenseKey: 'Your_Mirrorfly_Licence_Key',
-      iOSContainerID: 'Your_iOS_app_Group_id');
+  WidgetsFlutterBinding.ensureInitialized();
+  try{// Initialize the Flutter binding
+ await Mirrorfly.initializeSDK(
+      licenseKey: 'UaUTo9l1D2rGy6rCHZJhjcOiAXu1hJ',
+      iOSContainerID: 'hessah');}catch(e){
+    print(e);
+  }
   runApp(
     const MyApp(),
   );
