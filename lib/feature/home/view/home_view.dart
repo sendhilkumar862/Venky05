@@ -104,9 +104,3 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
-
-class StatusUpdateNotification extends Notification {
-  StatusUpdateNotification({this.message = '', this.profileStatus = ''});
-  final String message;
-  String profileStatus;
-}

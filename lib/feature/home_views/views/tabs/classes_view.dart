@@ -211,7 +211,7 @@ class _ClassesViewState extends State<ClassesView> {
                           isClassScreen: true,
                           isShowButton: true,
                           title:
-                              'Create a new class and receive proposals from teachers',
+                              'Create new class and receive proposals from teachers',
                           cardColor: AppColors.lightPurple,
                           buttonTap: () {
                             Get.toNamed(Routes.createClass);
@@ -451,7 +451,7 @@ class _ClassesViewState extends State<ClassesView> {
                 title: 'No Booked Classes Yet!',
                 subTitle: 'Search about Classes or Create New',
                 cardColor: AppColors.white,
-                buttonTitle: 'Create Class',
+                buttonTitle: 'Create New Class',
                 buttonTap: () {
                   Get.toNamed(Routes.createClass);
                   // AppRouter.pushNamed(Routes.createClass);

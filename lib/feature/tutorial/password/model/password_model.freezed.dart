@@ -22,6 +22,7 @@ PasswordModel _$PasswordModelFromJson(Map<String, dynamic> json) {
 mixin _$PasswordModel {
   Token get token => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
+  String? get username => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +36,7 @@ abstract class $PasswordModelCopyWith<$Res> {
           PasswordModel value, $Res Function(PasswordModel) then) =
       _$PasswordModelCopyWithImpl<$Res, PasswordModel>;
   @useResult
-  $Res call({Token token, String status});
+  $Res call({Token token, String status, String? username});
 
   $TokenCopyWith<$Res> get token;
 }
@@ -55,6 +56,7 @@ class _$PasswordModelCopyWithImpl<$Res, $Val extends PasswordModel>
   $Res call({
     Object? token = null,
     Object? status = null,
+    Object? username = freezed,
   }) {
     return _then(_value.copyWith(
       token: null == token
@@ -65,6 +67,10 @@ class _$PasswordModelCopyWithImpl<$Res, $Val extends PasswordModel>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -85,7 +91,7 @@ abstract class _$$PasswordModelImplCopyWith<$Res>
       __$$PasswordModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Token token, String status});
+  $Res call({Token token, String status, String? username});
 
   @override
   $TokenCopyWith<$Res> get token;
@@ -104,6 +110,7 @@ class __$$PasswordModelImplCopyWithImpl<$Res>
   $Res call({
     Object? token = null,
     Object? status = null,
+    Object? username = freezed,
   }) {
     return _then(_$PasswordModelImpl(
       token: null == token
@@ -114,6 +121,10 @@ class __$$PasswordModelImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -121,7 +132,8 @@ class __$$PasswordModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PasswordModelImpl implements _PasswordModel {
-  const _$PasswordModelImpl({required this.token, required this.status});
+  const _$PasswordModelImpl(
+      {required this.token, required this.status, this.username});
 
   factory _$PasswordModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PasswordModelImplFromJson(json);
@@ -130,10 +142,12 @@ class _$PasswordModelImpl implements _PasswordModel {
   final Token token;
   @override
   final String status;
+  @override
+  final String? username;
 
   @override
   String toString() {
-    return 'PasswordModel(token: $token, status: $status)';
+    return 'PasswordModel(token: $token, status: $status, username: $username)';
   }
 
   @override
@@ -142,12 +156,14 @@ class _$PasswordModelImpl implements _PasswordModel {
         (other.runtimeType == runtimeType &&
             other is _$PasswordModelImpl &&
             (identical(other.token, token) || other.token == token) &&
-            (identical(other.status, status) || other.status == status));
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.username, username) ||
+                other.username == username));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, token, status);
+  int get hashCode => Object.hash(runtimeType, token, status, username);
 
   @JsonKey(ignore: true)
   @override
@@ -166,7 +182,8 @@ class _$PasswordModelImpl implements _PasswordModel {
 abstract class _PasswordModel implements PasswordModel {
   const factory _PasswordModel(
       {required final Token token,
-      required final String status}) = _$PasswordModelImpl;
+      required final String status,
+      final String? username}) = _$PasswordModelImpl;
 
   factory _PasswordModel.fromJson(Map<String, dynamic> json) =
       _$PasswordModelImpl.fromJson;
@@ -175,6 +192,8 @@ abstract class _PasswordModel implements PasswordModel {
   Token get token;
   @override
   String get status;
+  @override
+  String? get username;
   @override
   @JsonKey(ignore: true)
   _$$PasswordModelImplCopyWith<_$PasswordModelImpl> get copyWith =>

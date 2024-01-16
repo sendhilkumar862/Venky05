@@ -7,6 +7,7 @@ import '../../../core/local_auth_services.dart';
 import '../../../product/cache/key_value_storeage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_constants.dart';
+import '../../../product/constants/app/app_utils.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/utils/validators.dart';
 import '../../home/controller/home_controller.dart';
@@ -140,8 +141,10 @@ class SettingController extends GetxController {
     if (uploadResponse.status?.type == 'success') {
       _homeController.fetchData();
     } else {
-      Get.snackbar('Upload Failed',
-          uploadResponse.status?.message ?? 'Some Error Occureed');
+      AppUtils.showFlushBar(
+        context: Routes.navigatorKey.currentContext!,
+        message: uploadResponse.status?.message ?? 'Error occurred',
+      );
     }
     EasyLoading.dismiss();
   }

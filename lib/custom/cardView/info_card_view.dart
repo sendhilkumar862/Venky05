@@ -97,7 +97,9 @@ class InfoCardVIew extends StatelessWidget {
               fontSize: 14.px,
               fontWeight: FontWeight.w400,
               color: AppColors.appLightBlack),
+          // ignore: use_if_null_to_convert_nulls_to_bools
           if (isSupport == true) SizedBox(height: 13.px),
+          // ignore: use_if_null_to_convert_nulls_to_bools
           if (isSupport == true)
             RichText(
               text: TextSpan(
@@ -124,7 +126,7 @@ class InfoCardVIew extends StatelessWidget {
               borderColor: AppColors.appBlue,
               isBorderOnly: true,
               onPressed: buttonTap ?? () {},
-            )
+            ),
         ],
       ),
     );

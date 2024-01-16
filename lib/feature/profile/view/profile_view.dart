@@ -37,13 +37,12 @@ class _ProfileViewState extends State<ProfileView> {
           children: <Widget>[
             const SizedBox(height: 60),
             Align(
-              alignment: Alignment.center,
               child: SizedBox(
                 height: 70.px,
                 width: 70.px,
                 child: Stack(
                   alignment: Alignment.bottomRight,
-                  children: [
+                  children: <Widget>[
                     ClipRRect(
                       borderRadius: BorderRadius.circular(500),
                       child: const AppImageAsset(
@@ -62,7 +61,6 @@ class _ProfileViewState extends State<ProfileView> {
               ),
             ),
             Align(
-              alignment: Alignment.center,
               child: SizedBox(
                 height: (_profileController.isTeacherView.value) ? 20.px : 5.px,
                 width: 50.px,
@@ -251,7 +249,6 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                   SizedBox(height: 15.px),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -294,7 +291,7 @@ class _ProfileViewState extends State<ProfileView> {
                   border: Border.all(color: AppColors.lightPurple),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Column(children: [
+                child: Column(children: <Widget>[
                   const AppImageAsset(
                       image: ImageConstants.starSecondary, height: 80),
                   SizedBox(height: 15.px),
@@ -326,7 +323,6 @@ class _ProfileViewState extends State<ProfileView> {
         const Divider(),
         SizedBox(height: 5.px),
         Row(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -347,7 +343,6 @@ class _ProfileViewState extends State<ProfileView> {
         ),
         SizedBox(height: 15.px),
         Row(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
