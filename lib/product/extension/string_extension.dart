@@ -16,7 +16,6 @@ extension StringLocalization on String {
   String getAttachmentUrl(String attachmentId,String id) {
     final String baseUrl = ApiEndpoint.attachmentDownloader(DownloaderAttachmentEndPoint.BASE);
     final String imageUrl = '$baseUrl$id?id=$attachmentId';
-   print(imageUrl);
     return imageUrl;
   }
 
