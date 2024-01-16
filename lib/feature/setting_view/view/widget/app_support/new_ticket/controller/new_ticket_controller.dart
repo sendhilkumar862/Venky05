@@ -1,9 +1,11 @@
-import 'dart:io';
 
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import '../../../../../../../config/routes/route.dart';
 import '../../../../../../../core/base_response.dart';
+import '../../../../../../../product/constants/app/app_utils.dart';
 import '../model/create_ticket_request_model.dart';
 import '../repository/create_ticket_repository.dart';
 import '../repository/master_data_app_support_repository.dart';
@@ -21,6 +23,7 @@ class NewTicketController extends GetxController {
   bool isReply=false;
   TextEditingController ticketType = TextEditingController(text: '');
   TextEditingController descriptionController = TextEditingController(text: '');
+  RxString error=''.obs;
 
   @override
   void onInit() {
@@ -38,7 +41,9 @@ class NewTicketController extends GetxController {
       for (var element in data) {
         masterData.add(element);
       }
-    } else {}
+    } else {
+      error.value=masterDataResponse.status?.message??'Errot occourd';
+    }
     EasyLoading.dismiss();
   }
 
@@ -46,13 +51,17 @@ class NewTicketController extends GetxController {
       CreateTicketRequestModel createTicketBody) async {
     bool status = false;
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-    final BaseResponse masterDataResponse =
+    final BaseResponse crateTicketDataResponse =
         await _createTicketRepository.createNewTicket(createTicketBody);
-    if (masterDataResponse.status?.type == 'success') {
-      final Map<String, dynamic> data=masterDataResponse.data!.item! as Map<String, dynamic>;
+    if (crateTicketDataResponse.status?.type == 'success') {
+      final Map<String, dynamic> data=crateTicketDataResponse.data!.item! as Map<String, dynamic>;
       ticketId=data['ticketId'];
       status = true;
     } else {
+      AppUtils.showFlushBar(
+        context: Routes.navigatorKey.currentContext!,
+        message: crateTicketDataResponse.status?.message ?? 'Error occurred',
+      );
       status = false;
     }
     EasyLoading.dismiss();

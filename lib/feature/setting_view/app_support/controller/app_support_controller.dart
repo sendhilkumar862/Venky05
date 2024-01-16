@@ -26,6 +26,7 @@ class AppSupportController extends GetxController{
   int appSupportDetailIndex=-1;
   int? shortBy=-1;
   List<String> filterBy = <String>[];
+  RxString error=''.obs;
 
   TextEditingController searchTicketController = TextEditingController(text: '');
   @override
@@ -60,6 +61,8 @@ class AppSupportController extends GetxController{
         print('ticket :->$getTicketsList');
       }
       initialCount=false;
+    }else{
+      error.value=getTicketResponse.status?.message??'Error occurred';
     }
     EasyLoading.dismiss();
   }
