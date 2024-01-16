@@ -211,7 +211,7 @@ class _ClassesViewState extends State<ClassesView> {
                           isClassScreen: true,
                           isShowButton: true,
                           title:
-                              'Create a new class and receive proposals from teachers',
+                              'Create new class and receive proposals from teachers',
                           cardColor: AppColors.lightPurple,
                           buttonTap: () {
                             Get.toNamed(Routes.createClass);

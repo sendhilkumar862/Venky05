@@ -1,3 +1,5 @@
+// ignore_for_file: always_declare_return_types
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -21,16 +23,13 @@ class PasswordView extends StatefulWidget {
   State<PasswordView> createState() => _PasswordViewState();
 }
 
+
 class _PasswordViewState extends State<PasswordView> {
   final PasswordController _passwordController = Get.put(PasswordController());
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-  // ignore: always_declare_return_types
 
+  // ignore: always_declare_return_types
+  @override
   didChangeDependencies() {
     _passwordController.arguments =
         ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;

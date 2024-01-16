@@ -52,16 +52,21 @@ class _AppSupportViewState extends State<AppSupportView> {
       body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Obx(()=>
-            _appSupportController.isInitial.value?activeScreen():InfoCardVIew(
-              isShowButton: true,
-              title: 'No Tickets Found!',
-              subTitle:
-              'No tickets found. Please refine your search.',
-              cardColor: AppColors.white,
-              buttonTitle: 'Open New Ticket',
-              buttonTap: (){
-                Get.toNamed(Routes.newTicketView,arguments: false);
-              },
+            _appSupportController.isInitial.value?activeScreen():Center(
+              child: SizedBox(
+                height: 250,
+                child: InfoCardVIew(
+                  isShowButton: true,
+                  title: 'No Tickets Found!',
+                  subTitle:
+                  'No tickets found. Please refine your search.',
+                  cardColor: AppColors.white,
+                  buttonTitle: 'Open New Ticket',
+                  buttonTap: (){
+                    Get.toNamed(Routes.newTicketView,arguments: false);
+                  },
+                ),
+              ),
             ),
           ),
         )

@@ -8,6 +8,7 @@ class PasswordModel with _$PasswordModel {
   const factory PasswordModel({
     required Token token,
     required String status,
+    String? username
   }) = _PasswordModel;
 
   factory PasswordModel.fromJson(Map<String, dynamic> json) =>
