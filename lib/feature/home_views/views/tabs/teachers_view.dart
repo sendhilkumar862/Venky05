@@ -102,7 +102,6 @@ class _TeachersViewState extends State<TeachersView> {
                 'Discover teachers and add them to your favourites to reach them and communicate with them quickly.',
                 cardColor: AppColors.white,
                 buttonTitle: 'Class Details',
-                buttonTap: () => Get.toNamed(Routes.classDetailsView),
               ),
             ),
             HeadingCardView(
@@ -144,7 +143,6 @@ class _TeachersViewState extends State<TeachersView> {
                 'Your preferred teachers are exclusively in your favourite list, no other matches are based on your preferences.',
                 cardColor: AppColors.white,
                 buttonTitle: 'Class Details',
-                buttonTap: () => Get.toNamed(Routes.classDetailsView),
               ),
             ),
             SizedBox(
