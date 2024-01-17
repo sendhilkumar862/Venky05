@@ -102,6 +102,8 @@ class ImageConstants {
       '${ApplicationConstants.iconPath}layers_icon.png';
   static const String groupIcon =
       '${ApplicationConstants.iconPath}group_icon.png';
+  static const String individualIcon =
+      '${ApplicationConstants.iconPath}individual_icon.png';
   static const String moneyIcon =
       '${ApplicationConstants.iconPath}money_Icon.png';
   static const String timerIcon =
