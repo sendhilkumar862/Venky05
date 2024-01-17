@@ -101,7 +101,7 @@ class _ClassDetailState extends State<ClassDetail> {
                         _classDetailController.upperValue
                       ],
                       max: 10,
-                      min: 0,
+                      min: 1,
                       // ignore: always_specify_types
                       onDragging: (int handlerIndex, lowerValue, upperValue) {
                         setState(() {

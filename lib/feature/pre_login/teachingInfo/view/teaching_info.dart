@@ -27,7 +27,6 @@ class _TeachingInfoState extends State<TeachingInfo> {
 
   @override
   Widget build(BuildContext context) {
-    // final TeachingInfoViewModel teachingInfoStore = Provider.of<TeachingInfoViewModel>(context);
     return Scaffold(
       appBar: HessaAppBar(
         trailingText: 'Cancel',
