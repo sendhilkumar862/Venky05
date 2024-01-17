@@ -128,12 +128,6 @@ class SettingController extends GetxController {
     ]),
   ].obs;
 
-  RxList<ProfileList> profileListData = <ProfileList>[
-    ProfileList(text: 'Take Photo', icon: ImageConstants.camera),
-    ProfileList(text: 'Add Image', icon: ImageConstants.pictureSquare),
-    ProfileList(text: 'Add File', icon: ImageConstants.attach),
-  ].obs;
-
   Future<void> uploadProfilePhoto() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     final BaseResponse uploadResponse =

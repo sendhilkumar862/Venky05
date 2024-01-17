@@ -1,3 +1,5 @@
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -9,6 +11,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../config/routes/route.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/image/app_image_assets.dart';
+import '../../../custom/sheet/file_select.dart';
 import '../../../custom/sheet/show_bottom_sheet.dart';
 import '../../../custom/switch/app_switch.dart';
 import '../../../custom/text/app_text.dart';
@@ -16,6 +19,7 @@ import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/extension/string_extension.dart';
+import '../../../product/utils/common_function.dart';
 import '../../../product/utils/typography.dart';
 import '../../home/controller/home_controller.dart';
 import '../../tutorial/language/controller/language_controller.dart';
@@ -32,7 +36,6 @@ class SettingView extends StatefulWidget {
 
 class _SettingViewState extends State<SettingView> {
   CroppedFile? croppedFile;
-  late PermissionStatus cameraPermissionStatus;
   final SettingController _settingController = Get.put(SettingController());
   final LanguageController _languageController = Get.put(LanguageController());
   final HomeController _homeController = Get.find();
@@ -326,7 +329,7 @@ class _SettingViewState extends State<SettingView> {
   }
 
   void addImageBottomSheet(BuildContext context) {
-    return showCommonBottomSheet(context: context, commonWidget: profileView());
+    return showCommonBottomSheet(context: context, commonWidget: profileView(), showDragHandle: false);
   }
 
   Widget profileView() {
@@ -338,99 +341,42 @@ class _SettingViewState extends State<SettingView> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Stack(
+                Row(
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: Align(
+                    Expanded(
+                      child: Center(
                         child: Text('Add Image',
                             style: openSans.w700.get14.appTextColor),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color:
-                                  AppColors.downArrowColor.withOpacity(0.15)),
-                          child: const Padding(
-                            padding: EdgeInsets.all(3),
-                            child: Icon(Icons.close),
-                          ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color:
+                                AppColors.downArrowColor.withOpacity(0.15)),
+                        child: const Padding(
+                          padding: EdgeInsets.all(3),
+                          child: Icon(Icons.close),
                         ),
                       ),
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15, bottom: 20),
-                  child: ListView.builder(
-                    itemCount: _settingController.profileListData.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) {
-                      final ProfileList data =
-                          _settingController.profileListData[index];
-                      return Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: GestureDetector(
-                              child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        AppImageAsset(
-                                          image: data.icon,
-                                          height: 35.px,
-                                          width: 35.px,
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 15),
-                                          child: Text(
-                                            data.text,
-                                            style: openSans.w400.get16.black,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: AppColors.downArrowColor
-                                          .withOpacity(0.5),
-                                      size: 15,
-                                      weight: 80,
-                                    )
-                                  ]),
-                              onTap: () async {
-                                if (index == 0) {
-                                  requestCameraPermission();
-                                } else if (index == 1) {
-                                  uploadImage();
-                                }
-                                Navigator.pop(context);
-                                setState(() {});
-                              },
-                            ),
-                          ),
-                          Divider(
-                            color: AppColors.appBorderColor.withOpacity(0.5),
-                            thickness: 1,
-                            height: 30,
-                          )
-                        ],
-                      );
-                    },
-                  ),
-                )
+                fileSelect(onTap: (int index){
+                  if (index == 0) {
+                    requestCameraPermission();
+                  } else if (index == 1) {
+                    uploadImage();
+                  }
+                  else if (index == 2) {
+                    pickDocument();
+                  }
+                  Navigator.pop(context);
+                }),
               ]),
         );
       },
@@ -439,37 +385,17 @@ class _SettingViewState extends State<SettingView> {
 
   Future<void> requestCameraPermission() async {
     final PermissionStatus status = await Permission.camera.request();
-    handlePermissionResult(status);
+  final bool cameraStatus= handlePermissionResult(status);
+     if(cameraStatus){
+       _settingController.croppedFilePath = await captureImage()??'';
+   if(_settingController.croppedFilePath!=''){
+     await _settingController.uploadProfilePhoto();}
+         }
   }
 
-  void handlePermissionResult(PermissionStatus status) {
-    if (status.isGranted) {
-      // Access the camera
-      print('Camera permission granted');
-      captureImage();
-    } else if (status.isDenied) {
-      // Permission denied
-      print('Camera permission denied');
-    } else if (status.isPermanentlyDenied) {
-      // Permission permanently denied
-      print('Camera permission permanently denied');
-      openAppSettings(); // Open app settings for the user to grant permission
-    }
-    setState(() {
-      cameraPermissionStatus = status;
-    });
-  }
 
-  Future<void> captureImage() async {
-    final XFile? pickedFile = await ImagePicker().pickImage(
-        source: ImageSource.camera,
-        imageQuality: 100,
-        maxHeight: 800,
-        maxWidth: 800);
-    if (pickedFile != null) {
-      await cropImage(pickedFile);
-    }
-  }
+
+
 
   Future<void> uploadImage() async {
     try {
@@ -479,40 +405,31 @@ class _SettingViewState extends State<SettingView> {
           maxHeight: 800,
           maxWidth: 800);
       if (pickedFile != null) {
-        await cropImage(pickedFile);
+        _settingController.croppedFilePath = await cropImage(pickedFile)??'';
+       if(_settingController.croppedFilePath!=''){
+        await _settingController.uploadProfilePhoto();}
       }
     } catch (e) {
-      print('Error picking image: $e');
+      if (kDebugMode) {
+        print('Error picking image: $e');
+      }
       // Handle the error (show a snackbar, alert, or log it)
     }
   }
 
-  Future<void> cropImage(XFile? pickedFile) async {
-    if (pickedFile != null) {
-      try {
-        final CroppedFile? cropFile = await ImageCropper().cropImage(
-            sourcePath: pickedFile.path,
-            compressFormat: ImageCompressFormat.png,
-            compressQuality: 30,
-            aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
-            uiSettings: <PlatformUiSettings>[
-              AndroidUiSettings(
-                hideBottomControls: false,
-                initAspectRatio: CropAspectRatioPreset.square,
-                lockAspectRatio: true,
-              ),
-            ]);
-        if (cropFile != null) {
-          croppedFile = cropFile;
-          _settingController.croppedFilePath = cropFile.path;
-          await _settingController.uploadProfilePhoto();
-          // setState(() async {});
-        }
-      } catch (e) {
-        print('Error cropping image: $e');
-      }
+  Future<void> pickDocument() async {
+    final FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: <String>['pdf', 'png', 'jpeg', 'jpg'],
+    );
+    if (result != null) {
+      _settingController.croppedFilePath=result.files.single.path ??'';
+      if(_settingController.croppedFilePath!=''){
+        await _settingController.uploadProfilePhoto();}
     }
-  }
+    }
+
+
 
   void handleTitleClick(
     String title,
@@ -653,14 +570,6 @@ class Address {
   String address1;
   String address2;
 }
-
-class ProfileList {
-  ProfileList({required this.text, required this.icon});
-
-  final String text;
-  final String icon;
-}
-
 enum SettingTitle {
   changeName,
   changeCountry,

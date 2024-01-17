@@ -15,7 +15,6 @@ class NewTicketController extends GetxController {
       GetMasterDataAppSupportRepository();
   final CreateTicketRepository _createTicketRepository =
       CreateTicketRepository();
-
   RxList<String> masterData = <String>[].obs;
   RxList<File> attachments=<File>[].obs;
   bool isSwitch = false;
