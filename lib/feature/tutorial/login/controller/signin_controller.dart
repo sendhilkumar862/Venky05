@@ -7,6 +7,7 @@ import '../../../../config/routes/route.dart';
 
 import '../../../../core/base_response.dart';
 import '../../../../core/local_auth_services.dart';
+import '../../../../mirrorFlyController/mirrorfly_auth_controller.dart';
 import '../../../../product/cache/key_value_storeage.dart';
 import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_utils.dart';
@@ -32,7 +33,7 @@ class SignInController extends GetxController {
   final BiometricTokenRepository _bioTokenRepositoryRepository =
   BiometricTokenRepository();
   RxString authenticated = ''.obs;
-
+  final MirrorFlyAuthController _mirrorFlyAuthController=Get.put(MirrorFlyAuthController());
   @override
   void onInit() {
     // TODO: implement onInit
@@ -94,6 +95,7 @@ class SignInController extends GetxController {
       if (responseData.token?.accessToken?.isNotEmpty ?? false) {
         LocaleManager.setAuthToken(responseData.token?.accessToken ?? '');
         LocaleManager.setValue(StorageKeys.profile, responseData.token?.role ?? '');
+        await _mirrorFlyAuthController.registerAccount(responseData.username??'');
         Get.offAndToNamed(Routes.HomeScreenRoute);
       }
     } else {

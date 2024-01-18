@@ -21,6 +21,8 @@ LoginModel _$LoginModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$LoginModel {
   Token? get token => throw _privateConstructorUsedError;
+  String? get username => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +36,7 @@ abstract class $LoginModelCopyWith<$Res> {
           LoginModel value, $Res Function(LoginModel) then) =
       _$LoginModelCopyWithImpl<$Res, LoginModel>;
   @useResult
-  $Res call({Token? token});
+  $Res call({Token? token, String? username, String? status});
 
   $TokenCopyWith<$Res>? get token;
 }
@@ -53,12 +55,22 @@ class _$LoginModelCopyWithImpl<$Res, $Val extends LoginModel>
   @override
   $Res call({
     Object? token = freezed,
+    Object? username = freezed,
+    Object? status = freezed,
   }) {
     return _then(_value.copyWith(
       token: freezed == token
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
               as Token?,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -83,7 +95,7 @@ abstract class _$$LoginModelImplCopyWith<$Res>
       __$$LoginModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Token? token});
+  $Res call({Token? token, String? username, String? status});
 
   @override
   $TokenCopyWith<$Res>? get token;
@@ -101,12 +113,22 @@ class __$$LoginModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? token = freezed,
+    Object? username = freezed,
+    Object? status = freezed,
   }) {
     return _then(_$LoginModelImpl(
       token: freezed == token
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
               as Token?,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -114,17 +136,21 @@ class __$$LoginModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$LoginModelImpl implements _LoginModel {
-  const _$LoginModelImpl({this.token});
+  const _$LoginModelImpl({this.token, this.username, this.status});
 
   factory _$LoginModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$LoginModelImplFromJson(json);
 
   @override
   final Token? token;
+  @override
+  final String? username;
+  @override
+  final String? status;
 
   @override
   String toString() {
-    return 'LoginModel(token: $token)';
+    return 'LoginModel(token: $token, username: $username, status: $status)';
   }
 
   @override
@@ -132,12 +158,15 @@ class _$LoginModelImpl implements _LoginModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoginModelImpl &&
-            (identical(other.token, token) || other.token == token));
+            (identical(other.token, token) || other.token == token) &&
+            (identical(other.username, username) ||
+                other.username == username) &&
+            (identical(other.status, status) || other.status == status));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, token);
+  int get hashCode => Object.hash(runtimeType, token, username, status);
 
   @JsonKey(ignore: true)
   @override
@@ -154,13 +183,20 @@ class _$LoginModelImpl implements _LoginModel {
 }
 
 abstract class _LoginModel implements LoginModel {
-  const factory _LoginModel({final Token? token}) = _$LoginModelImpl;
+  const factory _LoginModel(
+      {final Token? token,
+      final String? username,
+      final String? status}) = _$LoginModelImpl;
 
   factory _LoginModel.fromJson(Map<String, dynamic> json) =
       _$LoginModelImpl.fromJson;
 
   @override
   Token? get token;
+  @override
+  String? get username;
+  @override
+  String? get status;
   @override
   @JsonKey(ignore: true)
   _$$LoginModelImplCopyWith<_$LoginModelImpl> get copyWith =>

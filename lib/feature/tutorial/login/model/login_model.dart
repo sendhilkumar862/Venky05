@@ -8,6 +8,8 @@ part 'login_model.g.dart';
 class LoginModel with _$LoginModel {
   const factory LoginModel({
     Token? token,
+    String? username,
+    String? status,
   }) = _LoginModel;
 
   factory LoginModel.fromJson(Map<String, dynamic> json) =>
