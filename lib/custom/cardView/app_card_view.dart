@@ -87,8 +87,8 @@ class AppCardView extends StatelessWidget {
                     title: countryName,
                   ),
                   tagCardView(
-                      title: '$minParticipants/$maxParticipants',
-                      icon: ImageConstants.groupIcon,
+                      title: maxParticipants==1?'Individual':'$minParticipants/$maxParticipants',
+                      icon:  maxParticipants==1?ImageConstants.individualIcon:ImageConstants.groupIcon,
                       isBold: true),
                 ],
               ),
@@ -162,7 +162,7 @@ class AppCardView extends StatelessWidget {
           if (icon != null && icon.isNotEmpty) // Another check for spacing
             SizedBox(width: 4.px),
           AppText(
-            title ?? ''!,
+            title ?? '',
             fontSize: 10.px,
             fontWeight: isBold ? FontWeight.w700 : FontWeight.w500,
           ),

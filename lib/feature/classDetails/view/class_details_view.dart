@@ -185,9 +185,9 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     Row(
                       children: [
                         tagCardView(
-                            title:
-                                'Group ${_classDetailsController.classData.value.minParticipants}/${_classDetailsController.classData.value.maxParticipants}',
-                            icon: ImageConstants.groupIcon),
+                            title:_classDetailsController.classData.value.maxParticipants==1?'Individual':
+                            'Group ${_classDetailsController.classData.value.minParticipants}/${_classDetailsController.classData.value.maxParticipants}',
+                            icon: _classDetailsController.classData.value.maxParticipants==1?ImageConstants.individualIcon:ImageConstants.groupIcon),
                         tagCardView(
                             title: _classDetailsController
                                 .classData.value.classTime
