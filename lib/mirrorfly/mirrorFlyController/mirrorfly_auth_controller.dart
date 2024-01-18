@@ -29,7 +29,7 @@ class MirrorFlyAuthController extends GetxController {
           .then((value) {
         // ignore: avoid_dynamic_calls
         if (value.contains('data')) {
-
+             print(value['data']);
         }
       // ignore: always_specify_types
       }).catchError((error) {

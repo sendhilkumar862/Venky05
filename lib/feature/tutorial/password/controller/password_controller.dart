@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:hessah/feature/tutorial/password/repository/password_repository.dart';
+import '../repository/password_repository.dart';
 
 
 import '../../../../core/base_response.dart';
@@ -83,7 +83,7 @@ class PasswordController extends GetxController {
           isTermsAccepted: isActive.value,
           firstName: arguments['firstName'],
           lastName: arguments['lastName'],
-          country:    LocaleManager.getValue(
+          country: LocaleManager.getValue(
               StorageKeys.countryName),
           hideUserName: arguments['hideUserName'] ?? false),
     );
