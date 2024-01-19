@@ -161,7 +161,7 @@ class _PendingTicketsState extends State<PendingTickets> {
                                               .getTicketsList[
                                                   _appSupportController
                                                       .appSupportDetailIndex]
-                                              .ticketId
+                                              .title
                                               .toString(),
                                           style:
                                               openSans.get16.w500.appTextColor,

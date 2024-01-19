@@ -86,4 +86,8 @@ extension StringLocalization on String {
     m = ((int.parse(this) - h * 3600)) ~/ 60;
     return '${h}h ${m}m';
   }
+  bool toBool(){
+    // ignore: avoid_bool_literals_in_conditional_expressions
+    return this != null ? this!.toLowerCase() == "true" : false;
+  }
 }

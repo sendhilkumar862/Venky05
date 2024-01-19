@@ -1,9 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart' hide ScreenType;
 import 'package:get_storage/get_storage.dart';
+import 'package:mirrorfly_plugin/flychat.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'config/config.dart';
 import 'config/routes/route.dart';
 import 'feature/splash/controller/splash_controller.dart';
 import 'feature/splash/view/splash_view.dart';
@@ -12,7 +15,19 @@ import 'product/lang/language_manager.dart';
 
 Future<void> main() async {
   await GetStorage.init();
-  WidgetsFlutterBinding.ensureInitialized(); // Initialize the Flutter binding
+  WidgetsFlutterBinding.ensureInitialized();
+  try{// Initialize the Flutter binding
+    await Mirrorfly.init(
+        baseUrl: Config.mirrorFlyBaseURL,
+        licenseKey:  Config.mirrorFlyLicenceKey,
+        iOSContainerID: Config.bundleId);}catch(e){
+ // await Mirrorfly.initializeSDK(
+ //      licenseKey: Config.mirrorFlyLicenceKey,
+ //      iOSContainerID: Config.bundleId);}catch(e){
+    if (kDebugMode) {
+      print(e);
+    }
+  }
   runApp(
     const MyApp(),
   );
@@ -28,7 +43,8 @@ class MyApp extends StatelessWidget {
           ScreenType screenType) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          localizationsDelegates: const [
+          // ignore: always_specify_types
+          localizationsDelegates: const <LocalizationsDelegate>[
             GlobalMaterialLocalizations
                 .delegate, // uses `flutter_localizations`
             GlobalWidgetsLocalizations.delegate,
@@ -43,7 +59,7 @@ class MyApp extends StatelessWidget {
             fallbackLocale:LanguageManager.instance.arLocale,
           getPages:Routes.router,
           // theme: context.watch<ThemeNotifier>().currentTheme,
-          initialBinding: initialBinding(),
+          initialBinding: InitialBinding(),
           home: const SplashView(),
           // home: StudentProfileView(),
           builder: EasyLoading.init(),
@@ -53,7 +69,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class initialBinding extends Bindings {
+
+class InitialBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(SplashController());

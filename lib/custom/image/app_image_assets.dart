@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../product/cache/local_manager.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 
 class AppImageAsset extends StatelessWidget {
@@ -33,6 +34,7 @@ class AppImageAsset extends StatelessWidget {
             imageUrl: image,
             height: height,
             width: width,
+            httpHeaders: LocaleManager.getAuthToken()!=''?<String, String>{'X-Auth-Token':  LocaleManager.getAuthToken()}:null ,
             fit: fit ?? BoxFit.cover,
             placeholder: (BuildContext context, String url) =>
                 const CircularProgressIndicator(color: AppColors.appBlue),

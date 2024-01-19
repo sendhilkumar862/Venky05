@@ -16,9 +16,12 @@ class Config {
   /// ```
   /// flutter run --dart-define=BASE_URL=www.some_url.com
   /// ```
-  static const baseUrl = String.fromEnvironment(
+  static const String baseUrl = String.fromEnvironment(
     'BASE_URL',
     defaultValue: 'http://167.99.93.83/api/v1/',
   );
+  static const String mirrorFlyBaseURL='https://api-preprod-sandbox.mirrorfly.com/api/v1/';
+  static const String mirrorFlyLicenceKey='UaUTo9l1D2rGy6rCHZJhjcOiAXu1hJ';
+  static const String bundleId='com.example.hessah';
 
 }

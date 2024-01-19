@@ -2,10 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:hessah/feature/tutorial/password/repository/password_repository.dart';
+import '../repository/password_repository.dart';
 
 
 import '../../../../core/base_response.dart';
+import '../../../../mirrorfly/mirrorFlyController/mirrorfly_auth_controller.dart';
 import '../../../../product/cache/key_value_storeage.dart';
 import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_utils.dart';
@@ -17,6 +18,8 @@ import '../model/term_and_condition_model.dart';
 import '../repository/get_term_condition_repository.dart';
 
 class PasswordController extends GetxController {
+
+  final MirrorFlyAuthController _mirrorFlyAuthController=Get.put(MirrorFlyAuthController());
   @override
   void onInit() {
     super.onInit();
@@ -80,7 +83,7 @@ class PasswordController extends GetxController {
           isTermsAccepted: isActive.value,
           firstName: arguments['firstName'],
           lastName: arguments['lastName'],
-          country:    LocaleManager.getValue(
+          country: LocaleManager.getValue(
               StorageKeys.countryName),
           hideUserName: arguments['hideUserName'] ?? false),
     );
@@ -90,6 +93,7 @@ class PasswordController extends GetxController {
       final PasswordModel passwordModel = PasswordModel.fromJson(dataResponse);
       LocaleManager
           .setAuthToken(passwordModel.token.accessToken);
+      await _mirrorFlyAuthController.registerAccount(passwordModel.username??'');
       EasyLoading.dismiss();
       return true;
     } else {
