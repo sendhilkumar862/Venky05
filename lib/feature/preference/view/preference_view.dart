@@ -597,21 +597,25 @@ class _PreferenceViewState extends State<PreferenceView>
                       ),
                     ),
                   ),
-                  AppButton(
-                      isDisable: _preferenceController.selectedGrade.isEmpty,
-                      title: 'saveMyPreferences'.tr,
-                      onPressed: () {
-                        _preferenceController.setUserPreference().then((value) async{
-                          final HomeController _homeController=Get.put(HomeController());
-                         await  _homeController.fetchData();
-                          Navigator.of(context).pop();
-                          selectedProfile =LocaleManager.getValue(StorageKeys.profile) ??'';
-                          if (selectedProfile ==
-                              ApplicationConstants.student) {
-                            Get.toNamed(Routes.HomeScreenRoute);
-                          }
-                        });
-                      })
+                  Obx(()=>
+                 AppButton(
+                        isDisable: _preferenceController.selectedSubjectIndices.isEmpty,
+                        title: 'saveMyPreferences'.tr,
+                        onPressed: () {
+                          if( _preferenceController.selectedSubjectIndices.isNotEmpty){
+                          _preferenceController.setUserPreference().then((value) async{
+                            final HomeController homeController=Get.put(HomeController());
+                           await  homeController.fetchData();
+                            // ignore: use_build_context_synchronously
+                            Navigator.of(context).pop();
+                            selectedProfile =LocaleManager.getValue(StorageKeys.profile) ??'';
+                            if (selectedProfile ==
+                                ApplicationConstants.student) {
+                              Get.toNamed(Routes.HomeScreenRoute);
+                            }
+                          });
+                        }}),
+                  )
                 ],
               );
             },

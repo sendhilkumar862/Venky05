@@ -24,7 +24,7 @@ class MirrorFlyAuthController extends GetxController {
 
 
   Future<void> registerAccount(String user) async {
-      Mirrorfly.registerUser(user)
+      Mirrorfly.registerUser(user.replaceFirst(RegExp('@'), ''))
           // ignore: always_specify_types
           .then((value) {
         // ignore: avoid_dynamic_calls
