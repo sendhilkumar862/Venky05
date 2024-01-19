@@ -14,6 +14,7 @@ import '../../../../product/cache/key_value_storeage.dart';
 import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../../../product/extension/string_extension.dart';
 import '../../../home/controller/home_controller.dart';
 import 'classes_view.dart';
 class ActivitiesView extends StatefulWidget {
@@ -35,7 +36,6 @@ class _ActivitiesViewState extends State<ActivitiesView> {
     selectedProfile = LocaleManager.getValue(StorageKeys.profile) ??'';
   }
 
-
   @override
   Widget build(BuildContext context) {
    return  Obx( () {
@@ -48,7 +48,7 @@ class _ActivitiesViewState extends State<ActivitiesView> {
            child: ListView(
              children: <Widget>[
                SizedBox(height: 20.px),
-           Obx(() => !_homeController.isCreatedClass.value?
+           Obx(() => _homeController.classActivityList.isEmpty?
                 Padding(
                  padding: EdgeInsets.only( right: 8.px, bottom: 10.px, left: 8.px),
                  child: InfoCardVIew(
@@ -70,25 +70,39 @@ class _ActivitiesViewState extends State<ActivitiesView> {
                    padding: EdgeInsets.only(
                        right: 15.px, top: 2.px, bottom: 40.px, left: 15.px),
                    shrinkWrap: true,
-                   physics: BouncingScrollPhysics(),
+                   physics: const BouncingScrollPhysics(),
                    itemCount: 3,
-                   scrollDirection: Axis.vertical,
                    itemBuilder: (BuildContext context, int index) {
-                     return AppCardView(
-                       cardTitle: 'Math',
-                       date: '12/12 12:30pm',
-                       timer: '1h 30m',
-                       money: '5.500 KWD',
-                       status: 'PENDING',
-                       isPro: true,
+                     return  AppCardView(
+                       proposals: 5,
+                       cardTitle:
+                       _homeController.classActivityList[index].subject,
+                       date: _homeController
+                           .classActivityList[index].classTime!
+                           .toString()
+                           .epochToNormal(),
+                       timer: _homeController.classActivityList[index].duration
+                           .toString()
+                           .timeConvert(),
+                       money:
+                       "${_homeController.classActivityList[index].cost ?? ''} ${_homeController.classActivityList[index].currency ?? ''}",
+                       status: _homeController.classActivityList[index].status,
+                       // isPro: true,
                        avtar: ImageConstants.teacherAvtar,
                        countryIcon: ImageConstants.countryIcon,
                        countryName: 'Kuwait',
                        reViewLength: 3,
-                       teacherName: 'Ahmed Ali',
+                       teacherName:
+                       _homeController.classActivityList[index].name,
+                       grade: _homeController.classActivityList[index].grade,
+                       minParticipants: _homeController
+                           .classActivityList[index].minParticipants,
+                       maxParticipants: _homeController
+                           .classActivityList[index].maxParticipants,
                        buttonTap: () {
-                         Get.toNamed(Routes.proposalDetailsView);
-                         // AppRouter.pushNamed(Routes.proposalDetailsView);
+                         Get.toNamed(Routes.classDetailsView,
+                             arguments: <String, Object?>{'classNumber': _homeController
+                                 .classActivityList[index].classNumber,'backIndex':1});
                        },
                      );
                    },

@@ -1,6 +1,7 @@
 
 import 'package:get/get.dart';
 
+import '../../../core/api_end_points.dart';
 import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
 import '../../../product/cache/key_value_storeage.dart';
@@ -34,22 +35,28 @@ class HomeController extends GetxController {
 
   getData()async{
     showLoading();
-    await Future.wait([
+    await Future.wait(<Future<void>>[
     fetchData(),
-    getClassList()
+    getClassList(SchoolEndpoint.GET),
+      getClassList(SchoolEndpoint.UPCOMING_CLASS),
+      getClassList(SchoolEndpoint.HISTORY_CLASS),
+      getClassList(SchoolEndpoint.ACTIVITY_CLASS),
+      getClassList(SchoolEndpoint.RELATED_CLASS),
     ]);
     hideLoading();
   }
 
   Rx<HomeModel?> homeData = const HomeModel().obs;
-  RxList<String> upComingClassList = <String>[].obs;
-  RxList<int> historyClassList = <int>[1].obs;
   RxList<String> favouriteTeachersList = <String>[].obs;
   RxList<String> relatedTeachersList = <String>[].obs;
   RxList<String> favouriteStudentsList = <String>[].obs;
   RxList<String> relatedStudentsList = <String>[].obs;
   RxList<String> activitiesList = <String>[].obs;
   RxList<GetClassListModel> classList = <GetClassListModel>[].obs;
+  RxList<GetClassListModel> classUpcomingList = <GetClassListModel>[].obs;
+  RxList<GetClassListModel> classHistoryList = <GetClassListModel>[].obs;
+  RxList<GetClassListModel> classActivityList = <GetClassListModel>[].obs;
+  RxList<GetClassListModel> classRelatedList = <GetClassListModel>[].obs;
 
 
   Future<void> fetchData() async {
@@ -77,16 +84,33 @@ class HomeController extends GetxController {
   }
 
 
-
-
-  Future<void> getClassList() async {
-    final BaseResponse classListDataResponse = await _getClassListRepository.getClassList(GetClassRequestModel(limit: '30',startIndex: '1',sortColumn:'created_at',sortDirection: 'desc' ));
+  Future<void> getClassList(SchoolEndpoint schoolEndpoint,) async {
+    final BaseResponse classListDataResponse = await _getClassListRepository.getClassList(GetClassRequestModel(limit: '30',startIndex: '1',sortColumn:'created_at',sortDirection: 'desc' ),schoolEndpoint);
     if (classListDataResponse.status?.type == 'success') {
       final List classListData=classListDataResponse.data!.item! as List;
+     if(schoolEndpoint==SchoolEndpoint.GET){
       classList.clear();
       for (var element in classListData) {
         classList.add(GetClassListModel.fromJson(element));
-      }
+      }}
+     else if(schoolEndpoint==SchoolEndpoint.UPCOMING_CLASS){
+       classUpcomingList.clear();
+       for (var element in classListData) {
+         classUpcomingList.add(GetClassListModel.fromJson(element));
+       }} else if(schoolEndpoint==SchoolEndpoint.HISTORY_CLASS){
+       classHistoryList.clear();
+       for (var element in classListData) {
+         classHistoryList.add(GetClassListModel.fromJson(element));
+       }} else if(schoolEndpoint==SchoolEndpoint.ACTIVITY_CLASS){
+       classActivityList.clear();
+       for (var element in classListData) {
+         classActivityList.add(GetClassListModel.fromJson(element));
+       }} else if(schoolEndpoint==SchoolEndpoint.RELATED_CLASS){
+       classRelatedList.clear();
+       for (var element in classListData) {
+         classRelatedList.add(GetClassListModel.fromJson(element));
+       }}
+
     }
   }
 }

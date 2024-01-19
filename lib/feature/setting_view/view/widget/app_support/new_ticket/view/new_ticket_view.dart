@@ -99,6 +99,8 @@ class _NewTicketViewState extends State<NewTicketView> {
                     attachments: _newTicketController.attachments));
             if (success) {
               final AppSupportController appSupportController = Get.find();
+               appSupportController.initialCount=true;
+              appSupportController.isInitial.value=true;
               appSupportController.getTickets();
 
               // ignore: use_build_context_synchronously

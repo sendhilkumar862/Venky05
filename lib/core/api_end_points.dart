@@ -109,8 +109,16 @@ class ApiEndpoint {
         return '$path/get';
       case SchoolEndpoint.MASTER:
         return '$path/master';
+      case SchoolEndpoint.UPCOMING_CLASS:
+        return '/class/upcoming';
+      case SchoolEndpoint.HISTORY_CLASS:
+        return '/class/history';
       case SchoolEndpoint.PROPOSAL:
         return '/proposals';
+      case SchoolEndpoint.ACTIVITY_CLASS:
+        return '/class/activity';
+      case SchoolEndpoint.RELATED_CLASS:
+        return '/class/related';
     }
   }
 
@@ -300,7 +308,19 @@ enum SchoolEndpoint {
   MASTER,
 
   /// An endpoint for get proposal data.
-  PROPOSAL
+  PROPOSAL,
+
+  /// An endpoint for get upcomming class.
+  UPCOMING_CLASS,
+
+  /// An endpoint for get history class.
+  HISTORY_CLASS,
+
+  /// An endpoint for get activity class.
+  ACTIVITY_CLASS,
+
+  /// An endpoint for get related class.
+ RELATED_CLASS
 }
 
 /// A collection of endpoints used for students.
