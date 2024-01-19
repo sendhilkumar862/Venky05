@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../../../config/routes/route.dart';
 import '../../../../custom/cardView/details_card_view.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';

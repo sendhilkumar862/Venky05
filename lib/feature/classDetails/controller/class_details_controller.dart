@@ -41,8 +41,10 @@ class ClassDetailsController extends GetxController{
   fetchData()async{
     showLoading();
     await Future.wait([
-      getProposalDetails(Get.arguments),
-    getClassDetails(Get.arguments),
+      // ignore: avoid_dynamic_calls
+      getProposalDetails(Get.arguments['classNumber']),
+    // ignore: avoid_dynamic_calls
+    getClassDetails(Get.arguments['classNumber']),
     ]);
     hideLoading();
   }

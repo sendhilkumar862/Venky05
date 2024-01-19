@@ -80,6 +80,8 @@ class _NewTicketViewState extends State<NewTicketView> {
             final bool success= await _newTicketController.createNewTicket(CreateTicketRequestModel(ticketType:_newTicketController.ticketType.text ,description:_newTicketController.descriptionController.text,attachments: _newTicketController.attachments ));
             if(success) {
               final AppSupportController appSupportController=Get.find();
+              appSupportController.initialCount=true;
+              appSupportController.isInitial.value=true;
               appSupportController.getTickets();
 
               // ignore: use_build_context_synchronously

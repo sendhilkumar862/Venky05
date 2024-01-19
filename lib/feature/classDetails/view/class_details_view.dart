@@ -39,7 +39,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
           title: 'Class Details',
           isTitleOnly: true,
             leadingTap:(){
-            Get.close(1);
+            // ignore: avoid_dynamic_calls
+            Get.close(Get.arguments['backIndex']);
             }
       
         ),
