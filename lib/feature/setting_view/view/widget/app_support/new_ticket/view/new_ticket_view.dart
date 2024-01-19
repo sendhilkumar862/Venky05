@@ -1,20 +1,27 @@
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../../../../custom/app_button/app_button.dart';
 import '../../../../../../../custom/app_textformfield/app_field.dart';
 import '../../../../../../../custom/appbar/appbar.dart';
 import '../../../../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../../../../custom/image/app_image_assets.dart';
+import '../../../../../../../custom/sheet/file_select.dart';
 import '../../../../../../../custom/sheet/show_bottom_sheet.dart';
 import '../../../../../../../custom/text/app_text.dart';
 import '../../../../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../../../../product/constants/image/image_constants.dart';
+import '../../../../../../../product/utils/common_function.dart';
 import '../../../../../../../product/utils/typography.dart';
 import '../../../../../app_support/controller/app_support_controller.dart';
+import '../../../../setting_view.dart';
 import '../../pending_tickets/controller/pending_ticket_controller.dart';
 import '../../pending_tickets/model/reply_ticket_rquest_model.dart';
 import '../controller/new_ticket_controller.dart';
@@ -28,18 +35,14 @@ class NewTicketView extends StatefulWidget {
 }
 
 class _NewTicketViewState extends State<NewTicketView> {
-  final NewTicketController _newTicketController=Get.put(NewTicketController());
-
-
+  final NewTicketController _newTicketController =
+      Get.put(NewTicketController());
 
   @override
   void initState() {
     super.initState();
-    _newTicketController.isReply=Get.arguments;
-
+    _newTicketController.isReply = Get.arguments;
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +60,13 @@ class _NewTicketViewState extends State<NewTicketView> {
               children: <Widget>[
                 fieldView(),
                 addAttachmentView(),
-                const SizedBox(height: 100,),
-                if (_newTicketController.isReply) footerReplyView() else footerView(context)
+                const SizedBox(
+                  height: 100,
+                ),
+                if (_newTicketController.isReply)
+                  footerReplyView()
+                else
+                  footerView(context)
               ],
             ),
           ),
@@ -73,14 +81,25 @@ class _NewTicketViewState extends State<NewTicketView> {
   AppButton footerView(BuildContext context) {
     return AppButton(
         // ignore: avoid_bool_literals_in_conditional_expressions
-        isDisable: _newTicketController.ticketType.text!='' && _newTicketController.descriptionController.text!='' && _newTicketController.attachments.isNotEmpty?false:true,
+        isDisable: _newTicketController.ticketType.text != '' &&
+                _newTicketController.descriptionController.text != '' &&
+                _newTicketController.attachments.isNotEmpty
+            ? false
+            : true,
         title: 'Submit Your Ticket',
-        onPressed: () async{
-          if(_newTicketController.ticketType.text!='' && _newTicketController.descriptionController.text!='' && _newTicketController.attachments.isNotEmpty) {
-            final bool success= await _newTicketController.createNewTicket(CreateTicketRequestModel(ticketType:_newTicketController.ticketType.text ,description:_newTicketController.descriptionController.text,attachments: _newTicketController.attachments ));
-            if(success) {
-              final AppSupportController appSupportController=Get.find();
-              appSupportController.initialCount=true;
+        onPressed: () async {
+          if (_newTicketController.ticketType.text != '' &&
+              _newTicketController.descriptionController.text != '' &&
+              _newTicketController.attachments.isNotEmpty) {
+            final bool success = await _newTicketController.createNewTicket(
+                CreateTicketRequestModel(
+                    ticketType: _newTicketController.ticketType.text,
+                    description:
+                        _newTicketController.descriptionController.text,
+                    attachments: _newTicketController.attachments));
+            if (success) {
+              final AppSupportController appSupportController = Get.find();
+               appSupportController.initialCount=true;
               appSupportController.isInitial.value=true;
               appSupportController.getTickets();
 
@@ -101,7 +120,7 @@ class _NewTicketViewState extends State<NewTicketView> {
                     title: 'Success',
                     buttonTitle: 'Done',
                     content: 'You have successfully submitted your ticket.',
-                    tranId: _newTicketController.ticketId?.toString()??'',
+                    tranId: _newTicketController.ticketId?.toString() ?? '',
                     isRouting: 'back',
                   );
                 },
@@ -110,15 +129,22 @@ class _NewTicketViewState extends State<NewTicketView> {
           }
         });
   }
+
   AppButton footerReplyView() {
     return AppButton(
-      // ignore: avoid_bool_literals_in_conditional_expressions
-        isDisable: _newTicketController.descriptionController.text!=''?false:true,
+        // ignore: avoid_bool_literals_in_conditional_expressions
+        isDisable: _newTicketController.descriptionController.text != ''
+            ? false
+            : true,
         title: 'Reply',
-        onPressed: () async{
-          if( _newTicketController.descriptionController.text!='' ) {
-             final PendingTicketController pendingTicketController=Get.find();
-             await pendingTicketController.replyChatTicket( ReplyTicketRequestModel(description:_newTicketController.descriptionController.text,attachments:_newTicketController.attachments  ) );
+        onPressed: () async {
+          if (_newTicketController.descriptionController.text != '') {
+            final PendingTicketController pendingTicketController = Get.find();
+            await pendingTicketController.replyChatTicket(
+                ReplyTicketRequestModel(
+                    description:
+                        _newTicketController.descriptionController.text,
+                    attachments: _newTicketController.attachments));
           }
         });
   }
@@ -126,33 +152,32 @@ class _NewTicketViewState extends State<NewTicketView> {
   Column fieldView() {
     return Column(
       children: <Widget>[
-       if(  !_newTicketController.isReply) AppTextFormField(
-          title: 'Ticket Type',
-          hintText: 'Select type',
-          suffix: const Icon(Icons.keyboard_arrow_down, color: Colors.black),
-          controller: _newTicketController.ticketType,
-          onTap: () {
-            bottomSheetDropDownList();
-          },
-          validate: (String? p0) {
-            if (p0 == null || p0.isEmpty) {
-              return 'Please Select Your City';
-            }
-            return null;
-          },
-          readOnly: true,
-        ),
-         AppTextFormField(
+        if (!_newTicketController.isReply)
+          AppTextFormField(
+            title: 'Ticket Type',
+            hintText: 'Select type',
+            suffix: const Icon(Icons.keyboard_arrow_down, color: Colors.black),
+            controller: _newTicketController.ticketType,
+            onTap: () {
+              bottomSheetDropDownList();
+            },
+            validate: (String? p0) {
+              if (p0 == null || p0.isEmpty) {
+                return 'Please Select Your City';
+              }
+              return null;
+            },
+            readOnly: true,
+          ),
+        AppTextFormField(
           contentPadding: const EdgeInsets.only(top: 15, left: 15),
           maxLines: 3,
           title: 'Ticket Description',
           hintText: 'Enter description',
           controller: _newTicketController.descriptionController,
-           onChanged: (v){
-            setState(() {
-
-            });
-           },
+          onChanged: (v) {
+            setState(() {});
+          },
         )
       ],
     );
@@ -163,7 +188,7 @@ class _NewTicketViewState extends State<NewTicketView> {
       padding: const EdgeInsets.only(top: 20),
       child: InkWell(
         onTap: () {
-          pickDocument();
+          addImageBottomSheet(context);
         },
         child: DottedBorder(
             padding: const EdgeInsets.symmetric(vertical: 20),
@@ -174,13 +199,16 @@ class _NewTicketViewState extends State<NewTicketView> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 SizedBox(
-                  height: _newTicketController.attachments.isNotEmpty ?80.0:0.0,
+                  height:
+                      _newTicketController.attachments.isNotEmpty ? 80.0 : 0.0,
                   child: ListView.separated(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    separatorBuilder: (_,i)=> const SizedBox(width: 10,),
-                   itemCount: _newTicketController.attachments.length,
-                    itemBuilder: (_,int index)=>Align(
+                    separatorBuilder: (_, i) => const SizedBox(
+                      width: 10,
+                    ),
+                    itemCount: _newTicketController.attachments.length,
+                    itemBuilder: (_, int index) => Align(
                       child: addAttachmentImage(
                           image: _newTicketController.attachments[index],
                           onClose: () {
@@ -191,10 +219,10 @@ class _NewTicketViewState extends State<NewTicketView> {
                     ),
                   ),
                 ),
-                if (_newTicketController.attachments.length<=2) Padding(
+                if (_newTicketController.attachments.length <= 2)
+                  Padding(
                     padding: EdgeInsets.only(
-                        top:
-                        _newTicketController.attachments.isEmpty ? 0 : 15),
+                        top: _newTicketController.attachments.isEmpty ? 0 : 15),
                     child: Column(
                       children: <Widget>[
                         const Padding(
@@ -205,34 +233,130 @@ class _NewTicketViewState extends State<NewTicketView> {
                         ),
                         Center(
                             child: Text(
-                              _newTicketController.attachments.isEmpty ? 'Add More' : 'Add Attachment',
+                          _newTicketController.attachments.isEmpty
+                              ? 'Add More'
+                              : 'Add Attachment',
                           style: openSans.get14.w500.appBlue,
                         )),
                       ],
                     ),
-                  ) else Padding(
-                  padding: EdgeInsets.only(
-                      top:
-                      _newTicketController.attachments.isEmpty ? 0 : 15),
-                    child:  SizedBox(width: 1000.px,
-                    height: 10,),
+                  )
+                else
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: _newTicketController.attachments.isEmpty ? 0 : 15),
+                    child: SizedBox(
+                      width: 1000.px,
+                      height: 10,
+                    ),
                   ),
               ],
             )),
       ),
     );
   }
+  void addImageBottomSheet(BuildContext context) {
+    return showCommonBottomSheet(context: context, commonWidget: attachmentView(),showDragHandle: false);
+  }
+  Widget attachmentView() {
+    return StatefulBuilder(
+      builder: (BuildContext context, void Function(void Function()) setState) {
+        return Padding(
+          padding: const EdgeInsets.only(right: 15, left: 15, top: 15),
+          child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+               Row(
+                 children: <Widget>[
+                   Expanded(
+                     child: Center(
+                       child: Text('Add Image',
+                           style: openSans.w700.get14.appTextColor),
+                     ),
+                   ),
 
+                 Align(
+                   alignment: Alignment.topRight,
+                   child: GestureDetector(
+                     onTap: () {
+                       Navigator.pop(context);
+                     },
+                     child: Container(
+                       decoration: BoxDecoration(
+                           shape: BoxShape.circle,
+                           color:
+                           AppColors.downArrowColor.withOpacity(0.15)),
+                       child: const Padding(
+                         padding: EdgeInsets.all(3),
+                         child: Icon(Icons.close),
+                       ),
+                     ),
+                   ),
+                 ),
+               ],),
+                fileSelect(onTap: (int index){
+                  if (index == 0) {
+                    requestCameraPermission();
+                  } else if (index == 1) {
+                    uploadImage();
+                  }
+                  else if (index == 2) {
+                    pickDocument();
+                  }
+                  Navigator.pop(context);
+                }),
+              ]),
+        );
+      },
+    );
+  }
+  Future<void> requestCameraPermission() async {
+    final PermissionStatus status = await Permission.camera.request();
+    final bool cameraStatus= handlePermissionResult(status);
+    if(cameraStatus){
+     final String path= await captureImage()??'';
+     if(path!='') {
+       setState(() {
+       _newTicketController.attachments
+           .add(File(path ?? ''));
+     });
+     }
+
+    }
+  }
   Future<void> pickDocument() async {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: <String>['pdf', 'png', 'jpeg', 'jpg'],
     );
     if (result != null) {
-        setState(() {
-          _newTicketController.attachments.add(File(result.files.single.path ?? ''));
-        });
-
+      setState(() {
+        _newTicketController.attachments
+            .add(File(result.files.single.path ?? ''));
+      });
+    }
+  }
+  Future<void> uploadImage() async {
+    try {
+      final XFile? pickedFile = await ImagePicker().pickImage(
+          source: ImageSource.gallery,
+          imageQuality: 100,
+          maxHeight: 800,
+          maxWidth: 800);
+      if (pickedFile != null) {
+        final String path = await cropImage(pickedFile)??'';
+        if(path!=''){
+          setState(() {
+            _newTicketController.attachments
+                .add(File(path ?? ''));
+          });}
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error picking image: $e');
+      }
+      // Handle the error (show a snackbar, alert, or log it)
     }
   }
 
@@ -250,12 +374,14 @@ class _NewTicketViewState extends State<NewTicketView> {
                       color: AppColors.appBorderColor.withOpacity(0.5))),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Image.file(
-                    image,
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.cover,
-                  ))),
+                  child: !image.path.contains('pdf')
+                      ? Image.file(
+                          image,
+                          width: 80,
+                          height: 80,
+                          fit: BoxFit.cover,
+                        )
+                      : PdfView(path: image.path))),
           Align(
               alignment: Alignment.topRight,
               child: InkWell(
@@ -291,45 +417,51 @@ class _NewTicketViewState extends State<NewTicketView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0,horizontal: 10),
-                      child: Row(children: [
-                        const Spacer(flex: 2,),
-                        const AppText('Ticket Type',
-                            fontWeight: FontWeight.w700,
-                            fontSize: 15,
-                            color: AppColors.appTextColor),
-                        const Spacer(flex: 1,),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 80),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: AppColors.downArrowColor
-                                      .withOpacity(0.15)),
-                              child: const Padding(
-                                padding: EdgeInsets.all(3),
-                                child: Icon(Icons.close),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 10),
+                      child: Row(
+                        children: [
+                          const Spacer(
+                            flex: 2,
+                          ),
+                          const AppText('Ticket Type',
+                              fontWeight: FontWeight.w700,
+                              fontSize: 15,
+                              color: AppColors.appTextColor),
+                          const Spacer(
+                            flex: 1,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 80),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: AppColors.downArrowColor
+                                        .withOpacity(0.15)),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(3),
+                                  child: Icon(Icons.close),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],),
-                    )
-
-                  ,
-                    Obx(()=>
-                     ListView.builder(
+                        ],
+                      ),
+                    ),
+                    Obx(
+                      () => ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: _newTicketController.masterData.length,
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
                             onTap: () {
-                              _newTicketController.ticketType.text = _newTicketController.masterData[index];
+                              _newTicketController.ticketType.text =
+                                  _newTicketController.masterData[index];
                               Navigator.pop(context);
                             },
                             child: Column(
@@ -338,7 +470,8 @@ class _NewTicketViewState extends State<NewTicketView> {
                                 Padding(
                                   padding:
                                       const EdgeInsets.only(top: 10, bottom: 7),
-                                  child: Text(_newTicketController.masterData[index],
+                                  child: Text(
+                                      _newTicketController.masterData[index],
                                       style: openSans.get16.w400.black),
                                 ),
                                 Divider(
