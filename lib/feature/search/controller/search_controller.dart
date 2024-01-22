@@ -7,6 +7,7 @@ import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
 import '../../../product/constants/app/app_utils.dart';
 import '../../home/model/getClassList.dart';
+import '../../home/model/user_search_model.dart';
 import '../../preference/controller/preference_controller.dart';
 import '../repository/get_seved_search_repository.dart';
 import '../repository/search_repository.dart';
@@ -19,7 +20,7 @@ class SearchClassController extends GetxController {
   final GetSavedSearchRepository _getSavedSearchRepository=GetSavedSearchRepository();
   final SearchRepository _searchRepository =SearchRepository();
 
-
+// class variable
   RxString error=''.obs;
   Set<String> selectedSchoolIndices = <String>{};
   Set<String> selectedCurriculumIndices = <String>{};
@@ -31,8 +32,27 @@ class SearchClassController extends GetxController {
   TextEditingController saveName = TextEditingController(text: '');
 
 
+
+  //user variable
+  Set<String> selectedSchoolIndicesUser = <String>{};
+  Set<String> gradeUser = <String>{};
+  Set<String> selectedSubjectIndicesUser = <String>{};
+  Set<String> selectedGenderIndices = <String>{};
+  Set<String> selectedCurriculumIndicesUser = <String>{};
+  bool isSwitchUser = false;
+  RxBool isSearchUser=false.obs;
+  String selectedSaveDataIndicesUser = '';
+  TextEditingController saveNameUser = TextEditingController(text: '');
+  List<String> genderList = <String>[
+    'Male',
+    'Female',
+  ];
+
+
   RxList<GetClassListModel> searchClassList = <GetClassListModel>[].obs;
+  RxList<UserSearchModel> searchClassListUser = <UserSearchModel>[].obs;
   RxList<String> savedData=<String>[].obs;
+  RxList<String> savedDataUser=<String>[].obs;
 
 
   Future<void> getSavedSearch(SchoolEndpoint schoolEndpoint) async {
@@ -40,12 +60,20 @@ class SearchClassController extends GetxController {
     final BaseResponse savedDataResponse =
     await _getSavedSearchRepository.getSavedSearchRepository(schoolEndpoint);
     if (savedDataResponse.status?.type == 'success') {
-      searchClassList.clear();
+      if(schoolEndpoint==SchoolEndpoint.GET_SEARCH_CLASS){
+        savedData.clear();
       if(savedDataResponse.data!.item!=null){
         final List classListData=savedDataResponse.data!.item! as List;
         for (var element in classListData) {
           savedData.add(element);
-        }}
+        }}}else{
+        savedDataUser.clear();
+        if(savedDataResponse.data!.item!=null){
+          final List classListData=savedDataResponse.data!.item! as List;
+          for (var element in classListData) {
+            savedDataUser.add(element);
+          }}
+      }
 
     } else {
       error.value = savedDataResponse.status!.message!;
@@ -64,13 +92,21 @@ class SearchClassController extends GetxController {
     final BaseResponse classListDataResponse =
     await _searchRepository.searchRepository(schoolEndpoint, searchData);
     if (classListDataResponse.status?.type == 'success') {
-      if(classListDataResponse.data!.item!=null){
-      final List classListData=classListDataResponse.data!.item! as List;
-      searchClassList.clear();
+      if(schoolEndpoint==SchoolEndpoint.SEARCH_CLASSES){
+        searchClassList.clear();
+        if(classListDataResponse.data!.item!=null){
+          final List classListData=classListDataResponse.data!.item! as List;
       for (var element in classListData) {
         searchClassList.add(GetClassListModel.fromJson(element));
-      }}else{
-        searchClassList.clear();
+      }}
+        isSearch.value=true;}else{
+        searchClassListUser.clear();
+        if(classListDataResponse.data!.item!=null){
+          final List classListData=classListDataResponse.data!.item! as List;
+          for (var element in classListData) {
+            searchClassListUser.add(UserSearchModel.fromJson(element));
+          }}
+        isSearchUser.value=true;
       }
 
     } else {
@@ -82,7 +118,6 @@ class SearchClassController extends GetxController {
         message: error.value,
       );
     }
-    isSearch.value=true;
     hideLoading();
   }
 
