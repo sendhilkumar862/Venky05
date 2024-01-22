@@ -71,7 +71,7 @@ class _ActivitiesViewState extends State<ActivitiesView> {
                        right: 15.px, top: 2.px, bottom: 40.px, left: 15.px),
                    shrinkWrap: true,
                    physics: const BouncingScrollPhysics(),
-                   itemCount: 3,
+                   itemCount:  _homeController.classActivityList.length,
                    itemBuilder: (BuildContext context, int index) {
                      return  AppCardView(
                        proposals: 5,

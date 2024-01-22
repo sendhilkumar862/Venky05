@@ -1,5 +1,8 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:mirrorfly_plugin/mirrorfly.dart';
 
@@ -29,7 +32,9 @@ class MirrorFlyAuthController extends GetxController {
           .then((value) {
         // ignore: avoid_dynamic_calls
         if (value.contains('data')) {
-             print(value['data']);
+             if (kDebugMode) {
+               print(value['data']);
+             }
         }
       // ignore: always_specify_types
       }).catchError((error) {
