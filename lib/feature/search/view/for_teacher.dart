@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../custom/app_button/app_button.dart';
@@ -12,6 +13,8 @@ import '../../../custom/divider/divider.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/utils/typography.dart';
+import '../../preference/model/preference_model.dart';
+import '../controller/search_controller.dart';
 
 class ForTeacher extends StatefulWidget {
   const ForTeacher({Key? key}) : super(key: key);
@@ -28,66 +31,16 @@ class _ForTeacherState extends State<ForTeacher> {
   Set<int> selectedCurriculumIndices = <int>{};
   bool showResult = false;
   bool isSwitch = false;
-  List<String> subjectList = <String>[
-    'Arabic',
-    'Math',
-    'Science',
-    'Islamic',
-    'Physics',
-    'Chemistry',
-    'English',
-    'French',
-    'Deutsch',
-    'Arts',
-  ];
-  List<String> gradeList = <String>[
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12',
-    'University',
-  ];
-  List<String> schoolList = <String>[
-    'Public',
-    'Private',
-  ];
+  final SearchClassController _searchController=Get.put(SearchClassController());
   List<String> genderList = <String>[
     'Male',
     'Female',
   ];
-  List<String> curriculumList = <String>[
-    'Arabic',
-    'American',
-    'British',
-  ];
-
-  void setGradeValue(List<String> value) {
-    setState(() => gradeList = value);
-  }
-
-  void setCurriculumValue(List<String> value) {
-    setState(() => curriculumList = value);
-  }
 
   void setGenderValue(List<String> value) {
     setState(() => genderList = value);
   }
 
-  void setSchoolValue(List<String> value) {
-    setState(() => schoolList = value);
-  }
-
-  void setSubjectValue(List<String> value) {
-    setState(() => subjectList = value);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -180,13 +133,13 @@ class _ForTeacherState extends State<ForTeacher> {
                       ],
                     ),
                   ),
-                  InlineChoice<String>(
+                  InlineChoice<Grade>(
                     clearable: true,
-                    value: gradeList,
-                    onChanged: setGradeValue,
-                    itemCount: gradeList.length,
+                    value: _searchController.preferenceController.grade,
+                    // onChanged: setGradeValue,
+                    itemCount: _searchController.preferenceController.grade.length,
                     itemBuilder:
-                        (ChoiceController<String> selection, int index) {
+                        (ChoiceController<Grade> selection, int index) {
                       return ChoiceChip(
                         shape: StadiumBorder(
                             side: BorderSide(
@@ -209,7 +162,7 @@ class _ForTeacherState extends State<ForTeacher> {
                         showCheckmark: false,
                         label: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 7),
-                          child: Text(gradeList[index]),
+                          child: Text(_searchController.preferenceController.grade[index].value??''),
                         ),
                         selectedColor: AppColors.appBlue,
                         // Change this to your desired color
@@ -243,13 +196,13 @@ class _ForTeacherState extends State<ForTeacher> {
                       ],
                     ),
                   ),
-                  InlineChoice<String>(
+                  InlineChoice<Grade>(
                     clearable: true,
-                    value: schoolList,
-                    onChanged: setSchoolValue,
-                    itemCount: schoolList.length,
+                    value: _searchController.preferenceController.schoolType,
+                    // onChanged: setSchoolValue,
+                    itemCount: _searchController.preferenceController.schoolType.length,
                     itemBuilder:
-                        (ChoiceController<String> selection, int index) {
+                        (ChoiceController<Grade> selection, int index) {
                       return ChoiceChip(
                         shape: StadiumBorder(
                             side: BorderSide(
@@ -271,7 +224,7 @@ class _ForTeacherState extends State<ForTeacher> {
                           });
                         },
                         showCheckmark: false,
-                        label: Text(schoolList[index]),
+                        label: Text( _searchController.preferenceController.schoolType[index].value??''),
                         selectedColor: AppColors.appBlue,
                         // Change this to your desired color
                         labelStyle: TextStyle(
@@ -304,13 +257,13 @@ class _ForTeacherState extends State<ForTeacher> {
                       ],
                     ),
                   ),
-                  InlineChoice<String>(
+                  InlineChoice<Grade>(
                     clearable: true,
-                    value: curriculumList,
-                    onChanged: setCurriculumValue,
-                    itemCount: curriculumList.length,
+                    value:  _searchController.preferenceController.curriculum,
+                    // onChanged: setCurriculumValue,
+                    itemCount:  _searchController.preferenceController.curriculum.length,
                     itemBuilder:
-                        (ChoiceController<String> selection, int index) {
+                        (ChoiceController<Grade> selection, int index) {
                       return ChoiceChip(
                         shape: StadiumBorder(
                             side: BorderSide(
@@ -334,7 +287,7 @@ class _ForTeacherState extends State<ForTeacher> {
                         showCheckmark: false,
                         label: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 7),
-                          child: Text(curriculumList[index]),
+                          child: Text( _searchController.preferenceController.curriculum[index].value??''),
                         ),
                         selectedColor: AppColors.appBlue,
                         // Change this to your desired color
@@ -368,13 +321,13 @@ class _ForTeacherState extends State<ForTeacher> {
                       ],
                     ),
                   ),
-                  InlineChoice<String>(
+                  InlineChoice<Grade>(
                     clearable: true,
-                    value: subjectList,
-                    onChanged: setSubjectValue,
-                    itemCount: subjectList.length,
+                    value:  _searchController.preferenceController.subject,
+                    // onChanged: setSubjectValue,
+                    itemCount: _searchController.preferenceController.subject.length,
                     itemBuilder:
-                        (ChoiceController<String> selection, int index) {
+                        (ChoiceController<Grade> selection, int index) {
                       return ChoiceChip(
                         shape: StadiumBorder(
                             side: BorderSide(
@@ -396,7 +349,7 @@ class _ForTeacherState extends State<ForTeacher> {
                           });
                         },
                         showCheckmark: false,
-                        label: Text(subjectList[index]),
+                        label: Text(_searchController.preferenceController.subject[index].value??''),
                         selectedColor: AppColors.appBlue,
                         // Change this to your desired color
                         labelStyle: TextStyle(
@@ -440,7 +393,7 @@ class _ForTeacherState extends State<ForTeacher> {
                       top: 0,
                     )
                   else
-                    SizedBox.shrink(),
+                    const SizedBox.shrink(),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 45, top: 30),
                     child: AppButton(
@@ -452,6 +405,7 @@ class _ForTeacherState extends State<ForTeacher> {
                           showResult = true;
                         });
                       },
+                      // ignore: avoid_bool_literals_in_conditional_expressions
                       isDisable: selectedSchoolIndices.isNotEmpty ||
                               selectedSubjectIndices.isNotEmpty ||
                               grade.isNotEmpty

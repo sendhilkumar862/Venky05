@@ -51,10 +51,10 @@ class AppCardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [
+      children: <Widget>[
         Container(
           padding: context.paddingNormal,
-          width: 318.px,
+          width: 500.px,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: AppColors.appWhite,
