@@ -119,6 +119,16 @@ class ApiEndpoint {
         return '$path/class/activity';
       case SchoolEndpoint.RELATED_CLASS:
         return '$path/class/related';
+      case SchoolEndpoint.GET_SEARCH_CLASS:
+        return '$path/search/class';
+      case SchoolEndpoint.GET_SEARCH_USER:
+        return '$path/search/users';
+      case SchoolEndpoint.SEARCH_CLASSES:
+        return '$path/search/classes';
+      case SchoolEndpoint.SEARCH_STUDENTS:
+        return '$path/search/students';
+      case SchoolEndpoint.SEARCH_TUTORS:
+        return '$path/search/tutors';
     }
   }
 
@@ -320,7 +330,22 @@ enum SchoolEndpoint {
   ACTIVITY_CLASS,
 
   /// An endpoint for get related class.
- RELATED_CLASS
+ RELATED_CLASS,
+
+  /// An endpoint for get search class.
+  GET_SEARCH_CLASS,
+
+  /// An endpoint for get search user.
+  GET_SEARCH_USER,
+
+  /// An endpoint for search classS.
+  SEARCH_CLASSES,
+
+  /// An endpoint for get search user.
+ SEARCH_STUDENTS,
+
+  /// An endpoint for get search user.
+  SEARCH_TUTORS
 }
 
 /// A collection of endpoints used for students.
