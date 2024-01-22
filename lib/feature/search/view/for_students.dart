@@ -423,7 +423,7 @@ class _ForStudentsState extends State<ForStudents> {
                           'filters':<String, dynamic>{
                             'grades':_searchController.grade.toList(),
                             'subjects':_searchController.selectedSubjectIndices.toList(),
-                            // 'schoolType':_searchController.selectedSchoolIndices.toList(),
+                             'schoolTypes':_searchController.selectedSchoolIndices.toList(),
                             'curriculum': _searchController.selectedCurriculumIndices.toList()
                           }
                         };}else{
