@@ -24,7 +24,7 @@ class LocationService {
         final bool isConnected =
             await InternetConnectionChecker().hasConnection;
         // if (connectivityResult == ConnectivityResult.none) {
-        if (isConnected) {
+        if (!isConnected) {
           return 'No internet connectivity';
         }
         final Position loc = await determineCurrentPosition();

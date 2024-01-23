@@ -25,7 +25,7 @@ class BackendService {
       //     await Connectivity().checkConnectivity();
       final bool isConnected = await InternetConnectionChecker().hasConnection;
       // if (connectivityResult == ConnectivityResult.none) {
-      if (isConnected) {
+      if (!isConnected) {
         return BaseResponse(
             status: Status(type: 'error', message: 'No internet connection'));
       }

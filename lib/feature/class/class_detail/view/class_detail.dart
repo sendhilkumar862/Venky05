@@ -327,7 +327,7 @@ class _ClassDetailState extends State<ClassDetail> {
                     );
                   }),
                   if (_classDetailController.selectedProfile ==
-                      ApplicationConstants.student)
+                      ApplicationConstants.tutor)
                     Padding(
                       padding:
                       const EdgeInsets.only(top: 15, bottom: 35),
