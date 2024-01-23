@@ -6,9 +6,9 @@ import '../../../core/api_end_points.dart';
 import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
 import '../../../product/constants/app/app_utils.dart';
+import '../../class/class_detail/controller/class_detail_controller.dart';
 import '../../home/model/getClassList.dart';
 import '../../home/model/user_search_model.dart';
-import '../../preference/controller/preference_controller.dart';
 import '../repository/get_seved_search_repository.dart';
 import '../repository/search_repository.dart';
 
@@ -16,7 +16,7 @@ import '../repository/search_repository.dart';
 
 class SearchClassController extends GetxController {
 
-  final PreferenceController preferenceController= Get.put(PreferenceController());
+  final ClassDetailController preferenceController= Get.put(ClassDetailController());
   final GetSavedSearchRepository _getSavedSearchRepository=GetSavedSearchRepository();
   final SearchRepository _searchRepository =SearchRepository();
 
@@ -27,9 +27,15 @@ class SearchClassController extends GetxController {
   Set<String> grade = <String>{};
   Set<String> selectedSubjectIndices = <String>{};
   String selectedSaveDataIndices = '';
+  String selectedGenderIndices = '';
+  Set<String> selectedClassTypeIndices = <String>{};
   bool isSwitch = false;
   RxBool isSearch=false.obs;
   TextEditingController saveName = TextEditingController(text: '');
+  int totalClassCount=0;
+ ScrollController scrollControllerClass = ScrollController();
+  late Map<String, dynamic>  searchData;
+  int pageIndex=1;
 
 
 
@@ -37,16 +43,15 @@ class SearchClassController extends GetxController {
   Set<String> selectedSchoolIndicesUser = <String>{};
   Set<String> gradeUser = <String>{};
   Set<String> selectedSubjectIndicesUser = <String>{};
-  Set<String> selectedGenderIndices = <String>{};
   Set<String> selectedCurriculumIndicesUser = <String>{};
   bool isSwitchUser = false;
   RxBool isSearchUser=false.obs;
   String selectedSaveDataIndicesUser = '';
   TextEditingController saveNameUser = TextEditingController(text: '');
-  List<String> genderList = <String>[
-    'Male',
-    'Female',
-  ];
+  int totalUserCount=0;
+ScrollController scrollControllerUser = ScrollController();
+  late Map<String, dynamic>  searchUserData;
+  int pageUserIndex=1;
 
 
   RxList<GetClassListModel> searchClassList = <GetClassListModel>[].obs;
@@ -87,25 +92,30 @@ class SearchClassController extends GetxController {
     hideLoading();
   }
 
-  Future<void> search(SchoolEndpoint schoolEndpoint, Map<String, dynamic> searchData) async {
+  Future<void> search(SchoolEndpoint schoolEndpoint, Map<String, dynamic> searchData, {bool reload=false}) async {
     showLoading();
     final BaseResponse classListDataResponse =
     await _searchRepository.searchRepository(schoolEndpoint, searchData);
     if (classListDataResponse.status?.type == 'success') {
       if(schoolEndpoint==SchoolEndpoint.SEARCH_CLASSES){
-        searchClassList.clear();
+       if(!reload) {
+         searchClassList.clear();
+       }
         if(classListDataResponse.data!.item!=null){
           final List classListData=classListDataResponse.data!.item! as List;
       for (var element in classListData) {
         searchClassList.add(GetClassListModel.fromJson(element));
-      }}
+      }
+          totalClassCount=classListDataResponse.paginationData?.total??0;}
         isSearch.value=true;}else{
-        searchClassListUser.clear();
+        // ignore: always_put_control_body_on_new_line
+        if(!reload) { searchClassListUser.clear();}
         if(classListDataResponse.data!.item!=null){
           final List classListData=classListDataResponse.data!.item! as List;
           for (var element in classListData) {
             searchClassListUser.add(UserSearchModel.fromJson(element));
-          }}
+          }
+          totalUserCount=classListDataResponse.paginationData?.total??0;}
         isSearchUser.value=true;
       }
 
@@ -119,6 +129,19 @@ class SearchClassController extends GetxController {
       );
     }
     hideLoading();
+  }
+  Future<void> pagination({required SchoolEndpoint endPoint})async{
+    if(searchClassList.length<totalClassCount && endPoint==SchoolEndpoint.SEARCH_CLASSES) {
+      pageIndex=pageIndex+1;
+      // ignore: avoid_dynamic_calls
+      searchData['pagination']['pageIndex']=pageIndex;
+      await search(endPoint,searchData,reload: true);
+    }else if(searchClassListUser.length<totalUserCount && (endPoint==SchoolEndpoint.SEARCH_TUTORS || endPoint==SchoolEndpoint.SEARCH_STUDENTS)){
+      pageUserIndex=pageUserIndex+1;
+      // ignore: avoid_dynamic_calls
+      searchUserData['pagination']['pageIndex']=pageUserIndex;
+      await search(endPoint,searchUserData,reload: true);
+    }
   }
 
 }

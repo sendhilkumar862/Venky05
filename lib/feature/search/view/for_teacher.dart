@@ -37,6 +37,13 @@ class _ForTeacherState extends State<ForTeacher> {
     super.initState();
      selectedProfile = LocaleManager.getValue(StorageKeys.profile) ?? '';
     _searchController.getSavedSearch(SchoolEndpoint.GET_SEARCH_USER);
+    _searchController.scrollControllerUser.addListener(pagination);
+  }
+  void pagination() {
+    if (_searchController.scrollControllerUser.position.pixels ==
+        _searchController.scrollControllerUser.position.maxScrollExtent) {
+      _searchController.pagination(endPoint: selectedProfile == ApplicationConstants.tutor?SchoolEndpoint.SEARCH_TUTORS:SchoolEndpoint.SEARCH_STUDENTS);
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -114,70 +121,6 @@ class _ForTeacherState extends State<ForTeacher> {
                     ),
                     if( _searchController.selectedSaveDataIndicesUser.isEmpty)Column(
                       children: <Widget>[
-                        // Padding(
-                        //   padding: const EdgeInsets.only(top: 25, bottom: 10),
-                        //   child: Row(
-                        //     children: <Widget>[
-                        //       Text(
-                        //         'Gender',
-                        //         style: openSans.get16.w700
-                        //             .textColor(AppColors.appTextColor),
-                        //       ),
-                        //       Padding(
-                        //         padding: const EdgeInsets.only(left: 5),
-                        //         child: Text(
-                        //           '(optional)',
-                        //           style: openSans.get12.w400.textColor(
-                        //               AppColors.appTextColor.withOpacity(0.5)),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        // InlineChoice<String>(
-                        //   clearable: true,
-                        //   value: genderList,
-                        //   onChanged: setGenderValue,
-                        //   itemCount: genderList.length,
-                        //   itemBuilder:
-                        //       (ChoiceController<String> selection, int index) {
-                        //     return ChoiceChip(
-                        //       shape: StadiumBorder(
-                        //           side: BorderSide(
-                        //               color: selectedGenderIndices.contains(index)
-                        //                   ? AppColors.trans
-                        //                   : AppColors.appBorderColor
-                        //                       .withOpacity(0.25))),
-                        //       backgroundColor: AppColors.trans,
-                        //       selected: selectedGenderIndices.contains(index),
-                        //       onSelected: (bool selected) {
-                        //         setState(() {
-                        //           if (selected) {
-                        //             selectedGenderIndices.add(
-                        //                 index); // Add to the set for multi-selection
-                        //           } else {
-                        //             selectedGenderIndices
-                        //                 .remove(index); // Remove from the set
-                        //           }
-                        //         });
-                        //       },
-                        //       showCheckmark: false,
-                        //       label: Padding(
-                        //         padding: const EdgeInsets.symmetric(horizontal: 7),
-                        //         child: Text(genderList[index]),
-                        //       ),
-                        //       selectedColor: AppColors.appBlue,
-                        //       // Change this to your desired color
-                        //       labelStyle: TextStyle(
-                        //         color: selectedGenderIndices.contains(index)
-                        //             ? AppColors.white
-                        //             : AppColors.appTextColor
-                        //                 .withOpacity(0.5), // Change text color
-                        //       ),
-                        //     );
-                        //   },
-                        //   listBuilder: ChoiceList.createWrapped(),
-                        // ),
                         Padding(
                           padding: const EdgeInsets.only(top: 25, bottom: 10),
                           child: Row(
@@ -198,42 +141,42 @@ class _ForTeacherState extends State<ForTeacher> {
                             ],
                           ),
                         ),
-                        InlineChoice<Grade>(
+                        InlineChoice<String>(
                           clearable: true,
-                          value: _searchController.preferenceController.grade,
+                          value: _searchController.preferenceController.masterData.value.grades!,
                           // onChanged: setGradeValue,
-                          itemCount: _searchController.preferenceController.grade.length,
+                          itemCount:_searchController.preferenceController.masterData.value.grades!.length,
                           itemBuilder:
-                              (ChoiceController<Grade> selection, int index) {
+                              (ChoiceController<String> selection, int index) {
                             return ChoiceChip(
                               shape: StadiumBorder(
                                   side: BorderSide(
                                       // ignore: collection_methods_unrelated_type
-                                      color: _searchController.gradeUser.contains(selection.value[index].value)
+                                      color: _searchController.gradeUser.contains(selection.value[index])
                                           ? AppColors.trans
                                           : AppColors.appBorderColor
                                               .withOpacity(0.25))),
                               backgroundColor: AppColors.trans,
-                              selected:  _searchController.gradeUser.contains(selection.value[index].value),
+                              selected:  _searchController.gradeUser.contains(selection.value[index]),
                               onSelected: (bool selected) {
                                 setState(() {
                                   if (selected) {
                                     _searchController.gradeUser.add(
-                                        selection.value[index].value!); // Add to the set for multi-selection
+                                        selection.value[index]); // Add to the set for multi-selection
                                   } else {
-                                    _searchController.gradeUser.remove(selection.value[index].value); // Remove from the set
+                                    _searchController.gradeUser.remove(selection.value[index]); // Remove from the set
                                   }
                                 });
                               },
                               showCheckmark: false,
                               label: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 7),
-                                child: Text(_searchController.preferenceController.grade[index].value??''),
+                                child: Text(_searchController.preferenceController.masterData.value.grades?[index]??''),
                               ),
                               selectedColor: AppColors.appBlue,
                               // Change this to your desired color
                               labelStyle: TextStyle(
-                                color:  _searchController.gradeUser.contains(selection.value[index].value)
+                                color:  _searchController.gradeUser.contains(selection.value[index])
                                     ? AppColors.white
                                     : AppColors.appTextColor
                                         .withOpacity(0.5), // Change text color
@@ -262,39 +205,39 @@ class _ForTeacherState extends State<ForTeacher> {
                             ],
                           ),
                         ),
-                        InlineChoice<Grade>(
+                        InlineChoice<String>(
                           clearable: true,
-                          value: _searchController.preferenceController.schoolType,
+                          value:_searchController.preferenceController.masterData.value.schoolTypes!,
                           // onChanged: setSchoolValue,
-                          itemCount: _searchController.preferenceController.schoolType.length,
+                          itemCount:_searchController.preferenceController.masterData.value.schoolTypes!.length,
                           itemBuilder:
-                              (ChoiceController<Grade> selection, int index) {
+                              (ChoiceController<String> selection, int index) {
                             return ChoiceChip(
                               shape: StadiumBorder(
                                   side: BorderSide(
-                                      color:  _searchController.selectedSchoolIndicesUser.contains( selection.value[index].value)
+                                      color:  _searchController.selectedSchoolIndicesUser.contains( selection.value[index])
                                           ? AppColors.trans
                                           : AppColors.appBorderColor
                                               .withOpacity(0.25))),
                               backgroundColor: AppColors.trans,
-                              selected: _searchController.selectedSchoolIndicesUser.contains( selection.value[index].value),
+                              selected: _searchController.selectedSchoolIndicesUser.contains( selection.value[index]),
                               onSelected: (bool selected) {
                                 setState(() {
                                   if (selected) {
                                     _searchController.selectedSchoolIndicesUser.add(
-                                        selection.value[index].value!); // Add to the set for multi-selection
+                                        selection.value[index]); // Add to the set for multi-selection
                                   } else {
                                     _searchController.selectedSchoolIndicesUser
-                                        .remove( selection.value[index].value); // Remove from the set
+                                        .remove( selection.value[index]); // Remove from the set
                                   }
                                 });
                               },
                               showCheckmark: false,
-                              label: Text( _searchController.preferenceController.schoolType[index].value??''),
+                              label: Text( _searchController.preferenceController.masterData.value.schoolTypes?[index]??''),
                               selectedColor: AppColors.appBlue,
                               // Change this to your desired color
                               labelStyle: TextStyle(
-                                color: _searchController.selectedSchoolIndicesUser.contains( selection.value[index].value)
+                                color: _searchController.selectedSchoolIndicesUser.contains( selection.value[index])
                                     ? AppColors.white
                                     : AppColors.appTextColor
                                         .withOpacity(0.5), // Change text color
@@ -323,42 +266,42 @@ class _ForTeacherState extends State<ForTeacher> {
                             ],
                           ),
                         ),
-                        InlineChoice<Grade>(
+                        InlineChoice<String>(
                           clearable: true,
-                          value:  _searchController.preferenceController.curriculum,
+                          value: _searchController.preferenceController.masterData.value.curriculum!,
                           // onChanged: setCurriculumValue,
-                          itemCount:  _searchController.preferenceController.curriculum.length,
+                          itemCount:  _searchController.preferenceController.masterData.value.curriculum!.length,
                           itemBuilder:
-                              (ChoiceController<Grade> selection, int index) {
+                              (ChoiceController<String> selection, int index) {
                             return ChoiceChip(
                               shape: StadiumBorder(
                                   side: BorderSide(
-                                      color: _searchController.selectedCurriculumIndicesUser.contains( selection.value[index].value)
+                                      color: _searchController.selectedCurriculumIndicesUser.contains( selection.value[index])
                                           ? AppColors.trans
                                           : AppColors.appBorderColor
                                               .withOpacity(0.25))),
                               backgroundColor: AppColors.trans,
-                              selected: _searchController.selectedCurriculumIndicesUser.contains( selection.value[index].value),
+                              selected: _searchController.selectedCurriculumIndicesUser.contains( selection.value[index]),
                               onSelected: (bool selected) {
                                 setState(() {
                                   if (selected) {
                                     _searchController.selectedCurriculumIndicesUser.add(
-                                        selection.value[index].value!); // Add to the set for multi-selection
+                                        selection.value[index]); // Add to the set for multi-selection
                                   } else {
                                     _searchController.selectedCurriculumIndicesUser
-                                        .remove( selection.value[index].value); // Remove from the set
+                                        .remove( selection.value[index]); // Remove from the set
                                   }
                                 });
                               },
                               showCheckmark: false,
                               label: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 7),
-                                child: Text( _searchController.preferenceController.curriculum[index].value??''),
+                                child: Text(_searchController.preferenceController.masterData.value.curriculum?[index]??''),
                               ),
                               selectedColor: AppColors.appBlue,
                               // Change this to your desired color
                               labelStyle: TextStyle(
-                                color: _searchController.selectedCurriculumIndicesUser.contains( selection.value[index].value!)
+                                color: _searchController.selectedCurriculumIndicesUser.contains( selection.value[index])
                                     ? AppColors.white
                                     : AppColors.appTextColor
                                         .withOpacity(0.5), // Change text color
@@ -387,39 +330,39 @@ class _ForTeacherState extends State<ForTeacher> {
                             ],
                           ),
                         ),
-                        InlineChoice<Grade>(
+                        InlineChoice<String>(
                           clearable: true,
-                          value:  _searchController.preferenceController.subject,
+                          value:  _searchController.preferenceController.masterData.value.subjects!,
                           // onChanged: setSubjectValue,
-                          itemCount: _searchController.preferenceController.subject.length,
+                          itemCount:  _searchController.preferenceController.masterData.value.subjects!.length,
                           itemBuilder:
-                              (ChoiceController<Grade> selection, int index) {
+                              (ChoiceController<String> selection, int index) {
                             return ChoiceChip(
                               shape: StadiumBorder(
                                   side: BorderSide(
-                                      color: _searchController.selectedSubjectIndicesUser.contains( selection.value[index].value)
+                                      color: _searchController.selectedSubjectIndicesUser.contains( selection.value[index])
                                           ? AppColors.trans
                                           : AppColors.appBorderColor
                                               .withOpacity(0.25))),
                               backgroundColor: AppColors.trans,
-                              selected:  _searchController.selectedSubjectIndicesUser.contains( selection.value[index].value),
+                              selected:  _searchController.selectedSubjectIndicesUser.contains( selection.value[index]),
                               onSelected: (bool selected) {
                                 setState(() {
                                   if (selected) {
                                     _searchController.selectedSubjectIndicesUser.add(
-                                        selection.value[index].value!); // Add to the set for multi-selection
+                                        selection.value[index]); // Add to the set for multi-selection
                                   } else {
                                     _searchController.selectedSubjectIndicesUser
-                                        .remove( selection.value[index].value!); // Remove from the set
+                                        .remove( selection.value[index]); // Remove from the set
                                   }
                                 });
                               },
                               showCheckmark: false,
-                              label: Text(_searchController.preferenceController.subject[index].value??''),
+                              label: Text( _searchController.preferenceController.masterData.value.subjects?[index]??''),
                               selectedColor: AppColors.appBlue,
                               // Change this to your desired color
                               labelStyle: TextStyle(
-                                color:  _searchController.selectedSubjectIndicesUser.contains(selection.value[index].value)
+                                color:  _searchController.selectedSubjectIndicesUser.contains(selection.value[index])
                                     ? AppColors.white
                                     : AppColors.appTextColor
                                         .withOpacity(0.5), // Change text color
@@ -471,10 +414,10 @@ class _ForTeacherState extends State<ForTeacher> {
                             ? 'Next for calls Details'
                             : 'Save Search and Show Results',
                         onPressed: () {
-                          final Map<String, dynamic>  searchData;
+
                           // ignore: unrelated_type_equality_checks
                           if(_searchController.selectedSaveDataIndicesUser==''){
-                            searchData=<String,dynamic >{
+                            _searchController.searchUserData=<String,dynamic >{
                               'saveSearch':_searchController.isSwitchUser,
                               if(_searchController.isSwitchUser && _searchController.saveNameUser.text!='')...<String, dynamic>{
                                 'shortName': _searchController.saveNameUser.text,
@@ -486,14 +429,22 @@ class _ForTeacherState extends State<ForTeacher> {
                                 'curriculum': _searchController.selectedCurriculumIndicesUser.toList()
                               }
                             };}else{
-                            searchData=<String,dynamic >{
+                            _searchController.searchUserData=<String,dynamic >{
                               'saveSearch':false,
                               'filters':<String, dynamic>{
                                 'shortName': _searchController.selectedSaveDataIndicesUser,
                               }
                             };
                           }
-                          _searchController.search(selectedProfile == ApplicationConstants.tutor?SchoolEndpoint.SEARCH_TUTORS:SchoolEndpoint.SEARCH_STUDENTS,searchData);
+                          _searchController.searchUserData['pagination']=<String, dynamic>{
+                            'pageSize':20,
+                            'pageIndex': _searchController.pageUserIndex,
+                            'sort': <String, dynamic>{
+                              'direction': 'asc',
+                              'column': 'created_at'
+                            }
+                          };
+                          _searchController.search(selectedProfile == ApplicationConstants.tutor?SchoolEndpoint.SEARCH_TUTORS:SchoolEndpoint.SEARCH_STUDENTS, _searchController.searchUserData);
                         },
                         // ignore: avoid_bool_literals_in_conditional_expressions
                         isDisable: _searchController.selectedSchoolIndicesUser.isNotEmpty ||
@@ -517,6 +468,7 @@ class _ForTeacherState extends State<ForTeacher> {
                       crossAxisSpacing: 15,
                       mainAxisSpacing: 13),
                   itemCount: _searchController.searchClassListUser.length,
+                  controller: _searchController.scrollControllerUser,
                   itemBuilder: (BuildContext context, int index) {
                     return DetailsCardView(
                         reViewLength: 4,
