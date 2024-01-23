@@ -8,6 +8,7 @@ import '../../../custom/loader/easy_loader.dart';
 import '../../../product/constants/app/app_utils.dart';
 import '../../class/class_detail/controller/class_detail_controller.dart';
 import '../../home/model/getClassList.dart';
+import '../../home/model/teacher_search_model.dart';
 import '../../home/model/user_search_model.dart';
 import '../repository/get_seved_search_repository.dart';
 import '../repository/search_repository.dart';
@@ -56,6 +57,8 @@ ScrollController scrollControllerUser = ScrollController();
 
   RxList<GetClassListModel> searchClassList = <GetClassListModel>[].obs;
   RxList<UserSearchModel> searchClassListUser = <UserSearchModel>[].obs;
+  RxList<TeacherSearchModel> searchClassListTeacher = <TeacherSearchModel>[].obs;
+
   RxList<String> savedData=<String>[].obs;
   RxList<String> savedDataUser=<String>[].obs;
 
@@ -107,7 +110,21 @@ ScrollController scrollControllerUser = ScrollController();
         searchClassList.add(GetClassListModel.fromJson(element));
       }
           totalClassCount=classListDataResponse.paginationData?.total??0;}
-        isSearch.value=true;}else{
+        isSearch.value=true;}
+      else if(schoolEndpoint==SchoolEndpoint.SEARCH_TUTORS){
+        // ignore: always_put_control_body_on_new_line
+        if(!reload) { searchClassListUser.clear();
+        searchClassListTeacher.clear();
+        }
+        if(classListDataResponse.data!.item!=null){
+          final List classListData=classListDataResponse.data!.item! as List;
+          for (var element in classListData) {
+            searchClassListTeacher.add(TeacherSearchModel.fromJson(element));
+          }
+          totalUserCount=classListDataResponse.paginationData?.total??0;}
+        isSearchUser.value=true;
+      }
+      else{
         // ignore: always_put_control_body_on_new_line
         if(!reload) { searchClassListUser.clear();}
         if(classListDataResponse.data!.item!=null){

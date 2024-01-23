@@ -16,7 +16,6 @@ import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/utils/typography.dart';
-import '../../preference/model/preference_model.dart';
 import '../controller/search_controller.dart';
 
 class ForTeacher extends StatefulWidget {
@@ -42,7 +41,7 @@ class _ForTeacherState extends State<ForTeacher> {
   void pagination() {
     if (_searchController.scrollControllerUser.position.pixels ==
         _searchController.scrollControllerUser.position.maxScrollExtent) {
-      _searchController.pagination(endPoint: selectedProfile == ApplicationConstants.tutor?SchoolEndpoint.SEARCH_TUTORS:SchoolEndpoint.SEARCH_STUDENTS);
+      _searchController.pagination(endPoint: selectedProfile == ApplicationConstants.tutor?SchoolEndpoint.SEARCH_STUDENTS:SchoolEndpoint.SEARCH_TUTORS);
     }
   }
   @override
@@ -444,7 +443,7 @@ class _ForTeacherState extends State<ForTeacher> {
                               'column': 'created_at'
                             }
                           };
-                          _searchController.search(selectedProfile == ApplicationConstants.tutor?SchoolEndpoint.SEARCH_TUTORS:SchoolEndpoint.SEARCH_STUDENTS, _searchController.searchUserData);
+                          _searchController.search(selectedProfile == ApplicationConstants.tutor?SchoolEndpoint.SEARCH_STUDENTS:SchoolEndpoint.SEARCH_TUTORS, _searchController.searchUserData);
                         },
                         // ignore: avoid_bool_literals_in_conditional_expressions
                         isDisable: _searchController.selectedSchoolIndicesUser.isNotEmpty ||
@@ -458,7 +457,51 @@ class _ForTeacherState extends State<ForTeacher> {
                   ],
                 ),
               )
-            : Padding(
+            : selectedProfile == ApplicationConstants.student?Padding(
+         padding: const EdgeInsets.only(left: 15,right: 15,top: 20),
+         child: _searchController.searchClassListTeacher.isNotEmpty ?GridView.builder(
+           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+               maxCrossAxisExtent: 200,
+               mainAxisExtent: 190,
+               childAspectRatio: 3 / 2,
+               crossAxisSpacing: 15,
+               mainAxisSpacing: 13),
+           itemCount: _searchController.searchClassListTeacher.length,
+           controller: _searchController.scrollControllerUser,
+           itemBuilder: (BuildContext context, int index) {
+             return DetailsCardView(
+                 reViewLength: 4,
+                 boxShadow: AppColors.searchCardBoxShadow,
+                 cardMargin: EdgeInsets.zero,
+                 name: "${_searchController.searchClassListTeacher[index].firstName??''} ${_searchController.searchClassListTeacher[index].lastName??''}",
+                 avatar: ImageConstants.teacherAvtar,
+                 countryIcon: ImageConstants.countryIcon,
+                 countryName: _searchController.searchClassListTeacher[index].nationality??'',
+                 isPro: true,
+                 isBookmarked: true,
+                 subjects: 'Science - Accounta..');
+           },
+         ):
+         Padding(
+           padding: const EdgeInsets.only(top: 40),
+           child: SizedBox(
+             height: 240,
+             child: InfoCardVIew(
+               isShowButton: true,
+               isSupport: false,
+               title: 'No Results Found!',
+               subTitle:
+               'No results found. Please refine your search.',
+               cardColor: AppColors.white,
+               buttonTitle: 'Modify Search',
+               buttonTap: () {
+                 _searchController.isSearchUser.value=false;
+                 _searchController.searchClassList.clear();
+               },
+             ),
+           ),
+         ),
+       ):Padding(
                 padding: const EdgeInsets.only(left: 15,right: 15,top: 20),
                 child: _searchController.searchClassListUser.isNotEmpty ?GridView.builder(
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -474,7 +517,7 @@ class _ForTeacherState extends State<ForTeacher> {
                         reViewLength: 4,
                         boxShadow: AppColors.searchCardBoxShadow,
                         cardMargin: EdgeInsets.zero,
-                        name: 'User Name',
+                        name:_searchController.searchClassListUser[index].name,
                         avatar: ImageConstants.teacherAvtar,
                         countryIcon: ImageConstants.countryIcon,
                         countryName: 'Kuwait',
@@ -482,7 +525,8 @@ class _ForTeacherState extends State<ForTeacher> {
                         isBookmarked: true,
                         subjects: 'Science - Accounta..');
                   },
-                ): Padding(
+                ):
+                Padding(
                   padding: const EdgeInsets.only(top: 40),
                   child: SizedBox(
                     height: 240,
@@ -495,7 +539,7 @@ class _ForTeacherState extends State<ForTeacher> {
                       cardColor: AppColors.white,
                       buttonTitle: 'Modify Search',
                       buttonTap: () {
-                        _searchController.isSearch.value=false;
+                        _searchController.isSearchUser.value=false;
                         _searchController.searchClassList.clear();
                       },
                     ),

@@ -557,7 +557,9 @@ class _ForStudentsState extends State<ForStudents> {
                               'subjects':_searchController.selectedSubjectIndices.toList(),
                                'schoolTypes':_searchController.selectedSchoolIndices.toList(),
                               'curriculum': _searchController.selectedCurriculumIndices.toList(),
-                              'gender': _searchController.selectedGenderIndices,
+                              if(_searchController.selectedGenderIndices!='')...{
+                                'gender': _searchController.selectedGenderIndices,
+                               },
                               'classTypes': _searchController.selectedClassTypeIndices.toList()
                             },
                           };}else{
@@ -579,7 +581,7 @@ class _ForStudentsState extends State<ForStudents> {
                         _searchController.search(SchoolEndpoint.SEARCH_CLASSES,_searchController.searchData);
                       },
                       // ignore: avoid_bool_literals_in_conditional_expressions
-                      isDisable: _searchController.selectedSchoolIndices.isNotEmpty ||
+                      isDisable: _searchController.selectedSchoolIndices.isNotEmpty ||  _searchController.selectedGenderIndices.isNotEmpty || _searchController.selectedClassTypeIndices.isNotEmpty ||
                           _searchController.selectedSubjectIndices.isNotEmpty || _searchController.grade.isNotEmpty || _searchController.selectedSaveDataIndices !=''
                           ? false
                           : true,
