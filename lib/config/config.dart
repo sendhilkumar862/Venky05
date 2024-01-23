@@ -20,8 +20,8 @@ class Config {
     'BASE_URL',
     defaultValue: 'http://167.99.93.83/api/v1/',
   );
-  static const String mirrorFlyBaseURL='https://api-preprod-sandbox.mirrorfly.com/api/v1/';
-  static const String mirrorFlyLicenceKey='UaUTo9l1D2rGy6rCHZJhjcOiAXu1hJ';
-  static const String bundleId='com.example.hessah';
-
+  static const String mirrorFlyBaseURL =
+      'https://api-preprod-sandbox.mirrorfly.com/api/v1/';
+  static const String mirrorFlyLicenceKey = 'UaUTo9l1D2rGy6rCHZJhjcOiAXu1hJ';
+  static const String bundleId = 'group.test.hessah';
 }

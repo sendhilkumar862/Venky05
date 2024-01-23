@@ -31,19 +31,17 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
 
   @override
   Widget build(BuildContext context) {
-    return  PopScope(
+    return PopScope(
       canPop: false,
       child: Scaffold(
         backgroundColor: AppColors.appWhite,
         appBar: HessaAppBar(
-          title: 'Class Details',
-          isTitleOnly: true,
-            leadingTap:(){
-            // ignore: avoid_dynamic_calls
-            Get.close(Get.arguments['backIndex']);
-            }
-      
-        ),
+            title: 'Class Details',
+            isTitleOnly: true,
+            leadingTap: () {
+              // ignore: avoid_dynamic_calls
+              Get.close(Get.arguments['backIndex']);
+            }),
         body: Obx(
           () => ListView(
             padding: EdgeInsets.symmetric(horizontal: 15.px, vertical: 5.px),
@@ -68,8 +66,10 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 height: 20.px,
               ),
               HeadingCardView(
-                title:  _classDetailsController.selectedProfile ==
-                    ApplicationConstants.student?'Curriculum':'Class Info',
+                title: _classDetailsController.selectedProfile ==
+                        ApplicationConstants.student
+                    ? 'Curriculum'
+                    : 'Class Info',
                 padding: 0,
               ),
               SizedBox(
@@ -77,7 +77,6 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      
                 children: [
                   curriculumWidget(
                       heading: 'Grade',
@@ -95,7 +94,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   curriculumWidget(
                       heading: 'Class Number',
                       detail:
-                          _classDetailsController.classData.value.classNumber ??
+                          _classDetailsController.classData.value.displayId ??
                               '')
                 ],
               ),
@@ -106,14 +105,17 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 () => HeadingCardView(
                     padding: 0,
                     title: _classDetailsController.selectedProfile ==
-                        ApplicationConstants.student?'Proposals':'Students',
+                            ApplicationConstants.student
+                        ? 'Proposals'
+                        : 'Students',
                     totalItem:
                         _classDetailsController.proposalList.length.toString(),
                     onTap: () {},
                     // ignore: avoid_bool_literals_in_conditional_expressions
-                    isViewAllIcon: _classDetailsController.proposalList.length > 2
-                        ? true
-                        : false),
+                    isViewAllIcon:
+                        _classDetailsController.proposalList.length > 2
+                            ? true
+                            : false),
               ),
               SizedBox(
                 height: 5.px,
@@ -165,8 +167,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.px),
                   color: AppColors.lightestPurple,
-                  border:
-                      Border.all(color: AppColors.lightestPurple, width: 1.1.px),
+                  border: Border.all(
+                      color: AppColors.lightestPurple, width: 1.1.px),
                 ),
                 child: Column(
                   children: <Widget>[
@@ -179,16 +181,26 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                           fontSize: 16.px,
                         ),
                         const Spacer(),
-                        StatusCardView(status: _classDetailsController.classData.value.status??''),
+                        StatusCardView(
+                            status: _classDetailsController
+                                    .classData.value.status ??
+                                ''),
                       ],
                     ),
                     SizedBox(height: 15.px),
                     Row(
                       children: [
                         tagCardView(
-                            title:_classDetailsController.classData.value.maxParticipants==1?'Individual':
-                            'Group ${_classDetailsController.classData.value.minParticipants}/${_classDetailsController.classData.value.maxParticipants}',
-                            icon: _classDetailsController.classData.value.maxParticipants==1?ImageConstants.individualIcon:ImageConstants.groupIcon),
+                            title: _classDetailsController
+                                        .classData.value.maxParticipants ==
+                                    1
+                                ? 'Individual'
+                                : 'Group ${_classDetailsController.classData.value.minParticipants}/${_classDetailsController.classData.value.maxParticipants}',
+                            icon: _classDetailsController
+                                        .classData.value.maxParticipants ==
+                                    1
+                                ? ImageConstants.individualIcon
+                                : ImageConstants.groupIcon),
                         tagCardView(
                             title: _classDetailsController
                                 .classData.value.classTime
@@ -225,7 +237,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         SizedBox(
                           width: 260.px,
                           child: AppText(
-                            _classDetailsController.classData.value.address ?? '',
+                            _classDetailsController.classData.value.address ??
+                                '',
                             fontSize: 10.px,
                             fontWeight: FontWeight.w500,
                           ),
@@ -240,22 +253,22 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         decoration:
                             const BoxDecoration(color: AppColors.appWhite),
                         child: GoogleMap(
-                          markers: <Marker>{
-                            Marker(
-                                markerId: const MarkerId('riyadh1'),
-                                position: _classDetailsController
-                                    .kGooglePlex.value.target)
-                          },
-                          initialCameraPosition:
-                              _classDetailsController.kGooglePlex.value,
-                          zoomControlsEnabled: false,
-                          zoomGesturesEnabled: false,
-                          onMapCreated: (GoogleMapController controllers) {
-                            _classDetailsController.googleMapController =
-                                controllers;
+                            markers: <Marker>{
+                              Marker(
+                                  markerId: const MarkerId('riyadh1'),
+                                  position: _classDetailsController
+                                      .kGooglePlex.value.target)
+                            },
+                            initialCameraPosition:
+                                _classDetailsController.kGooglePlex.value,
+                            zoomControlsEnabled: false,
+                            zoomGesturesEnabled: false,
+                            onMapCreated: (GoogleMapController controllers) {
+                              _classDetailsController.googleMapController =
+                                  controllers;
                               _classDetailsController.mapController
-                                  .complete(controllers);}
-                        ),
+                                  .complete(controllers);
+                            }),
                       ),
                     ),
                   ],
@@ -315,8 +328,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
         children: <Widget>[
           Center(
             child: AppText(heading,
-                fontSize: 12.px,
-                color: AppColors.appLightBlack),
+                fontSize: 12.px, color: AppColors.appLightBlack),
           ),
           SizedBox(
             height: 5.px,
@@ -327,9 +339,9 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 color: AppColors.lightPurple,
                 borderRadius: BorderRadius.circular(30.px)),
             child: AppText(detail,
-
                 overflow: TextOverflow.ellipsis,
-                fontSize: 10.px, color: AppColors.appLightBlack),
+                fontSize: 10.px,
+                color: AppColors.appLightBlack),
           ),
         ],
       ),

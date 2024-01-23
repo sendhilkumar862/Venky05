@@ -37,7 +37,8 @@ dependencies:
   flutter_svg: ^2.0.8
 
   #InternetConnection
-  connectivity_plus: ^5.0.2
+  # connectivity_plus: ^5.0.2
+  internet_connection_checker: ^1.0.0+1
 
   #getex
   get: ^4.6.6
@@ -118,7 +119,7 @@ dependencies:
   easy_debounce: ^2.0.3
 
   # message pligin
-  mirrorfly_plugin: ^0.0.12
+  mirrorfly_plugin: ^0.0.13
 
   # Range slider
   flutter_xlider: ^3.5.0

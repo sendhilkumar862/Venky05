@@ -16,14 +16,16 @@ import 'product/lang/language_manager.dart';
 Future<void> main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
-  try{// Initialize the Flutter binding
-    await Mirrorfly.init(
-        baseUrl: Config.mirrorFlyBaseURL,
-        licenseKey:  Config.mirrorFlyLicenceKey,
-        iOSContainerID: Config.bundleId);}catch(e){
- // await Mirrorfly.initializeSDK(
- //      licenseKey: Config.mirrorFlyLicenceKey,
- //      iOSContainerID: Config.bundleId);}catch(e){
+  try {
+    // Initialize the Flutter binding
+    await Mirrorfly.initializeSDK(
+        // baseUrl: Config.mirrorFlyBaseURL,
+        licenseKey: Config.mirrorFlyLicenceKey,
+        iOSContainerID: Config.bundleId);
+  } catch (e) {
+    // await Mirrorfly.initializeSDK(
+    //      licenseKey: Config.mirrorFlyLicenceKey,
+    //      iOSContainerID: Config.bundleId);}catch(e){
     if (kDebugMode) {
       print(e);
     }
@@ -53,11 +55,11 @@ class MyApp extends StatelessWidget {
           // onGenerateRoute: Routes.generateRoute,
           locale: LanguageManager.instance.enLocale,
           supportedLocales: LanguageManager.instance.supportedLocales,
-           navigatorKey: Routes.navigatorKey,
+          navigatorKey: Routes.navigatorKey,
           translations: Messages(),
-            initialRoute: Routes.AppRootRoute,
-            fallbackLocale:LanguageManager.instance.arLocale,
-          getPages:Routes.router,
+          initialRoute: Routes.AppRootRoute,
+          fallbackLocale: LanguageManager.instance.arLocale,
+          getPages: Routes.router,
           // theme: context.watch<ThemeNotifier>().currentTheme,
           initialBinding: InitialBinding(),
           home: const SplashView(),
@@ -68,7 +70,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 
 class InitialBinding extends Bindings {
   @override

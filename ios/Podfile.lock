@@ -1,7 +1,11 @@
 PODS:
-  - connectivity_plus (0.0.1):
-    - Flutter
-    - ReachabilitySwift
+  - Alamofire (5.5.0)
+  - CocoaAsyncSocket (7.6.5)
+  - CocoaLumberjack (3.6.2):
+    - CocoaLumberjack/Core (= 3.6.2)
+  - CocoaLumberjack/Core (3.6.2)
+  - CocoaLumberjack/Swift (3.6.2):
+    - CocoaLumberjack/Core
   - DKImagePickerController/Core (4.3.4):
     - DKImagePickerController/ImageDataManager
     - DKImagePickerController/Resource
@@ -54,13 +58,49 @@ PODS:
   - GoogleMaps/Base (6.2.1)
   - GoogleMaps/Maps (6.2.1):
     - GoogleMaps/Base
+  - GoogleWebRTC (1.1.31999)
+  - IDZSwiftCommonCrypto (0.16.1)
   - image_cropper (0.0.4):
     - Flutter
     - TOCropViewController (~> 2.6.1)
   - image_picker_ios (0.0.1):
     - Flutter
+  - KissXML (5.3.1):
+    - KissXML/All (= 5.3.1)
+  - KissXML/Additions (5.3.1):
+    - KissXML/Core
+  - KissXML/All (5.3.1):
+    - KissXML/Additions
+    - KissXML/Core
+  - KissXML/Core (5.3.1)
+  - libidn (1.35)
+  - libPhoneNumber-iOS (0.9.15)
   - local_auth_ios (0.0.1):
     - Flutter
+  - mirrorfly_plugin (0.0.13):
+    - Alamofire
+    - Flutter
+    - GoogleWebRTC
+    - IDZSwiftCommonCrypto (~> 0.16)
+    - libPhoneNumber-iOS
+    - MirrorFlySDK (= 5.14.5)
+    - RealmSwift (= 10.43.0)
+    - SDWebImage
+    - Socket.IO-Client-Swift (= 16.0.1)
+    - SocketRocket
+    - Starscream (= 4.0.4)
+    - XMPPFramework/Swift
+  - MirrorFlySDK (5.14.5):
+    - Alamofire (= 5.5.0)
+    - CocoaLumberjack (= 3.6.2)
+    - GoogleWebRTC (= 1.1.31999)
+    - IDZSwiftCommonCrypto (~> 0.16)
+    - libPhoneNumber-iOS (= 0.9.15)
+    - RealmSwift (~> 10.43.0)
+    - Socket.IO-Client-Swift (= 16.0.1)
+    - SocketRocket (= 0.6.0)
+    - Starscream (= 4.0.4)
+    - XMPPFramework/Swift (= 4.0.0)
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -68,20 +108,35 @@ PODS:
     - Flutter
   - permission_handler_apple (9.1.1):
     - Flutter
-  - ReachabilitySwift (5.0.0)
-  - SDWebImage (5.18.7):
-    - SDWebImage/Core (= 5.18.7)
-  - SDWebImage/Core (5.18.7)
+  - Realm (10.43.0):
+    - Realm/Headers (= 10.43.0)
+  - Realm/Headers (10.43.0)
+  - RealmSwift (10.43.0):
+    - Realm (= 10.43.0)
+  - SDWebImage (5.18.10):
+    - SDWebImage/Core (= 5.18.10)
+  - SDWebImage/Core (5.18.10)
   - share_plus (0.0.1):
     - Flutter
+  - Socket.IO-Client-Swift (16.0.1):
+    - Starscream (~> 4.0)
+  - SocketRocket (0.6.0)
   - sqflite (0.0.3):
     - Flutter
     - FMDB (>= 2.7.5)
+  - Starscream (4.0.4)
   - SwiftyGif (5.4.4)
   - TOCropViewController (2.6.1)
+  - XMPPFramework/default (4.0.0):
+    - CocoaAsyncSocket (~> 7.6)
+    - CocoaLumberjack
+    - KissXML (~> 5.2)
+    - libidn (~> 1.35)
+  - XMPPFramework/Swift (4.0.0):
+    - CocoaLumberjack/Swift
+    - XMPPFramework/default
 
 DEPENDENCIES:
-  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
@@ -91,6 +146,7 @@ DEPENDENCIES:
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - local_auth_ios (from `.symlinks/plugins/local_auth_ios/ios`)
+  - mirrorfly_plugin (from `.symlinks/plugins/mirrorfly_plugin/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - pdf_viewer_plugin (from `.symlinks/plugins/pdf_viewer_plugin/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
@@ -99,18 +155,30 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Alamofire
+    - CocoaAsyncSocket
+    - CocoaLumberjack
     - DKImagePickerController
     - DKPhotoGallery
     - FMDB
     - GoogleMaps
-    - ReachabilitySwift
+    - GoogleWebRTC
+    - IDZSwiftCommonCrypto
+    - KissXML
+    - libidn
+    - libPhoneNumber-iOS
+    - MirrorFlySDK
+    - Realm
+    - RealmSwift
     - SDWebImage
+    - Socket.IO-Client-Swift
+    - SocketRocket
+    - Starscream
     - SwiftyGif
     - TOCropViewController
+    - XMPPFramework
 
 EXTERNAL SOURCES:
-  connectivity_plus:
-    :path: ".symlinks/plugins/connectivity_plus/ios"
   file_picker:
     :path: ".symlinks/plugins/file_picker/ios"
   Flutter:
@@ -129,6 +197,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   local_auth_ios:
     :path: ".symlinks/plugins/local_auth_ios/ios"
+  mirrorfly_plugin:
+    :path: ".symlinks/plugins/mirrorfly_plugin/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   pdf_viewer_plugin:
@@ -141,7 +211,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite/ios"
 
 SPEC CHECKSUMS:
-  connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
+  Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
+  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
+  CocoaLumberjack: bd155f2dd06c0e0b03f876f7a3ee55693122ec94
   DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   file_picker: 15fd9539e4eb735dc54bae8c0534a7a9511a03de
@@ -149,22 +221,34 @@ SPEC CHECKSUMS:
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geocoding_ios: a389ea40f6f548de6e63006a2e31bf66ff80769a
-  geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
-  google_maps_flutter_ios: 590249c67f34f422122c232f2a626192adbc78ee
+  geolocator_apple: 9157311f654584b9bb72686c55fc02a97b73f461
+  google_maps_flutter_ios: d1318b4ff711612cab16862d7a87e31a7403d458
   GoogleMaps: 20d7b12be49a14287f797e88e0e31bc4156aaeb4
+  GoogleWebRTC: b39a78c4f5cc6b0323415b9233db03a2faa7b0f0
+  IDZSwiftCommonCrypto: aefd3487b88dc3d7a1de2553188c720ac3194940
   image_cropper: a3291c624a953049bc6a02e1f8c8ceb162a24b25
-  image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
-  local_auth_ios: c6cf091ded637a88f24f86a8875d8b0f526e2605
-  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
+  image_picker_ios: 99dfe1854b4fa34d0364e74a78448a0151025425
+  KissXML: 5c8e0f2e8b9f071d3e1ae123dec3eb5da615c10c
+  libidn: e4576a956b797c584c77aaedfc6e3dd639b61bdc
+  libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
+  local_auth_ios: 1ba1475238daa33a6ffa2a29242558437be435ac
+  mirrorfly_plugin: 9721c249f27fe573b47edb90f31ddf5b9fdddbd1
+  MirrorFlySDK: 3006437021d97e58d293d771060503937ebd0ee4
+  path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   pdf_viewer_plugin: 45fc2233c590780ca0ca623a1f575e4bd0a72b3a
   permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
-  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
-  SDWebImage: f9258c58221ed854cfa0e2b80ee4033710b1c6d3
+  Realm: fc65bea3f5c3da2ecdc76324f180e054e7cf4eb0
+  RealmSwift: a7d48361c585769690c175428cc2bf15e1074444
+  SDWebImage: fc8f2d48bbfd72ef39d70e981bd24a3f3be53fec
   share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
+  Socket.IO-Client-Swift: c116d6dc9fd6be9c259bacfe143f8725bce7d79e
+  SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
+  Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
   SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
+  XMPPFramework: 5d31ff9f73dce031b24bc49bcf88093627a3a86e
 
-PODFILE CHECKSUM: a3305e41ed853064d618d28c34b4a627b0bc7d17
+PODFILE CHECKSUM: 1aa64ad2c6e9af0425bf5688b6ced31c3a1d63b2
 
 COCOAPODS: 1.13.0

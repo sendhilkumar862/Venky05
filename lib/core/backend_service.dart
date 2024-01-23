@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:connectivity_plus/connectivity_plus.dart';
+// import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile, Response;
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../config/routes/route.dart';
 import '../product/cache/local_manager.dart';
 import '../product/constants/enums/backend_services_method_enums.dart';
@@ -20,9 +21,11 @@ class BackendService {
     }
     final Dio dio = Dio();
     try {
-      final ConnectivityResult connectivityResult =
-          await Connectivity().checkConnectivity();
-      if (connectivityResult == ConnectivityResult.none) {
+      // final ConnectivityResult connectivityResult =
+      //     await Connectivity().checkConnectivity();
+      final bool isConnected = await InternetConnectionChecker().hasConnection;
+      // if (connectivityResult == ConnectivityResult.none) {
+      if (isConnected) {
         return BaseResponse(
             status: Status(type: 'error', message: 'No internet connection'));
       }
@@ -110,8 +113,7 @@ class BackendService {
       return BaseResponse(
           status: Status(type: 'error', message: 'SocketException'));
     } on TimeoutException catch (_) {
-      return BaseResponse(
-          status: Status(type: 'error', message: 'Time out'));
+      return BaseResponse(status: Status(type: 'error', message: 'Time out'));
     } on DioException catch (e) {
       if (e.response?.statusCode == StatusCode.badRequest) {
         return BaseResponse(

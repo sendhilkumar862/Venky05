@@ -1,26 +1,23 @@
-
-
-
 class ClassDetailsModel {
-
   ClassDetailsModel(
       {this.classNumber,
-        this.subject,
-        this.school,
-        this.curriculum,
-        this.grade,
-        this.description,
-        this.sessions,
-        this.minParticipants,
-        this.maxParticipants,
-        this.duration,
-        this.classTime,
-        this.cost,
-        this.currency,
-        this.status,
-        this.address,
-        this.location,
-        this.isOwner});
+      this.subject,
+      this.school,
+      this.curriculum,
+      this.grade,
+      this.description,
+      this.sessions,
+      this.minParticipants,
+      this.maxParticipants,
+      this.duration,
+      this.classTime,
+      this.cost,
+      this.currency,
+      this.status,
+      this.address,
+      this.location,
+      this.displayId,
+      this.isOwner});
 
   ClassDetailsModel.fromJson(Map<String, dynamic> json) {
     classNumber = json['classNumber'];
@@ -38,6 +35,7 @@ class ClassDetailsModel {
     currency = json['currency'];
     status = json['status'];
     address = json['address'];
+    displayId = json['displayId'];
     location = json['location'] != null
         ? new Location.fromJson(json['location'])
         : null;
@@ -60,6 +58,7 @@ class ClassDetailsModel {
   String? address;
   Location? location;
   int? isOwner;
+  String? displayId;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -78,6 +77,7 @@ class ClassDetailsModel {
     data['currency'] = currency;
     data['status'] = status;
     data['address'] = address;
+    data['displayId'] = displayId;
     if (location != null) {
       data['location'] = location!.toJson();
     }
@@ -87,7 +87,6 @@ class ClassDetailsModel {
 }
 
 class Location {
-
   Location({this.lat, this.long});
 
   Location.fromJson(Map<String, dynamic> json) {
