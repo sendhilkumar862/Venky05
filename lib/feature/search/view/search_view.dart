@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../custom/appbar/appbar.dart';
+import '../../../product/cache/key_value_storeage.dart';
+import '../../../product/cache/local_manager.dart';
+import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/utils/typography.dart';
 import 'for_students.dart';
@@ -14,6 +17,14 @@ class SearchView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<SearchView> {
+  String selectedProfile = '';
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    selectedProfile = LocaleManager.getValue(StorageKeys.profile) ?? '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,12 +77,12 @@ class _SearchViewState extends State<SearchView> {
                                 borderRadius: BorderRadius.circular(50),
                                 color: AppColors.white),
                             onTap: (int index) {},
-                            tabs: const <Widget>[
-                              Tab(
+                            tabs:  <Widget>[
+                              const Tab(
                                 text: 'Search For Classes',
                               ),
                               Tab(
-                                text: 'Search For Teacher',
+                                text: selectedProfile == ApplicationConstants.tutor?'Search For User':'Search For Teacher',
                               ),
                             ]),
                       ),
