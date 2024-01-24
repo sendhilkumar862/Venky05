@@ -16,6 +16,8 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/extension/string_extension.dart';
 import '../../../home/controller/home_controller.dart';
+import '../../../tutorial/language/controller/language_controller.dart';
+import '../../../tutorial/language/model/country_model.dart';
 import 'classes_view.dart';
 class ActivitiesView extends StatefulWidget {
   const ActivitiesView({Key? key}) : super(key: key);
@@ -29,6 +31,7 @@ class _ActivitiesViewState extends State<ActivitiesView> {
   String selectedUserStatus = '';
   bool isPending = false;
   final HomeController _homeController=Get.find();
+  final LanguageController _languageController = Get.find();
 
   @override
   void initState() {
@@ -77,6 +80,7 @@ class _ActivitiesViewState extends State<ActivitiesView> {
                        proposals: 5,
                        cardTitle:
                        _homeController.classActivityList[index].subject,
+                       isBook: false,
                        date: _homeController
                            .classActivityList[index].classTime!
                            .toString()
@@ -88,9 +92,9 @@ class _ActivitiesViewState extends State<ActivitiesView> {
                        "${_homeController.classActivityList[index].cost ?? ''} ${_homeController.classActivityList[index].currency ?? ''}",
                        status: _homeController.classActivityList[index].status,
                        // isPro: true,
-                       avtar: ImageConstants.teacherAvtar,
-                       countryIcon: ImageConstants.countryIcon,
-                       countryName: 'Kuwait',
+                       avtar: _homeController.classActivityList[index].imageId?.getImageUrl('profile') ?? ImageConstants.teacherAvtar,
+                       countryIcon: _homeController.classActivityList[index].country!=null && _languageController.countries.isNotEmpty?_languageController.countries.firstWhere((Country element) => element.name==_homeController.classActivityList[index].country).flag_url:ImageConstants.countryIcon,
+                       countryName: _homeController.classActivityList[index].country??'',
                        reViewLength: 3,
                        teacherName:
                        _homeController.classActivityList[index].name,

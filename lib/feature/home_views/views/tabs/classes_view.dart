@@ -13,6 +13,8 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/extension/string_extension.dart';
 import '../../../home/controller/home_controller.dart';
+import '../../../tutorial/language/controller/language_controller.dart';
+import '../../../tutorial/language/model/country_model.dart';
 
 class ClassesView extends StatefulWidget {
   const ClassesView({super.key});
@@ -25,6 +27,7 @@ class _ClassesViewState extends State<ClassesView> {
   String selectedProfile = '';
   bool isPending = false;
   final HomeController _homeController = Get.find();
+  final LanguageController _languageController = Get.find();
 
 
 
@@ -265,9 +268,9 @@ class _ClassesViewState extends State<ClassesView> {
                           "${_homeController.classUpcomingList[index].cost ?? ''} ${_homeController.classUpcomingList[index].currency ?? ''}",
                           status: _homeController.classUpcomingList[index].status,
                           // isPro: true,
-                          avtar: ImageConstants.teacherAvtar,
-                          countryIcon: ImageConstants.countryIcon,
-                          countryName: 'Kuwait',
+                          avtar:  _homeController.classUpcomingList[index].imageId?.getImageUrl('profile') ?? ImageConstants.teacherAvtar,
+                          countryIcon:  _homeController.classUpcomingList[index].country!=null && _languageController.countries.isNotEmpty?_languageController.countries.firstWhere((Country element) => element.name==_homeController.classUpcomingList[index].country).flag_url:ImageConstants.countryIcon,
+                          countryName:  _homeController.classUpcomingList[index].country,
                           reViewLength: 3,
                           teacherName:
                           _homeController.classUpcomingList[index].name,
@@ -418,9 +421,9 @@ class _ClassesViewState extends State<ClassesView> {
                           "${_homeController.classRelatedList[index].cost ?? ''} ${_homeController.classRelatedList[index].currency ?? ''}",
                           status: _homeController.classRelatedList[index].status,
                           // isPro: true,
-                          avtar: ImageConstants.teacherAvtar,
-                          countryIcon: ImageConstants.countryIcon,
-                          countryName: 'Kuwait',
+                          avtar:  _homeController.classRelatedList[index].imageId?.getImageUrl('profile') ?? ImageConstants.teacherAvtar,
+                          countryIcon:  _homeController.classRelatedList[index].country!=null && _languageController.countries.isNotEmpty?_languageController.countries.firstWhere((Country element) => element.name==_homeController.classRelatedList[index].country).flag_url:ImageConstants.countryIcon,
+                          countryName:  _homeController.classRelatedList[index].country,
                           reViewLength: 3,
                           teacherName:
                           _homeController.classRelatedList[index].name,
@@ -494,9 +497,9 @@ class _ClassesViewState extends State<ClassesView> {
                           "${_homeController.classHistoryList[index].cost ?? ''} ${_homeController.classHistoryList[index].currency ?? ''}",
                           status: _homeController.classHistoryList[index].status,
                           // isPro: true,
-                          avtar: ImageConstants.teacherAvtar,
-                          countryIcon: ImageConstants.countryIcon,
-                          countryName: 'Kuwait',
+                          avtar:  _homeController.classHistoryList[index].imageId?.getImageUrl('profile') ?? ImageConstants.teacherAvtar,
+                          countryIcon:  _homeController.classHistoryList[index].country!=null && _languageController.countries.isNotEmpty?_languageController.countries.firstWhere((Country element) => element.name==_homeController.classHistoryList[index].country).flag_url:ImageConstants.countryIcon,
+                          countryName:  _homeController.classHistoryList[index].country,
                           reViewLength: 3,
                           teacherName:
                           _homeController.classHistoryList[index].name,
