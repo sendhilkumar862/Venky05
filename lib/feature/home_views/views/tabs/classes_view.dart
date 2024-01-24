@@ -8,8 +8,6 @@ import '../../../../custom/cardView/app_card_view.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';
 import '../../../../custom/cardView/info_card_view_horizontal.dart';
-import '../../../../product/cache/key_value_storeage.dart';
-import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
@@ -250,37 +248,40 @@ class _ClassesViewState extends State<ClassesView> {
                     itemCount: 3 ?? 0,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
-                      return AppCardView(
-                        proposals: 5,
-                        cardTitle:
-                        _homeController.classUpcomingList[index].subject,
-                        date: _homeController
-                            .classUpcomingList[index].classTime!
-                            .toString()
-                            .epochToNormal(),
-                        timer: _homeController.classUpcomingList[index].duration
-                            .toString()
-                            .timeConvert(),
-                        money:
-                        "${_homeController.classUpcomingList[index].cost ?? ''} ${_homeController.classUpcomingList[index].currency ?? ''}",
-                        status: _homeController.classUpcomingList[index].status,
-                        // isPro: true,
-                        avtar: ImageConstants.teacherAvtar,
-                        countryIcon: ImageConstants.countryIcon,
-                        countryName: 'Kuwait',
-                        reViewLength: 3,
-                        teacherName:
-                        _homeController.classUpcomingList[index].name,
-                        grade: _homeController.classUpcomingList[index].grade,
-                        minParticipants: _homeController
-                            .classUpcomingList[index].minParticipants,
-                        maxParticipants: _homeController
-                            .classUpcomingList[index].maxParticipants,
-                        buttonTap: () {
-                          Get.toNamed(Routes.classDetailsView,
-                              arguments: <String, Object?>{'classNumber': _homeController
-                                  .classUpcomingList[index].classNumber,'backIndex':1});
-                        },
+                      return SizedBox(
+                        width: 340.px,
+                        child: AppCardView(
+                          proposals: 5,
+                          cardTitle:
+                          _homeController.classUpcomingList[index].subject,
+                          date: _homeController
+                              .classUpcomingList[index].classTime!
+                              .toString()
+                              .epochToNormal(),
+                          timer: _homeController.classUpcomingList[index].duration
+                              .toString()
+                              .timeConvert(),
+                          money:
+                          "${_homeController.classUpcomingList[index].cost ?? ''} ${_homeController.classUpcomingList[index].currency ?? ''}",
+                          status: _homeController.classUpcomingList[index].status,
+                          // isPro: true,
+                          avtar: ImageConstants.teacherAvtar,
+                          countryIcon: ImageConstants.countryIcon,
+                          countryName: 'Kuwait',
+                          reViewLength: 3,
+                          teacherName:
+                          _homeController.classUpcomingList[index].name,
+                          grade: _homeController.classUpcomingList[index].grade,
+                          minParticipants: _homeController
+                              .classUpcomingList[index].minParticipants,
+                          maxParticipants: _homeController
+                              .classUpcomingList[index].maxParticipants,
+                          buttonTap: () {
+                            Get.toNamed(Routes.classDetailsView,
+                                arguments: <String, Object?>{'classNumber': _homeController
+                                    .classUpcomingList[index].classNumber,'backIndex':1});
+                          },
+                        ),
                       );
                     },
                     separatorBuilder:
@@ -400,37 +401,40 @@ class _ClassesViewState extends State<ClassesView> {
                     itemCount: _homeController.classRelatedList.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
-                      return AppCardView(
-                        proposals: 5,
-                        cardTitle:
-                        _homeController.classRelatedList[index].subject,
-                        date: _homeController
-                            .classRelatedList[index].classTime!
-                            .toString()
-                            .epochToNormal(),
-                        timer: _homeController.classRelatedList[index].duration
-                            .toString()
-                            .timeConvert(),
-                        money:
-                        "${_homeController.classRelatedList[index].cost ?? ''} ${_homeController.classRelatedList[index].currency ?? ''}",
-                        status: _homeController.classRelatedList[index].status,
-                        // isPro: true,
-                        avtar: ImageConstants.teacherAvtar,
-                        countryIcon: ImageConstants.countryIcon,
-                        countryName: 'Kuwait',
-                        reViewLength: 3,
-                        teacherName:
-                        _homeController.classRelatedList[index].name,
-                        grade: _homeController.classRelatedList[index].grade,
-                        minParticipants: _homeController
-                            .classRelatedList[index].minParticipants,
-                        maxParticipants: _homeController
-                            .classRelatedList[index].maxParticipants,
-                        buttonTap: () {
-                          Get.toNamed(Routes.classDetailsView,
-                              arguments: <String, Object?>{'classNumber': _homeController
-                                  .classRelatedList[index].classNumber,'backIndex':1});
-                        },
+                      return SizedBox(
+                        width: 340.px,
+                        child: AppCardView(
+                          proposals: 5,
+                          cardTitle:
+                          _homeController.classRelatedList[index].subject,
+                          date: _homeController
+                              .classRelatedList[index].classTime!
+                              .toString()
+                              .epochToNormal(),
+                          timer: _homeController.classRelatedList[index].duration
+                              .toString()
+                              .timeConvert(),
+                          money:
+                          "${_homeController.classRelatedList[index].cost ?? ''} ${_homeController.classRelatedList[index].currency ?? ''}",
+                          status: _homeController.classRelatedList[index].status,
+                          // isPro: true,
+                          avtar: ImageConstants.teacherAvtar,
+                          countryIcon: ImageConstants.countryIcon,
+                          countryName: 'Kuwait',
+                          reViewLength: 3,
+                          teacherName:
+                          _homeController.classRelatedList[index].name,
+                          grade: _homeController.classRelatedList[index].grade,
+                          minParticipants: _homeController
+                              .classRelatedList[index].minParticipants,
+                          maxParticipants: _homeController
+                              .classRelatedList[index].maxParticipants,
+                          buttonTap: () {
+                            Get.toNamed(Routes.classDetailsView,
+                                arguments: <String, Object?>{'classNumber': _homeController
+                                    .classRelatedList[index].classNumber,'backIndex':1});
+                          },
+                        ),
                       );
                     },
                     separatorBuilder:
@@ -473,37 +477,40 @@ class _ClassesViewState extends State<ClassesView> {
                     itemCount: _homeController.classHistoryList.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
-                      return  AppCardView(
-                        proposals: 5,
-                        cardTitle:
-                        _homeController.classHistoryList[index].subject,
-                        date: _homeController
-                            .classHistoryList[index].classTime!
-                            .toString()
-                            .epochToNormal(),
-                        timer: _homeController.classHistoryList[index].duration
-                            .toString()
-                            .timeConvert(),
-                        money:
-                        "${_homeController.classHistoryList[index].cost ?? ''} ${_homeController.classHistoryList[index].currency ?? ''}",
-                        status: _homeController.classHistoryList[index].status,
-                        // isPro: true,
-                        avtar: ImageConstants.teacherAvtar,
-                        countryIcon: ImageConstants.countryIcon,
-                        countryName: 'Kuwait',
-                        reViewLength: 3,
-                        teacherName:
-                        _homeController.classHistoryList[index].name,
-                        grade: _homeController.classHistoryList[index].grade,
-                        minParticipants: _homeController
-                            .classHistoryList[index].minParticipants,
-                        maxParticipants: _homeController
-                            .classHistoryList[index].maxParticipants,
-                        buttonTap: () {
-                          Get.toNamed(Routes.classDetailsView,
-                              arguments: <String, Object?>{'classNumber': _homeController
-                                  .classHistoryList[index].classNumber,'backIndex':1});
-                        },
+                      return SizedBox(
+                        width: 340.px,
+                        child: AppCardView(
+                          proposals: 5,
+                          cardTitle:
+                          _homeController.classHistoryList[index].subject,
+                          date: _homeController
+                              .classHistoryList[index].classTime!
+                              .toString()
+                              .epochToNormal(),
+                          timer: _homeController.classHistoryList[index].duration
+                              .toString()
+                              .timeConvert(),
+                          money:
+                          "${_homeController.classHistoryList[index].cost ?? ''} ${_homeController.classHistoryList[index].currency ?? ''}",
+                          status: _homeController.classHistoryList[index].status,
+                          // isPro: true,
+                          avtar: ImageConstants.teacherAvtar,
+                          countryIcon: ImageConstants.countryIcon,
+                          countryName: 'Kuwait',
+                          reViewLength: 3,
+                          teacherName:
+                          _homeController.classHistoryList[index].name,
+                          grade: _homeController.classHistoryList[index].grade,
+                          minParticipants: _homeController
+                              .classHistoryList[index].minParticipants,
+                          maxParticipants: _homeController
+                              .classHistoryList[index].maxParticipants,
+                          buttonTap: () {
+                            Get.toNamed(Routes.classDetailsView,
+                                arguments: <String, Object?>{'classNumber': _homeController
+                                    .classHistoryList[index].classNumber,'backIndex':1});
+                          },
+                        ),
                       );
                     },
                     separatorBuilder:
