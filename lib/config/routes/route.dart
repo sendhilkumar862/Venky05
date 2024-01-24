@@ -5,6 +5,7 @@ import '../../feature/class/class_detail/view/class_detail.dart';
 import '../../feature/class/create_class/view/create_class.dart';
 import '../../feature/classDetails/view/class_details_view.dart';
 import '../../feature/home/view/home_view.dart';
+import '../../feature/home/view/view_all_class.dart';
 import '../../feature/home_views/views/home_views.dart';
 import '../../feature/home_views/views/reupload_documents.dart';
 import '../../feature/notification/view/notification.dart';
@@ -118,6 +119,7 @@ class Routes {
   static const String viewAllView = '/viewAllView';
   static const String languageView = '/languageView';
   static const String pendingTickets = '/pendingTickets';
+  static const String viewAllClass='/viewAllClass';
 
   /// The name of the route for unrecognized route screen
   static const String NotFoundScreenRoute = '/route-not-found-screen';
@@ -172,6 +174,7 @@ class Routes {
     GetPage(name: viewAllView, page: () => const ViewAllView()),
     GetPage(name: languageView, page: () => LanguageView()),
     GetPage(name: pendingTickets, page: () => const PendingTickets()),
+    GetPage(name: viewAllClass, page: () =>  ViewAlaaClass()),
 
     GetPage(
       name: classDetailsView,

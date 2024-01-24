@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../config/routes/route.dart';
+import '../../../../core/api_end_points.dart';
 import '../../../../custom/cardView/app_card_view.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';
@@ -229,7 +230,8 @@ class _ClassesViewState extends State<ClassesView> {
                 HeadingCardView(
                   // ignore: avoid_bool_literals_in_conditional_expressions
                     title: 'Upcoming Classes',
-                    onTap: () {},
+                    onTap: ()  => Get.toNamed(Routes.viewAllClass,
+    arguments: <String, Object?>{'title': 'Upcoming Classes', 'type':SchoolEndpoint.UPCOMING_CLASS}),
                     totalItem: _homeController.classUpcomingList.isNotEmpty
                         ? _homeController.classUpcomingList.length.toString()
                         : '',
@@ -383,7 +385,10 @@ class _ClassesViewState extends State<ClassesView> {
                 SizedBox(height: 25.px),
                 HeadingCardView(
                   title: 'Related Classes',
-                  onTap: () {},
+                  onTap: () =>
+                    Get.toNamed(Routes.viewAllClass,
+                        arguments: <String, Object?>{'title': 'Related Classes', 'type':SchoolEndpoint.RELATED_CLASS})
+                  ,
                   totalItem: _homeController.classRelatedList.isNotEmpty
                       ? _homeController.classRelatedList.length.toString()
                       : '',
@@ -459,7 +464,8 @@ class _ClassesViewState extends State<ClassesView> {
                 SizedBox(height: 25.px),
                 HeadingCardView(
                   title: 'History',
-                  onTap: () {},
+                  onTap: ()  => Get.toNamed(Routes.viewAllClass,
+                      arguments: <String, Object?>{'title': 'History', 'type':SchoolEndpoint.HISTORY_CLASS}),
                   totalItem: _homeController.classHistoryList.isNotEmpty
                       ? _homeController.classHistoryList.length.toString()
                       : '',
