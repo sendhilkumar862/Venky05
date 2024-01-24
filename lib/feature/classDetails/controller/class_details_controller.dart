@@ -34,7 +34,7 @@ class ClassDetailsController extends GetxController{
     zoom: 14.4746,).obs;
 
   Completer<GoogleMapController> mapController = Completer<GoogleMapController>();
-  late GoogleMapController googleMapController;
+  GoogleMapController? googleMapController;
   //AIzaSyBT8CFEhdKhFteNf6L4NaY3Z3UKFfpRy2w
 
   // ignore: always_declare_return_types
@@ -54,7 +54,7 @@ class ClassDetailsController extends GetxController{
         target: latlong,
         zoom: 14.4746,
       );
-      googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+      googleMapController?.animateCamera(CameraUpdate.newCameraPosition(
           CameraPosition(target: kGooglePlex.value.target, zoom: 5)));
     } on SocketException catch (e) {
       logs('Catch SocketException in getContactUsInfo --> ${e.message}');
