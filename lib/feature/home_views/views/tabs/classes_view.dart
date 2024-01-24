@@ -245,7 +245,7 @@ class _ClassesViewState extends State<ClassesView> {
                         right: 15, top: 5, bottom: 20, left: 15),
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
-                    itemCount: 3 ?? 0,
+                    itemCount:  _homeController.classUpcomingList.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
                       return SizedBox(

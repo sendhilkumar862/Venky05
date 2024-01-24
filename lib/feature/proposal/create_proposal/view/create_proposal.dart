@@ -67,8 +67,7 @@ class _CreateProposalState extends State<CreateProposal> {
         title: 'createClass'.tr,
         // normalAppbar: true,
       ),
-      body: Obx( () {
-        return Form(
+      body:  Form(
           key: formKey,
           onChanged: () {
             if (formKey.currentState!.validate()) {
@@ -208,8 +207,8 @@ class _CreateProposalState extends State<CreateProposal> {
               ),
             ),
           ),
-        );
-      }),
+        )
+
     );
   }
 
