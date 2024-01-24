@@ -21,7 +21,6 @@ import '../../../tutorial/language/model/country_model.dart';
 import 'classes_view.dart';
 class ActivitiesView extends StatefulWidget {
   const ActivitiesView({Key? key}) : super(key: key);
-
   @override
   State<ActivitiesView> createState() => _ActivitiesViewState();
 }
