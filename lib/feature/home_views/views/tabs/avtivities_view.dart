@@ -91,7 +91,7 @@ class _ActivitiesViewState extends State<ActivitiesView> {
                        "${_homeController.classActivityList[index].cost ?? ''} ${_homeController.classActivityList[index].currency ?? ''}",
                        status: _homeController.classActivityList[index].status,
                        // isPro: true,
-                       avtar: _homeController.classActivityList[index].imageId?.getImageUrl('profile') ?? ImageConstants.teacherAvtar,
+                       avtar: _homeController.classActivityList[index].imageId?.getImageUrl('profile'),
                        countryIcon: _homeController.classActivityList[index].country!=null && _languageController.countries.isNotEmpty?_languageController.countries.firstWhere((Country element) => element.name==_homeController.classActivityList[index].country).flag_url:ImageConstants.countryIcon,
                        countryName: _homeController.classActivityList[index].country??'',
                        reViewLength: 3,

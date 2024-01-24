@@ -4,6 +4,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
 import '../../product/extension/context_extension.dart';
+import '../../product/extension/string_extension.dart';
+import '../../product/utils/typography.dart';
 import '../app_button/app_button.dart';
 import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
@@ -219,8 +221,30 @@ class AppCardView extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      AppImageAsset(
-                        image: avtar!,
+                      if (avtar==null) Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.appProfile,
+                          borderRadius: BorderRadius.circular(50),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              spreadRadius: 2,
+                              blurRadius: 4,
+                              offset:
+                              const Offset(0, 2), // changes the position of the shadow
+                            ),
+                          ],
+                        ),
+                        width: 40.px,
+                        height: 40.px,
+                        child: ClipOval(
+                          child:  Center(
+                              child: Text(
+                                  name!.extractInitials(),
+                                  style: openSans.get20.w700.white)),
+                        ),
+                      ) else AppImageAsset(
+                        image: avtar,
                         height: 40.px,
                       ),
                       SizedBox(
