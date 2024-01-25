@@ -204,7 +204,7 @@ class AppCardView extends StatelessWidget {
     VoidCallback? buttonTap,
   }) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.px),
+      padding: EdgeInsets.symmetric(horizontal: 15.px),
       alignment: Alignment.centerLeft,
       width: double.infinity,
       decoration: BoxDecoration(
@@ -221,7 +221,7 @@ class AppCardView extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      if (avtar==null) Container(
+                       Container(
                         decoration: BoxDecoration(
                           color: AppColors.appProfile,
                           borderRadius: BorderRadius.circular(50),
@@ -238,15 +238,15 @@ class AppCardView extends StatelessWidget {
                         width: 40.px,
                         height: 40.px,
                         child: ClipOval(
-                          child:  Center(
+                          child:  avtar==null?Center(
                               child: Text(
                                   name!.extractInitials(),
-                                  style: openSans.get20.w700.white)),
+                                  style: openSans.get20.w700.white)): AppImageAsset(
+                          image: avtar,
+                          height: 40.px,
                         ),
-                      ) else AppImageAsset(
-                        image: avtar,
-                        height: 40.px,
-                      ),
+                        ),
+                      ) ,
                       SizedBox(
                         height: 20.px,
                         width: 50.px,
