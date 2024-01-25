@@ -1,4 +1,5 @@
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/api_end_points.dart';
@@ -21,6 +22,7 @@ class HomeController extends GetxController {
   final GetClassListRepository _getClassListRepository = GetClassListRepository();
   final RefreshTokenRepositoryRepository _refreshTokenRepositoryRepository = RefreshTokenRepositoryRepository();
   RxBool isCreatedClass = false.obs;
+  ScrollController scrollController = ScrollController();
   // ignore: always_declare_return_types
   fetchToken() async {
     final String token = LocaleManager.getAuthToken() ?? '';
@@ -97,40 +99,47 @@ class HomeController extends GetxController {
 
 
   Future<void> getClassList(SchoolEndpoint schoolEndpoint,int startIndex,{bool isReload=false}) async {
+    if(isReload){
+      showLoading();
+    }
     final BaseResponse classListDataResponse = await _getClassListRepository.getClassList(GetClassRequestModel(limit: '10',startIndex: startIndex.toString(),sortColumn:'created_at',sortDirection: 'desc' ),schoolEndpoint);
     if (classListDataResponse.status?.type == 'success') {
       final List classListData=classListDataResponse.data!.item! as List;
+
      if(schoolEndpoint==SchoolEndpoint.GET){
-       if(isReload) {
+       if(!isReload) {
          classList.clear();
        }
       for (var element in classListData) {
         classList.add(GetClassListModel.fromJson(element));
       }}
      else if(schoolEndpoint==SchoolEndpoint.UPCOMING_CLASS){
-       if(isReload) {
+       if(!isReload) {
        classUpcomingList.clear();}
        totalUpcomingCount=classListDataResponse.paginationData?.total??0;
        for (var element in classListData) {
          classUpcomingList.add(GetClassListModel.fromJson(element));
        }} else if(schoolEndpoint==SchoolEndpoint.HISTORY_CLASS){
-       if(isReload) {
+       if(!isReload) {
        classHistoryList.clear();}
        totalHistoryCount=classListDataResponse.paginationData?.total??0;
        for (var element in classListData) {
          classHistoryList.add(GetClassListModel.fromJson(element));
        }} else if(schoolEndpoint==SchoolEndpoint.ACTIVITY_CLASS){
-       if(isReload) {classActivityList.clear();}
+       if(!isReload) {classActivityList.clear();}
        totalActivityCount=classListDataResponse.paginationData?.total??0;
        for (var element in classListData) {
          classActivityList.add(GetClassListModel.fromJson(element));
        }} else if(schoolEndpoint==SchoolEndpoint.RELATED_CLASS){
-       if(isReload) {classRelatedList.clear();}
+       if(!isReload) {classRelatedList.clear();}
        totalRelatedCount=classListDataResponse.paginationData?.total??0;
        for (var element in classListData) {
          classRelatedList.add(GetClassListModel.fromJson(element));
        }}
 
+    }
+    if(isReload){
+      hideLoading();
     }
   }
 }
