@@ -10,6 +10,7 @@ import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../home/controller/home_controller.dart';
+import '../../tutorial/language/controller/language_controller.dart';
 import '../controller/home_view_controller.dart';
 
 class HomeViews extends StatefulWidget {
@@ -24,6 +25,7 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
   String selectedProfile = '';
   final HomeController _homeController = Get.find();
   final HomeViewController _homeViewController = Get.put(HomeViewController());
+  final LanguageController _languageController = Get.put(LanguageController());
 
   @override
   void initState() {

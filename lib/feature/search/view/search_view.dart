@@ -41,14 +41,14 @@ class _SearchViewState extends State<SearchView> {
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: <Widget>[
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: 1, horizontal: 6),
                     child: Theme(
                       data: Theme.of(context).copyWith(
                         colorScheme: Theme.of(context).colorScheme.copyWith(
-                              surfaceVariant: Colors.red,
+                              surfaceVariant: Colors.transparent,
                             ),
                       ),
                       child: Container(

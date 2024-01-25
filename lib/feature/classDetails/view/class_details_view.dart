@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../../config/routes/route.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/cardView/details_card_view.dart';
@@ -15,7 +16,6 @@ import '../../../product/constants/image/image_constants.dart';
 import '../../../product/extension/context_extension.dart';
 import '../../../product/extension/string_extension.dart';
 import '../controller/class_details_controller.dart';
-import 'bottomSheetView/booking_bottom_view.dart';
 
 class ClassDetailsView extends StatefulWidget {
   const ClassDetailsView({super.key});
@@ -183,8 +183,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         const Spacer(),
                         StatusCardView(
                             status: _classDetailsController
-                                    .classData.value.status ??
-                                ''),
+                                    .classData.value.status),
                       ],
                     ),
                     SizedBox(height: 15.px),
@@ -264,8 +263,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                             zoomControlsEnabled: false,
                             zoomGesturesEnabled: false,
                             onMapCreated: (GoogleMapController controllers) {
-                              _classDetailsController.googleMapController =
-                                  controllers;
+                              _classDetailsController.googleMapController = controllers;
                               _classDetailsController.mapController
                                   .complete(controllers);
                             }),
@@ -282,18 +280,19 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 title: 'Reschedule',
                 borderColor: AppColors.appBlue,
                 onPressed: () {
-                  showModalBottomSheet(
-                    isScrollControlled: true,
-                    context: context,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(25.0),
-                      ),
-                    ),
-                    builder: (BuildContext context) {
-                      return BookingBottomSheet();
-                    },
-                  );
+                  Get.toNamed(Routes.proposalDetailsView);
+                  // showModalBottomSheet(
+                  //   isScrollControlled: true,
+                  //   context: context,
+                  //   shape: const RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.vertical(
+                  //       top: Radius.circular(25.0),
+                  //     ),
+                  //   ),
+                  //   builder: (BuildContext context) {
+                  //     return BookingBottomSheet();
+                  //   },
+                  // );
                 },
               ),
               SizedBox(

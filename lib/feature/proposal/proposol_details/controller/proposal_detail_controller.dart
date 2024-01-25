@@ -1,16 +1,21 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import '../../../../core/base_response.dart';
+import '../../../../custom/loader/easy_loader.dart';
 import '../../../../product/cache/key_value_storeage.dart';
 import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/utils/validators.dart';
 import '../../proposals_by/view/proposals_by.dart';
+import '../repository/delete_proposal_repository.dart';
+import '../repository/get_proposal_detail_repository.dart';
 
 class ProposalDetailController extends GetxController{
+
+ final GetProposalDetailRepository _getProposalDetailRepository = GetProposalDetailRepository();
+ final DeleteProposalDetailRepository _deleteProposalDetailRepository= DeleteProposalDetailRepository();
 
   @override
   void onInit() {
@@ -70,4 +75,28 @@ class ProposalDetailController extends GetxController{
     selectedProfile.value =
         LocaleManager.getValue(StorageKeys.profile) ?? ApplicationConstants.student;
   }
+  Future<void> getProposalDetails(String id, String classId) async {
+    showLoading();
+    final BaseResponse getProposalsDataResponse = await _getProposalDetailRepository.getProposalDetail(id,classId);
+    if (getProposalsDataResponse.status?.type == 'success') {
+      // final List proposalListData=getProposalsDataResponse.data!.item! as List;
+      // proposalList.clear();
+      // for (var element in proposalListData) {
+      //   proposalList.add(ProposalModel.fromJson(element));
+      // }
+    }
+    hideLoading();
+  }
+ Future<void> deleteProposalDetails(String id, String classId) async {
+   showLoading();
+   final BaseResponse getProposalsDataResponse = await _deleteProposalDetailRepository.deleteProposalDetail(id,classId);
+   if (getProposalsDataResponse.status?.type == 'success') {
+     // final List proposalListData=getProposalsDataResponse.data!.item! as List;
+     // proposalList.clear();
+     // for (var element in proposalListData) {
+     //   proposalList.add(ProposalModel.fromJson(element));
+     // }
+   }
+   hideLoading();
+ }
 }

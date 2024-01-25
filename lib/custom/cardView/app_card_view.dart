@@ -4,6 +4,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
 import '../../product/extension/context_extension.dart';
+import '../../product/extension/string_extension.dart';
+import '../../product/utils/typography.dart';
 import '../app_button/app_button.dart';
 import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
@@ -27,6 +29,7 @@ class AppCardView extends StatelessWidget {
     this.minParticipants,
     this.maxParticipants,
     this.proposals,
+    this.isBook=true,
     super.key,
   });
 
@@ -46,76 +49,81 @@ class AppCardView extends StatelessWidget {
   int? minParticipants;
   int? maxParticipants;
   VoidCallback? buttonTap;
+  bool isBook;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Container(
-          padding: context.paddingNormal,
-          width: 500.px,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: AppColors.appWhite,
-            border: Border.all(color: AppColors.lightPurple, width: 1.1),
-            boxShadow: AppColors.appCardShadow,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  AppText(
-                    cardTitle!,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 20.px,
-                  ),
-                  StatusCardView(status: status)
-                ],
-              ),
-              SizedBox(
-                height: 10.px,
-              ),
-              Row(
-                children: [
-                  tagCardView(
-                    title: grade,
-                  ),
-                  tagCardView(
-                    title: countryName,
-                  ),
-                  tagCardView(
-                      title: maxParticipants==1?'Individual':'$minParticipants/$maxParticipants',
-                      icon:  maxParticipants==1?ImageConstants.individualIcon:ImageConstants.groupIcon,
-                      isBold: true),
-                ],
-              ),
-              SizedBox(
-                height: 10.px,
-              ),
-              Row(
-                children: <Widget>[
-                  infoCardView(ImageConstants.dateIcon, date!),
-                  infoCardView(ImageConstants.timerIcon, timer!),
-                  infoCardView(ImageConstants.moneyIcon, money!),
-                ],
-              ),
-              SizedBox(
-                height: 10.px,
-              ),
-              detailsCardView(
-                proposals: proposals,
-                isPro: isPro,
-                name: teacherName,
-                avtar: avtar,
-                country: countryName,
-                countyIcon: countryIcon,
-                reViewLength: reViewLength,
-                buttonTap: buttonTap,
-              )
-            ],
+        GestureDetector(onTap:   buttonTap,
+          child: Container(
+            padding: context.paddingNormal,
+            width: 500.px,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.appWhite,
+              border: Border.all(color: AppColors.lightPurple, width: 1.1),
+              boxShadow: AppColors.appCardShadow,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    AppText(
+                      cardTitle!,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 20.px,
+                    ),
+                    StatusCardView(status: status)
+                  ],
+                ),
+                SizedBox(
+                  height: 10.px,
+                ),
+                Row(
+                  children: [
+                    tagCardView(
+                      title: grade,
+                    ),
+                    tagCardView(
+                      title: countryName,
+                    ),
+                    tagCardView(
+                        title: maxParticipants==1?'Individual':'$minParticipants/$maxParticipants',
+                        icon:  maxParticipants==1?ImageConstants.individualIcon:ImageConstants.groupIcon,
+                        isBold: true),
+                  ],
+                ),
+                SizedBox(
+                  height: 10.px,
+                ),
+                Row(
+                  children: <Widget>[
+                    infoCardView(ImageConstants.dateIcon, date!),
+                    infoCardView(ImageConstants.timerIcon, timer!),
+                    infoCardView(ImageConstants.moneyIcon, money!),
+                  ],
+                ),
+                SizedBox(
+                  height: 10.px,
+                ),
+                detailsCardView(
+                  proposals: proposals,
+                  isPro: isPro,
+                  isBook: isBook,
+                  name: teacherName,
+                  avtar: avtar,
+                  country: countryName,
+                  countyIcon: countryIcon,
+                  reViewLength: reViewLength,
+                  buttonTap: buttonTap,
+
+                )
+              ],
+            ),
           ),
         ),
       ],
@@ -186,6 +194,7 @@ class AppCardView extends StatelessWidget {
 
   Widget detailsCardView({
     bool? isPro,
+    required bool isBook,
     String? avtar,
     num? reViewLength,
     num? proposals,
@@ -212,8 +221,30 @@ class AppCardView extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      AppImageAsset(
-                        image: avtar!,
+                      if (avtar==null) Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.appProfile,
+                          borderRadius: BorderRadius.circular(50),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              spreadRadius: 2,
+                              blurRadius: 4,
+                              offset:
+                              const Offset(0, 2), // changes the position of the shadow
+                            ),
+                          ],
+                        ),
+                        width: 40.px,
+                        height: 40.px,
+                        child: ClipOval(
+                          child:  Center(
+                              child: Text(
+                                  name!.extractInitials(),
+                                  style: openSans.get20.w700.white)),
+                        ),
+                      ) else AppImageAsset(
+                        image: avtar,
                         height: 40.px,
                       ),
                       SizedBox(
@@ -270,7 +301,7 @@ class AppCardView extends StatelessWidget {
                         SizedBox(
                           height: 4.px,
                         ),
-                      if (isPro!)
+                      if (isPro)
                         Container(
                           padding: EdgeInsets.symmetric(
                               vertical: 3.px, horizontal: 8.px),
@@ -304,14 +335,14 @@ class AppCardView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           AppImageAsset(
-                            image: countyIcon ?? ''!,
+                            image: countyIcon ?? '',
                             height: 10.px,
                           ),
                           SizedBox(
                             width: 4.px,
                           ),
                           AppText(
-                            country ?? ''!,
+                            country ?? '',
                             fontSize: 12.px,
                             fontWeight: FontWeight.w400,
                           )
@@ -365,7 +396,7 @@ class AppCardView extends StatelessWidget {
                 ],
               ),
             const Spacer(),
-            SizedBox(
+           if(isBook) SizedBox(
               child: AppButton(
                 title: 'Book',
                 isDisable: false,

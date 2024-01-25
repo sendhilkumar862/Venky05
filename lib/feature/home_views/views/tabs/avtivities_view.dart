@@ -6,6 +6,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../config/routes/route.dart';
 
+import '../../../../core/api_end_points.dart';
 import '../../../../custom/cardView/app_card_view.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';
@@ -16,10 +17,11 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/extension/string_extension.dart';
 import '../../../home/controller/home_controller.dart';
+import '../../../tutorial/language/controller/language_controller.dart';
+import '../../../tutorial/language/model/country_model.dart';
 import 'classes_view.dart';
 class ActivitiesView extends StatefulWidget {
   const ActivitiesView({Key? key}) : super(key: key);
-
   @override
   State<ActivitiesView> createState() => _ActivitiesViewState();
 }
@@ -29,12 +31,24 @@ class _ActivitiesViewState extends State<ActivitiesView> {
   String selectedUserStatus = '';
   bool isPending = false;
   final HomeController _homeController=Get.find();
+  final LanguageController _languageController = Get.find();
 
   @override
   void initState() {
     super.initState();
     selectedProfile = LocaleManager.getValue(StorageKeys.profile) ??'';
+    _homeController.scrollController.addListener(pagination);
   }
+
+  void pagination() async{
+    if (_homeController.scrollController.position.pixels ==
+        _homeController.scrollController.position.maxScrollExtent) {
+      // ignore: avoid_dynamic_calls
+      if(  _homeController.classActivityList.length<_homeController.totalActivityCount ){
+        _homeController.activityPageIndex= _homeController.activityPageIndex+1;
+        // ignore: avoid_dynamic_calls
+        await _homeController.getClassList( SchoolEndpoint.ACTIVITY_CLASS,_homeController.activityPageIndex,isReload: true);
+    }}}
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +59,11 @@ class _ActivitiesViewState extends State<ActivitiesView> {
        }
        else {
          return Expanded(
-           child: ListView(
+           child: Column(
              children: <Widget>[
                SizedBox(height: 20.px),
-           Obx(() => _homeController.classActivityList.isEmpty?
-                Padding(
+            if (_homeController.classActivityList.isEmpty)
+              Padding(
                  padding: EdgeInsets.only( right: 8.px, bottom: 10.px, left: 8.px),
                  child: InfoCardVIew(
                    isShowButton: true,
@@ -63,10 +77,12 @@ class _ActivitiesViewState extends State<ActivitiesView> {
                      // AppRouter.pushNamed(Routes.createClass);
                    },
                  ),
-               ) :
-           SizedBox(
-                 width: MediaQuery.of(context).size.height * 0.90,
+               ) else
+                 SizedBox(
+
+                 height: MediaQuery.of(context).size.height*.7,
                  child: ListView.separated(
+                   controller:  _homeController.scrollController,
                    padding: EdgeInsets.only(
                        right: 15.px, top: 2.px, bottom: 40.px, left: 15.px),
                    shrinkWrap: true,
@@ -77,6 +93,7 @@ class _ActivitiesViewState extends State<ActivitiesView> {
                        proposals: 5,
                        cardTitle:
                        _homeController.classActivityList[index].subject,
+                       isBook: false,
                        date: _homeController
                            .classActivityList[index].classTime!
                            .toString()
@@ -88,9 +105,9 @@ class _ActivitiesViewState extends State<ActivitiesView> {
                        "${_homeController.classActivityList[index].cost ?? ''} ${_homeController.classActivityList[index].currency ?? ''}",
                        status: _homeController.classActivityList[index].status,
                        // isPro: true,
-                       avtar: ImageConstants.teacherAvtar,
-                       countryIcon: ImageConstants.countryIcon,
-                       countryName: 'Kuwait',
+                       avtar: _homeController.classActivityList[index].imageId?.getImageUrl('profile'),
+                       countryIcon: _homeController.classActivityList[index].country!=null && _languageController.countries.isNotEmpty?_languageController.countries.firstWhere((Country element) => element.name==_homeController.classActivityList[index].country).flag_url:ImageConstants.countryIcon,
+                       countryName: _homeController.classActivityList[index].country??'',
                        reViewLength: 3,
                        teacherName:
                        _homeController.classActivityList[index].name,
@@ -112,7 +129,7 @@ class _ActivitiesViewState extends State<ActivitiesView> {
                      );
                    },
                  ),
-               ),)
+               ),
 
              ],
            ),

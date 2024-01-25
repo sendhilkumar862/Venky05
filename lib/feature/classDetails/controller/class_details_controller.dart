@@ -11,13 +11,14 @@ import '../../../product/cache/local_manager.dart';
 import '../../../product/utils/validators.dart';
 import '../modal/class_detail_model.dart';
 import '../modal/proposal_model.dart';
+import '../repository/get_all_proposal_repository.dart';
 import '../repository/get_class_details_repository.dart';
-import '../repository/get_proposal_detail_repository.dart';
+
 
 class ClassDetailsController extends GetxController{
 
   final GetClassDetailRepository _getClassDetailRepository = GetClassDetailRepository();
-  final GetProposalDetailRepository _getProposalDetailRepository=GetProposalDetailRepository();
+  final GetProposalAllRepository _getProposalAllRepository=GetProposalAllRepository();
   RxString selectedProfile = ''.obs;
 
   @override
@@ -48,10 +49,10 @@ class ClassDetailsController extends GetxController{
     ]);
     hideLoading();
   }
-  Future<void> fetchMap(LatLng latlong) async {
+  Future<void> fetchMap(LatLng latLong) async {
     try {
       kGooglePlex.value = CameraPosition(
-        target: latlong,
+        target: latLong,
         zoom: 14.4746,
       );
       googleMapController?.animateCamera(CameraUpdate.newCameraPosition(
@@ -73,7 +74,7 @@ class ClassDetailsController extends GetxController{
     }
   }
   Future<void> getProposalDetails(String id) async {
-    final BaseResponse getProposalsDataResponse = await _getProposalDetailRepository.getProposalDetail(id);
+    final BaseResponse getProposalsDataResponse = await _getProposalAllRepository.getProposalAll(id);
     if (getProposalsDataResponse.status?.type == 'success') {
       // final List proposalListData=getProposalsDataResponse.data!.item! as List;
       // proposalList.clear();

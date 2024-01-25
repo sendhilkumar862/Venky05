@@ -1,4 +1,5 @@
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/api_end_points.dart';
@@ -21,6 +22,7 @@ class HomeController extends GetxController {
   final GetClassListRepository _getClassListRepository = GetClassListRepository();
   final RefreshTokenRepositoryRepository _refreshTokenRepositoryRepository = RefreshTokenRepositoryRepository();
   RxBool isCreatedClass = false.obs;
+  ScrollController scrollController = ScrollController();
   // ignore: always_declare_return_types
   fetchToken() async {
     final String token = LocaleManager.getAuthToken() ?? '';
@@ -37,11 +39,11 @@ class HomeController extends GetxController {
     showLoading();
     await Future.wait(<Future<void>>[
     fetchData(),
-    getClassList(SchoolEndpoint.GET),
-      getClassList(SchoolEndpoint.UPCOMING_CLASS),
-      getClassList(SchoolEndpoint.HISTORY_CLASS),
-      getClassList(SchoolEndpoint.ACTIVITY_CLASS),
-      getClassList(SchoolEndpoint.RELATED_CLASS),
+    getClassList(SchoolEndpoint.GET, 1),
+      getClassList(SchoolEndpoint.UPCOMING_CLASS,upcomingPageIndex),
+      getClassList(SchoolEndpoint.HISTORY_CLASS,historyPageIndex),
+      getClassList(SchoolEndpoint.ACTIVITY_CLASS,activityPageIndex),
+      getClassList(SchoolEndpoint.RELATED_CLASS,relatedPageIndex),
     ]);
     hideLoading();
   }
@@ -57,6 +59,18 @@ class HomeController extends GetxController {
   RxList<GetClassListModel> classHistoryList = <GetClassListModel>[].obs;
   RxList<GetClassListModel> classActivityList = <GetClassListModel>[].obs;
   RxList<GetClassListModel> classRelatedList = <GetClassListModel>[].obs;
+
+  int totalUpcomingCount=0;
+  int upcomingPageIndex=1;
+
+  int totalHistoryCount=0;
+  int historyPageIndex=1;
+
+  int totalActivityCount=0;
+  int activityPageIndex=1;
+
+  int totalRelatedCount=0;
+  int relatedPageIndex=1;
 
 
   Future<void> fetchData() async {
@@ -84,33 +98,48 @@ class HomeController extends GetxController {
   }
 
 
-  Future<void> getClassList(SchoolEndpoint schoolEndpoint,) async {
-    final BaseResponse classListDataResponse = await _getClassListRepository.getClassList(GetClassRequestModel(limit: '30',startIndex: '1',sortColumn:'created_at',sortDirection: 'desc' ),schoolEndpoint);
+  Future<void> getClassList(SchoolEndpoint schoolEndpoint,int startIndex,{bool isReload=false}) async {
+    if(isReload){
+      showLoading();
+    }
+    final BaseResponse classListDataResponse = await _getClassListRepository.getClassList(GetClassRequestModel(limit: '10',startIndex: startIndex.toString(),sortColumn:'created_at',sortDirection: 'desc' ),schoolEndpoint);
     if (classListDataResponse.status?.type == 'success') {
       final List classListData=classListDataResponse.data!.item! as List;
+
      if(schoolEndpoint==SchoolEndpoint.GET){
-      classList.clear();
+       if(!isReload) {
+         classList.clear();
+       }
       for (var element in classListData) {
         classList.add(GetClassListModel.fromJson(element));
       }}
      else if(schoolEndpoint==SchoolEndpoint.UPCOMING_CLASS){
-       classUpcomingList.clear();
+       if(!isReload) {
+       classUpcomingList.clear();}
+       totalUpcomingCount=classListDataResponse.paginationData?.total??0;
        for (var element in classListData) {
          classUpcomingList.add(GetClassListModel.fromJson(element));
        }} else if(schoolEndpoint==SchoolEndpoint.HISTORY_CLASS){
-       classHistoryList.clear();
+       if(!isReload) {
+       classHistoryList.clear();}
+       totalHistoryCount=classListDataResponse.paginationData?.total??0;
        for (var element in classListData) {
          classHistoryList.add(GetClassListModel.fromJson(element));
        }} else if(schoolEndpoint==SchoolEndpoint.ACTIVITY_CLASS){
-       classActivityList.clear();
+       if(!isReload) {classActivityList.clear();}
+       totalActivityCount=classListDataResponse.paginationData?.total??0;
        for (var element in classListData) {
          classActivityList.add(GetClassListModel.fromJson(element));
        }} else if(schoolEndpoint==SchoolEndpoint.RELATED_CLASS){
-       classRelatedList.clear();
+       if(!isReload) {classRelatedList.clear();}
+       totalRelatedCount=classListDataResponse.paginationData?.total??0;
        for (var element in classListData) {
          classRelatedList.add(GetClassListModel.fromJson(element));
        }}
 
+    }
+    if(isReload){
+      hideLoading();
     }
   }
 }

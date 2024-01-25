@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../config/routes/route.dart';
+import '../../../../core/api_end_points.dart';
 import '../../../../custom/cardView/app_card_view.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';
@@ -13,6 +14,8 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/extension/string_extension.dart';
 import '../../../home/controller/home_controller.dart';
+import '../../../tutorial/language/controller/language_controller.dart';
+import '../../../tutorial/language/model/country_model.dart';
 
 class ClassesView extends StatefulWidget {
   const ClassesView({super.key});
@@ -25,6 +28,7 @@ class _ClassesViewState extends State<ClassesView> {
   String selectedProfile = '';
   bool isPending = false;
   final HomeController _homeController = Get.find();
+  final LanguageController _languageController = Get.find();
 
 
 
@@ -226,7 +230,8 @@ class _ClassesViewState extends State<ClassesView> {
                 HeadingCardView(
                   // ignore: avoid_bool_literals_in_conditional_expressions
                     title: 'Upcoming Classes',
-                    onTap: () {},
+                    onTap: ()  => Get.toNamed(Routes.viewAllClass,
+    arguments: <String, Object?>{'title': 'Upcoming Classes', 'type':SchoolEndpoint.UPCOMING_CLASS}),
                     totalItem: _homeController.classUpcomingList.isNotEmpty
                         ? _homeController.classUpcomingList.length.toString()
                         : '',
@@ -245,7 +250,7 @@ class _ClassesViewState extends State<ClassesView> {
                         right: 15, top: 5, bottom: 20, left: 15),
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
-                    itemCount: 3 ?? 0,
+                    itemCount:  _homeController.classUpcomingList.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
                       return SizedBox(
@@ -265,9 +270,9 @@ class _ClassesViewState extends State<ClassesView> {
                           "${_homeController.classUpcomingList[index].cost ?? ''} ${_homeController.classUpcomingList[index].currency ?? ''}",
                           status: _homeController.classUpcomingList[index].status,
                           // isPro: true,
-                          avtar: ImageConstants.teacherAvtar,
-                          countryIcon: ImageConstants.countryIcon,
-                          countryName: 'Kuwait',
+                          avtar:  _homeController.classUpcomingList[index].imageId?.getImageUrl('profile') ,
+                          countryIcon:  _homeController.classUpcomingList[index].country!=null && _languageController.countries.isNotEmpty?_languageController.countries.firstWhere((Country element) => element.name==_homeController.classUpcomingList[index].country).flag_url:ImageConstants.countryIcon,
+                          countryName:  _homeController.classUpcomingList[index].country,
                           reViewLength: 3,
                           teacherName:
                           _homeController.classUpcomingList[index].name,
@@ -380,7 +385,10 @@ class _ClassesViewState extends State<ClassesView> {
                 SizedBox(height: 25.px),
                 HeadingCardView(
                   title: 'Related Classes',
-                  onTap: () {},
+                  onTap: () =>
+                    Get.toNamed(Routes.viewAllClass,
+                        arguments: <String, Object?>{'title': 'Related Classes', 'type':SchoolEndpoint.RELATED_CLASS})
+                  ,
                   totalItem: _homeController.classRelatedList.isNotEmpty
                       ? _homeController.classRelatedList.length.toString()
                       : '',
@@ -418,9 +426,9 @@ class _ClassesViewState extends State<ClassesView> {
                           "${_homeController.classRelatedList[index].cost ?? ''} ${_homeController.classRelatedList[index].currency ?? ''}",
                           status: _homeController.classRelatedList[index].status,
                           // isPro: true,
-                          avtar: ImageConstants.teacherAvtar,
-                          countryIcon: ImageConstants.countryIcon,
-                          countryName: 'Kuwait',
+                          avtar:  _homeController.classRelatedList[index].imageId?.getImageUrl('profile') ,
+                          countryIcon:  _homeController.classRelatedList[index].country!=null && _languageController.countries.isNotEmpty?_languageController.countries.firstWhere((Country element) => element.name==_homeController.classRelatedList[index].country).flag_url:ImageConstants.countryIcon,
+                          countryName:  _homeController.classRelatedList[index].country,
                           reViewLength: 3,
                           teacherName:
                           _homeController.classRelatedList[index].name,
@@ -456,7 +464,8 @@ class _ClassesViewState extends State<ClassesView> {
                 SizedBox(height: 25.px),
                 HeadingCardView(
                   title: 'History',
-                  onTap: () {},
+                  onTap: ()  => Get.toNamed(Routes.viewAllClass,
+                      arguments: <String, Object?>{'title': 'History', 'type':SchoolEndpoint.HISTORY_CLASS}),
                   totalItem: _homeController.classHistoryList.isNotEmpty
                       ? _homeController.classHistoryList.length.toString()
                       : '',
@@ -494,9 +503,9 @@ class _ClassesViewState extends State<ClassesView> {
                           "${_homeController.classHistoryList[index].cost ?? ''} ${_homeController.classHistoryList[index].currency ?? ''}",
                           status: _homeController.classHistoryList[index].status,
                           // isPro: true,
-                          avtar: ImageConstants.teacherAvtar,
-                          countryIcon: ImageConstants.countryIcon,
-                          countryName: 'Kuwait',
+                          avtar:  _homeController.classHistoryList[index].imageId?.getImageUrl('profile') ,
+                          countryIcon:  _homeController.classHistoryList[index].country!=null && _languageController.countries.isNotEmpty?_languageController.countries.firstWhere((Country element) => element.name==_homeController.classHistoryList[index].country).flag_url:ImageConstants.countryIcon,
+                          countryName:  _homeController.classHistoryList[index].country,
                           reViewLength: 3,
                           teacherName:
                           _homeController.classHistoryList[index].name,
