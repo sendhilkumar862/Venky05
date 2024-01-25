@@ -420,7 +420,7 @@ class _SettingViewState extends State<SettingView> {
   Future<void> pickDocument() async {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: <String>['pdf', 'png', 'jpeg', 'jpg'],
+      allowedExtensions: <String>['pdf', 'jpeg','png',  'jpg'],
     );
     if (result != null) {
       _settingController.croppedFilePath=result.files.single.path ??'';

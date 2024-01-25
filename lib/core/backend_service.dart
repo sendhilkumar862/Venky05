@@ -3,7 +3,9 @@ import 'dart:io';
 // import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile, Response;
+import 'package:http_parser/http_parser.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:mime/mime.dart';
 import '../config/routes/route.dart';
 import '../product/cache/local_manager.dart';
 import '../product/constants/enums/backend_services_method_enums.dart';
@@ -94,10 +96,14 @@ class BackendService {
           data: data,
         );
       } else {
+        final String contentType=await getContentType(request.body['path']);
+        // ignore: always_specify_types
+        final List contentTypeList=contentType.split('/');
         final FormData data = FormData.fromMap({
           'file': <MultipartFile>[
             await MultipartFile.fromFile(request.body['path'],
-                filename: request.body['fileName'])
+                filename: request.body['fileName'],
+            contentType: MediaType(contentTypeList[0],contentTypeList[1]))
           ],
         });
         response = await dio.post(
@@ -142,6 +148,26 @@ class BackendService {
     } catch (_) {
       return BaseResponse(
           status: Status(type: 'error', message: 'SomeThing went wrong'));
+    }
+  }
+
+  static Future<String> getContentType(String filePath, {String defaultMimeType = 'application/octet-stream'}) async {
+    try {
+      File file = File(filePath);
+
+      // Check if the file exists
+      if (!await file.exists()) {
+        return defaultMimeType;
+      }
+
+      // Use the 'mime' package to determine the content type
+      String mimeType = lookupMimeType(filePath) ?? defaultMimeType;
+      if (mimeType == null) {
+
+        return defaultMimeType;
+      }return mimeType;
+    } catch (e) {
+      return defaultMimeType;
     }
   }
 }
