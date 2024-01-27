@@ -5,6 +5,7 @@ import '../../../core/api_end_points.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/app_textformfield/app_field.dart';
 import '../../../custom/cardView/details_card_view.dart';
+import '../../../custom/cardView/details_card_view_student.dart';
 import '../../../custom/cardView/info_card_view.dart';
 import '../../../custom/choice/src/inline/list.dart';
 import '../../../custom/choice/src/inline/main.dart';
@@ -509,21 +510,15 @@ class _ForTeacherState extends State<ForTeacher> {
                       mainAxisExtent: 190,
                       childAspectRatio: 3 / 2,
                       crossAxisSpacing: 15,
-                      mainAxisSpacing: 13),
+                      mainAxisSpacing: 5),
                   itemCount: _searchController.searchClassListUser.length,
                   controller: _searchController.scrollControllerUser,
                   itemBuilder: (BuildContext context, int index) {
-                    return DetailsCardView(
-                        reViewLength: 4,
-                        boxShadow: AppColors.searchCardBoxShadow,
-                        cardMargin: EdgeInsets.zero,
-                        name:_searchController.searchClassListUser[index].name,
-                        avatar: ImageConstants.teacherAvtar,
-                        countryIcon: ImageConstants.countryIcon,
-                        countryName: 'Kuwait',
-                        isPro: true,
+                    return DetailsCardViewStudent(
+                        name: _searchController.searchClassListUser[index].name,
+                        avatar: _searchController.searchClassListUser[index].imageId,
                         isBookmarked: true,
-                        subjects: 'Science - Accounta..');
+                        grades:'Grade ${_searchController.searchClassListUser[index].grade?.join(' - ')}');
                   },
                 ):
                 Padding(

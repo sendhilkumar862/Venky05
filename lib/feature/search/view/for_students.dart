@@ -15,6 +15,8 @@ import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/extension/string_extension.dart';
 import '../../../product/utils/typography.dart';
+import '../../tutorial/language/controller/language_controller.dart';
+import '../../tutorial/language/model/country_model.dart';
 import '../controller/search_controller.dart';
 
 
@@ -27,6 +29,7 @@ class ForStudents extends StatefulWidget {
 
 class _ForStudentsState extends State<ForStudents> {
   final SearchClassController _searchController=Get.put(SearchClassController());
+  final LanguageController _languageController = Get.find();
 
 
   @override
@@ -612,9 +615,10 @@ class _ForStudentsState extends State<ForStudents> {
                   "${ _searchController.searchClassList[index].cost ?? ''} ${ _searchController.searchClassList[index].currency ?? ''}",
                   status:  _searchController.searchClassList[index].status,
                   // isPro: true,
-                  avtar: ImageConstants.teacherAvtar,
-                  countryIcon: ImageConstants.countryIcon,
-                  countryName: 'Kuwait',
+                  avtar: _searchController.searchClassList[index].imageId,
+                  countryIcon: _searchController.searchClassList[index].country!=null && _languageController.countries.isNotEmpty?_languageController.countries.firstWhere((Country element) => element.name==_searchController.searchClassList[index].country).flag_url:ImageConstants.countryIcon,
+
+                  countryName: _searchController.searchClassList[index].country,
                   reViewLength: 3,
                   teacherName:
                   _searchController.searchClassList[index].name,

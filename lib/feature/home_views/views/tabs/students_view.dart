@@ -92,10 +92,8 @@ class _StudentsViewState extends State<StudentsView> {
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
                 return DetailsCardViewStudent(
-
                     name: 'User Name',
                     avatar: ImageConstants.teacherAvtar,
-
                     isBookmarked: true,
                     grades: 'Grade1');
               },

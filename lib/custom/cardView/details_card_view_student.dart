@@ -3,6 +3,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
+import '../../product/extension/string_extension.dart';
+import '../../product/utils/typography.dart';
 import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
 
@@ -33,7 +35,6 @@ class DetailsCardViewStudent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
       padding: EdgeInsets.all(10.px),
       margin:
       cardMargin ?? EdgeInsets.only(left: 15.px, top: 10.px, bottom: 27.px),
@@ -55,10 +56,32 @@ class DetailsCardViewStudent extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                AppImageAsset(
-                  image: ImageConstants.teacherAvtar,
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.appProfile,
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 2,
+                        blurRadius: 4,
+                        offset:
+                        const Offset(0, 2), // changes the position of the shadow
+                      ),
+                    ],
+                  ),
+                  width: 50.px,
                   height: 50.px,
-                ),
+                  child: ClipOval(
+                    child:  avatar==null?Center(
+                        child: Text(
+                            name!.extractInitials(),
+                            style: openSans.get20.w700.white)): AppImageAsset(
+                      image: avatar!,
+                      height: 40.px,
+                    ),
+                  ),
+                ) ,
                 AppText(name ?? ''),
                 AppText(
                   grades ?? '',

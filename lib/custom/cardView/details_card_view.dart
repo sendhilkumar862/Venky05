@@ -3,6 +3,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
+import '../../product/extension/string_extension.dart';
+import '../../product/utils/typography.dart';
 import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
 
@@ -55,10 +57,32 @@ class DetailsCardView extends StatelessWidget {
             padding: EdgeInsets.only(top: 8.px),
             child: Column(
               children: <Widget>[
-                AppImageAsset(
-                  image: ImageConstants.teacherAvtar,
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.appProfile,
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 2,
+                        blurRadius: 4,
+                        offset:
+                        const Offset(0, 2), // changes the position of the shadow
+                      ),
+                    ],
+                  ),
+                  width: 50.px,
                   height: 50.px,
-                ),
+                  child: ClipOval(
+                    child:  avatar==null?Center(
+                        child: Text(
+                            name!.extractInitials(),
+                            style: openSans.get20.w700.white)): AppImageAsset(
+                      image: avatar!,
+                      height: 40.px,
+                    ),
+                  ),
+                ) ,
                 SizedBox(
                   height: 20.px,
                   width: 50.px,
@@ -89,7 +113,7 @@ class DetailsCardView extends StatelessWidget {
                         ),
                       ),
                       TextSpan(
-                        text: name ?? ''!,
+                        text: name ?? '',
                         style: TextStyle(
                           overflow: TextOverflow.ellipsis,
                           color: AppColors.appDarkBlack,
@@ -101,11 +125,11 @@ class DetailsCardView extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (isPro ?? false!)
+                if (isPro ?? false)
                   SizedBox(
                     height: 4.px,
                   ),
-                if (isPro ?? false!)
+                if (isPro ?? false)
                   Container(
                     width: 50.px,
                     padding: EdgeInsets.symmetric(
@@ -142,14 +166,14 @@ class DetailsCardView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     AppImageAsset(
-                      image: countryIcon ?? ''!,
+                      image: countryIcon ?? '',
                       height: 10.px,
                     ),
                     SizedBox(
                       width: 4.px,
                     ),
                     AppText(
-                      countryName ?? ''!,
+                      countryName ?? '',
                       fontSize: 12.px,
                       fontWeight: FontWeight.w400,
                       overflow: TextOverflow.ellipsis,
