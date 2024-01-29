@@ -327,7 +327,7 @@ class _ClassDetailState extends State<ClassDetail> {
                     );
                   }),
                   if (_classDetailController.selectedProfile ==
-                      ApplicationConstants.tutor)
+                      ApplicationConstants.tutor &&  _classDetailController.upperValue==1)
                     Padding(
                       padding:
                       const EdgeInsets.only(top: 15, bottom: 35),
@@ -591,7 +591,7 @@ class _ClassDetailState extends State<ClassDetail> {
                             padding: EdgeInsets.only(
                                 left: 10,
                                 right:
-                                    _classDetailController.selectedIndex?.value !=
+                                    _classDetailController.selectedIndex.value !=
                                             index
                                         ? 10
                                         : 0),
@@ -695,7 +695,7 @@ class _ClassDetailState extends State<ClassDetail> {
                 () => AppButton(
                   onPressed: () => Get.back(),
                   // ignore: avoid_bool_literals_in_conditional_expressions
-                  isDisable: _classDetailController.selectedIndex?.value != 200
+                  isDisable: _classDetailController.selectedIndex.value != 200
                       ? false
                       : true,
                   title: 'select'.tr,

@@ -302,8 +302,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 height: 20.px,
               ),
               if(_classDetailsController
-                  .classData.value.isOwner==1 && _classDetailsController
-                  .classData.value.status=='Created')
+                  .classData.value.canRescheduleClass??false)
               AppButton(
                 isDisable: false,
                 title: 'Reschedule',
@@ -325,9 +324,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 },
               ),
               if(_classDetailsController
-                  .classData.value.isOwner==0 && _classDetailsController
-                  .selectedProfile=='Student'  && _classDetailsController
-                  .classData.value.status=='Created')
+                  .classData.value.canBookClass??false)
                 AppButton(
                   isDisable: false,
                   title: 'Book Now',
@@ -349,12 +346,10 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   },
                 ),
               if(_classDetailsController
-                  .classData.value.isOwner==0 && _classDetailsController
-                  .selectedProfile=='Student'  && _classDetailsController
-                  .classData.value.status=='Created')
+                  .classData.value.canSubmitProposal??false)
                 AppButton(
                   isDisable: false,
-                  title: 'Book Now',
+                  title: 'Submit the proposal',
                   borderColor: AppColors.appBlue,
                   onPressed: () {
                     // Get.toNamed(Routes.proposalDetailsView);
@@ -372,111 +367,13 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     // );
                   },
                 ),
-              if(_classDetailsController
-                  .classData.value.isOwner==0 && _classDetailsController
-                  .selectedProfile=='Tutor'  && _classDetailsController
-                  .classData.value.status=='Pending')
-                AppButton(
-                  isDisable: false,
-                  title: 'Send a Proposal',
-                  borderColor: AppColors.appBlue,
-                  onPressed: () {
-                    // Get.toNamed(Routes.proposalDetailsView);
-                    // showModalBottomSheet(
-                    //   isScrollControlled: true,
-                    //   context: context,
-                    //   shape: const RoundedRectangleBorder(
-                    //     borderRadius: BorderRadius.vertical(
-                    //       top: Radius.circular(25.0),
-                    //     ),
-                    //   ),
-                    //   builder: (BuildContext context) {
-                    //     return BookingBottomSheet();
-                    //   },
-                    // );
-                  },
-                ),
-              if(_classDetailsController
-                  .classData.value.isOwner==1 && _classDetailsController
-                  .selectedProfile=='Tutor'  && _classDetailsController
-                  .classData.value.status=='Pending')
-                AppButton(
-                  isDisable: false,
-                  title: 'Accept the class',
-                  borderColor: AppColors.appBlue,
-                  onPressed: () {
-                    // Get.toNamed(Routes.proposalDetailsView);
-                    // showModalBottomSheet(
-                    //   isScrollControlled: true,
-                    //   context: context,
-                    //   shape: const RoundedRectangleBorder(
-                    //     borderRadius: BorderRadius.vertical(
-                    //       top: Radius.circular(25.0),
-                    //     ),
-                    //   ),
-                    //   builder: (BuildContext context) {
-                    //     return BookingBottomSheet();
-                    //   },
-                    // );
-                  },
-                ),
-              if(_classDetailsController
-                  .classData.value.isOwner==0 && _classDetailsController
-                  .selectedProfile=='Student'  && _classDetailsController
-                  .classData.value.status=='Pending')
-                AppButton(
-                  isDisable: false,
-                  title: 'Book Now',
-                  borderColor: AppColors.appBlue,
-                  onPressed: () {
-                    // Get.toNamed(Routes.proposalDetailsView);
-                    // showModalBottomSheet(
-                    //   isScrollControlled: true,
-                    //   context: context,
-                    //   shape: const RoundedRectangleBorder(
-                    //     borderRadius: BorderRadius.vertical(
-                    //       top: Radius.circular(25.0),
-                    //     ),
-                    //   ),
-                    //   builder: (BuildContext context) {
-                    //     return BookingBottomSheet();
-                    //   },
-                    // );
-                  },
-                ),
-              if(_classDetailsController
-                  .classData.value.isOwner==1 && _classDetailsController
-                  .selectedProfile=='Student'  && _classDetailsController
-                  .classData.value.status=='Pending')
-                AppButton(
-                  isDisable: false,
-                  title: 'Accept a Proposal',
-                  borderColor: AppColors.appBlue,
-                  onPressed: () {
-                    // Get.toNamed(Routes.proposalDetailsView);
-                    // showModalBottomSheet(
-                    //   isScrollControlled: true,
-                    //   context: context,
-                    //   shape: const RoundedRectangleBorder(
-                    //     borderRadius: BorderRadius.vertical(
-                    //       top: Radius.circular(25.0),
-                    //     ),
-                    //   ),
-                    //   builder: (BuildContext context) {
-                    //     return BookingBottomSheet();
-                    //   },
-                    // );
-                  },
-                ),
+
+
               SizedBox(
                 height: 20.px,
               ),
-              if((_classDetailsController
-                  .classData.value.isOwner==1 && _classDetailsController
-                  .classData.value.status=='Created' )|| (_classDetailsController
-                  .classData.value.isOwner==1 && _classDetailsController
-                  .selectedProfile=='Student'  && _classDetailsController
-                  .classData.value.status=='Pending'))GestureDetector(
+              if(_classDetailsController
+                  .classData.value.canCancelClass??false)GestureDetector(
                 onTap: () {},
                 child: Center(
                   child: AppText(

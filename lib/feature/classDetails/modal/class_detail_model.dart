@@ -17,7 +17,12 @@ class ClassDetailsModel {
       this.address,
       this.location,
       this.displayId,
-      this.isOwner});
+        this.role,
+      this.isOwner,
+      this.canBookClass,
+      this.canCancelClass,
+      this.canRescheduleClass,
+      this.canSubmitProposal});
 
   ClassDetailsModel.fromJson(Map<String, dynamic> json) {
     classNumber = json['classNumber'];
@@ -36,10 +41,15 @@ class ClassDetailsModel {
     status = json['status'];
     address = json['address'];
     displayId = json['displayId'];
+    role=json['role'];
     location = json['location'] != null
-        ? new Location.fromJson(json['location'])
+        ?  Location.fromJson(json['location'])
         : null;
     isOwner = json['isOwner'];
+    canRescheduleClass=json['canRescheduleClass'];
+    canSubmitProposal=json['canSubmitProposal'];
+    canCancelClass=json['canCancelClass'];
+    canBookClass=json['canBookClass'];
   }
   String? classNumber;
   String? subject;
@@ -59,6 +69,11 @@ class ClassDetailsModel {
   Location? location;
   int? isOwner;
   String? displayId;
+  String? role;
+  bool? canRescheduleClass;
+  bool? canBookClass;
+  bool? canSubmitProposal;
+  bool? canCancelClass;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -82,6 +97,10 @@ class ClassDetailsModel {
       data['location'] = location!.toJson();
     }
     data['isOwner'] = isOwner;
+    data['canRescheduleClass'] = isOwner;
+    data['canCancelClass'] = isOwner;
+    data['canSubmitProposal'] = isOwner;
+    data['canBookClass'] = isOwner;
     return data;
   }
 }
@@ -103,3 +122,4 @@ class Location {
     return data;
   }
 }
+
