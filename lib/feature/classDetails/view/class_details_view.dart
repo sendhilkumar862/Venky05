@@ -103,61 +103,88 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               ),
               Obx(
                 () => _classDetailsController.selectedProfile ==
-                    ApplicationConstants.student &&  _classDetailsController.classData.value.isOwner==1 ? HeadingCardView(
-                    padding: 0,
-                    title:  'Proposals',
-                    totalItem:
-                        _classDetailsController.proposalList.length.toString(),
-                    onTap: () {},
-                    // ignore: avoid_bool_literals_in_conditional_expressions
-                    isViewAllIcon:
-                        _classDetailsController.proposalList.length > 2
-                            ? true
-                            : false):_classDetailsController.selectedProfile ==
-                    ApplicationConstants.tutor &&  _classDetailsController.classData.value.isOwner==1 ?HeadingCardView(
-                    padding: 0,
-                    title:  'Students',
-                    totalItem:
-                    _classDetailsController.proposalList.length.toString(),
-                    onTap: () {},
-                    // ignore: avoid_bool_literals_in_conditional_expressions
-                    isViewAllIcon:
-                    _classDetailsController.proposalList.length > 2
-                        ? true
-                        : false):const SizedBox.shrink(),
+                            ApplicationConstants.student &&
+                        _classDetailsController.classData.value.isOwner == 1
+                    ? HeadingCardView(
+                        padding: 0,
+                        title: 'Proposals',
+                        totalItem: _classDetailsController.proposalList.length
+                            .toString(),
+                        onTap: () {},
+                        // ignore: avoid_bool_literals_in_conditional_expressions
+                        isViewAllIcon:
+                            _classDetailsController.proposalList.length > 2
+                                ? true
+                                : false)
+                    : _classDetailsController.selectedProfile ==
+                                ApplicationConstants.tutor &&
+                            _classDetailsController.classData.value.isOwner == 1
+                        ? HeadingCardView(
+                            padding: 0,
+                            title: 'Students',
+                            totalItem: _classDetailsController
+                                .proposalList.length
+                                .toString(),
+                            onTap: () {},
+                            // ignore: avoid_bool_literals_in_conditional_expressions
+                            isViewAllIcon:
+                                _classDetailsController.proposalList.length > 2
+                                    ? true
+                                    : false)
+                        : const SizedBox.shrink(),
               ),
               SizedBox(
                 height: 5.px,
               ),
-             if(_classDetailsController.selectedProfile ==
-                 ApplicationConstants.student && _classDetailsController.classData.value.isOwner==1) Obx(
-                () => _classDetailsController.proposalList.isNotEmpty
-                    ? SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.300,
-                        child: ListView.builder(
-                          itemCount: 5,
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, int index) {
-                            return DetailsCardView(
-                                cardMargin: EdgeInsets.only(
-                                    right: 15.px, top: 10.px, bottom: 27.px),
-                                reViewLength: 3,
-                                name: 'User Name',
-                                avatar: ImageConstants.teacherAvtar,
-                                countryIcon: ImageConstants.countryIcon,
-                                countryName: 'Kuwait',
-                                isPro: true,
-                                isBookmarked: true,
-                                subjects: 'Science - Accounta..');
-                          },
+              if (_classDetailsController.selectedProfile ==
+                      ApplicationConstants.student &&
+                  _classDetailsController.classData.value.isOwner == 1)
+                Obx(
+                  () => _classDetailsController.proposalList.isNotEmpty
+                      ? SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.300,
+                          child: ListView.builder(
+                            itemCount: 5,
+                            shrinkWrap: true,
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (BuildContext context, int index) {
+                              return DetailsCardView(
+                                  cardMargin: EdgeInsets.only(
+                                      right: 15.px, top: 10.px, bottom: 27.px),
+                                  reViewLength: 3,
+                                  name: 'User Name',
+                                  avatar: ImageConstants.teacherAvtar,
+                                  countryIcon: ImageConstants.countryIcon,
+                                  countryName: 'Kuwait',
+                                  isPro: true,
+                                  isBookmarked: true,
+                                  subjects: 'Science - Accounta..');
+                            },
+                          ),
+                        )
+                      : AppButton(
+                          isDisable: true,
+                          height: 60.px,
+                          title: 'No proposals received!',
+                          textStyle: TextStyle(
+                              color: AppColors.black,
+                              fontSize: 18.px,
+                              fontWeight: FontWeight.w600),
+                          borderRadius: BorderRadius.circular(12.px),
+                          borderColor: AppColors.appLightGrey,
+                          isBorderOnly: true,
+                          onPressed: () {},
                         ),
-                      )
-                    : AppButton(
+                ),
+              Obx(() {
+                return _classDetailsController.selectedProfile ==
+                            ApplicationConstants.tutor &&
+                        _classDetailsController.classData.value.isOwner == 1
+                    ? AppButton(
                         isDisable: true,
                         height: 60.px,
-                        title: 'No proposals received!',
+                        title: 'No Students found',
                         textStyle: TextStyle(
                             color: AppColors.black,
                             fontSize: 18.px,
@@ -166,24 +193,9 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         borderColor: AppColors.appLightGrey,
                         isBorderOnly: true,
                         onPressed: () {},
-                      ),
-
-              ),
-              if(_classDetailsController.selectedProfile ==
-                  ApplicationConstants.tutor && _classDetailsController.classData.value.isOwner==1) Obx(
-                      () =>  AppButton(
-                    isDisable: true,
-                    height: 60.px,
-                    title: 'No Students found',
-                    textStyle: TextStyle(
-                        color: AppColors.black,
-                        fontSize: 18.px,
-                        fontWeight: FontWeight.w600),
-                    borderRadius: BorderRadius.circular(12.px),
-                    borderColor: AppColors.appLightGrey,
-                    isBorderOnly: true,
-                    onPressed: () {},
-                  )),
+                      )
+                    : const SizedBox.shrink();
+              }),
               SizedBox(
                 height: 20.px,
               ),
@@ -208,8 +220,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         ),
                         const Spacer(),
                         StatusCardView(
-                            status: _classDetailsController
-                                    .classData.value.status),
+                            status:
+                                _classDetailsController.classData.value.status),
                       ],
                     ),
                     SizedBox(height: 15.px),
@@ -289,7 +301,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                             zoomControlsEnabled: false,
                             zoomGesturesEnabled: false,
                             onMapCreated: (GoogleMapController controllers) {
-                              _classDetailsController.googleMapController = controllers;
+                              _classDetailsController.googleMapController =
+                                  controllers;
                               _classDetailsController.mapController
                                   .complete(controllers);
                             }),
@@ -301,30 +314,29 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               SizedBox(
                 height: 20.px,
               ),
-              if(_classDetailsController
-                  .classData.value.canRescheduleClass??false)
-              AppButton(
-                isDisable: false,
-                title: 'Reschedule',
-                borderColor: AppColors.appBlue,
-                onPressed: () {
-                  Get.toNamed(Routes.proposalDetailsView);
-                  // showModalBottomSheet(
-                  //   isScrollControlled: true,
-                  //   context: context,
-                  //   shape: const RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.vertical(
-                  //       top: Radius.circular(25.0),
-                  //     ),
-                  //   ),
-                  //   builder: (BuildContext context) {
-                  //     return BookingBottomSheet();
-                  //   },
-                  // );
-                },
-              ),
-              if(_classDetailsController
-                  .classData.value.canBookClass??false)
+              if (_classDetailsController.classData.value.canRescheduleClass ??
+                  false)
+                AppButton(
+                  isDisable: false,
+                  title: 'Reschedule',
+                  borderColor: AppColors.appBlue,
+                  onPressed: () {
+                    Get.toNamed(Routes.proposalDetailsView);
+                    // showModalBottomSheet(
+                    //   isScrollControlled: true,
+                    //   context: context,
+                    //   shape: const RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.vertical(
+                    //       top: Radius.circular(25.0),
+                    //     ),
+                    //   ),
+                    //   builder: (BuildContext context) {
+                    //     return BookingBottomSheet();
+                    //   },
+                    // );
+                  },
+                ),
+              if (_classDetailsController.classData.value.canBookClass ?? false)
                 AppButton(
                   isDisable: false,
                   title: 'Book Now',
@@ -345,8 +357,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     // );
                   },
                 ),
-              if(_classDetailsController
-                  .classData.value.canSubmitProposal??false)
+              if (_classDetailsController.classData.value.canSubmitProposal ??
+                  false)
                 AppButton(
                   isDisable: false,
                   title: 'Submit the proposal',
@@ -367,23 +379,22 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     // );
                   },
                 ),
-
-
               SizedBox(
                 height: 20.px,
               ),
-              if(_classDetailsController
-                  .classData.value.canCancelClass??false)GestureDetector(
-                onTap: () {},
-                child: Center(
-                  child: AppText(
-                    'Cancel Your Class',
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16.px,
-                    color: AppColors.appRed,
+              if (_classDetailsController.classData.value.canCancelClass ??
+                  false)
+                GestureDetector(
+                  onTap: () {},
+                  child: Center(
+                    child: AppText(
+                      'Cancel Your Class',
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16.px,
+                      color: AppColors.appRed,
+                    ),
                   ),
                 ),
-              ),
               SizedBox(
                 height: 40.px,
               ),

@@ -68,8 +68,8 @@ class ClassDetailsController extends GetxController{
   Future<void> getClassDetails(String id) async {
     final BaseResponse classDataResponse = await _getClassDetailRepository.getClassDetail(id);
     if (classDataResponse.status?.type == 'success') {
-      final  List classDetailData=classDataResponse.data!.item! as List;
-       classData.value = ClassDetailsModel.fromJson(classDetailData[0]);
+      final classDetailData=classDataResponse.data!.item! as Map<String, dynamic>;
+       classData.value = ClassDetailsModel.fromJson(classDetailData);
       await fetchMap(LatLng(double.parse(classData.value.location?.lat??'0.0'),double.parse(classData.value.location?.long??'0.0')));
     }
   }
