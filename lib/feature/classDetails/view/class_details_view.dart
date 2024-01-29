@@ -102,12 +102,10 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 height: 20.px,
               ),
               Obx(
-                () => HeadingCardView(
+                () => _classDetailsController.selectedProfile ==
+                    ApplicationConstants.student &&  _classDetailsController.classData.value.isOwner==1 ? HeadingCardView(
                     padding: 0,
-                    title: _classDetailsController.selectedProfile ==
-                            ApplicationConstants.student
-                        ? 'Proposals'
-                        : 'Students',
+                    title:  'Proposals',
                     totalItem:
                         _classDetailsController.proposalList.length.toString(),
                     onTap: () {},
@@ -115,12 +113,24 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     isViewAllIcon:
                         _classDetailsController.proposalList.length > 2
                             ? true
-                            : false),
+                            : false):_classDetailsController.selectedProfile ==
+                    ApplicationConstants.tutor &&  _classDetailsController.classData.value.isOwner==1 ?HeadingCardView(
+                    padding: 0,
+                    title:  'Students',
+                    totalItem:
+                    _classDetailsController.proposalList.length.toString(),
+                    onTap: () {},
+                    // ignore: avoid_bool_literals_in_conditional_expressions
+                    isViewAllIcon:
+                    _classDetailsController.proposalList.length > 2
+                        ? true
+                        : false):const SizedBox.shrink(),
               ),
               SizedBox(
                 height: 5.px,
               ),
-              Obx(
+             if(_classDetailsController.selectedProfile ==
+                 ApplicationConstants.student && _classDetailsController.classData.value.isOwner==1) Obx(
                 () => _classDetailsController.proposalList.isNotEmpty
                     ? SizedBox(
                         height: MediaQuery.of(context).size.height * 0.300,
@@ -157,7 +167,23 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         isBorderOnly: true,
                         onPressed: () {},
                       ),
+
               ),
+              if(_classDetailsController.selectedProfile ==
+                  ApplicationConstants.tutor && _classDetailsController.classData.value.isOwner==1) Obx(
+                      () =>  AppButton(
+                    isDisable: true,
+                    height: 60.px,
+                    title: 'No Students found',
+                    textStyle: TextStyle(
+                        color: AppColors.black,
+                        fontSize: 18.px,
+                        fontWeight: FontWeight.w600),
+                    borderRadius: BorderRadius.circular(12.px),
+                    borderColor: AppColors.appLightGrey,
+                    isBorderOnly: true,
+                    onPressed: () {},
+                  )),
               SizedBox(
                 height: 20.px,
               ),
@@ -275,6 +301,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               SizedBox(
                 height: 20.px,
               ),
+              if(_classDetailsController
+                  .classData.value.canRescheduleClass??false)
               AppButton(
                 isDisable: false,
                 title: 'Reschedule',
@@ -295,10 +323,57 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   // );
                 },
               ),
+              if(_classDetailsController
+                  .classData.value.canBookClass??false)
+                AppButton(
+                  isDisable: false,
+                  title: 'Book Now',
+                  borderColor: AppColors.appBlue,
+                  onPressed: () {
+                    // Get.toNamed(Routes.proposalDetailsView);
+                    // showModalBottomSheet(
+                    //   isScrollControlled: true,
+                    //   context: context,
+                    //   shape: const RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.vertical(
+                    //       top: Radius.circular(25.0),
+                    //     ),
+                    //   ),
+                    //   builder: (BuildContext context) {
+                    //     return BookingBottomSheet();
+                    //   },
+                    // );
+                  },
+                ),
+              if(_classDetailsController
+                  .classData.value.canSubmitProposal??false)
+                AppButton(
+                  isDisable: false,
+                  title: 'Submit the proposal',
+                  borderColor: AppColors.appBlue,
+                  onPressed: () {
+                    // Get.toNamed(Routes.proposalDetailsView);
+                    // showModalBottomSheet(
+                    //   isScrollControlled: true,
+                    //   context: context,
+                    //   shape: const RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.vertical(
+                    //       top: Radius.circular(25.0),
+                    //     ),
+                    //   ),
+                    //   builder: (BuildContext context) {
+                    //     return BookingBottomSheet();
+                    //   },
+                    // );
+                  },
+                ),
+
+
               SizedBox(
                 height: 20.px,
               ),
-              GestureDetector(
+              if(_classDetailsController
+                  .classData.value.canCancelClass??false)GestureDetector(
                 onTap: () {},
                 child: Center(
                   child: AppText(

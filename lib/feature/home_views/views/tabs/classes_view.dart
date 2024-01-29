@@ -286,6 +286,7 @@ class _ClassesViewState extends State<ClassesView> {
                                 arguments: <String, Object?>{'classNumber': _homeController
                                     .classUpcomingList[index].classNumber,'backIndex':1});
                           },
+                          isBook:false,
                         ),
                       );
                     },
@@ -490,6 +491,7 @@ class _ClassesViewState extends State<ClassesView> {
                         width: 340.px,
                         child: AppCardView(
                           proposals: 5,
+                          isBook:false,
                           cardTitle:
                           _homeController.classHistoryList[index].subject,
                           date: _homeController

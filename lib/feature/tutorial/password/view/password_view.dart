@@ -211,7 +211,7 @@ class _PasswordViewState extends State<PasswordView> {
                       final bool success =
                           await _passwordController.registerUser();
                       if (success) {
-                        Get.toNamed(Routes.HomeScreenRoute);
+                        Get.offAndToNamed(Routes.HomeScreenRoute);
                       }
                     }
                   : () {},
