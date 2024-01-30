@@ -15,8 +15,8 @@ import '../controller/proposals_by_controller.dart';
 
 
 class ProposalsBy extends StatefulWidget {
-  String classId;
    ProposalsBy({super.key,required this.classId});
+  String classId;
 
   @override
   State<ProposalsBy> createState() => _ProposalsByState();
