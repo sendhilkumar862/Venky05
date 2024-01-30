@@ -179,7 +179,7 @@ class _ProposalDetailsViewState extends State<ProposalDetailsView> {
                           ),
                         ),
                         builder: (BuildContext context) {
-                          return const ProposalsBy();
+                          return  ProposalsBy(classId: '',);
                         },
                       );
                     },

@@ -20,6 +20,8 @@ class ClassDetailsController extends GetxController{
   final GetClassDetailRepository _getClassDetailRepository = GetClassDetailRepository();
   final GetProposalAllRepository _getProposalAllRepository=GetProposalAllRepository();
   RxString selectedProfile = ''.obs;
+  String classId='';
+
 
   @override
   void onInit() {
@@ -41,6 +43,7 @@ class ClassDetailsController extends GetxController{
   // ignore: always_declare_return_types
   fetchData()async{
     showLoading();
+    classId=Get.arguments['classNumber'];
     await Future.wait([
       // ignore: avoid_dynamic_calls
       getProposalDetails(Get.arguments['classNumber']),

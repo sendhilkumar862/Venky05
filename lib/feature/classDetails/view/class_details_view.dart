@@ -15,6 +15,7 @@ import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/extension/context_extension.dart';
 import '../../../product/extension/string_extension.dart';
+import '../../proposal/proposals_by/view/proposals_by.dart';
 import '../controller/class_details_controller.dart';
 
 class ClassDetailsView extends StatefulWidget {
@@ -110,10 +111,29 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         title: 'Proposals',
                         totalItem: _classDetailsController.proposalList.length
                             .toString(),
-                        onTap: () {},
+                        onTap: () {
+                          showModalBottomSheet(
+                            isScrollControlled: true,
+                            context: context,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(25.0),
+                              ),
+                            ),
+                            builder: (BuildContext context) {
+                              // ignore: avoid_dynamic_calls
+                              return  ProposalsBy(classId: _classDetailsController.classId,);
+                            },
+                          );
+                          // Get.toNamed(Routes.proposalDetailsView,arguments: <String, dynamic>{
+                          //   'proposalId': _classDetailsController.proposalList[index].proposalId,
+                          //   // ignore: avoid_dynamic_calls
+                          //   'classId':Get.arguments['classNumber']
+                          // });
+                        },
                         // ignore: avoid_bool_literals_in_conditional_expressions
                         isViewAllIcon:
-                            _classDetailsController.proposalList.length > 2
+                            _classDetailsController.proposalList.isNotEmpty
                                 ? true
                                 : false)
                     : _classDetailsController.selectedProfile ==
@@ -128,7 +148,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                             onTap: () {},
                             // ignore: avoid_bool_literals_in_conditional_expressions
                             isViewAllIcon:
-                                _classDetailsController.proposalList.length > 2
+                                _classDetailsController.proposalList.length != 2
                                     ? true
                                     : false)
                         : const SizedBox.shrink(),
@@ -152,7 +172,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                               return DetailsCardView(
                                   cardMargin: EdgeInsets.only(
                                       right: 15.px, top: 10.px, bottom: 27.px),
-                                  reViewLength: 3,
+                                  reViewLength: _classDetailsController.proposalList[index].rating,
                                   name: _classDetailsController.proposalList[index].name??'',
                                   avatar:_classDetailsController.proposalList[index].imageId?.getImageUrl('profile'),
                                   countryIcon: _classDetailsController.proposalList[index].flagUrl,
@@ -320,7 +340,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   title: 'Reschedule',
                   borderColor: AppColors.appBlue,
                   onPressed: () {
-                    Get.toNamed(Routes.proposalDetailsView);
+                    // Get.toNamed(Routes.proposalDetailsView);
                     // showModalBottomSheet(
                     //   isScrollControlled: true,
                     //   context: context,
