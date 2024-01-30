@@ -144,7 +144,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       ? SizedBox(
                           height: MediaQuery.of(context).size.height * 0.300,
                           child: ListView.builder(
-                            itemCount: 5,
+                            itemCount: _classDetailsController.proposalList.length,
                             shrinkWrap: true,
                             physics: const BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
@@ -153,10 +153,10 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                   cardMargin: EdgeInsets.only(
                                       right: 15.px, top: 10.px, bottom: 27.px),
                                   reViewLength: 3,
-                                  name: 'User Name',
-                                  avatar: ImageConstants.teacherAvtar,
-                                  countryIcon: ImageConstants.countryIcon,
-                                  countryName: 'Kuwait',
+                                  name: _classDetailsController.proposalList[index].name??'',
+                                  avatar:_classDetailsController.proposalList[index].imageId?.getImageUrl('profile'),
+                                  countryIcon: _classDetailsController.proposalList[index].flagUrl,
+                                  countryName: _classDetailsController.proposalList[index].country,
                                   isPro: true,
                                   isBookmarked: true,
                                   subjects: 'Science - Accounta..');

@@ -76,11 +76,12 @@ class ClassDetailsController extends GetxController{
   Future<void> getProposalDetails(String id) async {
     final BaseResponse getProposalsDataResponse = await _getProposalAllRepository.getProposalAll(id);
     if (getProposalsDataResponse.status?.type == 'success') {
-      // final List proposalListData=getProposalsDataResponse.data!.item! as List;
-      // proposalList.clear();
-      // for (var element in proposalListData) {
-      //   proposalList.add(ProposalModel.fromJson(element));
-      // }
+      if(getProposalsDataResponse.data!.item!=null){
+      final List proposalListData=getProposalsDataResponse.data!.item! as List;
+      proposalList.clear();
+      for (var element in proposalListData) {
+        proposalList.add(ProposalModel.fromJson(element));
+      }}
     }
   }
 }
