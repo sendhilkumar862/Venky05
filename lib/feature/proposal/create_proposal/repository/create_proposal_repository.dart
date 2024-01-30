@@ -31,7 +31,7 @@ class CreateClassAPIRequest extends BaseRequest {
   final String id;
 
   @override
-  String get endPoint => '${ApiEndpoint.school(SchoolEndpoint.CREATE_CLASS)}$id/proposals';
+  String get endPoint => '${ApiEndpoint.school(SchoolEndpoint.CREATE_CLASS)}/$id/proposals';
   @override
   Map<String, dynamic> get body => createProposalRequestModel.toJson();
 

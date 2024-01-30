@@ -164,7 +164,6 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                           ),
                         )
                       : AppButton(
-                          isDisable: true,
                           height: 60.px,
                           title: 'No proposals received!',
                           textStyle: TextStyle(
@@ -342,7 +341,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   title: 'Book Now',
                   borderColor: AppColors.appBlue,
                   onPressed: () {
-                    // Get.toNamed(Routes.proposalDetailsView);
+                    Get.toNamed(Routes.createProposal);
                     // showModalBottomSheet(
                     //   isScrollControlled: true,
                     //   context: context,
@@ -364,7 +363,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   title: 'Submit the proposal',
                   borderColor: AppColors.appBlue,
                   onPressed: () {
-                    // Get.toNamed(Routes.proposalDetailsView);
+                    // ignore: avoid_dynamic_calls
+                    Get.toNamed(Routes.createProposal,arguments: Get.arguments['classNumber']);
                     // showModalBottomSheet(
                     //   isScrollControlled: true,
                     //   context: context,
