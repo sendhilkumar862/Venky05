@@ -29,7 +29,7 @@ class ClassDetailsController extends GetxController{
     selectedProfile.value =
         LocaleManager.getValue(StorageKeys.profile) ??
             '';
-
+    classId=Get.arguments['classNumber'];
     fetchData();
 
   }
@@ -43,12 +43,12 @@ class ClassDetailsController extends GetxController{
   // ignore: always_declare_return_types
   fetchData()async{
     showLoading();
-    classId=Get.arguments['classNumber'];
+
     await Future.wait([
       // ignore: avoid_dynamic_calls
-      getProposalDetails(Get.arguments['classNumber']),
+      getProposalDetails(classId),
     // ignore: avoid_dynamic_calls
-    getClassDetails(Get.arguments['classNumber']),
+    getClassDetails(classId),
     ]);
     hideLoading();
   }

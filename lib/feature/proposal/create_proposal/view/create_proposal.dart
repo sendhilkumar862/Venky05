@@ -16,6 +16,7 @@ import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../../product/utils/validators.dart';
 import '../../../class/class_detail/controller/class_detail_controller.dart';
+import '../../../classDetails/controller/class_details_controller.dart';
 import '../controller/create_proposal_controller.dart';
 
 class CreateProposal extends StatefulWidget {
@@ -29,6 +30,7 @@ class _CreateProposalState extends State<CreateProposal> {
   var selectedDate = DateTime.now();
   final CreateProposalController _createProposalController =Get.put(CreateProposalController());
   final ClassDetailController _classDetailController = Get.put(ClassDetailController());
+  final ClassDetailsController _classDetailsController=Get.find();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 
@@ -45,7 +47,7 @@ class _CreateProposalState extends State<CreateProposal> {
         isTitleOnly: true,
         // isBack: true,
         // trailingText: 'Cancel',
-        title: 'createClass'.tr,
+        title: Get.arguments['proposalId']!=null?'Update Proposal':'Create Proposal',
         // normalAppbar: true,
       ),
       body:  Form(
@@ -159,11 +161,12 @@ class _CreateProposalState extends State<CreateProposal> {
                   Padding(
                     padding: EdgeInsets.only(bottom: 20.px, top: 80.px),
                     child: AppButton(
-                      title: 'submit'.tr,
+                      title: Get.arguments['proposalId']!=null?'Update':'submit'.tr,
                       onPressed: () async{
                         if (formKey.currentState!.validate()) {
-                         bool status= await _createProposalController.crateProposal();
+                         bool status=  Get.arguments['proposalId']!=null? await _createProposalController.updateProposal():await _createProposalController.crateProposal();
                          if(status) {
+                           _classDetailsController.fetchData();
                            // ignore: use_build_context_synchronously
                            showModalBottomSheet(
                             context: context,
@@ -181,7 +184,7 @@ class _CreateProposalState extends State<CreateProposal> {
                                 title: 'Success',
                                 buttonTitle: 'Done',
                                 content:
-                                'You have successfully submit your proposal.',
+                               _createProposalController.proposalId!=''?'You have successfully updated your proposal.':'You have successfully submit your proposal.',
                                 isRouting: 'back',
 
                               );

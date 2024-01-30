@@ -29,17 +29,20 @@ class CreateProposalController extends GetxController{
   TextEditingController classCost = TextEditingController();
   TextEditingController numberOfSession = TextEditingController();
   TextEditingController classDurationController = TextEditingController();
+  String proposalId='';
 
   @override
   void onInit() {
     super.onInit();
     selectedProfile.value =
         LocaleManager.getValue(StorageKeys.profile) ??'';
+    // ignore: avoid_dynamic_calls
+    proposalId=Get.arguments['proposalId']??'';
   }
   Future<bool> crateProposal() async {
     bool status =false;
     showLoading();
-    final BaseResponse getProposalsDataResponse = await _createProposalRepository.createClassRepository(CreateProposalRequestModel(cost:int.parse(classCost.text),sessions:int.parse(numberOfSession.text) ,duration: _classDetailController.masterData.value.sessionDurations![isSelected!],classTime:dateController.text.toEpoch(),currency: 'KWD'  ), Get.arguments);
+    final BaseResponse getProposalsDataResponse = await _createProposalRepository.createClassRepository(CreateProposalRequestModel(cost:int.parse(classCost.text),sessions:int.parse(numberOfSession.text) ,duration: _classDetailController.masterData.value.sessionDurations![isSelected!],classTime:dateController.text.toEpoch(),currency: 'KWD'  ), Get.arguments['classNumber']);
     if (getProposalsDataResponse.status?.type == 'success') {
      status=true;
     }
@@ -47,16 +50,14 @@ class CreateProposalController extends GetxController{
     return status;
   }
 
-  Future<void> updateProposal(CreateProposalRequestModel createProposalRequestModel,String id, String classId) async {
+  Future<bool> updateProposal() async {
+    bool status =false;
     showLoading();
-    final BaseResponse getProposalsDataResponse = await _updateProposalRepository.updateClassRepository(createProposalRequestModel,id,classId);
+    final BaseResponse getProposalsDataResponse = await _updateProposalRepository.updateClassRepository(CreateProposalRequestModel(cost:int.parse(classCost.text),sessions:int.parse(numberOfSession.text) ,duration: isSelected!=null?_classDetailController.masterData.value.sessionDurations![isSelected!]:int.parse(classDurationController.text),classTime:dateController.text.toEpoch(),currency: 'KWD'  ), Get.arguments['classNumber'],Get.arguments['proposalId']);
     if (getProposalsDataResponse.status?.type == 'success') {
-      // final List proposalListData=getProposalsDataResponse.data!.item! as List;
-      // proposalList.clear();
-      // for (var element in proposalListData) {
-      //   proposalList.add(ProposalModel.fromJson(element));
-      // }
+      status=true;
     }
     hideLoading();
+    return status;
   }
 }

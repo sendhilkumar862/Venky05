@@ -112,7 +112,7 @@ class _ProposalsByState extends State<ProposalsBy> {
               topLeft: Radius.circular(30), topRight: Radius.circular(30))),
       context: context,
       builder: (BuildContext context) {
-        return Obx(()=>
+        return Obx(()=>_proposalsByController.proposalDetailModel.value.proposalDetails?.cost!=null?
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: ListView(
@@ -204,7 +204,7 @@ class _ProposalsByState extends State<ProposalsBy> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 5),
-                        child: Text(_proposalsByController.proposalDetailModel.value.originalDetails!.classTime!.toString().epochToDate()),
+                        child: Text(_proposalsByController.proposalDetailModel.value.originalDetails!.classTime!.toString().epochToNormal()),
                       )
                     ],
                   ),
@@ -298,7 +298,7 @@ class _ProposalsByState extends State<ProposalsBy> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 5),
-                              child: Text(_proposalsByController.proposalDetailModel.value.proposalDetails!.classTime!.toString().epochToDate()),
+                              child: Text(_proposalsByController.proposalDetailModel.value.proposalDetails!.classTime!.toString().epochToNormal()),
                             )
                           ],
                         ),
@@ -385,7 +385,7 @@ class _ProposalsByState extends State<ProposalsBy> {
                 ),
               ],
             ),
-          ),
+          ):const Center(child: CircularProgressIndicator(),),
         );
       },
     );

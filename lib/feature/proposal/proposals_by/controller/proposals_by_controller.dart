@@ -15,26 +15,6 @@ class ProposalsByController extends GetxController{
   RxBool isActive = false.obs;
   final GetProposalDetailRepository _getProposalDetailRepository = GetProposalDetailRepository();
     Rx<ProposalDetailModel> proposalDetailModel= ProposalDetailModel().obs;
-  List<Header> dataList = [
-    Header(heading: 'Original Class Details', headingData: [
-      HeaderData(icon: 'assets/icons/date_icon.png', title: '12/12 12:30pm'),
-      HeaderData(icon: 'assets/icons/date_icon.png', title: '12/12 12:30pm'),
-      HeaderData(icon: 'assets/icons/timer_icon.png', title: '1h 30m'),
-      HeaderData(icon: 'assets/icons/timer_icon.png', title: '1h 30m'),
-      HeaderData(
-          icon: 'assets/icons/read_book_icon.png',
-          title: '5.000 KWD / Session'),
-    ]),
-    Header(heading: 'Proposal Details', headingData: [
-      HeaderData(icon: 'assets/icons/date_icon.png', title: '12/12 12:30pm'),
-      HeaderData(icon: 'assets/icons/date_icon.png', title: '12/12 12:30pm'),
-      HeaderData(icon: 'assets/icons/timer_icon.png', title: '1h 30m'),
-      HeaderData(icon: 'assets/icons/timer_icon.png', title: '1h 30m'),
-      HeaderData(
-          icon: 'assets/icons/read_book_icon.png',
-          title: '5.000 KWD / Session'),
-    ]),
-  ];
 
 
   @override
