@@ -9,16 +9,23 @@ import '../../../custom/appbar/appbar.dart';
 import '../../../custom/cardView/details_card_view.dart';
 import '../../../custom/cardView/heading_card_view.dart';
 import '../../../custom/cardView/status_card_view.dart';
+import '../../../custom/choice/src/modal/button.dart';
+import '../../../custom/dialog/success_fail_dialog.dart';
 import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/constants/app/app_constants.dart';
+import '../../../product/constants/app/app_utils.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/extension/context_extension.dart';
 import '../../../product/extension/string_extension.dart';
 import '../../../product/utils/typography.dart';
+import '../../class/class_detail/controller/class_detail_controller.dart';
 import '../../proposal/create_proposal/controller/create_proposal_controller.dart';
 import '../../proposal/proposals_by/view/proposals_by.dart';
+import '../../setting_view/add_address_screen/Model/request_address_model.dart';
+import '../../setting_view/manage_address/Model/get_address_model.dart' hide Location;
+import '../../setting_view/manage_address/controller/manage_controller.dart';
 import '../controller/class_details_controller.dart';
 
 class ClassDetailsView extends StatefulWidget {
@@ -32,7 +39,17 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
     with TickerProviderStateMixin {
   final ClassDetailsController _classDetailsController =
   Get.put(ClassDetailsController());
+  final ManageAddressController _manageAddressController =
+  Get.put(ManageAddressController());
+  ClassDetailController _classDetailController =
+  Get.put(ClassDetailController());
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _manageAddressController.fetchAddressData();
+  }
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -535,8 +552,37 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       isDisable: false,
                       title: 'Book Now',
                       borderColor: AppColors.appBlue,
-                      onPressed: () {
-                        Get.toNamed(Routes.createProposal);
+                      onPressed: () async{
+                        if(_classDetailsController.classData.value.allowAtStudentLoc==0){
+                        bool status= await _classDetailsController.bookClassDetail({});
+                        if(status) {
+                          // ignore: use_build_context_synchronously
+                          showModalBottomSheet(
+                            context: context,
+                            constraints: BoxConstraints(
+                              maxWidth:
+                              // ignore: use_build_context_synchronously
+                              (MediaQuery.of(context).size.width - 30)
+                                  .px,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.px),
+                            ),
+                            builder: (BuildContext context) {
+                              return SuccessFailsInfoDialog(
+                                title: 'Success',
+                                buttonTitle: 'Done',
+                                content:
+                              'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
+                                isRouting: 'back',
+
+                              );
+                            },
+                          );
+                        }
+                        }else{
+                          locationModalBottomSheet(context);
+                        }
                       },
                     ),
                   if (_classDetailsController.classData.value
@@ -648,6 +694,292 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
           ),
         ],
       ),
+    );
+  }
+  void locationModalBottomSheet(context) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        // showDragHandle: true,
+        useSafeArea: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(30), topLeft: Radius.circular(30))),
+        context: context,
+        builder: (BuildContext bc) {
+          return StatefulBuilder(builder: (BuildContext context, setState) {
+            return Column(children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Text('Select class location', style: openSans.get20.w700),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 80),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color:
+                                AppColors.downArrowColor.withOpacity(0.15)),
+                            child: const Padding(
+                              padding: EdgeInsets.all(3),
+                              child: Icon(Icons.close),
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+              ),
+              Obx(
+                    () => Expanded(
+                  child: SingleChildScrollView(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: _manageAddressController.address.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final UserAddress data =
+                          _manageAddressController.address[index];
+                          return listData(index, data, setState);
+                        }),
+                  ),
+                ),
+              ),
+              Obx(
+                    () => AppButton(
+                  onPressed: () async{ Get.back();
+                  bool status= await _classDetailsController.bookClassDetail({
+                    'location': _manageAddressController.address[ _classDetailController.selectedIndex.value].id
+                  });
+                  if(status) {
+                    // ignore: use_build_context_synchronously
+                    showModalBottomSheet(
+                      context: context,
+                      constraints: BoxConstraints(
+                        maxWidth:
+                        // ignore: use_build_context_synchronously
+                        (MediaQuery.of(context).size.width - 30)
+                            .px,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.px),
+                      ),
+                      builder: (BuildContext context) {
+                        return SuccessFailsInfoDialog(
+                          title: 'Success',
+                          buttonTitle: 'Done',
+                          content:
+                          'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
+                          isRouting: 'back',
+
+                        );
+                      },
+                    );
+                  }
+                  },
+                  // ignore: avoid_bool_literals_in_conditional_expressions
+                  isDisable: _classDetailController.selectedIndex.value != 200
+                      ? false
+                      : true,
+                  title: 'select'.tr,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: TextButton(
+                    onPressed: () {
+                      final Map<String, dynamic> titleData = {
+                        'title': 'Add New Addresses',
+                      };
+                      Get.toNamed(Routes.addAddressView, arguments: titleData);
+                    },
+                    child: Text(
+                      'addNewAddress'.tr,
+                      style: openSans.w700,
+                    )),
+              )
+            ]);
+          });
+        });
+  }
+  Widget listData(int index, UserAddress data, StateSetter setState) {
+    return Padding(
+        padding: const EdgeInsets.all(8),
+        child: Obx(()=>
+            Container(
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    color:  _classDetailController.selectedIndex.value ==
+                        index
+                        ? AppColors.appBlue
+                        : AppColors.gray.withOpacity(0.25),
+                  ),
+                  borderRadius: BorderRadius.circular(20)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Text(data.shortName ?? '',
+                                  style: openSans.get17.w700),
+                              if (data.isDefault==1)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(25),
+                                        color: const Color(0xfff0f5ff),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 5, horizontal: 8),
+                                        child: Text('default'.tr),
+                                      )),
+                                ),
+                            ],
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                _classDetailController.selectedIndex.value = index;
+                              },
+                              child: _classDetailController.selectedIndex.value ==
+                                  index
+                                  ? const ChoiceConfirmButton(
+                                icon: Icon(
+                                  Icons.check_circle,
+                                  color: AppColors.appBlue,
+                                ),
+                              )
+                                  : ChoiceConfirmButton(
+                                  icon: Icon(
+                                    Icons.circle_outlined,
+                                    color: AppColors.gray.withOpacity(0.25),
+                                  )))
+                        ]),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5, bottom: 13),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('${data.address1 ?? ''} ${data.address2 ?? ''}'),
+                          Text(
+                              '${data.city ?? ''} ${data.state ?? ''} ${data.country ?? ''}'),
+                        ],
+                      ),
+                    ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () async{
+                              if (data.isDefault == 1) {
+                                AppUtils.showFlushBar(
+                                  context: Routes.navigatorKey.currentContext!,
+                                  message: 'Can not delete default address',
+                                );
+                              } else {
+                                await _manageAddressController
+                                    .deleteAddressData(data.id!);
+                                if (_classDetailController.selectedIndex.value ==
+                                    index) {
+                                  _classDetailController.selectedIndex.value = 200;
+                                }
+                              }
+                            },
+                            child: iconButtonWidget(
+                              icon: Icons.delete_outline_rounded,
+                              padding: 8,
+                              bgColor: AppColors.appRed,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              var arguments = {
+                                'title': 'Update Address',
+                                'userData': data
+                              };
+                              Get.toNamed(Routes.addAddressView,
+                                  arguments: arguments);
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: 10,
+                                  right:
+                                  _classDetailController.selectedIndex.value !=
+                                      index
+                                      ? 10
+                                      : 0),
+                              child: iconButtonWidget(
+                                icon: Icons.edit,
+                                padding: 8,
+                                bgColor: AppColors.appBlue,
+                              ),
+                            ),
+                          ),
+                          if (data.isDefault != 1)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    final AddressRequestModel updatedData =
+                                    AddressRequestModel(
+                                        isDefault: true,
+                                        shortName: data.shortName,
+                                        city: data.city,
+                                        state: data.state,
+                                        country: data.country,
+                                        address2: data.address2,
+                                        address1: data.address2,
+                                        location: Location(
+                                            lat: data.location?.lat,
+                                            long: data.location?.long));
+                                    _manageAddressController.updateAddressData(
+                                        updatedData, data.id!);
+                                  },
+                                  style: const ButtonStyle(
+                                      backgroundColor: MaterialStatePropertyAll(
+                                          AppColors.appBlue),
+                                      shape: MaterialStatePropertyAll(
+                                          StadiumBorder())),
+                                  child: const Text('Set Default',
+                                      style: TextStyle(color: AppColors.white))),
+                            )
+                        ]),
+                  ],
+                ),
+              ),
+            ),
+        ));
+  }
+  Widget iconButtonWidget(
+      {Color? bgColor,
+        required IconData icon,
+        double? iconSize,
+        double? padding,
+        void Function()? onPress}) {
+    return GestureDetector(
+      onTap: onPress,
+      child: Container(
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: bgColor ?? AppColors.secondaryColor),
+          child: Padding(
+            padding: EdgeInsets.all(padding ?? 5.0),
+            child: Icon(
+              icon,
+              size: iconSize ?? 23,
+              color: AppColors.white,
+            ),
+          )),
     );
   }
 }
