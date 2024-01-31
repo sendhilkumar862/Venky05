@@ -9,6 +9,7 @@ import '../../../custom/loader/easy_loader.dart';
 import '../../../product/cache/key_value_storeage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../../product/utils/validators.dart';
+import '../../proposal/proposol_details/repository/delete_proposal_repository.dart';
 import '../modal/class_detail_model.dart';
 import '../modal/proposal_model.dart';
 import '../repository/get_all_proposal_repository.dart';
@@ -19,6 +20,7 @@ class ClassDetailsController extends GetxController{
 
   final GetClassDetailRepository _getClassDetailRepository = GetClassDetailRepository();
   final GetProposalAllRepository _getProposalAllRepository=GetProposalAllRepository();
+  final DeleteProposalDetailRepository _deleteProposalDetailRepository= DeleteProposalDetailRepository();
   RxString selectedProfile = ''.obs;
   String classId='';
 
@@ -87,5 +89,15 @@ class ClassDetailsController extends GetxController{
       }}
     }
   }
+
+  Future<void> deleteProposalDetails(String id, ) async {
+    showLoading();
+    final BaseResponse getProposalsDataResponse = await _deleteProposalDetailRepository.deleteProposalDetail(id,classId);
+    if (getProposalsDataResponse.status?.type == 'success') {
+      await getClassDetails(classId);
+    }
+    hideLoading();
+  }
+
 }
 

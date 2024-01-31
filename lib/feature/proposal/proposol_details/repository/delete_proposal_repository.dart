@@ -23,7 +23,7 @@ class DeleteProposalDetailAPIRequest extends BaseRequest {
   final String id;
   final String classId;
   @override
-  String get endPoint => '${ApiEndpoint.school(SchoolEndpoint.CREATE_CLASS)}/$id/proposals/$classId';
+  String get endPoint => '${ApiEndpoint.school(SchoolEndpoint.CREATE_CLASS)}/$classId/proposals/$id';
   @override
   Map<String, dynamic> get body =>{};
 

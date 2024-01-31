@@ -35,9 +35,6 @@ class _CreateProposalState extends State<CreateProposal> {
 
 
   bool isDisable = true;
-  String dateAndTime = '';
-  String classDuration = '';
-  bool isChecked = false;
 
 
   @override
@@ -308,11 +305,11 @@ class _CreateProposalState extends State<CreateProposal> {
                         style: openSans.get16.w400
                             .textColor(AppColors.appTextColor)),
                     onTap: () {
-                      _createProposalController.isSelected = index;
+                      _createProposalController.duration = _classDetailController.masterData.value.sessionDurations![index];
                       _createProposalController.classDurationController.text = _classDetailController.masterData.value.sessionDurations![index].toString().timeConvert();
                       Navigator.pop(context);
                     },
-                    trailing: _createProposalController.isSelected == index
+                    trailing: _classDetailController.masterData.value.sessionDurations![index]==_createProposalController.duration
                         ? const Icon(
                             Icons.check_circle,
                             color: AppColors.appBlue,

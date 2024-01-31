@@ -505,13 +505,16 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         final CreateProposalController createProposalController = Get
                             .put(CreateProposalController());
                         createProposalController.dateController.text =
-                            DateFormat('M-dd-yyyy hh:mm a').format(
+                            DateFormat('dd-M-yyyy hh:mm a').format(
                                 DateTime.fromMillisecondsSinceEpoch(_classDetailsController.classData.value
-                                    .myProposaldetails!.pClassTime!)) ?? '';
+                                    .myProposaldetails!.pClassTime!));
                         createProposalController.classDurationController.text =
                             _classDetailsController.classData.value
                                 .myProposaldetails?.pDuration?.toString()
                                 .timeConvert() ?? '';
+                        createProposalController.duration =
+                            _classDetailsController.classData.value
+                                .myProposaldetails?.pDuration??0;
                         createProposalController.numberOfSession.text =
                             _classDetailsController.classData.value
                                 .myProposaldetails?.pSessions?.toString() ?? '';
@@ -570,7 +573,9 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       .canWithdrawProposal ??
                       false)
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        _classDetailsController.deleteProposalDetails(_classDetailsController.classData.value.myProposaldetails!.id!);
+                      },
                       child: Center(
                         child: AppText(
                           'Withdraw Proposal',

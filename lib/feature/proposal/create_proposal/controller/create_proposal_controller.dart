@@ -16,7 +16,7 @@ class CreateProposalController extends GetxController{
   final UpdateProposalRepository _updateProposalRepository=UpdateProposalRepository();
   final ClassDetailController _classDetailController = Get.put(ClassDetailController());
 
-  int? isSelected;
+  int? duration;
   RxString selectedProfile = ''.obs;
   RxString selectedTimes = formatTime(DateTime.now()).obs;
   RxString selectedDate = formatTime(DateTime.now()).obs;
@@ -42,7 +42,7 @@ class CreateProposalController extends GetxController{
   Future<bool> crateProposal() async {
     bool status =false;
     showLoading();
-    final BaseResponse getProposalsDataResponse = await _createProposalRepository.createClassRepository(CreateProposalRequestModel(cost:int.parse(classCost.text),sessions:int.parse(numberOfSession.text) ,duration: _classDetailController.masterData.value.sessionDurations![isSelected!],classTime:dateController.text.toEpoch(),currency: 'KWD'  ), Get.arguments['classNumber']);
+    final BaseResponse getProposalsDataResponse = await _createProposalRepository.createClassRepository(CreateProposalRequestModel(cost:int.parse(classCost.text),sessions:int.parse(numberOfSession.text) ,duration:duration,classTime:dateController.text.toEpoch(),currency: 'KWD'  ), Get.arguments['classNumber']);
     if (getProposalsDataResponse.status?.type == 'success') {
      status=true;
     }
@@ -53,7 +53,7 @@ class CreateProposalController extends GetxController{
   Future<bool> updateProposal() async {
     bool status =false;
     showLoading();
-    final BaseResponse getProposalsDataResponse = await _updateProposalRepository.updateClassRepository(CreateProposalRequestModel(cost:int.parse(classCost.text),sessions:int.parse(numberOfSession.text) ,duration: isSelected!=null?_classDetailController.masterData.value.sessionDurations![isSelected!]:int.parse(classDurationController.text),classTime:dateController.text.toEpoch(),currency: 'KWD'  ), Get.arguments['classNumber'],Get.arguments['proposalId']);
+    final BaseResponse getProposalsDataResponse = await _updateProposalRepository.updateClassRepository(CreateProposalRequestModel(cost:int.parse(classCost.text),sessions:int.parse(numberOfSession.text) ,duration: duration ?? int.parse(classDurationController.text),classTime:dateController.text.toEpoch(),currency: 'KWD'  ), Get.arguments['classNumber'],Get.arguments['proposalId']);
     if (getProposalsDataResponse.status?.type == 'success') {
       status=true;
     }
