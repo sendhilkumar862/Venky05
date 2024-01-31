@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -23,6 +24,8 @@ class ClassDetailsController extends GetxController{
   final DeleteProposalDetailRepository _deleteProposalDetailRepository= DeleteProposalDetailRepository();
   RxString selectedProfile = ''.obs;
   String classId='';
+  int startIndex=1;
+  ScrollController scrollController=ScrollController();
 
 
   @override
@@ -48,7 +51,7 @@ class ClassDetailsController extends GetxController{
 
     await Future.wait([
       // ignore: avoid_dynamic_calls
-      getProposalDetails(classId),
+      getProposalDetails(classId,startIndex),
     // ignore: avoid_dynamic_calls
     getClassDetails(classId),
     ]);
@@ -78,15 +81,24 @@ class ClassDetailsController extends GetxController{
       await fetchMap(LatLng(double.parse(classData.value.location?.lat??'0.0'),double.parse(classData.value.location?.long??'0.0')));
     }
   }
-  Future<void> getProposalDetails(String id) async {
-    final BaseResponse getProposalsDataResponse = await _getProposalAllRepository.getProposalAll(id);
+  Future<void> getProposalDetails(String id, int startIndex,{bool isReload=false}) async {
+    if(isReload){
+      showLoading();
+    }
+    final BaseResponse getProposalsDataResponse = await _getProposalAllRepository.getProposalAll(id,startIndex);
     if (getProposalsDataResponse.status?.type == 'success') {
       if(getProposalsDataResponse.data!.item!=null){
       final List proposalListData=getProposalsDataResponse.data!.item! as List;
-      proposalList.clear();
+      if(!isReload) {
+        proposalList.clear();
+      }
+
       for (var element in proposalListData) {
         proposalList.add(ProposalModel.fromJson(element));
       }}
+    }
+    if(isReload){
+      hideLoading();
     }
   }
 

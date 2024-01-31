@@ -25,6 +25,23 @@ class ProposalsBy extends StatefulWidget {
 class _ProposalsByState extends State<ProposalsBy> {
   final ProposalsByController _proposalsByController=Get.put(ProposalsByController());
   final ClassDetailsController _classDetailsController = Get.put(ClassDetailsController());
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _classDetailsController.scrollController.addListener(pagination);
+  }
+  void pagination() async{
+    if (_classDetailsController.scrollController.position.pixels ==
+        _classDetailsController.scrollController.position.maxScrollExtent) {
+      // ignore: avoid_dynamic_calls
+      if( _classDetailsController.classData.value.proposalsCount!=null && _classDetailsController.classData.value.proposalsCount! >_classDetailsController.proposalList.length){
+        _classDetailsController.startIndex= _classDetailsController.startIndex+1;
+        // ignore: avoid_dynamic_calls
+        await _classDetailsController.getProposalDetails( _classDetailsController.classId, _classDetailsController.startIndex,isReload: true);
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -71,6 +88,7 @@ class _ProposalsByState extends State<ProposalsBy> {
                   physics: BouncingScrollPhysics(),
                   itemCount: _classDetailsController.proposalList.length,
                   shrinkWrap: true,
+                  controller: _classDetailsController.scrollController,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 10.px,

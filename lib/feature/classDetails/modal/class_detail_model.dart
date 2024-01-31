@@ -29,7 +29,8 @@ class ClassDetailsModel {
       this.canCancelClass,
       this.canBookClass,
       this.canRescheduleClass,
-      this.canWithdrawProposal,});
+      this.canWithdrawProposal,
+      this.proposalsCount});
 
   ClassDetailsModel.fromJson(Map<String, dynamic> json) {
     displayId = json['displayId'];
@@ -51,6 +52,7 @@ class ClassDetailsModel {
     location = json['location'] != null
         ?  Location.fromJson(json['location'])
         : null;
+    proposalsCount= json['proposalsCount'];
     allowAtStudentLoc = json['allow_at_student_loc'];
     role = json['role'];
     isOwner = json['isOwner'];
@@ -84,6 +86,7 @@ class ClassDetailsModel {
   int? allowAtStudentLoc;
   String? role;
   int? isOwner;
+  int? proposalsCount;
   MyProposaldetails? myProposaldetails;
   bool? canEditSubmittedProposal;
   bool? canRescheduleClass;
