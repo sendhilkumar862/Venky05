@@ -615,7 +615,7 @@ class _ForStudentsState extends State<ForStudents> {
                   "${ _searchController.searchClassList[index].cost ?? ''} ${ _searchController.searchClassList[index].currency ?? ''}",
                   status:  _searchController.searchClassList[index].status,
                   // isPro: true,
-                  avtar: _searchController.searchClassList[index].imageId,
+                  avtar: _searchController.searchClassList[index].imageId?.getImageUrl('profile'),
                   countryIcon: _searchController.searchClassList[index].country!=null && _languageController.countries.isNotEmpty?_languageController.countries.firstWhere((Country element) => element.name==_searchController.searchClassList[index].country).flag_url:ImageConstants.countryIcon,
 
                   countryName: _searchController.searchClassList[index].country,

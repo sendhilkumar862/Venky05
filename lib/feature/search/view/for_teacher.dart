@@ -16,6 +16,7 @@ import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
+import '../../../product/extension/string_extension.dart';
 import '../../../product/utils/typography.dart';
 import '../controller/search_controller.dart';
 
@@ -516,7 +517,7 @@ class _ForTeacherState extends State<ForTeacher> {
                   itemBuilder: (BuildContext context, int index) {
                     return DetailsCardViewStudent(
                         name: _searchController.searchClassListUser[index].name,
-                        avatar: _searchController.searchClassListUser[index].imageId,
+                        avatar: _searchController.searchClassListUser[index].imageId?.getImageUrl('profile'),
                         isBookmarked: true,
                         grades:'Grade ${_searchController.searchClassListUser[index].grade?.join(' - ')}');
                   },

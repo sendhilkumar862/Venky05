@@ -74,8 +74,9 @@ class ProposalDetailController extends GetxController{
   void getProfile() {
     selectedProfile.value =
         LocaleManager.getValue(StorageKeys.profile) ?? ApplicationConstants.student;
+    getProposalDetails(Get.arguments['proposalId'],Get.arguments['classId']);
   }
-  Future<void> getProposalDetails(String id, String classId) async {
+  Future<void> getProposalDetails(String classId,String id ) async {
     showLoading();
     final BaseResponse getProposalsDataResponse = await _getProposalDetailRepository.getProposalDetail(id,classId);
     if (getProposalsDataResponse.status?.type == 'success') {

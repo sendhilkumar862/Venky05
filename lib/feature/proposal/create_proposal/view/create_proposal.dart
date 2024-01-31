@@ -11,9 +11,12 @@ import '../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../../../product/extension/string_extension.dart';
 import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../../product/utils/validators.dart';
+import '../../../class/class_detail/controller/class_detail_controller.dart';
+import '../../../classDetails/controller/class_details_controller.dart';
 import '../controller/create_proposal_controller.dart';
 
 class CreateProposal extends StatefulWidget {
@@ -26,36 +29,16 @@ class CreateProposal extends StatefulWidget {
 class _CreateProposalState extends State<CreateProposal> {
   var selectedDate = DateTime.now();
   final CreateProposalController _createProposalController =Get.put(CreateProposalController());
-  int? isSelected;
+  final ClassDetailController _classDetailController = Get.put(ClassDetailController());
+  final ClassDetailsController _classDetailsController=Get.find();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  TextEditingController dateController = TextEditingController();
-  TextEditingController date2Controller = TextEditingController();
-  TextEditingController timeController = TextEditingController();
-  TextEditingController classCost = TextEditingController();
-  TextEditingController numberOfSession = TextEditingController();
-  TextEditingController classDurationController = TextEditingController();
+
 
   bool isDisable = true;
   String dateAndTime = '';
   String classDuration = '';
-
   bool isChecked = false;
-  List<String> dateAndTimeList = <String>[
-    'abs',
-    'hello',
-    'guys',
-  ];
-  List<String> classDurationList = <String>[
-    '1 Hours',
-    '1 Hour - 15 Minutes',
-    '1 Hour - 30 Minutes',
-    '1 Hour - 45 Minutes',
-    '2 Hours',
-    '2 Hour - 15 Minutes',
-    '2 Hour - 30 Minutes',
-    '2 Hour - 45 Minutes',
-    '3 Hour',
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +47,7 @@ class _CreateProposalState extends State<CreateProposal> {
         isTitleOnly: true,
         // isBack: true,
         // trailingText: 'Cancel',
-        title: 'createClass'.tr,
+        title: Get.arguments['proposalId']!=null?'Update Proposal':'Create Proposal',
         // normalAppbar: true,
       ),
       body:  Form(
@@ -97,8 +80,9 @@ class _CreateProposalState extends State<CreateProposal> {
                           ),
                         ),
                         AppTextFormField(
-                          controller: classCost,
+                          controller: _createProposalController.classCost,
                           keyboardType:
+                          // ignore: use_named_constants
                           const TextInputType.numberWithOptions(),
                           validate: Validators.requiredValidator.call,
                           suffix: Padding(
@@ -129,17 +113,18 @@ class _CreateProposalState extends State<CreateProposal> {
                           hintText: 'classCost'.tr,
                         ),
                         AppTextFormField(
-                          controller: numberOfSession,
+                          controller: _createProposalController.numberOfSession,
                           keyboardType:
-                          const TextInputType.numberWithOptions(),
+                           // ignore: use_named_constants
+                           const TextInputType.numberWithOptions(),
                           validate: Validators.requiredValidator.call,
                           hintText: 'numberOfSessions'.tr,
                         ),
                         AppTextFormField(
                           validate: Validators.requiredValidator.call,
-                          controller: dateController,
+                          controller: _createProposalController.dateController,
                           onTap: () {
-                            calender(context, dateController);
+                            calender(context, _createProposalController.dateController);
                           },
                           hintText: 'classDateAndTime'.tr,
                           readOnly: true,
@@ -147,18 +132,18 @@ class _CreateProposalState extends State<CreateProposal> {
                               Icons.keyboard_arrow_down_sharp,
                               color: AppColors.downArrowColor),
                         ),
-                        AppTextFormField(
-                          validate: Validators.requiredValidator.call,
-                          controller: date2Controller,
-                          onTap: () {
-                            calender(context, date2Controller);
-                          },
-                          hintText: 'class2DateAndTime'.tr,
-                          readOnly: true,
-                          suffix: const Icon(
-                              Icons.keyboard_arrow_down_sharp,
-                              color: AppColors.downArrowColor),
-                        ),
+                        // AppTextFormField(
+                        //   validate: Validators.requiredValidator.call,
+                        //   controller: date2Controller,
+                        //   onTap: () {
+                        //     calender(context, date2Controller);
+                        //   },
+                        //   hintText: 'class2DateAndTime'.tr,
+                        //   readOnly: true,
+                        //   suffix: const Icon(
+                        //       Icons.keyboard_arrow_down_sharp,
+                        //       color: AppColors.downArrowColor),
+                        // ),
                         AppTextFormField(
                           validate: Validators.requiredValidator.call,
                           suffix: const Icon(
@@ -167,7 +152,7 @@ class _CreateProposalState extends State<CreateProposal> {
                           hintText: 'classDuration'.tr,
                           title: 'classDuration'.tr,
                           readOnly: true,
-                          controller: classDurationController,
+                          controller: _createProposalController.classDurationController,
                           onTap: () {
                             bottomSheetDropDownList();
                           },
@@ -176,13 +161,18 @@ class _CreateProposalState extends State<CreateProposal> {
                   Padding(
                     padding: EdgeInsets.only(bottom: 20.px, top: 80.px),
                     child: AppButton(
-                      title: 'submit'.tr,
-                      onPressed: () {
+                      title: Get.arguments['proposalId']!=null?'Update':'submit'.tr,
+                      onPressed: () async{
                         if (formKey.currentState!.validate()) {
-                          showModalBottomSheet(
+                         bool status=  Get.arguments['proposalId']!=null? await _createProposalController.updateProposal():await _createProposalController.crateProposal();
+                         if(status) {
+                           _classDetailsController.fetchData();
+                           // ignore: use_build_context_synchronously
+                           showModalBottomSheet(
                             context: context,
                             constraints: BoxConstraints(
                               maxWidth:
+                              // ignore: use_build_context_synchronously
                               (MediaQuery.of(context).size.width - 30)
                                   .px,
                             ),
@@ -194,10 +184,13 @@ class _CreateProposalState extends State<CreateProposal> {
                                 title: 'Success',
                                 buttonTitle: 'Done',
                                 content:
-                                'You have successfully submit your proposal.',
+                               _createProposalController.proposalId!=''?'You have successfully updated your proposal.':'You have successfully submit your proposal.',
+                                isRouting: 'back',
+
                               );
                             },
                           );
+                         }
                         }
                       },
                       isDisable: isDisable,
@@ -305,26 +298,26 @@ class _CreateProposalState extends State<CreateProposal> {
             ),
             Expanded(
               child: ListView.separated(
-                separatorBuilder: (BuildContext context, index) {
+                separatorBuilder: (BuildContext context, int index) {
                   return const Divider();
                 },
-                itemCount: classDurationList.length,
-                itemBuilder: (BuildContext context, index) {
+                itemCount: _classDetailController.masterData.value.sessionDurations?.length??0,
+                itemBuilder: (BuildContext context, int index) {
                   return ListTile(
-                    title: Text(classDurationList[index],
+                    title: Text( _classDetailController.masterData.value.sessionDurations![index].toString().timeConvert(),
                         style: openSans.get16.w400
                             .textColor(AppColors.appTextColor)),
                     onTap: () {
-                      isSelected = index;
-                      classDurationController.text = classDurationList[index];
+                      _createProposalController.isSelected = index;
+                      _createProposalController.classDurationController.text = _classDetailController.masterData.value.sessionDurations![index].toString().timeConvert();
                       Navigator.pop(context);
                     },
-                    trailing: isSelected == index
+                    trailing: _createProposalController.isSelected == index
                         ? const Icon(
                             Icons.check_circle,
                             color: AppColors.appBlue,
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                   );
                 },
               ),

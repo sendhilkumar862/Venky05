@@ -1,30 +1,38 @@
+
+
 class ClassDetailsModel {
+
   ClassDetailsModel(
-      {this.classNumber,
-      this.subject,
-      this.school,
-      this.curriculum,
-      this.grade,
-      this.description,
-      this.sessions,
-      this.minParticipants,
-      this.maxParticipants,
-      this.duration,
-      this.classTime,
-      this.cost,
-      this.currency,
-      this.status,
-      this.address,
-      this.location,
-      this.displayId,
+      {this.displayId,
+        this.classNumber,
+        this.subject,
+        this.school,
+        this.curriculum,
+        this.grade,
+        this.description,
+        this.sessions,
+        this.minParticipants,
+        this.maxParticipants,
+        this.duration,
+        this.classTime,
+        this.cost,
+        this.currency,
+        this.status,
+        this.address,
+        this.location,
+        this.allowAtStudentLoc,
         this.role,
-      this.isOwner,
-      this.canBookClass,
+        this.isOwner,
+        this.myProposaldetails,
+        this.canEditSubmittedProposal,
+      this.canSubmitProposal,
       this.canCancelClass,
+      this.canBookClass,
       this.canRescheduleClass,
-      this.canSubmitProposal});
+      this.canWithdrawProposal,});
 
   ClassDetailsModel.fromJson(Map<String, dynamic> json) {
+    displayId = json['displayId'];
     classNumber = json['classNumber'];
     subject = json['subject'];
     school = json['school'];
@@ -40,17 +48,23 @@ class ClassDetailsModel {
     currency = json['currency'];
     status = json['status'];
     address = json['address'];
-    displayId = json['displayId'];
-    role=json['role'];
     location = json['location'] != null
         ?  Location.fromJson(json['location'])
         : null;
+    allowAtStudentLoc = json['allow_at_student_loc'];
+    role = json['role'];
     isOwner = json['isOwner'];
-    canRescheduleClass=json['canRescheduleClass'];
-    canSubmitProposal=json['canSubmitProposal'];
-    canCancelClass=json['canCancelClass'];
-    canBookClass=json['canBookClass'];
+    myProposaldetails = json['myProposaldetails'] != null
+        ?  MyProposaldetails.fromJson(json['myProposaldetails'])
+        : null;
+    canEditSubmittedProposal = json['canEditSubmittedProposal'];
+    canSubmitProposal = json['canSubmitProposal'];
+    canCancelClass = json['canCancelClass'];
+    canBookClass = json['canBookClass'];
+    canCancelClass = json['canCancelClass'];
+    canWithdrawProposal = json['canWithdrawProposal'];
   }
+  String? displayId;
   String? classNumber;
   String? subject;
   String? school;
@@ -67,59 +81,52 @@ class ClassDetailsModel {
   String? status;
   String? address;
   Location? location;
-  int? isOwner;
-  String? displayId;
+  int? allowAtStudentLoc;
   String? role;
+  int? isOwner;
+  MyProposaldetails? myProposaldetails;
+  bool? canEditSubmittedProposal;
   bool? canRescheduleClass;
   bool? canBookClass;
   bool? canSubmitProposal;
   bool? canCancelClass;
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['classNumber'] = classNumber;
-    data['subject'] = subject;
-    data['school'] = school;
-    data['curriculum'] = curriculum;
-    data['grade'] = grade;
-    data['description'] = description;
-    data['sessions'] = sessions;
-    data['minParticipants'] = minParticipants;
-    data['maxParticipants'] = maxParticipants;
-    data['duration'] = duration;
-    data['classTime'] = classTime;
-    data['cost'] = cost;
-    data['currency'] = currency;
-    data['status'] = status;
-    data['address'] = address;
-    data['displayId'] = displayId;
-    if (location != null) {
-      data['location'] = location!.toJson();
-    }
-    data['isOwner'] = isOwner;
-    data['canRescheduleClass'] = isOwner;
-    data['canCancelClass'] = isOwner;
-    data['canSubmitProposal'] = isOwner;
-    data['canBookClass'] = isOwner;
-    return data;
-  }
+  bool? canWithdrawProposal;
 }
 
 class Location {
+
   Location({this.lat, this.long});
 
   Location.fromJson(Map<String, dynamic> json) {
-    lat = json['lat'].toString();
-    long = json['long'].toString();
+    lat = json['lat'];
+    long = json['long'];
   }
   String? lat;
   String? long;
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['lat'] = lat;
-    data['long'] = long;
-    return data;
-  }
 }
 
+class MyProposaldetails {
+
+  MyProposaldetails(
+      {this.pCost,
+        this.pCurrency,
+        this.pClassTime,
+        this.pSessions,
+        this.pDuration,
+      this.id});
+
+  MyProposaldetails.fromJson(Map<String, dynamic> json) {
+    pCost = json['p_cost'];
+    pCurrency = json['p_currency'];
+    pClassTime = json['p_classTime'];
+    pSessions = json['p_sessions'];
+    pDuration = json['p_duration'];
+    id = json['p_id'];
+  }
+  String? pCost;
+  String? pCurrency;
+  int? pClassTime;
+  int? pSessions;
+  int? pDuration;
+  String? id;
+}

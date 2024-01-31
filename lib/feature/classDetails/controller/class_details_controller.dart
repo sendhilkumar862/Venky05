@@ -20,6 +20,8 @@ class ClassDetailsController extends GetxController{
   final GetClassDetailRepository _getClassDetailRepository = GetClassDetailRepository();
   final GetProposalAllRepository _getProposalAllRepository=GetProposalAllRepository();
   RxString selectedProfile = ''.obs;
+  String classId='';
+
 
   @override
   void onInit() {
@@ -27,7 +29,7 @@ class ClassDetailsController extends GetxController{
     selectedProfile.value =
         LocaleManager.getValue(StorageKeys.profile) ??
             '';
-
+    classId=Get.arguments['classNumber'];
     fetchData();
 
   }
@@ -41,11 +43,12 @@ class ClassDetailsController extends GetxController{
   // ignore: always_declare_return_types
   fetchData()async{
     showLoading();
+
     await Future.wait([
       // ignore: avoid_dynamic_calls
-      getProposalDetails(Get.arguments['classNumber']),
+      getProposalDetails(classId),
     // ignore: avoid_dynamic_calls
-    getClassDetails(Get.arguments['classNumber']),
+    getClassDetails(classId),
     ]);
     hideLoading();
   }
@@ -76,11 +79,12 @@ class ClassDetailsController extends GetxController{
   Future<void> getProposalDetails(String id) async {
     final BaseResponse getProposalsDataResponse = await _getProposalAllRepository.getProposalAll(id);
     if (getProposalsDataResponse.status?.type == 'success') {
-      // final List proposalListData=getProposalsDataResponse.data!.item! as List;
-      // proposalList.clear();
-      // for (var element in proposalListData) {
-      //   proposalList.add(ProposalModel.fromJson(element));
-      // }
+      if(getProposalsDataResponse.data!.item!=null){
+      final List proposalListData=getProposalsDataResponse.data!.item! as List;
+      proposalList.clear();
+      for (var element in proposalListData) {
+        proposalList.add(ProposalModel.fromJson(element));
+      }}
     }
   }
 }
