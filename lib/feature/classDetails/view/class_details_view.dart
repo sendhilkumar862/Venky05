@@ -554,7 +554,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       borderColor: AppColors.appBlue,
                       onPressed: () async{
                         if(_classDetailsController.classData.value.allowAtStudentLoc==0){
-                        bool status= await _classDetailsController.bookClassDetail({});
+                        final bool status= await _classDetailsController.bookClassDetail({});
                         if(status) {
                           // ignore: use_build_context_synchronously
                           showModalBottomSheet(
@@ -736,16 +736,62 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               ),
               Obx(
                     () => Expanded(
-                  child: SingleChildScrollView(
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: _manageAddressController.address.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final UserAddress data =
-                          _manageAddressController.address[index];
-                          return listData(index, data, setState);
-                        }),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: ()async {
+                            Get.back();
+                            bool status= await _classDetailsController.bookClassDetail({});
+                            if(status) {
+                              // ignore: use_build_context_synchronously
+                              showModalBottomSheet(
+                                context: context,
+                                constraints: BoxConstraints(
+                                  maxWidth:
+                                  // ignore: use_build_context_synchronously
+                                  (MediaQuery.of(context).size.width - 30)
+                                      .px,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.px),
+                                ),
+                                builder: (BuildContext context) {
+                                  return SuccessFailsInfoDialog(
+                                    title: 'Success',
+                                    buttonTitle: 'Done',
+                                    content:
+                                    'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
+                                    isRouting: 'back',
+
+                                  );
+                                },
+                              );
+                            }
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                  color:   AppColors.gray.withOpacity(0.25),
+                                ),
+                                borderRadius: BorderRadius.circular(10)),
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.all(15),
+                            child: const Text('Keep at the teacher location',style: TextStyle(fontSize: 14,fontWeight: FontWeight.w700),)
+                          ),
+                        ),
+                      ),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: _manageAddressController.address.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final UserAddress data =
+                            _manageAddressController.address[index];
+                            return listData(index, data, setState);
+                          }),
+                    ],
                   ),
                 ),
               ),
@@ -818,7 +864,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         ? AppColors.appBlue
                         : AppColors.gray.withOpacity(0.25),
                   ),
-                  borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(10)),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Column(
