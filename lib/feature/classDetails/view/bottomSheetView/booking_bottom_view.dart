@@ -11,8 +11,8 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 
 class BookingBottomSheet extends StatelessWidget {
-  BookingBottomSheet({super.key, this.height});
-
+  BookingBottomSheet({super.key, this.height,this.onPressed});
+  VoidCallback? onPressed;
   double? height;
 
   @override
