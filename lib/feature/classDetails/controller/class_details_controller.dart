@@ -13,6 +13,7 @@ import '../../../product/utils/validators.dart';
 import '../../proposal/proposol_details/repository/delete_proposal_repository.dart';
 import '../modal/class_detail_model.dart';
 import '../modal/proposal_model.dart';
+import '../repository/book_class_repository.dart';
 import '../repository/get_all_proposal_repository.dart';
 import '../repository/get_class_details_repository.dart';
 
@@ -22,6 +23,7 @@ class ClassDetailsController extends GetxController{
   final GetClassDetailRepository _getClassDetailRepository = GetClassDetailRepository();
   final GetProposalAllRepository _getProposalAllRepository=GetProposalAllRepository();
   final DeleteProposalDetailRepository _deleteProposalDetailRepository= DeleteProposalDetailRepository();
+  final BookClassRepository _bookClassRepository=BookClassRepository();
   RxString selectedProfile = ''.obs;
   String classId='';
   int startIndex=1;
@@ -109,6 +111,17 @@ class ClassDetailsController extends GetxController{
       await getClassDetails(classId);
     }
     hideLoading();
+  }
+  Future<bool> bookClassDetail(Map<String,dynamic> data ) async {
+    bool status=false;
+    showLoading();
+    final BaseResponse getProposalsDataResponse = await _bookClassRepository.bookClassRepositoryRepository(classId,data);
+    if (getProposalsDataResponse.status?.type == 'success') {
+      await getClassDetails(classId);
+      status=true;
+    }
+    hideLoading();
+    return status;
   }
 
 }
