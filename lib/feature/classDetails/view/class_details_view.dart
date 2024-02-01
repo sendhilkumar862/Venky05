@@ -27,6 +27,7 @@ import '../../setting_view/add_address_screen/Model/request_address_model.dart';
 import '../../setting_view/manage_address/Model/get_address_model.dart' hide Location;
 import '../../setting_view/manage_address/controller/manage_controller.dart';
 import '../controller/class_details_controller.dart';
+import 'bottomSheetView/booking_bottom_view.dart';
 
 class ClassDetailsView extends StatefulWidget {
   const ClassDetailsView({super.key});
@@ -548,7 +549,22 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     ),
                   if (_classDetailsController.classData.value.canBookClass ??
                       false)
-                    AppButton(
+                    _classDetailsController.classData.value.maxParticipants!>1?screenButton(isPaying:true,onTap: (){
+                      showModalBottomSheet(
+                        context: context,
+                          isScrollControlled:true,
+                        constraints: const BoxConstraints(),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(25.px),
+                            topLeft: Radius.circular(25.px),
+                          ),
+                        ),
+                        builder: (BuildContext context) {
+                          return BookingBottomSheet();
+                        },
+                      );
+                    }):AppButton(
                       isDisable: false,
                       title: 'Book Now',
                       borderColor: AppColors.appBlue,
@@ -631,9 +647,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         ),
                       ),
                     ),
-                  SizedBox(
-                    height: 40.px,
-                  ),
+
                 ],
               ),
         ),
@@ -1026,6 +1040,68 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               color: AppColors.white,
             ),
           )),
+    );
+  }
+  Widget screenButton({bool? isPaying, VoidCallback? onTap}) {
+    return Container(
+      alignment: Alignment.center,
+      height: 80.px,
+      padding: context.paddingNormal,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(13.px),
+        color:
+        (isPaying!) ? AppColors.appTransparent : AppColors.lightPurpleTwo,
+      ),
+      child: isPaying
+          ? Row(children: <Widget>[
+        Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              AppText('Total amount to pay',
+                  color: AppColors.appGrey,
+                  fontSize: 12.px,
+                  fontWeight: FontWeight.w500),
+              SizedBox(height: 3.px),
+              Row(
+                children: <Widget>[
+                  AppText('${_classDetailsController.classData.value
+                      .cost?.split('.')[0]}',
+                      fontSize: 16.px, fontWeight: FontWeight.w700),
+                  AppText('.${_classDetailsController.classData
+                      .value.cost?.split('.')[1]} KWD',
+                      fontSize: 12.px, fontWeight: FontWeight.w700),
+                ],
+              ),
+            ]),
+        const Spacer(),
+        AppButton(
+          isDisable: false,
+          width: 150.px,
+          title: 'Book Now',
+          borderColor: AppColors.appBlue,
+          borderRadius: BorderRadius.circular(10.px),
+          onPressed: isPaying ? onTap! : () {},
+        )
+      ])
+          : Row(children: <Widget>[
+        AppImageAsset(
+          image: ImageConstants.infoIcon,
+          height: 23.px,
+        ),
+        SizedBox(
+          width: 10.px,
+        ),
+        SizedBox(
+          width: 260.px,
+          child: AppText(
+            'You wil pay after the class accepted by the teacher.',
+            fontSize: 12.px,
+            fontWeight: FontWeight.w400,
+          ),
+        )
+      ]),
     );
   }
 }

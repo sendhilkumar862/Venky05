@@ -1,18 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../../config/routes/route.dart';
 import '../../../../custom/app_button/app_button.dart';
+import '../../../../custom/choice/src/modal/button.dart';
 import '../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../custom/divider/divider.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/switch/app_switch.dart';
 import '../../../../custom/text/app_text.dart';
+import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../../../product/utils/typography.dart';
+import '../../../class/class_detail/controller/class_detail_controller.dart';
+import '../../../setting_view/add_address_screen/Model/request_address_model.dart';
+import '../../../setting_view/manage_address/Model/get_address_model.dart' hide Location;
+import '../../../setting_view/manage_address/controller/manage_controller.dart';
+import '../../controller/class_details_controller.dart';
 
 class BookingBottomSheet extends StatelessWidget {
   BookingBottomSheet({super.key, this.height});
-
+  final ClassDetailsController _classDetailsController =
+  Get.find();
+  final ClassDetailController _classDetailController =
+  Get.put(ClassDetailController());
+  final ManageAddressController _manageAddressController =
+  Get.put(ManageAddressController());
   double? height;
 
   @override
@@ -117,9 +132,11 @@ class BookingBottomSheet extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      AppText('27',
+                      AppText('${_classDetailsController.classData.value
+                          .cost?.split('.')[0]}',
                           fontSize: 16.px, fontWeight: FontWeight.w700),
-                      AppText('.500 KWD',
+                      AppText('.${_classDetailsController.classData
+                          .value.cost?.split('.')[1]} KWD',
                           fontSize: 12.px, fontWeight: FontWeight.w700),
                     ],
                   ),
@@ -133,11 +150,11 @@ class BookingBottomSheet extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: 15.px,
+                height: 10.px,
               ),
               AppDivider(),
               SizedBox(
-                height: 15.px,
+                height: 10.px,
               ),
               Align(
                 alignment: Alignment.centerLeft,
@@ -149,7 +166,7 @@ class BookingBottomSheet extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 15.px,
+                height: 10.px,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -163,14 +180,12 @@ class BookingBottomSheet extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      AppText('27',
-                          fontSize: 16.px,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.appGrey),
-                      AppText('.500 KWD',
-                          fontSize: 12.px,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.appGrey),
+                      AppText('${_classDetailsController.classData.value
+                          .cost?.split('.')[0]}',
+                          fontSize: 16.px, fontWeight: FontWeight.w700),
+                      AppText('.${_classDetailsController.classData
+                          .value.cost?.split('.')[1]} KWD',
+                          fontSize: 12.px, fontWeight: FontWeight.w700),
                     ],
                   )
                 ],
@@ -185,7 +200,8 @@ class BookingBottomSheet extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                     color: AppColors.appGrey,
                   ),
-                  AppText('5',
+                  AppText('${_classDetailsController.classData
+                      .value.sessions}',
                       fontSize: 16.px,
                       fontWeight: FontWeight.w700,
                       color: AppColors.appGrey)
@@ -204,14 +220,12 @@ class BookingBottomSheet extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      AppText('27',
-                          fontSize: 16.px,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.appGrey),
-                      AppText('.500 KWD',
-                          fontSize: 12.px,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.appGrey),
+                      AppText('${_classDetailsController.classData.value
+                          .cost?.split('.')[0]}',
+                          fontSize: 16.px, fontWeight: FontWeight.w700),
+                      AppText('.${_classDetailsController.classData
+                          .value.cost?.split('.')[1]} KWD',
+                          fontSize: 12.px, fontWeight: FontWeight.w700),
                     ],
                   )
                 ],
@@ -231,11 +245,11 @@ class BookingBottomSheet extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      AppText('27',
+                      AppText('0',
                           fontSize: 16.px,
                           fontWeight: FontWeight.w700,
                           color: AppColors.appGrey),
-                      AppText('.500 KWD',
+                      AppText('.000 KWD',
                           fontSize: 12.px,
                           fontWeight: FontWeight.w700,
                           color: AppColors.appGrey),
@@ -259,16 +273,12 @@ class BookingBottomSheet extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      AppText(
-                        '27',
-                        fontSize: 16.px,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      AppText(
-                        '.500 KWD',
-                        fontSize: 12.px,
-                        fontWeight: FontWeight.w700,
-                      ),
+                      AppText('${_classDetailsController.classData.value
+                          .cost?.split('.')[0]}',
+                          fontSize: 16.px, fontWeight: FontWeight.w700),
+                      AppText('.${_classDetailsController.classData
+                          .value.cost?.split('.')[1]} KWD',
+                          fontSize: 12.px, fontWeight: FontWeight.w700),
                     ],
                   ),
                 ],
@@ -280,30 +290,38 @@ class BookingBottomSheet extends StatelessWidget {
                 isDisable: false,
                 borderColor: AppColors.appBlue,
                 height: 45.px,
-                title: 'pay',
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width - 30.px,
-                      // here increase or decrease in width
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.px),
-                    ),
-                    builder: (BuildContext context) {
-                      return SuccessFailsInfoDialog(
-                        tranId: '#232132132132133',
-                        buttonTitle: 'Done',
-                        title: 'Success',
-                        content: 'You have successfully booked your class!.',
-                      );
-                    },
-                  );
-                },
+                title: 'Book and Pay',
+                onPressed: () async{
+                      final bool status= await _classDetailsController.bookClassDetail({});
+                      if(status) {
+                        // ignore: use_build_context_synchronously
+                        showModalBottomSheet(
+                          context: context,
+                          constraints: BoxConstraints(
+                            maxWidth:
+                            // ignore: use_build_context_synchronously
+                            (MediaQuery.of(context).size.width - 30)
+                                .px,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.px),
+                          ),
+                          builder: (BuildContext context) {
+                            return SuccessFailsInfoDialog(
+                              title: 'Success',
+                              buttonTitle: 'Done',
+                              content:
+                              'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
+                              isRouting: 'back',
+
+                            );
+                          },
+                        );
+                      }
+                    }
               ),
               SizedBox(
-                height: 30.px,
+                height: 10.px,
               ),
             ],
           ),
@@ -311,4 +329,5 @@ class BookingBottomSheet extends StatelessWidget {
       ),
     );
   }
+
 }
