@@ -11,6 +11,9 @@ import '../../../custom/choice/src/inline/list.dart';
 import '../../../custom/choice/src/inline/main.dart';
 import '../../../custom/choice/src/selection/controller/main.dart';
 import '../../../custom/divider/divider.dart';
+import '../../../product/cache/key_value_storeage.dart';
+import '../../../product/cache/local_manager.dart';
+import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/extension/string_extension.dart';
@@ -30,7 +33,7 @@ class ForStudents extends StatefulWidget {
 class _ForStudentsState extends State<ForStudents> {
   final SearchClassController _searchController=Get.put(SearchClassController());
   final LanguageController _languageController = Get.find();
-
+  String selectedProfile = '';
 
   @override
   void initState() {
@@ -38,6 +41,7 @@ class _ForStudentsState extends State<ForStudents> {
     super.initState();
     _searchController.getSavedSearch(SchoolEndpoint.GET_SEARCH_CLASS);
     _searchController.scrollControllerClass.addListener(pagination);
+    selectedProfile = LocaleManager.getValue(StorageKeys.profile) ?? '';
   }
   void pagination() {
     if (_searchController.scrollControllerClass.position.pixels ==
@@ -611,6 +615,7 @@ class _ForStudentsState extends State<ForStudents> {
                   timer: _searchController.searchClassList[index].duration
                       .toString()
                       .timeConvert(),
+                  title: selectedProfile == ApplicationConstants.tutor?'Propose':'Book',
                   money:
                   "${ _searchController.searchClassList[index].cost ?? ''} ${ _searchController.searchClassList[index].currency ?? ''}",
                   status:  _searchController.searchClassList[index].status,

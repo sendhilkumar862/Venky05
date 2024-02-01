@@ -42,7 +42,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
   Get.put(ClassDetailsController());
   final ManageAddressController _manageAddressController =
   Get.put(ManageAddressController());
-  ClassDetailController _classDetailController =
+  final ClassDetailController _classDetailController =
   Get.put(ClassDetailController());
 
   @override
@@ -50,6 +50,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
     // TODO: implement initState
     super.initState();
     _manageAddressController.fetchAddressData();
+    _classDetailsController.onInit();
   }
   @override
   Widget build(BuildContext context) {

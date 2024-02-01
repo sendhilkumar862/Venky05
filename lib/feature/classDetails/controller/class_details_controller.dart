@@ -10,6 +10,7 @@ import '../../../custom/loader/easy_loader.dart';
 import '../../../product/cache/key_value_storeage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../../product/utils/validators.dart';
+import '../../home/controller/home_controller.dart';
 import '../../proposal/proposol_details/repository/delete_proposal_repository.dart';
 import '../modal/class_detail_model.dart';
 import '../modal/proposal_model.dart';
@@ -36,8 +37,9 @@ class ClassDetailsController extends GetxController{
     selectedProfile.value =
         LocaleManager.getValue(StorageKeys.profile) ??
             '';
+    if(Get.arguments!=null){
     classId=Get.arguments['classNumber'];
-    fetchData();
+    fetchData();}
 
   }
   Rx<CameraPosition> kGooglePlex=const CameraPosition( target: LatLng(24.7136,46.6753),
@@ -117,7 +119,9 @@ class ClassDetailsController extends GetxController{
     showLoading();
     final BaseResponse getProposalsDataResponse = await _bookClassRepository.bookClassRepositoryRepository(classId,data);
     if (getProposalsDataResponse.status?.type == 'success') {
+      final HomeController _homeController=Get.find();
       await getClassDetails(classId);
+      await _homeController.getData();
       status=true;
     }
     hideLoading();
