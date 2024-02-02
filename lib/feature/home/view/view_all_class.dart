@@ -39,7 +39,7 @@ class ViewAllClass extends StatefulWidget {
 
 class _ViewAlaaClassState extends State<ViewAllClass> {
   final HomeController _homeController = Get.put(HomeController());
-  final LanguageController _languageController = Get.find();
+  final LanguageController _languageController = Get.put(LanguageController());
   String selectedProfile = '';
   SchoolEndpoint classType= SchoolEndpoint.RELATED_CLASS;
   final ClassDetailController _classDetailController =
