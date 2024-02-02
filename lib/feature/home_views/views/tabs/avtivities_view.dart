@@ -73,6 +73,7 @@ class _ActivitiesViewState extends State<ActivitiesView> {
                    cardColor: AppColors.white,
                    buttonTitle: 'Create New Class',
                    buttonTap: () {
+
                      Get.toNamed(Routes.createClass);
                      // AppRouter.pushNamed(Routes.createClass);
                    },

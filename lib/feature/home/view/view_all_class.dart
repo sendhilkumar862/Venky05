@@ -39,7 +39,7 @@ class ViewAllClass extends StatefulWidget {
 
 class _ViewAlaaClassState extends State<ViewAllClass> {
   final HomeController _homeController = Get.put(HomeController());
-  final LanguageController _languageController = Get.find();
+  final LanguageController _languageController = Get.put(LanguageController());
   String selectedProfile = '';
   SchoolEndpoint classType= SchoolEndpoint.RELATED_CLASS;
   final ClassDetailController _classDetailController =
@@ -342,7 +342,7 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
                                   ),
                                   borderRadius: BorderRadius.circular(10)),
                               alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.all(15),
+                              padding: const EdgeInsets.all(15),
                               child: const Text(
                                 'Keep at the teacher location',
                                 style: TextStyle(
@@ -366,7 +366,6 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
               Obx(
                     () => AppButton(
                   onPressed: () async {
-                    Get.back();
                     _classDetailsController.classId=_homeController
                         .classRelatedList[index]
                         .classNumber!;
@@ -377,16 +376,11 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
                               .address[_classDetailController.selectedIndex.value]
                               .id
                         });
-
+                    Get.back();
                     if (status) {
                       // ignore: use_build_context_synchronously
                       showModalBottomSheet(
                         context: context,
-                        constraints: BoxConstraints(
-                          maxWidth:
-                          // ignore: use_build_context_synchronously
-                          (MediaQuery.of(context).size.width - 30).px,
-                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.px),
                         ),
