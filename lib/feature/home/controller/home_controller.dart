@@ -7,6 +7,7 @@ import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
 import '../../../product/cache/key_value_storeage.dart';
 import '../../../product/cache/local_manager.dart';
+import '../../classDetails/repository/book_class_repository.dart';
 import '../../tutorial/login/model/refresh_model.dart';
 import '../model/getClassList.dart';
 import '../model/get_class_list_request_model.dart';
@@ -20,6 +21,7 @@ class HomeController extends GetxController {
 
   final GetDashboardDetailRepository _dashboardDetailRepository = GetDashboardDetailRepository();
   final GetClassListRepository _getClassListRepository = GetClassListRepository();
+  final BookClassRepository _bookClassRepository=BookClassRepository();
   final RefreshTokenRepositoryRepository _refreshTokenRepositoryRepository = RefreshTokenRepositoryRepository();
   RxBool isCreatedClass = false.obs;
   ScrollController scrollController = ScrollController();

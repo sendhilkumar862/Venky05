@@ -13,6 +13,7 @@ class GetClassListModel {
         this.grade,
         this.minParticipants,
         this.maxParticipants,
+        this.allowAtStudentLoc,
         this.duration,
         this.classTime,
         this.cost,
@@ -31,6 +32,7 @@ class GetClassListModel {
     grade = json['grade'];
     minParticipants = json['minParticipants'];
     maxParticipants = json['maxParticipants'];
+    allowAtStudentLoc = json['allow_at_student_loc'];
     duration = json['duration'];
     classTime = json['classTime'];
     cost = json['cost'];
@@ -48,6 +50,7 @@ class GetClassListModel {
   String? grade;
   int? minParticipants;
   int? maxParticipants;
+  int? allowAtStudentLoc;
   int? duration;
   int? classTime;
   String? cost;
@@ -67,6 +70,7 @@ class GetClassListModel {
     data['grade'] = grade;
     data['minParticipants'] = minParticipants;
     data['maxParticipants'] = maxParticipants;
+    data['allowAtStudentLoc'] = allowAtStudentLoc;
     data['duration'] = duration;
     data['classTime'] = classTime;
     data['cost'] = cost;
