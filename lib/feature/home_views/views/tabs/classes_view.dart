@@ -530,9 +530,7 @@ class _ClassesViewState extends State<ClassesView> {
                             maxParticipants: _homeController
                                 .classRelatedList[index].maxParticipants,
                             buttonTap: selectedProfile == ApplicationConstants.student?() async {
-                              if (_homeController.classRelatedList[index]
-                                      .allowAtStudentLoc ==
-                                  0) {
+
                                 if (_homeController.classRelatedList[index]
                                         .maxParticipants! >
                                     1) {
@@ -562,7 +560,9 @@ class _ClassesViewState extends State<ClassesView> {
                                       return BookingBottomSheet();
                                     },
                                   );
-                                } else {
+                                } else if (_homeController.classRelatedList[index]
+                                    .allowAtStudentLoc ==
+                                    0){
                                   _classDetailsController.classId=_homeController
                                       .classRelatedList[index]
                                       .classNumber!;
@@ -598,7 +598,7 @@ class _ClassesViewState extends State<ClassesView> {
                                     );
                                   }
                                 }
-                              } else {
+                               else {
                                 locationModalBottomSheet(context, index);
                               }
                             }:(){},
