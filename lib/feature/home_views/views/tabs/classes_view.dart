@@ -474,8 +474,9 @@ class _ClassesViewState extends State<ClassesView> {
                       itemBuilder: (BuildContext context, int index) {
                         return SizedBox(
                           width: 340.px,
-                          child: GestureDetector(
-                            onTap: () {
+                          child: AppCardView(
+                            proposals: 5,
+                            cardTap: () {
                               Get.toNamed(Routes.classDetailsView,
                                   arguments: <String, Object?>{
                                     'classNumber': _homeController
@@ -483,69 +484,101 @@ class _ClassesViewState extends State<ClassesView> {
                                     'backIndex': 1
                                   });
                             },
-                            child: AppCardView(
-                              proposals: 5,
-                              title:
-                                  selectedProfile == ApplicationConstants.tutor
-                                      ? 'Propose'
-                                      : 'Book',
-                              cardTitle: _homeController
-                                  .classRelatedList[index].subject,
-                              date: _homeController
-                                  .classRelatedList[index].classTime!
-                                  .toString()
-                                  .epochToNormal(),
-                              timer: _homeController
-                                  .classRelatedList[index].duration
-                                  .toString()
-                                  .timeConvert(),
-                              money:
-                                  "${_homeController.classRelatedList[index].cost ?? ''} ${_homeController.classRelatedList[index].currency ?? ''}",
-                              status: _homeController
-                                  .classRelatedList[index].status,
-                              // isPro: true,
-                              avtar: _homeController
-                                  .classRelatedList[index].imageId
-                                  ?.getImageUrl('profile'),
-                              countryIcon: _homeController
-                                              .classRelatedList[index]
-                                              .country !=
-                                          null &&
-                                      _languageController.countries.isNotEmpty
-                                  ? _languageController.countries
-                                      .firstWhere((Country element) =>
-                                          element.name ==
-                                          _homeController
-                                              .classRelatedList[index].country)
-                                      .flag_url
-                                  : ImageConstants.countryIcon,
-                              countryName: _homeController
-                                  .classRelatedList[index].country,
-                              reViewLength: 3,
-                              teacherName:
-                                  _homeController.classRelatedList[index].name,
-                              grade:
-                                  _homeController.classRelatedList[index].grade,
-                              minParticipants: _homeController
-                                  .classRelatedList[index].minParticipants,
-                              maxParticipants: _homeController
-                                  .classRelatedList[index].maxParticipants,
-                              buttonTap: () async {
+                            title:
+                                selectedProfile == ApplicationConstants.tutor
+                                    ? 'Propose'
+                                    : 'Book',
+                            cardTitle: _homeController
+                                .classRelatedList[index].subject,
+                            date: _homeController
+                                .classRelatedList[index].classTime!
+                                .toString()
+                                .epochToNormal(),
+                            timer: _homeController
+                                .classRelatedList[index].duration
+                                .toString()
+                                .timeConvert(),
+                            money:
+                                "${_homeController.classRelatedList[index].cost ?? ''} ${_homeController.classRelatedList[index].currency ?? ''}",
+                            status: _homeController
+                                .classRelatedList[index].status,
+                            // isPro: true,
+                            avtar: _homeController
+                                .classRelatedList[index].imageId
+                                ?.getImageUrl('profile'),
+                            countryIcon: _homeController
+                                            .classRelatedList[index]
+                                            .country !=
+                                        null &&
+                                    _languageController.countries.isNotEmpty
+                                ? _languageController.countries
+                                    .firstWhere((Country element) =>
+                                        element.name ==
+                                        _homeController
+                                            .classRelatedList[index].country)
+                                    .flag_url
+                                : ImageConstants.countryIcon,
+                            countryName: _homeController
+                                .classRelatedList[index].country,
+                            reViewLength: 3,
+                            teacherName:
+                                _homeController.classRelatedList[index].name,
+                            grade:
+                                _homeController.classRelatedList[index].grade,
+                            minParticipants: _homeController
+                                .classRelatedList[index].minParticipants,
+                            maxParticipants: _homeController
+                                .classRelatedList[index].maxParticipants,
+                            buttonTap: selectedProfile == ApplicationConstants.student?() async {
+                              if (_homeController.classRelatedList[index]
+                                      .allowAtStudentLoc ==
+                                  0) {
                                 if (_homeController.classRelatedList[index]
-                                        .allowAtStudentLoc ==
-                                    0) {
-                                  if (_homeController.classRelatedList[index]
-                                          .maxParticipants! >
-                                      1) {
+                                        .maxParticipants! >
+                                    1) {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled:true,
+                                    constraints: BoxConstraints(
+                                      maxHeight: (MediaQuery.of(context).size.height * 0.95.px -
+                                          20).px,
+                                      maxWidth:
+                                          // ignore: use_build_context_synchronously
+                                          (MediaQuery.of(context).size.width -
+                                                  30)
+                                              .px,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20.px),
+                                    ),
+                                    builder: (BuildContext context) {
+                                      _classDetailsController.classId=_homeController
+                                          .classRelatedList[index]
+                                          .classNumber!;
+                                      _classDetailsController.getClassDetails(_homeController
+                                          .classRelatedList[index]
+                                          .classNumber!);
+                                      return BookingBottomSheet();
+                                    },
+                                  );
+                                } else {
+                                  _classDetailsController.classId=_homeController
+                                      .classRelatedList[index]
+                                      .classNumber!;
+                                  final bool status = await _classDetailsController
+                                      .bookClassDetail(
+                                          {});
+                                  if (status) {
+                                    // ignore: use_build_context_synchronously
                                     showModalBottomSheet(
                                       context: context,
-                                      isScrollControlled:true,
                                       constraints: BoxConstraints(
-                                        maxHeight: (MediaQuery.of(context).size.height * 0.95.px -
-                                            20).px,
                                         maxWidth:
                                             // ignore: use_build_context_synchronously
-                                            (MediaQuery.of(context).size.width -
+                                            (MediaQuery.of(context)
+                                                        .size
+                                                        .width -
                                                     30)
                                                 .px,
                                       ),
@@ -554,56 +587,21 @@ class _ClassesViewState extends State<ClassesView> {
                                             BorderRadius.circular(20.px),
                                       ),
                                       builder: (BuildContext context) {
-                                        _classDetailsController.classId=_homeController
-                                            .classRelatedList[index]
-                                            .classNumber!;
-                                        _classDetailsController.getClassDetails(_homeController
-                                            .classRelatedList[index]
-                                            .classNumber!);
-                                        return BookingBottomSheet();
+                                        return SuccessFailsInfoDialog(
+                                          title: 'Success',
+                                          buttonTitle: 'Done',
+                                          content:
+                                              'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
+                                          // isRouting: 'back',
+                                        );
                                       },
                                     );
-                                  } else {
-                                    _classDetailsController.classId=_homeController
-                                        .classRelatedList[index]
-                                        .classNumber!;
-                                    final bool status = await _classDetailsController
-                                        .bookClassDetail(
-                                            {});
-                                    if (status) {
-                                      // ignore: use_build_context_synchronously
-                                      showModalBottomSheet(
-                                        context: context,
-                                        constraints: BoxConstraints(
-                                          maxWidth:
-                                              // ignore: use_build_context_synchronously
-                                              (MediaQuery.of(context)
-                                                          .size
-                                                          .width -
-                                                      30)
-                                                  .px,
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.px),
-                                        ),
-                                        builder: (BuildContext context) {
-                                          return SuccessFailsInfoDialog(
-                                            title: 'Success',
-                                            buttonTitle: 'Done',
-                                            content:
-                                                'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
-                                            // isRouting: 'back',
-                                          );
-                                        },
-                                      );
-                                    }
                                   }
-                                } else {
-                                  locationModalBottomSheet(context, index);
                                 }
-                              },
-                            ),
+                              } else {
+                                locationModalBottomSheet(context, index);
+                              }
+                            }:(){},
                           ),
                         );
                       },
@@ -735,65 +733,6 @@ class _ClassesViewState extends State<ClassesView> {
           ));
   }
 
-  Widget screenButton({bool? isPaying, VoidCallback? onTap}) {
-    return Container(
-      alignment: Alignment.center,
-      height: 80.px,
-      padding: context.paddingNormal,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(13.px),
-        color:
-            (isPaying!) ? AppColors.appTransparent : AppColors.lightPurpleTwo,
-      ),
-      child: isPaying
-          ? Row(children: <Widget>[
-              Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    AppText('Total amount to pay',
-                        color: AppColors.appGrey,
-                        fontSize: 12.px,
-                        fontWeight: FontWeight.w500),
-                    SizedBox(height: 3.px),
-                    Row(
-                      children: <Widget>[
-                        AppText('27',
-                            fontSize: 16.px, fontWeight: FontWeight.w700),
-                        AppText('.500 KWD',
-                            fontSize: 12.px, fontWeight: FontWeight.w700),
-                      ],
-                    ),
-                  ]),
-              const Spacer(),
-              AppButton(
-                width: 150.px,
-                title: 'Book Now',
-                borderColor: AppColors.appBlue,
-                borderRadius: BorderRadius.circular(10.px),
-                onPressed: isPaying ? onTap! : () {},
-              )
-            ])
-          : Row(children: <Widget>[
-              AppImageAsset(
-                image: ImageConstants.infoIcon,
-                height: 23.px,
-              ),
-              SizedBox(
-                width: 10.px,
-              ),
-              SizedBox(
-                width: 260.px,
-                child: AppText(
-                  'You wil pay after the class accepted by the teacher.',
-                  fontSize: 12.px,
-                  fontWeight: FontWeight.w400,
-                ),
-              )
-            ]),
-    );
-  }
 
   void locationModalBottomSheet(context, index) {
     showModalBottomSheet(

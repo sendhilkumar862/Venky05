@@ -105,7 +105,11 @@ class SuccessFailsInfoDialog extends StatelessWidget {
               else if(isRouting!=''){
                 if(isRouting==Routes.homeViews){
                   Get.close(2);
-                } else if(isRouting==Routes.classDetailsView){
+                } else if(isRouting=='backToHomeScreen'){
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                }
+                else if(isRouting==Routes.classDetailsView){
                   Get.offAndToNamed(isRouting!, arguments:  <String, Object?>{'classNumber': argument,'backIndex':2} );
                 }else{
                   Get.offAndToNamed(isRouting!, arguments: argument );

@@ -174,7 +174,7 @@ class Routes {
     GetPage(name: viewAllView, page: () => const ViewAllView()),
     GetPage(name: languageView, page: () => LanguageView()),
     GetPage(name: pendingTickets, page: () => const PendingTickets()),
-    GetPage(name: viewAllClass, page: () =>  ViewAlaaClass()),
+    GetPage(name: viewAllClass, page: () =>  ViewAllClass()),
 
     GetPage(
       name: classDetailsView,

@@ -12,10 +12,11 @@ import '../../../../product/constants/image/image_constants.dart';
 import '../../controller/class_details_controller.dart';
 
 class BookingBottomSheet extends StatelessWidget {
-  BookingBottomSheet({super.key, this.height});
+  BookingBottomSheet({super.key, this.height,this.isRouting='back'});
   final ClassDetailsController _classDetailsController =
   Get.find();
   double? height;
+  String? isRouting;
 
   @override
   Widget build(BuildContext context) {
@@ -301,7 +302,7 @@ class BookingBottomSheet extends StatelessWidget {
                                 buttonTitle: 'Done',
                                 content:
                                 'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
-                                isRouting: 'back',
+                                isRouting: isRouting,
 
                               );
                             },
