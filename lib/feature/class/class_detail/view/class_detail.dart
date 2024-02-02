@@ -60,15 +60,18 @@ class _ClassDetailState extends State<ClassDetail> {
       body: Form(
         key: _classDetailController.formKey,
         onChanged: () {
-          if (_classDetailController.formKey.currentState!.validate()) {
-            setState(() {
-              _classDetailController.isDisable = false;
-            });
-          } else {
-            setState(() {
-              _classDetailController.isDisable = true;
-            });
-          }
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (_classDetailController.formKey.currentState!.validate()) {
+              setState(() {
+                _classDetailController.isDisable = false;
+              });
+            } else {
+              setState(() {
+                _classDetailController.isDisable = true;
+              });
+            }
+          });
+
         },
         child: SingleChildScrollView(
           child: Padding(
