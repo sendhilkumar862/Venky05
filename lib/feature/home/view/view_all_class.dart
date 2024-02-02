@@ -15,14 +15,14 @@ import '../../tutorial/language/controller/language_controller.dart';
 import '../../tutorial/language/model/country_model.dart';
 import '../controller/home_controller.dart';
 import '../model/getClassList.dart';
-class ViewAlaaClass extends StatefulWidget {
-  const ViewAlaaClass({Key? key}) : super(key: key);
+class ViewAllClass extends StatefulWidget {
+  const ViewAllClass({Key? key}) : super(key: key);
 
   @override
-  State<ViewAlaaClass> createState() => _ViewAlaaClassState();
+  State<ViewAllClass> createState() => _ViewAlaaClassState();
 }
 
-class _ViewAlaaClassState extends State<ViewAlaaClass> {
+class _ViewAlaaClassState extends State<ViewAllClass> {
   final HomeController _homeController = Get.find();
    final LanguageController _languageController = Get.find();
 

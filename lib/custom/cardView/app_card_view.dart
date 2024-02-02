@@ -18,6 +18,7 @@ class AppCardView extends StatelessWidget {
     this.timer,
     this.money,
     this.buttonTap,
+    this.cardTap,
     this.status,
     this.isPro = false,
     this.countryIcon,
@@ -50,83 +51,87 @@ class AppCardView extends StatelessWidget {
   int? minParticipants;
   int? maxParticipants;
   VoidCallback? buttonTap;
+  VoidCallback? cardTap;
   bool isBook;
   String title;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Container(
-          padding: context.paddingNormal,
-          width: 500.px,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: AppColors.appWhite,
-            border: Border.all(color: AppColors.lightPurple, width: 1.1),
-            boxShadow: AppColors.appCardShadow,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  AppText(
-                    cardTitle!,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 20.px,
-                  ),
-                  StatusCardView(status: status)
-                ],
-              ),
-              SizedBox(
-                height: 10.px,
-              ),
-              Row(
-                children: [
-                  tagCardView(
-                    title: grade,
-                  ),
-                  tagCardView(
-                    title: countryName,
-                  ),
-                  tagCardView(
-                      title: maxParticipants==1?'Individual':'$minParticipants/$maxParticipants',
-                      icon:  maxParticipants==1?ImageConstants.individualIcon:ImageConstants.groupIcon,
-                      isBold: true),
-                ],
-              ),
-              SizedBox(
-                height: 10.px,
-              ),
-              Row(
-                children: <Widget>[
-                  infoCardView(ImageConstants.dateIcon, date!),
-                  infoCardView(ImageConstants.timerIcon, timer!),
-                  infoCardView(ImageConstants.moneyIcon, money!),
-                ],
-              ),
-              SizedBox(
-                height: 10.px,
-              ),
-              detailsCardView(
-                proposals: proposals,
-                isPro: isPro,
-                isBook: isBook,
-                name: teacherName,
-                avtar: avtar,
-                country: countryName,
-                countyIcon: countryIcon,
-                reViewLength: reViewLength,
-                buttonTap: buttonTap,
+    return GestureDetector(
+      onTap: cardTap??buttonTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            padding: context.paddingNormal,
+            width: 500.px,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.appWhite,
+              border: Border.all(color: AppColors.lightPurple, width: 1.1),
+              boxShadow: AppColors.appCardShadow,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    AppText(
+                      cardTitle!,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 20.px,
+                    ),
+                    StatusCardView(status: status)
+                  ],
+                ),
+                SizedBox(
+                  height: 10.px,
+                ),
+                Row(
+                  children: [
+                    tagCardView(
+                      title: grade,
+                    ),
+                    tagCardView(
+                      title: countryName,
+                    ),
+                    tagCardView(
+                        title: maxParticipants==1?'Individual':'$minParticipants/$maxParticipants',
+                        icon:  maxParticipants==1?ImageConstants.individualIcon:ImageConstants.groupIcon,
+                        isBold: true),
+                  ],
+                ),
+                SizedBox(
+                  height: 10.px,
+                ),
+                Row(
+                  children: <Widget>[
+                    infoCardView(ImageConstants.dateIcon, date!),
+                    infoCardView(ImageConstants.timerIcon, timer!),
+                    infoCardView(ImageConstants.moneyIcon, money!),
+                  ],
+                ),
+                SizedBox(
+                  height: 10.px,
+                ),
+                detailsCardView(
+                  proposals: proposals,
+                  isPro: isPro,
+                  isBook: isBook,
+                  name: teacherName,
+                  avtar: avtar,
+                  country: countryName,
+                  countyIcon: countryIcon,
+                  reViewLength: reViewLength,
+                  buttonTap: buttonTap,
 
-              )
-            ],
+                )
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
