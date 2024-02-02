@@ -205,7 +205,7 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
                               buttonTitle: 'Done',
                               content:
                               'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
-                              isRouting: 'back',
+
                             );
                           },
                         );
@@ -329,7 +329,6 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
                                       buttonTitle: 'Done',
                                       content:
                                       'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
-                                      isRouting: 'back',
                                     );
                                   },
                                 );
@@ -397,7 +396,6 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
                             buttonTitle: 'Done',
                             content:
                             'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
-                            isRouting: 'back',
                           );
                         },
                       );
