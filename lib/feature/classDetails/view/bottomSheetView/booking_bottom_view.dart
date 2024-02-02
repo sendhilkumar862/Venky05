@@ -14,7 +14,7 @@ import '../../controller/class_details_controller.dart';
 class BookingBottomSheet extends StatelessWidget {
   BookingBottomSheet({super.key, this.height,this.isRouting='back'});
   final ClassDetailsController _classDetailsController =
-  Get.find();
+  Get.put(ClassDetailsController());
   double? height;
   String? isRouting;
 
