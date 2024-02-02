@@ -757,8 +757,9 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
                           onTap: ()async {
-                            Get.back();
+
                             bool status= await _classDetailsController.bookClassDetail({});
+                            Get.back();
                             if(status) {
                               // ignore: use_build_context_synchronously
                               showModalBottomSheet(
@@ -812,10 +813,11 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               ),
               Obx(
                     () => AppButton(
-                  onPressed: () async{ Get.back();
+                  onPressed: () async{
                   bool status= await _classDetailsController.bookClassDetail({
                     'location': _manageAddressController.address[ _classDetailController.selectedIndex.value].id
                   });
+                  Get.back();
                   if(status) {
                     // ignore: use_build_context_synchronously
                     showModalBottomSheet(

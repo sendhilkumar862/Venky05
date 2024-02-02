@@ -25,6 +25,7 @@ class ClassDetailController extends GetxController{
   final HomeController _homeController = Get.find();
   @override
   void onInit() {
+    super.onInit();
   selectedProfile.value =
       LocaleManager.getValue(StorageKeys.profile) ??
   '';
@@ -108,7 +109,8 @@ class ClassDetailController extends GetxController{
       otherParticipants.add(OtherParticipants(email:participators10.text ));
     }
     final BaseResponse classResponse = await _createClassRepository.createClassRepository(CreateClassRequestModel(grade: masterData.value.grades![isGradeSelect],school: masterData.value.schoolTypes![isSchoolSelect],subject:  masterData.value.subjects![isSubjectSelect],summary:classSummaryController.text,minParticipants:lowerValue.toInt(),
-    maxParticipants: upperValue.toInt(),cost:int.parse(classCost.text),sessions: int.parse(numberOfSession.text),classTime:dateController.text.toEpoch(),currency: 'KWD',duration:masterData.value.sessionDurations![isSelected!],location:_manageAddressController.address[selectedIndex.value].id,otherParticipants: otherParticipants ,curriculum: isCurriculumSelect!=-1?masterData.value.curriculum![isCurriculumSelect]:'Public',allowAtStudentLoc: isActive.value ));
+    // ignore: avoid_bool_literals_in_conditional_expressions
+    maxParticipants: upperValue.toInt(),cost:int.parse(classCost.text),sessions: int.parse(numberOfSession.text),classTime:dateController.text.toEpoch(),currency: 'KWD',duration:masterData.value.sessionDurations![isSelected!],location:_manageAddressController.address[selectedIndex.value].id,otherParticipants: otherParticipants ,curriculum: isCurriculumSelect!=-1?masterData.value.curriculum![isCurriculumSelect]:'Public',allowAtStudentLoc:upperValue.toInt()==1? isActive.value:false ));
     if (classResponse.status?.type == 'success') {
       final Map<String, dynamic> classData= classResponse.data!.item! as Map<String, dynamic>;
       LocaleManager.setValue(StorageKeys.createdClass,true);
