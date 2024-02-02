@@ -308,6 +308,9 @@ class BookingBottomSheet extends StatelessWidget {
                             },
                           );
                         }
+                        else{
+                          Navigator.of(context).pop();
+                        }
                       }
                 ),
                 SizedBox(

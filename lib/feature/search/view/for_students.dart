@@ -58,6 +58,7 @@ class _ForStudentsState extends State<ForStudents> {
     _searchController.getSavedSearch(SchoolEndpoint.GET_SEARCH_CLASS);
     _searchController.scrollControllerClass.addListener(pagination);
     selectedProfile = LocaleManager.getValue(StorageKeys.profile) ?? '';
+    _manageAddressController.fetchAddressData();
   }
   void pagination() {
     if (_searchController.scrollControllerClass.position.pixels ==
