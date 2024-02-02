@@ -119,9 +119,13 @@ class ClassDetailsController extends GetxController{
     showLoading();
     final BaseResponse getProposalsDataResponse = await _bookClassRepository.bookClassRepositoryRepository(classId,data);
     if (getProposalsDataResponse.status?.type == 'success') {
-      final HomeController _homeController=Get.find();
+      final HomeController homeController=Get.find();
       await getClassDetails(classId);
-      await _homeController.getData();
+      homeController.relatedPageIndex=1;
+      homeController.historyPageIndex=1;
+      homeController.activityPageIndex=1;
+      homeController.upcomingPageIndex=1;
+      await homeController.getData();
       status=true;
     }
     hideLoading();

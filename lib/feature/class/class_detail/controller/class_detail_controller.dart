@@ -22,7 +22,7 @@ class ClassDetailController extends GetxController{
   final CreateClassRepository _createClassRepository=CreateClassRepository();
   final GetMasterDataRepository _getMasterDataRepository=GetMasterDataRepository();
   final ManageAddressController _manageAddressController = Get.put(ManageAddressController());
-  final HomeController _homeController = Get.find();
+  final HomeController _homeController = Get.put(HomeController());
   @override
   void onInit() {
   selectedProfile.value =
