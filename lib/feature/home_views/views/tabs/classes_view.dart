@@ -737,6 +737,7 @@ class _ClassesViewState extends State<ClassesView> {
   void locationModalBottomSheet(context, index) {
     showModalBottomSheet(
         isScrollControlled: true,
+        backgroundColor: AppColors.white,
         // showDragHandle: true,
         useSafeArea: true,
         shape: const RoundedRectangleBorder(

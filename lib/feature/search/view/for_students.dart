@@ -754,6 +754,7 @@ class _ForStudentsState extends State<ForStudents> {
   void locationModalBottomSheet(context, index) {
     showModalBottomSheet(
         isScrollControlled: true,
+        backgroundColor: AppColors.white,
         // showDragHandle: true,
         useSafeArea: true,
         shape: const RoundedRectangleBorder(
