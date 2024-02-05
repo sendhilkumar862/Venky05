@@ -499,9 +499,17 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     ),
                   ) : const SizedBox.shrink(),
                   ),
-                  SizedBox(
+                  if (_classDetailsController.classData.value.allowAtStudentLoc==1) SizedBox(
+                    height: 10.px,
+                  ) else SizedBox(
                     height: 20.px,
                   ),
+                  if (_classDetailsController.classData.value.allowAtStudentLoc==1)
+                    Text('Note: Address can be determined by the student in class details during booking.', style: openSans.get12.w500.textColor(AppColors.appDarkBlack)),
+                  if (_classDetailsController.classData.value.allowAtStudentLoc==1)  SizedBox(
+                    height: 10.px,
+                  )else
+                    const SizedBox.shrink(),
                   if (_classDetailsController.classData.value
                       .canRescheduleClass ??
                       false)
@@ -610,6 +618,26 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       title: 'Submit the proposal',
                       borderColor: AppColors.appBlue,
                       onPressed: () {
+                        final CreateProposalController createProposalController = Get
+                            .put(CreateProposalController());
+                        createProposalController.dateController.text =
+                            DateFormat('dd-M-yyyy hh:mm a').format(
+                                DateTime.fromMillisecondsSinceEpoch(_classDetailsController
+                                    .classData.value.classTime!));
+                        createProposalController.classDurationController.text =
+                            _classDetailsController
+                                .classData.value.duration?.toString()
+                                .timeConvert() ?? '';
+                        createProposalController.duration =
+                            _classDetailsController
+                                .classData.value.duration??0;
+                        createProposalController.numberOfSession.text =
+                            _classDetailsController
+                                .classData.value.sessions?.toString() ?? '';
+                        createProposalController.classCost.text =
+                            _classDetailsController
+                                .classData.value.cost?.replaceAll(
+                                '.00', '') ?? '';
                         // ignore: avoid_dynamic_calls
                         Get.toNamed(Routes.createProposal,
                             arguments: {'classNumber':Get.arguments['classNumber'],

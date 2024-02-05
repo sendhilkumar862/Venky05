@@ -447,11 +447,8 @@ class _ForTeacherState extends State<ForTeacher> {
                           };
                           _searchController.search(selectedProfile == ApplicationConstants.tutor?SchoolEndpoint.SEARCH_STUDENTS:SchoolEndpoint.SEARCH_TUTORS, _searchController.searchUserData);
                         },
-                        // ignore: avoid_bool_literals_in_conditional_expressions
-                        isDisable: _searchController.selectedSchoolIndicesUser.isNotEmpty ||
-                            _searchController.selectedSubjectIndicesUser.isNotEmpty ||
-                            // ignore: unrelated_type_equality_checks
-                            _searchController.gradeUser.isNotEmpty || _searchController.savedDataUser!=''
+                        // ignore: avoid_bool_literals_in_conditional_expressions, unrelated_type_equality_checks
+                        isDisable: _searchController.selectedSchoolIndicesUser.isNotEmpty || _searchController.selectedSubjectIndicesUser.isNotEmpty || _searchController.gradeUser.isNotEmpty  || _searchController.selectedCurriculumIndicesUser.isNotEmpty
                             ? false
                             : true,
                       ),
