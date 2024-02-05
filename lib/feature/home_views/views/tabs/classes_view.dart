@@ -449,6 +449,7 @@ class _ClassesViewState extends State<ClassesView> {
                   onTap: () => Get.toNamed(Routes.viewAllClass,
                       arguments: <String, Object?>{
                         'title': 'Related Classes',
+
                         'type': SchoolEndpoint.RELATED_CLASS
                       }),
                   totalItem: _homeController.classRelatedList.isNotEmpty
