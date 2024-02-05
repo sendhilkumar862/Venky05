@@ -34,8 +34,12 @@ class HomeController extends GetxController {
           LocaleManager.getValue(StorageKeys.createdClass) ??false;
     }
   }
+@override
+onInit(){
+  super.onInit();
+  fetchData();
 
-
+}
 
   getData()async{
     showLoading();
