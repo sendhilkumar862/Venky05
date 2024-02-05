@@ -273,10 +273,10 @@ class _ClassesViewState extends State<ClassesView> {
                               'title': 'Upcoming Classes',
                               'type': SchoolEndpoint.UPCOMING_CLASS
                             }),
-                    totalItem: _homeController.classUpcomingList.isNotEmpty
-                        ? _homeController.classUpcomingList.length.toString()
+                    totalItem: _homeController.totalUpcomingCount!=0
+                        ? _homeController.totalUpcomingCount.toString()
                         : '',
-                    isViewAllIcon: _homeController.classUpcomingList.isNotEmpty
+                    isViewAllIcon: _homeController.totalUpcomingCount!=0
                         ? true
                         : false),
                 const SizedBox(
@@ -445,19 +445,19 @@ class _ClassesViewState extends State<ClassesView> {
                 //   ),
                 SizedBox(height: 25.px),
                 HeadingCardView(
-                  title: 'Related Classes',
-                  onTap: () => Get.toNamed(Routes.viewAllClass,
-                      arguments: <String, Object?>{
-                        'title': 'Related Classes',
-                        'type': SchoolEndpoint.RELATED_CLASS
-                      }),
-                  totalItem: _homeController.classRelatedList.isNotEmpty
-                      ? _homeController.classRelatedList.length.toString()
-                      : '',
-                  isViewAllIcon: _homeController.classRelatedList.isNotEmpty
-                      ? true
-                      : false,
-                ),
+                    title: 'Related Classes',
+                    onTap: () => Get.toNamed(Routes.viewAllClass,
+                        arguments: <String, Object?>{
+                          'title': 'Related Classes',
+                          'type': SchoolEndpoint.RELATED_CLASS
+                        }),
+                    totalItem: _homeController.totalRelatedCount!=0
+                        ? _homeController.totalRelatedCount.toString()
+                        : '',
+                    isViewAllIcon: _homeController.totalRelatedCount!=0
+                        ? true
+                        : false,
+                  ),
                 SizedBox(
                   height: 10.px,
                 ),
@@ -629,10 +629,10 @@ class _ClassesViewState extends State<ClassesView> {
                         'title': 'History',
                         'type': SchoolEndpoint.HISTORY_CLASS
                       }),
-                  totalItem: _homeController.classHistoryList.isNotEmpty
-                      ? _homeController.classHistoryList.length.toString()
+                  totalItem: _homeController.totalHistoryCount!=0
+                      ? _homeController.totalHistoryCount.toString()
                       : '',
-                  isViewAllIcon: _homeController.classHistoryList.isNotEmpty
+                  isViewAllIcon: _homeController.totalHistoryCount!=0
                       ? true
                       : false,
                 ),
