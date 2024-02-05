@@ -7,6 +7,7 @@ import '../../../../product/cache/local_manager.dart';
 import '../../../../product/extension/string_extension.dart';
 import '../../../../product/utils/common_function.dart';
 import '../../../class/class_detail/controller/class_detail_controller.dart';
+import '../../../home/controller/home_controller.dart';
 import '../model/create_proposal_request_model.dart';
 import '../repository/create_proposal_repository.dart';
 import '../repository/update_proposal_repository.dart';
@@ -37,13 +38,21 @@ class CreateProposalController extends GetxController{
     selectedProfile.value =
         LocaleManager.getValue(StorageKeys.profile) ??'';
     // ignore: avoid_dynamic_calls
-    proposalId=Get.arguments['proposalId']??'';
+    if(Get.arguments!=null) {
+      proposalId=Get.arguments['proposalId']??'';
+    }
   }
   Future<bool> crateProposal() async {
     bool status =false;
     showLoading();
     final BaseResponse getProposalsDataResponse = await _createProposalRepository.createClassRepository(CreateProposalRequestModel(cost:int.parse(classCost.text),sessions:int.parse(numberOfSession.text) ,duration:duration,classTime:dateController.text.toEpoch(),currency: 'KWD'  ), Get.arguments['classNumber']);
     if (getProposalsDataResponse.status?.type == 'success') {
+      final HomeController homeController=Get.find();
+      homeController.relatedPageIndex=1;
+      homeController.historyPageIndex=1;
+      homeController.activityPageIndex=1;
+      homeController.upcomingPageIndex=1;
+      await homeController.getData();
      status=true;
     }
     hideLoading();
@@ -55,6 +64,12 @@ class CreateProposalController extends GetxController{
     showLoading();
     final BaseResponse getProposalsDataResponse = await _updateProposalRepository.updateClassRepository(CreateProposalRequestModel(cost:int.parse(classCost.text),sessions:int.parse(numberOfSession.text) ,duration: duration ?? int.parse(classDurationController.text),classTime:dateController.text.toEpoch(),currency: 'KWD'  ), Get.arguments['classNumber'],Get.arguments['proposalId']);
     if (getProposalsDataResponse.status?.type == 'success') {
+      final HomeController homeController=Get.find();
+      homeController.relatedPageIndex=1;
+      homeController.historyPageIndex=1;
+      homeController.activityPageIndex=1;
+      homeController.upcomingPageIndex=1;
+      await homeController.getData();
       status=true;
     }
     hideLoading();
