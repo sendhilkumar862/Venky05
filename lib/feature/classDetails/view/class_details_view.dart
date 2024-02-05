@@ -505,7 +505,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     height: 20.px,
                   ),
                   if (_classDetailsController.classData.value.allowAtStudentLoc==1)
-                    Text('Note: Address can be determined by the student in class details during booking.', style: openSans.get12.w500.textColor(AppColors.appDarkBlack)),
+                    Text('*Address can be determined by the student in class details during booking.', style: openSans.get12.w500.textColor(AppColors.appDarkBlack)),
                   if (_classDetailsController.classData.value.allowAtStudentLoc==1)  SizedBox(
                     height: 10.px,
                   )else
@@ -742,6 +742,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
   void locationModalBottomSheet(context) {
     showModalBottomSheet(
         isScrollControlled: true,
+        backgroundColor: AppColors.white,
         // showDragHandle: true,
         useSafeArea: true,
         shape: const RoundedRectangleBorder(
