@@ -139,6 +139,8 @@ class ApiEndpoint {
         return '$path/profile/wallet/';
       case UsersEndPoint.LAST_INVOICES_LIST:
         return '$path/profile/transactions/getAll';
+      case UsersEndPoint.GET_STATS:
+        return '$path/profile/transactions/stats';
     }}
   static String country(Public endpoint) {
     const String path = 'public';
@@ -303,7 +305,9 @@ enum UsersEndPoint{
 
 
   /// An endpoint for last invoices list
-  LAST_INVOICES_LIST
+  LAST_INVOICES_LIST,
+
+  GET_STATS
 }
 
 /// A collection of endpoints used for authentication purposes.

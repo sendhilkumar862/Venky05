@@ -99,7 +99,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                                     .walletBalanceDetailModel.value.balance !=
                                 null
                             ? '${_walletViewController.walletBalanceDetailModel.value.balance!.balance} KWD'
-                            : '',
+                            : 'null',
                         firstFontSize: 24.px,
                         decimalSize: 16.px),
                     SizedBox(height: 14.px),
@@ -134,13 +134,19 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                                                   .balance !=
                                               null
                                           ? '${_walletViewController.walletBalanceDetailModel.value.balance!.pendingPayment ?? ''} KWD'
-                                          : '',
+                                          : 'null',
                                     )
                                   ]
                                 : <Widget>[
                                     balanceCardView(
                                         title: 'Pending Balance',
-                                        amount: '100.000 KWD'),
+                                        amount: _walletViewController
+                                            .walletBalanceDetailModel
+                                            .value
+                                            .balance !=
+                                            null
+                                            ? '${_walletViewController.walletBalanceDetailModel.value.balance!.pendingPayment ?? ''} KWD'
+                                            : 'null',),
                                     AppDivider(isVerticle: true),
                                     balanceCardView(
                                         title: 'Pending Withdraw',
