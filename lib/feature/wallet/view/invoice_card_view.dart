@@ -80,15 +80,15 @@ class InvoiceCardView extends StatelessWidget {
                           const Spacer(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               AppText(
-                                '102',
+                                amount?.split('.')[0]??'',
                                 fontSize: 14.px,
                                 fontWeight: FontWeight.w700,
                               ),
                               AppText(
-                                amount ?? '',
+                                '.${amount?.split('.')[1]??''} KWD',
                                 fontSize: 10.px,
                                 fontWeight: FontWeight.w700,
                               ),

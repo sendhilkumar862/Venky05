@@ -38,14 +38,16 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
   String selectedUserStatus = '';
   bool isPending = false;
   final HomeController _homeController = Get.find();
-  final WalletViewController _walletViewController =Get.put(WalletViewController());
+  final WalletViewController _walletViewController =
+      Get.put(WalletViewController());
+
   @override
   void initState() {
     super.initState();
-    selectedProfile =
-        LocaleManager.getValue( StorageKeys.profile) ??'';
+    selectedProfile = LocaleManager.getValue(StorageKeys.profile) ?? '';
     _walletViewController.getData();
-    selectedUserStatus =  LocaleManager.getValue( StorageKeys.userInfoStatus) ??'';
+    selectedUserStatus =
+        LocaleManager.getValue(StorageKeys.userInfoStatus) ?? '';
   }
 
   @override
@@ -58,12 +60,11 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
               ? ImageConstants.avtar
               : ImageConstants.teacherAvtar,
           // ignore: avoid_bool_literals_in_conditional_expressions
-          isSearchIconShown:
-          !(selectedProfile == ApplicationConstants.tutor &&
+          isSearchIconShown: !(selectedProfile == ApplicationConstants.tutor &&
               selectedUserStatus != '99'),
           title: 'Welcome!',
           subTitle:
-          "${_homeController.homeData.value?.firstName ?? ""} ${_homeController.homeData.value?.lastName ?? ""}",
+              "${_homeController.homeData.value?.firstName ?? ""} ${_homeController.homeData.value?.lastName ?? ""}",
           // isPro: walletViewModel.isProfileTeacher,
           onBellTap: () {
             Get.toNamed(Routes.notificationView);
@@ -75,152 +76,173 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
             Get.toNamed(Routes.settingView);
           },
         ),
-        body: selectedProfile == ApplicationConstants.tutor
+        body: (selectedProfile == ApplicationConstants.tutor&&_homeController.homeData.value?.userStatus != '99')
             ? const Column(
-              children: [
-                ClassesView(),
-              ],
-            )
-            : ListView(
-          children: <Widget>[
-            SizedBox(height: 30.px),
-            AppText(
-              'Available Balance',
-              textAlign: TextAlign.center,
-              color: AppColors.appGrey,
-              fontSize: 12.px,
-              fontWeight: FontWeight.w400,
-            ),
-            SizedBox(height: 5.px),
-            AppAmountView(
-                amount: _walletViewController.walletBalanceDataList[0].balance!=null?'${_walletViewController.walletBalanceDataList[0].balance!.balance} KWD':'',
-                firstFontSize: 24.px,
-                decimalSize: 16.px),
-            SizedBox(height: 14.px),
-            Container(
-              alignment: Alignment.center,
-              height: MediaQuery.of(context).size.height * 0.115,
-              margin: EdgeInsets.symmetric(horizontal: 15.px),
-              padding: EdgeInsets.all(11.px),
-              decoration: BoxDecoration(
-                color: AppColors.lightPurple,
-                borderRadius: BorderRadius.circular(10.px),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                // from teachers and students view conditionally manage
-                children: (!_walletViewController.isProfileTeacher.value)
-                    ? <Widget>[
-                  balanceCardView(
-                      title: 'Active Classes\nBooked',
-                      amount: '100.000 KWD'),
-                  AppDivider(isVerticle: true),
-                  balanceCardView(
-                      title: 'New Classes\nCreated',
-                      amount: '100.000 KWD'),
-                  AppDivider(isVerticle: true),
-                  balanceCardView(
-                      title: 'Pending\nPayment',
-                      amount: _walletViewController.walletBalanceDataList[0].balance!=null?'${_walletViewController.walletBalanceDataList[0].balance!.pendingPayment} KWD':''),
-                ]
-                    : <Widget>[
-                  balanceCardView(
-                      title: 'Pending Balance',
-                      amount: '100.000 KWD'),
-                  AppDivider(isVerticle: true),
-                  balanceCardView(
-                      title: 'Pending Withdraw',
-                      amount: '100.000 KWD'),
+                children: [
+                  ClassesView(),
                 ],
-              ),
-            ),
-            SizedBox(height: 16.px),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.px),
-              child: _walletViewController.isProfileTeacher.value
-                  ? screenButton(
-                  onTap: () {
-                    Get.toNamed(Routes.withdrawView);
-                  },
-                  title: 'Top Up Wallet',
-                  icon: ImageConstants.walletIcon)
-                  : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  screenButton(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          constraints: const BoxConstraints(),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(25.px),
-                              topLeft: Radius.circular(25.px),
+              )
+            : Obx(
+                () => ListView(
+                  children: <Widget>[
+                    SizedBox(height: 30.px),
+                    AppText(
+                      'Available Balance',
+                      textAlign: TextAlign.center,
+                      color: AppColors.appGrey,
+                      fontSize: 12.px,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    SizedBox(height: 5.px),
+                    AppAmountView(
+                        amount: _walletViewController
+                                    .walletBalanceDetailModel.value.balance !=
+                                null
+                            ? '${_walletViewController.walletBalanceDetailModel.value.balance!.balance} KWD'
+                            : '',
+                        firstFontSize: 24.px,
+                        decimalSize: 16.px),
+                    SizedBox(height: 14.px),
+                    Container(
+                      alignment: Alignment.center,
+                      height: MediaQuery.of(context).size.height * 0.115,
+                      margin: EdgeInsets.symmetric(horizontal: 15.px),
+                      padding: EdgeInsets.all(11.px),
+                      decoration: BoxDecoration(
+                        color: AppColors.lightPurple,
+                        borderRadius: BorderRadius.circular(10.px),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        // from teachers and students view conditionally manage
+                        children:
+                            (!_walletViewController.isProfileTeacher.value)
+                                ? <Widget>[
+                                    balanceCardView(
+                                        title: 'Active Classes\nBooked',
+                                        amount: '100.000 KWD'),
+                                    AppDivider(isVerticle: true),
+                                    balanceCardView(
+                                        title: 'New Classes\nCreated',
+                                        amount: '100.000 KWD'),
+                                    AppDivider(isVerticle: true),
+                                    balanceCardView(
+                                      title: 'Pending\nPayment',
+                                      amount: _walletViewController
+                                                  .walletBalanceDetailModel
+                                                  .value
+                                                  .balance !=
+                                              null
+                                          ? '${_walletViewController.walletBalanceDetailModel.value.balance!.pendingPayment ?? ''} KWD'
+                                          : '',
+                                    )
+                                  ]
+                                : <Widget>[
+                                    balanceCardView(
+                                        title: 'Pending Balance',
+                                        amount: '100.000 KWD'),
+                                    AppDivider(isVerticle: true),
+                                    balanceCardView(
+                                        title: 'Pending Withdraw',
+                                        amount: '100.000 KWD'),
+                                  ],
+                      ),
+                    ),
+                    SizedBox(height: 16.px),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15.px),
+                      child:(! _walletViewController.isProfileTeacher.value)
+                          ? screenButton(
+                              onTap: () {
+                                Get.toNamed(Routes.withdrawView);
+                              },
+                              title: 'Top Up Wallet',
+                              icon: ImageConstants.walletIcon)
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                screenButton(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        constraints: const BoxConstraints(),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(25.px),
+                                            topLeft: Radius.circular(25.px),
+                                          ),
+                                        ),
+                                        builder: (BuildContext context) {
+                                          return const BookingBottomSheet();
+                                        },
+                                      );
+                                    },
+                                    title: 'Bank Accounts',
+                                    icon: ImageConstants.walletIcon),
+                                SizedBox(width: 15.px),
+                                screenButton(
+                                    onTap: () =>
+                                        Get.toNamed(Routes.withdrawView),
+                                    title: 'Withdraw',
+                                    icon: ImageConstants.walletIcon),
+                              ],
                             ),
-                          ),
-                          builder: (BuildContext context) {
-                            return const BookingBottomSheet();
-                          },
-                        );
-                      },
-                      title: 'Bank Accounts',
-                      icon: ImageConstants.walletIcon),
-                  SizedBox(width: 15.px),
-                  screenButton(
-                      onTap: () =>
-                          Get.toNamed(Routes.withdrawView),
-                      title: 'Withdraw',
-                      icon: ImageConstants.walletIcon),
-                ],
+                    ),
+                    if (_walletViewController.isProfileTeacher.value)
+                      SizedBox(height: 25.px),
+                    if (_walletViewController.isProfileTeacher.value)
+                      chartCardView(),
+                    SizedBox(height: 25.px),
+                    HeadingCardView(
+                      title: 'Last Invoices',
+                      // ignore: avoid_bool_literals_in_conditional_expressions
+                      isViewAllIcon: _walletViewController
+                              .walletBalanceListData.isNotEmpty
+                          ? true
+                          : false,
+                      onTap: () => Get.toNamed(Routes.viewAllView),
+                    ),
+                    SizedBox(height: 18.px),
+                    Obx(() => (_walletViewController
+                            .walletBalanceListData.isNotEmpty)
+                        ? SizedBox(
+                            height: 370.px,
+                            child: ListView.separated(
+                              itemCount: _walletViewController
+                                  .walletBalanceListData.length,
+                              shrinkWrap: true,
+                              physics: const BouncingScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                // if item is zero the condition will be menage//
+                                return  InvoiceCardView(
+                                        title: 'Class Fees',
+                                        invoiceNumber: '#123456',
+                                        amount: _walletViewController
+                                            .walletBalanceListData[index].amount,
+                                        date: '',
+                                        onTap: () {
+                                          Get.toNamed(Routes.invoiceDetails);
+                                        },
+                                      );
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return Padding(
+                                    padding: EdgeInsets.only(left: 15.px),
+                                    child: AppDivider());
+                              },
+                            ),
+                          )
+                        : InfoCardVIew(
+                            title: 'No Invoices!',
+                            subTitle:
+                                'Book classes or create new to see invoices.',
+                            buttonTitle: 'Create New Class',
+                            buttonTap: () {},
+                          ))
+                  ],
+                ),
               ),
-            ),
-            if (!_walletViewController.isProfileTeacher.value)
-              SizedBox(height: 25.px),
-            if (!_walletViewController.isProfileTeacher.value)
-              chartCardView(),
-            SizedBox(height: 25.px),
-            HeadingCardView(
-              title: 'Last Invoices',
-              isViewAllIcon: true,
-              onTap: () => Get.toNamed(Routes.viewAllView),
-            ),
-            SizedBox(height: 18.px),
-            SizedBox(
-              height: 370.px,
-              child: ListView.separated(
-                itemCount: 14,
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  // if item is zero the condition will be menage//
-                  return (false)
-                      ? InfoCardVIew(
-                    title: 'No Invoices!',
-                    subTitle:
-                    'Book classes or create new to see invoices.',
-                    buttonTitle: 'Create New Class',
-                    buttonTap: () {},
-                  )
-                      : InvoiceCardView(
-                    title: 'Class Fees',
-                    invoiceNumber: '#123456',
-                    amount: '.500 KWD',
-                    date: '',
-                    onTap: () {
-                      Get.toNamed(
-                          Routes.invoiceDetails);
-                    },
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return Padding(
-                      padding: EdgeInsets.only(left: 15.px),
-                      child: AppDivider());
-                },
-              ),
-            )
-          ],
-        ),
       );
     });
   }

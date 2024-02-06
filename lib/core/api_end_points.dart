@@ -137,6 +137,8 @@ class ApiEndpoint {
     switch (endpoint) {
       case UsersEndPoint.CARD_DETAILS:
         return '$path/profile/wallet/';
+      case UsersEndPoint.LAST_INVOICES_LIST:
+        return '$path/profile/transactions/getAll';
     }}
   static String country(Public endpoint) {
     const String path = 'public';
@@ -296,7 +298,12 @@ enum AuthEndpoint {
 
 
 enum UsersEndPoint{
- CARD_DETAILS
+  /// An endpoint for card data
+  CARD_DETAILS,
+
+
+  /// An endpoint for last invoices list
+  LAST_INVOICES_LIST
 }
 
 /// A collection of endpoints used for authentication purposes.
