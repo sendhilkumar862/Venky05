@@ -383,66 +383,68 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
   }
 
   Widget stateCardView() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.px),
-      child: Row(
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  AppText(
-                    'Total Gains',
-                    color: AppColors.appGrey,
-                    fontSize: 12.px,
-                  ),
-                  SizedBox(
-                    width: 6.px,
-                  ),
-                  AppAmountView(
-                    amount: '100.000 KWD',
-                  )
-                ],
-              ),
-              SizedBox(height: 4.px),
-              Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.arrow_upward_outlined,
-                    size: 12.px,
-                    color: AppColors.appGreen,
-                  ),
-                  SizedBox(width: 5.px),
-                  AppText('2.1%',
+    return Obx(()=>
+       Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.px),
+        child: Row(
+          children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    AppText(
+                      'Total Gains',
+                      color: AppColors.appGrey,
                       fontSize: 12.px,
+                    ),
+                    SizedBox(
+                      width: 6.px,
+                    ),
+                    if(_walletViewController.getWalletBalanceStatsModel.value.stats!=null && _walletViewController.getWalletBalanceStatsModel.value.stats!.isNotEmpty) AppAmountView(
+                      amount: '${_walletViewController.getWalletBalanceStatsModel.value.stats?[0].totalAmount??''} KWD',
+                    )
+                  ],
+                ),
+                SizedBox(height: 4.px),
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.arrow_upward_outlined,
+                      size: 12.px,
                       color: AppColors.appGreen,
-                      fontWeight: FontWeight.w700),
-                  AppText(
-                    'vs last Month',
-                    fontSize: 12.px,
-                    fontWeight: FontWeight.w700,
-                  )
-                ],
-              )
-            ],
-          ),
-          const Spacer(),
-          Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 8.px, vertical: 3.px),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30.px),
-              border: Border.all(color: AppColors.gray),
+                    ),
+                    SizedBox(width: 5.px),
+                    if(_walletViewController.getWalletBalanceStatsModel.value.stats!=null && _walletViewController.getWalletBalanceStatsModel.value.stats!.isNotEmpty) AppText('${_walletViewController.getWalletBalanceStatsModel.value.stats?[0].percentageChange??''}%',
+                        fontSize: 12.px,
+                        color: AppColors.appGreen,
+                        fontWeight: FontWeight.w700),
+                    AppText(
+                      'vs last Month',
+                      fontSize: 12.px,
+                      fontWeight: FontWeight.w700,
+                    )
+                  ],
+                )
+              ],
             ),
-            child: AppText(
-              '2023',
-              fontSize: 12.px,
-              fontWeight: FontWeight.w700,
-              color: AppColors.appGrey,
-            ),
-          )
-        ],
+            const Spacer(),
+            if(_walletViewController.getWalletBalanceStatsModel.value.stats!=null && _walletViewController.getWalletBalanceStatsModel.value.stats!.isNotEmpty)  Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(horizontal: 8.px, vertical: 3.px),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30.px),
+                border: Border.all(color: AppColors.gray),
+              ),
+              child: AppText(
+                _walletViewController.getWalletBalanceStatsModel.value.stats?[0].month??'',
+                fontSize: 12.px,
+                fontWeight: FontWeight.w700,
+                color: AppColors.appGrey,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

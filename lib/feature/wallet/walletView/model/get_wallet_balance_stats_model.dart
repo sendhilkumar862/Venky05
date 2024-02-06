@@ -5,6 +5,7 @@ class GetWalletBalanceStatsModel {
   GetWalletBalanceStatsModel.fromJson(Map<String, dynamic> json) {
     if (json['stats'] != null) {
       stats = <Stats>[];
+      // ignore: avoid_dynamic_calls
       json['stats'].forEach((v) {
         stats!.add( Stats.fromJson(v));
       });
