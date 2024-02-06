@@ -33,14 +33,21 @@ class _CreateProposalState extends State<CreateProposal> {
   final ClassDetailsController _classDetailsController=Get.find();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String? proposalId;
-
+  String?isRouting='back';
   bool isDisable = true;
 
 @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    // ignore: avoid_dynamic_calls
     proposalId=Get.arguments['proposalId'];
+    // ignore: avoid_dynamic_calls
+    if(Get.arguments['isRouting']!=null)
+      {
+        // ignore: avoid_dynamic_calls
+        isRouting=Get.arguments['isRouting'];
+      }
   }
   @override
   Widget build(BuildContext context) {
@@ -187,7 +194,7 @@ class _CreateProposalState extends State<CreateProposal> {
                                 buttonTitle: 'Done',
                                 content:
                                _createProposalController.proposalId!=''?'You have successfully updated your proposal.':'You have successfully submit your proposal.',
-                                isRouting: 'back',
+                                isRouting: isRouting,
 
                               );
                             },
