@@ -132,6 +132,12 @@ class ApiEndpoint {
     }
   }
 
+  static String users(UsersEndPoint endpoint) {
+    const String path = 'users';
+    switch (endpoint) {
+      case UsersEndPoint.CARD_DETAILS:
+        return '$path/profile/wallet/';
+    }}
   static String country(Public endpoint) {
     const String path = 'public';
     switch (endpoint) {
@@ -286,6 +292,11 @@ enum AuthEndpoint {
 
   /// An endpoint for reset password
   RESET_PASSWORD
+}
+
+
+enum UsersEndPoint{
+ CARD_DETAILS
 }
 
 /// A collection of endpoints used for authentication purposes.

@@ -44,6 +44,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
     super.initState();
     selectedProfile =
         LocaleManager.getValue( StorageKeys.profile) ??'';
+    _walletViewController.getData();
     selectedUserStatus =  LocaleManager.getValue( StorageKeys.userInfoStatus) ??'';
   }
 
@@ -92,13 +93,13 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
             ),
             SizedBox(height: 5.px),
             AppAmountView(
-                amount: '100.500 KWD',
+                amount: _walletViewController.walletBalanceDataList[0].balance!=null?'${_walletViewController.walletBalanceDataList[0].balance!.balance} KWD':'',
                 firstFontSize: 24.px,
                 decimalSize: 16.px),
             SizedBox(height: 14.px),
             Container(
               alignment: Alignment.center,
-              height: MediaQuery.of(context).size.height * 0.100,
+              height: MediaQuery.of(context).size.height * 0.115,
               margin: EdgeInsets.symmetric(horizontal: 15.px),
               padding: EdgeInsets.all(11.px),
               decoration: BoxDecoration(
@@ -120,7 +121,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                   AppDivider(isVerticle: true),
                   balanceCardView(
                       title: 'Pending\nPayment',
-                      amount: '100.000 KWD'),
+                      amount: _walletViewController.walletBalanceDataList[0].balance!=null?'${_walletViewController.walletBalanceDataList[0].balance!.pendingPayment} KWD':''),
                 ]
                     : <Widget>[
                   balanceCardView(
