@@ -46,8 +46,9 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
   SchoolEndpoint classType= SchoolEndpoint.RELATED_CLASS;
   final ClassDetailController _classDetailController =
   Get.put(ClassDetailController());
-  final ClassDetailsController _classDetailsController =
-  Get.put(ClassDetailsController());
+  final ClassDetailsController _classDetailsController = Get.put(ClassDetailsController());
+  // final ClassDetailsController _classDetailsController =
+  // Get.lazyPut(() => ClassDetailsController());
   final ManageAddressController _manageAddressController =
   Get.put(ManageAddressController());
 

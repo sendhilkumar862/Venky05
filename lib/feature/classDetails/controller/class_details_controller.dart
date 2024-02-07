@@ -37,7 +37,7 @@ class ClassDetailsController extends GetxController{
     selectedProfile.value =
         LocaleManager.getValue(StorageKeys.profile) ??
             '';
-    if(Get.arguments!=null){
+    if(Get.arguments!=null && Get.arguments['classNumber']!=null){
     classId=Get.arguments['classNumber'];
     fetchData();}
 

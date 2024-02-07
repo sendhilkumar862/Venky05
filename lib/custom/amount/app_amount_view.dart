@@ -21,16 +21,21 @@ class AppAmountView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
+      // ignore: avoid_redundant_argument_values
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         AppText(
           separator(amount!).first,
           fontSize: firstFontSize ?? 14.px,
           fontWeight: fontWeight ?? FontWeight.w700,
         ),
-        AppText(
-          amount!='null'?'.${separator(amount!).last}':'',
-          fontSize: decimalSize ?? 10.px,
-          fontWeight: fontWeight ?? FontWeight.w700,
+        Padding(
+          padding: const EdgeInsets.only(bottom:2.0),
+          child: AppText(
+            amount!=''?'.${separator(amount!).last}':'',
+            fontSize: decimalSize ?? 10.px,
+            fontWeight: fontWeight ?? FontWeight.w700,
+          ),
         ),
       ],
     );

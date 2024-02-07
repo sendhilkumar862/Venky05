@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../custom/app_button/app_button.dart';
@@ -7,6 +9,7 @@ import '../../../custom/appbar/appbar.dart';
 import '../../../product/utils/typography.dart';
 import '../../../product/utils/validators.dart';
 import '../../classDetails/view/bottomSheetView/booking_bottom_view.dart';
+import '../controller/wallet_controller.dart';
 
 class WithDrawScreen extends StatefulWidget {
   const WithDrawScreen({super.key});
@@ -18,6 +21,7 @@ class WithDrawScreen extends StatefulWidget {
 class _WithDrawScreenState extends State<WithDrawScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController topUp = TextEditingController();
+  final WalletController _walletController=Get.put(WalletController());
   bool isDisable = true;
   @override
   Widget build(BuildContext context) {
