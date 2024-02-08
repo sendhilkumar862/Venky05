@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../config/routes/route.dart';
@@ -23,6 +24,7 @@ import '../../../product/utils/typography.dart';
 import '../../class/class_detail/controller/class_detail_controller.dart';
 import '../../classDetails/controller/class_details_controller.dart';
 import '../../classDetails/view/bottomSheetView/booking_bottom_view.dart';
+import '../../proposal/create_proposal/controller/create_proposal_controller.dart';
 import '../../setting_view/add_address_screen/Model/request_address_model.dart';
 import '../../setting_view/manage_address/Model/get_address_model.dart' hide Location;
 import '../../setting_view/manage_address/controller/manage_controller.dart';
@@ -134,6 +136,8 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
                 reViewLength: 3,
                 teacherName:
                 data.name,
+                // ignore: avoid_bool_literals_in_conditional_expressions
+                isBook: classType==SchoolEndpoint.HISTORY_CLASS?false:true,
                 grade: data.grade,
                 minParticipants: data.minParticipants,
                 maxParticipants: data.maxParticipants,
@@ -214,7 +218,35 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
                   } else {
                     locationModalBottomSheet(context, index);
                   }
-                }:(){},
+                }:(){
+                  final CreateProposalController createProposalController = Get
+                      .put(CreateProposalController());
+                  createProposalController.dateController.text =
+                      DateFormat('dd-M-yyyy hh:mm a').format(
+                          DateTime.fromMillisecondsSinceEpoch(_homeController
+                              .classRelatedList[index].classTime!));
+                  createProposalController.classDurationController.text =
+                      _homeController
+                          .classRelatedList[index].duration?.toString()
+                          .timeConvert() ?? '';
+                  createProposalController.duration =
+                      _homeController
+                          .classRelatedList[index].duration??0;
+                  createProposalController.numberOfSession.text =
+                      _homeController
+                          .classRelatedList[index].maxParticipants?.toString() ?? '';
+                  createProposalController.classCost.text =
+                      _homeController
+                          .classRelatedList[index].cost?.replaceAll(
+                          '.00', '') ?? '';
+                  // ignore: avoid_dynamic_calls
+                  Get.toNamed(Routes.createProposal,
+                      arguments: {'classNumber':_homeController
+                          .classRelatedList[index]
+                          .classNumber!,
+                        'isRouting':'backToHomeScreen'
+                      });
+                },
               ),
             );
           },

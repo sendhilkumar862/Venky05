@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../config/routes/route.dart';
 import '../../../core/api_end_points.dart';
@@ -25,6 +26,7 @@ import '../../../product/utils/typography.dart';
 import '../../class/class_detail/controller/class_detail_controller.dart';
 import '../../classDetails/controller/class_details_controller.dart';
 import '../../classDetails/view/bottomSheetView/booking_bottom_view.dart';
+import '../../proposal/create_proposal/controller/create_proposal_controller.dart';
 import '../../setting_view/add_address_screen/Model/request_address_model.dart';
 import '../../setting_view/manage_address/Model/get_address_model.dart' hide Location;
 import '../../setting_view/manage_address/controller/manage_controller.dart';
@@ -719,7 +721,28 @@ class _ForStudentsState extends State<ForStudents> {
                     } else {
                       locationModalBottomSheet(context, index);
                     }
-                  }:(){},
+                  }:(){
+                    final CreateProposalController createProposalController = Get
+                        .put(CreateProposalController());
+                    createProposalController.dateController.text =
+                        DateFormat('dd-M-yyyy hh:mm a').format(
+                            DateTime.fromMillisecondsSinceEpoch(_searchController.searchClassList[index].classTime!));
+                    createProposalController.classDurationController.text =
+                        _searchController.searchClassList[index].duration?.toString()
+                            .timeConvert() ?? '';
+                    createProposalController.duration =
+                        _searchController.searchClassList[index].duration??0;
+                    createProposalController.numberOfSession.text =
+                        _searchController.searchClassList[index].maxParticipants?.toString() ?? '';
+                    createProposalController.classCost.text =
+                        _searchController.searchClassList[index].cost?.replaceAll(
+                            '.00', '') ?? '';
+                    // ignore: avoid_dynamic_calls
+                    Get.toNamed(Routes.createProposal,
+                        arguments: {'classNumber':_searchController.searchClassList[index].classNumber!,
+                          'isRouting':'backToHomeScreen'
+                        });
+                  },
                 );
               },
               separatorBuilder: (BuildContext context, int index) {
