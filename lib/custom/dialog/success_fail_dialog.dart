@@ -20,6 +20,7 @@ class SuccessFailsInfoDialog extends StatelessWidget {
         this.isRouting='',
         this.argument='',
       this.verticalPadding,
+        this.backIndex=2,
       super.key});
 
   String? content;
@@ -29,6 +30,7 @@ class SuccessFailsInfoDialog extends StatelessWidget {
   String? isRouting;
   String? argument;
   double? verticalPadding;
+  int? backIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +112,7 @@ class SuccessFailsInfoDialog extends StatelessWidget {
                   Navigator.of(context).pop();
                 }
                 else if(isRouting==Routes.classDetailsView){
-                  Get.offAndToNamed(isRouting!, arguments:  <String, Object?>{'classNumber': argument,'backIndex':2} );
+                  Get.offAndToNamed(isRouting!, arguments:  <String, Object?>{'classNumber': argument,'backIndex':backIndex} );
                 }else{
                   Get.offAndToNamed(isRouting!, arguments: argument );
                 }

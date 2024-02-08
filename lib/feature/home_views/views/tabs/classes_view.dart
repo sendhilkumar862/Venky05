@@ -449,6 +449,7 @@ class _ClassesViewState extends State<ClassesView> {
                   onTap: () => Get.toNamed(Routes.viewAllClass,
                       arguments: <String, Object?>{
                         'title': 'Related Classes',
+
                         'type': SchoolEndpoint.RELATED_CLASS
                       }),
                   totalItem: _homeController.classRelatedList.isNotEmpty
@@ -780,7 +781,6 @@ class _ClassesViewState extends State<ClassesView> {
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
                           onTap: () async {
-                            Get.back();
                             if (_homeController
                                     .classRelatedList[index].maxParticipants !=
                                 1) {
@@ -805,6 +805,7 @@ class _ClassesViewState extends State<ClassesView> {
                                   _classDetailsController.getClassDetails(_homeController
                                       .classRelatedList[index]
                                       .classNumber!);
+                                  // Get.back();
                                   return BookingBottomSheet();
                                 },
                               );
@@ -834,7 +835,6 @@ class _ClassesViewState extends State<ClassesView> {
                                       buttonTitle: 'Done',
                                       content:
                                           'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
-                                      isRouting: 'back',
                                     );
                                   },
                                 );
@@ -872,7 +872,6 @@ class _ClassesViewState extends State<ClassesView> {
               Obx(
                 () => AppButton(
                   onPressed: () async {
-                    Get.back();
                     _classDetailsController.classId=_homeController
                         .classRelatedList[index]
                         .classNumber!;
@@ -883,7 +882,6 @@ class _ClassesViewState extends State<ClassesView> {
                               .address[_classDetailController.selectedIndex.value]
                               .id
                         });
-
                     if (status) {
                       // ignore: use_build_context_synchronously
                       showModalBottomSheet(
@@ -902,7 +900,6 @@ class _ClassesViewState extends State<ClassesView> {
                             buttonTitle: 'Done',
                             content:
                                 'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
-                            isRouting: 'back',
                           );
                         },
                       );
