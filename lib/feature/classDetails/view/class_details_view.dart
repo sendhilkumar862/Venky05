@@ -599,8 +599,10 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                 buttonTitle: 'Done',
                                 content:
                               'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
-                                isRouting: 'back',
 
+                                isRouting: Routes.classDetailsView,
+                                  argument: _classDetailsController.classId,
+                                  backIndex: 1,
                               );
                             },
                           );
@@ -808,8 +810,9 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                     buttonTitle: 'Done',
                                     content:
                                     'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
-                                    isRouting: 'back',
-
+                                      isRouting: Routes.classDetailsView,
+                                      argument: _classDetailsController.classId,
+                                     backIndex: 1,
                                   );
                                 },
                               );
@@ -866,8 +869,9 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                           buttonTitle: 'Done',
                           content:
                           'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
-                          isRouting: 'back',
-
+                            isRouting: Routes.classDetailsView,
+                            argument: _classDetailsController.classId,
+                            backIndex: 1,
                         );
                       },
                     );
