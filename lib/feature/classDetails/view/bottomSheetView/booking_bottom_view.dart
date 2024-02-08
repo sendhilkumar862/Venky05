@@ -12,11 +12,12 @@ import '../../../../product/constants/image/image_constants.dart';
 import '../../controller/class_details_controller.dart';
 
 class BookingBottomSheet extends StatelessWidget {
-  BookingBottomSheet({super.key, this.height,this.isRouting='back'});
+  BookingBottomSheet({super.key, this.height,this.isRouting='back', this.isBook=true});
   final ClassDetailsController _classDetailsController =
   Get.put(ClassDetailsController());
   double? height;
   String? isRouting;
+  bool isBook;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,7 @@ class BookingBottomSheet extends StatelessWidget {
             Column(
               children: <Widget>[
                 SizedBox(
-                  height: 28.px,
+                  height: 15.px,
                 ),
                 AppText(
                   'Booking Confirmation',
@@ -62,7 +63,7 @@ class BookingBottomSheet extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
                 SizedBox(
-                  height: 23.px,
+                  height: 10.px,
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
@@ -74,7 +75,7 @@ class BookingBottomSheet extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 18.px,
+                  height: 10.px,
                 ),
                 Row(
                   children: <Widget>[
@@ -273,16 +274,14 @@ class BookingBottomSheet extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 25.px,
-                ),
+
                 AppButton(
                   isDisable: false,
                   borderColor: AppColors.appBlue,
                   height: 45.px,
-                  title: 'Book and Pay',
+                  title: isBook?'Book and Pay':'Approve and Pay',
                   onPressed: () async{
-                        final bool status= await _classDetailsController.bookClassDetail({});
+                        final bool status= isBook?await _classDetailsController.bookClassDetail({}):await _classDetailsController.approveProposal(_classDetailsController.proposalId??'');
                         if(status) {
                           // ignore: use_build_context_synchronously
                           showModalBottomSheet(
@@ -301,7 +300,7 @@ class BookingBottomSheet extends StatelessWidget {
                                 title: 'Success',
                                 buttonTitle: 'Done',
                                 content:
-                                'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
+                                isBook?'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.':'You have successfully booked your class!',
                                 isRouting: isRouting,
 
                               );
@@ -313,9 +312,7 @@ class BookingBottomSheet extends StatelessWidget {
                         }
                       }
                 ),
-                SizedBox(
-                  height: 10.px,
-                ),
+
               ],
             ),
           ],
