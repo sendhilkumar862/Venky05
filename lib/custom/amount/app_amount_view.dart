@@ -28,7 +28,7 @@ class AppAmountView extends StatelessWidget {
           fontWeight: fontWeight ?? FontWeight.w700,
         ),
         AppText(
-          '.${separator(amount!).last}',
+          amount!='null'?'.${separator(amount!).last}':'',
           fontSize: decimalSize ?? 10.px,
           fontWeight: fontWeight ?? FontWeight.w700,
         ),
