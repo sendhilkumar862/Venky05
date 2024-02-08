@@ -15,6 +15,7 @@ import '../../proposal/proposol_details/repository/delete_proposal_repository.da
 import '../modal/class_detail_model.dart';
 import '../modal/proposal_model.dart';
 import '../repository/book_class_repository.dart';
+import '../repository/cancel_class_repository.dart';
 import '../repository/get_all_proposal_repository.dart';
 import '../repository/get_class_details_repository.dart';
 
@@ -25,6 +26,7 @@ class ClassDetailsController extends GetxController{
   final GetProposalAllRepository _getProposalAllRepository=GetProposalAllRepository();
   final DeleteProposalDetailRepository _deleteProposalDetailRepository= DeleteProposalDetailRepository();
   final BookClassRepository _bookClassRepository=BookClassRepository();
+  final CancelClassRepository _cancelClassRepository=CancelClassRepository();
   RxString selectedProfile = ''.obs;
   String classId='';
   int startIndex=1;
@@ -37,7 +39,7 @@ class ClassDetailsController extends GetxController{
     selectedProfile.value =
         LocaleManager.getValue(StorageKeys.profile) ??
             '';
-    if(Get.arguments!=null){
+    if(Get.arguments!=null && Get.arguments['classNumber']!=null){
     classId=Get.arguments['classNumber'];
     fetchData();}
 
@@ -118,6 +120,23 @@ class ClassDetailsController extends GetxController{
     bool status=false;
     showLoading();
     final BaseResponse getProposalsDataResponse = await _bookClassRepository.bookClassRepositoryRepository(classId,data);
+    if (getProposalsDataResponse.status?.type == 'success') {
+      final HomeController homeController=Get.find();
+      await getClassDetails(classId);
+      homeController.relatedPageIndex=1;
+      homeController.historyPageIndex=1;
+      homeController.activityPageIndex=1;
+      homeController.upcomingPageIndex=1;
+      await homeController.getData();
+      status=true;
+    }
+    hideLoading();
+    return status;
+  }
+  Future<bool> cancelClass( ) async {
+    bool status=false;
+    showLoading();
+    final BaseResponse getProposalsDataResponse = await _cancelClassRepository.cancelClassRepositoryRepository(classId);
     if (getProposalsDataResponse.status?.type == 'success') {
       final HomeController homeController=Get.find();
       await getClassDetails(classId);

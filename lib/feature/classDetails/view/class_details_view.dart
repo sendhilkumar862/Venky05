@@ -11,6 +11,7 @@ import '../../../custom/cardView/heading_card_view.dart';
 import '../../../custom/cardView/status_card_view.dart';
 import '../../../custom/choice/src/modal/button.dart';
 import '../../../custom/dialog/success_fail_dialog.dart';
+import '../../../custom/dialog/warning_dialog.dart';
 import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/constants/app/app_constants.dart';
@@ -652,7 +653,62 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   if (_classDetailsController.classData.value.canCancelClass ??
                       false)
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isDismissible: false,
+                          constraints: BoxConstraints(
+                            maxWidth:
+                            // ignore: use_build_context_synchronously
+                            (MediaQuery.of(context)
+                                .size
+                                .width -
+                                30)
+                                .px,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.circular(20.px),
+                          ),
+                          builder: (BuildContext context) {
+                            return   WarningDialog(onTap: ()async{
+                              final bool status= await _classDetailsController.cancelClass();
+                              if (status) {
+                                // ignore: use_build_context_synchronously
+                                showModalBottomSheet(
+                                  context: context,
+                                  isDismissible: false,
+                                  constraints: BoxConstraints(
+                                    maxWidth:
+                                    // ignore: use_build_context_synchronously
+                                    (MediaQuery.of(context)
+                                        .size
+                                        .width -
+                                        30)
+                                        .px,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(20.px),
+                                  ),
+                                  builder: (BuildContext context) {
+                                    return SuccessFailsInfoDialog(
+                                      title: 'Cancelled',
+                                      buttonTitle: 'Done',
+                                      isRouting: 'back',
+                                      content:
+                                      'You have successfully cancelled the class and the cost refunded to your wallet.',
+
+                                    );
+                                  },
+                                );
+                              }
+                            },);
+                          },
+                        );
+
+
+                      },
                       child: Center(
                         child: AppText(
                           'Cancel Your Class',

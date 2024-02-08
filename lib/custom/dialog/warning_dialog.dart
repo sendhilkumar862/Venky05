@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
+import '../../product/utils/typography.dart';
 import '../app_button/app_button.dart';
 import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
 
 class WarningDialog extends StatelessWidget {
-  const WarningDialog({
+  Function()? onTap;
+   WarningDialog({
     super.key,
+    this.onTap
   });
 
   @override
@@ -58,16 +62,20 @@ class WarningDialog extends StatelessWidget {
               SizedBox(height: 18.px),
               AppButton(
                 title: 'No, Keep It',
+                isDisable: false,
                 borderColor: AppColors.appBlue,
                 height: 45.px,
-                onPressed: () {},
+                onPressed: ()=>Get.back(),
               ),
               SizedBox(height: 22.px),
-              AppText(
-                'Yes, Cancel the Booking',
-                fontSize: 14.px,
-                fontWeight: FontWeight.w600,
-                color: AppColors.appLightRed,
+              GestureDetector(
+                onTap: onTap!,
+                child: AppText(
+                  'Yes, Cancel the Booking',
+                  fontSize: 14.px,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.appLightRed,
+                ),
               ),
               SizedBox(height: 24.px),
             ],

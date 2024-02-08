@@ -99,7 +99,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                                     .walletBalanceDetailModel.value.balance !=
                                 null
                             ? '${_walletViewController.walletBalanceDetailModel.value.balance!.balance} KWD'
-                            : 'null',
+                            : '',
                         firstFontSize: 24.px,
                         decimalSize: 16.px),
                     SizedBox(height: 14.px),
@@ -134,7 +134,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                                                   .balance !=
                                               null
                                           ? '${_walletViewController.walletBalanceDetailModel.value.balance!.pendingPayment ?? ''} KWD'
-                                          : 'null',
+                                          : '',
                                     )
                                   ]
                                 : <Widget>[
@@ -146,7 +146,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                                             .balance !=
                                             null
                                             ? '${_walletViewController.walletBalanceDetailModel.value.balance!.pendingPayment ?? ''} KWD'
-                                            : 'null',),
+                                            : '',),
                                     AppDivider(isVerticle: true),
                                     balanceCardView(
                                         title: 'Pending Withdraw',
@@ -160,7 +160,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                       child:(! _walletViewController.isProfileTeacher.value)
                           ? screenButton(
                               onTap: () {
-                                Get.toNamed(Routes.withdrawView);
+                                Get.toNamed(Routes.withdrawView,arguments: 'add');
                               },
                               title: 'Top Up Wallet',
                               icon: ImageConstants.walletIcon)
@@ -188,7 +188,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                                 SizedBox(width: 15.px),
                                 screenButton(
                                     onTap: () =>
-                                        Get.toNamed(Routes.withdrawView),
+                                        Get.toNamed(Routes.withdrawView,arguments: 'withdraw'),
                                     title: 'Withdraw',
                                     icon: ImageConstants.walletIcon),
                               ],
@@ -244,7 +244,10 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                             subTitle:
                                 'Book classes or create new to see invoices.',
                             buttonTitle: 'Create New Class',
-                            buttonTap: () {},
+                            buttonTap: () {
+                              Get.toNamed(Routes.createClass);
+                              // AppRouter.pushNamed(Routes.createClass);
+                            },
                           ))
                   ],
                 ),
@@ -467,34 +470,32 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
   }
 
   Widget screenButton({VoidCallback? onTap, String? title, String? icon}) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 12.px),
-          height: 35.px,
-          decoration: BoxDecoration(
-            color: AppColors.appBlue,
-            borderRadius: BorderRadius.circular(12.px),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              AppImageAsset(
-                image: icon ?? '',
-                color: AppColors.appWhite,
-                height: 18.px,
-              ),
-              SizedBox(width: 6.px),
-              AppText(
-                title ?? '',
-                color: AppColors.appWhite,
-                fontSize: 14.px,
-                fontWeight: FontWeight.w400,
-              )
-            ],
-          ),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12.px),
+        height: 35.px,
+        decoration: BoxDecoration(
+          color: AppColors.appBlue,
+          borderRadius: BorderRadius.circular(12.px),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            AppImageAsset(
+              image: icon ?? '',
+              color: AppColors.appWhite,
+              height: 18.px,
+            ),
+            SizedBox(width: 6.px),
+            AppText(
+              title ?? '',
+              color: AppColors.appWhite,
+              fontSize: 14.px,
+              fontWeight: FontWeight.w400,
+            )
+          ],
         ),
       ),
     );

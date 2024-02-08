@@ -8,9 +8,11 @@ import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../model/get_wallet_balance_list_model.dart';
 import '../model/get_wallet_balance_stats_model.dart';
+import '../model/get_wallet_balance_transaction.dart';
 import '../repository/get_wallet_balance_list_repository.dart';
 import '../repository/get_wallet_balance_repository.dart';
 import '../repository/get_wallet_balance_stats_repository.dart';
+import '../repository/get_wallet_balance_trans_repository.dart';
 import '../view/wallet_view.dart';
 
 class WalletViewController extends GetxController {
@@ -25,9 +27,11 @@ class WalletViewController extends GetxController {
   Rx<GetWalletBalanceModel> walletBalanceDetailModel= GetWalletBalanceModel().obs;
   RxList<GetWalletBalanceListModel> walletBalanceListData = <GetWalletBalanceListModel>[].obs;
   Rx<GetWalletBalanceStatsModel> getWalletBalanceStatsModel=GetWalletBalanceStatsModel().obs;
+  Rx<GetWalletBalanceTransModel> getWalletBalanceTransModel=GetWalletBalanceTransModel().obs;
   final GetWalletBalanceRepository _getWalletBalanceRepository=GetWalletBalanceRepository();
   final GetWalletBalanceListRepository _getWalletBalanceListRepository=GetWalletBalanceListRepository();
   final GetWalletBalanceStataRepository _getWalletBalanceStataRepository=GetWalletBalanceStataRepository();
+  final GetWalletBalanceTransRepository _getWalletBalanceTransRepository=GetWalletBalanceTransRepository();
   String selectedProfile='';
   RxBool isProfileTeacher = true.obs;
   @override
@@ -76,8 +80,16 @@ class WalletViewController extends GetxController {
   Future<void> getStatistics() async {
     final BaseResponse getWalletBalanceDataResponse = await _getWalletBalanceStataRepository.getWalletStats();
     if (getWalletBalanceDataResponse.status?.type == 'success') {
-      final  Map<String,dynamic>  walletBalanceList=getWalletBalanceDataResponse.data!.item! as Map<String,dynamic>;
-      getWalletBalanceStatsModel.value=GetWalletBalanceStatsModel.fromJson(walletBalanceList);
+      final  Map<String,dynamic>  walletBalanceStats=getWalletBalanceDataResponse.data!.item! as Map<String,dynamic>;
+      getWalletBalanceStatsModel.value=GetWalletBalanceStatsModel.fromJson(walletBalanceStats);
+    }
+  }
+
+  Future<void> getTransactions(String id) async {
+    final BaseResponse getWalletBalanceDataResponse = await _getWalletBalanceTransRepository.getWalletTrans(id);
+    if (getWalletBalanceDataResponse.status?.type == 'success') {
+      final  Map<String,dynamic>  walletBalanceTrans=getWalletBalanceDataResponse.data!.item! as Map<String,dynamic>;
+      getWalletBalanceTransModel.value=GetWalletBalanceTransModel.fromJson(walletBalanceTrans);
     }
   }
 
