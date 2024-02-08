@@ -98,6 +98,7 @@ class _ProposalsByState extends State<ProposalsBy> {
                     return InkWell(
                       onTap: () {
                         _proposalsByController.getProposalDetails( _classDetailsController.proposalList[index].proposalId??'',widget.classId);
+                        _classDetailsController.proposalId=_classDetailsController.proposalList[index].proposalId??'';
                         proposalByTeacherBottomSheet(index);
                       },
                       child: DetailsCardView(
@@ -396,7 +397,10 @@ class _ProposalsByState extends State<ProposalsBy> {
                       ),
                       builder: (BuildContext context) {
                         return BookingBottomSheet(
-                            height: MediaQuery.of(context).size.height * 0.62.px);
+                            height: MediaQuery.of(context).size.height * 0.62.px,
+                        isBook: false,
+                        isRouting: '',);
+
                       },
                     );
                   },

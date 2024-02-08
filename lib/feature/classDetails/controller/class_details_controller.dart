@@ -11,6 +11,7 @@ import '../../../product/cache/key_value_storeage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../../product/utils/validators.dart';
 import '../../home/controller/home_controller.dart';
+import '../../proposal/proposol_details/repository/approve_proposal_repository.dart';
 import '../../proposal/proposol_details/repository/delete_proposal_repository.dart';
 import '../modal/class_detail_model.dart';
 import '../modal/proposal_model.dart';
@@ -25,12 +26,18 @@ class ClassDetailsController extends GetxController{
   final GetClassDetailRepository _getClassDetailRepository = GetClassDetailRepository();
   final GetProposalAllRepository _getProposalAllRepository=GetProposalAllRepository();
   final DeleteProposalDetailRepository _deleteProposalDetailRepository= DeleteProposalDetailRepository();
+  final ApproveProposalRepository _approveProposalRepository = ApproveProposalRepository();
   final BookClassRepository _bookClassRepository=BookClassRepository();
   final CancelClassRepository _cancelClassRepository=CancelClassRepository();
+
+
+  final HomeController homeController=Get.find();
+
   RxString selectedProfile = ''.obs;
   String classId='';
   int startIndex=1;
   ScrollController scrollController=ScrollController();
+  String? proposalId;
 
 
   @override
@@ -121,7 +128,22 @@ class ClassDetailsController extends GetxController{
     showLoading();
     final BaseResponse getProposalsDataResponse = await _bookClassRepository.bookClassRepositoryRepository(classId,data);
     if (getProposalsDataResponse.status?.type == 'success') {
-      final HomeController homeController=Get.find();
+      await getClassDetails(classId);
+      homeController.relatedPageIndex=1;
+      homeController.historyPageIndex=1;
+      homeController.activityPageIndex=1;
+      homeController.upcomingPageIndex=1;
+      await homeController.getData();
+      status=true;
+    }
+    hideLoading();
+    return status;
+  }
+  Future<bool> approveProposal(String id, ) async {
+    bool status=false;
+    showLoading();
+    final BaseResponse getProposalsDataResponse = await _approveProposalRepository.approveProposal(id,classId);
+    if (getProposalsDataResponse.status?.type == 'success') {
       await getClassDetails(classId);
       homeController.relatedPageIndex=1;
       homeController.historyPageIndex=1;
