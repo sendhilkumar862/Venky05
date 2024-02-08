@@ -32,11 +32,16 @@ class _CreateProposalState extends State<CreateProposal> {
   final ClassDetailController _classDetailController = Get.put(ClassDetailController());
   final ClassDetailsController _classDetailsController=Get.find();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
+  String? proposalId;
 
   bool isDisable = true;
 
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    proposalId=Get.arguments['proposalId'];
+  }
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -44,7 +49,7 @@ class _CreateProposalState extends State<CreateProposal> {
         isTitleOnly: true,
         // isBack: true,
         // trailingText: 'Cancel',
-        title: Get.arguments['proposalId']!=null?'Update Proposal':'Create Proposal',
+        title: proposalId!=null?'Update Proposal':'Create Proposal',
         // normalAppbar: true,
       ),
       body:  Form(
@@ -158,10 +163,10 @@ class _CreateProposalState extends State<CreateProposal> {
                   Padding(
                     padding: EdgeInsets.only(bottom: 20.px, top: 80.px),
                     child: AppButton(
-                      title: Get.arguments['proposalId']!=null?'Update':'submit'.tr,
+                      title: proposalId!=null?'Update':'submit'.tr,
                       onPressed: () async{
                         if (formKey.currentState!.validate()) {
-                         bool status=  Get.arguments['proposalId']!=null? await _createProposalController.updateProposal():await _createProposalController.crateProposal();
+                         bool status=  proposalId!=null? await _createProposalController.updateProposal():await _createProposalController.crateProposal();
                          if(status) {
                            _classDetailsController.fetchData();
                            // ignore: use_build_context_synchronously

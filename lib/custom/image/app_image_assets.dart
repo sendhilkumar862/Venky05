@@ -37,7 +37,8 @@ class AppImageAsset extends StatelessWidget {
             httpHeaders: LocaleManager.getAuthToken()!=''?<String, String>{'X-Auth-Token':  LocaleManager.getAuthToken()}:null ,
             fit: fit ?? BoxFit.cover,
             placeholder: (BuildContext context, String url) =>
-                const CircularProgressIndicator(color: AppColors.appBlue),
+                const SizedBox(height: 50.0,
+                  width: 50.0,child: Center(child: CircularProgressIndicator(color: AppColors.appBlue)),),
             errorWidget: (BuildContext context, String url, Object error) =>
                 const Icon(Icons.error, color: Colors.red),
           )

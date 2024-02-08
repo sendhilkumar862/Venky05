@@ -34,8 +34,12 @@ class HomeController extends GetxController {
           LocaleManager.getValue(StorageKeys.createdClass) ??false;
     }
   }
+@override
+onInit(){
+  super.onInit();
+  fetchData();
 
-
+}
 
   getData()async{
     showLoading();
@@ -73,6 +77,11 @@ class HomeController extends GetxController {
 
   int totalRelatedCount=0;
   int relatedPageIndex=1;
+
+  int totalRelatedStudentCount=0;
+  int totalFavouriteStudentCount=0;
+  int totalRelatedTeacherCount=0;
+  int totalFavouriteTeacherCount=0;
 
 
   Future<void> fetchData() async {

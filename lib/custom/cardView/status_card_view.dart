@@ -88,7 +88,13 @@ class StatusCardView extends StatelessWidget {
           cardColor: AppColors.appLightRed,
           iconColor: AppColors.appWhite,
         );
-
+      case 'Expired':
+        return customStatusView(
+          title: 'Expired',
+          icon: ImageConstants.inCompletedStatus,
+          cardColor: AppColors.appLightRed,
+          iconColor: AppColors.appWhite,
+        );
       case 'Created':
         return customStatusView(
           title: 'Created',

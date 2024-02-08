@@ -606,7 +606,7 @@ class _ForStudentsState extends State<ForStudents> {
                       },
                       // ignore: avoid_bool_literals_in_conditional_expressions
                       isDisable: _searchController.selectedSchoolIndices.isNotEmpty ||  _searchController.selectedGenderIndices.isNotEmpty || _searchController.selectedClassTypeIndices.isNotEmpty ||
-                          _searchController.selectedSubjectIndices.isNotEmpty || _searchController.grade.isNotEmpty || _searchController.selectedSaveDataIndices !=''
+                          _searchController.selectedSubjectIndices.isNotEmpty || _searchController.grade.isNotEmpty || _searchController.selectedSaveDataIndices !='' ||_searchController.selectedCurriculumIndices.isNotEmpty
                           ? false
                           : true,
                     ),
@@ -754,6 +754,7 @@ class _ForStudentsState extends State<ForStudents> {
   void locationModalBottomSheet(context, index) {
     showModalBottomSheet(
         isScrollControlled: true,
+        backgroundColor: AppColors.white,
         // showDragHandle: true,
         useSafeArea: true,
         shape: const RoundedRectangleBorder(
