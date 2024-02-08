@@ -138,21 +138,18 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
                 teacherName:
                 data.name,
                 // ignore: avoid_bool_literals_in_conditional_expressions
-                isBook: classType==SchoolEndpoint.HISTORY_CLASS?false:true,
+                isBook:data.canBookFlag!=null?(data.canBookFlag==0)?false:true:false,
                 grade: data.grade,
                 minParticipants: data.minParticipants,
                 maxParticipants: data.maxParticipants,
                 cardTap: () {
                   Get.toNamed(Routes.classDetailsView,
-                      arguments: <String, Object?>{'classNumber': _homeController
-                          .classRelatedList[index].classNumber,'backIndex':1});
+                      arguments: <String, Object?>{'classNumber': data.classNumber,'backIndex':1});
                 },
                 buttonTap: selectedProfile == ApplicationConstants.student?() async {
-                  if (_homeController.classRelatedList[index]
-                      .allowAtStudentLoc ==
+                  if (data.allowAtStudentLoc ==
                       0) {
-                    if (_homeController.classRelatedList[index]
-                        .maxParticipants! >
+                    if (data.maxParticipants! >
                         1) {
                       showModalBottomSheet(
                         context: context,
@@ -171,19 +168,15 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
                           BorderRadius.circular(20.px),
                         ),
                         builder: (BuildContext context) {
-                          _classDetailsController.classId=_homeController
-                              .classRelatedList[index]
-                              .classNumber!;
-                          _classDetailsController.getClassDetails(_homeController
-                              .classRelatedList[index]
+                          _classDetailsController.classId=
+                              data.classNumber!;
+                          _classDetailsController.getClassDetails(data
                               .classNumber!);
                           return BookingBottomSheet(isRouting: 'backToHomeScreen',);
                         },
                       );
                     } else {
-                      _classDetailsController.classId=_homeController
-                          .classRelatedList[index]
-                          .classNumber!;
+                      _classDetailsController.classId=data.classNumber!;
                       final bool status = await _classDetailsController
                           .bookClassDetail(
                           {});
@@ -217,34 +210,27 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
                       }
                     }
                   } else {
-                    locationModalBottomSheet(context, index);
+                    locationModalBottomSheet(context, index,data);
                   }
                 }:(){
                   final CreateProposalController createProposalController = Get
                       .put(CreateProposalController());
                   createProposalController.dateController.text =
                       DateFormat('dd-M-yyyy hh:mm a').format(
-                          DateTime.fromMillisecondsSinceEpoch(_homeController
-                              .classRelatedList[index].classTime!));
+                          DateTime.fromMillisecondsSinceEpoch(data.classTime!));
                   createProposalController.classDurationController.text =
-                      _homeController
-                          .classRelatedList[index].duration?.toString()
+                      data.duration?.toString()
                           .timeConvert() ?? '';
                   createProposalController.duration =
-                      _homeController
-                          .classRelatedList[index].duration??0;
+                      data.duration??0;
                   createProposalController.numberOfSession.text =
-                      _homeController
-                          .classRelatedList[index].maxParticipants?.toString() ?? '';
+                      data.maxParticipants?.toString() ?? '';
                   createProposalController.classCost.text =
-                      _homeController
-                          .classRelatedList[index].cost?.replaceAll(
+                      data.cost?.replaceAll(
                           '.00', '') ?? '';
                   // ignore: avoid_dynamic_calls
                   Get.toNamed(Routes.createProposal,
-                      arguments: {'classNumber':_homeController
-                          .classRelatedList[index]
-                          .classNumber!,
+                      arguments: {'classNumber':data.classNumber!,
                         'isRouting':'backToHomeScreen'
                       });
                 },
@@ -262,7 +248,7 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
     );
   }
 
-  void locationModalBottomSheet(context, index) {
+  void locationModalBottomSheet(context, index,GetClassListModel data) {
     showModalBottomSheet(
         isScrollControlled: true,
         // showDragHandle: true,
@@ -309,8 +295,7 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
                         child: GestureDetector(
                           onTap: () async {
                             Get.back();
-                            if (_homeController
-                                .classRelatedList[index].maxParticipants !=
+                            if (data.maxParticipants !=
                                 1) {
                               showModalBottomSheet(
                                 context: context,
@@ -327,19 +312,13 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
                                   borderRadius: BorderRadius.circular(20.px),
                                 ),
                                 builder: (BuildContext context) {
-                                  _classDetailsController.classId=_homeController
-                                      .classRelatedList[index]
-                                      .classNumber!;
-                                  _classDetailsController.getClassDetails(_homeController
-                                      .classRelatedList[index]
-                                      .classNumber!);
+                                  _classDetailsController.classId=data.classNumber!;
+                                  _classDetailsController.getClassDetails(data.classNumber!);
                                   return BookingBottomSheet(isRouting: 'backToHomeScreen',);
                                 },
                               );
                             } else {
-                              _classDetailsController.classId=_homeController
-                                  .classRelatedList[index]
-                                  .classNumber!;
+                              _classDetailsController.classId=data.classNumber!;
                               final bool status = await _classDetailsController
                                   .bookClassDetail(
                                   {});
@@ -399,9 +378,7 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
               Obx(
                     () => AppButton(
                   onPressed: () async {
-                    _classDetailsController.classId=_homeController
-                        .classRelatedList[index]
-                        .classNumber!;
+                    _classDetailsController.classId=data.classNumber!;
                     final bool status = await _classDetailsController
                         .bookClassDetail(
                         {
