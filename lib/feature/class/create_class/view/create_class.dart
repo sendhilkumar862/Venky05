@@ -26,7 +26,7 @@ class _CreateClassState extends State<CreateClass> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    Get.deleteAll();
+    Get.delete<ClassDetailController>();
   }
 
   @override
