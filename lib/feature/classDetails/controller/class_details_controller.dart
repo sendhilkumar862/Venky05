@@ -15,9 +15,12 @@ import '../../proposal/proposol_details/repository/approve_proposal_repository.d
 import '../../proposal/proposol_details/repository/delete_proposal_repository.dart';
 import '../modal/class_detail_model.dart';
 import '../modal/proposal_model.dart';
+import '../modal/students_model.dart';
+import '../repository/approve_reject_student_repository.dart';
 import '../repository/book_class_repository.dart';
 import '../repository/cancel_class_repository.dart';
 import '../repository/get_all_proposal_repository.dart';
+import '../repository/get_all_students_repository.dart';
 import '../repository/get_class_details_repository.dart';
 
 
@@ -25,10 +28,12 @@ class ClassDetailsController extends GetxController{
 
   final GetClassDetailRepository _getClassDetailRepository = GetClassDetailRepository();
   final GetProposalAllRepository _getProposalAllRepository=GetProposalAllRepository();
+  final GetStudentsAllRepository _getStudentsAllRepository= GetStudentsAllRepository();
   final DeleteProposalDetailRepository _deleteProposalDetailRepository= DeleteProposalDetailRepository();
   final ApproveProposalRepository _approveProposalRepository = ApproveProposalRepository();
   final BookClassRepository _bookClassRepository=BookClassRepository();
   final CancelClassRepository _cancelClassRepository=CancelClassRepository();
+  final ApproveRejectStudentsRepository _approveRejectStudentsRepository=ApproveRejectStudentsRepository();
 
 
   final HomeController homeController=Get.find();
@@ -51,6 +56,8 @@ class ClassDetailsController extends GetxController{
     fetchData();}
 
   }
+
+
   Rx<CameraPosition> kGooglePlex=const CameraPosition( target: LatLng(24.7136,46.6753),
     zoom: 14.4746,).obs;
 
@@ -67,6 +74,7 @@ class ClassDetailsController extends GetxController{
       getProposalDetails(classId,startIndex),
     // ignore: avoid_dynamic_calls
     getClassDetails(classId),
+      getStudentAllAtDetails(classId,startIndex)
     ]);
     hideLoading();
   }
@@ -85,6 +93,7 @@ class ClassDetailsController extends GetxController{
 
    Rx<ClassDetailsModel> classData =  ClassDetailsModel().obs;
    RxList<ProposalModel> proposalList = <ProposalModel>[].obs;
+   RxList<StudentsModel> studentsList = <StudentsModel>[].obs;
 
   Future<void> getClassDetails(String id) async {
     final BaseResponse classDataResponse = await _getClassDetailRepository.getClassDetail(id);
@@ -109,6 +118,27 @@ class ClassDetailsController extends GetxController{
       for (var element in proposalListData) {
         proposalList.add(ProposalModel.fromJson(element));
       }}
+    }
+    if(isReload){
+      hideLoading();
+    }
+  }
+
+  Future<void> getStudentAllAtDetails(String id, int startIndex,{bool isReload=false}) async {
+    if(isReload){
+      showLoading();
+    }
+    final BaseResponse getStudentsDataResponse = await _getStudentsAllRepository.getStudentsAll(id,startIndex);
+    if (getStudentsDataResponse.status?.type == 'success') {
+      if(getStudentsDataResponse.data!.item!=null){
+        final List proposalListData=getStudentsDataResponse.data!.item! as List;
+        if(!isReload) {
+          studentsList.clear();
+        }
+
+        for (var element in proposalListData) {
+          studentsList.add(StudentsModel.fromJson(element));
+        }}
     }
     if(isReload){
       hideLoading();
@@ -161,6 +191,23 @@ class ClassDetailsController extends GetxController{
     final BaseResponse getProposalsDataResponse = await _cancelClassRepository.cancelClassRepositoryRepository(classId);
     if (getProposalsDataResponse.status?.type == 'success') {
       final HomeController homeController=Get.find();
+      await getClassDetails(classId);
+      homeController.relatedPageIndex=1;
+      homeController.historyPageIndex=1;
+      homeController.activityPageIndex=1;
+      homeController.upcomingPageIndex=1;
+      await homeController.getData();
+      status=true;
+    }
+    hideLoading();
+    return status;
+  }
+
+  Future<bool> approveRejectStudents(String id,Map <String,dynamic> approveRejectDetails) async {
+    bool status=false;
+    showLoading();
+    final BaseResponse approveRejectDataResponse = await _approveRejectStudentsRepository.approveRejectStudent(id,approveRejectDetails);
+    if (approveRejectDataResponse.status?.type == 'success') {
       await getClassDetails(classId);
       homeController.relatedPageIndex=1;
       homeController.historyPageIndex=1;

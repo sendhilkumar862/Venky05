@@ -32,6 +32,8 @@ class ClassDetailController extends GetxController{
   getMasterDataClass();
 }
 
+
+
   RxInt selectedIndex =200.obs;
   RxString selectedProfile = ''.obs;
 

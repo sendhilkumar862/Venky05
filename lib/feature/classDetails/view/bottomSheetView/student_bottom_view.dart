@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:hessah/feature/classDetails/controller/class_details_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_button/app_button.dart';
@@ -6,13 +9,38 @@ import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+class StudentBottomSheet extends StatefulWidget {
+  StudentBottomSheet({super.key,required this.classId});
+  String classId;
+  @override
+  State<StudentBottomSheet> createState() => _StudentBottomSheetState();
+}
 
-class StudentBottomSheet extends StatelessWidget {
-  const StudentBottomSheet({super.key});
+class _StudentBottomSheetState extends State<StudentBottomSheet> {
+
+  final ClassDetailsController _classDetailsController = Get.put(ClassDetailsController());
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   _classDetailsController.scrollController.addListener(pagination);
+  // }
+  // void pagination() async{
+  //   if (_classDetailsController.scrollController.position.pixels ==
+  //       _classDetailsController.scrollController.position.maxScrollExtent) {
+  //     // ignore: avoid_dynamic_calls
+  //     if( _classDetailsController.classData.value.proposalsCount!=null && _classDetailsController.classData.value.proposalsCount! >_classDetailsController.proposalList.length){
+  //       _classDetailsController.startIndex= _classDetailsController.startIndex+1;
+  //       // ignore: avoid_dynamic_calls
+  //       await _classDetailsController.getStudentAllAtDetails( _classDetailsController.classId, _classDetailsController.startIndex,isReload: true);
+  //     }
+  //   }
+  // }
+
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return  Container(
       height: (MediaQuery.of(context).size.height * 0.92).px,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -54,7 +82,7 @@ class StudentBottomSheet extends StatelessWidget {
                 child: GridView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 15.px),
                   physics: BouncingScrollPhysics(),
-                  itemCount: 8,
+                  itemCount: _classDetailsController.studentsList.length,
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -80,14 +108,14 @@ class StudentBottomSheet extends StatelessWidget {
                                 height: 8.px,
                               ),
                               AppImageAsset(
-                                image: ImageConstants.avtar,
+                                image: _classDetailsController.studentsList[index].imageId??ImageConstants.avtar,
                                 height: 55.px,
                               ),
                               SizedBox(
                                 height: 6.px,
                               ),
                               AppText(
-                                'User Name',
+                                _classDetailsController.studentsList[index].name??'',
                                 fontWeight: FontWeight.w700,
                                 fontSize: 12.px,
                               ),
@@ -95,7 +123,7 @@ class StudentBottomSheet extends StatelessWidget {
                                 height: 4.px,
                               ),
                               AppText(
-                                'Grade 1 - 2 - 3',
+                                gradeUpdateText(_classDetailsController.studentsList[index].grade??[]),
                                 fontSize: 12.px,
                               ),
                               SizedBox(
@@ -104,6 +132,7 @@ class StudentBottomSheet extends StatelessWidget {
                               AppButton(
                                 title: 'Accept',
                                 height: 45.px,
+                                isDisable: false,
                                 borderColor: AppColors.appBlue,
                                 borderRadius: BorderRadius.circular(10.px),
                                 onPressed: () {},
@@ -129,7 +158,9 @@ class StudentBottomSheet extends StatelessWidget {
                   height: 45.px,
                   borderRadius: BorderRadius.circular(10.px),
                   borderColor: AppColors.appBlue,
-                  onPressed: () {},
+                  onPressed: () {
+                    _classDetailsController.approveRejectStudents(widget.classId, {});
+                  },
                 ),
               ),
             ],
@@ -138,4 +169,13 @@ class StudentBottomSheet extends StatelessWidget {
       ),
     );
   }
+}
+
+String gradeUpdateText(List grade){
+  if(grade.isNotEmpty){
+    for(var element in grade){
+
+    }
+  }
+  return '';
 }

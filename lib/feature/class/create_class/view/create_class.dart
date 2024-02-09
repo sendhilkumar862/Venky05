@@ -21,6 +21,14 @@ class CreateClass extends StatefulWidget {
 
 class _CreateClassState extends State<CreateClass> {
   final ClassDetailController _classDetailController =Get.put(ClassDetailController());
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    Get.deleteAll();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
