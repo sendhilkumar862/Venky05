@@ -117,13 +117,13 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                                 borderColor: AppColors.appBlue,
                                 borderRadius: BorderRadius.circular(10.px),
                                 onPressed: () {
-                                  _classDetailsController.approveRejectStudents(widget.classId, {'isSelectAll':false,'type':'accept','users':[_classDetailsController.studentsList[index].userId]});
+                                  _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'accept','users':[_classDetailsController.studentsList[index].userId]});
                                 },
                               ),
                               SizedBox(height: 10.px),
                               GestureDetector(
                                 onTap: (){
-                                  _classDetailsController.approveRejectStudents(widget.classId, {'isSelectAll':false,'type':'reject','users':[_classDetailsController.studentsList[index].userId]});
+                                  _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'reject','users':[_classDetailsController.studentsList[index].userId]});
                                 },
                                 child: AppText(
                                   'Reject',
@@ -148,7 +148,7 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                   borderRadius: BorderRadius.circular(10.px),
                   borderColor: AppColors.appBlue,
                   onPressed: () {
-                    _classDetailsController.approveRejectStudents(widget.classId, {'isSelectAll':true,'type':'accept'});
+                    _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':true,'type':'accept'});
                   },
                 ),
               ),
