@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:hessah/feature/classDetails/controller/class_details_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_button/app_button.dart';
@@ -9,9 +7,10 @@ import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../controller/class_details_controller.dart';
 class StudentBottomSheet extends StatefulWidget {
-  StudentBottomSheet({super.key,required this.classId});
-  String classId;
+  const StudentBottomSheet({super.key,required this.classId});
+  final String classId;
   @override
   State<StudentBottomSheet> createState() => _StudentBottomSheetState();
 }
@@ -62,7 +61,7 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
               Expanded(
                 child: GridView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 15.px),
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   itemCount: _classDetailsController.studentsList.length,
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -104,8 +103,8 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                                 height: 4.px,
                               ),
                               AppText(
-                                gradeUpdateText(_classDetailsController.studentsList[index].grade??[]),
-                                fontSize: 12.px,
+                                  'Grade ${_classDetailsController.studentsList[index].grade?.join(' - ')}',
+                                  fontSize: 12.px,
                               ),
                               SizedBox(
                                 height: 10.px,
@@ -117,13 +116,13 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                                 borderColor: AppColors.appBlue,
                                 borderRadius: BorderRadius.circular(10.px),
                                 onPressed: () {
-                                  _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'accept','users':[_classDetailsController.studentsList[index].userId]});
+                                  _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'accept','users':<int?>[_classDetailsController.studentsList[index].userId]});
                                 },
                               ),
                               SizedBox(height: 10.px),
                               GestureDetector(
                                 onTap: (){
-                                  _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'reject','users':[_classDetailsController.studentsList[index].userId]});
+                                  _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'reject','users':<int?>[_classDetailsController.studentsList[index].userId]});
                                 },
                                 child: AppText(
                                   'Reject',
@@ -139,7 +138,7 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                   },
                 ),
               ),
-              Padding(
+              if (_classDetailsController.studentsList.length>1) Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.px),
                 child: AppButton(
                   title: 'Accept All Students',
@@ -151,25 +150,11 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                     _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':true,'type':'accept'});
                   },
                 ),
-              ),
+              ) else const SizedBox.shrink(),
             ],
           )
         ],
       ),
     );
   }
-}
-
-String gradeUpdateText(List grade){
-  if(grade.isNotEmpty){
-    if(grade.length==1){
-      return'Grade ${grade[0]}';
-    }
-    else{
-      for(var element in grade){
-
-      }
-    }
-  }
-  return '';
 }

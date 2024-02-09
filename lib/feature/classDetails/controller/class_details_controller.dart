@@ -51,7 +51,9 @@ class ClassDetailsController extends GetxController{
     selectedProfile.value =
         LocaleManager.getValue(StorageKeys.profile) ??
             '';
+    // ignore: avoid_dynamic_calls
     if(Get.arguments!=null && Get.arguments['classNumber']!=null){
+    // ignore: avoid_dynamic_calls
     classId=Get.arguments['classNumber'];
     fetchData();}
 
@@ -69,7 +71,7 @@ class ClassDetailsController extends GetxController{
   fetchData()async{
     showLoading();
 
-    await Future.wait([
+    await Future.wait(<Future<void>>[
       // ignore: avoid_dynamic_calls
       getProposalDetails(classId,startIndex),
     // ignore: avoid_dynamic_calls
@@ -98,7 +100,7 @@ class ClassDetailsController extends GetxController{
   Future<void> getClassDetails(String id) async {
     final BaseResponse classDataResponse = await _getClassDetailRepository.getClassDetail(id);
     if (classDataResponse.status?.type == 'success') {
-      final classDetailData=classDataResponse.data!.item! as Map<String, dynamic>;
+      final Map<String, dynamic> classDetailData=classDataResponse.data!.item! as Map<String, dynamic>;
        classData.value = ClassDetailsModel.fromJson(classDetailData);
       await fetchMap(LatLng(double.parse(classData.value.location?.lat??'0.0'),double.parse(classData.value.location?.long??'0.0')));
     }
@@ -110,12 +112,14 @@ class ClassDetailsController extends GetxController{
     final BaseResponse getProposalsDataResponse = await _getProposalAllRepository.getProposalAll(id,startIndex);
     if (getProposalsDataResponse.status?.type == 'success') {
       if(getProposalsDataResponse.data!.item!=null){
+      // ignore: always_specify_types
       final List proposalListData=getProposalsDataResponse.data!.item! as List;
       if(!isReload) {
         proposalList.clear();
       }
 
-      for (var element in proposalListData) {
+      // ignore: always_specify_types
+      for (final element in proposalListData) {
         proposalList.add(ProposalModel.fromJson(element));
       }}
     }
@@ -131,12 +135,14 @@ class ClassDetailsController extends GetxController{
     final BaseResponse getStudentsDataResponse = await _getStudentsAllRepository.getStudentsAll(id,startIndex);
     if (getStudentsDataResponse.status?.type == 'success') {
       if(getStudentsDataResponse.data!.item!=null){
+        // ignore: always_specify_types
         final List proposalListData=getStudentsDataResponse.data!.item! as List;
         if(!isReload) {
           studentsList.clear();
         }
 
-        for (var element in proposalListData) {
+        // ignore: always_specify_types
+        for (final element in proposalListData) {
           studentsList.add(StudentsModel.fromJson(element));
         }}
     }
@@ -222,4 +228,3 @@ class ClassDetailsController extends GetxController{
   }
 
 }
-

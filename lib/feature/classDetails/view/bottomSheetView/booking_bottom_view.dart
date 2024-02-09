@@ -11,6 +11,7 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../controller/class_details_controller.dart';
 
+// ignore: must_be_immutable
 class BookingBottomSheet extends StatelessWidget {
   BookingBottomSheet({super.key, this.height,this.isRouting='back', this.isBook=true});
   final ClassDetailsController _classDetailsController =
@@ -281,7 +282,7 @@ class BookingBottomSheet extends StatelessWidget {
                   height: 45.px,
                   title: isBook?'Book and Pay':'Approve and Pay',
                   onPressed: () async{
-                        final bool status= isBook?await _classDetailsController.bookClassDetail({}):await _classDetailsController.approveProposal(_classDetailsController.proposalId??'');
+                        final bool status= isBook?await _classDetailsController.bookClassDetail(<String, dynamic>{}):await _classDetailsController.approveProposal(_classDetailsController.proposalId??'');
                         if(status) {
                           // ignore: use_build_context_synchronously
                           showModalBottomSheet(
@@ -308,6 +309,7 @@ class BookingBottomSheet extends StatelessWidget {
                           );
                         }
                         else{
+                          // ignore: use_build_context_synchronously
                           Navigator.of(context).pop();
                         }
                       }

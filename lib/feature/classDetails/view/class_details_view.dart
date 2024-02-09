@@ -274,7 +274,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       height: MediaQuery
                           .of(context)
                           .size
-                          .height * 0.110,
+                          .height * 0.115,
                       child: ListView.builder(
                         itemCount: _classDetailsController.studentsList
                             .length,
@@ -282,23 +282,26 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         physics: const BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (BuildContext context, int index) {
-                          return Column(
-                            children: [
-                              AppImageAsset(
-                                image: _classDetailsController
-                                    .studentsList[index].imageId??ImageConstants.avtar,
-                                height: 55.px,
-                              ),
-                              SizedBox(
-                                height: 6.px,
-                              ),
-                              AppText(
-                                _classDetailsController
-                                    .studentsList[index].name ?? '',
-                                fontWeight: FontWeight.w700,
-                                fontSize: 12.px,
-                              ),
-                            ],
+                          return Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Column(
+                              children: [
+                                AppImageAsset(
+                                  image: _classDetailsController
+                                      .studentsList[index].imageId??ImageConstants.avtar,
+                                  height: 55.px,
+                                ),
+                                SizedBox(
+                                  height: 6.px,
+                                ),
+                                AppText(
+                                  _classDetailsController
+                                      .studentsList[index].name ?? '',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12.px,
+                                ),
+                              ],
+                            ),
                           );
                         },
                       ),

@@ -31,7 +31,7 @@ class _ActivitiesViewState extends State<ActivitiesView> {
   String selectedUserStatus = '';
   bool isPending = false;
   final HomeController _homeController=Get.find();
-  final LanguageController _languageController = Get.find();
+  final LanguageController _languageController = Get.put(LanguageController());
 
   @override
   void initState() {

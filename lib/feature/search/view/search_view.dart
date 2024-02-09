@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../../custom/appbar/appbar.dart';
 import '../../../product/cache/key_value_storeage.dart';
@@ -6,6 +8,7 @@ import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/utils/typography.dart';
+import '../../tutorial/language/controller/language_controller.dart';
 import 'for_students.dart';
 import 'for_teacher.dart';
 

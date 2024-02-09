@@ -34,8 +34,9 @@ class HomeController extends GetxController {
           LocaleManager.getValue(StorageKeys.createdClass) ??false;
     }
   }
+
 @override
-onInit(){
+void onInit(){
   super.onInit();
   fetchData();
 
@@ -59,7 +60,6 @@ onInit(){
   RxList<String> relatedTeachersList = <String>[].obs;
   RxList<String> favouriteStudentsList = <String>[].obs;
   RxList<String> relatedStudentsList = <String>[].obs;
-  RxList<String> activitiesList = <String>[].obs;
   RxList<GetClassListModel> classList = <GetClassListModel>[].obs;
   RxList<GetClassListModel> classUpcomingList = <GetClassListModel>[].obs;
   RxList<GetClassListModel> classHistoryList = <GetClassListModel>[].obs;
@@ -115,36 +115,42 @@ onInit(){
     }
     final BaseResponse classListDataResponse = await _getClassListRepository.getClassList(GetClassRequestModel(limit: '10',startIndex: startIndex.toString(),sortColumn:'created_at',sortDirection: 'desc' ),schoolEndpoint);
     if (classListDataResponse.status?.type == 'success') {
+      // ignore: always_specify_types
       final List classListData=classListDataResponse.data!.item! as List;
 
      if(schoolEndpoint==SchoolEndpoint.GET){
        if(!isReload) {
          classList.clear();
        }
-      for (var element in classListData) {
+      // ignore: always_specify_types
+      for (final element in classListData) {
         classList.add(GetClassListModel.fromJson(element));
       }}
      else if(schoolEndpoint==SchoolEndpoint.UPCOMING_CLASS){
        if(!isReload) {
        classUpcomingList.clear();}
        totalUpcomingCount=classListDataResponse.paginationData?.total??0;
-       for (var element in classListData) {
+       // ignore: always_specify_types
+       for (final element in classListData) {
          classUpcomingList.add(GetClassListModel.fromJson(element));
        }} else if(schoolEndpoint==SchoolEndpoint.HISTORY_CLASS){
        if(!isReload) {
        classHistoryList.clear();}
        totalHistoryCount=classListDataResponse.paginationData?.total??0;
-       for (var element in classListData) {
+       // ignore: always_specify_types
+       for (final element in classListData) {
          classHistoryList.add(GetClassListModel.fromJson(element));
        }} else if(schoolEndpoint==SchoolEndpoint.ACTIVITY_CLASS){
        if(!isReload) {classActivityList.clear();}
        totalActivityCount=classListDataResponse.paginationData?.total??0;
-       for (var element in classListData) {
+       // ignore: always_specify_types
+       for (final element in classListData) {
          classActivityList.add(GetClassListModel.fromJson(element));
        }} else if(schoolEndpoint==SchoolEndpoint.RELATED_CLASS){
        if(!isReload) {classRelatedList.clear();}
        totalRelatedCount=classListDataResponse.paginationData?.total??0;
-       for (var element in classListData) {
+       // ignore: always_specify_types
+       for (final element in classListData) {
          classRelatedList.add(GetClassListModel.fromJson(element));
        }}
 

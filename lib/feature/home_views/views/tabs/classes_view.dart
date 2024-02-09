@@ -48,7 +48,7 @@ class _ClassesViewState extends State<ClassesView> {
   String selectedProfile = '';
   bool isPending = false;
   final HomeController _homeController = Get.find();
-  final LanguageController _languageController = Get.find();
+  final LanguageController _languageController = Get.put(LanguageController());
 
   // final ClassDetailsController _classDetailsController =
   // Get.put(ClassDetailsController());
