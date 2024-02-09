@@ -629,7 +629,7 @@ class _ForStudentsState extends State<ForStudents> {
                   cardTitle:
                   _searchController.searchClassList[index].subject,
                   // ignore: avoid_bool_literals_in_conditional_expressions
-                  isBook: _searchController.searchClassList[index].canBookFlag!=null?_searchController.searchClassList[index].canBookFlag==0?false:true:false,
+                  isBook: _searchController.searchClassList[index].canBookFlag!=null && _searchController.searchClassList[index].canBookFlag==1?true:false,
                   date:  _searchController.searchClassList[index].classTime!=null?_searchController.searchClassList[index].classTime
                       .toString()
                       .epochToNormal():'',

@@ -138,7 +138,7 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
                 teacherName:
                 data.name,
                 // ignore: avoid_bool_literals_in_conditional_expressions
-                isBook:data.canBookFlag!=null?(data.canBookFlag==0)?false:true:false,
+                isBook:data.canBookFlag!=null && data.canBookFlag==1?true:false,
                 grade: data.grade,
                 minParticipants: data.minParticipants,
                 maxParticipants: data.maxParticipants,
