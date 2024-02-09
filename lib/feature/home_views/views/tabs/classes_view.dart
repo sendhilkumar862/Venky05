@@ -478,6 +478,7 @@ class _ClassesViewState extends State<ClassesView> {
                           width: 340.px,
                           child: AppCardView(
                             proposals: 5,
+                            isBook: _homeController.classRelatedList[index].canBookFlag!=null && _homeController.classRelatedList[index].canBookFlag==1?true:false,
                             cardTap: () {
                               Get.toNamed(Routes.classDetailsView,
                                   arguments: <String, Object?>{
