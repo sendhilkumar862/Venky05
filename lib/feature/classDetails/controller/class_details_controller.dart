@@ -217,6 +217,7 @@ class ClassDetailsController extends GetxController{
       status=true;
     }
     hideLoading();
+    Get.back();
     return status;
   }
 

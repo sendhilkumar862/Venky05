@@ -19,25 +19,6 @@ class StudentBottomSheet extends StatefulWidget {
 class _StudentBottomSheetState extends State<StudentBottomSheet> {
 
   final ClassDetailsController _classDetailsController = Get.put(ClassDetailsController());
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   _classDetailsController.scrollController.addListener(pagination);
-  // }
-  // void pagination() async{
-  //   if (_classDetailsController.scrollController.position.pixels ==
-  //       _classDetailsController.scrollController.position.maxScrollExtent) {
-  //     // ignore: avoid_dynamic_calls
-  //     if( _classDetailsController.classData.value.proposalsCount!=null && _classDetailsController.classData.value.proposalsCount! >_classDetailsController.proposalList.length){
-  //       _classDetailsController.startIndex= _classDetailsController.startIndex+1;
-  //       // ignore: avoid_dynamic_calls
-  //       await _classDetailsController.getStudentAllAtDetails( _classDetailsController.classId, _classDetailsController.startIndex,isReload: true);
-  //     }
-  //   }
-  // }
-
-
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -135,13 +116,20 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                                 isDisable: false,
                                 borderColor: AppColors.appBlue,
                                 borderRadius: BorderRadius.circular(10.px),
-                                onPressed: () {},
+                                onPressed: () {
+                                  _classDetailsController.approveRejectStudents(widget.classId, {'isSelectAll':false,'type':'accept','users':[_classDetailsController.studentsList[index].userId]});
+                                },
                               ),
                               SizedBox(height: 10.px),
-                              AppText(
-                                'Reject',
-                                fontSize: 14.px,
-                                color: AppColors.appLightRed,
+                              GestureDetector(
+                                onTap: (){
+                                  _classDetailsController.approveRejectStudents(widget.classId, {'isSelectAll':false,'type':'reject','users':[_classDetailsController.studentsList[index].userId]});
+                                },
+                                child: AppText(
+                                  'Reject',
+                                  fontSize: 14.px,
+                                  color: AppColors.appLightRed,
+                                ),
                               )
                             ],
                           ),
@@ -156,10 +144,11 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                 child: AppButton(
                   title: 'Accept All Students',
                   height: 45.px,
+                  isDisable: false,
                   borderRadius: BorderRadius.circular(10.px),
                   borderColor: AppColors.appBlue,
                   onPressed: () {
-                    _classDetailsController.approveRejectStudents(widget.classId, {});
+                    _classDetailsController.approveRejectStudents(widget.classId, {'isSelectAll':true,'type':'accept'});
                   },
                 ),
               ),
@@ -173,8 +162,13 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
 
 String gradeUpdateText(List grade){
   if(grade.isNotEmpty){
-    for(var element in grade){
+    if(grade.length==1){
+      return'Grade ${grade[0]}';
+    }
+    else{
+      for(var element in grade){
 
+      }
     }
   }
   return '';
