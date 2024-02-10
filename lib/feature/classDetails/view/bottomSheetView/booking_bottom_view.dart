@@ -12,21 +12,34 @@ import '../../../../product/constants/image/image_constants.dart';
 import '../../controller/class_details_controller.dart';
 
 // ignore: must_be_immutable
-class BookingBottomSheet extends StatelessWidget {
+class BookingBottomSheet extends StatefulWidget {
   BookingBottomSheet({super.key, this.height,this.isRouting='back', this.isBook=true});
-  final ClassDetailsController _classDetailsController =
-  Get.put(ClassDetailsController());
   double? height;
   String? isRouting;
   bool isBook;
 
   @override
+  State<BookingBottomSheet> createState() => _BookingBottomSheetState();
+}
+
+class _BookingBottomSheetState extends State<BookingBottomSheet> {
+  final ClassDetailsController _classDetailsController = Get.put(ClassDetailsController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.isBook) {
+      _classDetailsController.initiatePayment();
+    }
+  }
+  @override
   Widget build(BuildContext context) {
     return Obx(()=>
-    _classDetailsController.classData.value
-        .cost==null?const SizedBox.shrink():Container(
+    _classDetailsController.initiatePaymentModel.value
+        .totalAmount==null?const SizedBox.shrink():Container(
         padding: EdgeInsets.only(left: 15.px, right: 15.px),
-        height: height ?? MediaQuery.of(context).size.height * 0.72.px,
+        height:  widget.height ?? MediaQuery.of(context).size.height * 0.72.px,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30.px),
@@ -124,11 +137,11 @@ class BookingBottomSheet extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        AppText('${_classDetailsController.classData.value
-                            .cost?.split('.')[0]}',
+                        AppText('${_classDetailsController.initiatePaymentModel.value
+                            .balance?.split('.')[0]}',
                             fontSize: 16.px, fontWeight: FontWeight.w700),
-                        AppText('.${_classDetailsController.classData
-                            .value.cost?.split('.')[1]} KWD',
+                        AppText('.${_classDetailsController.initiatePaymentModel.value
+                            .balance?.split('.')[1]} KWD',
                             fontSize: 12.px, fontWeight: FontWeight.w700),
                       ],
                     ),
@@ -172,11 +185,11 @@ class BookingBottomSheet extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        AppText('${_classDetailsController.classData.value
-                            .cost?.split('.')[0]}',
+                        AppText('${_classDetailsController.initiatePaymentModel.value
+                            .classCost?.split('.')[0]}',
                             fontSize: 16.px, fontWeight: FontWeight.w700),
-                        AppText('.${_classDetailsController.classData
-                            .value.cost?.split('.')[1]} KWD',
+                        AppText('.${_classDetailsController.initiatePaymentModel.value
+                            .classCost?.split('.')[1]} KWD',
                             fontSize: 12.px, fontWeight: FontWeight.w700),
                       ],
                     )
@@ -192,8 +205,8 @@ class BookingBottomSheet extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       color: AppColors.appGrey,
                     ),
-                    AppText('${_classDetailsController.classData
-                        .value.sessions}',
+                    AppText('${_classDetailsController.initiatePaymentModel.value
+                        .sessions}',
                         fontSize: 16.px,
                         fontWeight: FontWeight.w700,
                         color: AppColors.appGrey)
@@ -212,11 +225,11 @@ class BookingBottomSheet extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        AppText('${_classDetailsController.classData.value
-                            .cost?.split('.')[0]}',
+                        AppText('${_classDetailsController.initiatePaymentModel.value
+                            .classCost?.toString().split('.')[0]}',
                             fontSize: 16.px, fontWeight: FontWeight.w700),
-                        AppText('.${_classDetailsController.classData
-                            .value.cost?.split('.')[1]} KWD',
+                        AppText('.${_classDetailsController.initiatePaymentModel.value
+                            .classCost?.toString().split('.')[1]} KWD',
                             fontSize: 12.px, fontWeight: FontWeight.w700),
                       ],
                     )
@@ -237,11 +250,13 @@ class BookingBottomSheet extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        AppText('0',
+                        AppText('${_classDetailsController.initiatePaymentModel.value
+                            .fees?.toString().split('.')[0]}',
                             fontSize: 16.px,
                             fontWeight: FontWeight.w700,
                             color: AppColors.appGrey),
-                        AppText('.000 KWD',
+                        AppText('.${_classDetailsController.initiatePaymentModel.value
+                            .fees?.toString().split('.')[1]} KWD',
                             fontSize: 12.px,
                             fontWeight: FontWeight.w700,
                             color: AppColors.appGrey),
@@ -265,11 +280,11 @@ class BookingBottomSheet extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        AppText('${_classDetailsController.classData.value
-                            .cost?.split('.')[0]}',
+                        AppText('${_classDetailsController.initiatePaymentModel.value
+                            .totalAmount?.toString().split('.')[0]}',
                             fontSize: 16.px, fontWeight: FontWeight.w700),
-                        AppText('.${_classDetailsController.classData
-                            .value.cost?.split('.')[1]} KWD',
+                        AppText('.${_classDetailsController.initiatePaymentModel.value
+                            .totalAmount?.toString().split('.')[1]} KWD',
                             fontSize: 12.px, fontWeight: FontWeight.w700),
                       ],
                     ),
@@ -280,9 +295,9 @@ class BookingBottomSheet extends StatelessWidget {
                   isDisable: false,
                   borderColor: AppColors.appBlue,
                   height: 45.px,
-                  title: isBook?'Book and Pay':'Approve and Pay',
+                  title: widget.isBook?'Book and Pay':'Approve and Pay',
                   onPressed: () async{
-                        final bool status= isBook?await _classDetailsController.bookClassDetail(<String, dynamic>{}):await _classDetailsController.approveProposal(_classDetailsController.proposalId??'');
+                    final bool status= widget.isBook?await payAndBook() : await payAndApprove();
                         if(status) {
                           // ignore: use_build_context_synchronously
                           showModalBottomSheet(
@@ -301,8 +316,8 @@ class BookingBottomSheet extends StatelessWidget {
                                 title: 'Success',
                                 buttonTitle: 'Done',
                                 content:
-                                isBook?'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.':'You have successfully booked your class!',
-                                isRouting: isRouting,
+                                widget.isBook?'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.':'You have successfully booked your class!',
+                                isRouting:  widget.isRouting,
 
                               );
                             },
@@ -321,6 +336,23 @@ class BookingBottomSheet extends StatelessWidget {
         ),
       ),
     );
-  }
 
+
+  }
+  Future<bool> payAndBook()async{
+    bool status=false;
+    final bool  payment= await  _classDetailsController.makePayment(_classDetailsController.initiatePaymentModel.value.id!);
+    if(payment){
+      status=  await _classDetailsController.bookClassDetail(<String, dynamic>{});
+    }
+    return status;
+  }
+  Future<bool> payAndApprove()async{
+    bool status=false;
+    final bool  payment= await  _classDetailsController.makePayment(_classDetailsController.initiatePaymentModel.value.id!);
+    if(payment){
+      status=  await _classDetailsController.approveProposal(_classDetailsController.proposalId??'');
+    }
+    return status;
+  }
 }

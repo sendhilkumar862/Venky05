@@ -149,6 +149,10 @@ class ApiEndpoint {
         return '$path/profile/wallet/settle-payments';
       case UsersEndPoint.TRANSACTIONS:
         return '$path/profile/transactions';
+      case UsersEndPoint.INITIATE_PAYMENT:
+        return '$path/profile/wallet/initiate-payment/';
+      case UsersEndPoint.MAKE_PAYMENT:
+        return '$path/profile/wallet/make-payment/';
     }}
   static String country(Public endpoint) {
     const String path = 'public';
@@ -328,7 +332,13 @@ enum UsersEndPoint{
   SETTLE_PAYMENT,
 
   /// An endpoint for transactions
-  TRANSACTIONS
+  TRANSACTIONS,
+
+  /// An endpoint for initiate payment type requests.
+  INITIATE_PAYMENT,
+
+  /// An endpoint for make  payment type requests.
+  MAKE_PAYMENT,
 }
 
 /// A collection of endpoints used for authentication purposes.

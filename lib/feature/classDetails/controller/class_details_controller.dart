@@ -14,6 +14,7 @@ import '../../home/controller/home_controller.dart';
 import '../../proposal/proposol_details/repository/approve_proposal_repository.dart';
 import '../../proposal/proposol_details/repository/delete_proposal_repository.dart';
 import '../modal/class_detail_model.dart';
+import '../modal/initiate_payment_model.dart';
 import '../modal/proposal_model.dart';
 import '../modal/students_model.dart';
 import '../repository/approve_reject_student_repository.dart';
@@ -22,6 +23,8 @@ import '../repository/cancel_class_repository.dart';
 import '../repository/get_all_proposal_repository.dart';
 import '../repository/get_all_students_repository.dart';
 import '../repository/get_class_details_repository.dart';
+import '../repository/initiate_payment.dart';
+import '../repository/make_payment_repository.dart';
 
 
 class ClassDetailsController extends GetxController{
@@ -34,6 +37,8 @@ class ClassDetailsController extends GetxController{
   final BookClassRepository _bookClassRepository=BookClassRepository();
   final CancelClassRepository _cancelClassRepository=CancelClassRepository();
   final ApproveRejectStudentsRepository _approveRejectStudentsRepository=ApproveRejectStudentsRepository();
+  final InitiatePaymentRepository _initiatePaymentRepository=InitiatePaymentRepository();
+  final MakePaymentRepository _makePaymentRepository=MakePaymentRepository();
 
 
   final HomeController homeController=Get.find();
@@ -43,6 +48,7 @@ class ClassDetailsController extends GetxController{
   int startIndex=1;
   ScrollController scrollController=ScrollController();
   String? proposalId;
+  Rx<InitiatePaymentModel> initiatePaymentModel=InitiatePaymentModel().obs;
 
 
   @override
@@ -209,7 +215,33 @@ class ClassDetailsController extends GetxController{
     return status;
   }
 
-  Future<bool> approveRejectStudents(String id,Map <String,dynamic> approveRejectDetails) async {
+  Future<bool> initiatePayment( ) async {
+    bool status = false;
+    showLoading();
+    final BaseResponse initiatePaymentDataResponse = await _initiatePaymentRepository
+        .initiatePaymentRepository(classId);
+    if (initiatePaymentDataResponse.status?.type == 'success') {
+      final Map<String,dynamic> initiateData=initiatePaymentDataResponse.data!.item! as Map<String,dynamic>;
+      initiatePaymentModel.value=InitiatePaymentModel.fromJson(initiateData);
+      status = true;
+    }
+    hideLoading();
+    return status;
+  }
+
+  Future<bool> makePayment( String paymentId) async {
+    bool status = false;
+    showLoading();
+    final BaseResponse getProposalsDataResponse = await _makePaymentRepository
+        .makePaymentRepository(classId,paymentId);
+    if (getProposalsDataResponse.status?.type == 'success') {
+      status = true;
+    }
+    hideLoading();
+    return status;
+  }
+
+    Future<bool> approveRejectStudents(String id,Map <String,dynamic> approveRejectDetails) async {
     bool status=false;
     showLoading();
     final BaseResponse approveRejectDataResponse = await _approveRejectStudentsRepository.approveRejectStudent(id,approveRejectDetails);
