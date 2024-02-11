@@ -109,7 +109,7 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                               SizedBox(
                                 height: 10.px,
                               ),
-                             if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status!=0) AppButton(
+                             if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==0) AppButton(
                                 title: 'Accept',
                                 height: 45.px,
                                 isDisable: false,
@@ -119,8 +119,20 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                                   _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'accept','users':<int?>[_classDetailsController.studentsList[index].userId]});
                                 },
                               ),
+                              if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==1) const Text(
+                                'Accepted',
+                                style: TextStyle(
+                                        color: AppColors.appBlue,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600),
+                              ),
+                              if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==2) AppText(
+                                'Rejected',
+                                fontSize: 14.px,
+                                color: AppColors.appLightRed,
+                              ),
                               SizedBox(height: 10.px),
-                              if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status!=0) GestureDetector(
+                              if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==0) GestureDetector(
                                 onTap: (){
                                   _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'reject','users':<int?>[_classDetailsController.studentsList[index].userId]});
                                 },
