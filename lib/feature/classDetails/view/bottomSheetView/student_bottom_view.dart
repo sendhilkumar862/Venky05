@@ -109,7 +109,7 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                               SizedBox(
                                 height: 10.px,
                               ),
-                              AppButton(
+                             if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status!=0) AppButton(
                                 title: 'Accept',
                                 height: 45.px,
                                 isDisable: false,
@@ -120,7 +120,7 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                                 },
                               ),
                               SizedBox(height: 10.px),
-                              GestureDetector(
+                              if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status!=0) GestureDetector(
                                 onTap: (){
                                   _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'reject','users':<int?>[_classDetailsController.studentsList[index].userId]});
                                 },

@@ -7,7 +7,8 @@ class StudentsModel {
         this.curriculum,
         this.grade,
         this.name,
-        this.imageId});
+        this.imageId,
+      this.status});
 
   StudentsModel.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
@@ -21,6 +22,7 @@ class StudentsModel {
     grade = json['grade'].cast<String>();
     name = json['name'];
     imageId = json['imageId'];
+    status= json['status'];
   }
   int? userId;
   List<String>? subject;
@@ -29,16 +31,6 @@ class StudentsModel {
   List<String>? grade;
   String? name;
   String? imageId;
+  int? status;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['userId'] = userId;
-    data['subject'] = subject;
-    data['school'] = school;
-    data['curriculum'] = curriculum;
-    data['grade'] = grade;
-    data['name'] = name;
-    data['imageId'] = imageId;
-    return data;
-  }
 }
