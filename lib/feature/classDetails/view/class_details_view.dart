@@ -29,6 +29,7 @@ import '../../setting_view/manage_address/Model/get_address_model.dart' hide Loc
 import '../../setting_view/manage_address/controller/manage_controller.dart';
 import '../controller/class_details_controller.dart';
 import 'bottomSheetView/booking_bottom_view.dart';
+import 'bottomSheetView/student_bottom_view.dart';
 
 class ClassDetailsView extends StatefulWidget {
   const ClassDetailsView({super.key});
@@ -160,6 +161,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         },
                         // ignore: avoid_bool_literals_in_conditional_expressions
                         isViewAllIcon:
+                        // ignore: avoid_bool_literals_in_conditional_expressions
                         _classDetailsController.proposalList.isNotEmpty
                             ? true
                             : false)
@@ -170,12 +172,28 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         padding: 0,
                         title: 'Students',
                         totalItem: _classDetailsController
-                            .proposalList.length
+                            .studentsList.length
                             .toString(),
-                        onTap: () {},
+                        onTap: () {
+                          showModalBottomSheet(
+                            isScrollControlled: true,
+                            context: context,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(25.0),
+                              ),
+                            ),
+                            builder: (BuildContext context) {
+                              // ignore: avoid_dynamic_calls
+                              return StudentBottomSheet(
+                                classId: _classDetailsController.classId);
+                            },
+                          );
+                        },
                         // ignore: avoid_bool_literals_in_conditional_expressions
                         isViewAllIcon:
-                        _classDetailsController.proposalList.length != 2
+                        // ignore: avoid_bool_literals_in_conditional_expressions
+                        _classDetailsController.studentsList.isNotEmpty
                             ? true
                             : false)
                         : const SizedBox.shrink(),
@@ -234,10 +252,11 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         onPressed: () {},
                       ),
                     ),
+                  if(_classDetailsController.selectedProfile ==
+                      ApplicationConstants.tutor &&
+                      _classDetailsController.classData.value.isOwner == 1)
                   Obx(() {
-                    return _classDetailsController.selectedProfile ==
-                        ApplicationConstants.tutor &&
-                        _classDetailsController.classData.value.isOwner == 1
+                    return _classDetailsController.studentsList.isEmpty
                         ? AppButton(
                       isDisable: true,
                       height: 60.px,
@@ -251,7 +270,42 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       isBorderOnly: true,
                       onPressed: () {},
                     )
-                        : const SizedBox.shrink();
+                        : SizedBox(
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height * 0.115,
+                      child: ListView.builder(
+                        itemCount: _classDetailsController.studentsList
+                            .length,
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Column(
+                              children: [
+                                AppImageAsset(
+                                  image: _classDetailsController
+                                      .studentsList[index].imageId??ImageConstants.avtar,
+                                  height: 55.px,
+                                ),
+                                SizedBox(
+                                  height: 6.px,
+                                ),
+                                AppText(
+                                  _classDetailsController
+                                      .studentsList[index].name ?? '',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12.px,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    );
                   }),
                   SizedBox(
                     height: 20.px,

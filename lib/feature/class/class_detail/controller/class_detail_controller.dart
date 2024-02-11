@@ -32,6 +32,8 @@ class ClassDetailController extends GetxController{
   getMasterDataClass();
 }
 
+
+
   RxInt selectedIndex =200.obs;
   RxString selectedProfile = ''.obs;
 
@@ -114,7 +116,7 @@ class ClassDetailController extends GetxController{
     if (classResponse.status?.type == 'success') {
       final Map<String, dynamic> classData= classResponse.data!.item! as Map<String, dynamic>;
       LocaleManager.setValue(StorageKeys.createdClass,true);
-      _homeController.refreshToken();
+      await _homeController.refreshToken();
       EasyLoading.dismiss();
       return classData['classId'];
     } else {

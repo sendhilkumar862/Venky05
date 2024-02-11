@@ -32,9 +32,9 @@ class SelectLocationBottomSheet extends StatelessWidget {
               margin: EdgeInsets.only(top: 14.px),
               alignment: Alignment.center,
               height: 25.px,
-              width: 25.px,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   color: AppColors.appLightGrey, shape: BoxShape.circle),
+              width: 25.px,
               child: AppImageAsset(
                 image: ImageConstants.closeIcon,
                 height: 20.px,
@@ -190,7 +190,7 @@ class SelectLocationBottomSheet extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-              Spacer(),
+              const Spacer(),
               if (isDefault)
                 AppImageAsset(
                   image: ImageConstants.acceptedStatus,
@@ -222,7 +222,7 @@ class SelectLocationBottomSheet extends StatelessWidget {
             children: <Widget>[
               circleButtonView(
                   onTap: () {},
-                  widget: AppImageAsset(
+                  widget: const AppImageAsset(
                     image: ImageConstants.deleteIcon,
                   ),
                   color: AppColors.appBlue),
@@ -231,7 +231,7 @@ class SelectLocationBottomSheet extends StatelessWidget {
               ),
               circleButtonView(
                   onTap: () {},
-                  widget: AppImageAsset(
+                  widget: const AppImageAsset(
                     image: ImageConstants.editIcon,
                   ),
                   color: AppColors.appLightRed),

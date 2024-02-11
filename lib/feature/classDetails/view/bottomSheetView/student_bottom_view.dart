@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../custom/app_button/app_button.dart';
@@ -6,13 +7,20 @@ import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../controller/class_details_controller.dart';
+class StudentBottomSheet extends StatefulWidget {
+  const StudentBottomSheet({super.key,required this.classId});
+  final String classId;
+  @override
+  State<StudentBottomSheet> createState() => _StudentBottomSheetState();
+}
 
-class StudentBottomSheet extends StatelessWidget {
-  const StudentBottomSheet({super.key});
+class _StudentBottomSheetState extends State<StudentBottomSheet> {
 
+  final ClassDetailsController _classDetailsController = Get.put(ClassDetailsController());
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return  Container(
       height: (MediaQuery.of(context).size.height * 0.92).px,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -53,8 +61,8 @@ class StudentBottomSheet extends StatelessWidget {
               Expanded(
                 child: GridView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 15.px),
-                  physics: BouncingScrollPhysics(),
-                  itemCount: 8,
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: _classDetailsController.studentsList.length,
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -80,14 +88,14 @@ class StudentBottomSheet extends StatelessWidget {
                                 height: 8.px,
                               ),
                               AppImageAsset(
-                                image: ImageConstants.avtar,
+                                image: _classDetailsController.studentsList[index].imageId??ImageConstants.avtar,
                                 height: 55.px,
                               ),
                               SizedBox(
                                 height: 6.px,
                               ),
                               AppText(
-                                'User Name',
+                                _classDetailsController.studentsList[index].name??'',
                                 fontWeight: FontWeight.w700,
                                 fontSize: 12.px,
                               ),
@@ -95,24 +103,44 @@ class StudentBottomSheet extends StatelessWidget {
                                 height: 4.px,
                               ),
                               AppText(
-                                'Grade 1 - 2 - 3',
-                                fontSize: 12.px,
+                                  'Grade ${_classDetailsController.studentsList[index].grade?.join(' - ')}',
+                                  fontSize: 12.px,
                               ),
                               SizedBox(
                                 height: 10.px,
                               ),
-                              AppButton(
+                             if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==0) AppButton(
                                 title: 'Accept',
                                 height: 45.px,
+                                isDisable: false,
                                 borderColor: AppColors.appBlue,
                                 borderRadius: BorderRadius.circular(10.px),
-                                onPressed: () {},
+                                onPressed: () {
+                                  _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'accept','users':<int?>[_classDetailsController.studentsList[index].userId]});
+                                },
                               ),
-                              SizedBox(height: 10.px),
-                              AppText(
-                                'Reject',
+                              if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==1) const Text(
+                                'Accepted',
+                                style: TextStyle(
+                                        color: AppColors.appBlue,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600),
+                              ),
+                              if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==2) AppText(
+                                'Rejected',
                                 fontSize: 14.px,
                                 color: AppColors.appLightRed,
+                              ),
+                              SizedBox(height: 10.px),
+                              if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==0) GestureDetector(
+                                onTap: (){
+                                  _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'reject','users':<int?>[_classDetailsController.studentsList[index].userId]});
+                                },
+                                child: AppText(
+                                  'Reject',
+                                  fontSize: 14.px,
+                                  color: AppColors.appLightRed,
+                                ),
                               )
                             ],
                           ),
@@ -122,16 +150,19 @@ class StudentBottomSheet extends StatelessWidget {
                   },
                 ),
               ),
-              Padding(
+              if (_classDetailsController.studentsList.length>1) Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.px),
                 child: AppButton(
                   title: 'Accept All Students',
                   height: 45.px,
+                  isDisable: false,
                   borderRadius: BorderRadius.circular(10.px),
                   borderColor: AppColors.appBlue,
-                  onPressed: () {},
+                  onPressed: () {
+                    _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':true,'type':'accept'});
+                  },
                 ),
-              ),
+              ) else const SizedBox.shrink(),
             ],
           )
         ],

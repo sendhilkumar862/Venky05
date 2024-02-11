@@ -134,7 +134,7 @@ class _ProposalDetailsViewState extends State<ProposalDetailsView> {
                         ),
                       ),
                       builder: (BuildContext context) {
-                        return const StudentBottomSheet();
+                        return  StudentBottomSheet(classId: '',);
                       },
                     );
                   },
