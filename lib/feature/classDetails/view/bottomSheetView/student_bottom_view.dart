@@ -77,72 +77,76 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                         border: Border.all(color: AppColors.appLightGrey),
                       ),
                       child: Stack(
-                        alignment: Alignment.topRight,
                         children: <Widget>[
-                          AppImageAsset(
-                              image: ImageConstants.removeBookmark,
-                              height: 18.px),
-                          Column(
-                            children: <Widget>[
-                              SizedBox(
-                                height: 8.px,
-                              ),
-                              AppImageAsset(
-                                image: _classDetailsController.studentsList[index].imageId??ImageConstants.avtar,
-                                height: 55.px,
-                              ),
-                              SizedBox(
-                                height: 6.px,
-                              ),
-                              AppText(
-                                _classDetailsController.studentsList[index].name??'',
-                                fontWeight: FontWeight.w700,
-                                fontSize: 12.px,
-                              ),
-                              SizedBox(
-                                height: 4.px,
-                              ),
-                              AppText(
-                                  'Grade ${_classDetailsController.studentsList[index].grade?.join(' - ')}',
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: AppImageAsset(
+                                image: ImageConstants.removeBookmark,
+                                height: 18.px),
+                          ),
+                          Center(
+                            child: Column(
+                              children: <Widget>[
+                                SizedBox(
+                                  height: 8.px,
+                                ),
+                                AppImageAsset(
+                                  image: _classDetailsController.studentsList[index].imageId??ImageConstants.avtar,
+                                  height: 55.px,
+                                ),
+                                SizedBox(
+                                  height: 6.px,
+                                ),
+                                AppText(
+                                  _classDetailsController.studentsList[index].name??'',
+                                  fontWeight: FontWeight.w700,
                                   fontSize: 12.px,
-                              ),
-                              SizedBox(
-                                height: 10.px,
-                              ),
-                             if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==0) AppButton(
-                                title: 'Accept',
-                                height: 45.px,
-                                isDisable: false,
-                                borderColor: AppColors.appBlue,
-                                borderRadius: BorderRadius.circular(10.px),
-                                onPressed: () {
-                                  _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'accept','users':<int?>[_classDetailsController.studentsList[index].userId]});
-                                },
-                              ),
-                              if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==1) const Text(
-                                'Accepted',
-                                style: TextStyle(
-                                        color: AppColors.appBlue,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600),
-                              ),
-                              if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==2) AppText(
-                                'Rejected',
-                                fontSize: 14.px,
-                                color: AppColors.appLightRed,
-                              ),
-                              SizedBox(height: 10.px),
-                              if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==0) GestureDetector(
-                                onTap: (){
-                                  _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'reject','users':<int?>[_classDetailsController.studentsList[index].userId]});
-                                },
-                                child: AppText(
-                                  'Reject',
+                                ),
+                                SizedBox(
+                                  height: 4.px,
+                                ),
+                                AppText(
+                                    'Grade ${_classDetailsController.studentsList[index].grade?.join(' - ')}',
+                                    fontSize: 12.px,
+                                ),
+                                SizedBox(
+                                  height: 10.px,
+                                ),
+                               if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==0) AppButton(
+                                  title: 'Accept',
+                                  height: 45.px,
+                                  isDisable: false,
+                                  borderColor: AppColors.appBlue,
+                                  borderRadius: BorderRadius.circular(10.px),
+                                  onPressed: () {
+                                    _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'accept','users':<int?>[_classDetailsController.studentsList[index].userId]});
+                                  },
+                                ),
+                                if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==1) const Text(
+                                  'Accepted',
+                                  style: TextStyle(
+                                          color: AppColors.appBlue,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600),
+                                ),
+                                if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==2) AppText(
+                                  'Rejected',
                                   fontSize: 14.px,
                                   color: AppColors.appLightRed,
                                 ),
-                              )
-                            ],
+                                SizedBox(height: 10.px),
+                                if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==0) GestureDetector(
+                                  onTap: (){
+                                    _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'reject','users':<int?>[_classDetailsController.studentsList[index].userId]});
+                                  },
+                                  child: AppText(
+                                    'Reject',
+                                    fontSize: 14.px,
+                                    color: AppColors.appLightRed,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ],
                       ),

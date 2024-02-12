@@ -15,10 +15,10 @@ import '../../controller/class_details_controller.dart';
 
 // ignore: must_be_immutable
 class BookingBottomSheet extends StatefulWidget {
-  BookingBottomSheet({super.key, this.height,this.isRouting='back', this.isBook=true});
+  BookingBottomSheet({super.key, this.height,this.isRouting='back', this.isBook='true'});
   double? height;
   String? isRouting;
-  bool isBook;
+  String? isBook;
 
   @override
   State<BookingBottomSheet> createState() => _BookingBottomSheetState();
@@ -296,7 +296,7 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                   isDisable: false,
                   borderColor: AppColors.appBlue,
                   height: 45.px,
-                  title: widget.isBook?'Book and Pay':'Approve and Pay',
+                  title: widget.isBook=='true'?'Book and Pay':widget.isBook=='Pay'?'Pay':'Approve and Pay',
                   onPressed: () async{
                     final String status= await  _classDetailsController.makePayment(_classDetailsController.initiatePaymentModel.value.id!);
                         if(status=='true') {
@@ -317,7 +317,7 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                                 title: 'Success',
                                 buttonTitle: 'Done',
                                 content:
-                                widget.isBook?'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.':'You have successfully booked your class!',
+                                widget.isBook=='true'?'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.':'You have successfully booked your class!',
                                 isRouting:  widget.isRouting,
 
                               );

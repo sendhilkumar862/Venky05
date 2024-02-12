@@ -186,6 +186,7 @@ class DetailsCardView extends StatelessWidget {
                   height: 6.px,
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                    // Check if icon is not null and not empty
                       AppImageAsset(
