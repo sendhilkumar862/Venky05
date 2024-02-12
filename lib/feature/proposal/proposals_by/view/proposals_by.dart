@@ -44,102 +44,104 @@ class _ProposalsByState extends State<ProposalsBy> {
   }
   @override
   Widget build(BuildContext context) {
-    return  Container(
-      height: (MediaQuery.of(context).size.height * 0.92).px,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.px),
-          topRight: Radius.circular(30.px),
-        ),
-      ),
-      child: Stack(
-        alignment: Alignment.topRight,
-        children: <Widget>[
-          InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Container(
-              margin: EdgeInsets.only(top: 14.px, right: 15.px),
-              alignment: Alignment.center,
-              height: 25.px,
-              width: 25.px,
-              decoration: const BoxDecoration(
-                  color: AppColors.appLightGrey, shape: BoxShape.circle),
-              child: AppImageAsset(
-                image: ImageConstants.closeIcon,
-                height: 20.px,
-              ),
-            ),
+    return  Obx(()=>
+      Container(
+        height: (MediaQuery.of(context).size.height * 0.92).px,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30.px),
+            topRight: Radius.circular(30.px),
           ),
-          Column(
-            children: <Widget>[
-              SizedBox(
+        ),
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: <Widget>[
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                margin: EdgeInsets.only(top: 14.px, right: 15.px),
+                alignment: Alignment.center,
                 height: 25.px,
-              ),
-              AppText('Proposals By',
-                  fontWeight: FontWeight.w700, fontSize: 14.px),
-              SizedBox(
-                height: 30.px,
-              ),
-              Expanded(
-                child: GridView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 15.px),
-                  physics: BouncingScrollPhysics(),
-                  itemCount: _classDetailsController.proposalList.length,
-                  shrinkWrap: true,
-                  controller: _classDetailsController.scrollController,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10.px,
-                      mainAxisSpacing: 10.px,
-                      childAspectRatio: 0.8),
-                  itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      onTap: _classDetailsController
-                          .classData.value.status !=
-                          'Paying'?() {
-                        _proposalsByController.getProposalDetails( _classDetailsController.proposalList[index].proposalId??'',widget.classId);
-                        _classDetailsController.proposalId=_classDetailsController.proposalList[index].proposalId??'';
-                        proposalByTeacherBottomSheet(index);
-                      }:(){
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          constraints: const BoxConstraints(),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(25.px),
-                              topLeft: Radius.circular(25.px),
-                            ),
-                          ),
-                          builder: (BuildContext context) {
-                            return BookingBottomSheet(isBook: 'Pay',);
-                          },
-                        );
-                      },
-                      child: DetailsCardView(
-                          cardMargin: EdgeInsets.only(
-                              right: 15.px, top: 10.px, bottom: 27.px),
-                          reViewLength: _classDetailsController.proposalList[index].rating,
-                          name: _classDetailsController.proposalList[index].name??'',
-                          avatar:_classDetailsController.proposalList[index].imageId?.getImageUrl('profile'),
-                          countryIcon: _classDetailsController.proposalList[index].flagUrl,
-                          countryName: _classDetailsController.proposalList[index].country,
-                          // ignore: avoid_bool_literals_in_conditional_expressions
-                          isPro: _classDetailsController
-                              .proposalList[index].subscription=='Free'?false:true,
-                          isBookmarked: true,
-                          subjects: '${_classDetailsController
-                              .proposalList[index].cost} ${_classDetailsController
-                              .proposalList[index].currency} per Session'),
-                    );
-                  },
+                width: 25.px,
+                decoration: const BoxDecoration(
+                    color: AppColors.appLightGrey, shape: BoxShape.circle),
+                child: AppImageAsset(
+                  image: ImageConstants.closeIcon,
+                  height: 20.px,
                 ),
               ),
-            ],
-          )
-        ],
+            ),
+            Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 25.px,
+                ),
+                AppText('Proposals By',
+                    fontWeight: FontWeight.w700, fontSize: 14.px),
+                SizedBox(
+                  height: 30.px,
+                ),
+                Expanded(
+                  child: GridView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 15.px),
+                    physics: BouncingScrollPhysics(),
+                    itemCount: _classDetailsController.proposalList.length,
+                    shrinkWrap: true,
+                    controller: _classDetailsController.scrollController,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10.px,
+                        mainAxisSpacing: 10.px,
+                        childAspectRatio: 0.8),
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                        onTap: _classDetailsController
+                            .classData.value.status !=
+                            'Paying'?() {
+                          _proposalsByController.getProposalDetails( _classDetailsController.proposalList[index].proposalId??'',widget.classId);
+                          _classDetailsController.proposalId=_classDetailsController.proposalList[index].proposalId??'';
+                          proposalByTeacherBottomSheet(index);
+                        }:(){
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            constraints: const BoxConstraints(),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(25.px),
+                                topLeft: Radius.circular(25.px),
+                              ),
+                            ),
+                            builder: (BuildContext context) {
+                              return BookingBottomSheet(isBook: 'Pay',);
+                            },
+                          );
+                        },
+                        child: DetailsCardView(
+                            cardMargin: EdgeInsets.only(
+                                right: 15.px, top: 10.px, bottom: 27.px),
+                            reViewLength: _classDetailsController.proposalList[index].rating,
+                            name: _classDetailsController.proposalList[index].name??'',
+                            avatar:_classDetailsController.proposalList[index].imageId?.getImageUrl('profile'),
+                            countryIcon: _classDetailsController.proposalList[index].flagUrl,
+                            countryName: _classDetailsController.proposalList[index].country,
+                            // ignore: avoid_bool_literals_in_conditional_expressions
+                            isPro: _classDetailsController
+                                .proposalList[index].subscription=='Free'?false:true,
+                            isBookmarked: true,
+                            subjects: '${_classDetailsController
+                                .proposalList[index].cost} ${_classDetailsController
+                                .proposalList[index].currency} per Session'),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

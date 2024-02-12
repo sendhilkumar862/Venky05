@@ -133,45 +133,10 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 height: 20.px,
               ),
               Obx(
-                () => _classDetailsController.selectedProfile ==
-                            ApplicationConstants.student &&
-                        _classDetailsController.classData.value.isOwner == 1
-                    ? _classDetailsController.classData.value.teacherDetails!=null? HeadingCardView(
-                    padding: 0,
-                    title: 'Teacher'):
+                () =>  _classDetailsController.classData.value.teacherDetails!=null?
                 HeadingCardView(
-                        padding: 0,
-                        title: 'Proposals',
-                        totalItem: _classDetailsController.proposalList.length
-                            .toString(),
-                        onTap: () {
-                          showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(25.0),
-                              ),
-                            ),
-                            builder: (BuildContext context) {
-                              // ignore: avoid_dynamic_calls
-                              return ProposalsBy(
-                                classId: _classDetailsController.classId,
-                              );
-                            },
-                          );
-                          // Get.toNamed(Routes.proposalDetailsView,arguments: <String, dynamic>{
-                          //   'proposalId': _classDetailsController.proposalList[index].proposalId,
-                          //   // ignore: avoid_dynamic_calls
-                          //   'classId':Get.arguments['classNumber']
-                          // });
-                        },
-                        // ignore: avoid_bool_literals_in_conditional_expressions
-                        isViewAllIcon:
-                            // ignore: avoid_bool_literals_in_conditional_expressions
-                            _classDetailsController.proposalList.isNotEmpty
-                                ? true
-                                : false)
+                    padding: 0,
+                    title: 'Teacher')
                     : _classDetailsController.selectedProfile ==
                                 ApplicationConstants.tutor &&
                             _classDetailsController.classData.value.isOwner == 1
@@ -205,6 +170,40 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                     : false)
                         : const SizedBox.shrink(),
               ),
+              Obx(
+                    () => _classDetailsController.classData.value.proposals!=null && _classDetailsController.classData.value.proposals!.isNotEmpty?
+                HeadingCardView(
+                    padding: 0,
+                    title: 'Proposals',
+                    totalItem: _classDetailsController.classData.value.proposals!.length
+                        .toString(),
+                    onTap: () async{
+                     await _classDetailsController.getProposalDetails(_classDetailsController.classId, _classDetailsController.startIndex);
+                      // ignore: use_build_context_synchronously
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        context: context,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(25.0),
+                          ),
+                        ),
+                        builder: (BuildContext context) {
+                          // ignore: avoid_dynamic_calls
+                          return ProposalsBy(
+                            classId: _classDetailsController.classId,
+                          );
+                        },
+                      );
+                    },
+                    // ignore: avoid_bool_literals_in_conditional_expressions
+                    isViewAllIcon:
+                    // ignore: avoid_bool_literals_in_conditional_expressions
+                    _classDetailsController.classData.value.proposals!=null
+                        ? true
+                        : false)
+                    : const SizedBox.shrink(),
+              ),
               SizedBox(
                 height: 5.px,
               ),
@@ -224,12 +223,12 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       isPro: _classDetailsController.classData.value.teacherDetails?.subscription=='Free'?false:true,
                       isBookmarked: true,
                     ),
-                  ):_classDetailsController.proposalList.isNotEmpty
+                  ):_classDetailsController.classData.value.proposals!=null && _classDetailsController.classData.value.proposals!.isNotEmpty
                       ? SizedBox(
                           height: MediaQuery.of(context).size.height * 0.300,
                           child: ListView.builder(
                             itemCount:
-                                _classDetailsController.proposalList.length,
+                            _classDetailsController.classData.value.proposals!.length,
                             shrinkWrap: true,
                             physics: const BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
@@ -275,41 +274,22 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                         right: 15.px,
                                         top: 10.px,
                                         bottom: 27.px),
-                                    reViewLength: _classDetailsController
-                                        .proposalList[index].rating,
-                                    name: _classDetailsController
-                                            .proposalList[index].name ??
+                                    reViewLength: _classDetailsController.classData.value.proposals![index].rating,
+                                    name: _classDetailsController.classData.value.proposals![index].name ??
                                         '',
-                                    avatar: _classDetailsController
-                                        .proposalList[index].imageId
+                                    avatar: _classDetailsController.classData.value.proposals![index].imageId
                                         ?.getImageUrl('profile'),
-                                    countryIcon: _classDetailsController
-                                        .proposalList[index].flagUrl,
-                                    countryName: _classDetailsController
-                                        .proposalList[index].country,
+                                    countryIcon: _classDetailsController.classData.value.proposals![index].flagUrl,
+                                    countryName: _classDetailsController.classData.value.proposals![index].country,
                                     // ignore: avoid_bool_literals_in_conditional_expressions
-                                    isPro: _classDetailsController
-                                        .proposalList[index].subscription=='Free'?false:true,
+                                    isPro: _classDetailsController.classData.value.proposals![index].subscription=='Free'?false:true,
                                     isBookmarked: true,
-                                    subjects: '${_classDetailsController
-                                        .proposalList[index].cost} ${_classDetailsController
-                                        .proposalList[index].currency} per Session'),
+                                    subjects: '${_classDetailsController.classData.value.proposals![index].cost} ${_classDetailsController.classData.value.proposals![index].currency} per Session'),
                               );
                             },
                           ),
-                        )
-                      : AppButton(
-                          height: 60.px,
-                          title: 'No proposals received!',
-                          textStyle: TextStyle(
-                              color: AppColors.black,
-                              fontSize: 18.px,
-                              fontWeight: FontWeight.w600),
-                          borderRadius: BorderRadius.circular(12.px),
-                          borderColor: AppColors.appLightGrey,
-                          isBorderOnly: true,
-                          onPressed: () {},
-                        ),
+                        ):const SizedBox.shrink()
+
                 ),
               if (_classDetailsController.selectedProfile ==
                       ApplicationConstants.tutor &&
@@ -1669,7 +1649,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                               await _classDetailsController.approveProposal(
                                   _classDetailsController.proposalId ?? '');
                           if (status) {
-                            Get.back();
+                            // Get.back();
                             // ignore: use_build_context_synchronously
                             showModalBottomSheet(
                               isScrollControlled: true,

@@ -86,7 +86,7 @@ class ClassDetailsController extends GetxController {
 
     await Future.wait(<Future<void>>[
       // ignore: avoid_dynamic_calls
-      getProposalDetails(classId, startIndex),
+      // getProposalDetails(classId, startIndex),
       // ignore: avoid_dynamic_calls
       getClassDetails(classId),
       getStudentAllAtDetails(classId, startIndex)
@@ -286,7 +286,8 @@ class ClassDetailsController extends GetxController {
       if (getProposalsDataResponse.status?.message == 'Insufficient funds!') {
         status = getProposalsDataResponse.status?.message ?? '';
       } else {
-        transactionId=getProposalsDataResponse.toString();
+        final Map<String, dynamic> transactionData=getProposalsDataResponse.data!.item! as  Map<String, dynamic>;
+        transactionId=transactionData['id'];
         await getClassDetails(classId);
         homeController.relatedPageIndex = 1;
         homeController.historyPageIndex = 1;

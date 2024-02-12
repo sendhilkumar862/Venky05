@@ -1,5 +1,7 @@
 
 
+import 'package:hessah/feature/classDetails/modal/proposal_model.dart';
+
 class ClassDetailsModel {
 
   ClassDetailsModel(
@@ -31,7 +33,8 @@ class ClassDetailsModel {
       this.canRescheduleClass,
       this.canWithdrawProposal,
       this.proposalsCount,
-      this.teacherDetails});
+      this.teacherDetails,
+      this.proposals});
 
   ClassDetailsModel.fromJson(Map<String, dynamic> json) {
     displayId = json['displayId'];
@@ -67,6 +70,13 @@ class ClassDetailsModel {
     canCancelClass = json['canCancelClass'];
     canWithdrawProposal = json['canWithdrawProposal'];
     teacherDetails = json['teacherDetails']!=null?TeacherDetails.fromJson(json['teacherDetails']):null;
+    if (json['proposals'] != null) {
+      proposals = <ProposalModel>[];
+      // ignore: avoid_dynamic_calls
+      json['proposals'].forEach((v) {
+        proposals!.add( ProposalModel.fromJson(v));
+      });
+    }
   }
   String? displayId;
   String? classNumber;
@@ -97,6 +107,7 @@ class ClassDetailsModel {
   bool? canCancelClass;
   bool? canWithdrawProposal;
   TeacherDetails? teacherDetails;
+  List<ProposalModel>? proposals;
 }
 
 class Location {
