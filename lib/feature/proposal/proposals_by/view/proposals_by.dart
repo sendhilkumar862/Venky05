@@ -130,7 +130,9 @@ class _ProposalsByState extends State<ProposalsBy> {
                           isPro: _classDetailsController
                               .proposalList[index].subscription=='Free'?false:true,
                           isBookmarked: true,
-                          subjects: _classDetailsController.proposalList[index].cost),
+                          subjects: '${_classDetailsController
+                              .proposalList[index].cost} ${_classDetailsController
+                              .proposalList[index].currency} per Session'),
                     );
                   },
                 ),
@@ -296,9 +298,9 @@ class _ProposalsByState extends State<ProposalsBy> {
                                   height: 18,
                                   'assets/icons/read_book_icon.png',
                                 ),
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 5),
-                                  child: Text('1 Session'),
+                                 Padding(
+                                  padding: const EdgeInsets.only(left: 5),
+                                  child: Text('${_proposalsByController.proposalDetailModel.value.originalDetails!.session??''} Session'),
                                 )
                               ],
                             ),
@@ -390,9 +392,9 @@ class _ProposalsByState extends State<ProposalsBy> {
                               height: 18,
                               'assets/icons/read_book_icon.png',
                             ),
-                            const Padding(
+                             Padding(
                               padding: EdgeInsets.only(left: 5),
-                              child: Text('1 Session'),
+                              child: Text('${_proposalsByController.proposalDetailModel.value.proposalDetails!.session??''} Session'),
                             )
                           ],
                         ),

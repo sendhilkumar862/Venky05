@@ -7,6 +7,7 @@ import '../../../config/routes/route.dart';
 import '../../../custom/app_button/app_button.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/cardView/details_card_view.dart';
+import '../../../custom/cardView/details_card_view_horizontal.dart';
 import '../../../custom/cardView/heading_card_view.dart';
 import '../../../custom/cardView/status_card_view.dart';
 import '../../../custom/choice/src/modal/button.dart';
@@ -135,7 +136,10 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 () => _classDetailsController.selectedProfile ==
                             ApplicationConstants.student &&
                         _classDetailsController.classData.value.isOwner == 1
-                    ? HeadingCardView(
+                    ? _classDetailsController.classData.value.teacherDetails!=null? HeadingCardView(
+                    padding: 0,
+                    title: 'Teacher'):
+                HeadingCardView(
                         padding: 0,
                         title: 'Proposals',
                         totalItem: _classDetailsController.proposalList.length
@@ -208,7 +212,19 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       ApplicationConstants.student &&
                   _classDetailsController.classData.value.isOwner == 1)
                 Obx(
-                  () => _classDetailsController.proposalList.isNotEmpty
+                  () => _classDetailsController.classData.value.teacherDetails!=null?InkWell(
+                    onTap: () {},
+                    child: DetailsCardViewHorizontal(
+                      heading: 'Teacher',
+                      name: _classDetailsController.classData.value.teacherDetails?.name??'',
+                      height: 95.px,
+                      avatar: ImageConstants.teacherAvtar,
+                      countryName: 'Grade 1-2-3',
+                      // ignore: avoid_bool_literals_in_conditional_expressions
+                      isPro: _classDetailsController.classData.value.teacherDetails?.subscription=='Free'?false:true,
+                      isBookmarked: true,
+                    ),
+                  ):_classDetailsController.proposalList.isNotEmpty
                       ? SizedBox(
                           height: MediaQuery.of(context).size.height * 0.300,
                           child: ListView.builder(
@@ -275,8 +291,9 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                     isPro: _classDetailsController
                                         .proposalList[index].subscription=='Free'?false:true,
                                     isBookmarked: true,
-                                    subjects: _classDetailsController
-                                        .proposalList[index].cost),
+                                    subjects: '${_classDetailsController
+                                        .proposalList[index].cost} ${_classDetailsController
+                                        .proposalList[index].currency} per Session'),
                               );
                             },
                           ),
@@ -1652,6 +1669,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                               await _classDetailsController.approveProposal(
                                   _classDetailsController.proposalId ?? '');
                           if (status) {
+                            Get.back();
                             // ignore: use_build_context_synchronously
                             showModalBottomSheet(
                               isScrollControlled: true,

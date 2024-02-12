@@ -55,6 +55,7 @@ class ClassDetailsController extends GetxController {
   ScrollController scrollController = ScrollController();
   String? proposalId;
   Rx<InitiatePaymentModel> initiatePaymentModel = InitiatePaymentModel().obs;
+  String transactionId='';
 
   @override
   void onInit() {
@@ -285,6 +286,7 @@ class ClassDetailsController extends GetxController {
       if (getProposalsDataResponse.status?.message == 'Insufficient funds!') {
         status = getProposalsDataResponse.status?.message ?? '';
       } else {
+        transactionId=getProposalsDataResponse.toString();
         await getClassDetails(classId);
         homeController.relatedPageIndex = 1;
         homeController.historyPageIndex = 1;

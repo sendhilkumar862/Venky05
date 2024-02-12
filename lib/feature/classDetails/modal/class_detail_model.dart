@@ -30,7 +30,8 @@ class ClassDetailsModel {
       this.canBookClass,
       this.canRescheduleClass,
       this.canWithdrawProposal,
-      this.proposalsCount});
+      this.proposalsCount,
+      this.teacherDetails});
 
   ClassDetailsModel.fromJson(Map<String, dynamic> json) {
     displayId = json['displayId'];
@@ -65,6 +66,7 @@ class ClassDetailsModel {
     canBookClass = json['canBookClass'];
     canCancelClass = json['canCancelClass'];
     canWithdrawProposal = json['canWithdrawProposal'];
+    teacherDetails = json['teacherDetails']!=null?TeacherDetails.fromJson(json['teacherDetails']):null;
   }
   String? displayId;
   String? classNumber;
@@ -94,6 +96,7 @@ class ClassDetailsModel {
   bool? canSubmitProposal;
   bool? canCancelClass;
   bool? canWithdrawProposal;
+  TeacherDetails? teacherDetails;
 }
 
 class Location {
@@ -132,4 +135,33 @@ class MyProposaldetails {
   int? pSessions;
   int? pDuration;
   String? id;
+}
+
+class TeacherDetails {
+
+  TeacherDetails(
+      {this.userId,
+        this.name,
+        this.imageId,
+        this.country,
+        this.flagUrl,
+        this.rating,
+        this.subscription});
+
+  TeacherDetails.fromJson(Map<String, dynamic> json) {
+    userId = json['userId'];
+    name = json['name'];
+    imageId = json['imageId'];
+    country = json['country'];
+    flagUrl = json['flagUrl'];
+    rating = json['rating'];
+    subscription = json['subscription'];
+  }
+  int? userId;
+  String? name;
+  String? imageId;
+  String? country;
+  String? flagUrl;
+  int? rating;
+  String? subscription;
 }

@@ -319,6 +319,7 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                                 content:
                                 widget.isBook=='true'?'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.':'You have successfully booked your class!',
                                 isRouting:  widget.isRouting,
+                                tranId: _classDetailsController.transactionId,
 
                               );
                             },

@@ -202,6 +202,7 @@ class DetailsCardView extends StatelessWidget {
                     ),
                   ],
                 ),
+                const Spacer(),
               ],
             ),
           ),

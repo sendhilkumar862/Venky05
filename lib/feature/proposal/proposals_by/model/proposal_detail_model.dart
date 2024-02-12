@@ -16,17 +16,21 @@ class ProposalDetailModel {
 
 class OriginalDetails {
 
-  OriginalDetails({this.duration, this.classTime, this.cost, this.currency});
+  OriginalDetails({this.duration, this.classTime, this.cost, this.currency, this.session});
 
   OriginalDetails.fromJson(Map<String, dynamic> json) {
     duration = json['duration'];
     classTime = json['classTime'];
     cost = json['cost'];
     currency = json['currency'];
+    session = json['session'];
   }
   int? duration;
   int? classTime;
   String? cost;
   String? currency;
+  int? session;
 
 }
+
+
