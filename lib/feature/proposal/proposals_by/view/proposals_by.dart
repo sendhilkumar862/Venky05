@@ -111,7 +111,7 @@ class _ProposalsByState extends State<ProposalsBy> {
                           countryName: _classDetailsController.proposalList[index].country,
                           isPro: true,
                           isBookmarked: true,
-                          subjects: 'Science - Accounta..'),
+                          subjects: _classDetailsController.proposalList[index].cost),
                     );
                   },
                 ),

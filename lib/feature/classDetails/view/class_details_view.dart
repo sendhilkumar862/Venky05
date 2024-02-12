@@ -23,6 +23,7 @@ import '../../../product/extension/string_extension.dart';
 import '../../../product/utils/typography.dart';
 import '../../class/class_detail/controller/class_detail_controller.dart';
 import '../../proposal/create_proposal/controller/create_proposal_controller.dart';
+import '../../proposal/proposals_by/controller/proposals_by_controller.dart';
 import '../../proposal/proposals_by/view/proposals_by.dart';
 import '../../setting_view/add_address_screen/Model/request_address_model.dart';
 import '../../setting_view/manage_address/Model/get_address_model.dart' hide Location;
@@ -42,6 +43,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
     with TickerProviderStateMixin {
   final ClassDetailsController _classDetailsController =
   Get.put(ClassDetailsController());
+  final ProposalsByController _proposalsByController=Get.put(ProposalsByController());
   final ManageAddressController _manageAddressController =
   Get.put(ManageAddressController());
   final ClassDetailController _classDetailController =
@@ -219,23 +221,31 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                           physics: const BouncingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (BuildContext context, int index) {
-                            return DetailsCardView(
-                                cardMargin: EdgeInsets.only(
-                                    right: 15.px, top: 10.px, bottom: 27.px),
-                                reViewLength: _classDetailsController
-                                    .proposalList[index].rating,
-                                name: _classDetailsController
-                                    .proposalList[index].name ?? '',
-                                avatar: _classDetailsController
-                                    .proposalList[index].imageId?.getImageUrl(
-                                    'profile'),
-                                countryIcon: _classDetailsController
-                                    .proposalList[index].flagUrl,
-                                countryName: _classDetailsController
-                                    .proposalList[index].country,
-                                isPro: true,
-                                isBookmarked: true,
-                                subjects: 'Science - Accounta..');
+                            return GestureDetector(
+                              onTap: ()async {
+                                _proposalsByController.getProposalDetails( _classDetailsController.proposalList[index].proposalId??'',_classDetailsController.classId);
+                                _classDetailsController.proposalId=_classDetailsController.proposalList[index].proposalId??'';
+                                proposalByTeacherBottomSheet(index);
+                              },
+                              child: DetailsCardView(
+                                  cardMargin: EdgeInsets.only(
+                                      right: 15.px, top: 10.px, bottom: 27.px),
+                                  reViewLength: _classDetailsController
+                                      .proposalList[index].rating,
+                                  name: _classDetailsController
+                                      .proposalList[index].name ?? '',
+                                  avatar: _classDetailsController
+                                      .proposalList[index].imageId?.getImageUrl(
+                                      'profile'),
+                                  countryIcon: _classDetailsController
+                                      .proposalList[index].flagUrl,
+                                  countryName: _classDetailsController
+                                      .proposalList[index].country,
+                                  isPro: true,
+                                  isBookmarked: true,
+                                  subjects: _classDetailsController
+                                      .proposalList[index].cost),
+                            );
                           },
                         ),
                       )
@@ -1248,6 +1258,300 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
           ),
         )
       ]),
+    );
+  }
+
+  void proposalByTeacherBottomSheet(int index) {
+    final double width = MediaQuery.sizeOf(context).width;
+    showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+      context: context,
+      builder: (BuildContext context) {
+        return Obx(()=>_proposalsByController.proposalDetailModel.value.proposalDetails?.cost!=null?
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: ListView(
+            children: <Widget>[
+              Padding(
+                padding:
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Text('Proposal By', style: openSans.get14.w700),
+                        SizedBox(
+                          width: width * 0.25,
+                        ),
+                        Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color:
+                                AppColors.downArrowColor.withOpacity(0.15)),
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(
+                                Icons.close,
+                                size: 15,
+                              ),
+                            ))
+                      ],
+                    ),
+                    RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        children: <InlineSpan>[
+                          TextSpan(
+                            text: 'Mr. ',
+                            style: TextStyle(
+                              color: AppColors.appDarkBlack,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.px,
+                            ),
+                          ),
+                          TextSpan(
+                            text: _classDetailsController.proposalList[index].name??'',
+                            style: TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              color: AppColors.appDarkBlack,
+                              fontWeight: FontWeight.w700,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.px,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 140,
+                width: width,
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    color: AppColors.bgQuaternary,
+                    borderRadius: BorderRadius.circular(15)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Original Class Details',
+                      style: openSans.get16.w700.appTextColor,
+                    ),
+                    Column(children: [
+                      Row(children: [
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(right: 15, top: 15),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Image.asset(
+                                width: 18,
+                                height: 18,
+                                'assets/icons/date_icon.png',
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Text(_proposalsByController.proposalDetailModel.value.originalDetails!.classTime!.toString().epochToNormal()),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(right: 15, top: 15),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Image.asset(
+                                width: 18,
+                                height: 18,
+                                'assets/icons/timer_icon.png',
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Text(_proposalsByController.proposalDetailModel.value.originalDetails!.duration!.toString().timeConvert()),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],),
+                      Row(children: [
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(right: 15, top: 20),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Image.asset(
+                                width: 18,
+                                height: 18,
+                                'assets/icons/date_icon.png',
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Text('${_proposalsByController.proposalDetailModel.value.originalDetails!.cost??''} KWD / Session'),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(right: 15, top: 20),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Image.asset(
+                                width: 18,
+                                height: 18,
+                                'assets/icons/read_book_icon.png',
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.only(left: 5),
+                                child: Text('1 Session'),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],)
+                    ],)
+                  ],
+                ),
+              ),
+              Container(
+                  height: 140,
+                  width: width,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color:  AppColors.ctaQuaternary,
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Proposal Details',
+                        style: openSans.get16.w700.appTextColor,
+                      ),
+                      Row(children: <Widget>[
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(right: 15, top: 15),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Image.asset(
+                                width: 18,
+                                height: 18,
+                                'assets/icons/date_icon.png',
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Text(_proposalsByController.proposalDetailModel.value.proposalDetails!.classTime!.toString().epochToNormal()),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(right: 15, top: 15),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Image.asset(
+                                width: 18,
+                                height: 18,
+                                'assets/icons/timer_icon.png',
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Text(_proposalsByController.proposalDetailModel.value.proposalDetails!.duration!.toString().timeConvert()),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],),
+                      Row(children: [
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(right: 15, top: 20),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Image.asset(
+                                width: 18,
+                                height: 18,
+                                'assets/icons/date_icon.png',
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Text('${_proposalsByController.proposalDetailModel.value.proposalDetails!.cost??''} KWD / Session'),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(right: 15, top: 20),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Image.asset(
+                                width: 18,
+                                height: 18,
+                                'assets/icons/read_book_icon.png',
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.only(left: 5),
+                                child: Text('1 Session'),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],)
+                    ],)
+              ),
+              AppButton(
+                isDisable: false,
+                borderColor: AppColors.appBlue,
+                height: 45.px,
+                title: 'Approve The Proposal',
+                onPressed: () async{
+                  final bool status= await _classDetailsController.approveProposal(_classDetailsController.proposalId??'');
+                  if(status) {
+                    // ignore: use_build_context_synchronously
+                    showModalBottomSheet(
+                      isScrollControlled: true,
+                      context: context,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(25.0),
+                        ),
+                      ),
+                      builder: (BuildContext context) {
+                        return BookingBottomSheet(
+                          height: MediaQuery.of(context).size.height * 0.62.px,
+                          isBook: false,
+                          isRouting: '',);
+
+                      },
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
+        ):const Center(child: CircularProgressIndicator(),),
+        );
+      },
     );
   }
 }
