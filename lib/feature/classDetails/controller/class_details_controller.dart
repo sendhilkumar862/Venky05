@@ -179,6 +179,11 @@ class ClassDetailsController extends GetxController{
       homeController.upcomingPageIndex=1;
       await homeController.getData();
       status=true;
+    }else{
+      AppUtils.showFlushBar(
+        context: Routes.navigatorKey.currentContext!,
+        message: getProposalsDataResponse.status?.message ?? 'Error occured',
+      );
     }
     hideLoading();
     return status;
@@ -195,6 +200,11 @@ class ClassDetailsController extends GetxController{
       homeController.upcomingPageIndex=1;
       await homeController.getData();
       status=true;
+    }else{
+      AppUtils.showFlushBar(
+        context: Routes.navigatorKey.currentContext!,
+        message: getProposalsDataResponse.status?.message ?? 'Error occured',
+      );
     }
     hideLoading();
     return status;
@@ -236,13 +246,27 @@ class ClassDetailsController extends GetxController{
     return status;
   }
 
-  Future<bool> makePayment( String paymentId) async {
-    bool status = false;
+  Future<String> makePayment( String paymentId) async {
+    String status = 'false';
     showLoading();
     final BaseResponse getProposalsDataResponse = await _makePaymentRepository
         .makePaymentRepository(classId,paymentId);
     if (getProposalsDataResponse.status?.type == 'success') {
-      status = true;
+      if(getProposalsDataResponse.status?.message=='Insufficient funds!'){
+        status=getProposalsDataResponse.status?.message??'';
+      }else{
+      await getClassDetails(classId);
+      homeController.relatedPageIndex=1;
+      homeController.historyPageIndex=1;
+      homeController.activityPageIndex=1;
+      homeController.upcomingPageIndex=1;
+      await homeController.getData();
+      status='true';}
+    }else{
+      AppUtils.showFlushBar(
+        context: Routes.navigatorKey.currentContext!,
+        message: getProposalsDataResponse.status?.message ?? 'Error occured',
+      );
     }
     hideLoading();
     return status;

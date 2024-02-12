@@ -385,9 +385,12 @@ class _ProposalsByState extends State<ProposalsBy> {
                   isDisable: false,
                   borderColor: AppColors.appBlue,
                   height: 45.px,
-                  title: 'Approve the Proposal',
-                  onPressed: () {
-                    showModalBottomSheet(
+                  title: 'Approve The Proposal',
+                  onPressed: () async{
+                   final bool status= await _classDetailsController.approveProposal(_classDetailsController.proposalId??'');
+                   if(status) {
+                     // ignore: use_build_context_synchronously
+                     showModalBottomSheet(
                       isScrollControlled: true,
                       context: context,
                       shape: const RoundedRectangleBorder(
@@ -403,6 +406,7 @@ class _ProposalsByState extends State<ProposalsBy> {
 
                       },
                     );
+                   }
                   },
                 ),
               ],

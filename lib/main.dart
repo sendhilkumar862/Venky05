@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
       builder: (BuildContext context, Orientation orientation,
           ScreenType screenType) {
         return GetMaterialApp(
-          debugShowCheckedModeBanner: false,
+          debugShowCheckedModeBanner: true,
           // ignore: always_specify_types
           localizationsDelegates: const <LocalizationsDelegate>[
             GlobalMaterialLocalizations

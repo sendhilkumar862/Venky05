@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../../../config/routes/route.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../custom/divider/divider.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/switch/app_switch.dart';
 import '../../../../custom/text/app_text.dart';
+import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../controller/class_details_controller.dart';
@@ -296,8 +298,8 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                   height: 45.px,
                   title: widget.isBook?'Book and Pay':'Approve and Pay',
                   onPressed: () async{
-                    final bool status= widget.isBook?await payAndBook() : await payAndApprove();
-                        if(status) {
+                    final String status= await  _classDetailsController.makePayment(_classDetailsController.initiatePaymentModel.value.id!);
+                        if(status=='true') {
                           // ignore: use_build_context_synchronously
                           showModalBottomSheet(
                             context: context,
@@ -321,6 +323,11 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                               );
                             },
                           );
+                        }else if(status=='Insufficient funds!'){
+                          AppUtils.showFlushBar(
+                            context: Routes.navigatorKey.currentContext!,
+                            message: status,
+                          );
                         }
                         else{
                           // ignore: use_build_context_synchronously
@@ -338,20 +345,6 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
 
 
   }
-  Future<bool> payAndBook()async{
-    bool status=false;
-    final bool  payment= await  _classDetailsController.makePayment(_classDetailsController.initiatePaymentModel.value.id!);
-    if(payment){
-      status=  await _classDetailsController.bookClassDetail(<String, dynamic>{});
-    }
-    return status;
-  }
-  Future<bool> payAndApprove()async{
-    bool status=false;
-    final bool  payment= await  _classDetailsController.makePayment(_classDetailsController.initiatePaymentModel.value.id!);
-    if(payment){
-      status=  await _classDetailsController.approveProposal(_classDetailsController.proposalId??'');
-    }
-    return status;
-  }
+
+
 }
