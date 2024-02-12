@@ -96,10 +96,27 @@ class _ProposalsByState extends State<ProposalsBy> {
                       childAspectRatio: 0.8),
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
-                      onTap: () {
+                      onTap: _classDetailsController
+                          .classData.value.status !=
+                          'Paying'?() {
                         _proposalsByController.getProposalDetails( _classDetailsController.proposalList[index].proposalId??'',widget.classId);
                         _classDetailsController.proposalId=_classDetailsController.proposalList[index].proposalId??'';
                         proposalByTeacherBottomSheet(index);
+                      }:(){
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          constraints: const BoxConstraints(),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(25.px),
+                              topLeft: Radius.circular(25.px),
+                            ),
+                          ),
+                          builder: (BuildContext context) {
+                            return BookingBottomSheet(isBook: 'Pay',);
+                          },
+                        );
                       },
                       child: DetailsCardView(
                           cardMargin: EdgeInsets.only(
@@ -109,7 +126,9 @@ class _ProposalsByState extends State<ProposalsBy> {
                           avatar:_classDetailsController.proposalList[index].imageId?.getImageUrl('profile'),
                           countryIcon: _classDetailsController.proposalList[index].flagUrl,
                           countryName: _classDetailsController.proposalList[index].country,
-                          isPro: true,
+                          // ignore: avoid_bool_literals_in_conditional_expressions
+                          isPro: _classDetailsController
+                              .proposalList[index].subscription=='Free'?false:true,
                           isBookmarked: true,
                           subjects: _classDetailsController.proposalList[index].cost),
                     );
@@ -401,7 +420,7 @@ class _ProposalsByState extends State<ProposalsBy> {
                       builder: (BuildContext context) {
                         return BookingBottomSheet(
                             height: MediaQuery.of(context).size.height * 0.62.px,
-                        isBook: false,
+                        isBook: 'false',
                         isRouting: '',);
 
                       },

@@ -28,66 +28,71 @@ import '../repository/get_class_details_repository.dart';
 import '../repository/initiate_payment.dart';
 import '../repository/make_payment_repository.dart';
 
+class ClassDetailsController extends GetxController {
+  final GetClassDetailRepository _getClassDetailRepository =
+      GetClassDetailRepository();
+  final GetProposalAllRepository _getProposalAllRepository =
+      GetProposalAllRepository();
+  final GetStudentsAllRepository _getStudentsAllRepository =
+      GetStudentsAllRepository();
+  final DeleteProposalDetailRepository _deleteProposalDetailRepository =
+      DeleteProposalDetailRepository();
+  final ApproveProposalRepository _approveProposalRepository =
+      ApproveProposalRepository();
+  final BookClassRepository _bookClassRepository = BookClassRepository();
+  final CancelClassRepository _cancelClassRepository = CancelClassRepository();
+  final ApproveRejectStudentsRepository _approveRejectStudentsRepository =
+      ApproveRejectStudentsRepository();
+  final InitiatePaymentRepository _initiatePaymentRepository =
+      InitiatePaymentRepository();
+  final MakePaymentRepository _makePaymentRepository = MakePaymentRepository();
 
-class ClassDetailsController extends GetxController{
-
-  final GetClassDetailRepository _getClassDetailRepository = GetClassDetailRepository();
-  final GetProposalAllRepository _getProposalAllRepository=GetProposalAllRepository();
-  final GetStudentsAllRepository _getStudentsAllRepository= GetStudentsAllRepository();
-  final DeleteProposalDetailRepository _deleteProposalDetailRepository= DeleteProposalDetailRepository();
-  final ApproveProposalRepository _approveProposalRepository = ApproveProposalRepository();
-  final BookClassRepository _bookClassRepository=BookClassRepository();
-  final CancelClassRepository _cancelClassRepository=CancelClassRepository();
-  final ApproveRejectStudentsRepository _approveRejectStudentsRepository=ApproveRejectStudentsRepository();
-  final InitiatePaymentRepository _initiatePaymentRepository=InitiatePaymentRepository();
-  final MakePaymentRepository _makePaymentRepository=MakePaymentRepository();
-
-
-  final HomeController homeController=Get.find();
+  final HomeController homeController = Get.find();
 
   RxString selectedProfile = ''.obs;
-  String classId='';
-  int startIndex=1;
-  ScrollController scrollController=ScrollController();
+  String classId = '';
+  int startIndex = 1;
+  ScrollController scrollController = ScrollController();
   String? proposalId;
-  Rx<InitiatePaymentModel> initiatePaymentModel=InitiatePaymentModel().obs;
-
+  Rx<InitiatePaymentModel> initiatePaymentModel = InitiatePaymentModel().obs;
 
   @override
   void onInit() {
     super.onInit();
-    selectedProfile.value =
-        LocaleManager.getValue(StorageKeys.profile) ??
-            '';
+    selectedProfile.value = LocaleManager.getValue(StorageKeys.profile) ?? '';
     // ignore: avoid_dynamic_calls
-    if(Get.arguments!=null && Get.arguments['classNumber']!=null){
-    // ignore: avoid_dynamic_calls
-    classId=Get.arguments['classNumber'];
-    fetchData();}
-
+    if (Get.arguments != null && Get.arguments['classNumber'] != null) {
+      // ignore: avoid_dynamic_calls
+      classId = Get.arguments['classNumber'];
+      fetchData();
+    }
   }
 
+  Rx<CameraPosition> kGooglePlex = const CameraPosition(
+    target: LatLng(24.7136, 46.6753),
+    zoom: 14.4746,
+  ).obs;
 
-  Rx<CameraPosition> kGooglePlex=const CameraPosition( target: LatLng(24.7136,46.6753),
-    zoom: 14.4746,).obs;
-
-  Completer<GoogleMapController> mapController = Completer<GoogleMapController>();
+  Completer<GoogleMapController> mapController =
+      Completer<GoogleMapController>();
   GoogleMapController? googleMapController;
+
   //AIzaSyBT8CFEhdKhFteNf6L4NaY3Z3UKFfpRy2w
 
   // ignore: always_declare_return_types
-  fetchData()async{
+  fetchData() async {
     showLoading();
 
     await Future.wait(<Future<void>>[
       // ignore: avoid_dynamic_calls
-      getProposalDetails(classId,startIndex),
-    // ignore: avoid_dynamic_calls
-    getClassDetails(classId),
-      getStudentAllAtDetails(classId,startIndex)
+      getProposalDetails(classId, startIndex),
+      // ignore: avoid_dynamic_calls
+      getClassDetails(classId),
+      getStudentAllAtDetails(classId, startIndex)
     ]);
     hideLoading();
   }
+
   Future<void> fetchMap(LatLng latLong) async {
     try {
       kGooglePlex.value = CameraPosition(
@@ -101,142 +106,167 @@ class ClassDetailsController extends GetxController{
     }
   }
 
-   Rx<ClassDetailsModel> classData =  ClassDetailsModel().obs;
-   RxList<ProposalModel> proposalList = <ProposalModel>[].obs;
-   RxList<StudentsModel> studentsList = <StudentsModel>[].obs;
+  Rx<ClassDetailsModel> classData = ClassDetailsModel().obs;
+  RxList<ProposalModel> proposalList = <ProposalModel>[].obs;
+  RxList<StudentsModel> studentsList = <StudentsModel>[].obs;
 
   Future<void> getClassDetails(String id) async {
-    final BaseResponse classDataResponse = await _getClassDetailRepository.getClassDetail(id);
+    final BaseResponse classDataResponse =
+        await _getClassDetailRepository.getClassDetail(id);
     if (classDataResponse.status?.type == 'success') {
-      final Map<String, dynamic> classDetailData=classDataResponse.data!.item! as Map<String, dynamic>;
-       classData.value = ClassDetailsModel.fromJson(classDetailData);
-      await fetchMap(LatLng(double.parse(classData.value.location?.lat??'0.0'),double.parse(classData.value.location?.long??'0.0')));
+      final Map<String, dynamic> classDetailData =
+          classDataResponse.data!.item! as Map<String, dynamic>;
+      classData.value = ClassDetailsModel.fromJson(classDetailData);
+      await fetchMap(LatLng(
+          double.parse(classData.value.location?.lat ?? '0.0'),
+          double.parse(classData.value.location?.long ?? '0.0')));
     }
   }
-  Future<void> getProposalDetails(String id, int startIndex,{bool isReload=false}) async {
-    if(isReload){
+
+  Future<void> getProposalDetails(String id, int startIndex,
+      {bool isReload = false}) async {
+    if (isReload) {
       showLoading();
     }
-    final BaseResponse getProposalsDataResponse = await _getProposalAllRepository.getProposalAll(id,startIndex);
+    final BaseResponse getProposalsDataResponse =
+        await _getProposalAllRepository.getProposalAll(id, startIndex);
     if (getProposalsDataResponse.status?.type == 'success') {
-      if(getProposalsDataResponse.data!.item!=null){
-      // ignore: always_specify_types
-      final List proposalListData=getProposalsDataResponse.data!.item! as List;
-      if(!isReload) {
-        proposalList.clear();
-      }
+      if (getProposalsDataResponse.data!.item != null) {
+        // ignore: always_specify_types
+        final List proposalListData =
+            getProposalsDataResponse.data!.item! as List;
+        if (!isReload) {
+          proposalList.clear();
+        }
 
-      // ignore: always_specify_types
-      for (final element in proposalListData) {
-        proposalList.add(ProposalModel.fromJson(element));
-      }}
+        // ignore: always_specify_types
+        for (final element in proposalListData) {
+          proposalList.add(ProposalModel.fromJson(element));
+        }
+      }
     }
-    if(isReload){
+    if (isReload) {
       hideLoading();
     }
   }
 
-  Future<void> getStudentAllAtDetails(String id, int startIndex,{bool isReload=false}) async {
-    if(isReload){
+  Future<void> getStudentAllAtDetails(String id, int startIndex,
+      {bool isReload = false}) async {
+    if (isReload) {
       showLoading();
     }
-    final BaseResponse getStudentsDataResponse = await _getStudentsAllRepository.getStudentsAll(id,startIndex);
+    final BaseResponse getStudentsDataResponse =
+        await _getStudentsAllRepository.getStudentsAll(id, startIndex);
     if (getStudentsDataResponse.status?.type == 'success') {
-      if(getStudentsDataResponse.data!.item!=null){
+      if (getStudentsDataResponse.data!.item != null) {
         // ignore: always_specify_types
-        final List proposalListData=getStudentsDataResponse.data!.item! as List;
-        if(!isReload) {
+        final List proposalListData =
+            getStudentsDataResponse.data!.item! as List;
+        if (!isReload) {
           studentsList.clear();
         }
 
         // ignore: always_specify_types
         for (final element in proposalListData) {
           studentsList.add(StudentsModel.fromJson(element));
-        }}
+        }
+      }
     }
-    if(isReload){
+    if (isReload) {
       hideLoading();
     }
   }
 
-  Future<void> deleteProposalDetails(String id, ) async {
+  Future<void> deleteProposalDetails(
+    String id,
+  ) async {
     showLoading();
-    final BaseResponse getProposalsDataResponse = await _deleteProposalDetailRepository.deleteProposalDetail(id,classId);
+    final BaseResponse getProposalsDataResponse =
+        await _deleteProposalDetailRepository.deleteProposalDetail(id, classId);
     if (getProposalsDataResponse.status?.type == 'success') {
       await getClassDetails(classId);
     }
     hideLoading();
   }
-  Future<bool> bookClassDetail(Map<String,dynamic> data ) async {
-    bool status=false;
+
+  Future<bool> bookClassDetail(Map<String, dynamic> data) async {
+    bool status = false;
     showLoading();
-    final BaseResponse getProposalsDataResponse = await _bookClassRepository.bookClassRepositoryRepository(classId,data);
+    final BaseResponse getProposalsDataResponse =
+        await _bookClassRepository.bookClassRepositoryRepository(classId, data);
     if (getProposalsDataResponse.status?.type == 'success') {
       await getClassDetails(classId);
-      homeController.relatedPageIndex=1;
-      homeController.historyPageIndex=1;
-      homeController.activityPageIndex=1;
-      homeController.upcomingPageIndex=1;
+      homeController.relatedPageIndex = 1;
+      homeController.historyPageIndex = 1;
+      homeController.activityPageIndex = 1;
+      homeController.upcomingPageIndex = 1;
       await homeController.getData();
-      status=true;
-    }else{
+      status = true;
+    } else {
       AppUtils.showFlushBar(
         context: Routes.navigatorKey.currentContext!,
         message: getProposalsDataResponse.status?.message ?? 'Error occured',
       );
-    }
-    hideLoading();
-    return status;
-  }
-  Future<bool> approveProposal(String id, ) async {
-    bool status=false;
-    showLoading();
-    final BaseResponse getProposalsDataResponse = await _approveProposalRepository.approveProposal(id,classId);
-    if (getProposalsDataResponse.status?.type == 'success') {
-      await getClassDetails(classId);
-      homeController.relatedPageIndex=1;
-      homeController.historyPageIndex=1;
-      homeController.activityPageIndex=1;
-      homeController.upcomingPageIndex=1;
-      await homeController.getData();
-      status=true;
-    }else{
-      AppUtils.showFlushBar(
-        context: Routes.navigatorKey.currentContext!,
-        message: getProposalsDataResponse.status?.message ?? 'Error occured',
-      );
-    }
-    hideLoading();
-    return status;
-  }
-  Future<bool> cancelClass( ) async {
-    bool status=false;
-    showLoading();
-    final BaseResponse getProposalsDataResponse = await _cancelClassRepository.cancelClassRepositoryRepository(classId);
-    if (getProposalsDataResponse.status?.type == 'success') {
-      final HomeController homeController=Get.find();
-      await getClassDetails(classId);
-      homeController.relatedPageIndex=1;
-      homeController.historyPageIndex=1;
-      homeController.activityPageIndex=1;
-      homeController.upcomingPageIndex=1;
-      await homeController.getData();
-      status=true;
     }
     hideLoading();
     return status;
   }
 
-  Future<bool> initiatePayment( ) async {
+  Future<bool> approveProposal(
+    String id,
+  ) async {
     bool status = false;
     showLoading();
-    final BaseResponse initiatePaymentDataResponse = await _initiatePaymentRepository
-        .initiatePaymentRepository(classId);
-    if (initiatePaymentDataResponse.status?.type == 'success') {
-      final Map<String,dynamic> initiateData=initiatePaymentDataResponse.data!.item! as Map<String,dynamic>;
-      initiatePaymentModel.value=InitiatePaymentModel.fromJson(initiateData);
+    final BaseResponse getProposalsDataResponse =
+        await _approveProposalRepository.approveProposal(id, classId);
+    if (getProposalsDataResponse.status?.type == 'success') {
+      await getClassDetails(classId);
+      homeController.relatedPageIndex = 1;
+      homeController.historyPageIndex = 1;
+      homeController.activityPageIndex = 1;
+      homeController.upcomingPageIndex = 1;
+      await homeController.getData();
       status = true;
-    }else{
+    } else {
+      AppUtils.showFlushBar(
+        context: Routes.navigatorKey.currentContext!,
+        message: getProposalsDataResponse.status?.message ?? 'Error occured',
+      );
+    }
+    hideLoading();
+    return status;
+  }
+
+  Future<bool> cancelClass() async {
+    bool status = false;
+    showLoading();
+    final BaseResponse getProposalsDataResponse =
+        await _cancelClassRepository.cancelClassRepositoryRepository(classId);
+    if (getProposalsDataResponse.status?.type == 'success') {
+      final HomeController homeController = Get.find();
+      await getClassDetails(classId);
+      homeController.relatedPageIndex = 1;
+      homeController.historyPageIndex = 1;
+      homeController.activityPageIndex = 1;
+      homeController.upcomingPageIndex = 1;
+      await homeController.getData();
+      status = true;
+    }
+    hideLoading();
+    return status;
+  }
+
+  Future<bool> initiatePayment() async {
+    bool status = false;
+    showLoading();
+    final BaseResponse initiatePaymentDataResponse =
+        await _initiatePaymentRepository.initiatePaymentRepository(classId);
+    if (initiatePaymentDataResponse.status?.type == 'success') {
+      final Map<String, dynamic> initiateData =
+          initiatePaymentDataResponse.data!.item! as Map<String, dynamic>;
+      initiatePaymentModel.value = InitiatePaymentModel.fromJson(initiateData);
+      status = true;
+    } else {
       AppUtils.showFlushBar(
         context: Routes.navigatorKey.currentContext!,
         message: initiatePaymentDataResponse.status?.message ?? 'Error occured',
@@ -246,23 +276,24 @@ class ClassDetailsController extends GetxController{
     return status;
   }
 
-  Future<String> makePayment( String paymentId) async {
+  Future<String> makePayment(String paymentId) async {
     String status = 'false';
     showLoading();
-    final BaseResponse getProposalsDataResponse = await _makePaymentRepository
-        .makePaymentRepository(classId,paymentId);
+    final BaseResponse getProposalsDataResponse =
+        await _makePaymentRepository.makePaymentRepository(classId, paymentId);
     if (getProposalsDataResponse.status?.type == 'success') {
-      if(getProposalsDataResponse.status?.message=='Insufficient funds!'){
-        status=getProposalsDataResponse.status?.message??'';
-      }else{
-      await getClassDetails(classId);
-      homeController.relatedPageIndex=1;
-      homeController.historyPageIndex=1;
-      homeController.activityPageIndex=1;
-      homeController.upcomingPageIndex=1;
-      await homeController.getData();
-      status='true';}
-    }else{
+      if (getProposalsDataResponse.status?.message == 'Insufficient funds!') {
+        status = getProposalsDataResponse.status?.message ?? '';
+      } else {
+        await getClassDetails(classId);
+        homeController.relatedPageIndex = 1;
+        homeController.historyPageIndex = 1;
+        homeController.activityPageIndex = 1;
+        homeController.upcomingPageIndex = 1;
+        await homeController.getData();
+        status = 'true';
+      }
+    } else {
       AppUtils.showFlushBar(
         context: Routes.navigatorKey.currentContext!,
         message: getProposalsDataResponse.status?.message ?? 'Error occured',
@@ -272,22 +303,25 @@ class ClassDetailsController extends GetxController{
     return status;
   }
 
-    Future<bool> approveRejectStudents(String id,Map <String,dynamic> approveRejectDetails) async {
-    bool status=false;
+  Future<bool> approveRejectStudents(
+      String id, Map<String, dynamic> approveRejectDetails) async {
+    bool status = false;
     showLoading();
-    final BaseResponse approveRejectDataResponse = await _approveRejectStudentsRepository.approveRejectStudent(id,approveRejectDetails);
+    final BaseResponse approveRejectDataResponse =
+        await _approveRejectStudentsRepository.approveRejectStudent(
+            id, approveRejectDetails);
     if (approveRejectDataResponse.status?.type == 'success') {
       await getClassDetails(classId);
-      homeController.relatedPageIndex=1;
-      homeController.historyPageIndex=1;
-      homeController.activityPageIndex=1;
-      homeController.upcomingPageIndex=1;
+      homeController.relatedPageIndex = 1;
+      homeController.historyPageIndex = 1;
+      homeController.activityPageIndex = 1;
+      homeController.upcomingPageIndex = 1;
       await homeController.getData();
-      status=true;
+      await fetchData();
+      status = true;
     }
     hideLoading();
     Get.back();
     return status;
   }
-
 }
