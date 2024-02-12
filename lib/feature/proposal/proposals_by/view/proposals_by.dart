@@ -385,7 +385,7 @@ class _ProposalsByState extends State<ProposalsBy> {
                   isDisable: false,
                   borderColor: AppColors.appBlue,
                   height: 45.px,
-                  title: 'Approve The Proposal',
+                  title: 'Approve the Proposal',
                   onPressed: () {
                     showModalBottomSheet(
                       isScrollControlled: true,

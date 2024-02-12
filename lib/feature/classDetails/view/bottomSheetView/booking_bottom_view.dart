@@ -29,9 +29,8 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.isBook) {
       _classDetailsController.initiatePayment();
-    }
+
   }
   @override
   Widget build(BuildContext context) {

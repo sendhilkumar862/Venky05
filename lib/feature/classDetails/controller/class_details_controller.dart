@@ -5,10 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../../config/routes/route.dart';
 import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
 import '../../../product/cache/key_value_storeage.dart';
 import '../../../product/cache/local_manager.dart';
+import '../../../product/constants/app/app_utils.dart';
 import '../../../product/utils/validators.dart';
 import '../../home/controller/home_controller.dart';
 import '../../proposal/proposol_details/repository/approve_proposal_repository.dart';
@@ -224,6 +226,11 @@ class ClassDetailsController extends GetxController{
       final Map<String,dynamic> initiateData=initiatePaymentDataResponse.data!.item! as Map<String,dynamic>;
       initiatePaymentModel.value=InitiatePaymentModel.fromJson(initiateData);
       status = true;
+    }else{
+      AppUtils.showFlushBar(
+        context: Routes.navigatorKey.currentContext!,
+        message: initiatePaymentDataResponse.status?.message ?? 'Error occured',
+      );
     }
     hideLoading();
     return status;
