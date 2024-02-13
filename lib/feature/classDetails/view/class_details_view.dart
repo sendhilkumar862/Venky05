@@ -997,8 +997,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
   }
 
   Widget getOwnerView() {
-    return _classDetailsController.classData.value.isOwner == 1
-        ? Padding(
+    return Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: Row(
               children: <Widget>[
@@ -1010,29 +1009,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     borderRadius: BorderRadius.circular(30.px),
                   ),
                   child: AppText(
-                    'Created by You',
-                    overflow: TextOverflow.ellipsis,
-                    fontSize: 10.px,
-                    color: AppColors.appLightBlack,
-                  ),
-                ),
-                const SizedBox(width: 5), // Additional padding
-              ],
-            ),
-          )
-        : Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 5.px, vertical: 5.px),
-                  decoration: BoxDecoration(
-                    color: AppColors.lightPurple,
-                    borderRadius: BorderRadius.circular(30.px),
-                  ),
-                  child: AppText(
-                    'Created by ${_classDetailsController.classData.value.userName ?? ''}',
+    _classDetailsController.classData.value.isOwner == 1? 'Created by You':'Created by ${_classDetailsController.classData.value.userName ?? ''}',
                     overflow: TextOverflow.ellipsis,
                     fontSize: 10.px,
                     color: AppColors.appLightBlack,
