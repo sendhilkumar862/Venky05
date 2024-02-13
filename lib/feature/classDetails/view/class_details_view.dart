@@ -231,15 +231,13 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                           ? () async {
                         _proposalsByController
                             .getProposalDetails(
-                            _classDetailsController
-                                .proposalList[index]
+                            _classDetailsController.classData.value.proposals![index]
                                 .proposalId ??
                                 '',
                             _classDetailsController
                                 .classId);
                         _classDetailsController.proposalId =
-                            _classDetailsController
-                                .proposalList[index]
+                            _classDetailsController.classData.value.proposals![index]
                                 .proposalId ??
                                 '';
                         proposalByTeacherBottomSheet(index);
@@ -476,11 +474,10 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   ],
                 ),
               ),
-              Obx(
-                () => _classDetailsController
-                            .classData.value.myProposaldetails !=
-                        null
-                    ? Padding(
+             if(_classDetailsController
+                 .classData.value.myProposaldetails !=null)
+
+                     Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 10),
                         child: Container(
@@ -603,9 +600,9 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                             ],
                           ),
                         ),
-                      )
-                    : const SizedBox.shrink(),
-              ),
+                      ),
+
+
               if (_classDetailsController.classData.value.allowAtStudentLoc ==
                   1)
                 SizedBox(
@@ -1350,7 +1347,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
     );
   }
 
-  void proposalByTeacherBottomSheet(int index) {
+  void proposalByTeacherBottomSheet(int index ) {
     final double width = MediaQuery.sizeOf(context).width;
     showModalBottomSheet(
       shape: const RoundedRectangleBorder(
@@ -1370,7 +1367,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 10),
                         child: Column(
-                          children: [
+                          children: <Widget>[
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
@@ -1409,8 +1406,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                     ),
                                   ),
                                   TextSpan(
-                                    text: _classDetailsController
-                                            .proposalList[index].name ??
+                                    text:   _classDetailsController.classData.value.proposals![index].name ??
                                         '',
                                     style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
@@ -1441,9 +1437,9 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                               style: openSans.get16.w700.appTextColor,
                             ),
                             Column(
-                              children: [
+                              children: <Widget>[
                                 Row(
-                                  children: [
+                                  children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           right: 15, top: 15),
@@ -1497,7 +1493,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                   ],
                                 ),
                                 Row(
-                                  children: [
+                                  children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           right: 15, top: 20),
@@ -1529,9 +1525,9 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                             height: 18,
                                             'assets/icons/read_book_icon.png',
                                           ),
-                                          const Padding(
-                                            padding: EdgeInsets.only(left: 5),
-                                            child: Text('1 Session'),
+                                           Padding(
+                                            padding: const EdgeInsets.only(left: 5),
+                                            child: Text('${_proposalsByController.proposalDetailModel.value.originalDetails!.session} Session'),
                                           )
                                         ],
                                       ),
@@ -1612,7 +1608,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                 ],
                               ),
                               Row(
-                                children: [
+                                children: <Widget>[
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         right: 15, top: 20),
@@ -1644,9 +1640,9 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                           height: 18,
                                           'assets/icons/read_book_icon.png',
                                         ),
-                                        const Padding(
-                                          padding: EdgeInsets.only(left: 5),
-                                          child: Text('1 Session'),
+                                         Padding(
+                                          padding: const EdgeInsets.only(left: 5),
+                                          child: Text('${_proposalsByController.proposalDetailModel.value.proposalDetails!.session??''} Session'),
                                         )
                                       ],
                                     ),
@@ -1665,7 +1661,6 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                               await _classDetailsController.approveProposal(
                                   _classDetailsController.proposalId ?? '');
                           if (status) {
-                            // Get.back();
                             // ignore: use_build_context_synchronously
                             showModalBottomSheet(
                               isScrollControlled: true,
