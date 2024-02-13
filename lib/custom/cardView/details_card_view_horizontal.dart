@@ -3,6 +3,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
+import '../../product/extension/string_extension.dart';
+import '../../product/utils/typography.dart';
 import '../image/app_image_assets.dart';
 import '../text/app_text.dart';
 
@@ -58,10 +60,32 @@ class DetailsCardViewHorizontal extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    AppImageAsset(
-                      image: ImageConstants.teacherAvtar,
-                      height: 55.px,
-                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.appProfile,
+                        borderRadius: BorderRadius.circular(50),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 2,
+                            blurRadius: 4,
+                            offset:
+                            const Offset(0, 2), // changes the position of the shadow
+                          ),
+                        ],
+                      ),
+                      width: 50.px,
+                      height: 50.px,
+                      child: ClipOval(
+                        child:  avatar==null?Center(
+                            child: Text(
+                                name!.extractInitials(),
+                                style: openSans.get20.w700.white)): AppImageAsset(
+                          image: avatar!,
+                          height: 40.px,
+                        ),
+                      ),
+                    ) ,
                     if (reViewLength != null)
                       SizedBox(
                         height: 20.px,

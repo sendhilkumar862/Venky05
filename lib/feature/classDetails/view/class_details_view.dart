@@ -207,7 +207,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   heading: 'Teacher',
                   name: _classDetailsController.classData.value.teacherDetails?.name??'',
                   height: 95.px,
-                  avatar: ImageConstants.teacherAvtar,
+                  avatar: _classDetailsController.classData.value.teacherDetails?.imageId,
                   countryName: 'Grade 1-2-3',
                   // ignore: avoid_bool_literals_in_conditional_expressions
                   isPro: _classDetailsController.classData.value.teacherDetails?.subscription=='Free'?false:true,
@@ -320,11 +320,32 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                 padding: const EdgeInsets.all(2.0),
                                 child: Column(
                                   children: [
-                                    AppImageAsset(
-                                      image:_classDetailsController.classData.value.students![index].imageId ??
-                                          ImageConstants.avtar,
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: AppColors.appProfile,
+                                        borderRadius: BorderRadius.circular(50),
+                                        boxShadow: <BoxShadow>[
+                                          BoxShadow(
+                                            color: Colors.black.withOpacity(0.2),
+                                            spreadRadius: 2,
+                                            blurRadius: 4,
+                                            offset:
+                                            const Offset(0, 2), // changes the position of the shadow
+                                          ),
+                                        ],
+                                      ),
+                                      width: 55.px,
                                       height: 55.px,
-                                    ),
+                                      child: ClipOval(
+                                        child:  _classDetailsController.classData.value.students![index].imageId==null?Center(
+                                            child: Text(
+                                                _classDetailsController.classData.value.students![index].name!.extractInitials(),
+                                                style: openSans.get20.w700.white)): AppImageAsset(
+                                          image: _classDetailsController.classData.value.students![index].imageId!,
+                                          height: 40.px,
+                                        ),
+                                      ),
+                                    ) ,
                                     SizedBox(
                                       height: 6.px,
                                     ),

@@ -86,7 +86,7 @@ class _ProposalsByState extends State<ProposalsBy> {
                 Expanded(
                   child: GridView.builder(
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemCount: _classDetailsController.proposalList.length,
                     shrinkWrap: true,
                     controller: _classDetailsController.scrollController,

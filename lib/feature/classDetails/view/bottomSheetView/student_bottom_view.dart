@@ -7,6 +7,8 @@ import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../../../product/extension/string_extension.dart';
+import '../../../../product/utils/typography.dart';
 import '../../controller/class_details_controller.dart';
 class StudentBottomSheet extends StatefulWidget {
   const StudentBottomSheet({super.key,required this.classId});
@@ -91,10 +93,32 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                                   SizedBox(
                                     height: 8.px,
                                   ),
-                                  AppImageAsset(
-                                    image: _classDetailsController.studentsList[index].imageId??ImageConstants.avtar,
-                                    height: 55.px,
-                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: AppColors.appProfile,
+                                      borderRadius: BorderRadius.circular(50),
+                                      boxShadow: <BoxShadow>[
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          spreadRadius: 2,
+                                          blurRadius: 4,
+                                          offset:
+                                          const Offset(0, 2), // changes the position of the shadow
+                                        ),
+                                      ],
+                                    ),
+                                    width: 50.px,
+                                    height: 50.px,
+                                    child: ClipOval(
+                                      child:  _classDetailsController.studentsList[index].imageId==null?Center(
+                                          child: Text(
+                                              _classDetailsController.studentsList[index].name!.extractInitials(),
+                                              style: openSans.get20.w700.white)): AppImageAsset(
+                                        image: _classDetailsController.studentsList[index].imageId!,
+                                        height: 40.px,
+                                      ),
+                                    ),
+                                  ) ,
                                   SizedBox(
                                     height: 6.px,
                                   ),
