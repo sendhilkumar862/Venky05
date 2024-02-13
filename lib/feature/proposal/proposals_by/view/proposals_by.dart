@@ -121,7 +121,7 @@ class _ProposalsByState extends State<ProposalsBy> {
                         },
                         child: DetailsCardView(
                             cardMargin: EdgeInsets.only(
-                                right: 15.px, top: 10.px, bottom: 27.px),
+                                right: 14.px, top: 10.px, bottom: 27.px),
                             reViewLength: _classDetailsController.proposalList[index].rating,
                             name: _classDetailsController.proposalList[index].name??'',
                             avatar:_classDetailsController.proposalList[index].imageId,
