@@ -293,8 +293,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 ),
 
               if ( _classDetailsController.classData.value.students!=null)
-                Obx(() {
-                  return  _classDetailsController.classData.value.students!.isEmpty
+                _classDetailsController.classData.value.students!.isEmpty
                       ? AppButton(
                           isDisable: true,
                           height: 60.px,
@@ -341,7 +340,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                             },
                           ),
                         );
-                }),
+
               SizedBox(
                 height: 20.px,
               ),
