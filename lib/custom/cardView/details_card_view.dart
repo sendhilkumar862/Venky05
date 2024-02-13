@@ -40,7 +40,7 @@ class DetailsCardView extends StatelessWidget {
       padding: EdgeInsets.all(10.px),
       margin:
           cardMargin ?? EdgeInsets.only(left: 15.px, top: 10.px, bottom: 27.px),
-      width: 140.px,
+      width: 146.px,
       decoration: BoxDecoration(
         color: AppColors.appWhite,
         borderRadius: BorderRadius.circular(13.px),
@@ -194,7 +194,7 @@ class DetailsCardView extends StatelessWidget {
                         height: 14.px,
                       ),
                      // Another check for spacing
-                      SizedBox(width: 5.px),
+                      SizedBox(width: 2.px),
                     AppText(
                       subjects ?? '',
                       fontSize: 10.px,

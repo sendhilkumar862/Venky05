@@ -405,7 +405,7 @@ class AppCardView extends StatelessWidget {
               child: AppButton(
                 title: title,
                 isDisable: false,
-                width: 60.px,
+                width: title=='Propose'?80.px:60.px,
                 height: 35.px,
                 borderColor: AppColors.appBlue,
                 borderRadius: BorderRadius.circular(13.px),
