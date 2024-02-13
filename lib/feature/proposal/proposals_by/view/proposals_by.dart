@@ -124,7 +124,7 @@ class _ProposalsByState extends State<ProposalsBy> {
                                 right: 15.px, top: 10.px, bottom: 27.px),
                             reViewLength: _classDetailsController.proposalList[index].rating,
                             name: _classDetailsController.proposalList[index].name??'',
-                            avatar:_classDetailsController.proposalList[index].imageId?.getImageUrl('profile'),
+                            avatar:_classDetailsController.proposalList[index].imageId,
                             countryIcon: _classDetailsController.proposalList[index].flagUrl,
                             countryName: _classDetailsController.proposalList[index].country,
                             // ignore: avoid_bool_literals_in_conditional_expressions

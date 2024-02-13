@@ -268,8 +268,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                           reViewLength: _classDetailsController.classData.value.proposals![index].rating,
                           name: _classDetailsController.classData.value.proposals![index].name ??
                               '',
-                          avatar: _classDetailsController.classData.value.proposals![index].imageId
-                              ?.getImageUrl('profile'),
+                          avatar: _classDetailsController.classData.value.proposals![index].imageId,
                           countryIcon: _classDetailsController.classData.value.proposals![index].flagUrl,
                           countryName: _classDetailsController.classData.value.proposals![index].country,
                           // ignore: avoid_bool_literals_in_conditional_expressions

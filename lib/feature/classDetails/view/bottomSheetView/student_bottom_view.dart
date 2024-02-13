@@ -114,7 +114,7 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                                           child: Text(
                                               _classDetailsController.studentsList[index].name!.extractInitials(),
                                               style: openSans.get20.w700.white)): AppImageAsset(
-                                        image: _classDetailsController.studentsList[index].imageId!,
+                                        image: _classDetailsController.studentsList[index].imageId!.getImageUrl('profile'),
                                         height: 40.px,
                                       ),
                                     ),

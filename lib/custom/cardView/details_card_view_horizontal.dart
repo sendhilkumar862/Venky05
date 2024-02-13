@@ -81,7 +81,7 @@ class DetailsCardViewHorizontal extends StatelessWidget {
                             child: Text(
                                 name!.extractInitials(),
                                 style: openSans.get20.w700.white)): AppImageAsset(
-                          image: avatar!,
+                          image: avatar!.getImageUrl('profile'),
                           height: 40.px,
                         ),
                       ),
