@@ -339,7 +339,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                               );
                             },
                           ),
-                        );
+                        ),
 
               SizedBox(
                 height: 20.px,
