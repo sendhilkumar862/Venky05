@@ -1,6 +1,7 @@
 
 
 import 'package:hessah/feature/classDetails/modal/proposal_model.dart';
+import 'package:hessah/feature/classDetails/modal/students_model.dart';
 
 class ClassDetailsModel {
 
@@ -77,6 +78,13 @@ class ClassDetailsModel {
         proposals!.add( ProposalModel.fromJson(v));
       });
     }
+    if (json['students'] != null) {
+      students = <StudentsModel>[];
+      // ignore: avoid_dynamic_calls
+      json['students'].forEach((v) {
+        students!.add( StudentsModel.fromJson(v));
+      });
+    }
   }
   String? displayId;
   String? classNumber;
@@ -108,6 +116,7 @@ class ClassDetailsModel {
   bool? canWithdrawProposal;
   TeacherDetails? teacherDetails;
   List<ProposalModel>? proposals;
+  List<StudentsModel>? students;
 }
 
 class Location {

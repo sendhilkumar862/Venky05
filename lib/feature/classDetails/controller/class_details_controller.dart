@@ -83,14 +83,7 @@ class ClassDetailsController extends GetxController {
   // ignore: always_declare_return_types
   fetchData() async {
     showLoading();
-
-    await Future.wait(<Future<void>>[
-      // ignore: avoid_dynamic_calls
-      // getProposalDetails(classId, startIndex),
-      // ignore: avoid_dynamic_calls
-      getClassDetails(classId),
-      getStudentAllAtDetails(classId, startIndex)
-    ]);
+    await getClassDetails(classId);
     hideLoading();
   }
 

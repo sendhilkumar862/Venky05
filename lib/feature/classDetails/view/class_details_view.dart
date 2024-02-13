@@ -132,21 +132,19 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               SizedBox(
                 height: 20.px,
               ),
-              Obx(
-                () =>  _classDetailsController.classData.value.teacherDetails!=null?
+              if( _classDetailsController.classData.value.teacherDetails!=null)
                 HeadingCardView(
                     padding: 0,
-                    title: 'Teacher')
-                    : _classDetailsController.selectedProfile ==
-                                ApplicationConstants.tutor &&
-                            _classDetailsController.classData.value.isOwner == 1
-                        ? HeadingCardView(
+                    title: 'Teacher'),
+                    if( _classDetailsController.classData.value.students!=null)
+                         HeadingCardView(
                             padding: 0,
                             title: 'Students',
-                            totalItem: _classDetailsController
-                                .studentsList.length
+                            totalItem:  _classDetailsController.classData.value.students!.length
                                 .toString(),
-                            onTap: () {
+                            onTap: () async {
+                              await _classDetailsController.getStudentAllAtDetails(_classDetailsController.classId, _classDetailsController.startIndex);
+                              // ignore: use_build_context_synchronously
                               showModalBottomSheet(
                                 isScrollControlled: true,
                                 context: context,
@@ -165,13 +163,11 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                             // ignore: avoid_bool_literals_in_conditional_expressions
                             isViewAllIcon:
                                 // ignore: avoid_bool_literals_in_conditional_expressions
-                                _classDetailsController.studentsList.isNotEmpty
+                            _classDetailsController.classData.value.students!.isNotEmpty
                                     ? true
-                                    : false)
-                        : const SizedBox.shrink(),
-              ),
-              Obx(
-                    () => _classDetailsController.classData.value.proposals!=null && _classDetailsController.classData.value.proposals!.isNotEmpty?
+                                    : false),
+
+                    if(_classDetailsController.classData.value.proposals!=null)
                 HeadingCardView(
                     padding: 0,
                     title: 'Proposals',
@@ -199,103 +195,106 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     // ignore: avoid_bool_literals_in_conditional_expressions
                     isViewAllIcon:
                     // ignore: avoid_bool_literals_in_conditional_expressions
-                    _classDetailsController.classData.value.proposals!=null
+                    _classDetailsController.classData.value.proposals!.isNotEmpty
                         ? true
-                        : false)
-                    : const SizedBox.shrink(),
-              ),
+                        : false),
+
               SizedBox(
                 height: 5.px,
               ),
-              if (_classDetailsController.selectedProfile ==
-                      ApplicationConstants.student &&
-                  _classDetailsController.classData.value.isOwner == 1)
-                Obx(
-                  () => _classDetailsController.classData.value.teacherDetails!=null?InkWell(
-                    onTap: () {},
-                    child: DetailsCardViewHorizontal(
-                      heading: 'Teacher',
-                      name: _classDetailsController.classData.value.teacherDetails?.name??'',
-                      height: 95.px,
-                      avatar: ImageConstants.teacherAvtar,
-                      countryName: 'Grade 1-2-3',
-                      // ignore: avoid_bool_literals_in_conditional_expressions
-                      isPro: _classDetailsController.classData.value.teacherDetails?.subscription=='Free'?false:true,
-                      isBookmarked: true,
-                    ),
-                  ):_classDetailsController.classData.value.proposals!=null && _classDetailsController.classData.value.proposals!.isNotEmpty
-                      ? SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.300,
-                          child: ListView.builder(
-                            itemCount:
-                            _classDetailsController.classData.value.proposals!.length,
-                            shrinkWrap: true,
-                            physics: const BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                onTap: _classDetailsController
-                                            .classData.value.status !=
-                                        'Paying'
-                                    ? () async {
-                                        _proposalsByController
-                                            .getProposalDetails(
-                                                _classDetailsController
-                                                        .proposalList[index]
-                                                        .proposalId ??
-                                                    '',
-                                                _classDetailsController
-                                                    .classId);
-                                        _classDetailsController.proposalId =
-                                            _classDetailsController
-                                                    .proposalList[index]
-                                                    .proposalId ??
-                                                '';
-                                        proposalByTeacherBottomSheet(index);
-                                      }
-                                    : (){
-                                        showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          constraints: const BoxConstraints(),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(25.px),
-                                              topLeft: Radius.circular(25.px),
-                                            ),
-                                          ),
-                                          builder: (BuildContext context) {
-                                            return BookingBottomSheet(isBook: 'Pay',);
-                                          },
-                                        );
-                                      },
-                                child: DetailsCardView(
-                                    cardMargin: EdgeInsets.only(
-                                        right: 15.px,
-                                        top: 10.px,
-                                        bottom: 27.px),
-                                    reViewLength: _classDetailsController.classData.value.proposals![index].rating,
-                                    name: _classDetailsController.classData.value.proposals![index].name ??
-                                        '',
-                                    avatar: _classDetailsController.classData.value.proposals![index].imageId
-                                        ?.getImageUrl('profile'),
-                                    countryIcon: _classDetailsController.classData.value.proposals![index].flagUrl,
-                                    countryName: _classDetailsController.classData.value.proposals![index].country,
-                                    // ignore: avoid_bool_literals_in_conditional_expressions
-                                    isPro: _classDetailsController.classData.value.proposals![index].subscription=='Free'?false:true,
-                                    isBookmarked: true,
-                                    subjects: '${_classDetailsController.classData.value.proposals![index].cost} ${_classDetailsController.classData.value.proposals![index].currency} per Session'),
-                              );
-                            },
-                          ),
-                        ):const SizedBox.shrink()
-
+              if (_classDetailsController.classData.value.teacherDetails!=null)
+                DetailsCardViewHorizontal(
+                  heading: 'Teacher',
+                  name: _classDetailsController.classData.value.teacherDetails?.name??'',
+                  height: 95.px,
+                  avatar: ImageConstants.teacherAvtar,
+                  countryName: 'Grade 1-2-3',
+                  // ignore: avoid_bool_literals_in_conditional_expressions
+                  isPro: _classDetailsController.classData.value.teacherDetails?.subscription=='Free'?false:true,
+                  isBookmarked: true,
                 ),
-              if (_classDetailsController.selectedProfile ==
-                      ApplicationConstants.tutor &&
-                  _classDetailsController.classData.value.isOwner == 1)
+              if(_classDetailsController.classData.value.proposals!=null)
+                _classDetailsController.classData.value.proposals!.isNotEmpty?
+                SizedBox(
+                height: MediaQuery.of(context).size.height * 0.300,
+                child: ListView.builder(
+                  itemCount:
+                  _classDetailsController.classData.value.proposals!.length,
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: _classDetailsController
+                          .classData.value.status !=
+                          'Paying'
+                          ? () async {
+                        _proposalsByController
+                            .getProposalDetails(
+                            _classDetailsController
+                                .proposalList[index]
+                                .proposalId ??
+                                '',
+                            _classDetailsController
+                                .classId);
+                        _classDetailsController.proposalId =
+                            _classDetailsController
+                                .proposalList[index]
+                                .proposalId ??
+                                '';
+                        proposalByTeacherBottomSheet(index);
+                      }
+                          : (){
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          constraints: const BoxConstraints(),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(25.px),
+                              topLeft: Radius.circular(25.px),
+                            ),
+                          ),
+                          builder: (BuildContext context) {
+                            return BookingBottomSheet(isBook: 'Pay',);
+                          },
+                        );
+                      },
+                      child: DetailsCardView(
+                          cardMargin: EdgeInsets.only(
+                              right: 15.px,
+                              top: 10.px,
+                              bottom: 27.px),
+                          reViewLength: _classDetailsController.classData.value.proposals![index].rating,
+                          name: _classDetailsController.classData.value.proposals![index].name ??
+                              '',
+                          avatar: _classDetailsController.classData.value.proposals![index].imageId
+                              ?.getImageUrl('profile'),
+                          countryIcon: _classDetailsController.classData.value.proposals![index].flagUrl,
+                          countryName: _classDetailsController.classData.value.proposals![index].country,
+                          // ignore: avoid_bool_literals_in_conditional_expressions
+                          isPro: _classDetailsController.classData.value.proposals![index].subscription=='Free'?false:true,
+                          isBookmarked: true,
+                          subjects: '${_classDetailsController.classData.value.proposals![index].cost} ${_classDetailsController.classData.value.proposals![index].currency} per Session'),
+                    );
+                  },
+                ),
+              ): AppButton(
+                  height: 60.px,
+                  title: 'No Proposals found',
+                  textStyle: TextStyle(
+                      color: AppColors.black,
+                      fontSize: 18.px,
+                      fontWeight: FontWeight.w600),
+                  borderRadius: BorderRadius.circular(12.px),
+                  borderColor: AppColors.appLightGrey,
+                  isBorderOnly: true,
+                  onPressed: () {},
+                ),
+
+              if ( _classDetailsController.classData.value.students!=null)
                 Obx(() {
-                  return _classDetailsController.studentsList.isEmpty
+                  return  _classDetailsController.classData.value.students!.isEmpty
                       ? AppButton(
                           isDisable: true,
                           height: 60.px,
@@ -313,7 +312,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                           height: MediaQuery.of(context).size.height * 0.115,
                           child: ListView.builder(
                             itemCount:
-                                _classDetailsController.studentsList.length,
+                            _classDetailsController.classData.value.students!.length,
                             shrinkWrap: true,
                             physics: const BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
@@ -323,8 +322,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                 child: Column(
                                   children: [
                                     AppImageAsset(
-                                      image: _classDetailsController
-                                              .studentsList[index].imageId ??
+                                      image:_classDetailsController.classData.value.students![index].imageId ??
                                           ImageConstants.avtar,
                                       height: 55.px,
                                     ),
@@ -332,8 +330,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                       height: 6.px,
                                     ),
                                     AppText(
-                                      _classDetailsController
-                                              .studentsList[index].name ??
+                                      _classDetailsController.classData.value.students![index].name ??
                                           '',
                                       fontWeight: FontWeight.w500,
                                       fontSize: 12.px,
