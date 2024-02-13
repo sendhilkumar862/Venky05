@@ -771,7 +771,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                     });
                   },
                 ),
-              if (_classDetailsController.classData.value.status == 'Paying')
+              if (_classDetailsController.classData.value.status == 'Paying'&&_classDetailsController.selectedProfile == ApplicationConstants.student )
                 screenButton(
                     title: 'Pay',
                     isPaying: true,
