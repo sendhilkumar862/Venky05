@@ -3,7 +3,8 @@ import 'package:hessah/feature/classDetails/modal/students_model.dart';
 
 class ClassDetailsModel {
   ClassDetailsModel(
-      {this.displayId,
+      {this.userName,
+        this.displayId,
       this.classNumber,
       this.subject,
       this.school,
@@ -35,6 +36,7 @@ class ClassDetailsModel {
       this.proposals});
 
   ClassDetailsModel.fromJson(Map<String, dynamic> json) {
+    userName = json['username'];
     displayId = json['displayId'];
     classNumber = json['classNumber'];
     subject = json['subject'];
@@ -87,6 +89,7 @@ class ClassDetailsModel {
       });
     }
   }
+  String? userName;
   String? displayId;
   String? classNumber;
   String? subject;

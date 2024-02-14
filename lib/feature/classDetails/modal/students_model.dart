@@ -1,5 +1,4 @@
 class StudentsModel {
-
   StudentsModel(
       {this.userId,
         this.subject,

@@ -213,6 +213,23 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                         color: AppColors.appGrey)
                   ],
                 ),
+                SizedBox(height: 8.px),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    AppText(
+                      'Number of Students',
+                      fontSize: 12.px,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.appGrey,
+                    ),
+                    AppText('${_classDetailsController.initiatePaymentModel.value
+                        .maxParticipants}',
+                        fontSize: 16.px,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.appGrey)
+                  ],
+                ),
                 AppDivider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -227,10 +244,10 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         AppText('${_classDetailsController.initiatePaymentModel.value
-                            .classCost?.toString().split('.')[0]}',
+                            .totalClassCost?.toDouble().toString().split('.')[0]}',
                             fontSize: 16.px, fontWeight: FontWeight.w700),
                         AppText('.${_classDetailsController.initiatePaymentModel.value
-                            .classCost?.toString().split('.')[1]} KWD',
+                            .totalClassCost?.toDouble().toString().split('.')[1]} KWD',
                             fontSize: 12.px, fontWeight: FontWeight.w700),
                       ],
                     )
