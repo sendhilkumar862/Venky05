@@ -1084,7 +1084,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               borderRadius: BorderRadius.circular(30.px),
             ),
             child: AppText(
-              'Created by',
+              'Created by ${_classDetailsController.classData.value.userName??''}',
               overflow: TextOverflow.ellipsis,
               fontSize: 10.px,
               color: AppColors.appLightBlack,

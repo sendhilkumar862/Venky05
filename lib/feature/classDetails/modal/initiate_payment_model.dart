@@ -7,7 +7,8 @@ class InitiatePaymentModel {
         this.maxParticipants,
         this.sessions,
         this.fees,
-        this.totalAmount});
+        this.totalAmount,
+      this.totalClassCost});
 
   InitiatePaymentModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -17,6 +18,7 @@ class InitiatePaymentModel {
     sessions = json['sessions'];
     fees = json['fees'];
     totalAmount = json['totalAmount'];
+    totalClassCost = json['totalClassCost'];
   }
   String? id;
   String? balance;
@@ -25,4 +27,5 @@ class InitiatePaymentModel {
   int? sessions;
   double? fees;
   double? totalAmount;
+  int? totalClassCost;
 }

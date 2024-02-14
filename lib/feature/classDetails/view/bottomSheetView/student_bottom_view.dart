@@ -65,7 +65,7 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                   child: GridView.builder(
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
                     physics: const BouncingScrollPhysics(),
-                    itemCount: _classDetailsController.studentsList.length,
+                    itemCount: _classDetailsController.studentsList.value.students!.length,
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
@@ -120,11 +120,11 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                                     width: 50.px,
                                     height: 50.px,
                                     child: ClipOval(
-                                      child:  _classDetailsController.studentsList[index].imageId==null?Center(
+                                      child:  _classDetailsController.studentsList.value.students![index].imageId==null?Center(
                                           child: Text(
-                                              _classDetailsController.studentsList[index].name!.extractInitials(),
+                                              _classDetailsController.studentsList.value.students![index].name!.extractInitials(),
                                               style: openSans.get20.w700.white)): AppImageAsset(
-                                        image: _classDetailsController.studentsList[index].imageId!.getImageUrl('profile'),
+                                        image: _classDetailsController.studentsList.value.students![index].imageId!.getImageUrl('profile'),
                                         height: 40.px,
                                       ),
                                     ),
@@ -133,7 +133,7 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                                     height: 6.px,
                                   ),
                                   AppText(
-                                    _classDetailsController.studentsList[index].name??'',
+                                    _classDetailsController.studentsList.value.students![index].name??'',
                                     fontWeight: FontWeight.w700,
                                     fontSize: 12.px,
                                   ),
@@ -141,38 +141,38 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                                     height: 4.px,
                                   ),
                                   AppText(
-                                      'Grade ${_classDetailsController.studentsList[index].grade?.join(' - ')}',
+                                      'Grade ${_classDetailsController.studentsList.value.students![index].grade?.join(' - ')}',
                                       fontSize: 12.px,
                                   ),
                                   SizedBox(
                                     height: 10.px,
                                   ),
-                                 if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==0) AppButton(
+                                 if(_classDetailsController.studentsList.value.canAcceptOrRejectStudent!=null && _classDetailsController.studentsList.value.canAcceptOrRejectStudent! &&_classDetailsController.studentsList.value.students![index].status!=null && _classDetailsController.studentsList.value.students![index].status==0) AppButton(
                                     title: 'Accept',
                                     height: 45.px,
                                     isDisable: false,
                                     borderColor: AppColors.appBlue,
                                     borderRadius: BorderRadius.circular(10.px),
                                     onPressed: () {
-                                      _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'accept','users':<int?>[_classDetailsController.studentsList[index].userId]});
+                                      _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'accept','users':<int?>[_classDetailsController.studentsList.value.students![index].userId]});
                                     },
                                   ),
-                                  if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==1) const Text(
+                                  if(_classDetailsController.studentsList.value.students![index].status!=null && _classDetailsController.studentsList.value.students![index].status==1) const Text(
                                     'Accepted',
                                     style: TextStyle(
                                             color: AppColors.appBlue,
                                             fontSize: 14,
                                             fontWeight: FontWeight.w600),
                                   ),
-                                  if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==2) AppText(
+                                  if(_classDetailsController.studentsList.value.students![index].status!=null && _classDetailsController.studentsList.value.students![index].status==2) AppText(
                                     'Rejected',
                                     fontSize: 14.px,
                                     color: AppColors.appLightRed,
                                   ),
                                   SizedBox(height: 10.px),
-                                  if(_classDetailsController.studentsList[index].status!=null && _classDetailsController.studentsList[index].status==0) GestureDetector(
+                                  if(_classDetailsController.studentsList.value.canAcceptOrRejectStudent!=null && _classDetailsController.studentsList.value.canAcceptOrRejectStudent! && _classDetailsController.studentsList.value.students![index].status!=null && _classDetailsController.studentsList.value.students![index].status==0) GestureDetector(
                                     onTap: (){
-                                      _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'reject','users':<int?>[_classDetailsController.studentsList[index].userId]});
+                                      _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'reject','users':<int?>[_classDetailsController.studentsList.value.students![index].userId]});
                                     },
                                     child: AppText(
                                       'Reject',
@@ -189,7 +189,7 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                     },
                   ),
                 ),
-                if (_classDetailsController.studentsList.length>1) Padding(
+                if (_classDetailsController.studentsList.value.students!.length>1) Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15.px),
                   child: AppButton(
                     title: 'Accept All Students',
