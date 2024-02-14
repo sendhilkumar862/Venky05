@@ -75,10 +75,20 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         padding: EdgeInsets.all(10.px),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.px),
-                          border: Border.all(color: AppColors.appLightGrey),
+                        decoration:
+                        BoxDecoration(
+                          color: AppColors.appWhite,
+                          borderRadius: BorderRadius.circular(13.px),
+                          border: Border.all(
+                            color: AppColors.appBorderColor.withOpacity(0.3),
+                            width: 1.2,
+                          ),
+                          boxShadow: AppColors.infoBoxShadow,
                         ),
+                        // BoxDecoration(
+                        //   borderRadius: BorderRadius.circular(10.px),
+                        //   border: Border.all(color: AppColors.appLightGrey),
+                        // ),
                         child: Stack(
                           children: <Widget>[
                             Align(
