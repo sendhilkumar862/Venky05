@@ -4,7 +4,7 @@ import 'package:hessah/feature/classDetails/modal/students_model.dart';
 class ClassDetailsModel {
   ClassDetailsModel(
       {this.userName,
-        this.displayId,
+      this.displayId,
       this.classNumber,
       this.subject,
       this.school,
@@ -31,6 +31,7 @@ class ClassDetailsModel {
       this.canBookClass,
       this.canRescheduleClass,
       this.canWithdrawProposal,
+      this.canPay,
       this.proposalsCount,
       this.teacherDetails,
       this.proposals});
@@ -68,6 +69,7 @@ class ClassDetailsModel {
     canBookClass = json['canBookClass'];
     canCancelClass = json['canCancelClass'];
     canWithdrawProposal = json['canWithdrawProposal'];
+    canPay = json['canPay'];
     teacherDetails = json['teacherDetails'] != null
         ? TeacherDetails.fromJson(json['teacherDetails'])
         : null;
@@ -118,6 +120,7 @@ class ClassDetailsModel {
   bool? canSubmitProposal;
   bool? canCancelClass;
   bool? canWithdrawProposal;
+  bool? canPay;
   TeacherDetails? teacherDetails;
   StudentDetails? studentDetails;
   List<ProposalModel>? proposals;

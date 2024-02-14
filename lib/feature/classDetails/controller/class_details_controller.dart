@@ -19,7 +19,7 @@ import '../modal/class_detail_model.dart';
 import '../modal/initiate_payment_model.dart';
 import '../modal/proposal_model.dart';
 import '../modal/student_list_model.dart';
-import '../modal/students_model.dart';
+// import '../modal/students_model.dart';
 import '../repository/approve_reject_student_repository.dart';
 import '../repository/book_class_repository.dart';
 import '../repository/cancel_class_repository.dart';
@@ -56,7 +56,7 @@ class ClassDetailsController extends GetxController {
   ScrollController scrollController = ScrollController();
   String? proposalId;
   Rx<InitiatePaymentModel> initiatePaymentModel = InitiatePaymentModel().obs;
-  String transactionId='';
+  String transactionId = '';
 
   @override
   void onInit() {
@@ -157,7 +157,7 @@ class ClassDetailsController extends GetxController {
         // ignore: always_specify_types
         final Map<String, dynamic> proposalListData =
             getStudentsDataResponse.data!.item! as Map<String, dynamic>;
-                studentsList.value =StudentsListModel.fromJson(proposalListData);
+        studentsList.value = StudentsListModel.fromJson(proposalListData);
       }
     }
     if (isReload) {
@@ -273,8 +273,9 @@ class ClassDetailsController extends GetxController {
       if (getProposalsDataResponse.status?.message == 'Insufficient funds!') {
         status = getProposalsDataResponse.status?.message ?? '';
       } else {
-        final Map<String, dynamic> transactionData=getProposalsDataResponse.data!.item! as  Map<String, dynamic>;
-        transactionId=transactionData['id'];
+        final Map<String, dynamic> transactionData =
+            getProposalsDataResponse.data!.item! as Map<String, dynamic>;
+        transactionId = transactionData['id'];
         await getClassDetails(classId);
         homeController.relatedPageIndex = 1;
         homeController.historyPageIndex = 1;

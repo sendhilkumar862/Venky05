@@ -133,70 +133,66 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
   Widget getStudentDetails() {
     return _classDetailsController.classData.value.studentDetails != null
         ? Column(
-          children: [
-            if (_classDetailsController.classData.value.studentDetails !=
-                null)
+            children: [
+              if (_classDetailsController.classData.value.studentDetails !=
+                  null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: HeadingCardView(padding: 0, title: 'Created By'),
+                ),
               Padding(
-                padding: const EdgeInsets.only(top:10.0,bottom:10.0),
-                child: HeadingCardView(padding: 0, title: 'Created By'),
-              ),
-            Padding(
-              padding: const EdgeInsets.only(top:10.0,bottom:10.0),
-              child: DetailsCardViewHorizontal(
+                padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                child: DetailsCardViewHorizontal(
                   heading: 'Created By',
-                  name:
-                      _classDetailsController.classData.value.studentDetails?.name ??
-                          '',
+                  name: _classDetailsController
+                          .classData.value.studentDetails?.name ??
+                      '',
                   height: 95.px,
-                  avatar:
-                      _classDetailsController.classData.value.studentDetails?.imageId,
+                  avatar: _classDetailsController
+                      .classData.value.studentDetails?.imageId,
                   countryName:
                       'Grade ${_classDetailsController.classData.value.studentDetails?.grade?.join('-')}',
                   // ignore: avoid_bool_literals_in_conditional_expressions
                   isPro: false,
                   isBookmarked: true,
                 ),
-            ),
-          ],
-        )
+              ),
+            ],
+          )
         : SizedBox(
             height: 5.px,
           );
   }
 
-  Widget getCurriculumView(){
-    return   Column(
+  Widget getCurriculumView() {
+    return Column(
       children: [
         HeadingCardView(
           title: _classDetailsController.selectedProfile ==
-              ApplicationConstants.student
+                  ApplicationConstants.student
               ? 'Curriculum'
               : 'Class Info',
           padding: 0,
         ),
         Padding(
-          padding: const EdgeInsets.only(top:10.0),
+          padding: const EdgeInsets.only(top: 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               curriculumWidget(
                   heading: 'Grade',
-                  detail:
-                  _classDetailsController.classData.value.grade ?? ''),
+                  detail: _classDetailsController.classData.value.grade ?? ''),
               curriculumWidget(
                   heading: 'School',
-                  detail:
-                  _classDetailsController.classData.value.school ?? ''),
+                  detail: _classDetailsController.classData.value.school ?? ''),
               curriculumWidget(
                   heading: 'Curriculum',
                   detail:
-                  _classDetailsController.classData.value.curriculum ??
-                      ''),
+                      _classDetailsController.classData.value.curriculum ?? ''),
               curriculumWidget(
                   heading: 'Class Number',
                   detail:
-                  _classDetailsController.classData.value.displayId ??
-                      '')
+                      _classDetailsController.classData.value.displayId ?? '')
             ],
           ),
         ),
@@ -205,312 +201,290 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
   }
 
   Widget getHeadingViewForTeachers() {
-    return  _classDetailsController.classData.value.teacherDetails !=
-        null
-     ? HeadingCardView(padding: 0, title: 'Teacher')
+    return _classDetailsController.classData.value.teacherDetails != null
+        ? HeadingCardView(padding: 0, title: 'Teacher')
         : SizedBox(
-      height: 5.px,
-    );
+            height: 5.px,
+          );
   }
 
   Widget getHeadingViewForStudents() {
-    return  _classDetailsController.classData.value.students != null
-        ?
-      HeadingCardView(
-          padding: 0,
-          title: 'Students',
-          totalItem: _classDetailsController
-              .classData.value.students!.length
-              .toString(),
-          onTap: () async {
-            await _classDetailsController.getStudentAllAtDetails(
-                _classDetailsController.classId,
-                _classDetailsController.startIndex);
-            // ignore: use_build_context_synchronously
-            showModalBottomSheet(
-              isScrollControlled: true,
-              context: context,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(25.0),
+    return _classDetailsController.classData.value.students != null
+        ? HeadingCardView(
+            padding: 0,
+            title: 'Students',
+            totalItem: _classDetailsController.classData.value.students!.length
+                .toString(),
+            onTap: () async {
+              await _classDetailsController.getStudentAllAtDetails(
+                  _classDetailsController.classId,
+                  _classDetailsController.startIndex);
+              // ignore: use_build_context_synchronously
+              showModalBottomSheet(
+                isScrollControlled: true,
+                context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(25.0),
+                  ),
                 ),
-              ),
-              builder: (BuildContext context) {
-                // ignore: avoid_dynamic_calls
-                return StudentBottomSheet(
-                    classId: _classDetailsController.classId);
-              },
-            );
-          },
-          // ignore: avoid_bool_literals_in_conditional_expressions
-          isViewAllIcon:
-          // ignore: avoid_bool_literals_in_conditional_expressions
-          _classDetailsController
-              .classData.value.students!.isNotEmpty
-              ? true
-              : false)
+                builder: (BuildContext context) {
+                  // ignore: avoid_dynamic_calls
+                  return StudentBottomSheet(
+                      classId: _classDetailsController.classId);
+                },
+              );
+            },
+            // ignore: avoid_bool_literals_in_conditional_expressions
+            isViewAllIcon:
+                // ignore: avoid_bool_literals_in_conditional_expressions
+                _classDetailsController.classData.value.students!.isNotEmpty
+                    ? true
+                    : false)
         : SizedBox(
-      height: 5.px,
-    );
+            height: 5.px,
+          );
   }
 
   Widget getHeadingViewForProposals() {
-    return  _classDetailsController.classData.value.proposals != null ?
-      HeadingCardView(
-          padding: 0,
-          title: 'Proposals',
-          totalItem: _classDetailsController
-              .classData.value.proposals!.length
-              .toString(),
-          onTap: () async {
-            await _classDetailsController.getProposalDetails(
-                _classDetailsController.classId,
-                _classDetailsController.startIndex);
-            // ignore: use_build_context_synchronously
-            showModalBottomSheet(
-              isScrollControlled: true,
-              context: context,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(25.0),
+    return _classDetailsController.classData.value.proposals != null
+        ? HeadingCardView(
+            padding: 0,
+            title: 'Proposals',
+            totalItem: _classDetailsController.classData.value.proposals!.length
+                .toString(),
+            onTap: () async {
+              await _classDetailsController.getProposalDetails(
+                  _classDetailsController.classId,
+                  _classDetailsController.startIndex);
+              // ignore: use_build_context_synchronously
+              showModalBottomSheet(
+                isScrollControlled: true,
+                context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(25.0),
+                  ),
                 ),
-              ),
-              builder: (BuildContext context) {
-                // ignore: avoid_dynamic_calls
-                return ProposalsBy(
-                  classId: _classDetailsController.classId,
-                );
-              },
-            );
-          },
-          // ignore: avoid_bool_literals_in_conditional_expressions
-          isViewAllIcon:
-          // ignore: avoid_bool_literals_in_conditional_expressions
-          _classDetailsController
-              .classData.value.proposals!.isNotEmpty
-              ? true
-              : false) :SizedBox(
-      height: 5.px,
-    );
+                builder: (BuildContext context) {
+                  // ignore: avoid_dynamic_calls
+                  return ProposalsBy(
+                    classId: _classDetailsController.classId,
+                  );
+                },
+              );
+            },
+            // ignore: avoid_bool_literals_in_conditional_expressions
+            isViewAllIcon:
+                // ignore: avoid_bool_literals_in_conditional_expressions
+                _classDetailsController.classData.value.proposals!.isNotEmpty
+                    ? true
+                    : false)
+        : SizedBox(
+            height: 5.px,
+          );
   }
 
   Widget getDetailViewForTeachers() {
-    return  _classDetailsController.classData.value.teacherDetails !=
-        null?
-      Padding(
-        padding: const EdgeInsets.only(bottom:10.0),
-        child: DetailsCardViewHorizontal(
-          heading: 'Teacher',
-          name: _classDetailsController
-              .classData.value.teacherDetails?.name ??
-              '',
-          height: 95.px,
-          avatar: _classDetailsController
-              .classData.value.teacherDetails?.imageId,
-          countryName: 'Grade ',
-          // ignore: avoid_bool_literals_in_conditional_expressions
-          isPro: _classDetailsController
-              .classData.value.teacherDetails?.subscription ==
-              'Free'
-              ? false
-              : true,
-          isBookmarked: true,
-        ),
-      ) :SizedBox(
-      height: 5.px,
-    );
+    return _classDetailsController.classData.value.teacherDetails != null
+        ? Padding(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: DetailsCardViewHorizontal(
+              heading: 'Teacher',
+              name: _classDetailsController
+                      .classData.value.teacherDetails?.name ??
+                  '',
+              height: 95.px,
+              avatar: _classDetailsController
+                  .classData.value.teacherDetails?.imageId,
+              countryName: 'Grade ',
+              // ignore: avoid_bool_literals_in_conditional_expressions
+              isPro: _classDetailsController
+                          .classData.value.teacherDetails?.subscription ==
+                      'Free'
+                  ? false
+                  : true,
+              isBookmarked: true,
+            ),
+          )
+        : SizedBox(
+            height: 5.px,
+          );
   }
 
   Widget getDetailViewForProposals() {
-    return _classDetailsController.classData.value.proposals != null?
-      _classDetailsController.classData.value.proposals!.isNotEmpty
-          ? SizedBox(
-        height: MediaQuery.of(context).size.height * 0.300,
-        child: ListView.builder(
-          itemCount: _classDetailsController
-              .classData.value.proposals!.length,
-          shrinkWrap: true,
-          physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
-              onTap: _classDetailsController
-                  .classData.value.status !=
-                  'Paying'
-                  ? () async {
-                _proposalsByController.getProposalDetails(
-                    _classDetailsController
-                        .classData
-                        .value
-                        .proposals![index]
-                        .proposalId ??
-                        '',
-                    _classDetailsController.classId);
-                _classDetailsController.proposalId =
-                    _classDetailsController
-                        .classData
-                        .value
-                        .proposals![index]
-                        .proposalId ??
-                        '';
-                proposalByTeacherBottomSheet(index);
-              }
-                  : () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  constraints: const BoxConstraints(),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(25.px),
-                      topLeft: Radius.circular(25.px),
-                    ),
-                  ),
-                  builder: (BuildContext context) {
-                    return BookingBottomSheet(
-                      isBook: 'Pay',
+    return _classDetailsController.classData.value.proposals != null
+        ? _classDetailsController.classData.value.proposals!.isNotEmpty
+            ? SizedBox(
+                height: MediaQuery.of(context).size.height * 0.300,
+                child: ListView.builder(
+                  itemCount:
+                      _classDetailsController.classData.value.proposals!.length,
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: _classDetailsController.classData.value.status !=
+                              'Paying'
+                          ? () async {
+                              _proposalsByController.getProposalDetails(
+                                  _classDetailsController.classData.value
+                                          .proposals![index].proposalId ??
+                                      '',
+                                  _classDetailsController.classId);
+                              _classDetailsController.proposalId =
+                                  _classDetailsController.classData.value
+                                          .proposals![index].proposalId ??
+                                      '';
+                              proposalByTeacherBottomSheet(index);
+                            }
+                          : () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                constraints: const BoxConstraints(),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(25.px),
+                                    topLeft: Radius.circular(25.px),
+                                  ),
+                                ),
+                                builder: (BuildContext context) {
+                                  return BookingBottomSheet(
+                                    isBook: 'Pay',
+                                  );
+                                },
+                              );
+                            },
+                      child: DetailsCardView(
+                          cardMargin: EdgeInsets.only(
+                              right: 15.px, top: 10.px, bottom: 27.px),
+                          reViewLength: _classDetailsController
+                              .classData.value.proposals![index].rating,
+                          name: _classDetailsController
+                                  .classData.value.proposals![index].name ??
+                              '',
+                          avatar: _classDetailsController
+                              .classData.value.proposals![index].imageId,
+                          countryIcon: _classDetailsController
+                              .classData.value.proposals![index].flagUrl,
+                          countryName: _classDetailsController
+                              .classData.value.proposals![index].country,
+                          // ignore: avoid_bool_literals_in_conditional_expressions
+                          isPro: _classDetailsController.classData.value
+                                      .proposals![index].subscription ==
+                                  'Free'
+                              ? false
+                              : true,
+                          isBookmarked: true,
+                          subjects:
+                              '${_classDetailsController.classData.value.proposals![index].cost} ${_classDetailsController.classData.value.proposals![index].currency} per Session'),
                     );
                   },
-                );
-              },
-              child: DetailsCardView(
-                  cardMargin: EdgeInsets.only(
-                      right: 15.px, top: 10.px, bottom: 27.px),
-                  reViewLength: _classDetailsController
-                      .classData.value.proposals![index].rating,
-                  name: _classDetailsController.classData.value
-                      .proposals![index].name ??
-                      '',
-                  avatar: _classDetailsController.classData
-                      .value.proposals![index].imageId,
-                  countryIcon: _classDetailsController.classData
-                      .value.proposals![index].flagUrl,
-                  countryName: _classDetailsController.classData
-                      .value.proposals![index].country,
-                  // ignore: avoid_bool_literals_in_conditional_expressions
-                  isPro: _classDetailsController.classData.value
-                      .proposals![index].subscription ==
-                      'Free'
-                      ? false
-                      : true,
-                  isBookmarked: true,
-                  subjects:
-                  '${_classDetailsController.classData.value.proposals![index].cost} ${_classDetailsController.classData.value.proposals![index].currency} per Session'),
-            );
-          },
-        ),
-      )
-          : AppButton(
-        height: 60.px,
-        title: 'No Proposals found',
-        textStyle: TextStyle(
-            color: AppColors.black,
-            fontSize: 18.px,
-            fontWeight: FontWeight.w600),
-        borderRadius: BorderRadius.circular(12.px),
-        borderColor: AppColors.appLightGrey,
-        isBorderOnly: true,
-        onPressed: () {},
-      ) :SizedBox(
-      height: 5.px,
-    );
+                ),
+              )
+            : AppButton(
+                height: 60.px,
+                title: 'No Proposals found',
+                textStyle: TextStyle(
+                    color: AppColors.black,
+                    fontSize: 18.px,
+                    fontWeight: FontWeight.w600),
+                borderRadius: BorderRadius.circular(12.px),
+                borderColor: AppColors.appLightGrey,
+                isBorderOnly: true,
+                onPressed: () {},
+              )
+        : SizedBox(
+            height: 5.px,
+          );
   }
 
   Widget getDetailViewForStudents() {
-    return   _classDetailsController.classData.value.students != null?
-      _classDetailsController.classData.value.students!.isEmpty
-          ? AppButton(
-        height: 60.px,
-        title: 'No Students found',
-        textStyle: TextStyle(
-            color: AppColors.black,
-            fontSize: 18.px,
-            fontWeight: FontWeight.w600),
-        borderRadius: BorderRadius.circular(12.px),
-        borderColor: AppColors.appLightGrey,
-        isBorderOnly: true,
-        onPressed: () {},
-      )
-          : Padding(
-            padding: const EdgeInsets.only(bottom:10.0),
-            child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.115,
-                    child: ListView.builder(
-            itemCount: _classDetailsController
-                .classData.value.students!.length,
-            shrinkWrap: true,
-            physics: const BouncingScrollPhysics(),
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.appProfile,
-                        borderRadius: BorderRadius.circular(50),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            spreadRadius: 2,
-                            blurRadius: 4,
-                            offset: const Offset(0,
-                                2), // changes the position of the shadow
-                          ),
-                        ],
-                      ),
-                      width: 55.px,
-                      height: 55.px,
-                      child: ClipOval(
-                        child: _classDetailsController
-                            .classData
-                            .value
-                            .students![index]
-                            .imageId ==
-                            null
-                            ? Center(
-                            child: Text(
-                                _classDetailsController
-                                    .classData
-                                    .value
-                                    .students![index]
-                                    .name!
-                                    .extractInitials(),
-                                style: openSans
-                                    .get20.w700.white))
-                            : AppImageAsset(
-                          image: _classDetailsController
-                              .classData
-                              .value
-                              .students![index]
-                              .imageId!,
-                          height: 40.px,
+    return _classDetailsController.classData.value.students != null
+        ? _classDetailsController.classData.value.students!.isEmpty
+            ? AppButton(
+                height: 60.px,
+                title: 'No Students found',
+                textStyle: TextStyle(
+                    color: AppColors.black,
+                    fontSize: 18.px,
+                    fontWeight: FontWeight.w600),
+                borderRadius: BorderRadius.circular(12.px),
+                borderColor: AppColors.appLightGrey,
+                isBorderOnly: true,
+                onPressed: () {},
+              )
+            : Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.115,
+                  child: ListView.builder(
+                    itemCount: _classDetailsController
+                        .classData.value.students!.length,
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.appProfile,
+                                borderRadius: BorderRadius.circular(50),
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    spreadRadius: 2,
+                                    blurRadius: 4,
+                                    offset: const Offset(0,
+                                        2), // changes the position of the shadow
+                                  ),
+                                ],
+                              ),
+                              width: 55.px,
+                              height: 55.px,
+                              child: ClipOval(
+                                child: _classDetailsController.classData.value
+                                            .students![index].imageId ==
+                                        null
+                                    ? Center(
+                                        child: Text(
+                                            _classDetailsController.classData
+                                                .value.students![index].name!
+                                                .extractInitials(),
+                                            style: openSans.get20.w700.white))
+                                    : AppImageAsset(
+                                        image: _classDetailsController.classData
+                                            .value.students![index].imageId!,
+                                        height: 40.px,
+                                      ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 6.px,
+                            ),
+                            AppText(
+                              _classDetailsController
+                                      .classData.value.students![index].name ??
+                                  '',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12.px,
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 6.px,
-                    ),
-                    AppText(
-                      _classDetailsController.classData.value
-                          .students![index].name ??
-                          '',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12.px,
-                    ),
-                  ],
-                ),
-              );
-            },
-                    ),
+                      );
+                    },
                   ),
-          ) :SizedBox(
-      height: 5.px,
-    );
+                ),
+              )
+        : SizedBox(
+            height: 5.px,
+          );
   }
-
-
 
   Widget getClassDetails() {
     return Container(
@@ -519,8 +493,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.px),
         color: AppColors.lightestPurple,
-        border: Border.all(
-            color: AppColors.lightestPurple, width: 1.1.px),
+        border: Border.all(color: AppColors.lightestPurple, width: 1.1.px),
       ),
       child: Column(
         children: <Widget>[
@@ -534,8 +507,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               ),
               const Spacer(),
               StatusCardView(
-                  status:
-                  _classDetailsController.classData.value.status),
+                  status: _classDetailsController.classData.value.status),
             ],
           ),
           SizedBox(height: 15.px),
@@ -543,24 +515,22 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
             children: [
               tagCardView(
                   title: _classDetailsController
-                      .classData.value.maxParticipants ==
-                      1
+                              .classData.value.maxParticipants ==
+                          1
                       ? 'Individual'
                       : 'Group ${_classDetailsController.classData.value.minParticipants}/${_classDetailsController.classData.value.maxParticipants}',
-                  icon: _classDetailsController
-                      .classData.value.maxParticipants ==
-                      1
-                      ? ImageConstants.individualIcon
-                      : ImageConstants.groupIcon),
+                  icon:
+                      _classDetailsController.classData.value.maxParticipants ==
+                              1
+                          ? ImageConstants.individualIcon
+                          : ImageConstants.groupIcon),
               tagCardView(
-                  title: _classDetailsController
-                      .classData.value.classTime
+                  title: _classDetailsController.classData.value.classTime
                       ?.toString()
                       .epochToNormal(),
                   icon: ImageConstants.dateIcon),
               tagCardView(
-                  title: _classDetailsController
-                      .classData.value.duration
+                  title: _classDetailsController.classData.value.duration
                       ?.toString()
                       .timeConvert(),
                   icon: ImageConstants.timerIcon),
@@ -570,11 +540,11 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
             children: [
               tagCardView(
                   title:
-                  '${_classDetailsController.classData.value.cost} ${_classDetailsController.classData.value.currency} per Session',
+                      '${_classDetailsController.classData.value.cost} ${_classDetailsController.classData.value.currency} per Session',
                   icon: ImageConstants.moneyIcon),
               tagCardView(
                   title:
-                  'Session ${_classDetailsController.classData.value.sessions} of 5',
+                      'Session ${_classDetailsController.classData.value.sessions} of 5',
                   icon: ImageConstants.readBookIcon),
             ],
           ),
@@ -588,8 +558,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               SizedBox(
                 width: 260.px,
                 child: AppText(
-                  _classDetailsController.classData.value.address ??
-                      '',
+                  _classDetailsController.classData.value.address ?? '',
                   fontSize: 10.px,
                   fontWeight: FontWeight.w500,
                 ),
@@ -598,27 +567,24 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
           ),
           SizedBox(height: 15.px),
           Obx(
-                () => Container(
+            () => Container(
               height: 90.px,
               width: double.infinity,
-              decoration:
-              const BoxDecoration(color: AppColors.appWhite),
+              decoration: const BoxDecoration(color: AppColors.appWhite),
               child: GoogleMap(
                   markers: <Marker>{
                     Marker(
                         markerId: const MarkerId('riyadh1'),
-                        position: _classDetailsController
-                            .kGooglePlex.value.target)
+                        position:
+                            _classDetailsController.kGooglePlex.value.target)
                   },
                   initialCameraPosition:
-                  _classDetailsController.kGooglePlex.value,
+                      _classDetailsController.kGooglePlex.value,
                   zoomControlsEnabled: false,
                   zoomGesturesEnabled: false,
                   onMapCreated: (GoogleMapController controllers) {
-                    _classDetailsController.googleMapController =
-                        controllers;
-                    _classDetailsController.mapController
-                        .complete(controllers);
+                    _classDetailsController.googleMapController = controllers;
+                    _classDetailsController.mapController.complete(controllers);
                   }),
             ),
           ),
@@ -627,137 +593,125 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
     );
   }
 
-  Widget getProposalDetails(){
-    return _classDetailsController.classData.value.myProposaldetails !=
-        null?
-      Padding(
-        padding:
-        const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        child: Container(
-          height: 130,
-          width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.all(15),
-          decoration: BoxDecoration(
-              color: AppColors.bgQuaternary,
-              borderRadius: BorderRadius.circular(15)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'My Proposal Details',
-                style: openSans.get16.w700.appTextColor,
-              ),
-              Column(
+  Widget getProposalDetails() {
+    return _classDetailsController.classData.value.myProposaldetails != null
+        ? Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Container(
+              height: 130,
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                  color: AppColors.bgQuaternary,
+                  borderRadius: BorderRadius.circular(15)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Padding(
-                        padding:
-                        const EdgeInsets.only(right: 15, top: 15),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Image.asset(
-                              width: 18,
-                              height: 18,
-                              'assets/icons/date_icon.png',
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text(_classDetailsController
-                                  .classData
-                                  .value
-                                  .myProposaldetails!
-                                  .pClassTime!
-                                  .toString()
-                                  .epochToNormal()),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                        const EdgeInsets.only(right: 15, top: 15),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Image.asset(
-                              width: 18,
-                              height: 18,
-                              'assets/icons/timer_icon.png',
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text(_classDetailsController
-                                  .classData
-                                  .value
-                                  .myProposaldetails!
-                                  .pDuration!
-                                  .toString()
-                                  .timeConvert()),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
+                  Text(
+                    'My Proposal Details',
+                    style: openSans.get16.w700.appTextColor,
                   ),
-                  Row(
+                  Column(
                     children: <Widget>[
-                      Padding(
-                        padding:
-                        const EdgeInsets.only(right: 15, top: 10),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Image.asset(
-                              width: 18,
-                              height: 18,
-                              'assets/icons/date_icon.png',
+                      Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(right: 15, top: 15),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Image.asset(
+                                  width: 18,
+                                  height: 18,
+                                  'assets/icons/date_icon.png',
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 5),
+                                  child: Text(_classDetailsController.classData
+                                      .value.myProposaldetails!.pClassTime!
+                                      .toString()
+                                      .epochToNormal()),
+                                )
+                              ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text(
-                                  '${_classDetailsController.classData.value.myProposaldetails!.pCost ?? ''} KWD / Session'),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                        const EdgeInsets.only(right: 15, top: 10),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Image.asset(
-                              width: 18,
-                              height: 18,
-                              'assets/icons/read_book_icon.png',
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 15, top: 15),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Image.asset(
+                                  width: 18,
+                                  height: 18,
+                                  'assets/icons/timer_icon.png',
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 5),
+                                  child: Text(_classDetailsController.classData
+                                      .value.myProposaldetails!.pDuration!
+                                      .toString()
+                                      .timeConvert()),
+                                )
+                              ],
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 5),
-                              child: Text(
-                                  '${_classDetailsController.classData.value.myProposaldetails!.pSessions ?? ''} Session'),
-                            )
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
+                      Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(right: 15, top: 10),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Image.asset(
+                                  width: 18,
+                                  height: 18,
+                                  'assets/icons/date_icon.png',
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 5),
+                                  child: Text(
+                                      '${_classDetailsController.classData.value.myProposaldetails!.pCost ?? ''} KWD / Session'),
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 15, top: 10),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Image.asset(
+                                  width: 18,
+                                  height: 18,
+                                  'assets/icons/read_book_icon.png',
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 5),
+                                  child: Text(
+                                      '${_classDetailsController.classData.value.myProposaldetails!.pSessions ?? ''} Session'),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   )
                 ],
-              )
-            ],
-          ),
-        ),
-      ):SizedBox(
-      height: 5.px,
-    );
+              ),
+            ),
+          )
+        : SizedBox(
+            height: 5.px,
+          );
   }
 
-  Widget getAddressText(){
+  Widget getAddressText() {
     return Column(
       children: [
-        if (_classDetailsController.classData.value.allowAtStudentLoc ==
-            1)
+        if (_classDetailsController.classData.value.allowAtStudentLoc == 1)
           SizedBox(
             height: 10.px,
           )
@@ -765,14 +719,11 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
           SizedBox(
             height: 20.px,
           ),
-        if (_classDetailsController.classData.value.allowAtStudentLoc ==
-            1)
+        if (_classDetailsController.classData.value.allowAtStudentLoc == 1)
           Text(
               '*Address can be determined by the student in class details during booking.',
-              style:
-              openSans.get12.w500.textColor(AppColors.appDarkBlack)),
-        if (_classDetailsController.classData.value.allowAtStudentLoc ==
-            1)
+              style: openSans.get12.w500.textColor(AppColors.appDarkBlack)),
+        if (_classDetailsController.classData.value.allowAtStudentLoc == 1)
           SizedBox(
             height: 10.px,
           )
@@ -782,282 +733,278 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
     );
   }
 
-  Widget getRescheduleOption(){
-    return  _classDetailsController.classData.value.canRescheduleClass ??
-        false?
-      AppButton(
-        isDisable: false,
-        title: 'Reschedule',
-        borderColor: AppColors.appBlue,
-        onPressed: () {},
-      ):const SizedBox.shrink();
+  Widget getRescheduleOption() {
+    return _classDetailsController.classData.value.canRescheduleClass ?? false
+        ? AppButton(
+            isDisable: false,
+            title: 'Reschedule',
+            borderColor: AppColors.appBlue,
+            onPressed: () {},
+          )
+        : const SizedBox.shrink();
   }
 
-  Widget getEditProposalOption(){
-    return    _classDetailsController
-        .classData.value.canEditSubmittedProposal ??
-        false?
-      AppButton(
-        isDisable: false,
-        title: 'Edit Your Proposal',
-        borderColor: AppColors.appBlue,
-        onPressed: () {
-          final CreateProposalController createProposalController =
-          Get.put(CreateProposalController());
-          createProposalController.dateController.text =
-              DateFormat('dd-M-yyyy hh:mm a').format(
-                  DateTime.fromMillisecondsSinceEpoch(
-                      _classDetailsController.classData.value
-                          .myProposaldetails!.pClassTime!));
-          createProposalController.classDurationController.text =
-              _classDetailsController
-                  .classData.value.myProposaldetails?.pDuration
-                  ?.toString()
-                  .timeConvert() ??
+  Widget getEditProposalOption() {
+    return _classDetailsController.classData.value.canEditSubmittedProposal ??
+            false
+        ? AppButton(
+            isDisable: false,
+            title: 'Edit Your Proposal',
+            borderColor: AppColors.appBlue,
+            onPressed: () {
+              final CreateProposalController createProposalController =
+                  Get.put(CreateProposalController());
+              createProposalController.dateController.text =
+                  DateFormat('dd-M-yyyy hh:mm a').format(
+                      DateTime.fromMillisecondsSinceEpoch(
+                          _classDetailsController
+                              .classData.value.myProposaldetails!.pClassTime!));
+              createProposalController.classDurationController.text =
+                  _classDetailsController
+                          .classData.value.myProposaldetails?.pDuration
+                          ?.toString()
+                          .timeConvert() ??
+                      '';
+              createProposalController.duration = _classDetailsController
+                      .classData.value.myProposaldetails?.pDuration ??
+                  0;
+              createProposalController.numberOfSession.text =
+                  _classDetailsController
+                          .classData.value.myProposaldetails?.pSessions
+                          ?.toString() ??
+                      '';
+              createProposalController.classCost.text = _classDetailsController
+                      .classData.value.myProposaldetails?.pCost
+                      ?.replaceAll('.00', '') ??
                   '';
-          createProposalController.duration = _classDetailsController
-              .classData.value.myProposaldetails?.pDuration ??
-              0;
-          createProposalController.numberOfSession.text =
-              _classDetailsController
-                  .classData.value.myProposaldetails?.pSessions
-                  ?.toString() ??
-                  '';
-          createProposalController.classCost.text =
-              _classDetailsController
-                  .classData.value.myProposaldetails?.pCost
-                  ?.replaceAll('.00', '') ??
-                  '';
-          // ignore: avoid_dynamic_calls
-          Get.toNamed(Routes.createProposal, arguments: {
-            'classNumber': Get.arguments['classNumber'],
-            'proposalId': _classDetailsController
-                .classData.value.myProposaldetails!.id
-          });
-        },
-      ):const SizedBox.shrink();
+              // ignore: avoid_dynamic_calls
+              Get.toNamed(Routes.createProposal, arguments: {
+                'classNumber': Get.arguments['classNumber'],
+                'proposalId': _classDetailsController
+                    .classData.value.myProposaldetails!.id
+              });
+            },
+          )
+        : const SizedBox.shrink();
   }
 
-  Widget getBookNowOption(){
-    return  _classDetailsController.classData.value.canBookClass ?? false?
-      _classDetailsController.classData.value.maxParticipants! > 1
-          ? screenButton(
-          isPaying: true,
-          onTap: () {
-            showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              constraints: const BoxConstraints(),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(25.px),
-                  topLeft: Radius.circular(25.px),
-                ),
-              ),
-              builder: (BuildContext context) {
-                return BookingBottomSheet();
-              },
-            );
-          })
-          : AppButton(
-        isDisable: false,
-        title: 'Book Now',
-        borderColor: AppColors.appBlue,
-        onPressed: () async {
-          if (_classDetailsController
-              .classData.value.allowAtStudentLoc ==
-              0) {
-            final bool status = await _classDetailsController
-                .bookClassDetail({});
-            if (status) {
-              // ignore: use_build_context_synchronously
+  Widget getBookNowOption() {
+    return _classDetailsController.classData.value.canBookClass ?? false
+        ? _classDetailsController.classData.value.maxParticipants! > 1
+            ? screenButton(
+                isPaying: true,
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    constraints: const BoxConstraints(),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(25.px),
+                        topLeft: Radius.circular(25.px),
+                      ),
+                    ),
+                    builder: (BuildContext context) {
+                      return BookingBottomSheet();
+                    },
+                  );
+                })
+            : AppButton(
+                isDisable: false,
+                title: 'Book Now',
+                borderColor: AppColors.appBlue,
+                onPressed: () async {
+                  if (_classDetailsController
+                          .classData.value.allowAtStudentLoc ==
+                      0) {
+                    final bool status =
+                        await _classDetailsController.bookClassDetail({});
+                    if (status) {
+                      // ignore: use_build_context_synchronously
+                      showModalBottomSheet(
+                        context: context,
+                        constraints: BoxConstraints(
+                          maxWidth:
+                              // ignore: use_build_context_synchronously
+                              (MediaQuery.of(context).size.width - 30).px,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.px),
+                        ),
+                        builder: (BuildContext context) {
+                          return SuccessFailsInfoDialog(
+                            title: 'Success',
+                            buttonTitle: 'Done',
+                            content:
+                                'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
+                            isRouting: Routes.classDetailsView,
+                            argument: _classDetailsController.classId,
+                            backIndex: 1,
+                          );
+                        },
+                      );
+                    }
+                  } else {
+                    locationModalBottomSheet(context);
+                  }
+                },
+              )
+        : const SizedBox.shrink();
+  }
+
+  Widget getSubmitProposalOption() {
+    return _classDetailsController.classData.value.canSubmitProposal ?? false
+        ? AppButton(
+            isDisable: false,
+            title: 'Submit the proposal',
+            borderColor: AppColors.appBlue,
+            onPressed: () {
+              final CreateProposalController createProposalController =
+                  Get.put(CreateProposalController());
+              createProposalController.dateController.text =
+                  DateFormat('dd-M-yyyy hh:mm a').format(
+                      DateTime.fromMillisecondsSinceEpoch(
+                          _classDetailsController.classData.value.classTime!));
+              createProposalController.classDurationController.text =
+                  _classDetailsController.classData.value.duration
+                          ?.toString()
+                          .timeConvert() ??
+                      '';
+              createProposalController.duration =
+                  _classDetailsController.classData.value.duration ?? 0;
+              createProposalController.numberOfSession.text =
+                  _classDetailsController.classData.value.sessions
+                          ?.toString() ??
+                      '';
+              createProposalController.classCost.text = _classDetailsController
+                      .classData.value.cost
+                      ?.replaceAll('.00', '') ??
+                  '';
+              // ignore: avoid_dynamic_calls
+              Get.toNamed(Routes.createProposal, arguments: {
+                'classNumber': Get.arguments['classNumber'],
+              });
+            },
+          )
+        : const SizedBox.shrink();
+  }
+
+  Widget getPaymentOption() {
+    return _classDetailsController.classData.value.canPay ?? false
+        ? screenButton(
+            title: 'Pay',
+            isPaying: true,
+            onTap: () {
               showModalBottomSheet(
                 context: context,
+                isScrollControlled: true,
+                constraints: const BoxConstraints(),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(25.px),
+                    topLeft: Radius.circular(25.px),
+                  ),
+                ),
+                builder: (BuildContext context) {
+                  return BookingBottomSheet(
+                    isBook: 'Pay',
+                  );
+                },
+              );
+            })
+        : const SizedBox.shrink();
+  }
+
+  Widget getCancelClassOption() {
+    return _classDetailsController.classData.value.canCancelClass ?? false
+        ? GestureDetector(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                isDismissible: false,
                 constraints: BoxConstraints(
                   maxWidth:
-                  // ignore: use_build_context_synchronously
-                  (MediaQuery.of(context).size.width - 30)
-                      .px,
+                      // ignore: use_build_context_synchronously
+                      (MediaQuery.of(context).size.width - 30).px,
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.px),
                 ),
                 builder: (BuildContext context) {
-                  return SuccessFailsInfoDialog(
-                    title: 'Success',
-                    buttonTitle: 'Done',
-                    content:
-                    'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
-                    isRouting: Routes.classDetailsView,
-                    argument: _classDetailsController.classId,
-                    backIndex: 1,
+                  return WarningDialog(
+                    onTap: () async {
+                      final bool status =
+                          await _classDetailsController.cancelClass();
+                      if (status) {
+                        // ignore: use_build_context_synchronously
+                        showModalBottomSheet(
+                          context: context,
+                          isDismissible: false,
+                          constraints: BoxConstraints(
+                            maxWidth:
+                                // ignore: use_build_context_synchronously
+                                (MediaQuery.of(context).size.width - 30).px,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.px),
+                          ),
+                          builder: (BuildContext context) {
+                            return SuccessFailsInfoDialog(
+                              title: 'Cancelled',
+                              buttonTitle: 'Done',
+                              isRouting: 'back',
+                              content:
+                                  'You have successfully cancelled the class and the cost refunded to your wallet.',
+                            );
+                          },
+                        );
+                      }
+                    },
                   );
                 },
               );
-            }
-          } else {
-            locationModalBottomSheet(context);
-          }
-        },
-      ):const SizedBox.shrink();
-  }
-
-  Widget getSubmitProposalOption(){
-    return  _classDetailsController.classData.value.canSubmitProposal ??
-        false?
-      AppButton(
-        isDisable: false,
-        title: 'Submit the proposal',
-        borderColor: AppColors.appBlue,
-        onPressed: () {
-          final CreateProposalController createProposalController =
-          Get.put(CreateProposalController());
-          createProposalController.dateController.text =
-              DateFormat('dd-M-yyyy hh:mm a').format(
-                  DateTime.fromMillisecondsSinceEpoch(
-                      _classDetailsController
-                          .classData.value.classTime!));
-          createProposalController.classDurationController.text =
-              _classDetailsController.classData.value.duration
-                  ?.toString()
-                  .timeConvert() ??
-                  '';
-          createProposalController.duration =
-              _classDetailsController.classData.value.duration ?? 0;
-          createProposalController.numberOfSession.text =
-              _classDetailsController.classData.value.sessions
-                  ?.toString() ??
-                  '';
-          createProposalController.classCost.text =
-              _classDetailsController.classData.value.cost
-                  ?.replaceAll('.00', '') ??
-                  '';
-          // ignore: avoid_dynamic_calls
-          Get.toNamed(Routes.createProposal, arguments: {
-            'classNumber': Get.arguments['classNumber'],
-          });
-        },
-      ):const SizedBox.shrink();
-  }
-
-  Widget getPaymentOption(){
-    return  _classDetailsController.classData.value.status == 'Paying' &&
-        _classDetailsController.selectedProfile ==
-            ApplicationConstants.student?
-      screenButton(
-          title: 'Pay',
-          isPaying: true,
-          onTap: () {
-            showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              constraints: const BoxConstraints(),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(25.px),
-                  topLeft: Radius.circular(25.px),
-                ),
-              ),
-              builder: (BuildContext context) {
-                return BookingBottomSheet(
-                  isBook: 'Pay',
-                );
-              },
-            );
-          }):const SizedBox.shrink();
-  }
-
-
-  Widget getCancelClassOption(){
-    return _classDetailsController.classData.value.canCancelClass ??
-        false?
-      GestureDetector(
-        onTap: () {
-          showModalBottomSheet(
-            context: context,
-            isDismissible: false,
-            constraints: BoxConstraints(
-              maxWidth:
-              // ignore: use_build_context_synchronously
-              (MediaQuery.of(context).size.width - 30).px,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.px),
-            ),
-            builder: (BuildContext context) {
-              return WarningDialog(
-                onTap: () async {
-                  final bool status =
-                  await _classDetailsController.cancelClass();
-                  if (status) {
-                    // ignore: use_build_context_synchronously
-                    showModalBottomSheet(
-                      context: context,
-                      isDismissible: false,
-                      constraints: BoxConstraints(
-                        maxWidth:
-                        // ignore: use_build_context_synchronously
-                        (MediaQuery.of(context).size.width - 30)
-                            .px,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.px),
-                      ),
-                      builder: (BuildContext context) {
-                        return SuccessFailsInfoDialog(
-                          title: 'Cancelled',
-                          buttonTitle: 'Done',
-                          isRouting: 'back',
-                          content:
-                          'You have successfully cancelled the class and the cost refunded to your wallet.',
-                        );
-                      },
-                    );
-                  }
-                },
-              );
             },
-          );
-        },
-        child: Center(
-          child: AppText(
-            'Cancel Your Class',
-            fontWeight: FontWeight.w700,
-            fontSize: 16.px,
-            color: AppColors.appRed,
-          ),
-        ),
-      ):const SizedBox.shrink();
+            child: Center(
+              child: AppText(
+                'Cancel Your Class',
+                fontWeight: FontWeight.w700,
+                fontSize: 16.px,
+                color: AppColors.appRed,
+              ),
+            ),
+          )
+        : const SizedBox.shrink();
   }
 
-  Widget getWithdrawProposalOption(){
-    return _classDetailsController.classData.value.canWithdrawProposal ??
-        false?
-      GestureDetector(
-        onTap: () {
-          _classDetailsController.deleteProposalDetails(
-              _classDetailsController
-                  .classData.value.myProposaldetails!.id!);
-        },
-        child: Center(
-          child: AppText(
-            'Withdraw Proposal',
-            fontWeight: FontWeight.w700,
-            fontSize: 16.px,
-            color: AppColors.appRed,
-          ),
-        ),
-      ):const SizedBox.shrink();
+  Widget getWithdrawProposalOption() {
+    return _classDetailsController.classData.value.canWithdrawProposal ?? false
+        ? GestureDetector(
+            onTap: () {
+              _classDetailsController.deleteProposalDetails(
+                  _classDetailsController
+                      .classData.value.myProposaldetails!.id!);
+            },
+            child: Center(
+              child: AppText(
+                'Withdraw Proposal',
+                fontWeight: FontWeight.w700,
+                fontSize: 16.px,
+                color: AppColors.appRed,
+              ),
+            ),
+          )
+        : const SizedBox.shrink();
   }
 
   Widget getOwnerView() {
     return _classDetailsController.classData.value.isOwner == 1
         ? Padding(
-          padding: const EdgeInsets.only(top:10.0),
-          child: Row(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Row(
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 5.px, vertical: 5.px),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 5.px, vertical: 5.px),
                   decoration: BoxDecoration(
                     color: AppColors.lightPurple,
                     borderRadius: BorderRadius.circular(30.px),
@@ -1072,28 +1019,29 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 const SizedBox(width: 5), // Additional padding
               ],
             ),
-        )
+          )
         : Padding(
-      padding: const EdgeInsets.only(top:10.0),
-      child: Row(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 5.px, vertical: 5.px),
-            decoration: BoxDecoration(
-              color: AppColors.lightPurple,
-              borderRadius: BorderRadius.circular(30.px),
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Row(
+              children: <Widget>[
+                Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 5.px, vertical: 5.px),
+                  decoration: BoxDecoration(
+                    color: AppColors.lightPurple,
+                    borderRadius: BorderRadius.circular(30.px),
+                  ),
+                  child: AppText(
+                    'Created by ${_classDetailsController.classData.value.userName ?? ''}',
+                    overflow: TextOverflow.ellipsis,
+                    fontSize: 10.px,
+                    color: AppColors.appLightBlack,
+                  ),
+                ),
+                const SizedBox(width: 5), // Additional padding
+              ],
             ),
-            child: AppText(
-              'Created by ${_classDetailsController.classData.value.userName??''}',
-              overflow: TextOverflow.ellipsis,
-              fontSize: 10.px,
-              color: AppColors.appLightBlack,
-            ),
-          ),
-          const SizedBox(width: 5), // Additional padding
-        ],
-      ),
-    );
+          );
   }
 
   Widget curriculumWidget({required String heading, required String detail}) {
@@ -1625,7 +1573,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                     ),
                                   ),
                                   TextSpan(
-                                    text:   _classDetailsController.classData.value.proposals?[index].name ??
+                                    text: _classDetailsController.classData
+                                            .value.proposals?[index].name ??
                                         '',
                                     style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
