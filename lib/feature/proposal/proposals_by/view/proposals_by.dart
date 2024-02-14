@@ -412,6 +412,7 @@ class _ProposalsByState extends State<ProposalsBy> {
                   onPressed: () async{
                    final bool status= await _classDetailsController.approveProposal(_classDetailsController.proposalId??'');
                    if(status) {
+                     Get.back();
                      // ignore: use_build_context_synchronously
                      showModalBottomSheet(
                       isScrollControlled: true,
