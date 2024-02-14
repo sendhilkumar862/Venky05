@@ -1,33 +1,30 @@
-
-
 import 'package:hessah/feature/classDetails/modal/proposal_model.dart';
 import 'package:hessah/feature/classDetails/modal/students_model.dart';
 
 class ClassDetailsModel {
-
   ClassDetailsModel(
       {this.displayId,
-        this.classNumber,
-        this.subject,
-        this.school,
-        this.curriculum,
-        this.grade,
-        this.description,
-        this.sessions,
-        this.minParticipants,
-        this.maxParticipants,
-        this.duration,
-        this.classTime,
-        this.cost,
-        this.currency,
-        this.status,
-        this.address,
-        this.location,
-        this.allowAtStudentLoc,
-        this.role,
-        this.isOwner,
-        this.myProposaldetails,
-        this.canEditSubmittedProposal,
+      this.classNumber,
+      this.subject,
+      this.school,
+      this.curriculum,
+      this.grade,
+      this.description,
+      this.sessions,
+      this.minParticipants,
+      this.maxParticipants,
+      this.duration,
+      this.classTime,
+      this.cost,
+      this.currency,
+      this.status,
+      this.address,
+      this.location,
+      this.allowAtStudentLoc,
+      this.role,
+      this.isOwner,
+      this.myProposaldetails,
+      this.canEditSubmittedProposal,
       this.canSubmitProposal,
       this.canCancelClass,
       this.canBookClass,
@@ -54,15 +51,14 @@ class ClassDetailsModel {
     currency = json['currency'];
     status = json['status'];
     address = json['address'];
-    location = json['location'] != null
-        ?  Location.fromJson(json['location'])
-        : null;
-    proposalsCount= json['proposalsCount'];
+    location =
+        json['location'] != null ? Location.fromJson(json['location']) : null;
+    proposalsCount = json['proposalsCount'];
     allowAtStudentLoc = json['allow_at_student_loc'];
     role = json['role'];
     isOwner = json['isOwner'];
     myProposaldetails = json['myProposaldetails'] != null
-        ?  MyProposaldetails.fromJson(json['myProposaldetails'])
+        ? MyProposaldetails.fromJson(json['myProposaldetails'])
         : null;
     canEditSubmittedProposal = json['canEditSubmittedProposal'];
     canSubmitProposal = json['canSubmitProposal'];
@@ -70,19 +66,24 @@ class ClassDetailsModel {
     canBookClass = json['canBookClass'];
     canCancelClass = json['canCancelClass'];
     canWithdrawProposal = json['canWithdrawProposal'];
-    teacherDetails = json['teacherDetails']!=null?TeacherDetails.fromJson(json['teacherDetails']):null;
+    teacherDetails = json['teacherDetails'] != null
+        ? TeacherDetails.fromJson(json['teacherDetails'])
+        : null;
+    studentDetails = json['studentDetails'] != null
+        ? StudentDetails.fromJson(json['studentDetails'])
+        : null;
     if (json['proposals'] != null) {
       proposals = <ProposalModel>[];
       // ignore: avoid_dynamic_calls
       json['proposals'].forEach((v) {
-        proposals!.add( ProposalModel.fromJson(v));
+        proposals!.add(ProposalModel.fromJson(v));
       });
     }
     if (json['students'] != null) {
       students = <StudentsModel>[];
       // ignore: avoid_dynamic_calls
       json['students'].forEach((v) {
-        students!.add( StudentsModel.fromJson(v));
+        students!.add(StudentsModel.fromJson(v));
       });
     }
   }
@@ -115,12 +116,12 @@ class ClassDetailsModel {
   bool? canCancelClass;
   bool? canWithdrawProposal;
   TeacherDetails? teacherDetails;
+  StudentDetails? studentDetails;
   List<ProposalModel>? proposals;
   List<StudentsModel>? students;
 }
 
 class Location {
-
   Location({this.lat, this.long});
 
   Location.fromJson(Map<String, dynamic> json) {
@@ -132,13 +133,12 @@ class Location {
 }
 
 class MyProposaldetails {
-
   MyProposaldetails(
       {this.pCost,
-        this.pCurrency,
-        this.pClassTime,
-        this.pSessions,
-        this.pDuration,
+      this.pCurrency,
+      this.pClassTime,
+      this.pSessions,
+      this.pDuration,
       this.id});
 
   MyProposaldetails.fromJson(Map<String, dynamic> json) {
@@ -158,15 +158,15 @@ class MyProposaldetails {
 }
 
 class TeacherDetails {
-
   TeacherDetails(
       {this.userId,
-        this.name,
-        this.imageId,
-        this.country,
-        this.flagUrl,
-        this.rating,
-        this.subscription});
+      this.name,
+      this.imageId,
+      this.country,
+      this.flagUrl,
+      this.rating,
+      //  this.subject,
+      this.subscription});
 
   TeacherDetails.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
@@ -175,6 +175,7 @@ class TeacherDetails {
     country = json['country'];
     flagUrl = json['flagUrl'];
     rating = json['rating'];
+    // subject = json['subject'].cast<String>();
     subscription = json['subscription'];
   }
   int? userId;
@@ -184,4 +185,37 @@ class TeacherDetails {
   String? flagUrl;
   int? rating;
   String? subscription;
+  // List<String>? subject;
+}
+
+class StudentDetails {
+  StudentDetails(
+      {this.userId,
+      this.name,
+      this.imageId,
+      this.subject,
+      this.school,
+      this.curriculum,
+      this.grade});
+
+  StudentDetails.fromJson(Map<String, dynamic> json) {
+    userId = json['userId'];
+    name = json['name'];
+    imageId = json['imageId'];
+    // ignore: avoid_dynamic_calls
+    subject = json['subject'].cast<String>();
+    // ignore: avoid_dynamic_calls
+    school = json['school'].cast<String>();
+    // ignore: avoid_dynamic_calls
+    curriculum = json['curriculum'].cast<String>();
+    // ignore: avoid_dynamic_calls
+    grade = json['grade'].cast<String>();
+  }
+  int? userId;
+  String? name;
+  String? imageId;
+  List<String>? subject;
+  List<String>? school;
+  List<String>? curriculum;
+  List<String>? grade;
 }
