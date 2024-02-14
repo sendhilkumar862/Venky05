@@ -1406,7 +1406,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                     ),
                                   ),
                                   TextSpan(
-                                    text:   _classDetailsController.classData.value.proposals![index].name ??
+                                    text:   _classDetailsController.classData.value.proposals?[index].name ??
                                         '',
                                     style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
@@ -1661,6 +1661,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                               await _classDetailsController.approveProposal(
                                   _classDetailsController.proposalId ?? '');
                           if (status) {
+                            Get.back();
                             // ignore: use_build_context_synchronously
                             showModalBottomSheet(
                               isScrollControlled: true,
