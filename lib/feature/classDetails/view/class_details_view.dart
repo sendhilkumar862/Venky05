@@ -1073,7 +1073,27 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               ],
             ),
         )
-        : const SizedBox(height: 10);
+        : Padding(
+      padding: const EdgeInsets.only(top:10.0),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 5.px, vertical: 5.px),
+            decoration: BoxDecoration(
+              color: AppColors.lightPurple,
+              borderRadius: BorderRadius.circular(30.px),
+            ),
+            child: AppText(
+              'Created by',
+              overflow: TextOverflow.ellipsis,
+              fontSize: 10.px,
+              color: AppColors.appLightBlack,
+            ),
+          ),
+          const SizedBox(width: 5), // Additional padding
+        ],
+      ),
+    );
   }
 
   Widget curriculumWidget({required String heading, required String detail}) {
