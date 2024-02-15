@@ -308,7 +308,7 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                     ),
                   ],
                 ),
-
+               const Spacer(),
                 AppButton(
                   isDisable: false,
                   borderColor: AppColors.appBlue,
@@ -354,6 +354,7 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                         }
                       }
                 ),
+                const Spacer(),
 
               ],
             ),

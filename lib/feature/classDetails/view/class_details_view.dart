@@ -341,6 +341,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                 builder: (BuildContext context) {
                                   return BookingBottomSheet(
                                      isBook: 'Pay',
+                                    isBook: 'Pay',
+                                    isRouting: 'home',
                                   );
                                 },
                               );
@@ -890,6 +892,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 builder: (BuildContext context) {
                   return BookingBottomSheet(
                     isBook: 'Pay',
+                    isRouting: 'home',
                   );
                 },
               );

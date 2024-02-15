@@ -172,7 +172,7 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
                               data.classNumber!;
                           _classDetailsController.getClassDetails(data
                               .classNumber!);
-                          return BookingBottomSheet(isRouting: 'backToHomeScreen',);
+                          return BookingBottomSheet(isRouting: 'backToHomeScreen',isBook: 'Pay',);
                         },
                       );
                     } else {
