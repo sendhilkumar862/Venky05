@@ -9,6 +9,7 @@ class AppAmountView extends StatelessWidget {
     this.fontWeight,
     this.decimalSize,
     this.firstFontSize,
+    this.isClasses=false,
     super.key,
   });
 
@@ -16,6 +17,7 @@ class AppAmountView extends StatelessWidget {
   final FontWeight? fontWeight;
   final double? firstFontSize;
   final double? decimalSize;
+  final bool isClasses;
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +31,14 @@ class AppAmountView extends StatelessWidget {
           fontSize: firstFontSize ?? 14.px,
           fontWeight: fontWeight ?? FontWeight.w700,
         ),
-        Padding(
+        if (!isClasses) Padding(
           padding: const EdgeInsets.only(bottom:2.0),
           child: AppText(
             amount!=''?'.${separator(amount!).last}':'',
             fontSize: decimalSize ?? 10.px,
             fontWeight: fontWeight ?? FontWeight.w700,
           ),
-        ),
+        ) else const SizedBox.shrink(),
       ],
     );
   }

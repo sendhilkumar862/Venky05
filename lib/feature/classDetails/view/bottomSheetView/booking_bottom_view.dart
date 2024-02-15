@@ -317,7 +317,7 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                   onPressed: () async{
                     final String status= await  _classDetailsController.makePayment(_classDetailsController.initiatePaymentModel.value.id!);
                         if(status=='true') {
-                          Get.back();
+                           Get.back();
                           // ignore: use_build_context_synchronously
                           showModalBottomSheet(
                             context: context,

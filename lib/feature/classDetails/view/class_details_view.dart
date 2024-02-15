@@ -340,7 +340,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                 ),
                                 builder: (BuildContext context) {
                                   return BookingBottomSheet(
-                                    isBook: 'Pay',
+                                     isBook: 'Pay',
                                   );
                                 },
                               );
@@ -1174,8 +1174,9 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                           .address[_classDetailController.selectedIndex.value]
                           .id
                     });
-                    Get.back();
+
                     if (status) {
+                      Get.back();
                       // ignore: use_build_context_synchronously
                       showModalBottomSheet(
                         context: context,

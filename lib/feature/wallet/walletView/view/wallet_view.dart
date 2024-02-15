@@ -120,11 +120,15 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                                 ? <Widget>[
                                     balanceCardView(
                                         title: 'Active Classes\nBooked',
-                                        amount: '100.000 KWD'),
+                                        amount: _walletViewController.walletBalanceDetailModel.value.classData!.active.toString() ?? '',
+                                        isClasses: true
+                                    ),
                                     AppDivider(isVerticle: true),
                                     balanceCardView(
                                         title: 'New Classes\nCreated',
-                                        amount: '100.000 KWD'),
+                                        amount: _walletViewController.walletBalanceDetailModel.value.classData!.newClass.toString() ?? '',
+                                        isClasses: true
+                                    ),
                                     AppDivider(isVerticle: true),
                                     balanceCardView(
                                       title: 'Pending\nPayment',
@@ -150,7 +154,13 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                                     AppDivider(isVerticle: true),
                                     balanceCardView(
                                         title: 'Pending Withdraw',
-                                        amount: '100.000 KWD'),
+                                        amount: _walletViewController
+                                            .walletBalanceDetailModel
+                                            .value
+                                            .balance !=
+                                            null
+                                            ? '${_walletViewController.walletBalanceDetailModel.value.balance!.pendingWithdraw ?? ''} KWD'
+                                            : '',),
                                   ],
                       ),
                     ),
@@ -452,7 +462,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
     );
   }
 
-  Widget balanceCardView({String? title, String? amount}) {
+  Widget balanceCardView({String? title, String? amount,bool isClasses=false}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -464,7 +474,7 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
           color: AppColors.appGrey,
         ),
         SizedBox(height: 4.px),
-        AppAmountView(amount: amount, fontWeight: FontWeight.w500),
+        AppAmountView(amount: amount, fontWeight: FontWeight.w500,isClasses:isClasses ,),
       ],
     );
   }

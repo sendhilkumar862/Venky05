@@ -10,19 +10,23 @@ import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/extension/string_extension.dart';
 import '../../../../product/utils/typography.dart';
 import '../../controller/class_details_controller.dart';
+
 class StudentBottomSheet extends StatefulWidget {
-  const StudentBottomSheet({super.key,required this.classId});
+  const StudentBottomSheet({super.key, required this.classId});
+
   final String classId;
+
   @override
   State<StudentBottomSheet> createState() => _StudentBottomSheetState();
 }
 
 class _StudentBottomSheetState extends State<StudentBottomSheet> {
+  final ClassDetailsController _classDetailsController =
+      Get.put(ClassDetailsController());
 
-  final ClassDetailsController _classDetailsController = Get.put(ClassDetailsController());
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return Container(
       height: (MediaQuery.of(context).size.height * 0.92).px,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -50,8 +54,8 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
               ),
             ),
           ),
-          Obx(()=>
-             Column(
+          Obx(
+            () => Column(
               children: <Widget>[
                 SizedBox(
                   height: 25.px,
@@ -65,7 +69,8 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                   child: GridView.builder(
                     padding: EdgeInsets.symmetric(horizontal: 15.px),
                     physics: const BouncingScrollPhysics(),
-                    itemCount: _classDetailsController.studentsList.value.students!.length,
+                    itemCount: _classDetailsController
+                        .studentsList.value.students!.length,
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
@@ -75,8 +80,7 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         padding: EdgeInsets.all(10.px),
-                        decoration:
-                        BoxDecoration(
+                        decoration: BoxDecoration(
                           color: AppColors.appWhite,
                           borderRadius: BorderRadius.circular(13.px),
                           border: Border.all(
@@ -112,28 +116,48 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                                           color: Colors.black.withOpacity(0.2),
                                           spreadRadius: 2,
                                           blurRadius: 4,
-                                          offset:
-                                          const Offset(0, 2), // changes the position of the shadow
+                                          offset: const Offset(0,
+                                              2), // changes the position of the shadow
                                         ),
                                       ],
                                     ),
                                     width: 50.px,
                                     height: 50.px,
                                     child: ClipOval(
-                                      child:  _classDetailsController.studentsList.value.students![index].imageId==null?Center(
-                                          child: Text(
-                                              _classDetailsController.studentsList.value.students![index].name!.extractInitials(),
-                                              style: openSans.get20.w700.white)): AppImageAsset(
-                                        image: _classDetailsController.studentsList.value.students![index].imageId!.getImageUrl('profile'),
-                                        height: 40.px,
-                                      ),
+                                      child: _classDetailsController
+                                                  .studentsList
+                                                  .value
+                                                  .students![index]
+                                                  .imageId ==
+                                              null
+                                          ? Center(
+                                              child: Text(
+                                                  _classDetailsController
+                                                      .studentsList
+                                                      .value
+                                                      .students![index]
+                                                      .name!
+                                                      .extractInitials(),
+                                                  style: openSans
+                                                      .get20.w700.white))
+                                          : AppImageAsset(
+                                              image: _classDetailsController
+                                                  .studentsList
+                                                  .value
+                                                  .students![index]
+                                                  .imageId!
+                                                  .getImageUrl('profile'),
+                                              height: 40.px,
+                                            ),
                                     ),
-                                  ) ,
+                                  ),
                                   SizedBox(
                                     height: 6.px,
                                   ),
                                   AppText(
-                                    _classDetailsController.studentsList.value.students![index].name??'',
+                                    _classDetailsController.studentsList.value
+                                            .students![index].name ??
+                                        '',
                                     fontWeight: FontWeight.w700,
                                     fontSize: 12.px,
                                   ),
@@ -141,45 +165,106 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                                     height: 4.px,
                                   ),
                                   AppText(
-                                      'Grade ${_classDetailsController.studentsList.value.students![index].grade?.join(' - ')}',
-                                      fontSize: 12.px,
+                                    'Grade ${_classDetailsController.studentsList.value.students![index].grade?.join(' - ')}',
+                                    fontSize: 12.px,
                                   ),
                                   SizedBox(
                                     height: 10.px,
                                   ),
-                                 if(_classDetailsController.studentsList.value.canAcceptOrRejectStudent!=null && _classDetailsController.studentsList.value.canAcceptOrRejectStudent! &&_classDetailsController.studentsList.value.students![index].status!=null && _classDetailsController.studentsList.value.students![index].status==0) AppButton(
-                                    title: 'Accept',
-                                    height: 45.px,
-                                    isDisable: false,
-                                    borderColor: AppColors.appBlue,
-                                    borderRadius: BorderRadius.circular(10.px),
-                                    onPressed: () {
-                                      _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'accept','users':<int?>[_classDetailsController.studentsList.value.students![index].userId]});
-                                    },
-                                  ),
-                                  if(_classDetailsController.studentsList.value.students![index].status!=null && _classDetailsController.studentsList.value.students![index].status==1) const Text(
-                                    'Accepted',
-                                    style: TextStyle(
-                                            color: AppColors.appBlue,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600),
-                                  ),
-                                  if(_classDetailsController.studentsList.value.students![index].status!=null && _classDetailsController.studentsList.value.students![index].status==2) AppText(
-                                    'Rejected',
-                                    fontSize: 14.px,
-                                    color: AppColors.appLightRed,
-                                  ),
-                                  SizedBox(height: 10.px),
-                                  if(_classDetailsController.studentsList.value.canAcceptOrRejectStudent!=null && _classDetailsController.studentsList.value.canAcceptOrRejectStudent! && _classDetailsController.studentsList.value.students![index].status!=null && _classDetailsController.studentsList.value.students![index].status==0) GestureDetector(
-                                    onTap: (){
-                                      _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':false,'type':'reject','users':<int?>[_classDetailsController.studentsList.value.students![index].userId]});
-                                    },
-                                    child: AppText(
-                                      'Reject',
+                                  if (_classDetailsController.studentsList.value
+                                              .canAcceptOrRejectStudent !=
+                                          null &&
+                                      _classDetailsController.studentsList.value
+                                          .canAcceptOrRejectStudent! &&
+                                      _classDetailsController.studentsList.value
+                                              .students![index].status !=
+                                          null &&
+                                      _classDetailsController.studentsList.value
+                                              .students![index].status ==
+                                          0)
+                                    AppButton(
+                                      title: 'Accept',
+                                      height: 45.px,
+                                      isDisable: false,
+                                      borderColor: AppColors.appBlue,
+                                      borderRadius:
+                                          BorderRadius.circular(10.px),
+                                      onPressed: () {
+                                        _classDetailsController
+                                            .approveRejectStudents(
+                                                widget.classId,
+                                                <String, dynamic>{
+                                              'isSelectAll': false,
+                                              'type': 'accept',
+                                              'users': <int?>[
+                                                _classDetailsController
+                                                    .studentsList
+                                                    .value
+                                                    .students![index]
+                                                    .userId
+                                              ]
+                                            });
+                                      },
+                                    ),
+                                  if (_classDetailsController.studentsList.value
+                                              .students![index].status !=
+                                          null &&
+                                      _classDetailsController.studentsList.value
+                                              .students![index].status ==
+                                          1)
+                                    const Text(
+                                      'Accepted',
+                                      style: TextStyle(
+                                          color: AppColors.appBlue,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  if (_classDetailsController.studentsList.value
+                                              .students![index].status !=
+                                          null &&
+                                      _classDetailsController.studentsList.value
+                                              .students![index].status ==
+                                          2)
+                                    AppText(
+                                      'Rejected',
                                       fontSize: 14.px,
                                       color: AppColors.appLightRed,
                                     ),
-                                  )
+                                  SizedBox(height: 10.px),
+                                  if (_classDetailsController.studentsList.value
+                                              .canAcceptOrRejectStudent !=
+                                          null &&
+                                      _classDetailsController.studentsList.value
+                                          .canAcceptOrRejectStudent! &&
+                                      _classDetailsController.studentsList.value
+                                              .students![index].status !=
+                                          null &&
+                                      _classDetailsController.studentsList.value
+                                              .students![index].status ==
+                                          0)
+                                    GestureDetector(
+                                      onTap: () {
+                                        _classDetailsController
+                                            .approveRejectStudents(
+                                                widget.classId,
+                                                <String, dynamic>{
+                                              'isSelectAll': false,
+                                              'type': 'reject',
+                                              'users': <int?>[
+                                                _classDetailsController
+                                                    .studentsList
+                                                    .value
+                                                    .students![index]
+                                                    .userId
+                                              ]
+                                            });
+                                      },
+                                      child: AppText(
+                                        'Reject',
+                                        fontSize: 14.px,
+                                        color: AppColors.appLightRed,
+                                      ),
+                                    )
                                 ],
                               ),
                             ),
@@ -189,19 +274,28 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                     },
                   ),
                 ),
-                if (_classDetailsController.studentsList.value.students!.length>1) Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.px),
-                  child: AppButton(
-                    title: 'Accept All Students',
-                    height: 45.px,
-                    isDisable: false,
-                    borderRadius: BorderRadius.circular(10.px),
-                    borderColor: AppColors.appBlue,
-                    onPressed: () {
-                      _classDetailsController.approveRejectStudents(widget.classId, <String, dynamic>{'isSelectAll':true,'type':'accept'});
-                    },
-                  ),
-                ) else const SizedBox.shrink(),
+                if (_classDetailsController
+                        .studentsList.value.students!.length >
+                    1)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.px),
+                    child: AppButton(
+                      title: 'Accept All Students',
+                      height: 45.px,
+                      isDisable: false,
+                      borderRadius: BorderRadius.circular(10.px),
+                      borderColor: AppColors.appBlue,
+                      onPressed: () {
+                        _classDetailsController.approveRejectStudents(
+                            widget.classId, <String, dynamic>{
+                          'isSelectAll': true,
+                          'type': 'accept'
+                        });
+                      },
+                    ),
+                  )
+                else
+                  const SizedBox.shrink(),
               ],
             ),
           )

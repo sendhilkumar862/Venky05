@@ -58,18 +58,18 @@ class WalletViewController extends GetxController {
 
 
   Future<void> getWalletBalance() async {
-    final BaseResponse getWalletBalanceDataDataResponse = await _getWalletBalanceRepository.getWalletDetail();
-    if (getWalletBalanceDataDataResponse.status?.type == 'success') {
-      final  Map<String, dynamic> walletBalanceData=getWalletBalanceDataDataResponse.data!.item! as Map<String,dynamic>;
+    final BaseResponse getWalletBalanceDataResponse = await _getWalletBalanceRepository.getWalletDetail();
+    if (getWalletBalanceDataResponse.status?.type == 'success') {
+      final  Map<String, dynamic> walletBalanceData=getWalletBalanceDataResponse.data!.item! as Map<String,dynamic>;
       walletBalanceDetailModel.value=GetWalletBalanceModel.fromJson(walletBalanceData);
     }
   }
 
   Future<void> getWalletBalanceList() async {
-    final BaseResponse getWalletBalanceDataDataResponse = await _getWalletBalanceListRepository.getWalletList();
-    if (getWalletBalanceDataDataResponse.status?.type == 'success') {
+    final BaseResponse getWalletBalanceListDataResponse = await _getWalletBalanceListRepository.getWalletList();
+    if (getWalletBalanceListDataResponse.status?.type == 'success') {
       walletBalanceListData.clear();
-      final  List  walletBalanceList=getWalletBalanceDataDataResponse.data!.item! as List;
+      final  List  walletBalanceList=getWalletBalanceListDataResponse.data!.item! as List;
       for (var element in walletBalanceList) {
         walletBalanceListData.add(GetWalletBalanceListModel.fromJson(element));
       }

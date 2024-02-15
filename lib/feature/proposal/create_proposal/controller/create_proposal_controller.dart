@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../core/api_end_points.dart';
 import '../../../../core/base_response.dart';
 import '../../../../custom/loader/easy_loader.dart';
 import '../../../../product/cache/key_value_storeage.dart';
@@ -8,6 +9,7 @@ import '../../../../product/extension/string_extension.dart';
 import '../../../../product/utils/common_function.dart';
 import '../../../class/class_detail/controller/class_detail_controller.dart';
 import '../../../home/controller/home_controller.dart';
+import '../../../search/controller/search_controller.dart';
 import '../model/create_proposal_request_model.dart';
 import '../repository/create_proposal_repository.dart';
 import '../repository/update_proposal_repository.dart';
@@ -16,6 +18,7 @@ class CreateProposalController extends GetxController{
   final CreateProposalRepository _createProposalRepository= CreateProposalRepository();
   final UpdateProposalRepository _updateProposalRepository=UpdateProposalRepository();
   final ClassDetailController _classDetailController = Get.put(ClassDetailController());
+  final SearchClassController _searchController=Get.put(SearchClassController());
 
   int? duration;
   RxString selectedProfile = ''.obs;
@@ -52,6 +55,7 @@ class CreateProposalController extends GetxController{
       homeController.historyPageIndex=1;
       homeController.activityPageIndex=1;
       homeController.upcomingPageIndex=1;
+      await _searchController.search(SchoolEndpoint.SEARCH_CLASSES,_searchController.searchData);
       await homeController.getData();
      status=true;
     }

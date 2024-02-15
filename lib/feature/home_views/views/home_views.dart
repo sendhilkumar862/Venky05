@@ -37,64 +37,71 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      ()=> Scaffold(
-          backgroundColor: AppColors.appWhite,
-          appBar: HessaAppBar(
-            icon: ImageConstants.avtar,
-            title: 'Welcome!',
-            subTitle:
-                "${_homeController.homeData.value?.firstName ?? ""} ${_homeController.homeData.value?.lastName ?? ""}",
-            isSearchIconShown: !(selectedProfile == ApplicationConstants.tutor &&
-                _homeController.homeData.value?.userStatus != '99'),
-            onBellTap: () {
-              Get.toNamed(Routes.notificationView);
-            },
-            onSearchTap: () {
-              Get.toNamed(Routes.searchView);
-            },
-            onProfileTap: () {
-              Get.toNamed(Routes.settingView);
-            },
-          ),
-          body: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              SizedBox(
-                height: 30.px,
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 15.px),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: AppColors.lightPurple,
-                    borderRadius: BorderRadius.circular(30.px)),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: List.generate(
-                    selectedProfile == ApplicationConstants.tutor
-                        ? _homeViewController.bottomBarItemsStudent.length
-                        : _homeViewController.bottomBarItemsTeacher.length,
-                    (int index) => tabBarCardView(
-                        selectedProfile == ApplicationConstants.tutor
-                            ? _homeViewController.bottomBarItemsStudent[index]
-                            : _homeViewController.bottomBarItemsTeacher[index],
-                        index),
+      ()=> RefreshIndicator(
+          color: AppColors.appBlue,
+          displacement: 200,
+          onRefresh: () async {
+            await _homeController.getData();
+          },
+        child: Scaffold(
+            backgroundColor: AppColors.appWhite,
+            appBar: HessaAppBar(
+              icon: ImageConstants.avtar,
+              title: 'Welcome!',
+              subTitle:
+                  "${_homeController.homeData.value?.firstName ?? ""} ${_homeController.homeData.value?.lastName ?? ""}",
+              isSearchIconShown: !(selectedProfile == ApplicationConstants.tutor &&
+                  _homeController.homeData.value?.userStatus != '99'),
+              onBellTap: () {
+                Get.toNamed(Routes.notificationView);
+              },
+              onSearchTap: () {
+                Get.toNamed(Routes.searchView);
+              },
+              onProfileTap: () {
+                Get.toNamed(Routes.settingView);
+              },
+            ),
+            body: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(
+                  height: 30.px,
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 15.px),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: AppColors.lightPurple,
+                      borderRadius: BorderRadius.circular(30.px)),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: List.generate(
+                      selectedProfile == ApplicationConstants.tutor
+                          ? _homeViewController.bottomBarItemsStudent.length
+                          : _homeViewController.bottomBarItemsTeacher.length,
+                      (int index) => tabBarCardView(
+                          selectedProfile == ApplicationConstants.tutor
+                              ? _homeViewController.bottomBarItemsStudent[index]
+                              : _homeViewController.bottomBarItemsTeacher[index],
+                          index),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 2.px,
-              ),
-              if (selectedProfile == ApplicationConstants.tutor)
-                _homeViewController.bottomBarItemsStudent[
-                    _homeViewController.selectedIndex.value]['screenName']
-              else
-                _homeViewController.bottomBarItemsTeacher[
-                    _homeViewController.selectedIndex.value]['screenName'],
-            ],
+                SizedBox(
+                  height: 2.px,
+                ),
+                if (selectedProfile == ApplicationConstants.tutor)
+                  _homeViewController.bottomBarItemsStudent[
+                      _homeViewController.selectedIndex.value]['screenName']
+                else
+                  _homeViewController.bottomBarItemsTeacher[
+                      _homeViewController.selectedIndex.value]['screenName'],
+              ],
+            ),
           ),
-        ),
+      ),
     );
   }
 
