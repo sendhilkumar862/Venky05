@@ -1,0 +1,14 @@
+Fixed proposal bottom sheet issue
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# interactive rebase in progress; onto e41e3fa
+# Last command done (1 command done):
+#    pick 128a3bb Fixed proposal bottom sheet issue
+# No commands remaining.
+# You are currently rebasing branch 'CIB' on 'e41e3fa'.
+#
+# Changes to be committed:
+#	modified:   lib/feature/classDetails/view/class_details_view.dart
+#
