@@ -560,7 +560,7 @@ class _ClassesViewState extends State<ClassesView> {
                                       _classDetailsController.getClassDetails(_homeController
                                           .classRelatedList[index]
                                           .classNumber!);
-                                      return BookingBottomSheet();
+                                      return BookingBottomSheet(isBook: 'Pay',isRouting: 'home',);
                                     },
                                   );
                                 } else if (_homeController.classRelatedList[index]
