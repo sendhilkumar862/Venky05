@@ -49,7 +49,6 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
     selectedUserStatus =
         LocaleManager.getValue(StorageKeys.userInfoStatus) ?? '';
   }
-
   @override
   Widget build(BuildContext context) {
     return Obx(() {
