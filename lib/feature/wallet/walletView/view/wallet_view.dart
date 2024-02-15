@@ -131,13 +131,8 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                                     AppDivider(isVerticle: true),
                                     balanceCardView(
                                       title: 'Pending\nPayment',
-                                      amount: _walletViewController
-                                                  .walletBalanceDetailModel
-                                                  .value
-                                                  .balance !=
-                                              null
-                                          ? '${_walletViewController.walletBalanceDetailModel.value.balance!.pendingPayment ?? ''} KWD'
-                                          : '',
+                                      amount:
+                                           '${_walletViewController.walletBalanceDetailModel.value.balance?.pendingPayment ?? ''} KWD',
                                     )
                                   ]
                                 : <Widget>[
