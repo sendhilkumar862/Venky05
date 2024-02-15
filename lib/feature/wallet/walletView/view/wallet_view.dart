@@ -119,13 +119,13 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                                 ? <Widget>[
                                     balanceCardView(
                                         title: 'Active Classes\nBooked',
-                                        amount: _walletViewController.walletBalanceDetailModel.value.classData!.active.toString() ?? '',
+                                        amount: _walletViewController.walletBalanceDetailModel.value.classData?.active.toString() ?? '',
                                         isClasses: true
                                     ),
                                     AppDivider(isVerticle: true),
                                     balanceCardView(
                                         title: 'New Classes\nCreated',
-                                        amount: _walletViewController.walletBalanceDetailModel.value.classData!.newClass.toString() ?? '',
+                                        amount: _walletViewController.walletBalanceDetailModel.value.classData?.newClass.toString() ?? '',
                                         isClasses: true
                                     ),
                                     AppDivider(isVerticle: true),
