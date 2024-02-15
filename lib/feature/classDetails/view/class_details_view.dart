@@ -133,9 +133,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
   Widget getStudentDetails() {
     return _classDetailsController.classData.value.studentDetails != null
         ? Column(
-            children: [
-              if (_classDetailsController.classData.value.studentDetails !=
-                  null)
+            children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: HeadingCardView(padding: 0, title: 'Created By'),
@@ -159,15 +157,14 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               ),
             ],
           )
-        : SizedBox(
-            height: 5.px,
-          );
+        : const SizedBox.shrink();
   }
 
   Widget getCurriculumView() {
     return Column(
-      children: [
+      children: <Widget>[
         HeadingCardView(
+          // ignore: unrelated_type_equality_checks
           title: _classDetailsController.selectedProfile ==
                   ApplicationConstants.student
               ? 'Curriculum'
@@ -178,7 +175,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
           padding: const EdgeInsets.only(top: 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: <Widget>[
               curriculumWidget(
                   heading: 'Grade',
                   detail: _classDetailsController.classData.value.grade ?? ''),
@@ -203,9 +200,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
   Widget getHeadingViewForTeachers() {
     return _classDetailsController.classData.value.teacherDetails != null
         ? HeadingCardView(padding: 0, title: 'Teacher')
-        : SizedBox(
-            height: 5.px,
-          );
+        : const SizedBox.shrink();
   }
 
   Widget getHeadingViewForStudents() {
@@ -241,9 +236,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 _classDetailsController.classData.value.students!.isNotEmpty
                     ? true
                     : false)
-        : SizedBox(
-            height: 5.px,
-          );
+        : const SizedBox.shrink();
   }
 
   Widget getHeadingViewForProposals() {
@@ -280,9 +273,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 _classDetailsController.classData.value.proposals!.isNotEmpty
                     ? true
                     : false)
-        : SizedBox(
-            height: 5.px,
-          );
+        : const SizedBox.shrink();
   }
 
   Widget getDetailViewForTeachers() {
@@ -307,9 +298,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               isBookmarked: true,
             ),
           )
-        : SizedBox(
-            height: 5.px,
-          );
+        : const SizedBox.shrink();
   }
 
   Widget getDetailViewForProposals() {
@@ -325,8 +314,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
-                      onTap: _classDetailsController.classData.value.status !=
-                              'Paying'
+                      onTap: !(_classDetailsController.classData.value.canPay??false)
                           ? () async {
                               _proposalsByController.getProposalDetails(
                                   _classDetailsController.classData.value
@@ -396,9 +384,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 isBorderOnly: true,
                 onPressed: () {},
               )
-        : SizedBox(
-            height: 5.px,
-          );
+        : const SizedBox.shrink();
   }
 
   Widget getDetailViewForStudents() {
@@ -430,7 +416,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       return Padding(
                         padding: const EdgeInsets.all(2.0),
                         child: Column(
-                          children: [
+                          children: <Widget>[
                             Container(
                               decoration: BoxDecoration(
                                 color: AppColors.appProfile,
@@ -481,9 +467,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   ),
                 ),
               )
-        : SizedBox(
-            height: 5.px,
-          );
+        : const SizedBox.shrink();
   }
 
   Widget getClassDetails() {
@@ -512,7 +496,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
           ),
           SizedBox(height: 15.px),
           Row(
-            children: [
+            children: <Widget>[
               tagCardView(
                   title: _classDetailsController
                               .classData.value.maxParticipants ==
@@ -537,7 +521,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
             ],
           ),
           Row(
-            children: [
+            children: <Widget>[
               tagCardView(
                   title:
                       '${_classDetailsController.classData.value.cost} ${_classDetailsController.classData.value.currency} per Session',
@@ -688,7 +672,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                   'assets/icons/read_book_icon.png',
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(left: 5),
+                                  padding: const EdgeInsets.only(left: 5),
                                   child: Text(
                                       '${_classDetailsController.classData.value.myProposaldetails!.pSessions ?? ''} Session'),
                                 )
@@ -703,14 +687,12 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               ),
             ),
           )
-        : SizedBox(
-            height: 5.px,
-          );
+        : const SizedBox.shrink();
   }
 
   Widget getAddressText() {
     return Column(
-      children: [
+      children: <Widget>[
         if (_classDetailsController.classData.value.allowAtStudentLoc == 1)
           SizedBox(
             height: 10.px,
@@ -998,27 +980,28 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
 
   Widget getOwnerView() {
     return Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 5.px, vertical: 5.px),
-                  decoration: BoxDecoration(
-                    color: AppColors.lightPurple,
-                    borderRadius: BorderRadius.circular(30.px),
-                  ),
-                  child: AppText(
-    _classDetailsController.classData.value.isOwner == 1? 'Created by You':'Created by ${_classDetailsController.classData.value.userName ?? ''}',
-                    overflow: TextOverflow.ellipsis,
-                    fontSize: 10.px,
-                    color: AppColors.appLightBlack,
-                  ),
-                ),
-                const SizedBox(width: 5), // Additional padding
-              ],
+      padding: const EdgeInsets.only(top: 10.0),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 5.px, vertical: 5.px),
+            decoration: BoxDecoration(
+              color: AppColors.lightPurple,
+              borderRadius: BorderRadius.circular(30.px),
             ),
-          );
+            child: AppText(
+              _classDetailsController.classData.value.isOwner == 1
+                  ? 'Created by You'
+                  : 'Created by ${_classDetailsController.classData.value.userName ?? ''}',
+              overflow: TextOverflow.ellipsis,
+              fontSize: 10.px,
+              color: AppColors.appLightBlack,
+            ),
+          ),
+          const SizedBox(width: 5), // Additional padding
+        ],
+      ),
+    );
   }
 
   Widget curriculumWidget({required String heading, required String detail}) {
