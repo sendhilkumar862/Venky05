@@ -76,8 +76,45 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                         crossAxisCount: 2,
                         crossAxisSpacing: 10.px,
                         mainAxisSpacing: 10.px,
-                        childAspectRatio: 0.65),
+                        childAspectRatio:
+                            _classDetailsController.childAspectRatio.value),
                     itemBuilder: (BuildContext context, int index) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        if (!(_classDetailsController.studentsList.value
+                                        .canAcceptOrRejectStudent !=
+                                    null &&
+                                _classDetailsController.studentsList.value
+                                    .canAcceptOrRejectStudent! &&
+                                _classDetailsController.studentsList.value
+                                        .students![index].status !=
+                                    null &&
+                                _classDetailsController.studentsList.value
+                                        .students![index].status ==
+                                    0) &&
+                            (_classDetailsController.studentsList.value
+                                        .students![index].status !=
+                                    null &&
+                                _classDetailsController.studentsList.value
+                                        .students![index].status ==
+                                    0)) {
+                          _classDetailsController.childAspectRatio.value = 0.88;
+                        } else if (_classDetailsController.studentsList.value
+                                    .students![index].status !=
+                                null &&
+                            _classDetailsController.studentsList.value
+                                    .students![index].status ==
+                                0) {
+                          _classDetailsController.childAspectRatio.value = 0.6;
+                        }
+                        else if (_classDetailsController.studentsList.value
+                            .students![index].status !=
+                            null &&
+                            _classDetailsController.studentsList.value
+                                .students![index].status !=
+                                0) {
+                          _classDetailsController.childAspectRatio.value = 0.8;
+                        }
+                      });
                       return Container(
                         padding: EdgeInsets.all(10.px),
                         decoration: BoxDecoration(
@@ -105,7 +142,7 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                               child: Column(
                                 children: <Widget>[
                                   SizedBox(
-                                    height: 8.px,
+                                    height: 10.px,
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
@@ -152,7 +189,7 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 6.px,
+                                    height: 5.px,
                                   ),
                                   AppText(
                                     _classDetailsController.studentsList.value
@@ -162,15 +199,13 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                                     fontSize: 12.px,
                                   ),
                                   SizedBox(
-                                    height: 4.px,
+                                    height: 5.px,
                                   ),
                                   AppText(
                                     'Grade ${_classDetailsController.studentsList.value.students![index].grade?.join(' - ')}',
                                     fontSize: 12.px,
                                   ),
-                                  SizedBox(
-                                    height: 10.px,
-                                  ),
+                                  const Spacer(),
                                   if (_classDetailsController.studentsList.value
                                               .canAcceptOrRejectStudent !=
                                           null &&
@@ -230,7 +265,7 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                                       fontSize: 14.px,
                                       color: AppColors.appLightRed,
                                     ),
-                                  SizedBox(height: 10.px),
+                                  SizedBox(height: 5.px),
                                   if (_classDetailsController.studentsList.value
                                               .canAcceptOrRejectStudent !=
                                           null &&

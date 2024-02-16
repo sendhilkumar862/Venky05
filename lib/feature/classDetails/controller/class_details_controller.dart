@@ -57,6 +57,7 @@ class ClassDetailsController extends GetxController {
   String? proposalId;
   Rx<InitiatePaymentModel> initiatePaymentModel = InitiatePaymentModel().obs;
   String transactionId = '';
+  RxDouble childAspectRatio=0.85.obs;
 
   @override
   void onInit() {
