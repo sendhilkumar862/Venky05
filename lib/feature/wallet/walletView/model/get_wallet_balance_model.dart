@@ -1,45 +1,44 @@
 class GetWalletBalanceModel {
-  Balance? balance;
-  int? pendingBalance;
-  int? pendingWithdraw;
-
-  GetWalletBalanceModel({this.balance, this.pendingBalance, this.pendingWithdraw});
+  GetWalletBalanceModel(
+      {this.balance, this.pendingBalance, this.pendingWithdraw});
 
   GetWalletBalanceModel.fromJson(Map<String, dynamic> json) {
     balance =
-    json['balance'] != null ? new Balance.fromJson(json['balance']) : null;
+        json['balance'] != null ? Balance.fromJson(json['balance']) : null;
+    classData =
+        json['class'] != null ? ClassData.fromJson(json['class']) : null;
     pendingBalance = json['pendingBalance'];
     pendingWithdraw = json['pendingWithdraw'];
   }
 
+  Balance? balance;
+  int? pendingBalance;
+  int? pendingWithdraw;
+  ClassData? classData;
+
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.balance != null) {
-      data['balance'] = this.balance!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (balance != null) {
+      data['balance'] = balance!.toJson();
     }
-    data['pendingBalance'] = this.pendingBalance;
-    data['pendingWithdraw'] = this.pendingWithdraw;
+    if (classData != null) {
+      data['class'] = classData!.toJson();
+    }
+    data['pendingBalance'] = pendingBalance;
+    data['pendingWithdraw'] = pendingWithdraw;
     return data;
   }
 }
 
 class Balance {
-  String? id;
-  int? userId;
-  String? balance;
-  String? pendingPayment;
-  String? pendingWithdraw;
-  int? createdAt;
-  int? updatedAt;
-
   Balance(
       {this.id,
-        this.userId,
-        this.balance,
-        this.pendingPayment,
-        this.pendingWithdraw,
-        this.createdAt,
-        this.updatedAt});
+      this.userId,
+      this.balance,
+      this.pendingPayment,
+      this.pendingWithdraw,
+      this.createdAt,
+      this.updatedAt});
 
   Balance.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -51,15 +50,42 @@ class Balance {
     updatedAt = json['updated_at'];
   }
 
+  String? id;
+  int? userId;
+  String? balance;
+  String? pendingPayment;
+  String? pendingWithdraw;
+  int? createdAt;
+  int? updatedAt;
+
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['balance'] = this.balance;
-    data['pending_payment'] = this.pendingPayment;
-    data['pending_withdraw'] = this.pendingWithdraw;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['balance'] = balance;
+    data['pending_payment'] = pendingPayment;
+    data['pending_withdraw'] = pendingWithdraw;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class ClassData {
+  ClassData({this.active, this.newClass});
+
+  ClassData.fromJson(Map<String, dynamic> json) {
+    active = json['active'];
+    newClass = json['new'];
+  }
+
+  int? active;
+  int? newClass;
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['active'] = active;
+    data['new'] = newClass;
     return data;
   }
 }

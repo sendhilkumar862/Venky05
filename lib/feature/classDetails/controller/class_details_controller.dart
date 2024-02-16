@@ -48,7 +48,7 @@ class ClassDetailsController extends GetxController {
       InitiatePaymentRepository();
   final MakePaymentRepository _makePaymentRepository = MakePaymentRepository();
 
-  final HomeController homeController = Get.find();
+  final HomeController homeController = Get.put(HomeController());
 
   RxString selectedProfile = ''.obs;
   String classId = '';
