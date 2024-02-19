@@ -182,21 +182,24 @@ class DetailsCardViewHorizontal extends StatelessWidget {
                             image: countryIcon ?? ''!,
                             height: 13.px,
                           ),
-                        SizedBox(
+                        if (countryIcon != null)SizedBox(
                           width: 4.px,
                         ),
-                        AppText(
-                          countryName ?? ''!,
-                          fontSize: 12.px,
-                          fontWeight: FontWeight.w400,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
+                        SizedBox(
+                          height:17,
+                          child: AppText(
+                            countryName ?? ''!,
+                            fontSize: 11.px,
+                            fontWeight: FontWeight.w400,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                         ),
                       ],
                     ),
                     Spacer(),
                     SizedBox(
-                      height: 6.px,
+                      height: 15.px,
                     ),
                     if (subjects != null)
                       Row(

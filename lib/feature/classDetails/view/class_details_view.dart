@@ -41,7 +41,6 @@ class ClassDetailsView extends StatefulWidget {
   @override
   State<ClassDetailsView> createState() => _ClassDetailsViewState();
 }
-
 class _ClassDetailsViewState extends State<ClassDetailsView>
     with TickerProviderStateMixin {
   final ClassDetailsController _classDetailsController =
