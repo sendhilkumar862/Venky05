@@ -15,7 +15,7 @@ import '../../../custom/choice/src/modal/button.dart';
 import '../../../custom/choice/src/selection/controller/main.dart';
 import '../../../custom/dialog/success_fail_dialog.dart';
 import '../../../custom/divider/divider.dart';
-import '../../../product/cache/key_value_storeage.dart';
+import '../../../product/cache/key_value_storage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/app/app_utils.dart';
@@ -43,7 +43,7 @@ class ForStudents extends StatefulWidget {
 }
 
 class _ForStudentsState extends State<ForStudents> {
-  final SearchClassController _searchController=Get.put(SearchClassController());
+  final SearchClassController _searchController=Get.find();
   final ClassDetailsController _classDetailsController =
   Get.put(ClassDetailsController());
   final ClassDetailController _classDetailController =
@@ -74,708 +74,723 @@ class _ForStudentsState extends State<ForStudents> {
       body: Obx(()=>
        Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5),
-            child:  !_searchController.isSearch.value ? SingleChildScrollView(
-              child: Column(
-                children: [
-                  if(_searchController.savedData.isNotEmpty) Padding(
-                    padding: const EdgeInsets.only(top: 25, bottom: 10),
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          'Select From Saved Search',
-                          style: openSans.get16.w700
-                              .textColor(AppColors.appTextColor),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 5),
-                          child: Text(
-                            '(optional)',
-                            style: openSans.get12.w400.textColor(
-                                AppColors.appTextColor.withOpacity(0.5)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                 if(_searchController.savedData.isNotEmpty) InlineChoice<String>(
-                    clearable: true,
-                    value: _searchController.savedData,
-                    // onChanged: setGenderValue,
-                    itemCount: _searchController.savedData.length,
-                    itemBuilder:
-                        (ChoiceController<String> selection, int index) {
-                      return ChoiceChip(
-                        shape: StadiumBorder(
-                            side: BorderSide(
-                                color: _searchController.selectedSaveDataIndices==_searchController.savedData[index]
-                                    ? AppColors.trans
-                                    : AppColors.appBorderColor
-                                    .withOpacity(0.25))),
-                        backgroundColor: AppColors.trans,
-                        selected: _searchController.selectedSaveDataIndices==_searchController.savedData[index],
-                        onSelected: (bool selected) {
-                          setState(() {
-                          if(_searchController.selectedSaveDataIndices==_searchController.savedData[index]){
-                            _searchController.selectedSaveDataIndices='';
-                          }else{
-                            _searchController.selectedSaveDataIndices=
-                            _searchController.savedData[index];
-                          }
-
-                            // Add to the set for multi-selection
-
-                          });
-                        },
-                        showCheckmark: false,
-                        label: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 7),
-                          child: Text(_searchController.savedData[index]),
-                        ),
-                        selectedColor: AppColors.appBlue,
-                        // Change this to your desired color
-                        labelStyle: TextStyle(
-                          color: _searchController.selectedSaveDataIndices==_searchController.savedData[index]
-                              ? AppColors.white
-                              : AppColors.appTextColor
-                              .withOpacity(0.5), // Change text color
-                        ),
-                      );
-                    },
-                    listBuilder: ChoiceList.createWrapped(),
-                  ),
-                  AppDivider(),
-                  if( _searchController.selectedSaveDataIndices.isEmpty)Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10, bottom: 10),
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              'Class Type',
-                              style: openSans.get16.w700
-                                  .textColor(AppColors.appTextColor),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text(
-                                '(optional)',
-                                style: openSans.get12.w400.textColor(
-                                    AppColors.appTextColor.withOpacity(0.5)),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      if(_searchController.preferenceController.masterData.value.classTypes!=null && _searchController.preferenceController.masterData.value.classTypes!.isNotEmpty) InlineChoice<String>(
-                        clearable: true,
-                        value: _searchController.preferenceController.masterData.value.classTypes!,
-                        // onChanged: setGenderValue,
-                        itemCount: _searchController.preferenceController.masterData.value.classTypes!.length,
-                        itemBuilder:
-                            (ChoiceController<String> selection, int index) {
-                          return ChoiceChip(
-                            shape: StadiumBorder(
-                                side: BorderSide(
-                                    color: _searchController.selectedClassTypeIndices.contains(selection.value[index])
-                                        ? AppColors.trans
-                                        : AppColors.appBorderColor
-                                        .withOpacity(0.25))),
-                            backgroundColor: AppColors.trans,
-                            selected:  _searchController.selectedClassTypeIndices.contains(selection.value[index]),
-                            onSelected: (bool selected) {
-                              setState(() {
-                                if (selected) {
-                                  _searchController.selectedClassTypeIndices.add(
-                                      selection.value[index]); // Add to the set for multi-selection
-                                } else {
-                                  _searchController.selectedClassTypeIndices
-                                      .remove(selection.value[index]); // Remove from the set
-                                }
-                              });
-                            },
-                            showCheckmark: false,
-                            label: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 7),
-                              child: Text(_searchController.preferenceController.masterData.value.classTypes![index]),
-                            ),
-                            selectedColor: AppColors.appBlue,
-                            // Change this to your desired color
-                            labelStyle: TextStyle(
-                              color:   _searchController.selectedClassTypeIndices.contains(selection.value[index])
-                                  ? AppColors.white
-                                  : AppColors.appTextColor
-                                  .withOpacity(0.5), // Change text color
-                            ),
-                          );
-                        },
-                        listBuilder: ChoiceList.createWrapped(),
-                      ),
-                      AppDivider(),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10, bottom: 10),
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              'Gender',
-                              style: openSans.get16.w700
-                                  .textColor(AppColors.appTextColor),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text(
-                                '(optional)',
-                                style: openSans.get12.w400.textColor(
-                                    AppColors.appTextColor.withOpacity(0.5)),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      if(_searchController.preferenceController.masterData.value.gender!=null && _searchController.preferenceController.masterData.value.gender!.isNotEmpty) InlineChoice<String>(
-                        clearable: true,
-                        value: _searchController.preferenceController.masterData.value.gender!,
-                        // onChanged: setGenderValue,
-                        itemCount: _searchController.preferenceController.masterData.value.gender!.length,
-                        itemBuilder:
-                            (ChoiceController<String> selection, int index) {
-                          return ChoiceChip(
-                            shape: StadiumBorder(
-                                side: BorderSide(
-                                    color: _searchController.selectedGenderIndices==selection.value[index]
-                                        ? AppColors.trans
-                                        : AppColors.appBorderColor
-                                            .withOpacity(0.25))),
-                            backgroundColor: AppColors.trans,
-                            selected:  _searchController.selectedGenderIndices==selection.value[index],
-                            onSelected: (bool selected) {
-                              setState(() {
-                                if (selected) {
-                                  _searchController.selectedGenderIndices=
-                                      selection.value[index]; // Add to the set for multi-selection
-                                } else {
-                                  _searchController.selectedGenderIndices='';
-                                       // Remove from the set
-                                }
-                              });
-                            },
-                            showCheckmark: false,
-                            label: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 7),
-                              child: Text(_searchController.preferenceController.masterData.value.gender![index]),
-                            ),
-                            selectedColor: AppColors.appBlue,
-                            // Change this to your desired color
-                            labelStyle: TextStyle(
-                              color:   _searchController.selectedGenderIndices==selection.value[index]
-                                  ? AppColors.white
-                                  : AppColors.appTextColor
-                                      .withOpacity(0.5), // Change text color
-                            ),
-                          );
-                        },
-                        listBuilder: ChoiceList.createWrapped(),
-                      ),
-                      AppDivider(),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10, bottom: 10),
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              'Grade',
-                              style: openSans.get16.w700
-                                  .textColor(AppColors.appTextColor),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text(
-                                'Select 1 or more',
-                                style: openSans.get12.w400.textColor(
-                                    AppColors.appTextColor.withOpacity(0.5)),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      if(_searchController.preferenceController.masterData.value.grades!=null && _searchController.preferenceController.masterData.value.grades!.isNotEmpty)InlineChoice<String>(
-                        clearable: true,
-                        value: _searchController.preferenceController.masterData.value.grades!,
-                        // onChanged: setGradeValue,
-                        itemCount:_searchController.preferenceController.masterData.value.grades!.length,
-                        itemBuilder:
-                            (ChoiceController<String> selection, int index) {
-                          return ChoiceChip(
-                            shape: StadiumBorder(
-                                side: BorderSide(
-                                    color:
-                                    _searchController.grade.contains(selection.value[index])
-                                        ? AppColors.trans
-                                        : AppColors.appBorderColor.withOpacity(0.25))),
-                            backgroundColor: AppColors.trans,
-                            selected:  _searchController.grade.contains(selection.value[index]),
-                            onSelected: (bool selected) {
-                              setState(() {
-                                if (selected) {
-                                  _searchController.grade.add(selection.value[index]); // Add to the set for multi-selection
-                                } else {
-                                  _searchController.grade.remove(selection.value[index]); // Remove from the set
-                                }
-                              });
-                            },
-                            showCheckmark: false,
-                            label: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 7),
-                              child: Text(_searchController.preferenceController.masterData.value.grades?[index]??''),
-                            ),
-                            selectedColor: AppColors
-                                .appBlue,
-                            // Change this to your desired color
-                            labelStyle: TextStyle(
-                              color: _searchController.grade.contains(selection.value[index])
-                                  ? AppColors.white
-                                  : AppColors.appTextColor.withOpacity(
-                                  0.5), // Change text color
-                            ),
-                          );
-                        },
-                        listBuilder: ChoiceList.createWrapped(),
-                      ),
-                      AppDivider(),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 25, bottom: 10),
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              'Curriculum',
-                              style: openSans.get20.w700
-                                  .textColor(AppColors.appTextColor),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text(
-                                '(optional)',
-                                style: openSans.get12.w400.textColor(
-                                    AppColors.appTextColor.withOpacity(0.5)),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      if(_searchController.preferenceController.masterData.value.curriculum!=null && _searchController.preferenceController.masterData.value.curriculum!.isNotEmpty) InlineChoice<String>(
-                        clearable: true,
-                        value:  _searchController.preferenceController.masterData.value.curriculum!,
-                        // onChanged: setCurriculumValue,
-                        itemCount:  _searchController.preferenceController.masterData.value.curriculum!.length,
-                        itemBuilder:
-                            (ChoiceController<String> selection, int index) {
-                          return ChoiceChip(
-                            shape: StadiumBorder(
-                                side: BorderSide(
-                                    color: _searchController.selectedCurriculumIndices.contains(selection.value[index])
-                                        ? AppColors.trans
-                                        : AppColors.appBorderColor
-                                        .withOpacity(0.25))),
-                            backgroundColor: AppColors.trans,
-                            selected: _searchController.selectedCurriculumIndices.contains(selection.value[index]),
-                            onSelected: (bool selected) {
-                              setState(() {
-                                if (selected) {
-                                  _searchController.selectedCurriculumIndices.add(
-                                      selection.value[index]); // Add to the set for multi-selection
-                                } else {
-                                  _searchController.selectedCurriculumIndices
-                                      .remove(selection.value[index]); // Remove from the set
-                                }
-                              });
-                            },
-                            showCheckmark: false,
-                            label: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 7),
-                              child: Text( _searchController.preferenceController.masterData.value.curriculum?[index]??''),
-                            ),
-                            selectedColor: AppColors.appBlue,
-                            // Change this to your desired color
-                            labelStyle: TextStyle(
-                              color: _searchController.selectedCurriculumIndices.contains(selection.value[index])
-                                  ? AppColors.white
-                                  : AppColors.appTextColor
-                                  .withOpacity(0.5), // Change text color
-                            ),
-                          );
-                        },
-                        listBuilder: ChoiceList.createWrapped(),
-                      ),
-                      AppDivider(),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 25, bottom: 10),
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              'School',
-                              style: openSans.get16.w700
-                                  .textColor(AppColors.appTextColor),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text(
-                                '(optional)',
-                                style: openSans.get12.w400.textColor(
-                                    AppColors.appTextColor.withOpacity(0.5)),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      if(_searchController.preferenceController.masterData.value.schoolTypes!=null && _searchController.preferenceController.masterData.value.schoolTypes!.isNotEmpty) InlineChoice<String>(
-                        clearable: true,
-                        value: _searchController.preferenceController.masterData.value.schoolTypes!,
-                        // onChanged: setSchoolValue,
-                        itemCount:_searchController.preferenceController.masterData.value.schoolTypes!.length,
-                        itemBuilder:
-                            (ChoiceController<String> selection, int index) {
-                          return ChoiceChip(
-                            shape: StadiumBorder(
-                                side: BorderSide(
-                                    color:
-                                    _searchController.selectedSchoolIndices.contains(selection.value[index])
-                                        ? AppColors.trans
-                                        : AppColors.appBorderColor.withOpacity(0.25))),
-                            backgroundColor: AppColors.trans,
-                            selected: _searchController.selectedSchoolIndices.contains(selection.value[index]),
-                            onSelected: (bool selected) {
-                              setState(() {
-                                if (selected) {
-                                  _searchController.selectedSchoolIndices.add(
-                                      selection.value[index]); // Add to the set for multi-selection
-                                } else {
-                                  _searchController.selectedSchoolIndices
-                                      .remove( selection.value[index]); // Remove from the set
-                                }
-                              });
-                            },
-                            showCheckmark: false,
-                            label: Text(_searchController.preferenceController.masterData.value.schoolTypes?[index]??''),
-                            selectedColor: AppColors
-                                .appBlue,
-                            // Change this to your desired color
-                            labelStyle: TextStyle(
-                              color: _searchController.selectedSchoolIndices.contains(selection.value[index])
-                                  ? AppColors.white
-                                  : AppColors.appTextColor.withOpacity(
-                                  0.5), // Change text color
-                            ),
-                          );
-                        },
-                        listBuilder: ChoiceList.createWrapped(),
-                      ),
-                      AppDivider(),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 25, bottom: 10),
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              'Subject',
-                              style: openSans.get20.w700
-                                  .textColor(AppColors.appTextColor),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text(
-                                '(optional)',
-                                style: openSans.get12.w400.textColor(
-                                    AppColors.appTextColor.withOpacity(0.5)),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      if(_searchController.preferenceController.masterData.value.subjects!=null && _searchController.preferenceController.masterData.value.subjects!.isNotEmpty) InlineChoice<String>(
-                        clearable: true,
-                        value: _searchController.preferenceController.masterData.value.subjects!,
-                        // onChanged: setSubjectValue,
-                        itemCount:  _searchController.preferenceController.masterData.value.subjects!.length,
-                        itemBuilder:
-                            (ChoiceController<String> selection, int index) {
-                          return ChoiceChip(
-                            shape: StadiumBorder(
-                                side: BorderSide(
-                                    color:
-                                    _searchController.selectedSubjectIndices.contains(selection.value[index])
-                                        ? AppColors.trans
-                                        : AppColors.appBorderColor.withOpacity(0.25))),
-                            backgroundColor: AppColors.trans,
-                            selected: _searchController.selectedSubjectIndices.contains(selection.value[index]),
-                            onSelected: (bool selected) {
-                              setState(() {
-                                if (selected) {
-                                  _searchController.selectedSubjectIndices.add(
-                                      selection.value[index]); // Add to the set for multi-selection
-                                } else {
-                                  _searchController.selectedSubjectIndices
-                                      .remove(  selection.value[index]); // Remove from the set
-                                }
-                              });
-                            },
-                            showCheckmark: false,
-                            label: Text( _searchController.preferenceController.masterData.value.subjects?[index]??''),
-                            selectedColor: AppColors
-                                .appBlue,
-                            // Change this to your desired color
-                            labelStyle: TextStyle(
-                              color: _searchController.selectedSubjectIndices.contains(selection.value[index])
-                                  ? AppColors.white
-                                  : AppColors.appTextColor.withOpacity(
-                                  0.5), // Change text color
-                            ),
-                          );
-                        },
-                        listBuilder: ChoiceList.createWrapped(),
-                      ),
-                      AppDivider(),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20, bottom: 10),
-                        child: Row(
-                          children: <Widget>[
-                            Text('Save Search', style: openSans.get14.w500),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: FlutterSwitch(
-                                value: _searchController.isSwitch,
-                                height: 16.29,
-                                width: 27.63,
-                                toggleSize: 12,
-                                activeColor: AppColors.appBlue,
-                                inactiveColor: AppColors.gray.withOpacity(0.25),
-                                onToggle: (bool value) {
-                                  setState(() {
-                                    _searchController.isSwitch = value;
-                                  });
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      if (_searchController.isSwitch) AppTextFormField(
-                        controller: _searchController.saveName,
-                        hintText: 'Enter search name',
-                        top: 0,
-                      ) else
-                        const SizedBox.shrink(),
-
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 45, top: 30),
-
-                    child: AppButton(
-                      title: !_searchController.isSwitch ? 'Search' : 'Save Search and Show Results',
-                      onPressed: () {
-                        if(_searchController.selectedSaveDataIndices==''){
-                          _searchController.searchData=<String,dynamic >{
-                            'saveSearch':_searchController.isSwitch,
-                            if(_searchController.isSwitch && _searchController.saveName.text!='')...<String, dynamic>{
-                              'shortName': _searchController.saveName.text,
-                            },
-                            'filters':<String, dynamic>{
-                              'grades':_searchController.grade.toList(),
-                              'subjects':_searchController.selectedSubjectIndices.toList(),
-                               'schoolTypes':_searchController.selectedSchoolIndices.toList(),
-                              'curriculum': _searchController.selectedCurriculumIndices.toList(),
-                              if(_searchController.selectedGenderIndices!='')...{
-                                'gender': _searchController.selectedGenderIndices,
-                               },
-                              'classTypes': _searchController.selectedClassTypeIndices.toList()
-                            },
-                          };}else{
-                          _searchController.searchData=<String,dynamic >{
-                            'saveSearch':false,
-                            'filters':<String, dynamic>{
-                              'shortName': _searchController.selectedSaveDataIndices,
-                            }
-                          };
-                        }
-                        _searchController.searchData['pagination']=<String, dynamic>{
-                        'pageSize':20,
-                        'pageIndex': _searchController.pageIndex,
-                        'sort': <String, dynamic>{
-                        'direction': 'asc',
-                        'column': 'created_at'
-                        }
-                        };
-                        _searchController.search(SchoolEndpoint.SEARCH_CLASSES,_searchController.searchData);
-                      },
-                      // ignore: avoid_bool_literals_in_conditional_expressions
-                      isDisable: _searchController.selectedSchoolIndices.isNotEmpty ||  _searchController.selectedGenderIndices.isNotEmpty || _searchController.selectedClassTypeIndices.isNotEmpty ||
-                          _searchController.selectedSubjectIndices.isNotEmpty || _searchController.grade.isNotEmpty || _searchController.selectedSaveDataIndices !='' ||_searchController.selectedCurriculumIndices.isNotEmpty
-                          ? false
-                          : true,
-                    ),
-                  ),
-                ],
-              ),
-            )
-                : _searchController.searchClassList.isNotEmpty ? ListView.separated(
-              padding: const EdgeInsets.only(
-                 top: 5, bottom: 20,),
-              shrinkWrap: true,
-              controller: _searchController.scrollControllerClass,
-              physics: const BouncingScrollPhysics(),
-              itemCount:_searchController.searchClassList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return   AppCardView(
-                  proposals: 5,
-                  cardTitle:
-                  _searchController.searchClassList[index].subject,
-                  // ignore: avoid_bool_literals_in_conditional_expressions
-                  isBook: _searchController.searchClassList[index].canBookFlag!=null && _searchController.searchClassList[index].canBookFlag==1?true:false,
-                  date:  _searchController.searchClassList[index].classTime!=null?_searchController.searchClassList[index].classTime
-                      .toString()
-                      .epochToNormal():'',
-                  timer: _searchController.searchClassList[index].duration
-                      .toString()
-                      .timeConvert(),
-                  title: selectedProfile == ApplicationConstants.tutor?'Propose':'Book',
-                  money:
-                  "${ _searchController.searchClassList[index].cost ?? ''} ${ _searchController.searchClassList[index].currency ?? ''}",
-                  status:  _searchController.searchClassList[index].status,
-                  // isPro: true,
-                  avtar: _searchController.searchClassList[index].imageId?.getImageUrl('profile'),
-                  countryIcon: _searchController.searchClassList[index].country!=null && _languageController.countries.isNotEmpty?_languageController.countries.firstWhere((Country element) => element.name==_searchController.searchClassList[index].country).flag_url:ImageConstants.countryIcon,
-
-                  countryName: _searchController.searchClassList[index].country,
-                  reViewLength: 3,
-                  teacherName:
-                  _searchController.searchClassList[index].name,
-                  grade: _searchController.searchClassList[index].grade,
-                  minParticipants: _searchController.searchClassList[index].minParticipants,
-                  maxParticipants: _searchController.searchClassList[index].maxParticipants,
-                  cardTap: () {
-                    Get.toNamed(Routes.classDetailsView,
-                        arguments: <String, Object?>{'classNumber': _searchController.searchClassList[index].classNumber,'backIndex':1});
-                  },
-                  buttonTap: selectedProfile == ApplicationConstants.student?() async {
-                    if (_searchController.searchClassList[index]
-                        .allowAtStudentLoc ==
-                        0) {
-                      if (_searchController.searchClassList[index]
-                          .maxParticipants! >
-                          1) {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled:true,
-                          constraints: BoxConstraints(
-                            maxHeight: (MediaQuery.of(context).size.height * 0.95.px -
-                                20).px,
-                            maxWidth:
-                            // ignore: use_build_context_synchronously
-                            (MediaQuery.of(context).size.width -
-                                30)
-                                .px,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.circular(20.px),
-                          ),
-                          builder: (BuildContext context) {
-                            _classDetailsController.classId=_searchController.searchClassList[index].classNumber!;
-                            _classDetailsController.getClassDetails(_searchController.searchClassList[index].classNumber!);
-                            return BookingBottomSheet(
-                               isRouting: 'backToHomeScreen'
-                            );
-                          },
-                        );
-                      } else {
-                        _classDetailsController.classId=_searchController.searchClassList[index].classNumber!;
-                        final bool status = await _classDetailsController
-                            .bookClassDetail(
-                            {});
-                        if (status) {
-                          // ignore: use_build_context_synchronously
-                          showModalBottomSheet(
-                            context: context,
-                            constraints: BoxConstraints(
-                              maxWidth:
-                              // ignore: use_build_context_synchronously
-                              (MediaQuery.of(context)
-                                  .size
-                                  .width -
-                                  30)
-                                  .px,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.circular(20.px),
-                            ),
-                            builder: (BuildContext context) {
-                              return SuccessFailsInfoDialog(
-                                title: 'Success',
-                                buttonTitle: 'Done',
-                                content:
-                                'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
-                                 isRouting: 'back',
-                              );
-                            },
-                          );
-                        }
-                      }
-                    } else {
-                      locationModalBottomSheet(context, index);
-                    }
-                  }:(){
-                    final CreateProposalController createProposalController = Get
-                        .put(CreateProposalController());
-                    createProposalController.dateController.text =
-                        DateFormat('dd-M-yyyy hh:mm a').format(
-                            DateTime.fromMillisecondsSinceEpoch(_searchController.searchClassList[index].classTime!));
-                    createProposalController.classDurationController.text =
-                        _searchController.searchClassList[index].duration?.toString()
-                            .timeConvert() ?? '';
-                    createProposalController.duration =
-                        _searchController.searchClassList[index].duration??0;
-                    createProposalController.numberOfSession.text =
-                        _searchController.searchClassList[index].maxParticipants?.toString() ?? '';
-                    createProposalController.classCost.text =
-                        _searchController.searchClassList[index].cost?.replaceAll(
-                            '.00', '') ?? '';
-                    // ignore: avoid_dynamic_calls
-                    Get.toNamed(Routes.createProposal,
-                        arguments: {'classNumber':_searchController.searchClassList[index].classNumber!,
-                          'isRouting':'backToHomeScreen'
-                        });
-                  },
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(
-                  height: 15,
-                );
-              },
-            ) :
-            Padding(
-              padding: const EdgeInsets.only(top: 60),
-              child: SizedBox(
-                height: 240,
-                child: InfoCardVIew(
-                  isShowButton: true,
-                  isSupport: false,
-                  title: 'No Results Found!',
-                  subTitle:
-                  'No results found. Please refine your search.',
-                  cardColor: AppColors.white,
-                  buttonTitle: 'Modify Search',
-                  buttonTap: () {
-                    _searchController.isSearch.value=false;
-                   _searchController.searchClassList.clear();
-                  },
-                ),
-              ),
-            ),
+            child:  !_searchController.isSearch.value ? searchScreen()
+                : _searchController.searchClassList.isNotEmpty ?searchedDataScreen() :
+            emptySearchedDataScreen(),
         ),
       ),
     );
   }
+
+
+  Widget searchScreen(){
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          if(_searchController.savedData.isNotEmpty) Padding(
+            padding: const EdgeInsets.only(top: 25, bottom: 10),
+            child: Row(
+              children: <Widget>[
+                Text(
+                  'Select From Saved Search',
+                  style: openSans.get16.w700
+                      .textColor(AppColors.appTextColor),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: Text(
+                    '(optional)',
+                    style: openSans.get12.w400.textColor(
+                        AppColors.appTextColor.withOpacity(0.5)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if(_searchController.savedData.isNotEmpty) InlineChoice<String>(
+            clearable: true,
+            value: _searchController.savedData,
+            // onChanged: setGenderValue,
+            itemCount: _searchController.savedData.length,
+            itemBuilder:
+                (ChoiceController<String> selection, int index) {
+              return ChoiceChip(
+                shape: StadiumBorder(
+                    side: BorderSide(
+                        color: _searchController.selectedSaveDataIndices==_searchController.savedData[index]
+                            ? AppColors.trans
+                            : AppColors.appBorderColor
+                            .withOpacity(0.25))),
+                backgroundColor: AppColors.trans,
+                selected: _searchController.selectedSaveDataIndices==_searchController.savedData[index],
+                onSelected: (bool selected) {
+                  setState(() {
+                    if(_searchController.selectedSaveDataIndices==_searchController.savedData[index]){
+                      _searchController.selectedSaveDataIndices='';
+                    }else{
+                      _searchController.selectedSaveDataIndices=
+                      _searchController.savedData[index];
+                    }
+
+                    // Add to the set for multi-selection
+
+                  });
+                },
+                showCheckmark: false,
+                label: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 7),
+                  child: Text(_searchController.savedData[index]),
+                ),
+                selectedColor: AppColors.appBlue,
+                // Change this to your desired color
+                labelStyle: TextStyle(
+                  color: _searchController.selectedSaveDataIndices==_searchController.savedData[index]
+                      ? AppColors.white
+                      : AppColors.appTextColor
+                      .withOpacity(0.5), // Change text color
+                ),
+              );
+            },
+            listBuilder: ChoiceList.createWrapped(),
+          ),
+          AppDivider(),
+          if( _searchController.selectedSaveDataIndices.isEmpty)Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      'Class Type',
+                      style: openSans.get16.w700
+                          .textColor(AppColors.appTextColor),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Text(
+                        '(optional)',
+                        style: openSans.get12.w400.textColor(
+                            AppColors.appTextColor.withOpacity(0.5)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if(_searchController.preferenceController.masterData.value.classTypes!=null && _searchController.preferenceController.masterData.value.classTypes!.isNotEmpty) InlineChoice<String>(
+                clearable: true,
+                value: _searchController.preferenceController.masterData.value.classTypes!,
+                // onChanged: setGenderValue,
+                itemCount: _searchController.preferenceController.masterData.value.classTypes!.length,
+                itemBuilder:
+                    (ChoiceController<String> selection, int index) {
+                  return ChoiceChip(
+                    shape: StadiumBorder(
+                        side: BorderSide(
+                            color: _searchController.selectedClassTypeIndices.contains(selection.value[index])
+                                ? AppColors.trans
+                                : AppColors.appBorderColor
+                                .withOpacity(0.25))),
+                    backgroundColor: AppColors.trans,
+                    selected:  _searchController.selectedClassTypeIndices.contains(selection.value[index]),
+                    onSelected: (bool selected) {
+                      setState(() {
+                        if (selected) {
+                          _searchController.selectedClassTypeIndices.add(
+                              selection.value[index]); // Add to the set for multi-selection
+                        } else {
+                          _searchController.selectedClassTypeIndices
+                              .remove(selection.value[index]); // Remove from the set
+                        }
+                      });
+                    },
+                    showCheckmark: false,
+                    label: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 7),
+                      child: Text(_searchController.preferenceController.masterData.value.classTypes![index]),
+                    ),
+                    selectedColor: AppColors.appBlue,
+                    // Change this to your desired color
+                    labelStyle: TextStyle(
+                      color:   _searchController.selectedClassTypeIndices.contains(selection.value[index])
+                          ? AppColors.white
+                          : AppColors.appTextColor
+                          .withOpacity(0.5), // Change text color
+                    ),
+                  );
+                },
+                listBuilder: ChoiceList.createWrapped(),
+              ),
+              AppDivider(),
+              Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      'Gender',
+                      style: openSans.get16.w700
+                          .textColor(AppColors.appTextColor),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Text(
+                        '(optional)',
+                        style: openSans.get12.w400.textColor(
+                            AppColors.appTextColor.withOpacity(0.5)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if(_searchController.preferenceController.masterData.value.gender!=null && _searchController.preferenceController.masterData.value.gender!.isNotEmpty) InlineChoice<String>(
+                clearable: true,
+                value: _searchController.preferenceController.masterData.value.gender!,
+                // onChanged: setGenderValue,
+                itemCount: _searchController.preferenceController.masterData.value.gender!.length,
+                itemBuilder:
+                    (ChoiceController<String> selection, int index) {
+                  return ChoiceChip(
+                    shape: StadiumBorder(
+                        side: BorderSide(
+                            color: _searchController.selectedGenderIndices==selection.value[index]
+                                ? AppColors.trans
+                                : AppColors.appBorderColor
+                                .withOpacity(0.25))),
+                    backgroundColor: AppColors.trans,
+                    selected:  _searchController.selectedGenderIndices==selection.value[index],
+                    onSelected: (bool selected) {
+                      setState(() {
+                        if (selected) {
+                          _searchController.selectedGenderIndices=
+                          selection.value[index]; // Add to the set for multi-selection
+                        } else {
+                          _searchController.selectedGenderIndices='';
+                          // Remove from the set
+                        }
+                      });
+                    },
+                    showCheckmark: false,
+                    label: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 7),
+                      child: Text(_searchController.preferenceController.masterData.value.gender![index]),
+                    ),
+                    selectedColor: AppColors.appBlue,
+                    // Change this to your desired color
+                    labelStyle: TextStyle(
+                      color:   _searchController.selectedGenderIndices==selection.value[index]
+                          ? AppColors.white
+                          : AppColors.appTextColor
+                          .withOpacity(0.5), // Change text color
+                    ),
+                  );
+                },
+                listBuilder: ChoiceList.createWrapped(),
+              ),
+              AppDivider(),
+              Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      'Grade',
+                      style: openSans.get16.w700
+                          .textColor(AppColors.appTextColor),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Text(
+                        'Select 1 or more',
+                        style: openSans.get12.w400.textColor(
+                            AppColors.appTextColor.withOpacity(0.5)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              if(_searchController.preferenceController.masterData.value.grades!=null && _searchController.preferenceController.masterData.value.grades!.isNotEmpty)InlineChoice<String>(
+                clearable: true,
+                value: _searchController.preferenceController.masterData.value.grades!,
+                // onChanged: setGradeValue,
+                itemCount:_searchController.preferenceController.masterData.value.grades!.length,
+                itemBuilder:
+                    (ChoiceController<String> selection, int index) {
+                  return ChoiceChip(
+                    shape: StadiumBorder(
+                        side: BorderSide(
+                            color:
+                            _searchController.grade.contains(selection.value[index])
+                                ? AppColors.trans
+                                : AppColors.appBorderColor.withOpacity(0.25))),
+                    backgroundColor: AppColors.trans,
+                    selected:  _searchController.grade.contains(selection.value[index]),
+                    onSelected: (bool selected) {
+                      setState(() {
+                        if (selected) {
+                          _searchController.grade.add(selection.value[index]); // Add to the set for multi-selection
+                        } else {
+                          _searchController.grade.remove(selection.value[index]); // Remove from the set
+                        }
+                      });
+                    },
+                    showCheckmark: false,
+                    label: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 7),
+                      child: Text(_searchController.preferenceController.masterData.value.grades?[index]??''),
+                    ),
+                    selectedColor: AppColors
+                        .appBlue,
+                    // Change this to your desired color
+                    labelStyle: TextStyle(
+                      color: _searchController.grade.contains(selection.value[index])
+                          ? AppColors.white
+                          : AppColors.appTextColor.withOpacity(
+                          0.5), // Change text color
+                    ),
+                  );
+                },
+                listBuilder: ChoiceList.createWrapped(),
+              ),
+              AppDivider(),
+              Padding(
+                padding: const EdgeInsets.only(top: 25, bottom: 10),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      'Curriculum',
+                      style: openSans.get20.w700
+                          .textColor(AppColors.appTextColor),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Text(
+                        '(optional)',
+                        style: openSans.get12.w400.textColor(
+                            AppColors.appTextColor.withOpacity(0.5)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if(_searchController.preferenceController.masterData.value.curriculum!=null && _searchController.preferenceController.masterData.value.curriculum!.isNotEmpty) InlineChoice<String>(
+                clearable: true,
+                value:  _searchController.preferenceController.masterData.value.curriculum!,
+                // onChanged: setCurriculumValue,
+                itemCount:  _searchController.preferenceController.masterData.value.curriculum!.length,
+                itemBuilder:
+                    (ChoiceController<String> selection, int index) {
+                  return ChoiceChip(
+                    shape: StadiumBorder(
+                        side: BorderSide(
+                            color: _searchController.selectedCurriculumIndices.contains(selection.value[index])
+                                ? AppColors.trans
+                                : AppColors.appBorderColor
+                                .withOpacity(0.25))),
+                    backgroundColor: AppColors.trans,
+                    selected: _searchController.selectedCurriculumIndices.contains(selection.value[index]),
+                    onSelected: (bool selected) {
+                      setState(() {
+                        if (selected) {
+                          _searchController.selectedCurriculumIndices.add(
+                              selection.value[index]); // Add to the set for multi-selection
+                        } else {
+                          _searchController.selectedCurriculumIndices
+                              .remove(selection.value[index]); // Remove from the set
+                        }
+                      });
+                    },
+                    showCheckmark: false,
+                    label: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 7),
+                      child: Text( _searchController.preferenceController.masterData.value.curriculum?[index]??''),
+                    ),
+                    selectedColor: AppColors.appBlue,
+                    // Change this to your desired color
+                    labelStyle: TextStyle(
+                      color: _searchController.selectedCurriculumIndices.contains(selection.value[index])
+                          ? AppColors.white
+                          : AppColors.appTextColor
+                          .withOpacity(0.5), // Change text color
+                    ),
+                  );
+                },
+                listBuilder: ChoiceList.createWrapped(),
+              ),
+              AppDivider(),
+              Padding(
+                padding: const EdgeInsets.only(top: 25, bottom: 10),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      'School',
+                      style: openSans.get16.w700
+                          .textColor(AppColors.appTextColor),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Text(
+                        '(optional)',
+                        style: openSans.get12.w400.textColor(
+                            AppColors.appTextColor.withOpacity(0.5)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if(_searchController.preferenceController.masterData.value.schoolTypes!=null && _searchController.preferenceController.masterData.value.schoolTypes!.isNotEmpty) InlineChoice<String>(
+                clearable: true,
+                value: _searchController.preferenceController.masterData.value.schoolTypes!,
+                // onChanged: setSchoolValue,
+                itemCount:_searchController.preferenceController.masterData.value.schoolTypes!.length,
+                itemBuilder:
+                    (ChoiceController<String> selection, int index) {
+                  return ChoiceChip(
+                    shape: StadiumBorder(
+                        side: BorderSide(
+                            color:
+                            _searchController.selectedSchoolIndices.contains(selection.value[index])
+                                ? AppColors.trans
+                                : AppColors.appBorderColor.withOpacity(0.25))),
+                    backgroundColor: AppColors.trans,
+                    selected: _searchController.selectedSchoolIndices.contains(selection.value[index]),
+                    onSelected: (bool selected) {
+                      setState(() {
+                        if (selected) {
+                          _searchController.selectedSchoolIndices.add(
+                              selection.value[index]); // Add to the set for multi-selection
+                        } else {
+                          _searchController.selectedSchoolIndices
+                              .remove( selection.value[index]); // Remove from the set
+                        }
+                      });
+                    },
+                    showCheckmark: false,
+                    label: Text(_searchController.preferenceController.masterData.value.schoolTypes?[index]??''),
+                    selectedColor: AppColors
+                        .appBlue,
+                    // Change this to your desired color
+                    labelStyle: TextStyle(
+                      color: _searchController.selectedSchoolIndices.contains(selection.value[index])
+                          ? AppColors.white
+                          : AppColors.appTextColor.withOpacity(
+                          0.5), // Change text color
+                    ),
+                  );
+                },
+                listBuilder: ChoiceList.createWrapped(),
+              ),
+              AppDivider(),
+              Padding(
+                padding: const EdgeInsets.only(top: 25, bottom: 10),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      'Subject',
+                      style: openSans.get20.w700
+                          .textColor(AppColors.appTextColor),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Text(
+                        '(optional)',
+                        style: openSans.get12.w400.textColor(
+                            AppColors.appTextColor.withOpacity(0.5)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if(_searchController.preferenceController.masterData.value.subjects!=null && _searchController.preferenceController.masterData.value.subjects!.isNotEmpty) InlineChoice<String>(
+                clearable: true,
+                value: _searchController.preferenceController.masterData.value.subjects!,
+                // onChanged: setSubjectValue,
+                itemCount:  _searchController.preferenceController.masterData.value.subjects!.length,
+                itemBuilder:
+                    (ChoiceController<String> selection, int index) {
+                  return ChoiceChip(
+                    shape: StadiumBorder(
+                        side: BorderSide(
+                            color:
+                            _searchController.selectedSubjectIndices.contains(selection.value[index])
+                                ? AppColors.trans
+                                : AppColors.appBorderColor.withOpacity(0.25))),
+                    backgroundColor: AppColors.trans,
+                    selected: _searchController.selectedSubjectIndices.contains(selection.value[index]),
+                    onSelected: (bool selected) {
+                      setState(() {
+                        if (selected) {
+                          _searchController.selectedSubjectIndices.add(
+                              selection.value[index]); // Add to the set for multi-selection
+                        } else {
+                          _searchController.selectedSubjectIndices
+                              .remove(  selection.value[index]); // Remove from the set
+                        }
+                      });
+                    },
+                    showCheckmark: false,
+                    label: Text( _searchController.preferenceController.masterData.value.subjects?[index]??''),
+                    selectedColor: AppColors
+                        .appBlue,
+                    // Change this to your desired color
+                    labelStyle: TextStyle(
+                      color: _searchController.selectedSubjectIndices.contains(selection.value[index])
+                          ? AppColors.white
+                          : AppColors.appTextColor.withOpacity(
+                          0.5), // Change text color
+                    ),
+                  );
+                },
+                listBuilder: ChoiceList.createWrapped(),
+              ),
+              AppDivider(),
+              Padding(
+                padding: const EdgeInsets.only(top: 20, bottom: 10),
+                child: Row(
+                  children: <Widget>[
+                    Text('Save Search', style: openSans.get14.w500),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: FlutterSwitch(
+                        value: _searchController.isSwitch,
+                        height: 16.29,
+                        width: 27.63,
+                        toggleSize: 12,
+                        activeColor: AppColors.appBlue,
+                        inactiveColor: AppColors.gray.withOpacity(0.25),
+                        onToggle: (bool value) {
+                          setState(() {
+                            _searchController.isSwitch = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (_searchController.isSwitch) AppTextFormField(
+                controller: _searchController.saveName,
+                hintText: 'Enter search name',
+                top: 0,
+              ) else
+                const SizedBox.shrink(),
+
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 45, top: 30),
+
+            child: AppButton(
+              title: !_searchController.isSwitch ? 'Search' : 'Save Search and Show Results',
+              onPressed: () {
+                if(_searchController.selectedSaveDataIndices==''){
+                  _searchController.searchData=<String,dynamic >{
+                    'saveSearch':_searchController.isSwitch,
+                    if(_searchController.isSwitch && _searchController.saveName.text!='')...<String, dynamic>{
+                      'shortName': _searchController.saveName.text,
+                    },
+                    'filters':<String, dynamic>{
+                      'grades':_searchController.grade.toList(),
+                      'subjects':_searchController.selectedSubjectIndices.toList(),
+                      'schoolTypes':_searchController.selectedSchoolIndices.toList(),
+                      'curriculum': _searchController.selectedCurriculumIndices.toList(),
+                      if(_searchController.selectedGenderIndices!='')...{
+                        'gender': _searchController.selectedGenderIndices,
+                      },
+                      'classTypes': _searchController.selectedClassTypeIndices.toList()
+                    },
+                  };}else{
+                  _searchController.searchData=<String,dynamic >{
+                    'saveSearch':false,
+                    'filters':<String, dynamic>{
+                      'shortName': _searchController.selectedSaveDataIndices,
+                    }
+                  };
+                }
+                _searchController.searchData['pagination']=<String, dynamic>{
+                  'pageSize':20,
+                  'pageIndex': _searchController.pageIndex,
+                  'sort': <String, dynamic>{
+                    'direction': 'asc',
+                    'column': 'created_at'
+                  }
+                };
+                _searchController.search(SchoolEndpoint.SEARCH_CLASSES,_searchController.searchData);
+              },
+              // ignore: avoid_bool_literals_in_conditional_expressions
+              isDisable: _searchController.selectedSchoolIndices.isNotEmpty ||  _searchController.selectedGenderIndices.isNotEmpty || _searchController.selectedClassTypeIndices.isNotEmpty ||
+                  _searchController.selectedSubjectIndices.isNotEmpty || _searchController.grade.isNotEmpty || _searchController.selectedSaveDataIndices !='' ||_searchController.selectedCurriculumIndices.isNotEmpty
+                  ? false
+                  : true,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget searchedDataScreen(){
+    return ListView.separated(
+      padding: const EdgeInsets.only(
+        top: 5, bottom: 20,),
+      shrinkWrap: true,
+      controller: _searchController.scrollControllerClass,
+      physics: const BouncingScrollPhysics(),
+      itemCount:_searchController.searchClassList.length,
+      itemBuilder: (BuildContext context, int index) {
+        return   AppCardView(
+          proposals: 5,
+          cardTitle:
+          _searchController.searchClassList[index].subject,
+          // ignore: avoid_bool_literals_in_conditional_expressions
+          isBook: _searchController.searchClassList[index].canBookFlag!=null && _searchController.searchClassList[index].canBookFlag==1?true:false,
+          date:  _searchController.searchClassList[index].classTime!=null?_searchController.searchClassList[index].classTime
+              .toString()
+              .epochToNormal():'',
+          timer: _searchController.searchClassList[index].duration
+              .toString()
+              .timeConvert(),
+          title: selectedProfile == ApplicationConstants.tutor?'Propose':'Book',
+          money:
+          "${ _searchController.searchClassList[index].cost ?? ''} ${ _searchController.searchClassList[index].currency ?? ''}",
+          status:  _searchController.searchClassList[index].status,
+          // isPro: true,
+          avtar: _searchController.searchClassList[index].imageId?.getImageUrl('profile'),
+          countryIcon: _searchController.searchClassList[index].country!=null && _languageController.countries.isNotEmpty?_languageController.countries.firstWhere((Country element) => element.name==_searchController.searchClassList[index].country).flag_url:ImageConstants.countryIcon,
+
+          countryName: _searchController.searchClassList[index].country,
+          reViewLength: 3,
+          teacherName:
+          _searchController.searchClassList[index].name,
+          grade: _searchController.searchClassList[index].grade,
+          minParticipants: _searchController.searchClassList[index].minParticipants,
+          maxParticipants: _searchController.searchClassList[index].maxParticipants,
+          cardTap: () {
+            Get.toNamed(Routes.classDetailsView,
+                arguments: <String, Object?>{'classNumber': _searchController.searchClassList[index].classNumber,'backIndex':1});
+          },
+          buttonTap: selectedProfile == ApplicationConstants.student?() async {
+            if (_searchController.searchClassList[index]
+                .allowAtStudentLoc ==
+                0) {
+              if (_searchController.searchClassList[index]
+                  .maxParticipants! >
+                  1) {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled:true,
+                  constraints: BoxConstraints(
+                    maxHeight: (MediaQuery.of(context).size.height * 0.95.px -
+                        20).px,
+                    maxWidth:
+                    // ignore: use_build_context_synchronously
+                    (MediaQuery.of(context).size.width -
+                        30)
+                        .px,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                    BorderRadius.circular(20.px),
+                  ),
+                  builder: (BuildContext context) {
+                    _classDetailsController.classId=_searchController.searchClassList[index].classNumber!;
+                    _classDetailsController.getClassDetails(_searchController.searchClassList[index].classNumber!);
+                    return BookingBottomSheet(
+                        isRouting: 'backToHomeScreen'
+                    );
+                  },
+                );
+              } else {
+                _classDetailsController.classId=_searchController.searchClassList[index].classNumber!;
+                final bool status = await _classDetailsController
+                    .bookClassDetail(
+                    {});
+                if (status) {
+                  // ignore: use_build_context_synchronously
+                  showModalBottomSheet(
+                    context: context,
+                    constraints: BoxConstraints(
+                      maxWidth:
+                      // ignore: use_build_context_synchronously
+                      (MediaQuery.of(context)
+                          .size
+                          .width -
+                          30)
+                          .px,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.circular(20.px),
+                    ),
+                    builder: (BuildContext context) {
+                      return SuccessFailsInfoDialog(
+                        title: 'Success',
+                        buttonTitle: 'Done',
+                        content:
+                        'You have successfully booked your class, and you will get notification to pay after the teacher accept the class.',
+                        isRouting: 'back',
+                      );
+                    },
+                  );
+                }
+              }
+            } else {
+              locationModalBottomSheet(context, index);
+            }
+          }:(){
+            final CreateProposalController createProposalController = Get
+                .put(CreateProposalController());
+            createProposalController.dateController.text =
+                DateFormat('dd-M-yyyy hh:mm a').format(
+                    DateTime.fromMillisecondsSinceEpoch(_searchController.searchClassList[index].classTime!));
+            createProposalController.classDurationController.text =
+                _searchController.searchClassList[index].duration?.toString()
+                    .timeConvert() ?? '';
+            createProposalController.duration =
+                _searchController.searchClassList[index].duration??0;
+            createProposalController.numberOfSession.text =
+                _searchController.searchClassList[index].maxParticipants?.toString() ?? '';
+            createProposalController.classCost.text =
+                _searchController.searchClassList[index].cost?.replaceAll(
+                    '.00', '') ?? '';
+            // ignore: avoid_dynamic_calls
+            Get.toNamed(Routes.createProposal,
+                arguments: {'classNumber':_searchController.searchClassList[index].classNumber!,
+                  'isRouting':'backToHomeScreen'
+                });
+          },
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return const SizedBox(
+          height: 15,
+        );
+      },
+    );
+  }
+
+  Widget emptySearchedDataScreen(){
+    return Padding(
+      padding: const EdgeInsets.only(top: 60),
+      child: SizedBox(
+        height: 240,
+        child: InfoCardVIew(
+          isShowButton: true,
+          isSupport: false,
+          title: 'No Results Found!',
+          subTitle:
+          'No results found. Please refine your search.',
+          cardColor: AppColors.white,
+          buttonTitle: 'Modify Search',
+          buttonTap: () {
+            _searchController.isSearch.value=false;
+            _searchController.searchClassList.clear();
+          },
+        ),
+      ),
+    );
+  }
+
+
   void locationModalBottomSheet(context, index) {
     showModalBottomSheet(
         isScrollControlled: true,

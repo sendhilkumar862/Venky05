@@ -652,73 +652,83 @@ class _ClassDetailState extends State<ClassDetail> {
         context: context,
         builder: (BuildContext bc) {
           return StatefulBuilder(builder: (BuildContext context, setState) {
-            return Column(children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Text('classLocation'.tr, style: openSans.get20.w700),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 80),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color:
-                                    AppColors.downArrowColor.withOpacity(0.15)),
-                            child: const Padding(
-                              padding: EdgeInsets.all(3),
-                              child: Icon(Icons.close),
+            // ignore: use_colored_box
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30.px),
+                  topRight: Radius.circular(30.px),
+                ),
+              ),
+              child: Column(children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Text('classLocation'.tr, style: openSans.get20.w700),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 80),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color:
+                                      AppColors.downArrowColor.withOpacity(0.15)),
+                              child: const Padding(
+                                padding: EdgeInsets.all(3),
+                                child: Icon(Icons.close),
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                    ]),
-              ),
-              Obx(
-                () => Expanded(
-                  child: SingleChildScrollView(
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: _manageAddressController.address.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final UserAddress data =
-                              _manageAddressController.address[index];
-                          return listData(index, data, setState);
-                        }),
+                        )
+                      ]),
+                ),
+                Obx(
+                  () => Expanded(
+                    child: SingleChildScrollView(
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: _manageAddressController.address.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final UserAddress data =
+                                _manageAddressController.address[index];
+                            return listData(index, data, setState);
+                          }),
+                    ),
                   ),
                 ),
-              ),
-              Obx(
-                () => AppButton(
-                  onPressed: () => Get.back(),
-                  // ignore: avoid_bool_literals_in_conditional_expressions
-                  isDisable: _classDetailController.selectedIndex.value != 200
-                      ? false
-                      : true,
-                  title: 'select'.tr,
+                Obx(
+                  () => AppButton(
+                    onPressed: () => Get.back(),
+                    // ignore: avoid_bool_literals_in_conditional_expressions
+                    isDisable: _classDetailController.selectedIndex.value != 200
+                        ? false
+                        : true,
+                    title: 'select'.tr,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: TextButton(
-                    onPressed: () {
-                      final Map<String, dynamic> titleData = {
-                        'title': 'Add New Addresses',
-                      };
-                      Get.toNamed(Routes.addAddressView, arguments: titleData);
-                    },
-                    child: Text(
-                      'addNewAddress'.tr,
-                      style: openSans.w700,
-                    )),
-              )
-            ]);
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: TextButton(
+                      onPressed: () {
+                        final Map<String, dynamic> titleData = {
+                          'title': 'Add New Addresses',
+                        };
+                        Get.toNamed(Routes.addAddressView, arguments: titleData);
+                      },
+                      child: Text(
+                        'addNewAddress'.tr,
+                        style: openSans.w700,
+                      )),
+                )
+              ]),
+            );
           });
         });
   }
@@ -840,68 +850,78 @@ class _ClassDetailState extends State<ClassDetail> {
               topLeft: Radius.circular(30), topRight: Radius.circular(30))),
       context: context,
       builder: (BuildContext context) {
-        return Column(
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Text('classDuration'.tr, style: openSans.get14.w700),
-                        SizedBox(
-                          width: width * 0.25,
-                        ),
-                        Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color:
-                                    AppColors.downArrowColor.withOpacity(0.15)),
-                            child: IconButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              icon: const Icon(
-                                Icons.close,
-                                size: 15,
-                              ),
-                            ))
-                      ]),
-                ),
-              ],
+        // ignore: use_colored_box
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30.px),
+              topRight: Radius.circular(30.px),
             ),
-            Expanded(
-              child: ListView.separated(
-                separatorBuilder: (BuildContext context, int index) {
-                  return const Divider();
-                },
-                itemCount: data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text(
-                        isClassDuration != null
-                            ? data[index].timeConvert()
-                            : data[index],
-                        style: openSans.get16.w400
-                            .textColor(AppColors.appTextColor)),
-                    onTap: () {
-                      myValueGetter(index);
-                    },
-                    trailing: isSelected == index
-                        ? const Icon(
-                            Icons.check_circle,
-                            color: AppColors.appBlue,
-                          )
-                        : const SizedBox(),
-                  );
-                },
+          ),
+          child: Column(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Text('classDuration'.tr, style: openSans.get14.w700),
+                          SizedBox(
+                            width: width * 0.25,
+                          ),
+                          Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color:
+                                      AppColors.downArrowColor.withOpacity(0.15)),
+                              child: IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: const Icon(
+                                  Icons.close,
+                                  size: 15,
+                                ),
+                              ))
+                        ]),
+                  ),
+                ],
               ),
-            ),
-          ],
+              Expanded(
+                child: ListView.separated(
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const Divider();
+                  },
+                  itemCount: data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      title: Text(
+                          isClassDuration != null
+                              ? data[index].timeConvert()
+                              : data[index],
+                          style: openSans.get16.w400
+                              .textColor(AppColors.appTextColor)),
+                      onTap: () {
+                        myValueGetter(index);
+                      },
+                      trailing: isSelected == index
+                          ? const Icon(
+                              Icons.check_circle,
+                              color: AppColors.appBlue,
+                            )
+                          : const SizedBox(),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         );
       },
     );

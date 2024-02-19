@@ -2,20 +2,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import '../repository/password_repository.dart';
-
-
 import '../../../../core/base_response.dart';
 import '../../../../mirrorfly/mirrorFlyController/mirrorfly_auth_controller.dart';
-import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/key_value_storage.dart';
 import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_utils.dart';
-
 import '../../../../product/utils/validators.dart';
 import '../model/password_model.dart';
 import '../model/password_model_request.dart';
 import '../model/term_and_condition_model.dart';
 import '../repository/get_term_condition_repository.dart';
+import '../repository/password_repository.dart';
 
 class PasswordController extends GetxController {
 

@@ -21,6 +21,8 @@ class SearchClassController extends GetxController {
   final GetSavedSearchRepository _getSavedSearchRepository=GetSavedSearchRepository();
   final SearchRepository _searchRepository =SearchRepository();
 
+  int tabIndex=0;
+
 // class variable
   RxString error=''.obs;
   Set<String> selectedSchoolIndices = <String>{};

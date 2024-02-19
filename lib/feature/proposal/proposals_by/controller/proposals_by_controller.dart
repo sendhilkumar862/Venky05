@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import '../../../../core/base_response.dart';
 import '../../../../custom/loader/easy_loader.dart';
-import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/key_value_storage.dart';
 import '../../../../product/cache/local_manager.dart';
 import '../../proposol_details/repository/get_proposal_detail_repository.dart';
 import '../model/proposal_detail_model.dart';

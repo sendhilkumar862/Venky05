@@ -34,7 +34,7 @@ class _CreateProposalState extends State<CreateProposal> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String? proposalId;
   String?isRouting='back';
-  bool isDisable = true;
+  bool isDisable = false;
 
 @override
   void initState() {
@@ -233,6 +233,7 @@ class _CreateProposalState extends State<CreateProposal> {
                 controller.text =
                     '${_createProposalController.selectedDate.value} ${_createProposalController.selectedTimes.value}';
               },
+                startDate:DateTime.now()
             );
           },
         );

@@ -48,6 +48,7 @@ class _ProposalsByState extends State<ProposalsBy> {
       Container(
         height: (MediaQuery.of(context).size.height * 0.92).px,
         decoration: BoxDecoration(
+          color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30.px),
             topRight: Radius.circular(30.px),

@@ -27,6 +27,7 @@ class InvoiceCardView extends StatelessWidget {
       onTap: onTap,
       child: Container(
         margin: EdgeInsets.only(left: 15.px),
+        width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +49,7 @@ class InvoiceCardView extends StatelessWidget {
               ),
             Row(
               children: <Widget>[
-                if (title == 'Class Fees')
+                if ( title=='class_credit')
                   CircleAvatar(
                       backgroundColor: AppColors.appLightRedTwo,
                       radius: 23.px,
@@ -69,51 +70,49 @@ class InvoiceCardView extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    SizedBox(
-                      width: 260.px,
-                      child: Row(
-                        children: <Widget>[
-                          AppText(
-                            title ?? '',
-                            fontSize: 14.px,
-                          ),
-                          const Spacer(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              AppText(
-                                amount?.split('.')[0]??'',
-                                fontSize: 14.px,
-                                fontWeight: FontWeight.w700,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top:2.0),
-                                child: AppText(
-                                  '.${amount?.split('.')[1]??''} KWD',
-                                  fontSize: 10.px,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 18,
-                              ),
-                              AppImageAsset(
-                                image: ImageConstants.forwardIcon,
-                                height: 14.px,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                    AppText(
+                      title=='class_credit'?'Class Fees title':'Withdraw',
+                      fontSize: 14.px,
                     ),
                     SizedBox(
                       height: 4.px,
                     ),
+                    SizedBox(
+                      width: 200.px,
+                      child: AppText(
+                        'Invoice No. $invoiceNumber',
+                        fontSize: 10.px,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.appGrey,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
                     AppText(
-                      'Invoice No. $invoiceNumber',
-                      fontSize: 10.px,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.appGrey,
+                      amount?.split('.')[0]??'',
+                      fontSize: 14.px,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top:2.0),
+                      child: AppText(
+                        '.${amount?.split('.')[1]??''} KWD',
+                        fontSize: 10.px,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    AppImageAsset(
+                      image: ImageConstants.forwardIcon,
+                      height: 30.px,
                     ),
                   ],
                 ),

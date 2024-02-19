@@ -1,6 +1,6 @@
 import 'package:get_storage/get_storage.dart';
 
-import 'key_value_storeage.dart';
+import 'key_value_storage.dart';
 
 class LocaleManager {
   LocaleManager._();

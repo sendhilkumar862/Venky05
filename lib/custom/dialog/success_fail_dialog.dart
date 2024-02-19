@@ -37,6 +37,13 @@ class SuccessFailsInfoDialog extends StatelessWidget {
     return Container(
       padding:
           EdgeInsets.symmetric(vertical: verticalPadding ?? 25, horizontal: 25),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30.px),
+          topRight: Radius.circular(30.px),
+        ),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[

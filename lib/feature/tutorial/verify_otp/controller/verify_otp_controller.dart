@@ -8,7 +8,7 @@ import '../../../../core/base_response.dart';
 import '../../../../custom/countdown_timer/timer_count_down.dart';
 import '../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../custom/loader/easy_loader.dart';
-import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/key_value_storage.dart';
 import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/utils/validators.dart';

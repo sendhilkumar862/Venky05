@@ -3,7 +3,7 @@ import 'package:hessah/core/base_response.dart';
 import 'package:hessah/feature/wallet/walletView/model/get_wallet_balance_model.dart';
 
 import '../../../../custom/loader/easy_loader.dart';
-import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/key_value_storage.dart';
 import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../model/get_wallet_balance_list_model.dart';

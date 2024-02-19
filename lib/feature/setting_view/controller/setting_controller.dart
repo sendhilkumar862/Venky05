@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../config/routes/route.dart';
 import '../../../core/base_response.dart';
 import '../../../core/local_auth_services.dart';
-import '../../../product/cache/key_value_storeage.dart';
+import '../../../product/cache/key_value_storage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/app/app_utils.dart';
