@@ -4,12 +4,13 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../config/routes/route.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/text/app_text.dart';
-import '../../../product/cache/key_value_storeage.dart';
+import '../../../product/cache/key_value_storage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../home/controller/home_controller.dart';
+import '../../search/controller/search_controller.dart';
 import '../../tutorial/language/controller/language_controller.dart';
 import '../controller/home_view_controller.dart';
 
@@ -56,6 +57,7 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
                 Get.toNamed(Routes.notificationView);
               },
               onSearchTap: () {
+                Get.delete<SearchClassController>();
                 Get.toNamed(Routes.searchView);
               },
               onProfileTap: () {

@@ -42,6 +42,7 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
         padding: EdgeInsets.only(left: 15.px, right: 15.px),
         height:  widget.height ?? MediaQuery.of(context).size.height * 0.72.px,
         decoration: BoxDecoration(
+          color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30.px),
             topRight: Radius.circular(30.px),

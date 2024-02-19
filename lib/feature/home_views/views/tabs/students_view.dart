@@ -2,16 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../../../config/routes/route.dart';
-import '../../../../custom/cardView/details_card_view.dart';
 import '../../../../custom/cardView/details_card_view_student.dart';
 import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';
-import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/key_value_storage.dart';
 import '../../../../product/cache/local_manager.dart';
-import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../home/controller/home_controller.dart';

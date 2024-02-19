@@ -12,7 +12,7 @@ import '../../../../custom/cardView/info_card_view.dart';
 import '../../../../custom/divider/divider.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
-import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/key_value_storage.dart';
 import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_constants.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
@@ -20,9 +20,6 @@ import '../../../../product/constants/image/image_constants.dart';
 import '../../../home/controller/home_controller.dart';
 import '../../../home_views/views/tabs/classes_view.dart';
 import '../../view/invoice_card_view.dart';
-import '../../view/view_all_view.dart';
-import '../../view/withdraw.dart';
-import '../../view/withdraw_view.dart';
 import '../controller/wallet_view_controller.dart';
 
 class WalletView extends StatefulWidget {
@@ -225,8 +222,10 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                               itemBuilder: (BuildContext context, int index) {
                                 // if item is zero the condition will be menage//
                                 return  InvoiceCardView(
-                                        title: 'Class Fees',
-                                        invoiceNumber: '#123456',
+                                        title:_walletViewController
+                                            .walletBalanceListData[index].type,
+                                        invoiceNumber:_walletViewController
+                                            .walletBalanceListData[index].id??'',
                                         amount: _walletViewController
                                             .walletBalanceListData[index].amount,
                                         date: '',

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../../../custom/appbar/appbar.dart';
-import '../../../product/cache/key_value_storeage.dart';
+import '../../../product/cache/key_value_storage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/utils/typography.dart';
-import '../../tutorial/language/controller/language_controller.dart';
+import '../controller/search_controller.dart';
 import 'for_students.dart';
 import 'for_teacher.dart';
 
@@ -21,6 +20,7 @@ class SearchView extends StatefulWidget {
 
 class _SearchViewState extends State<SearchView> {
   String selectedProfile = '';
+  final SearchClassController _searchController=Get.put(SearchClassController());
   @override
   void initState() {
     // TODO: implement initState
@@ -35,6 +35,21 @@ class _SearchViewState extends State<SearchView> {
           trailingText: 'Cancel',
           title: 'Search',
           isTitleOnly: true,
+          trailingTap: (){
+            if( _searchController.tabIndex==1){
+              if( _searchController.isSearchUser.value){
+                _searchController.isSearchUser.value=false;
+              }else{
+                Get.back();
+              }
+            }else{
+              if(  _searchController.isSearch.value){
+                _searchController.isSearch.value=false;
+              }else{
+                Get.back();
+              }
+            }
+          },
         ),
         body: DefaultTabController(
           length: 2,
@@ -79,7 +94,9 @@ class _SearchViewState extends State<SearchView> {
                             indicator: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
                                 color: AppColors.white),
-                            onTap: (int index) {},
+                            onTap: (int index) {
+                            _searchController.tabIndex=index;
+                            },
                             tabs:  <Widget>[
                               const Tab(
                                 text: 'Search For Classes',
@@ -93,7 +110,7 @@ class _SearchViewState extends State<SearchView> {
                   ),
                   const Expanded(
                     child: TabBarView(
-                      children: [ForStudents(), ForTeacher()],
+                      children: <Widget>[ForStudents(), ForTeacher()],
                     ),
                   ),
                 ],

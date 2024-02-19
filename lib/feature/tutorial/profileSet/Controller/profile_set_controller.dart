@@ -1,14 +1,14 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+
 import '../../../../config/routes/route.dart';
 import '../../../../core/base_response.dart';
 import '../../../../custom/loader/easy_loader.dart';
-import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/key_value_storage.dart';
 import '../../../../product/cache/local_manager.dart';
-import '../repository/profile_set_repository.dart';
 import '../../onboarding/Controller/onboading_controller.dart';
-import '../../onboarding/view/onboading_view.dart';
 import '../model/about_model.dart';
+import '../repository/profile_set_repository.dart';
 
 class ProfileSetController extends GetxController {
   final ProfileSetRepository _profileSetRepository = ProfileSetRepository();

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../../core/api_end_points.dart';
 import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
-import '../../../product/cache/key_value_storeage.dart';
+import '../../../product/cache/key_value_storage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../classDetails/repository/book_class_repository.dart';
 import '../../tutorial/login/model/refresh_model.dart';

@@ -6,15 +6,17 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../config/routes/route.dart';
+import '../../../core/api_end_points.dart';
 import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
-import '../../../product/cache/key_value_storeage.dart';
+import '../../../product/cache/key_value_storage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_utils.dart';
 import '../../../product/utils/validators.dart';
 import '../../home/controller/home_controller.dart';
 import '../../proposal/proposol_details/repository/approve_proposal_repository.dart';
 import '../../proposal/proposol_details/repository/delete_proposal_repository.dart';
+import '../../search/controller/search_controller.dart';
 import '../modal/class_detail_model.dart';
 import '../modal/initiate_payment_model.dart';
 import '../modal/proposal_model.dart';
@@ -49,6 +51,7 @@ class ClassDetailsController extends GetxController {
   final MakePaymentRepository _makePaymentRepository = MakePaymentRepository();
 
   final HomeController homeController = Get.put(HomeController());
+  final SearchClassController _searchController=Get.put(SearchClassController());
 
   RxString selectedProfile = ''.obs;
   String classId = '';
@@ -174,6 +177,7 @@ class ClassDetailsController extends GetxController {
         await _deleteProposalDetailRepository.deleteProposalDetail(id, classId);
     if (getProposalsDataResponse.status?.type == 'success') {
       await getClassDetails(classId);
+      await _searchController.search(SchoolEndpoint.SEARCH_CLASSES,_searchController.searchData);
     }
     hideLoading();
   }

@@ -8,10 +8,8 @@ import '../../../../config/routes/route.dart';
 
 import '../../../../core/api_end_points.dart';
 import '../../../../custom/cardView/app_card_view.dart';
-import '../../../../custom/cardView/heading_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';
-import '../../../../custom/cardView/info_card_view_horizontal.dart';
-import '../../../../product/cache/key_value_storeage.dart';
+import '../../../../product/cache/key_value_storage.dart';
 import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
