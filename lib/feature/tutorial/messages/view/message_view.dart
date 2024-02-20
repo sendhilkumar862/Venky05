@@ -185,23 +185,29 @@ class _MessageViewState extends State<MessageView> {
                       color: AppColors.appGrey,
                     ),
                     const SizedBox(height: 7),
-                    ListView.separated(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        physics:
-                        const NeverScrollableScrollPhysics(),
-                        itemBuilder:
-                            (BuildContext context, int index) {
-                          return teachersCardView(context,
-                              index, setState);
-                        },
-                        separatorBuilder:
-                            (BuildContext context, int index) {
-                          return const Divider(
-                            height: 30,
-                          );
-                        },
-                        itemCount: 10)
+
+                    Obx(
+               ()=>_messageController.mirrorFlyMessageController.userList.isNotEmpty? ListView.separated(
+                         shrinkWrap: true,
+                         scrollDirection: Axis.vertical,
+                         physics:
+                         const NeverScrollableScrollPhysics(),
+                         itemBuilder:
+                             (BuildContext context, int index) {
+                           return teachersCardView(context,
+                               index, setState);
+                         },
+                         separatorBuilder:
+                             (BuildContext context, int index) {
+                           return const Divider(
+                             height: 30,
+                           );
+                         },
+                         itemCount: _messageController.mirrorFlyMessageController.userList.length):
+          const SizedBox.shrink()
+                    )
+
+
                   ],
                 ),
               )
@@ -293,7 +299,7 @@ class _MessageViewState extends State<MessageView> {
           ]),
           child: GestureDetector(
             onTap: () {
-              Get.toNamed(Routes.chatView);
+              Get.toNamed(Routes.chatView,arguments: <String, String>{'receiverJID':_messageController.mirrorFlyMessageController.userList[index].name??''});
             },
             onLongPress: () {
               _messageController.teacherLongPress.value =
@@ -332,8 +338,10 @@ class _MessageViewState extends State<MessageView> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        const AppText(
-                          'Mr.User Name',
+                          AppText(
+                            _messageController.mirrorFlyMessageController.userList[index].name!=''
+                            ?'Mr. ${ _messageController.mirrorFlyMessageController.userList[index].name??''}':''
+                       ,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                         ),
