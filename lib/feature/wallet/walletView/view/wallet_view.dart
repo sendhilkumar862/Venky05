@@ -230,7 +230,8 @@ class _WalletViewState extends State<WalletView> with TickerProviderStateMixin {
                                             .walletBalanceListData[index].amount,
                                         date: '',
                                         onTap: () {
-                                          Get.toNamed(Routes.invoiceDetails);
+                                          Get.toNamed(Routes.invoiceDetails,arguments: _walletViewController
+                                              .walletBalanceListData[index].id);
                                         },
                                       );
                               },

@@ -572,8 +572,10 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
                                       updatedData, data.id!);
                                 },
                                 style: const ButtonStyle(
+                                    // ignore: always_specify_types
                                     backgroundColor: MaterialStatePropertyAll(
                                         AppColors.appBlue),
+                                    // ignore: always_specify_types
                                     shape: MaterialStatePropertyAll(
                                         StadiumBorder())),
                                 child: const Text('Set Default',
