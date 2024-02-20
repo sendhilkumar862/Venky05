@@ -30,6 +30,7 @@ class _MessageViewState extends State<MessageView> {
   bool isStudent = false;
   String selectedProfile = '';
   bool isPending = false;
+
   final MessageController _messageController=Get.put(MessageController());
   final HomeController _homeController = Get.find();
   @override
@@ -299,7 +300,7 @@ class _MessageViewState extends State<MessageView> {
           ]),
           child: GestureDetector(
             onTap: () {
-              Get.toNamed(Routes.chatView,arguments: <String, String>{'receiverJID':_messageController.mirrorFlyMessageController.userList[index].name??''});
+              Get.toNamed(Routes.chatView,arguments: _messageController.mirrorFlyMessageController.userList[index].jid??'');
             },
             onLongPress: () {
               _messageController.teacherLongPress.value =

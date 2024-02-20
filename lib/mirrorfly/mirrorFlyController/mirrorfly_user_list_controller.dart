@@ -10,21 +10,22 @@ class MirrorFlyMessageController extends GetxController {
 
   @override
   void onInit() {
-    showLoading();
-    // TODO: implement onInit
     super.onInit();
     getUsersList();
-    hideLoading();
+
   }
 
   RxList<Profile> userList = <Profile>[].obs;
 
   getUsersList() async {
-    Mirrorfly.getUserList(1, '',).then((data) {
+    showLoading();
+    Mirrorfly.getUserList(1, '',200).then((data) {
       var list = userListFromJson(data);
       if (list.data != null) {
         userList.addAll(list.data!);
       }
+      hideLoading();
     });
+
   }
 }

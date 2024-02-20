@@ -17,7 +17,6 @@ Future<void> main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
   try {
-
     Mirrorfly.init(
         baseUrl: Config.mirrorFlyBaseURL,
         licenseKey:  Config.mirrorFlyLicenceKey,

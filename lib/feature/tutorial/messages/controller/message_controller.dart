@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide Response;
-import 'package:mirrorfly_plugin/flychat.dart';
-import 'package:mirrorfly_plugin/model/user_list_model.dart';
+import '../../../../mirrorfly/mirrorFlyController/mirrorfly_user_list_controller.dart';
 
-import '../../../../custom/loader/easy_loader.dart';
-import '../../../../mirrorfly/mirrorFlyController/mirrorfly_message_controller.dart';
+
 
 
 

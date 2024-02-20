@@ -1,30 +1,41 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'login_model.freezed.dart';
-part 'login_model.g.dart';
 
-@freezed
-class LoginModel with _$LoginModel {
-  const factory LoginModel({
-    Token? token,
-    String? username,
-    String? status,
-  }) = _LoginModel;
 
-  factory LoginModel.fromJson(Map<String, dynamic> json) =>
-      _$LoginModelFromJson(json);
+class LoginModel {
+
+  LoginModel({this.token, this.username, this.status});
+
+  LoginModel.fromJson(Map<String, dynamic> json) {
+    token = json['token'] != null ? Token.fromJson(json['token']) : null;
+    username = json['username'];
+    status = json['status'];
+  }
+  Token? token;
+  String? username;
+  String? status;
 }
 
-@freezed
-class Token with _$Token {
-  const factory Token({
-    String? accessToken,
-    int? accessTokenExpiryTime,
-    String? refreshToken,
-    int? refreshTokenExpiryTime,
-    String? role,
-  }) = _Token;
+class Token {
 
-  factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
+  Token(
+      {this.accessToken,
+        this.accessTokenExpiryTime,
+        this.refreshToken,
+        this.refreshTokenExpiryTime,
+        this.role});
+
+  Token.fromJson(Map<String, dynamic> json) {
+    accessToken = json['accessToken'];
+    accessTokenExpiryTime = json['accessTokenExpiryTime'];
+    refreshToken = json['refreshToken'];
+    refreshTokenExpiryTime = json['refreshTokenExpiryTime'];
+    role = json['role'];
+  }
+  String? accessToken;
+  int? accessTokenExpiryTime;
+  String? refreshToken;
+  int? refreshTokenExpiryTime;
+  String? role;
 }
