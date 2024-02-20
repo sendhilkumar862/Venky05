@@ -17,11 +17,15 @@ Future<void> main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    // Initialize the Flutter binding
-    await Mirrorfly.initializeSDK(
-        // baseUrl: Config.mirrorFlyBaseURL,
-        licenseKey: Config.mirrorFlyLicenceKey,
+    Mirrorfly.init(
+        baseUrl: Config.mirrorFlyBaseURL,
+        licenseKey:  Config.mirrorFlyLicenceKey,
         iOSContainerID: Config.bundleId);
+    // Initialize the Flutter binding
+    // await Mirrorfly.initializeSDK(
+    //     // baseUrl: Config.mirrorFlyBaseURL,
+    //     licenseKey: Config.mirrorFlyLicenceKey,
+    //     iOSContainerID: Config.bundleId);
   } catch (e) {
     // await Mirrorfly.initializeSDK(
     //      licenseKey: Config.mirrorFlyLicenceKey,

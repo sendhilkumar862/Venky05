@@ -1,14 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide Response;
+import '../../../../mirrorfly/mirrorFlyController/mirrorfly_user_list_controller.dart';
+
+
+
 
 
 class MessageController extends GetxController{
+
 
   TextEditingController searchTeacherController = TextEditingController();
   RxInt selectedIndex = 1.obs;
   RxList<bool> isSelectReadStatus = [false, false].obs;
   RxList<bool> isSelectNewStatus = [false, false].obs;
-
+  final MirrorFlyMessageController mirrorFlyMessageController=Get.put(MirrorFlyMessageController());
 
   RxList readStatus = <String>['Read', 'Unread'].obs;
   RxList newStatus = <String>['New to Old', 'Old to View'].obs;
@@ -18,6 +23,10 @@ class MessageController extends GetxController{
   int? formattedDate;
   RxList selectedItems = [].obs;
   RxList isSelected = List.filled(50, false).obs;
+
+
+
+
 
 
   void onSelected(int index) {
@@ -33,6 +42,8 @@ class MessageController extends GetxController{
       isSelected.value = List.filled(50, false);
     }
   }
+
+
 
 
 
