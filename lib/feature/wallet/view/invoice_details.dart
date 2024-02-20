@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -12,6 +13,9 @@ import 'package:share_plus/share_plus.dart';
 import '../../../custom/appbar/appbar.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
+import '../../../product/extension/string_extension.dart';
+import '../walletView/controller/wallet_view_controller.dart';
+import '../walletView/model/get_wallet_balance_transaction.dart';
 
 class InvoiceDetails extends StatefulWidget {
   const InvoiceDetails({super.key});
@@ -21,76 +25,91 @@ class InvoiceDetails extends StatefulWidget {
 }
 
 class _InvoiceDetailsState extends State<InvoiceDetails> {
+  final WalletViewController _walletViewController =Get.find();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _walletViewController.getTransactions(Get.arguments);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HessaAppBar(
         isTitleOnly: true,
         title: 'Invoice Details',
-        isBack: true,
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
-            child: Container(
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(20)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: Column(
-                  children: [
-                    userDataRow(
-                        title: 'Transaction Date', data: '11/10/2023 11:23 AM'),
-                    userDataRow(
-                        title: 'Transaction Number', data: '#1232132132323'),
-                    userDataRow(title: 'Transaction Type', data: 'Class Fees'),
-                    const Divider(),
-                    userDataRow(
-                        title: 'Class Cost', data: '5', data1: '.500 KWD'),
-                    userDataRow(title: 'Number of Sessions', data: '5'),
-                    const Divider(),
-                    userDataRow(
-                        title: 'Total Class Cost',
-                        data: '27',
-                        data1: '.500 KWD'),
-                    userDataRow(
-                        title: 'Hessah Fees', data: '1', data1: '.000 KWD'),
-                    const Divider(),
-                    userDataRow(
-                        title: 'Invoice Amount',
-                        data: '28',
-                        data1: '.500 KWD',
-                        weight: FontWeight.w700),
-                  ],
+      body: Obx((){
+        final GetWalletBalanceTransModel data=  _walletViewController.getWalletBalanceTransModel.value;
+     return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(20)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Column(
+                    children: [
+                      userDataRow(
+                          title: 'Transaction Date', data: data.createdAt!
+                          .toString()
+                          .epochToNormal()),
+                      userDataRow(
+                          title: 'Transaction Number', data: data.id??''),
+                      userDataRow(title: 'Transaction Type', data:data.type??''),
+                      const Divider(),
+                      userDataRow(
+                          title: 'Class Cost', data: data.amount?.split('.')[0]??'', data1: '.${ data.amount?.split('.')[1]??''} KWD'),
+                      userDataRow(title: 'Number of Sessions', data: '5'),
+                      const Divider(),
+                      userDataRow(
+                          title: 'Total Class Cost',
+                          data: '27',
+                          data1: '.500 KWD'),
+                      userDataRow(
+                          title: 'Hessah Fees', data: '1', data1: '.000 KWD'),
+                      const Divider(),
+                      userDataRow(
+                          title: 'Invoice Amount',
+                          data: '28',
+                          data1: '.500 KWD',
+                          weight: FontWeight.w700),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          ElevatedButton.icon(
-              onPressed: () async {
-                final file = await generatePDF(
-                  transactionDate: '11/10/2023 11:23 AM',
-                  transactionNumber: '#1232132132323',
-                  transactionType: 'Class Fees',
-                  classCost: '5.000 KWD',
-                  numberOfSessions: '5',
-                  totalClassCost: '27.500 KWD',
-                  hessahFees: '1.000 KWD',
-                  invoiceAmount: '28.500 KWD',
-                );
-                Share.shareFiles([file.path], text: 'Sharing Invoice PDF');
-              },
-              style: ButtonStyle(
-                  shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)))),
-              icon: const Icon(
-                Icons.file_download_outlined,
-                color: AppColors.white,
-              ),
-              label: const AppText('Download Invoice', color: AppColors.white))
-        ],
+            ElevatedButton.icon(
+                onPressed: () async {
+                  final file = await generatePDF(
+                    transactionDate: data.createdAt!
+                        .toString()
+                        .epochToNormal(),
+                    transactionNumber: '#1232132132323',
+                    transactionType: 'Class Fees',
+                    classCost: '5.000 KWD',
+                    numberOfSessions: '5',
+                    totalClassCost: '27.500 KWD',
+                    hessahFees: '1.000 KWD',
+                    invoiceAmount: '28.500 KWD',
+                  );
+                  Share.shareFiles([file.path], text: 'Sharing Invoice PDF');
+                },
+                style: ButtonStyle(
+                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)))),
+                icon: const Icon(
+                  Icons.file_download_outlined,
+                  color: AppColors.white,
+                ),
+                label: const AppText('Download Invoice', color: AppColors.white))
+          ],
+        );}
       ),
     );
   }
