@@ -39,13 +39,14 @@ class _ChatViewState extends State<ChatView> {
         ),
       ),
       body: Obx((){
-        final List<ChatMessageModel> data=_mirrorFlyChatViewController.chatMessageModel;
+        final List<ChatMessageModel> data=_mirrorFlyChatViewController.chatMessageModel.reversed.toList();
        return  Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Expanded(
               child: ListView.builder(
                 itemCount:data.length,
+              reverse: true,
                 //chatViewModel.message.length,
                 itemBuilder: (BuildContext context, int index) {
                   return (true)

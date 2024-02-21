@@ -4,6 +4,7 @@ import 'package:mirrorfly_plugin/flychat.dart';
 import 'package:mirrorfly_plugin/model/user_list_model.dart';
 
 import '../../custom/loader/easy_loader.dart';
+import '../../feature/tutorial/messages/model/chat_message_model.dart';
 
 
 class MirrorFlyMessageController extends GetxController {
@@ -12,6 +13,8 @@ class MirrorFlyMessageController extends GetxController {
   void onInit() {
     super.onInit();
     getUsersList();
+
+
 
   }
 
@@ -28,4 +31,7 @@ class MirrorFlyMessageController extends GetxController {
     });
 
   }
+
+
+
 }
