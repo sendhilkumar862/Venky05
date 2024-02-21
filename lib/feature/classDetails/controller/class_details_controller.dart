@@ -25,6 +25,7 @@ import '../modal/student_list_model.dart';
 import '../repository/approve_reject_student_repository.dart';
 import '../repository/book_class_repository.dart';
 import '../repository/cancel_class_repository.dart';
+import '../repository/class_cancel_approval_repository.dart';
 import '../repository/get_all_proposal_repository.dart';
 import '../repository/get_all_students_repository.dart';
 import '../repository/get_class_details_repository.dart';
@@ -40,6 +41,7 @@ class ClassDetailsController extends GetxController {
       GetStudentsAllRepository();
   final DeleteProposalDetailRepository _deleteProposalDetailRepository =
       DeleteProposalDetailRepository();
+  final ClassCancelApprovalRepository _classCancelApprovalRepository=ClassCancelApprovalRepository();
   final ApproveProposalRepository _approveProposalRepository =
       ApproveProposalRepository();
   final BookClassRepository _bookClassRepository = BookClassRepository();
@@ -235,6 +237,25 @@ class ClassDetailsController extends GetxController {
     showLoading();
     final BaseResponse getProposalsDataResponse =
         await _cancelClassRepository.cancelClassRepositoryRepository(classId);
+    if (getProposalsDataResponse.status?.type == 'success') {
+      final HomeController homeController = Get.find();
+      await getClassDetails(classId);
+      homeController.relatedPageIndex = 1;
+      homeController.historyPageIndex = 1;
+      homeController.activityPageIndex = 1;
+      homeController.upcomingPageIndex = 1;
+      await homeController.getData();
+      status = true;
+    }
+    hideLoading();
+    return status;
+  }
+
+  Future<bool> classCancelApproval(String statusValue) async {
+    bool status = false;
+    showLoading();
+    final BaseResponse getProposalsDataResponse =
+    await _classCancelApprovalRepository.classCancelApprovalRepository(classId, statusValue);
     if (getProposalsDataResponse.status?.type == 'success') {
       final HomeController homeController = Get.find();
       await getClassDetails(classId);
