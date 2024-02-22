@@ -1807,8 +1807,6 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                               ),
                               builder: (BuildContext context) {
                                 return BookingBottomSheet(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.62.px,
                                   isBook: 'false',
                                   isRouting: '',
                                 );
