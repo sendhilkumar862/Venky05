@@ -34,7 +34,9 @@ class ClassDetailsModel {
       this.canPay,
       this.proposalsCount,
       this.teacherDetails,
-      this.proposals});
+      this.proposals,
+      this.canApproveCancel,
+      this.canRejectCancel});
 
   ClassDetailsModel.fromJson(Map<String, dynamic> json) {
     userName = json['username'];
@@ -68,6 +70,8 @@ class ClassDetailsModel {
     canCancelClass = json['canCancelClass'];
     canBookClass = json['canBookClass'];
     canCancelClass = json['canCancelClass'];
+    canApproveCancel = json['canApproveTheCancellation'];
+    canRejectCancel = json['canRejectTheCancellation'];
     canWithdrawProposal = json['canWithdrawProposal'];
     canPay = json['canPay'];
     teacherDetails = json['teacherDetails'] != null
@@ -119,6 +123,8 @@ class ClassDetailsModel {
   bool? canBookClass;
   bool? canSubmitProposal;
   bool? canCancelClass;
+  bool? canApproveCancel;
+  bool? canRejectCancel;
   bool? canWithdrawProposal;
   bool? canPay;
   TeacherDetails? teacherDetails;
