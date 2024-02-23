@@ -41,6 +41,7 @@ class ClassDetailsView extends StatefulWidget {
   @override
   State<ClassDetailsView> createState() => _ClassDetailsViewState();
 }
+
 class _ClassDetailsViewState extends State<ClassDetailsView>
     with TickerProviderStateMixin {
   final ClassDetailsController _classDetailsController =
@@ -134,10 +135,10 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
     return _classDetailsController.classData.value.studentDetails != null
         ? Column(
             children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: HeadingCardView(padding: 0, title: 'Created By'),
-                ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                child: HeadingCardView(padding: 0, title: 'Created By'),
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                 child: DetailsCardViewHorizontal(
@@ -314,7 +315,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
-                      onTap: !(_classDetailsController.classData.value.canPay??false)
+                      onTap: !(_classDetailsController.classData.value.canPay ??
+                              false)
                           ? () async {
                               _proposalsByController.getProposalDetails(
                                   _classDetailsController.classData.value
@@ -340,7 +342,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                 ),
                                 builder: (BuildContext context) {
                                   return BookingBottomSheet(
-                                     isBook: 'Pay',
+                                    isBook: 'Pay',
                                     isRouting: 'home',
                                   );
                                 },
@@ -938,7 +940,9 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                               buttonTitle: 'Done',
                               isRouting: 'back',
                               content:
-                                  'You have successfully cancelled the class and the cost refunded to your wallet.',
+                              // ignore: unrelated_type_equality_checks
+                              _classDetailsController.selectedProfile ==
+                                  ApplicationConstants.student?'You have successfully cancelled the class and the cost refunded to your wallet.':'You have successfully cancelled the class.',
                             );
                           },
                         );
@@ -979,35 +983,88 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
           )
         : const SizedBox.shrink();
   }
-  Widget getApproveRejectClassOption(){
-    return Row(
+
+  Widget getApproveRejectClassOption() {
+    return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
-        if (_classDetailsController.classData.value.canApproveCancel ?? false) AppButton(
-          title: 'Approve',
-          height: 45.px,
-          width: 150.px,
-          isDisable: false,
-          borderColor: AppColors.appBlue,
-          borderRadius:
-          BorderRadius.circular(10.px),
-          onPressed: () {
-        _classDetailsController.classCancelApproval('approve');
-          },
-        ),
-        if (_classDetailsController.classData.value.canRejectCancel ?? false) GestureDetector(
-          onTap: () {
-            _classDetailsController.classCancelApproval('reject');
-          },
-          child: Center(
-            child: AppText(
-              'Reject',
-              fontWeight: FontWeight.w700,
-              fontSize: 16.px,
-              color: AppColors.appRed,
+        if (_classDetailsController.classData.value.canApproveCancel ?? false)
+          AppButton(
+            title: 'Approve The Cancellation Request',
+            height: 45.px,
+            isDisable: false,
+            borderColor: AppColors.appBlue,
+            borderRadius: BorderRadius.circular(10.px),
+            onPressed: () async {
+              final bool status =
+                  await _classDetailsController.classCancelApproval('approve');
+              if (status) {
+                // ignore: use_build_context_synchronously
+                showModalBottomSheet(
+                  context: context,
+                  isDismissible: false,
+                  constraints: BoxConstraints(
+                    maxWidth:
+                        // ignore: use_build_context_synchronously
+                        (MediaQuery.of(context).size.width - 30).px,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.px),
+                  ),
+                  builder: (BuildContext context) {
+                    return SuccessFailsInfoDialog(
+                      title: 'Success',
+                      buttonTitle: 'Done',
+                      isRouting: 'back',
+                      content:
+                      // ignore: unrelated_type_equality_checks
+                      _classDetailsController.selectedProfile ==
+                          ApplicationConstants.student?'You have successfully approved the cancellation request and the class cost will be refunded.':'You have successfully approved the cancellation request.',
+                    );
+                  },
+                );
+              }
+            },
+          ),
+        if (_classDetailsController.classData.value.canRejectCancel ?? false)
+          GestureDetector(
+            onTap: () async {
+              final bool status =
+                  await _classDetailsController.classCancelApproval('reject');
+              if (status) {
+                // ignore: use_build_context_synchronously
+                showModalBottomSheet(
+                  context: context,
+                  isDismissible: false,
+                  constraints: BoxConstraints(
+                    maxWidth:
+                        // ignore: use_build_context_synchronously
+                        (MediaQuery.of(context).size.width - 30).px,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.px),
+                  ),
+                  builder: (BuildContext context) {
+                    return SuccessFailsInfoDialog(
+                      title: 'Success',
+                      buttonTitle: 'Done',
+                      isRouting: 'back',
+                      content:
+                      'You have successfully rejected the cancellation request.',
+                    );
+                  },
+                );
+              }
+            },
+            child: Center(
+              child: AppText(
+                'Reject The Request',
+                fontWeight: FontWeight.w700,
+                fontSize: 16.px,
+                color: AppColors.appRed,
+              ),
             ),
           ),
-        ) ,
       ],
     );
   }
