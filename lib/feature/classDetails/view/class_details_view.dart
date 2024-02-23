@@ -96,6 +96,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               getPaymentOption(),
               getCancelClassOption(),
               getWithdrawProposalOption(),
+              getApproveRejectClassOption(),
             ],
           ),
         ),
@@ -977,6 +978,38 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
             ),
           )
         : const SizedBox.shrink();
+  }
+  Widget getApproveRejectClassOption(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: <Widget>[
+        if (_classDetailsController.classData.value.canApproveCancel ?? false) AppButton(
+          title: 'Approve',
+          height: 45.px,
+          width: 150.px,
+          isDisable: false,
+          borderColor: AppColors.appBlue,
+          borderRadius:
+          BorderRadius.circular(10.px),
+          onPressed: () {
+        _classDetailsController.classCancelApproval('approve');
+          },
+        ),
+        if (_classDetailsController.classData.value.canRejectCancel ?? false) GestureDetector(
+          onTap: () {
+            _classDetailsController.classCancelApproval('reject');
+          },
+          child: Center(
+            child: AppText(
+              'Reject',
+              fontWeight: FontWeight.w700,
+              fontSize: 16.px,
+              color: AppColors.appRed,
+            ),
+          ),
+        ) ,
+      ],
+    );
   }
 
   Widget getOwnerView() {

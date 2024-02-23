@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../core/api_end_points.dart';
 import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
+import '../../../mirrorfly/mirrorFlyController/mirrorfly_auth_controller.dart';
 import '../../../product/cache/key_value_storage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../classDetails/repository/book_class_repository.dart';
@@ -25,6 +26,7 @@ class HomeController extends GetxController {
   final RefreshTokenRepositoryRepository _refreshTokenRepositoryRepository = RefreshTokenRepositoryRepository();
   RxBool isCreatedClass = false.obs;
   ScrollController scrollController = ScrollController();
+  final MirrorFlyAuthController _mirrorFlyAuthController=Get.put(MirrorFlyAuthController());
   // ignore: always_declare_return_types
   fetchToken() async {
     final String token = LocaleManager.getAuthToken() ?? '';
@@ -89,6 +91,7 @@ void onInit(){
     if (dashboardDataResponse.status?.type == 'success') {
       final  Map<String, dynamic> dashBoardData=dashboardDataResponse.data!.item! as Map<String ,dynamic>;
       homeData.value = HomeModel.fromJson(dashBoardData);
+      await _mirrorFlyAuthController.updateProfile('${homeData.value?.firstName??''} ${homeData.value?.lastName??''}',homeData.value?.email??'');
     }
   }
   Future<void> refreshToken() async {

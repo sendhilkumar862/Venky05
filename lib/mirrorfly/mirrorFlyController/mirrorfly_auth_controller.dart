@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:mirrorfly_plugin/mirrorfly.dart';
@@ -43,6 +42,16 @@ class MirrorFlyAuthController extends GetxController {
     Mirrorfly.sendTextMessage(message, profile.jid ?? '', '').then((value) {
       // you will get the message sent success response
       var chatMessage = sendMessageModelFromJson(value);
+    });
+  }
+
+  // ignore: always_specify_types
+  updateProfile( name, email){
+    Mirrorfly.updateMyProfile(name, email, 'y', 'y',null).then((value) {
+      var data = profileUpdateFromJson(value);
+      /* Profile image updated. Update the UI */
+    }).catchError((error) {
+      /* Error handling */
     });
   }
 }
