@@ -31,7 +31,7 @@ class _ChatViewState extends State<ChatView> {
     return Scaffold(
       appBar: HessaAppBar(
         isTitleOnly: true,
-        title: 'Mr.User Name',
+        title:_mirrorFlyChatViewController.userName.isNotEmpty? 'Mr. ${_mirrorFlyChatViewController.userName}':'',
         trailingWidget: const AppImageAsset(
           image: ImageConstants.phoneCall,
           color: AppColors.black,
@@ -56,8 +56,8 @@ class _ChatViewState extends State<ChatView> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: data[index].isMessageSentByMe?MainAxisAlignment.end:MainAxisAlignment.start,
+                          crossAxisAlignment: data[index].isMessageSentByMe?CrossAxisAlignment.end:CrossAxisAlignment.start,
                           children: <Widget>[
                             Container(
                               padding: EdgeInsets.all(8.px),

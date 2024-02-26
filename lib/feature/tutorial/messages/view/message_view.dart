@@ -3,7 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../../config/routes/route.dart';
-
+import 'package:easy_debounce/easy_debounce.dart';
 import '../../../../custom/app_button/app_button.dart';
 import '../../../../custom/app_textformfield/text_field.dart';
 import '../../../../custom/appbar/appbar.dart';
@@ -31,12 +31,13 @@ class _MessageViewState extends State<MessageView> {
   String selectedProfile = '';
   bool isPending = false;
 
-  final MessageController _messageController=Get.put(MessageController());
+  final MessageController _messageController = Get.put(MessageController());
   final HomeController _homeController = Get.find();
+
   @override
   void initState() {
     super.initState();
-    selectedProfile =  LocaleManager.getValue( StorageKeys.profile)??'';
+    selectedProfile = LocaleManager.getValue(StorageKeys.profile) ?? '';
   }
 
   @override
@@ -48,179 +49,191 @@ class _MessageViewState extends State<MessageView> {
         isTitleOnly: true,
         title: 'Messages',
         isBack: false,
-        trailingText: (selectedProfile == ApplicationConstants.tutor && _homeController.homeData.value?.userStatus != '99')?'':'Done',
+        trailingText: (selectedProfile == ApplicationConstants.tutor &&
+                _homeController.homeData.value?.userStatus != '99')
+            ? ''
+            : 'Done',
         trailingTap: () {},
       ),
-      body: selectedProfile == ApplicationConstants.tutor &&  _homeController.homeData.value?.userStatus != '99'
+      body: selectedProfile == ApplicationConstants.tutor &&
+              _homeController.homeData.value?.userStatus != '99'
           ? const ClassesView()
           : StatefulBuilder(
-        builder: (BuildContext context, setState) {
-          return ListView(
-            children: <Widget>[
-              // InfoCardVIew(
-              //   isPending: false,
-              //   isShowButton: true,
-              //   isSupport: false,
-              //   isStatus: false,
-              //   title: 'No Messages!',
-              //   message: 'Start Conversation With Teacher',
-              //   cardColor: AppColors.white,
-              //   buttonTitle: 'Search About Teacher',
-              //   buttonTap: () {},
-              // ),
-              Padding(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 15),
-                child: Column(
+              builder: (BuildContext context, setState) {
+                return ListView(
                   children: <Widget>[
-                    TextFormsField(
-                      controller: _messageController
-                          .searchTeacherController,
-                      hintText: 'search About Teacher',
-                      prefix: Padding(
-                        padding: EdgeInsets.only(left: 10.px),
-                        child: const AppImageAsset(
-                            image: ImageConstants.searchIcon,
-                            height: 20),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-
-                    /// message Screen in sort archived ///
-                    if (_messageController.teacherLongPress.value)
-                      Row(
+                    // InfoCardVIew(
+                    //   isPending: false,
+                    //   isShowButton: true,
+                    //   isSupport: false,
+                    //   isStatus: false,
+                    //   title: 'No Messages!',
+                    //   message: 'Start Conversation With Teacher',
+                    //   cardColor: AppColors.white,
+                    //   buttonTitle: 'Search About Teacher',
+                    //   buttonTap: () {},
+                    // ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Column(
                         children: <Widget>[
-                          GestureDetector(
-                            onTap: () {
-                              _messageController
-                                  .onSelectAll(setState);
-                              setState(() {});
-                            },
-                            child: Row(
-                              children: <Widget>[
-                                AppImageAsset(
-                                  image: (!_messageController
-                                      .selectAll.value)
-                                      ? ImageConstants.checkbox
-                                      : ImageConstants.checkBox,
-                                  height: 18.px,
-                                ),
-                                const SizedBox(width: 8),
-                                AppText('Select All',
-                                    fontSize: 14.px,
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.appBlue),
-                              ],
+                          TextFormsField(
+                            controller:
+                                _messageController.searchTeacherController,
+                            hintText: 'search About Teacher',
+                            prefix: Padding(
+                              padding: EdgeInsets.only(left: 10.px),
+                              child: const AppImageAsset(
+                                  image: ImageConstants.searchIcon, height: 20),
                             ),
+                            onChanged: (value) {
+                              EasyDebounce.debounce(
+                                  'my-debounced',
+                                  // <-- An ID for this particular debouncer
+                                  const Duration(milliseconds: 500),
+                                  // <-- The debounce duration
+                                  () => (value.isNotEmpty
+                                      ? _messageController
+                                          .mirrorFlyMessageController
+                                          .getUsersList(_messageController
+                                              .searchTeacherController.text)
+                                      : _messageController
+                                          .mirrorFlyMessageController
+                                          .getUsersList('')));
+                            },
                           ),
-                          const Spacer(),
-                          const AppText('Archive',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.appBlue),
-                          const SizedBox(
-                            width: 6,
-                          ),
-                          const AppImageAsset(
-                              image: ImageConstants.documentBox),
-                          const SizedBox(width: 8),
-                          const AppText('Delete',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.red),
-                          const SizedBox(width: 6),
-                          const AppImageAsset(
-                              image: ImageConstants.messageDelete)
-                        ],
-                      )
-                    else
-                      Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          InkWell(
-                            onTap: () {
-                              showModalBottomSheet(
-                                shape:
-                                const RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.vertical(
-                                    top: Radius.circular(25.0),
+                          const SizedBox(height: 10),
+
+                          /// message Screen in sort archived ///
+                          if (_messageController.teacherLongPress.value)
+                            Row(
+                              children: <Widget>[
+                                GestureDetector(
+                                  onTap: () {
+                                    _messageController.onSelectAll(setState);
+                                    setState(() {});
+                                  },
+                                  child: Row(
+                                    children: <Widget>[
+                                      AppImageAsset(
+                                        image: (!_messageController
+                                                .selectAll.value)
+                                            ? ImageConstants.checkbox
+                                            : ImageConstants.checkBox,
+                                        height: 18.px,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      AppText('Select All',
+                                          fontSize: 14.px,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColors.appBlue),
+                                    ],
                                   ),
                                 ),
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return SortBottomSheet();
-                                },
-                              );
-                            },
-                            child: const Row(
+                                const Spacer(),
+                                const AppText('Archive',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.appBlue),
+                                const SizedBox(
+                                  width: 6,
+                                ),
+                                const AppImageAsset(
+                                    image: ImageConstants.documentBox),
+                                const SizedBox(width: 8),
+                                const AppText('Delete',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.red),
+                                const SizedBox(width: 6),
+                                const AppImageAsset(
+                                    image: ImageConstants.messageDelete)
+                              ],
+                            )
+                          else
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                AppImageAsset(
-                                    image: ImageConstants
-                                        .filterSort),
-                                SizedBox(width: 7),
-                                AppText(
-                                  'Sort',
-                                  color: AppColors.appBlue,
-                                )
+                                InkWell(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(25.0),
+                                        ),
+                                      ),
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return SortBottomSheet();
+                                      },
+                                    );
+                                  },
+                                  child: const Row(
+                                    children: <Widget>[
+                                      AppImageAsset(
+                                          image: ImageConstants.filterSort),
+                                      SizedBox(width: 7),
+                                      AppText(
+                                        'Sort',
+                                        color: AppColors.appBlue,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                const Row(
+                                  children: <Widget>[
+                                    AppText(
+                                      'Archived',
+                                      color: AppColors.appBlue,
+                                    ),
+                                    SizedBox(width: 7),
+                                    AppImageAsset(
+                                        image: ImageConstants.documentBox),
+                                  ],
+                                ),
                               ],
                             ),
+                          const SizedBox(height: 7),
+                          const Divider(
+                            color: AppColors.appGrey,
                           ),
-                          const Row(
-                            children: <Widget>[
-                              AppText(
-                                'Archived',
-                                color: AppColors.appBlue,
-                              ),
-                              SizedBox(width: 7),
-                              AppImageAsset(
-                                  image:
-                                  ImageConstants.documentBox),
-                            ],
-                          ),
+                          const SizedBox(height: 7),
+
+                          Obx(() => _messageController
+                                  .mirrorFlyMessageController
+                                  .userList
+                                  .isNotEmpty
+                              ? ListView.separated(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return teachersCardView(
+                                        context, index, setState);
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return const Divider(
+                                      height: 30,
+                                    );
+                                  },
+                                  itemCount: _messageController
+                                      .mirrorFlyMessageController
+                                      .userList
+                                      .length)
+                              : const SizedBox.shrink())
                         ],
                       ),
-                    const SizedBox(height: 7),
-                    const Divider(
-                      color: AppColors.appGrey,
-                    ),
-                    const SizedBox(height: 7),
-
-                    Obx(
-               ()=>_messageController.mirrorFlyMessageController.userList.isNotEmpty? ListView.separated(
-                         shrinkWrap: true,
-                         scrollDirection: Axis.vertical,
-                         physics:
-                         const NeverScrollableScrollPhysics(),
-                         itemBuilder:
-                             (BuildContext context, int index) {
-                           return teachersCardView(context,
-                               index, setState);
-                         },
-                         separatorBuilder:
-                             (BuildContext context, int index) {
-                           return const Divider(
-                             height: 30,
-                           );
-                         },
-                         itemCount: _messageController.mirrorFlyMessageController.userList.length):
-          const SizedBox.shrink()
                     )
-
-
                   ],
-                ),
-              )
-            ],
-          );
-        },
-      ),
+                );
+              },
+            ),
     );
   }
 
-  Widget teachersCardView(BuildContext context,
-      int index, Function setState) {
+  Widget teachersCardView(BuildContext context, int index, Function setState) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -232,7 +245,7 @@ class _MessageViewState extends State<MessageView> {
         Slidable(
           closeOnScroll: true,
           endActionPane:
-          ActionPane(motion: const ScrollMotion(), children: <Widget>[
+              ActionPane(motion: const ScrollMotion(), children: <Widget>[
             SlidableAction(
               backgroundColor: AppColors.appLightBlue.withOpacity(0.3),
               foregroundColor: AppColors.appBlue,
@@ -252,7 +265,7 @@ class _MessageViewState extends State<MessageView> {
                     return ConfirmationButton(
                       title: 'Archive Confirmation',
                       titleDescription:
-                      'Are you sure you want to archive selected messages?',
+                          'Are you sure you want to archive selected messages?',
                       buttonText: 'Yes, Archive',
                       buttonTextDiscript: 'No, Keep It',
                       buttonTextDisColor: AppColors.appBlue,
@@ -289,7 +302,7 @@ class _MessageViewState extends State<MessageView> {
                     return ConfirmationButton(
                       title: 'Delete Confirmation',
                       titleDescription:
-                      'Are you sure you want to delete selected messages?',
+                          'Are you sure you want to delete selected messages?',
                       buttonText: 'No, Keep it',
                       buttonTextDiscript: 'Yes, Delete',
                     );
@@ -300,11 +313,15 @@ class _MessageViewState extends State<MessageView> {
           ]),
           child: GestureDetector(
             onTap: () {
-              Get.toNamed(Routes.chatView,arguments: _messageController.mirrorFlyMessageController.userList[index].jid??'');
+              Get.toNamed(Routes.chatView,
+                  arguments: <String, Object?>{
+                    'JID': _messageController.mirrorFlyMessageController.userList[index].jid ?? '',
+                    'UserName': _messageController.mirrorFlyMessageController.userList[index].name ?? ''
+                  });
             },
             onLongPress: () {
               _messageController.teacherLongPress.value =
-              !_messageController.teacherLongPress.value;
+                  !_messageController.teacherLongPress.value;
               setState(() {});
               logs('Long Pressed');
             },
@@ -318,20 +335,20 @@ class _MessageViewState extends State<MessageView> {
                       },
                       child: (!_messageController.isSelected[index])
                           ? AppImageAsset(
-                        image: ImageConstants.checkbox,
-                        height: 22.px,
-                      )
+                              image: ImageConstants.checkbox,
+                              height: 22.px,
+                            )
                           : AppImageAsset(
-                        image: ImageConstants.checkBox,
-                        height: 22.px,
-                      )),
+                              image: ImageConstants.checkBox,
+                              height: 22.px,
+                            )),
                 if (_messageController.teacherLongPress.value)
                   const SizedBox(width: 14),
                 Container(
                   height: 50,
                   decoration: const BoxDecoration(shape: BoxShape.circle),
                   child:
-                  const AppImageAsset(image: ImageConstants.teacherAvtar),
+                      const AppImageAsset(image: ImageConstants.teacherAvtar),
                 ),
                 const SizedBox(width: 10),
                 Column(
@@ -339,10 +356,12 @@ class _MessageViewState extends State<MessageView> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                          AppText(
-                            _messageController.mirrorFlyMessageController.userList[index].name!=''
-                            ?'Mr. ${ _messageController.mirrorFlyMessageController.userList[index].name??''}':''
-                       ,
+                        AppText(
+                          _messageController.mirrorFlyMessageController
+                                      .userList[index].name !=
+                                  ''
+                              ? 'Mr. ${_messageController.mirrorFlyMessageController.userList[index].name ?? ''}'
+                              : '',
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                         ),
@@ -421,7 +440,7 @@ class SortBottomSheet extends StatefulWidget {
 }
 
 class _SortBottomSheetState extends State<SortBottomSheet> {
-  final MessageController _messageController=Get.find();
+  final MessageController _messageController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -650,4 +669,3 @@ class ConfirmationButton extends StatelessWidget {
     );
   }
 }
-

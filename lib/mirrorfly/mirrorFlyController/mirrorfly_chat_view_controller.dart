@@ -8,12 +8,14 @@ import '../../feature/tutorial/messages/model/chat_message_model.dart';
 class MirrorFlyChatViewController extends GetxController {
   String userJid='';
   RxString message=''.obs;
+  String userName='';
   RxList<ChatMessageModel> chatMessageModel=<ChatMessageModel>[].obs;
   @override
   onInit() async{
     super.onInit();
 
-     userJid = Get.arguments;
+     userJid = Get.arguments['JID'];
+     userName=Get.arguments['UserName'];
     getMessage();
     Mirrorfly.onMessageReceived.listen((event) {
       final ChatMessageModel chatData = sendMessageModelFromJson(event);
