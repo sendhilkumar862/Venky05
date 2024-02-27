@@ -86,7 +86,7 @@ class AppCardView extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: 10.px,
+                  height: 8.px,
                 ),
                 Row(
                   children: [
