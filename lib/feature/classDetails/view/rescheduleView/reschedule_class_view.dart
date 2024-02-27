@@ -31,7 +31,7 @@ class _RescheduleClassState extends State<RescheduleClass> {
       isBack: false,
       trailingTap: (){
 
-        _classDetailsController.dateControllers.clear()
+        _classDetailsController.dateControllers.clear();
             Get.back();
       },
     ),
