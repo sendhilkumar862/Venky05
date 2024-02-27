@@ -8,11 +8,11 @@ import '../../feature/tutorial/messages/model/chat_message_model.dart';
 
 
 class MirrorFlyMessageController extends GetxController {
-
+  String text='';
   @override
   void onInit() {
     super.onInit();
-    getUsersList();
+    getUsersList( text);
 
 
 
@@ -20,10 +20,11 @@ class MirrorFlyMessageController extends GetxController {
 
   RxList<Profile> userList = <Profile>[].obs;
 
-  getUsersList() async {
+  getUsersList(String text) async {
     showLoading();
-    Mirrorfly.getUserList(1, '',200).then((data) {
+    Mirrorfly.getUserList(1, text,200).then((data) {
       var list = userListFromJson(data);
+      userList.clear();
       if (list.data != null) {
         userList.addAll(list.data!);
       }

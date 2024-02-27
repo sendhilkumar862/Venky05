@@ -70,6 +70,7 @@ class ClassDetailsModel {
     canCancelClass = json['canCancelClass'];
     canBookClass = json['canBookClass'];
     canCancelClass = json['canCancelClass'];
+    canRescheduleClass=json['canRescheduleClass'];
     canApproveCancel = json['canApproveTheCancellation'];
     canRejectCancel = json['canRejectTheCancellation'];
     canWithdrawProposal = json['canWithdrawProposal'];
