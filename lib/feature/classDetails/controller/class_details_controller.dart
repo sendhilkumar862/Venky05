@@ -12,6 +12,7 @@ import '../../../custom/loader/easy_loader.dart';
 import '../../../product/cache/key_value_storage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_utils.dart';
+import '../../../product/utils/common_function.dart';
 import '../../../product/utils/validators.dart';
 import '../../home/controller/home_controller.dart';
 import '../../proposal/proposol_details/repository/approve_proposal_repository.dart';
@@ -20,6 +21,7 @@ import '../../search/controller/search_controller.dart';
 import '../modal/class_detail_model.dart';
 import '../modal/initiate_payment_model.dart';
 import '../modal/proposal_model.dart';
+import '../modal/rescheduleInfo_model.dart';
 import '../modal/student_list_model.dart';
 // import '../modal/students_model.dart';
 import '../repository/approve_reject_student_repository.dart';
@@ -31,6 +33,8 @@ import '../repository/get_all_students_repository.dart';
 import '../repository/get_class_details_repository.dart';
 import '../repository/initiate_payment.dart';
 import '../repository/make_payment_repository.dart';
+import '../repository/reschedule_class_repository.dart';
+import '../repository/scheduleinfo_class_repository.dart';
 
 class ClassDetailsController extends GetxController {
   final GetClassDetailRepository _getClassDetailRepository =
@@ -46,6 +50,8 @@ class ClassDetailsController extends GetxController {
       ApproveProposalRepository();
   final BookClassRepository _bookClassRepository = BookClassRepository();
   final CancelClassRepository _cancelClassRepository = CancelClassRepository();
+  final RescheduleClassRepository _rescheduleClassRepository = RescheduleClassRepository();
+  final ScheduleInfoClassRepository _scheduleInfoClassRepository = ScheduleInfoClassRepository();
   final ApproveRejectStudentsRepository _approveRejectStudentsRepository =
       ApproveRejectStudentsRepository();
   final InitiatePaymentRepository _initiatePaymentRepository =
@@ -57,12 +63,17 @@ class ClassDetailsController extends GetxController {
 
   RxString selectedProfile = ''.obs;
   String classId = '';
+  int classScheduleId = 0;
+  String oldDateValue = '';
   int startIndex = 1;
   ScrollController scrollController = ScrollController();
   String? proposalId;
   Rx<InitiatePaymentModel> initiatePaymentModel = InitiatePaymentModel().obs;
   String transactionId = '';
   RxDouble childAspectRatio=0.85.obs;
+  List<TextEditingController> dateControllers = [];
+  RxString selectedTimes = formatTime(DateTime.now()).obs;
+  RxString selectedDate = formatTime(DateTime.now()).obs;
 
   @override
   void onInit() {
@@ -110,6 +121,7 @@ class ClassDetailsController extends GetxController {
   Rx<ClassDetailsModel> classData = ClassDetailsModel().obs;
   RxList<ProposalModel> proposalList = <ProposalModel>[].obs;
   Rx<StudentsListModel> studentsList = StudentsListModel().obs;
+  RxList<RescheduleInfoModel> reScheduleInfoList = <RescheduleInfoModel>[].obs;
 
   Future<void> getClassDetails(String id) async {
     final BaseResponse classDataResponse =
@@ -237,6 +249,47 @@ class ClassDetailsController extends GetxController {
     showLoading();
     final BaseResponse getProposalsDataResponse =
         await _cancelClassRepository.cancelClassRepositoryRepository(classId);
+    if (getProposalsDataResponse.status?.type == 'success') {
+      final HomeController homeController = Get.find();
+      await getClassDetails(classId);
+      homeController.relatedPageIndex = 1;
+      homeController.historyPageIndex = 1;
+      homeController.activityPageIndex = 1;
+      homeController.upcomingPageIndex = 1;
+      await homeController.getData();
+      status = true;
+    }
+    hideLoading();
+    return status;
+  }
+
+  Future<bool> getScheduleInfo() async {
+    bool status = false;
+    showLoading();
+    final BaseResponse getScheduleInfoDataResponse =
+    await _scheduleInfoClassRepository.scheduleInfoClassRepository(classId);
+    if (getScheduleInfoDataResponse.status?.type == 'success') {
+      if (getScheduleInfoDataResponse.data!.item != null) {
+        reScheduleInfoList.clear();
+        // ignore: always_specify_types
+        final List getScheduleInfoListData =
+        getScheduleInfoDataResponse.data!.item! as List;
+
+        // ignore: always_specify_types
+        for (final element in getScheduleInfoListData) {
+          reScheduleInfoList.add(RescheduleInfoModel.fromJson(element));
+        }
+      }
+    }
+    hideLoading();
+    return status;
+  }
+
+  Future<bool> rescheduleClass(Map<String, dynamic> data) async {
+    bool status = false;
+    showLoading();
+    final BaseResponse getProposalsDataResponse =
+    await _rescheduleClassRepository.rescheduleClassRepository(classId, data);
     if (getProposalsDataResponse.status?.type == 'success') {
       final HomeController homeController = Get.find();
       await getClassDetails(classId);

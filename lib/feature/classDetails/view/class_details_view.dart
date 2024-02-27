@@ -724,7 +724,10 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
             isDisable: false,
             title: 'Reschedule',
             borderColor: AppColors.appBlue,
-            onPressed: () {},
+            onPressed: () async {
+              Get.toNamed(Routes.rescheduleClass);
+              await _classDetailsController.getScheduleInfo();
+            },
           )
         : const SizedBox.shrink();
   }

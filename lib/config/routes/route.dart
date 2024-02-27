@@ -4,6 +4,7 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 import '../../feature/class/class_detail/view/class_detail.dart';
 import '../../feature/class/create_class/view/create_class.dart';
 import '../../feature/classDetails/view/class_details_view.dart';
+import '../../feature/classDetails/view/rescheduleView/reschedule_class_view.dart';
 import '../../feature/home/view/home_view.dart';
 import '../../feature/home/view/view_all_class.dart';
 import '../../feature/home_views/views/home_views.dart';
@@ -120,6 +121,8 @@ class Routes {
   static const String languageView = '/languageView';
   static const String pendingTickets = '/pendingTickets';
   static const String viewAllClass='/viewAllClass';
+  static const String rescheduleClass='/rescheduleClass';
+
 
   /// The name of the route for unrecognized route screen
   static const String NotFoundScreenRoute = '/route-not-found-screen';
@@ -175,6 +178,8 @@ class Routes {
     GetPage(name: languageView, page: () => LanguageView()),
     GetPage(name: pendingTickets, page: () => const PendingTickets()),
     GetPage(name: viewAllClass, page: () =>  ViewAllClass()),
+    GetPage(name: rescheduleClass, page: () =>  const RescheduleClass()),
+
 
     GetPage(
       name: classDetailsView,
