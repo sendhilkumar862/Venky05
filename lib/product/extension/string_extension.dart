@@ -74,6 +74,11 @@ extension StringLocalization on String {
     final DateTime timeStamp = DateTime.fromMillisecondsSinceEpoch(int.parse(this));
     return DateFormat('MM/dd hh:mma').format(timeStamp);
   }
+
+  String epochToScheduleDate(){
+    final DateTime timeStamp = DateTime.fromMillisecondsSinceEpoch(int.parse(this));
+    return DateFormat('d-M-yyyy h:mm a').format(timeStamp);
+  }
   String epochToDate() {
     final DateTime timeStamp = DateTime.fromMillisecondsSinceEpoch(
         int.parse(this));

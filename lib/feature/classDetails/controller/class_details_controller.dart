@@ -12,6 +12,7 @@ import '../../../custom/loader/easy_loader.dart';
 import '../../../product/cache/key_value_storage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_utils.dart';
+import '../../../product/extension/string_extension.dart';
 import '../../../product/utils/common_function.dart';
 import '../../../product/utils/validators.dart';
 import '../../home/controller/home_controller.dart';
@@ -74,6 +75,7 @@ class ClassDetailsController extends GetxController {
   List<TextEditingController> dateControllers = [];
   RxString selectedTimes = formatTime(DateTime.now()).obs;
   RxString selectedDate = formatTime(DateTime.now()).obs;
+  Map reScheduleInfoMap={};
 
   @override
   void onInit() {
@@ -263,14 +265,14 @@ class ClassDetailsController extends GetxController {
     return status;
   }
 
-  Future<bool> getScheduleInfo() async {
-    bool status = false;
+  Future<void> getScheduleInfo() async {
     showLoading();
     final BaseResponse getScheduleInfoDataResponse =
     await _scheduleInfoClassRepository.scheduleInfoClassRepository(classId);
     if (getScheduleInfoDataResponse.status?.type == 'success') {
       if (getScheduleInfoDataResponse.data!.item != null) {
         reScheduleInfoList.clear();
+        dateControllers.clear();
         // ignore: always_specify_types
         final List getScheduleInfoListData =
         getScheduleInfoDataResponse.data!.item! as List;
@@ -279,10 +281,20 @@ class ClassDetailsController extends GetxController {
         for (final element in getScheduleInfoListData) {
           reScheduleInfoList.add(RescheduleInfoModel.fromJson(element));
         }
+        for (final element in reScheduleInfoList) {
+          dateControllers.add(
+              TextEditingController(
+                  text: element.startTime !=
+                      null
+                      ? element.startTime
+                      .toString()
+                      .epochToScheduleDate()
+                      : ''));
+        }
       }
     }
     hideLoading();
-    return status;
+
   }
 
   Future<bool> rescheduleClass(Map<String, dynamic> data) async {
@@ -293,6 +305,9 @@ class ClassDetailsController extends GetxController {
     if (getProposalsDataResponse.status?.type == 'success') {
       final HomeController homeController = Get.find();
       await getClassDetails(classId);
+      reScheduleInfoList.clear();
+      dateControllers.clear();
+      await getScheduleInfo();
       homeController.relatedPageIndex = 1;
       homeController.historyPageIndex = 1;
       homeController.activityPageIndex = 1;
