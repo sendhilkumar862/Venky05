@@ -9,6 +9,7 @@ class MirrorFlyChatViewController extends GetxController {
   String userJid='';
   RxString message=''.obs;
   String userName='';
+  String croppedFilePath = '';
   RxList<ChatMessageModel> chatMessageModel=<ChatMessageModel>[].obs;
   @override
   onInit() async{
@@ -50,4 +51,16 @@ class MirrorFlyChatViewController extends GetxController {
       chatMessageModel.add(data);
     });
   }
+
+
+
+  // ignore: always_declare_return_types
+  sendDocumentMessage(String documentFile,String replyMessageId,String caption){
+    // ignore: avoid_dynamic_calls, always_specify_types
+    Mirrorfly.sendDocumentMessage(userJid, documentFile, replyMessageId).then((value) {
+      final ChatMessageModel data = sendMessageModelFromJson(value);
+      chatMessageModel.add(data);
+    });
+  }
+
 }
