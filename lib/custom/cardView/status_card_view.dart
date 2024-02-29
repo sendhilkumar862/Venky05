@@ -65,6 +65,13 @@ class StatusCardView extends StatelessWidget {
           cardColor: AppColors.appYellow,
           iconColor: AppColors.appDarkBlack,
         );
+      case 'Pending Reschedule':
+        return customStatusView(
+          title: 'Rescheduling',
+          icon: ImageConstants.warningIcon,
+          cardColor: AppColors.appOrange,
+          iconColor: AppColors.white,
+        );
       case 'Pending Account':
         return customStatusView(
           title: 'Pending Account',

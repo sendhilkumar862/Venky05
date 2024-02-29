@@ -25,6 +25,7 @@ import '../modal/proposal_model.dart';
 import '../modal/rescheduleInfo_model.dart';
 import '../modal/student_list_model.dart';
 // import '../modal/students_model.dart';
+import '../repository/approve_reject_reschedule_repository.dart';
 import '../repository/approve_reject_student_repository.dart';
 import '../repository/book_class_repository.dart';
 import '../repository/cancel_class_repository.dart';
@@ -49,6 +50,7 @@ class ClassDetailsController extends GetxController {
   final ClassCancelApprovalRepository _classCancelApprovalRepository=ClassCancelApprovalRepository();
   final ApproveProposalRepository _approveProposalRepository =
       ApproveProposalRepository();
+  final ClassRejectApproveRescheduledRepository _classRejectApproveRescheduledRepository=ClassRejectApproveRescheduledRepository();
   final BookClassRepository _bookClassRepository = BookClassRepository();
   final CancelClassRepository _cancelClassRepository = CancelClassRepository();
   final RescheduleClassRepository _rescheduleClassRepository = RescheduleClassRepository();
@@ -319,7 +321,25 @@ class ClassDetailsController extends GetxController {
     return status;
   }
 
-  Future<bool> classCancelApproval(String statusValue) async {
+  Future<bool> classRejectApproval(String statusValue) async {
+    bool status = false;
+    showLoading();
+    final BaseResponse getProposalsDataResponse =
+    await _classCancelApprovalRepository.classCancelApprovalRepository(classId, statusValue);
+    if (getProposalsDataResponse.status?.type == 'success') {
+      final HomeController homeController = Get.find();
+      await getClassDetails(classId);
+      homeController.relatedPageIndex = 1;
+      homeController.historyPageIndex = 1;
+      homeController.activityPageIndex = 1;
+      homeController.upcomingPageIndex = 1;
+      await homeController.getData();
+      status = true;
+    }
+    hideLoading();
+    return status;
+  }
+  Future<bool> approveRejectReschedule(String statusValue) async {
     bool status = false;
     showLoading();
     final BaseResponse getProposalsDataResponse =
