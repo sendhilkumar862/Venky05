@@ -90,6 +90,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               getClassDetails(),
               getProposalDetails(),
               getAddressText(),
+              getScheduledDetails(),
               getRescheduleOption(),
               getEditProposalOption(),
               getBookNowOption(),
@@ -579,6 +580,61 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
         ],
       ),
     );
+  }
+  Widget getScheduledDetails() {
+    return _classDetailsController.classData.value.rescheduleInfo != null && _classDetailsController.classData.value.rescheduleInfo!.isNotEmpty
+        ? SizedBox(
+      height: 120,
+          width: Get.width,
+          child: ListView.builder(
+          itemCount:  _classDetailsController.classData.value.rescheduleInfo!.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (BuildContext context, int index){
+                return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Container(
+            height: 120,
+            width:  Get.width*.87,
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+                color: AppColors.bgQuaternary,
+                borderRadius: BorderRadius.circular(15)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Old class Time'),
+                    Text('New class Time'),
+
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only( top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                          _classDetailsController.classData.value.rescheduleInfo![index].startTime
+                              ?.toString()
+                              .epochToNormal() ?? '',style: const TextStyle(fontWeight: FontWeight.w700,fontSize: 18),),
+                      Text(
+                          _classDetailsController.classData.value.rescheduleInfo![index].endTime
+                              ?.toString()
+                              .epochToNormal() ?? '',style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),)
+                    ],
+                  ),
+                ),
+
+              ],
+            ),
+          ),
+                );
+              }),
+        )
+        : const SizedBox.shrink();
   }
 
   Widget getProposalDetails() {
