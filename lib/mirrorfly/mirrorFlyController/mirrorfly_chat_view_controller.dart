@@ -42,4 +42,12 @@ class MirrorFlyChatViewController extends GetxController {
     });
 
   }
+  // ignore: always_declare_return_types
+  sendImageMessage(String imageFile,String replyMessageId,String caption){
+    // ignore: avoid_dynamic_calls, always_specify_types
+    Mirrorfly.sendImageMessage(userJid, imageFile,caption, replyMessageId).then((value) {
+      final ChatMessageModel data = sendMessageModelFromJson(value);
+      chatMessageModel.add(data);
+    });
+  }
 }
