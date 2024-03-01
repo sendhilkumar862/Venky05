@@ -1,22 +1,20 @@
-
-
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:swipe_to/swipe_to.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../mirrorfly/mirrorFlyController/mirrorfly_chat_view_controller.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
-
 import '../../../../product/utils/validators.dart';
 import '../../messages/model/chat_message_model.dart';
 import '../controller/chat_controller.dart';
@@ -29,11 +27,10 @@ class ChatView extends StatefulWidget {
 }
 
 final ChatController _chatController = Get.put(ChatController());
+final MirrorFlyChatViewController _mirrorFlyChatViewController =
+    Get.put(MirrorFlyChatViewController());
 
 class _ChatViewState extends State<ChatView> {
-  final MirrorFlyChatViewController _mirrorFlyChatViewController =
-      Get.put(MirrorFlyChatViewController());
-
   @override
   Widget build(BuildContext context) {
     logs('Current Screen--> $runtimeType');
@@ -103,44 +100,91 @@ class _ChatViewState extends State<ChatView> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: data[index].messageType ==
                                                   'TEXT'
-                                              ? Text(data[index]
-                                                      .messageTextContent ??
+                                              ? Text(data[index].messageTextContent ??
                                                   '')
-                                              : Container(
-                                                  margin:
-                                                      EdgeInsets.all(1.5.px),
-                                                  height: 200.px,
-                                                  width: 200.px,
-                                                  decoration: BoxDecoration(
-                                                    color:
-                                                        AppColors.lightPurple,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.px),
-                                                  ),
-                                                  child:
-                                                  Image(
-                                                    image: FileImage(File(data[index]
-                                                        .mediaChatMessage?.mediaLocalStoragePath??'')),
-                                                    loadingBuilder: (context, child, loadingProgress) {
-                                                      if (loadingProgress == null) {
-                                                        return FutureBuilder(
-                                                            future: null,
-                                                            builder: (context, d) {
-                                                              return child;
-                                                            });
-                                                      }
-                                                      return const Center(child: CircularProgressIndicator());
-                                                    },
-                                                    width: 300.px,
-                                                    height: 200.px,
-                                                    fit: BoxFit.cover,
+                                              : data[index].messageType ==
+                                                      'AUDIO'
+                                                  ? Obx(
+                                                 ()=> Row(
+                                                        children: [
+                                                          InkWell(
+                                                            onTap:(){
+                                                              _mirrorFlyChatViewController.isPlayAudio.value=!_mirrorFlyChatViewController.isPlayAudio.value;
+                                                              _mirrorFlyChatViewController.audioPlay(data[index]);
+                                                            },
+                                                            child: !_mirrorFlyChatViewController.isPlayAudio.value?AppImageAsset(
+                                                                image:
+                                                                    ImageConstants
+                                                                        .playIcon,
+                                                                height: 25.px):AppImageAsset(
+                                                                image:
+                                                                ImageConstants.pauseButton,
+                                                                height: 25.px),
+                                                          ),
+                                                          const SizedBox(
+                                                              width: 5),
+                                                          AppImageAsset(
+                                                              image: ImageConstants
+                                                                  .audioWavesPlay,
+                                                              height: 25.px),
+                                                          const SizedBox(
+                                                              width: 5),
+                                                          AppText(
+                                                              _mirrorFlyChatViewController.durationToString(Duration(
+                                                                  milliseconds: data[
+                                                                  index]
+                                                                      .mediaChatMessage != null
+                                                                      ? data[
+                                                                  index]
+                                                                      .mediaChatMessage?.mediaDuration??0
+                                                                      : 0)),
+                                                              fontSize: 14.px,
+                                                              color: AppColors
+                                                                  .appWhite
+                                                          )
+                                                        ],
+                                                      ),
                                                   )
-
-
-
-
-                                                  ),
+                                                  : data[index].messageType ==
+                  'LOCATION'?locationView(data[index]):Container(
+                                                      margin: EdgeInsets.all(
+                                                          1.5.px),
+                                                      height: 200.px,
+                                                      width: 200.px,
+                                                      decoration: BoxDecoration(
+                                                        color: AppColors
+                                                            .lightPurple,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.px),
+                                                      ),
+                                                      child: Image(
+                                                        image: FileImage(File(data[
+                                                                    index]
+                                                                .mediaChatMessage
+                                                                ?.mediaLocalStoragePath ??
+                                                            '')),
+                                                        loadingBuilder: (context,
+                                                            child,
+                                                            loadingProgress) {
+                                                          if (loadingProgress ==
+                                                              null) {
+                                                            return FutureBuilder(
+                                                                future: null,
+                                                                builder:
+                                                                    (context,
+                                                                        d) {
+                                                                  return child;
+                                                                });
+                                                          }
+                                                          return const Center(
+                                                              child:
+                                                                  CircularProgressIndicator());
+                                                        },
+                                                        width: 300.px,
+                                                        height: 200.px,
+                                                        fit: BoxFit.cover,
+                                                      )),
                                         ),
 
                                         // Column(
@@ -596,6 +640,12 @@ class _ChatViewState extends State<ChatView> {
                             onTap: () {
                               _chatController.isOnTapMic.value =
                                   !_chatController.isOnTapMic.value;
+                              if (_mirrorFlyChatViewController
+                                      .timerInit.value !=
+                                  '00:00') {
+                                _mirrorFlyChatViewController.stopRecording();
+                                _mirrorFlyChatViewController.sendAudio();
+                              }
                               setState(() {});
                               logs('isOnatap-->${_chatController.isOnTapMic}');
                             },
@@ -622,7 +672,7 @@ class _ChatViewState extends State<ChatView> {
                               padding:
                                   EdgeInsets.only(left: 15.px, right: 15.px),
                               height:
-                                  MediaQuery.of(context).size.height * 0.40.px,
+                                  MediaQuery.of(context).size.height * 0.50.px,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(30.px),
@@ -733,9 +783,8 @@ class _ChatViewState extends State<ChatView> {
                                       SizedBox(
                                         height: 50,
                                         child: InkWell(
-                                          onTap: () async{
+                                          onTap: () async {
                                             await pickDocument();
-
                                           },
                                           child: const Row(
                                             children: <Widget>[
@@ -744,6 +793,29 @@ class _ChatViewState extends State<ChatView> {
                                                       .documentFileClip),
                                               SizedBox(width: 20),
                                               AppText('Add File'),
+                                              Spacer(),
+                                              AppImageAsset(
+                                                  image: ImageConstants
+                                                      .forwardIcon)
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      const Divider(),
+                                      SizedBox(
+                                        height: 50,
+                                        child: InkWell(
+                                          onTap: () async {
+                                            Get.back();
+                                            await _mirrorFlyChatViewController.sendLocation();
+                                          },
+                                          child: const Row(
+                                            children: <Widget>[
+                                              AppImageAsset(
+                                                  height: 35,width: 35,
+                                                  image: ImageConstants.pinLocation),
+                                              SizedBox(width: 20),
+                                              AppText('Location'),
                                               Spacer(),
                                               AppImageAsset(
                                                   image: ImageConstants
@@ -780,25 +852,71 @@ class _ChatViewState extends State<ChatView> {
         );
       }),
     );
+
   }
 
-
+  Widget locationView( ChatMessageModel data) {
+    final LatLng _markerLocation = LatLng(data.locationChatMessage?.latitude??24.7136, data.locationChatMessage?.longitude??46.6753);
+    return Container(
+height: 200,
+      width: 200,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.px),
+        color: AppColors.lightestPurple,
+        border: Border.all(color: AppColors.lightestPurple, width: 1.1.px),
+      ),
+      child:Obx(
+            () => InkWell(
+              onTap: ()async{
+                String googleUrl =
+                    'https://www.google.com/maps/search/?api=1&query=${data.locationChatMessage?.latitude}, ${data.locationChatMessage?.longitude}';
+                if (await canLaunchUrl(Uri.parse(googleUrl))) {
+                await launchUrl(Uri.parse(googleUrl));
+                } else {
+                throw 'Could not open the map.';
+                }
+              },
+              child: Container(
+                        height: 90.px,
+                        width: double.infinity,
+                        decoration: const BoxDecoration(color: AppColors.appWhite),
+                        child: GoogleMap(
+                markers: <Marker>{
+                  Marker(
+                      markerId: const MarkerId('riyadh1'),
+                      position:
+                      _markerLocation)
+                },
+                initialCameraPosition:
+                _mirrorFlyChatViewController.kGooglePlex.value,
+                zoomControlsEnabled: false,
+                zoomGesturesEnabled: false,
+                onMapCreated: (GoogleMapController controllers) {
+                  _mirrorFlyChatViewController.googleMapController = controllers;
+                  _mirrorFlyChatViewController.mapController.complete(controllers);
+                }),
+                      ),
+            ),
+      ),
+    );
+  }
 
   Future<void> pickDocument() async {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: <String>['pdf', 'jpeg','png',  'jpg'],
+      allowedExtensions: <String>['pdf', 'jpeg', 'png', 'jpg'],
     );
     if (result != null) {
-      _mirrorFlyChatViewController.croppedFilePath=result.files.single.path ??'';
-      if(_mirrorFlyChatViewController.croppedFilePath!=''){
+      _mirrorFlyChatViewController.croppedFilePath =
+          result.files.single.path ?? '';
+      if (_mirrorFlyChatViewController.croppedFilePath != '') {
         Get.back();
-        await _mirrorFlyChatViewController.sendDocumentMessage(_mirrorFlyChatViewController.croppedFilePath, '', '');}
+        await _mirrorFlyChatViewController.sendDocumentMessage(
+            _mirrorFlyChatViewController.croppedFilePath, '', '');
+      }
     }
   }
 }
-
-
 
 class DocumentCardView extends StatelessWidget {
   const DocumentCardView({super.key});
@@ -902,6 +1020,8 @@ class ImageCardView extends StatelessWidget {
     );
   }
 
+
+
   Widget photoView() {
     return Container(
       margin: EdgeInsets.all(1.5.px),
@@ -947,13 +1067,15 @@ Expanded buildAudioSendView() {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          AppText(
-            '00:12',
-            color: (_chatController.isOnTapPause.value)
-                ? AppColors.red
-                : AppColors.white,
+          Obx(
+            () => AppText(
+              _mirrorFlyChatViewController.timerInit.value,
+              color: (_mirrorFlyChatViewController.isOnTapPause.value)
+                  ? AppColors.red
+                  : AppColors.white,
+            ),
           ),
-          if (_chatController.isOnTapPause.value)
+          if (_mirrorFlyChatViewController.isOnTapPause.value)
             const AppImageAsset(
               height: 20,
               width: 70,
@@ -964,12 +1086,18 @@ Expanded buildAudioSendView() {
             const AppText('Paused', color: AppColors.appWhite),
           InkWell(
               onTap: () {
-                _chatController.isOnTapPause.value =
-                    !_chatController.isOnTapPause.value;
-                logs('isOntapPause-->${_chatController.isOnTapPause}');
+                _mirrorFlyChatViewController.isOnTapPause.value =
+                    !_mirrorFlyChatViewController.isOnTapPause.value;
+                if (_mirrorFlyChatViewController.isOnTapPause.value) {
+                  _mirrorFlyChatViewController.startRecording();
+                } else {
+                  _mirrorFlyChatViewController.stopRecording();
+                }
+                logs(
+                    'isOntapPause-->${_mirrorFlyChatViewController.isOnTapPause}');
               },
               child: AppImageAsset(
-                  image: (_chatController.isOnTapPause.value)
+                  image: (_mirrorFlyChatViewController.isOnTapPause.value)
                       ? ImageConstants.pauseButton
                       : ImageConstants.recordButton))
         ],

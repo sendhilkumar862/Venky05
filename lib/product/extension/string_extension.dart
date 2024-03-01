@@ -39,6 +39,15 @@ extension StringLocalization on String {
 
     return initials;
   }
+
+  String durationToString() {
+    Duration duration=Duration(milliseconds: int.parse(this));
+    var seconds = ((duration.inSeconds % 60)).toStringAsFixed(0).padLeft(2,'0');
+    // debugPrint("return ")
+    return '${(duration.inMinutes).toStringAsFixed(0).padLeft(2,'0')}:$seconds';
+
+  }
+
   int toEpoch(){
     List splitter=this.split(' ');
     List dataSplitter=splitter[0].split('-');
@@ -68,6 +77,10 @@ extension StringLocalization on String {
     }
     String newTime = "${h == 0 ? "00" :(h.toString().length==1?'0$h':h)}:${m == 0 ? "00" : (m.toString().length==1?'0$m':m)}";
     return newTime;
+  }
+
+  String checkNull() {
+    return this ?? "";
   }
 
   String epochToNormal(){

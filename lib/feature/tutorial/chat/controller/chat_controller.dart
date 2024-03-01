@@ -9,7 +9,6 @@ import 'package:intl/intl.dart';
 class ChatController extends GetxController{
   TextEditingController chatController = TextEditingController();
   RxBool isOnTapMic = false.obs;
-  RxBool isOnTapPause = false.obs;
   File? selectedImage;
   List<Chat> message = <Chat>[];
   RxBool isSwipeRight = false.obs;

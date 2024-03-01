@@ -112,12 +112,14 @@ dependencies:
   image_cropper: ^5.0.1
   permission_handler: any
   nested: ^1.0.0
+  record: ^5.0.4
   mask_text_input_formatter: ^2.7.0
   geolocator: ^10.1.0
   geocoding: ^2.1.1
   pdf_viewer_plugin: ^2.0.1
   easy_debounce: ^2.0.3
-
+  url_launcher: ^6.2.1
+  audioplayers: ^5.2.1
   # message pligin
   mirrorfly_plugin: ^0.0.13
 

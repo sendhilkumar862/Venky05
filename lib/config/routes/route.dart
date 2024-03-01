@@ -35,6 +35,7 @@ import '../../feature/splash/view/splash_view.dart';
 import '../../feature/tutorial/addMobileNumber/view/add_mobile_number_view.dart';
 import '../../feature/tutorial/changeMobileNumber/view/change_mobile_number_view.dart';
 import '../../feature/tutorial/chat/view/chat_view.dart';
+import '../../feature/tutorial/chat/view/location_view.dart';
 import '../../feature/tutorial/emailEnter/view/email_view.dart';
 import '../../feature/tutorial/language/view/language_view.dart';
 import '../../feature/tutorial/login/view/login_view.dart';
@@ -122,6 +123,7 @@ class Routes {
   static const String pendingTickets = '/pendingTickets';
   static const String viewAllClass='/viewAllClass';
   static const String rescheduleClass='/rescheduleClass';
+  static const String locationSentView='/locationViewClass';
 
 
   /// The name of the route for unrecognized route screen
@@ -179,6 +181,7 @@ class Routes {
     GetPage(name: pendingTickets, page: () => const PendingTickets()),
     GetPage(name: viewAllClass, page: () =>  ViewAllClass()),
     GetPage(name: rescheduleClass, page: () =>  const RescheduleClass()),
+    GetPage(name: locationSentView, page: () =>  const LocationSentView()),
 
 
     GetPage(
