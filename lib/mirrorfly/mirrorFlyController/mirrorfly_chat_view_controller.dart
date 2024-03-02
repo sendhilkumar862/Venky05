@@ -36,7 +36,16 @@ class MirrorFlyChatViewController extends GetxController {
   RxDouble currentPos = 0.0.obs;
   RxBool isPlayAudio = false.obs;
   var profile_ = Profile().obs;
-  Profile get profile => profile_.value;
+  Completer<GoogleMapController> completer = Completer();
+  late GoogleMapController controller;
+
+  Rx<Marker> marker = const Marker(
+    markerId: MarkerId('riyadh1'),
+    position: LatLng(20.42796133580664, 75.885749655962),
+  ).obs;
+
+  final  Rx<LatLng> markerLocation = const LatLng(0,0).obs;
+
 
   Rx<CameraPosition> kGooglePlex = const CameraPosition(
     target: LatLng(24.7136, 46.6753),
@@ -67,6 +76,7 @@ class MirrorFlyChatViewController extends GetxController {
     //   player.stop();
     // });
   }
+
 
   // ignore: always_declare_return_types
   sendMessage() async {
@@ -226,5 +236,29 @@ class MirrorFlyChatViewController extends GetxController {
 
   }
 
+
+  onMapCreated(GoogleMapController googleMapController){
+    completer.complete(googleMapController);
+    controller = googleMapController;
+    setLocation(markerLocation.value);
+    debugPrint('onMapCreated ${googleMapController.getVisibleRegion().toString()}');
+  }
+
+
+  setLocation(LatLng position){
+    //var position = LatLng(value.latitude, value.longitude);
+    Marker updatedMarker = marker.value.copyWith(
+      positionParam: position,
+    );
+    marker(updatedMarker);
+    markerLocation(position);
+    kGooglePlex(CameraPosition(target: position,zoom: 17.0));
+    controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        kGooglePlex.value,
+      ),
+    );
+    update();
+  }
 
 }

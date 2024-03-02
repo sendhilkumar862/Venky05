@@ -271,7 +271,8 @@ class ImageConstants {
       '${ApplicationConstants.iconPath}icon_message_selected.svg';
   static const String homeHomeIconSelected =
       '${ApplicationConstants.iconPath}icon_home_selected.svg';
-
+  static  const String rightArrowProceed =
+      '${ApplicationConstants.iconPath}right_arrow_proceed.svg';
   static const String earthIcon = '${ApplicationConstants.iconPath}earth.svg';
   static const String kuwaitFlag =
       '${ApplicationConstants.iconPath}kuwait_flag.svg';

@@ -124,6 +124,8 @@ class Routes {
   static const String viewAllClass='/viewAllClass';
   static const String rescheduleClass='/rescheduleClass';
   static const String locationSentView='/locationViewClass';
+  static const String localContactView='/localContactView';
+  static const String previewLocalContactView='/previewLocalContactView';
 
 
   /// The name of the route for unrecognized route screen
