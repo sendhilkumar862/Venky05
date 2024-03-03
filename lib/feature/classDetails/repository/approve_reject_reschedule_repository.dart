@@ -10,11 +10,11 @@ import '../../../../product/constants/enums/backend_services_method_enums.dart';
 
 
 
-class ClassCancelApprovalRepository{
+class ClassRejectApproveRescheduledRepository{
   Future<BaseResponse> classCancelApprovalRepository( String id,String status) async {
     try {
       return await BackendService.post(
-          CancelClassApprovalAPIRequest(id: id,status:status ));
+          RejectApproveRescheduledAPIRequest(id: id,status:status ));
     } catch (e) {
       if (e is HessahException) {
         return BaseResponse(status: Status(type: 'error', message: 'Something went wrong'));
@@ -24,8 +24,8 @@ class ClassCancelApprovalRepository{
   }
 }
 
-class CancelClassApprovalAPIRequest extends BaseRequest {
-  CancelClassApprovalAPIRequest({ required this.id,required this.status});
+class RejectApproveRescheduledAPIRequest extends BaseRequest {
+  RejectApproveRescheduledAPIRequest({ required this.id,required this.status});
   final String id;
   final String status;
 

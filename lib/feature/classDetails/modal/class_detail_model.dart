@@ -29,7 +29,10 @@ class ClassDetailsModel {
       this.canSubmitProposal,
       this.canCancelClass,
       this.canBookClass,
+        this.rescheduleInfo,
       this.canRescheduleClass,
+        this.canApproveTheReschedule,
+        this.canRejectTheReschedule,
       this.canWithdrawProposal,
       this.canPay,
       this.proposalsCount,
@@ -74,6 +77,15 @@ class ClassDetailsModel {
     canApproveCancel = json['canApproveTheCancellation'];
     canRejectCancel = json['canRejectTheCancellation'];
     canWithdrawProposal = json['canWithdrawProposal'];
+    canApproveTheReschedule=json['canApproveTheReschedule'];
+    canRejectTheReschedule=json['canRejectTheReschedule'];
+   if (json['rescheduleInfo'] != null) {
+     rescheduleInfo = <RescheduleInfo>[];
+      // ignore: avoid_dynamic_calls
+      json['rescheduleInfo'].forEach((v) {
+        rescheduleInfo!.add(RescheduleInfo.fromJson(v));
+      });
+    }
     canPay = json['canPay'];
     teacherDetails = json['teacherDetails'] != null
         ? TeacherDetails.fromJson(json['teacherDetails'])
@@ -128,7 +140,10 @@ class ClassDetailsModel {
   bool? canRejectCancel;
   bool? canWithdrawProposal;
   bool? canPay;
+  bool? canApproveTheReschedule;
+  bool? canRejectTheReschedule;
   TeacherDetails? teacherDetails;
+  List<RescheduleInfo>? rescheduleInfo;
   StudentDetails? studentDetails;
   List<ProposalModel>? proposals;
   List<StudentsModel>? students;
@@ -200,7 +215,28 @@ class TeacherDetails {
   String? subscription;
   // List<String>? subject;
 }
+class RescheduleInfo {
+  RescheduleInfo(
+      {this.classId,
+        this.classScheduleId,
+        this.startTime,
+        this.endTime,
+        this.userId,
+        });
 
+  RescheduleInfo.fromJson(Map<String, dynamic> json) {
+    classId = json['class_id'];
+    classScheduleId = json['class_schedule_id'];
+    startTime = json['start_time'];
+    endTime = json['end_time'];
+    userId = json['user_id'];
+  }
+  String? classId;
+  int? classScheduleId;
+  int? startTime;
+  int? endTime;
+  int? userId;
+}
 class StudentDetails {
   StudentDetails(
       {this.userId,

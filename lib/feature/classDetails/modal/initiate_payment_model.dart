@@ -16,8 +16,10 @@ class InitiatePaymentModel {
     classCost = json['classCost'];
     maxParticipants = json['max_participants'];
     sessions = json['sessions'];
-    fees = json['fees'];
-    totalAmount = json['totalAmount'];
+    // ignore: avoid_dynamic_calls, prefer_null_aware_operators
+    fees = json['fees']!=null?json['fees'].toDouble():null;
+    // ignore: avoid_dynamic_calls
+    totalAmount =json['totalAmount'].toDouble();
     totalClassCost = json['totalClassCost'];
   }
   String? id;

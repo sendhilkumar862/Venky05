@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:intl/intl.dart';
@@ -8,8 +9,9 @@ import 'package:intl/intl.dart';
 
 class ChatController extends GetxController{
   TextEditingController chatController = TextEditingController();
+  final FlutterContactPicker contactPicker = new FlutterContactPicker();
+  List<Contact>? contacts;
   RxBool isOnTapMic = false.obs;
-  RxBool isOnTapPause = false.obs;
   File? selectedImage;
   List<Chat> message = <Chat>[];
   RxBool isSwipeRight = false.obs;

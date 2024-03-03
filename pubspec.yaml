@@ -112,15 +112,16 @@ dependencies:
   image_cropper: ^5.0.1
   permission_handler: any
   nested: ^1.0.0
+  record: ^5.0.4
   mask_text_input_formatter: ^2.7.0
   geolocator: ^10.1.0
   geocoding: ^2.1.1
   pdf_viewer_plugin: ^2.0.1
   easy_debounce: ^2.0.3
-
+  url_launcher: ^6.0.0
+  audioplayers: ^5.2.1
   # message pligin
   mirrorfly_plugin: ^0.0.13
-
   # Range slider
   flutter_xlider: ^3.5.0
   flutter_native_splash: ^2.3.7
@@ -129,6 +130,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   mime: ^1.0.5
   http_parser: ^4.0.2
+  flutter_native_contact_picker: ^0.0.6
 
 dev_dependencies:
   flutter_test:

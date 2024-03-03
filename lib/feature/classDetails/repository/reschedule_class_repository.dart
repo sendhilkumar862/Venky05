@@ -10,11 +10,11 @@ import '../../../../product/constants/enums/backend_services_method_enums.dart';
 
 
 
-class ClassCancelApprovalRepository{
-  Future<BaseResponse> classCancelApprovalRepository( String id,String status) async {
+class RescheduleClassRepository{
+  Future<BaseResponse> rescheduleClassRepository( String id, Map<String, dynamic>? bodyData) async {
     try {
       return await BackendService.post(
-          CancelClassApprovalAPIRequest(id: id,status:status ));
+          RescheduleClassAPIRequest(bodyData:bodyData??{},id: id ));
     } catch (e) {
       if (e is HessahException) {
         return BaseResponse(status: Status(type: 'error', message: 'Something went wrong'));
@@ -24,16 +24,15 @@ class ClassCancelApprovalRepository{
   }
 }
 
-class CancelClassApprovalAPIRequest extends BaseRequest {
-  CancelClassApprovalAPIRequest({ required this.id,required this.status});
+class RescheduleClassAPIRequest extends BaseRequest {
+  RescheduleClassAPIRequest({required this.bodyData, required this.id});
   final String id;
-  final String status;
-
+  final Map<String, dynamic> bodyData;
 
   @override
-  String get endPoint => '${ApiEndpoint.school(SchoolEndpoint.CREATE_CLASS)}/$id/schedule?status=$status';
+  String get endPoint =>  '${ApiEndpoint.school(SchoolEndpoint.CREATE_CLASS)}/$id/reschedule';
   @override
-  Map<String, dynamic> get body =>{};
+  Map<String, dynamic> get body =>bodyData;
 
   @override
   // TODO: implement apiMethod
