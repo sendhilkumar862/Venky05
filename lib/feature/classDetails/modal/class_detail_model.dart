@@ -1,4 +1,5 @@
 import 'package:hessah/feature/classDetails/modal/proposal_model.dart';
+import 'package:hessah/feature/classDetails/modal/rescheduleInfo_model.dart';
 import 'package:hessah/feature/classDetails/modal/students_model.dart';
 
 class ClassDetailsModel {
@@ -86,6 +87,13 @@ class ClassDetailsModel {
         rescheduleInfo!.add(RescheduleInfo.fromJson(v));
       });
     }
+    if (json['scheduleInfo'] != null) {
+      scheduleInfo = <RescheduleInfoModel>[];
+      // ignore: avoid_dynamic_calls
+      json['scheduleInfo'].forEach((v) {
+        scheduleInfo!.add(RescheduleInfoModel.fromJson(v));
+      });
+    }
     canPay = json['canPay'];
     teacherDetails = json['teacherDetails'] != null
         ? TeacherDetails.fromJson(json['teacherDetails'])
@@ -144,6 +152,7 @@ class ClassDetailsModel {
   bool? canRejectTheReschedule;
   TeacherDetails? teacherDetails;
   List<RescheduleInfo>? rescheduleInfo;
+  List<RescheduleInfoModel>? scheduleInfo;
   StudentDetails? studentDetails;
   List<ProposalModel>? proposals;
   List<StudentsModel>? students;
@@ -227,8 +236,8 @@ class RescheduleInfo {
   RescheduleInfo.fromJson(Map<String, dynamic> json) {
     classId = json['class_id'];
     classScheduleId = json['class_schedule_id'];
-    startTime = json['start_time'];
-    endTime = json['end_time'];
+    startTime = json['old_start_time'];
+    endTime = json['start_time'];
     userId = json['user_id'];
   }
   String? classId;

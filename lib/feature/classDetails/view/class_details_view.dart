@@ -539,7 +539,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   icon: ImageConstants.moneyIcon),
               tagCardView(
                   title:
-                      'Session ${_classDetailsController.classData.value.sessions} of 5',
+                      'Session ${sessions()} of ${_classDetailsController.classData.value.sessions}',
                   icon: ImageConstants.readBookIcon),
             ],
           ),
@@ -1248,7 +1248,17 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
           )
         : const SizedBox.shrink();
   }
-
+int sessions(){
+    int session=0;
+    bool set=false;
+  _classDetailsController.classData.value.scheduleInfo?.forEach((element) {
+    if(element.startTime!>=DateTime.now().millisecondsSinceEpoch && !set){
+      session= element.session??0;
+      set=true;
+    }
+  });
+  return session;
+}
   Widget getOwnerView() {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
