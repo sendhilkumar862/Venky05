@@ -1,3 +1,5 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -95,11 +97,15 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               getEditProposalOption(),
               getBookNowOption(),
               getSubmitProposalOption(),
+              getApproveScheduleOption(),
               getPaymentOption(),
               getCancelClassOption(),
               getWithdrawProposalOption(),
               getApproveRejectClassOption(),
-              getApproveRejectScheduleOption()
+              getRejectScheduleOption(),
+              const SizedBox(
+                height: 10,
+              ),
             ],
           ),
         ),
@@ -581,59 +587,90 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
       ),
     );
   }
+
   Widget getScheduledDetails() {
-    return _classDetailsController.classData.value.rescheduleInfo != null && _classDetailsController.classData.value.rescheduleInfo!.isNotEmpty
-        ? SizedBox(
-      height: 120,
-          width: Get.width,
-          child: ListView.builder(
-          itemCount:  _classDetailsController.classData.value.rescheduleInfo!.length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (BuildContext context, int index){
-                return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Container(
-            height: 120,
-            width:  Get.width*.87,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-                color: AppColors.bgQuaternary,
-                borderRadius: BorderRadius.circular(15)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Old class Time'),
-                    Text('New class Time'),
-
-                  ],
+    return _classDetailsController.classData.value.rescheduleInfo != null &&
+            _classDetailsController.classData.value.rescheduleInfo!.isNotEmpty
+        ? Column(
+            children: <Widget>[
+              SizedBox(
+                height: 100,
+                width: Get.width,
+                child: CarouselSlider(
+                  items: _classDetailsController.classData.value.rescheduleInfo!
+                      .map((item) => Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Container(
+                              height: 120,
+                              width: Get.width,
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                  color: AppColors.bgQuaternary,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  const Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text('Old class Time'),
+                                      Text('New class Time'),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(
+                                          item.startTime
+                                                  ?.toString()
+                                                  .epochToNormal() ??
+                                              '',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 18),
+                                        ),
+                                        Text(
+                                          item.endTime
+                                                  ?.toString()
+                                                  .epochToNormal() ??
+                                              '',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 18),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ))
+                      .toList(),
+                  options: CarouselOptions(
+                      height: 120,
+                      aspectRatio: 16 / 12,
+                      viewportFraction: 1,
+                      enableInfiniteScroll: false,
+                      onPageChanged:
+                          (int index, CarouselPageChangedReason reason) {
+                        setState(() {
+                          _classDetailsController.currentIndexPage.value =
+                              index;
+                        });
+                      }),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only( top: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                          _classDetailsController.classData.value.rescheduleInfo![index].startTime
-                              ?.toString()
-                              .epochToNormal() ?? '',style: const TextStyle(fontWeight: FontWeight.w700,fontSize: 18),),
-                      Text(
-                          _classDetailsController.classData.value.rescheduleInfo![index].endTime
-                              ?.toString()
-                              .epochToNormal() ?? '',style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),)
-                    ],
-                  ),
-                ),
-
-              ],
-            ),
-          ),
-                );
-              }),
-        )
+              ),
+              DotsIndicator(
+                dotsCount: _classDetailsController
+                    .classData.value.rescheduleInfo!.length,
+                position: _classDetailsController.currentIndexPage.value,
+              ),
+            ],
+          )
         : const SizedBox.shrink();
   }
 
@@ -996,10 +1033,11 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                           ),
                           builder: (BuildContext context) {
                             return SuccessFailsInfoDialog(
-                              title: 'Cancelled',
-                              buttonTitle: 'Done',
-                              isRouting: 'back',
-                              content:'You have successfully approved the class new time.');
+                                title: 'Cancelled',
+                                buttonTitle: 'Done',
+                                isRouting: 'back',
+                                content:
+                                    'You have successfully approved the class new time.');
                           },
                         );
                       }
@@ -1073,9 +1111,11 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       buttonTitle: 'Done',
                       isRouting: 'back',
                       content:
-                      // ignore: unrelated_type_equality_checks
-                      _classDetailsController.selectedProfile ==
-                          ApplicationConstants.student?'You have successfully approved the cancellation request and the class cost will be refunded.':'You have successfully approved the cancellation request.',
+                          // ignore: unrelated_type_equality_checks
+                          _classDetailsController.selectedProfile ==
+                                  ApplicationConstants.student
+                              ? 'You have successfully approved the cancellation request and the class cost will be refunded.'
+                              : 'You have successfully approved the cancellation request.',
                     );
                   },
                 );
@@ -1106,7 +1146,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       buttonTitle: 'Done',
                       isRouting: 'back',
                       content:
-                      'You have successfully rejected the cancellation request.',
+                          'You have successfully rejected the cancellation request.',
                     );
                   },
                 );
@@ -1124,20 +1164,19 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
       ],
     );
   }
-  Widget getApproveRejectScheduleOption() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        if (_classDetailsController.classData.value.canApproveTheReschedule ?? false)
-          AppButton(
+
+  Widget getApproveScheduleOption() {
+    return _classDetailsController.classData.value.canApproveTheReschedule ??
+            false
+        ? AppButton(
             title: 'Approve Reschedule',
             height: 45.px,
             isDisable: false,
             borderColor: AppColors.appBlue,
             borderRadius: BorderRadius.circular(10.px),
             onPressed: () async {
-              final bool status =
-              await _classDetailsController.approveRejectReschedule('approve');
+              final bool status = await _classDetailsController
+                  .approveRejectReschedule('approve');
               if (status) {
                 // ignore: use_build_context_synchronously
                 showModalBottomSheet(
@@ -1145,28 +1184,34 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   isDismissible: false,
                   constraints: BoxConstraints(
                     maxWidth:
-                    // ignore: use_build_context_synchronously
-                    (MediaQuery.of(context).size.width - 30).px,
+                        // ignore: use_build_context_synchronously
+                        (MediaQuery.of(context).size.width - 30).px,
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.px),
                   ),
                   builder: (BuildContext context) {
                     return SuccessFailsInfoDialog(
-                      title: 'Success',
-                      buttonTitle: 'Done',
-                      isRouting: 'back',
-                      content:'You have successfully approved the class new time.' );
+                        title: 'Success',
+                        buttonTitle: 'Done',
+                        isRouting: 'back',
+                        content:
+                            'You have successfully approved the class new time.');
                   },
                 );
               }
             },
-          ),
-        if (_classDetailsController.classData.value.canRejectTheReschedule ?? false)
-          GestureDetector(
+          )
+        : const SizedBox.shrink();
+  }
+
+  Widget getRejectScheduleOption() {
+    return _classDetailsController.classData.value.canRejectTheReschedule ??
+            false
+        ? GestureDetector(
             onTap: () async {
-              final bool status =
-              await _classDetailsController.approveRejectReschedule('reject');
+              final bool status = await _classDetailsController
+                  .approveRejectReschedule('reject');
               if (status) {
                 // ignore: use_build_context_synchronously
                 showModalBottomSheet(
@@ -1174,8 +1219,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                   isDismissible: false,
                   constraints: BoxConstraints(
                     maxWidth:
-                    // ignore: use_build_context_synchronously
-                    (MediaQuery.of(context).size.width - 30).px,
+                        // ignore: use_build_context_synchronously
+                        (MediaQuery.of(context).size.width - 30).px,
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.px),
@@ -1186,7 +1231,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       buttonTitle: 'Done',
                       isRouting: 'back',
                       content:
-                      'You have successfully rejected the rescheduling request.',
+                          'You have successfully rejected the rescheduling request.',
                     );
                   },
                 );
@@ -1200,9 +1245,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                 color: AppColors.appRed,
               ),
             ),
-          ),
-      ],
-    );
+          )
+        : const SizedBox.shrink();
   }
 
   Widget getOwnerView() {

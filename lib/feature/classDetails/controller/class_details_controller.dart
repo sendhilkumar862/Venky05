@@ -69,6 +69,7 @@ class ClassDetailsController extends GetxController {
   int classScheduleId = 0;
   String oldDateValue = '';
   int startIndex = 1;
+  RxInt currentIndexPage=0.obs;
   ScrollController scrollController = ScrollController();
   String? proposalId;
   Rx<InitiatePaymentModel> initiatePaymentModel = InitiatePaymentModel().obs;

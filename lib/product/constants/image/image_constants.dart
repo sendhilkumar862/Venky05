@@ -151,6 +151,10 @@ class ImageConstants {
       '${ApplicationConstants.iconPath}wallet_icon.png';
   static const String readBookIcon =
       '${ApplicationConstants.iconPath}read_book_icon.png';
+  static const String withdrawIcon =
+      '${ApplicationConstants.iconPath}withdraw.png';
+  static const String subscriptionIcon =
+      '${ApplicationConstants.iconPath}subscription.png';
   static const String filterIcon =
       '${ApplicationConstants.iconPath}filter_icon.png';
   static const String forwardIcon =

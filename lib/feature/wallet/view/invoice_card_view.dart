@@ -126,4 +126,50 @@ class InvoiceCardView extends StatelessWidget {
       ),
     );
   }
+  Widget walletIcon(){
+     if ( title=='class_credit') {
+       return CircleAvatar(
+          backgroundColor: AppColors.appLightRedTwo,
+          radius: 23.px,
+          child: AppImageAsset(
+            image: ImageConstants.readBookIcon,
+            height: 21.px,
+          ));
+     } else if ( title=='reload_balance') {
+       return CircleAvatar(
+           backgroundColor: AppColors.appLightRedTwo,
+           radius: 23.px,
+           child: AppImageAsset(
+             image: ImageConstants.readBookIcon,
+             height: 21.px,
+           ));
+     }
+     else if ( title=='subscription') {
+       return CircleAvatar(
+           backgroundColor: AppColors.appLightRedTwo,
+           radius: 23.px,
+           child: AppImageAsset(
+             image: ImageConstants.readBookIcon,
+             height: 21.px,
+           ));
+     }
+     else if ( title=='buy_class') {
+       return CircleAvatar(
+           backgroundColor: AppColors.appLightRedTwo,
+           radius: 23.px,
+           child: AppImageAsset(
+             image: ImageConstants.readBookIcon,
+             height: 21.px,
+           ));
+     }else {
+       return CircleAvatar(
+        backgroundColor: AppColors.greenBG,
+        radius: 23.px,
+        child: AppImageAsset(
+          image: ImageConstants.walletIcon,
+          height: 21.px,
+        ),
+      );
+     }
+  }
 }

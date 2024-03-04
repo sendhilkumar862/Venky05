@@ -118,7 +118,7 @@ class _RescheduleClassState extends State<RescheduleClass> {
                             buttonTitle: 'Done',
                             content:
                                 'You have successfully reschedule the class time, awaiting teacher acceptance.',
-                            isRouting: Routes.classDetailsView,
+                            isRouting: 'back',
                             argument: _classDetailsController.classId,
                             backIndex: 1,
                           );

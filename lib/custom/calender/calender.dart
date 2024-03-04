@@ -1,6 +1,8 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/utils/common_function.dart';
 import '../../product/utils/typography.dart';
@@ -20,13 +22,24 @@ class _AppCalenderState extends State<AppCalender> {
   @override
   Widget build(BuildContext context) {
     List<DateTime?> currentDate = <DateTime?>[DateTime.now()];
+    DateTime convertTimeFormat(String timeString) {
+      final DateFormat format = DateFormat('hh:mm a');
+      DateTime dateTime = format.parse(timeString);
+      if (timeString.contains('AM')) {
+        dateTime = dateTime.add(const Duration(hours: 12));
+      } else {
+        dateTime = dateTime.subtract(const Duration(hours: 12));
+      }
+
+      return dateTime;
+    }
     return  Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(vertical: 5),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 color: Colors.white),
@@ -82,12 +95,12 @@ class _AppCalenderState extends State<AppCalender> {
                     const TextStyle(color: Colors.white),
                   ),
                 ),
-                Divider(indent: 15),
+                const Divider(indent: 15),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: <Widget>[
                       Text('Ends', style: openSans.get17.w400),
                       Row(
                         children: [
@@ -95,7 +108,7 @@ class _AppCalenderState extends State<AppCalender> {
                             height: 34,
                             width: 69,
                             padding:
-                            EdgeInsets.symmetric(horizontal: 10),
+                            const EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(6),
                               color:
@@ -139,29 +152,53 @@ class _AppCalenderState extends State<AppCalender> {
                                     .withOpacity(0.12),
                               ),
                               child: Row(
-                                children: [
-                                  Container(
-                                    width: 56,
-                                    height: 30,
-                                    decoration:  BoxDecoration(
-                                        color:  widget.selectTime.split(' ').last == 'AM'? AppColors.white:AppColors.trans,
-                                        borderRadius:
-                                        BorderRadiusDirectional.all(
-                                            Radius.circular(7))),
-                                    child: Center(child: Text('AM',style: openSans.get13.w600.appTextColor)),
-                                  ) ,
+                                children: <Widget>[
+                                  GestureDetector(
+                                    onTap: (){
+                                      if( widget.selectTime.split(' ').last == 'PM'){
+                                        final DateTime updateTime= convertTimeFormat( widget.selectTime);
+                                        widget.selectedTime(updateTime);
+                                        setState(() {
+                                          widget.selectTime = formatTime(updateTime);
+                                        });
+                                      }
 
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 5),
+                                    },
                                     child: Container(
                                       width: 56,
                                       height: 30,
                                       decoration:  BoxDecoration(
-                                          color:  widget.selectTime.split(' ').last == 'PM'? AppColors.white:AppColors.trans,
+                                          color:  widget.selectTime.split(' ').last == 'AM'? AppColors.white:AppColors.trans,
                                           borderRadius:
-                                          BorderRadiusDirectional.all(
+                                          const BorderRadiusDirectional.all(
                                               Radius.circular(7))),
-                                      child: Center(child: Text('PM',style: openSans.get13.w600.appTextColor)),
+                                      child: Center(child: Text('AM',style: openSans.get13.w600.appTextColor)),
+                                    ),
+                                  ) ,
+
+                                  GestureDetector(
+                                    onTap: (){
+                                      if( widget.selectTime.split(' ').last == 'AM'){
+                                        final DateTime updateTime= convertTimeFormat( widget.selectTime);
+                                        widget.selectedTime(updateTime);
+                                        setState(() {
+                                          widget.selectTime = formatTime(updateTime);
+                                        });
+                                      }
+
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 5),
+                                      child: Container(
+                                        width: 56,
+                                        height: 30,
+                                        decoration:  BoxDecoration(
+                                            color:  widget.selectTime.split(' ').last == 'PM'? AppColors.white:AppColors.trans,
+                                            borderRadius:
+                                            const BorderRadiusDirectional.all(
+                                                Radius.circular(7))),
+                                        child: Center(child: Text('PM',style: openSans.get13.w600.appTextColor)),
+                                      ),
                                     ),
                                   )
                                 ],
@@ -179,6 +216,7 @@ class _AppCalenderState extends State<AppCalender> {
         ],
       ),
     );
+
   }
   void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(
