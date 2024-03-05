@@ -712,6 +712,7 @@ class _ChatViewState extends State<ChatView> {
                       onTap: () {
                         showModalBottomSheet(
                           context: context,
+                          isScrollControlled: true,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
                               top: Radius.circular(25.0),
@@ -722,7 +723,7 @@ class _ChatViewState extends State<ChatView> {
                               padding:
                                   EdgeInsets.only(left: 15.px, right: 15.px),
                               height:
-                                  MediaQuery.of(context).size.height * 0.8.px,
+                                  MediaQuery.of(context).size.height * 0.65.px,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(30.px),
@@ -1051,8 +1052,7 @@ class _ChatViewState extends State<ChatView> {
 
   Future<void> pickVideo() async {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: <String>['mp4', 'mov', 'avi', 'mkv','wmv'],
+      type: FileType.video,
     );
     if (result != null) {
       _mirrorFlyChatViewController.croppedFilePath =
