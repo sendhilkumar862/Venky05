@@ -69,10 +69,6 @@ class _ChatViewState extends State<ChatView> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              if (_chatController.contacts != null)
-                                ..._chatController.contacts!.map(
-                                      (e) => Text(e.toString()),
-                                ),
                               Row(
                                 mainAxisAlignment: data[index].isMessageSentByMe
                                     ? MainAxisAlignment.end
@@ -92,17 +88,20 @@ class _ChatViewState extends State<ChatView> {
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
                                       children: <Widget>[
-                                        const Padding(
-                                          padding: EdgeInsets.only(bottom: 14),
-                                          child: AppImageAsset(
-                                            image: ImageConstants.teacherAvtar,
-                                            height: 20,
-                                            width: 20,
+                                        if (data[index].isMessageSentByMe)
+                                          const SizedBox.shrink()
+                                        else
+                                          const Padding(
+                                            padding:
+                                                EdgeInsets.only(bottom: 14),
+                                            child: AppImageAsset(
+                                              image:
+                                                  ImageConstants.teacherAvtar,
+                                              height: 20,
+                                              width: 20,
+                                            ),
                                           ),
-                                        ),
 
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
@@ -170,50 +169,71 @@ class _ChatViewState extends State<ChatView> {
                                                           'LOCATION'
                                                       ? locationView(data[index]
                                                           .locationChatMessage)
-                                                      : Container(
-                                                          margin:
-                                                              EdgeInsets.all(
-                                                                  1.5.px),
-                                                          height: 200.px,
-                                                          width: 200.px,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: AppColors
-                                                                .lightPurple,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.px),
-                                                          ),
-                                                          child: Image(
-                                                            image: FileImage(File(data[
-                                                                        index]
-                                                                    .mediaChatMessage
-                                                                    ?.mediaLocalStoragePath ??
-                                                                '')),
-                                                            loadingBuilder:
-                                                                (context, child,
-                                                                    loadingProgress) {
-                                                              if (loadingProgress ==
-                                                                  null) {
-                                                                return FutureBuilder(
-                                                                    future:
-                                                                        null,
-                                                                    builder:
-                                                                        (context,
-                                                                            d) {
-                                                                      return child;
-                                                                    });
-                                                              }
-                                                              return const Center(
-                                                                  child:
-                                                                      CircularProgressIndicator());
-                                                            },
-                                                            width: 300.px,
-                                                            height: 200.px,
-                                                            fit: BoxFit.cover,
-                                                          )),
+                                                      : data[index]
+                                                                  .messageType ==
+                                                              'CONTACT'
+                                                          ? contactView(data[
+                                                                  index]
+                                                              .contactChatMessage)
+                                                          : Container(
+                                                              margin: EdgeInsets
+                                                                  .all(1.5.px),
+                                                              height: 200.px,
+                                                              width: 200.px,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: AppColors
+                                                                    .lightPurple,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8.px),
+                                                              ),
+                                                              child: Image(
+                                                                image: FileImage(
+                                                                    File(data[index]
+                                                                            .mediaChatMessage
+                                                                            ?.mediaLocalStoragePath ??
+                                                                        '')),
+                                                                loadingBuilder:
+                                                                    (context,
+                                                                        child,
+                                                                        loadingProgress) {
+                                                                  if (loadingProgress ==
+                                                                      null) {
+                                                                    return FutureBuilder(
+                                                                        future:
+                                                                            null,
+                                                                        builder:
+                                                                            (context,
+                                                                                d) {
+                                                                          return child;
+                                                                        });
+                                                                  }
+                                                                  return const Center(
+                                                                      child:
+                                                                          CircularProgressIndicator());
+                                                                },
+                                                                width: 300.px,
+                                                                height: 200.px,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              )),
                                         ),
+
+                                        if (data[index].isMessageSentByMe)
+                                          const Padding(
+                                            padding:
+                                                EdgeInsets.only(bottom: 14),
+                                            child: AppImageAsset(
+                                              image:
+                                                  ImageConstants.teacherAvtar,
+                                              height: 20,
+                                              width: 20,
+                                            ),
+                                          )
+                                        else
+                                          const SizedBox.shrink()
 
                                         // Column(
                                         //   crossAxisAlignment: CrossAxisAlignment.end,
@@ -673,7 +693,8 @@ class _ChatViewState extends State<ChatView> {
                                   '00:00') {
                                 _mirrorFlyChatViewController.stopRecording();
                                 _mirrorFlyChatViewController.sendAudio();
-                                _mirrorFlyChatViewController.isOnTapPause.value =false;
+                                _mirrorFlyChatViewController
+                                    .isOnTapPause.value = false;
                               }
                               setState(() {});
                               logs('isOnatap-->${_chatController.isOnTapMic}');
@@ -701,7 +722,7 @@ class _ChatViewState extends State<ChatView> {
                               padding:
                                   EdgeInsets.only(left: 15.px, right: 15.px),
                               height:
-                                  MediaQuery.of(context).size.height * 0.6.px,
+                                  MediaQuery.of(context).size.height * 0.8.px,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(30.px),
@@ -836,6 +857,7 @@ class _ChatViewState extends State<ChatView> {
                                         child: InkWell(
                                           onTap: () async {
                                             Get.back();
+
                                             await _mirrorFlyChatViewController
                                                 .sendLocation();
                                           },
@@ -861,12 +883,19 @@ class _ChatViewState extends State<ChatView> {
                                         height: 50,
                                         child: InkWell(
                                           onTap: () async {
-                                            Contact? contact = await _chatController.contactPicker.selectContact();
-                                            setState(() {
-                                              if(contact!=null)
-                                              _chatController.contacts = [contact];
-                                            });
-
+                                            final Contact? contact =
+                                                await _chatController
+                                                    .contactPicker
+                                                    .selectContact();
+                                            if (contact != null) {
+                                              _mirrorFlyChatViewController
+                                                  .sendContactNumber(
+                                                      contact.phoneNumbers?[
+                                                              0] ??
+                                                          '',
+                                                      contact.fullName ?? '');
+                                              Get.back();
+                                            }
                                           },
                                           child: const Row(
                                             children: <Widget>[
@@ -877,6 +906,28 @@ class _ChatViewState extends State<ChatView> {
                                                       .pinLocation),
                                               SizedBox(width: 20),
                                               AppText('Contacts'),
+                                              Spacer(),
+                                              AppImageAsset(
+                                                  image: ImageConstants
+                                                      .forwardIcon)
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      const Divider(),
+                                      SizedBox(
+                                        height: 50,
+                                        child: InkWell(
+                                          onTap: () async {
+                                            await pickVideo();
+                                          },
+                                          child: const Row(
+                                            children: <Widget>[
+                                              AppImageAsset(
+                                                  image: ImageConstants
+                                                      .documentFileClip),
+                                              SizedBox(width: 20),
+                                              AppText('Add Video'),
                                               Spacer(),
                                               AppImageAsset(
                                                   image: ImageConstants
@@ -954,6 +1005,34 @@ class _ChatViewState extends State<ChatView> {
         ));
   }
 
+  Widget contactView(ContactChatMessage? contactChatMessage) {
+    return Container(
+        height: 50,
+        width: 150,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.px),
+          color: AppColors.lightestPurple,
+          border: Border.all(color: AppColors.lightestPurple, width: 1.1.px),
+        ),
+        child: Container(
+            height: 40.px,
+            width: 90,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.px),
+              color: AppColors.lightestPurple,
+              border: Border.all(color: AppColors.white, width: 1.1.px),
+            ),
+            child: Column(
+             crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(contactChatMessage?.contactName ?? ''),
+                Text(
+                  contactChatMessage?.contactPhoneNumbers[0] ?? '',
+                )
+              ],
+            )));
+  }
+
   Future<void> pickDocument() async {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -965,6 +1044,22 @@ class _ChatViewState extends State<ChatView> {
       if (_mirrorFlyChatViewController.croppedFilePath != '') {
         Get.back();
         await _mirrorFlyChatViewController.sendDocumentMessage(
+            _mirrorFlyChatViewController.croppedFilePath, '', '');
+      }
+    }
+  }
+
+  Future<void> pickVideo() async {
+    final FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: <String>['mp4', 'mov', 'avi', 'mkv','wmv'],
+    );
+    if (result != null) {
+      _mirrorFlyChatViewController.croppedFilePath =
+          result.files.single.path ?? '';
+      if (_mirrorFlyChatViewController.croppedFilePath != '') {
+        Get.back();
+        await _mirrorFlyChatViewController.sendVideoMessage(
             _mirrorFlyChatViewController.croppedFilePath, '', '');
       }
     }

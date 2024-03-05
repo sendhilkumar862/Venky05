@@ -118,6 +118,17 @@ class MirrorFlyChatViewController extends GetxController {
     });
   }
 
+
+  // ignore: always_declare_return_types
+  sendVideoMessage(String videoFile,String replyMessageId,String caption){
+    // ignore: avoid_dynamic_calls, always_specify_types
+    Mirrorfly.sendVideoMessage(userJid, videoFile,'', replyMessageId).then((value) {
+      final ChatMessageModel data = sendMessageModelFromJson(value);
+      chatMessageModel.add(data);
+    });
+  }
+
+  // ignore: always_declare_return_types
   sendAudioMessage(String recordAudioPath,String replyMessageId,String audioDuration){
     // ignore: avoid_dynamic_calls, always_specify_types
     Mirrorfly.sendAudioMessage(userJid, recordAudioPath, true, audioDuration, replyMessageId).then((value) {
@@ -140,6 +151,7 @@ class MirrorFlyChatViewController extends GetxController {
   }
 
 
+  // ignore: always_declare_return_types
   startRecording() async {
 
       if (await AudioRecorder().hasPermission()) {
@@ -152,6 +164,7 @@ class MirrorFlyChatViewController extends GetxController {
               .now()
               .millisecondsSinceEpoch}.m4a',
         );
+        // ignore: always_specify_types
         Future.delayed(const Duration(seconds: 300), () {
             stopRecording();
         });
@@ -209,6 +222,7 @@ class MirrorFlyChatViewController extends GetxController {
   }
 
 
+  // ignore: always_declare_return_types
   audioPlay(ChatMessageModel data)async{
     await player.play(
         data.mediaChatMessage!.mediaLocalStoragePath as Source,
@@ -217,6 +231,7 @@ class MirrorFlyChatViewController extends GetxController {
             data.mediaChatMessage!.currentPos),);
   }
 
+  // ignore: always_declare_return_types
   sendLocation() async {
 
         Get.toNamed(Routes.locationSentView)?.then((value) {
@@ -227,6 +242,7 @@ class MirrorFlyChatViewController extends GetxController {
         });
       }
 
+  // ignore: always_declare_return_types
   sendLocationMessage(double lat,double long,String replyMessageId){
     // ignore: avoid_dynamic_calls, always_specify_types
     Mirrorfly.sendLocationMessage(userJid, lat, long, replyMessageId).then((value) {
@@ -234,6 +250,13 @@ class MirrorFlyChatViewController extends GetxController {
       chatMessageModel.add(data);
     });
 
+  }
+  // ignore: always_declare_return_types
+  sendContactNumber( String number,String name){
+    Mirrorfly.sendContactMessage(<String>[number], userJid, name, '').then((value) {
+      final ChatMessageModel data = sendMessageModelFromJson(value);
+      chatMessageModel.add(data);
+    });
   }
 
 
