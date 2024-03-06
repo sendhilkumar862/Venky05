@@ -49,29 +49,23 @@ class InvoiceCardView extends StatelessWidget {
               ),
             Row(
               children: <Widget>[
-                if ( title=='class_credit')
-                  CircleAvatar(
-                      backgroundColor: AppColors.appLightRedTwo,
-                      radius: 23.px,
-                      child: AppImageAsset(
-                        image: ImageConstants.readBookIcon,
-                        height: 21.px,
-                      ))
-                else
-                  CircleAvatar(
-                    backgroundColor: AppColors.greenBG,
-                    radius: 23.px,
-                    child: AppImageAsset(
-                      image: ImageConstants.walletIcon,
-                      height: 21.px,
-                    ),
-                  ),
+                walletIcon(title!),
                 SizedBox(width: 15.px),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     AppText(
-                      title=='class_credit'?'Class Fees title':'Withdraw',
+                      title == 'class_credit'
+                          ? 'Class Fee Credit'
+                          : title == 'cancel_class'
+                              ? 'Refund'
+                              : title == 'reload_balance'
+                                  ? 'Wallet TopUp'
+                                  : title == 'buy_class'
+                                      ? 'Class Fees'
+                                      : title == 'subscription'
+                                          ? 'Subscription'
+                                          : 'Withdraw',
                       fontSize: 14.px,
                     ),
                     SizedBox(
@@ -95,14 +89,14 @@ class InvoiceCardView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     AppText(
-                      amount?.split('.')[0]??'',
+                      amount?.split('.')[0] ?? '',
                       fontSize: 14.px,
                       fontWeight: FontWeight.w700,
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top:2.0),
+                      padding: const EdgeInsets.only(top: 2.0),
                       child: AppText(
-                        '.${amount?.split('.')[1]??''} KWD',
+                        '.${amount?.split('.')[1] ?? ''} KWD',
                         fontSize: 10.px,
                         fontWeight: FontWeight.w700,
                       ),
@@ -126,50 +120,57 @@ class InvoiceCardView extends StatelessWidget {
       ),
     );
   }
-  Widget walletIcon(){
-     if ( title=='class_credit') {
-       return CircleAvatar(
+
+  Widget walletIcon(String titleValue) {
+    if (titleValue == 'class_credit') {
+      return CircleAvatar(
           backgroundColor: AppColors.appLightRedTwo,
           radius: 23.px,
           child: AppImageAsset(
             image: ImageConstants.readBookIcon,
             height: 21.px,
           ));
-     } else if ( title=='reload_balance') {
-       return CircleAvatar(
-           backgroundColor: AppColors.appLightRedTwo,
-           radius: 23.px,
-           child: AppImageAsset(
-             image: ImageConstants.readBookIcon,
-             height: 21.px,
-           ));
-     }
-     else if ( title=='subscription') {
-       return CircleAvatar(
-           backgroundColor: AppColors.appLightRedTwo,
-           radius: 23.px,
-           child: AppImageAsset(
-             image: ImageConstants.readBookIcon,
-             height: 21.px,
-           ));
-     }
-     else if ( title=='buy_class') {
-       return CircleAvatar(
-           backgroundColor: AppColors.appLightRedTwo,
-           radius: 23.px,
-           child: AppImageAsset(
-             image: ImageConstants.readBookIcon,
-             height: 21.px,
-           ));
-     }else {
-       return CircleAvatar(
+    } else if (titleValue == 'reload_balance') {
+      return CircleAvatar(
+          backgroundColor: AppColors.appLightRedTwo,
+          radius: 23.px,
+          child: AppImageAsset(
+            image: ImageConstants.walletIcon,
+            height: 21.px,
+          ));
+    } else if (titleValue == 'subscription') {
+      return CircleAvatar(
+          backgroundColor: AppColors.appLightRedTwo,
+          radius: 23.px,
+          child: AppImageAsset(
+            image: ImageConstants.subscriptionIcon,
+            height: 21.px,
+          ));
+    } else if (titleValue == 'buy_class') {
+      return CircleAvatar(
+          backgroundColor: AppColors.appLightRedTwo,
+          radius: 23.px,
+          child: AppImageAsset(
+            image: ImageConstants.readBookIcon,
+            height: 21.px,
+          ));
+    } else if (titleValue == 'cancel_class') {
+      return CircleAvatar(
+          backgroundColor: AppColors.appLightRedTwo,
+          radius: 23.px,
+          child: AppImageAsset(
+            image: ImageConstants.readBookIcon,
+            height: 21.px,
+          ));
+    } else {
+      return CircleAvatar(
         backgroundColor: AppColors.greenBG,
         radius: 23.px,
         child: AppImageAsset(
-          image: ImageConstants.walletIcon,
+          image: ImageConstants.withdrawIcon,
           height: 21.px,
         ),
       );
-     }
+    }
   }
 }
