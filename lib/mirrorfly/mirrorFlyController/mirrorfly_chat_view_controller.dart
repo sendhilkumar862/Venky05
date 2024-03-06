@@ -61,8 +61,7 @@ class MirrorFlyChatViewController extends GetxController {
   onInit() async{
     super.onInit();
 
-     userJid = Get.arguments['JID'];
-     userName=Get.arguments['UserName'];
+     userJid = Get.arguments['jid'];
     getMessage();
     Mirrorfly.onMessageReceived.listen((event) {
       final ChatMessageModel chatData = sendMessageModelFromJson(event);

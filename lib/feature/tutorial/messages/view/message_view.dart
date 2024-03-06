@@ -315,8 +315,8 @@ class _MessageViewState extends State<MessageView> {
             onTap: () {
               Get.toNamed(Routes.chatView,
                   arguments: <String, Object?>{
-                    'JID': _messageController.mirrorFlyMessageController.userList[index].jid ?? '',
-                    'UserName': _messageController.mirrorFlyMessageController.userList[index].name ?? ''
+                    'jid': _messageController.mirrorFlyMessageController.userList[index].jid ?? '',
+                    'userName': _messageController.mirrorFlyMessageController.userList[index].name ?? ''
                   });
             },
             onLongPress: () {

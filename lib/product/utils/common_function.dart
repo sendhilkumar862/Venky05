@@ -14,7 +14,8 @@ bool handlePermissionResult(PermissionStatus status) {
   if (status.isGranted) {
    return true;
   } else if (status.isDenied) {
-    return true;
+    openAppSettings();
+    return false;
   } else if (status.isPermanentlyDenied) {
     openAppSettings();
     return false;
