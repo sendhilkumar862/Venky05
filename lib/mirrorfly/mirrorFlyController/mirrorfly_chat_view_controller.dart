@@ -107,7 +107,15 @@ class MirrorFlyChatViewController extends GetxController {
     });
   }
 
+ // ignore: always_declare_return_types
+ downloadMedia(String mediaId){
+   // ignore: always_specify_types
+   Mirrorfly.downloadMedia(mediaId);
+   Future.delayed(const Duration(milliseconds: 500), () {
+     getMessage();
+   });
 
+ }
 
   // ignore: always_declare_return_types
   sendDocumentMessage(String documentFile,String replyMessageId,String caption){

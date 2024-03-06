@@ -280,4 +280,179 @@ class ImageConstants {
   static const String earthIcon = '${ApplicationConstants.iconPath}earth.svg';
   static const String kuwaitFlag =
       '${ApplicationConstants.iconPath}kuwait_flag.svg';
+
+
+
+//Assets
+  static const String registerIcon = 'assets/logos/register_logo.svg';
+  static const String statusIcon = 'assets/logos/status.svg';
+  static const String chatFabIcon = 'assets/logos/chat_fab.svg';
+  static const String moreIcon = 'assets/logos/shape.svg';
+  static const String noContactsIcon = 'assets/logos/no_contacts.png';
+  static const String noChatIcon = 'assets/logos/no_messages.png';
+  static const String noCallImage = 'assets/logos/ic_no_call_history.webp';
+  static const String profileIcon = 'assets/logos/avatar.svg';
+  static const String rightArrowIcon = 'assets/logos/forward_arrow.svg';
+  static const String chatIcon = 'assets/logos/chat.svg';
+  static const String staredMsgIcon = 'assets/logos/stared message.svg';
+  static const String notificationIcon = 'assets/logos/Notifications.svg';
+  static const String tickRound = 'assets/logos/tick_round.svg';
+  static const String tickRoundBlue = 'assets/logos/tick_round_blue.svg';
+  static const String blockedIcon = 'assets/logos/blocked_contacts.svg';
+  static const String archiveIcon = 'assets/logos/Archive_ic_settings.svg';
+  static const String lockIcon = 'assets/logos/lock.svg';
+  static const String lockOutlineBlack = 'assets/logos/lock_outline_black.svg';
+  static const String aboutIcon = 'assets/logos/About and Help.svg';
+  static const String connectionIcon = 'assets/logos/antenna.svg';
+  static const String toggleOffIcon = 'assets/logos/toggle OFF.svg';
+  static const String reportIcon = 'assets/logos/stared message-1.svg';
+  static const String logoutIcon = 'assets/logos/logout.svg';
+  static const String pencilEditIcon = 'assets/logos/pencil.svg';
+  static  const String tickIcon = 'assets/logos/tick.svg';
+  static const String smileIcon = 'assets/logos/smile.svg';
+  static  const String icQrScannerWebLogin = 'assets/logos/ic_qr_scanner_web_login.png';
+  static const String redirectLastMessage = 'assets/logos/ic_redirect_last_message.png';
+
+  static  const String icLogo = 'assets/logos/ic_logo.png';
+  static  const String icChrome = 'assets/logos/ic_chrome.png';
+  static const String icEdgeBrowser = 'assets/logos/ic_edge_browser.png';
+  static const String icMozilla = 'assets/logos/ic_mozilla.png';
+  static const String icSafari = 'assets/logos/ic_safari.png';
+  static const String icIe = 'assets/logos/ic_ie.png';
+  static  const String icOpera = 'assets/logos/ic_opera.png';
+  static const String icUc = 'assets/logos/ic_uc.png';
+  static const String icDefaultBrowser = 'assets/logos/ic_default_browser.png';
+  static  const String eyeOn = 'assets/logos/eye_on.png';
+  static  const String eyeOff = 'assets/logos/eye_off.png';
+
+//Dashboard Recent Chats
+  static  const String archive = 'assets/logos/archive.svg';
+  static const String unarchive = 'assets/logos/unarchive.svg';
+  static const String mute = 'assets/logos/mute.svg';
+  static const String unMute = 'assets/logos/unmute.svg';
+  static const String pushpin = 'assets/logos/pushpin.svg';
+  static const String pin = 'assets/logos/pin.svg';
+  static const String unpin = 'assets/logos/unpin.svg';
+
+// const String audioImg = 'assets/logos/audio.svg';
+  static const String audioImg = 'assets/logos/headset_img.svg';
+  static const String headsetImg = 'assets/logos/headset_white.svg';
+  static const String documentImg = 'assets/logos/document_icon.svg';
+  static  const String cameraImg = 'assets/logos/camera.svg';
+  static const String contactImg = 'assets/logos/contact_icon.svg';
+  static  const String galleryImg = 'assets/logos/gallery.svg';
+  static const String locationImg = 'assets/logos/location_icon.svg';
+  static const String rightArrow = 'assets/logos/right_arrow.svg';
+  static const String previewAddImg = 'assets/logos/preview_add.svg';
+
+  static  const String downloading = 'assets/logos/downloading.svg';
+  static  const String videoPlay = 'assets/logos/video_play.svg';
+  static const String videoCamera = 'assets/logos/video_camera.svg';
+  static const String audioPlay = 'assets/logos/audio_play.svg';
+  static  const String audioMicBg = 'assets/logos/audio_mic.svg';
+  static  const String audioMic = 'assets/logos/mic.svg';
+  static  const String audioMic1 = 'assets/logos/mic1.svg';
+  static  const String musicIcon = 'assets/logos/music_icon.svg';
+  static const String profileImage = 'assets/logos/profile_img.png';
+
+  static const String linkImage = 'assets/logos/link.svg';
+  static const String txtImage = 'assets/logos/txt.svg';
+  static const String csvImage = 'assets/logos/csv.svg';
+  static const String pdfImage = 'assets/logos/pdf.svg';
+  static const String pptImage = 'assets/logos/ppt.svg';
+  static const String pptxImage = 'assets/logos/pptx.svg';
+  static  const String xlsImage = 'assets/logos/xls.svg';
+  static  const String xlsxImage = 'assets/logos/xlsx.svg';
+  static  const String docImage = 'assets/logos/doc.svg';
+  static  const String docxImage = 'assets/logos/docx.svg';
+  static  const String apkImage = 'assets/logos/apk.svg';
+  static  const String mContactIcon = 'assets/logos/contact_chat.svg';
+  static  const String mDocumentIcon = 'assets/logos/document_chat.svg';
+  static  const String zipImage = 'assets/logos/zip.svg';
+  static  const String rarImage = 'assets/logos/rar.svg';
+  static  const String mImageIcon = 'assets/logos/image.svg';
+  static  const String mLocationIcon = 'assets/logos/location_chat.svg';
+  static const String mVideoIcon = 'assets/logos/ic_video.svg';
+  static  const String mAudioIcon = 'assets/logos/noun_Audio_3408360.svg';
+  static  const String mAudioRecordIcon = 'assets/logos/record_reply_preview.svg';
+  static const String audioWhite = 'assets/logos/audio_white.svg';
+  static const String videoWhite = 'assets/logos/video_icon.svg';
+  static  const String cornerShadow = 'assets/logos/ic_baloon.png';
+  static const String disabledIcon = 'assets/logos/disabled.png';
+
+  static  const String videoCall = 'assets/logos/videocall.svg';
+  static  const String call = 'assets/logos/call.svg';
+
+  static   const String quickCall = 'assets/logos/quick_call.svg';
+  static const String quickInfo = 'assets/logos/quick_info.svg';
+  static  const String quickMessage = 'assets/logos/quick_message.svg';
+  static  const String quickVideo = 'assets/logos/quick_video.svg';
+
+  static  const String replyIcon = 'assets/logos/reply.svg';
+  static const String cancelIcon = 'assets/logos/close.svg';
+  static const String favouriteIcon = 'assets/logos/star.svg';
+  static  const String unFavouriteIcon = 'assets/logos/unstar.svg';
+  static  const String copyIcon = 'assets/logos/copy.svg';
+  static  const String uploadIcon = 'assets/logos/upload.svg';
+  static  const String downloadIcon = 'assets/logos/download.svg';
+  static  const String shareIcon = 'assets/logos/share.svg';
+  static const String starSmallIcon = 'assets/logos/star_small_icon.svg';
+
+  static const String seenIcon = 'assets/logos/seen.svg';
+  static  const String unSendIcon = 'assets/logos/unsent.svg';
+  static  const String deliveredIcon = 'assets/logos/delivered.svg';
+  static  const String acknowledgedIcon = 'assets/logos/acknowledged.svg';
+
+//Animation
+  static const String deleteDustbin = 'assets/animation/delete_dustbin.json';
+  static const String audioJson = 'assets/animation/enable_mic.json';
+  static  const String audioJson1 = 'assets/animation/enable_mic1.json';
+
+  static  const String profileImg = 'assets/logos/profile_img.png';
+  static  const String groupImg = 'assets/logos/ic_grp_bg.png';
+  static  const String imageEdit = 'assets/logos/ic_image_edit.svg';
+  static const String edit = 'assets/logos/ic_edit.svg';
+  static  const String imageOutline = 'assets/logos/image_outline.svg';
+  static  const String addUser = 'assets/logos/add_user.svg';
+  static  const String reportUser = 'assets/logos/report_user.svg';
+  static  const String reportGroup = 'assets/logos/report_group.svg';
+  static const String leaveGroup = 'assets/logos/leave_group.svg';
+
+  static const String contactSelectTick = 'assets/logos/contact_select.svg';
+  static  const String closeContactIcon = 'assets/logos/close_icon_contact.svg';
+
+  static const String emailIcon = 'assets/logos/email.svg';
+  static const String phoneIcon = 'assets/logos/phone.svg';
+  static  const String deleteBin = 'assets/logos/delete_bin.svg';
+  static  const String deleteBinWhite = 'assets/logos/delete_bin_white.svg';
+
+  static const String filePermission = "assets/logos/file_permission.svg";
+  static  const String audioPermission = "assets/logos/audio_permission.svg";
+  static  const String cameraPermission = "assets/logos/camera_permission.svg";
+  static  const String contactPermission = "assets/logos/contact_permission.svg";
+  static  const String contactSyncPermission = "assets/logos/contact_media_permission.svg";
+  static  const String settingsPermission = "assets/logos/settings_permission.svg";
+  static  const String locationPinPermission = "assets/logos/location_pin_permission.svg";
+  static  const String recordAudioVideoPermission =
+      "assets/logos/record_audio_video_permission.svg";
+
+  static  const String icAdminBlocked = "assets/logos/ic_admin_blocked.svg";
+  static  const String icExpand = "assets/logos/ic_expand.svg";
+  static const String icCollapse = "assets/logos/ic_collapse.svg";
+
+  static  const String forwardMedia = "assets/logos/forward_media.svg";
+  static  const String arrowDown = "assets/logos/arrow_down.svg";
+  static const String arrowUp = "assets/logos/arrow_up.svg";
+
+  static const String mediaBg = "assets/logos/ic_baloon.svg";
+
+//contact sync
+  static  const String syncIcon = "assets/logos/sync.svg";
+  static  const String contactSyncBg = "assets/logos/contact_sync_bg.png";
+  static  const String contactBookFill = "assets/logos/contacts_book_fill.svg";
+  static  const String emailContactIcon = "assets/logos/emailcontact_icon.svg";
+
+// const String icBioBackground = "assets/logos/ic_bio_background.svg";
+  static  const String icBioBackground = "assets/logos/ic_bio_background.png";
+  static  const String icDeleteIcon = "assets/logos/ic_delete_icon.svg";
 }
