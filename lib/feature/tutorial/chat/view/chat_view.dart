@@ -20,7 +20,7 @@ import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/validators.dart';
 import '../../messages/model/chat_message_model.dart';
 import '../controller/chat_controller.dart';
-import 'chat_media_file.dart';
+import 'chat_image.dart';
 import 'chat_widget.dart';
 
 class ChatView extends StatefulWidget {
@@ -720,16 +720,12 @@ class _ChatViewState extends State<ChatView> {
                                             final XFile? imagePick =
                                                 await ImagePicker().pickImage(
                                                     source: ImageSource.camera);
-                                            logs('imagepick-->$imagePick');
                                             if (imagePick != null) {
                                               Get.back();
-                                              logs(
-                                                  'imagepick123-->${imagePick.toString()}');
 
                                               await _mirrorFlyChatViewController
                                                   .sendImageMessage(
                                                       imagePick.path, '', '');
-                                              setState(() {});
                                             }
                                           },
                                           child: const Row(
