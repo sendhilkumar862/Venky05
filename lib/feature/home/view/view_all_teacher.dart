@@ -57,6 +57,7 @@ class _ViewAllTeacherState extends State<ViewAllTeacher> {
                 .size
                 .height * 0.300,
             child: GridView.builder(
+              controller: _homeController.scrollController,
               padding: EdgeInsets.symmetric(horizontal: 15.px),
               physics: const BouncingScrollPhysics(),
               itemCount: _homeController.favouritesList.length,
