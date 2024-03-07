@@ -359,8 +359,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       child: DetailsCardView(
                           cardMargin: EdgeInsets.only(
                               right: 15.px, top: 10.px, bottom: 27.px),
-                          reViewLength: _classDetailsController
-                              .classData.value.proposals![index].rating,
+                          reViewLength: _classDetailsController.classData.value.proposals![index].rating,
                           name: _classDetailsController
                                   .classData.value.proposals![index].name ??
                               '',

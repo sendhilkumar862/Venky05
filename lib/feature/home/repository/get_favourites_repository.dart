@@ -1,17 +1,19 @@
+import 'package:hessah/feature/home/repository/model/get_class_list_request_model.dart';
+
 import '../../../../core/api_end_points.dart';
 import '../../../../core/backend_service.dart';
 import '../../../../core/base_request.dart';
 import '../../../../core/base_response.dart';
 import '../../../../core/hessah_exception.dart';
 import '../../../../product/constants/enums/backend_services_method_enums.dart';
-import '../../home/model/get_class_list_request_model.dart';
 
 
-class AddFavouritesRepository {
-  Future<BaseResponse> addFavourites (String id) async {
+
+class GetFavouriteListRepository {
+  Future<BaseResponse> getFavouriteList (GetClassRequestModel getFavouritesRequestModel) async {
     try {
       return await BackendService.post(
-          AddFavouriteAPIRequest(id:id));
+          FavouriteListAPIRequest(getFavouritesRequestModel: getFavouritesRequestModel));
     } catch (e) {
       if (e is HessahException) {
         return BaseResponse(status: Status(type: 'error', message: 'Something went wrong'));
@@ -20,14 +22,14 @@ class AddFavouritesRepository {
     }
   }
 }
-class AddFavouriteAPIRequest extends BaseRequest {
-  AddFavouriteAPIRequest({required this.id});
-  final String id;
+class FavouriteListAPIRequest extends BaseRequest {
+  FavouriteListAPIRequest({required this.getFavouritesRequestModel});
+  final GetClassRequestModel getFavouritesRequestModel;
 
   @override
-  String get endPoint => '${ApiEndpoint.favourites(FavouritesEndPoint.Favourites_Add)}/$id';
+  String get endPoint => ApiEndpoint.favourites(FavouritesEndPoint.Favourites);
   @override
-  Map<String, dynamic> get body => {};
+  Map<String, dynamic> get body => getFavouritesRequestModel.toJson();
 
 
   @override

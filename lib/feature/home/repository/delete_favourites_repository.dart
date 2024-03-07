@@ -4,7 +4,7 @@ import '../../../../core/base_request.dart';
 import '../../../../core/base_response.dart';
 import '../../../../core/hessah_exception.dart';
 import '../../../../product/constants/enums/backend_services_method_enums.dart';
-import '../../home/model/get_class_list_request_model.dart';
+
 
 
 class DeleteFavouritesRepository {

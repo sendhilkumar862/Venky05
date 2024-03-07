@@ -111,6 +111,8 @@ class ApiEndpoint {
         return '$path/master';
       case SchoolEndpoint.UPCOMING_CLASS:
         return '$path/class/upcoming';
+      case SchoolEndpoint.FAVOURITE:
+        return '$path/class/upcoming';
       case SchoolEndpoint.HISTORY_CLASS:
         return '$path/class/history';
       case SchoolEndpoint.PROPOSAL:
@@ -399,6 +401,11 @@ enum SchoolEndpoint {
 
   /// An endpoint for get upcomming class.
   UPCOMING_CLASS,
+
+  /// An endpoint for get upcomming class.
+  FAVOURITE,
+
+  /// An endpoint for get upcomming class.
 
   /// An endpoint for get history class.
   HISTORY_CLASS,

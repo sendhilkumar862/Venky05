@@ -7,6 +7,7 @@ import '../../feature/classDetails/view/class_details_view.dart';
 import '../../feature/classDetails/view/rescheduleView/reschedule_class_view.dart';
 import '../../feature/home/view/home_view.dart';
 import '../../feature/home/view/view_all_class.dart';
+import '../../feature/home/view/view_all_teacher.dart';
 import '../../feature/home_views/views/home_views.dart';
 import '../../feature/home_views/views/reupload_documents.dart';
 import '../../feature/notification/view/notification.dart';
@@ -126,6 +127,7 @@ class Routes {
   static const String locationSentView='/locationViewClass';
   static const String localContactView='/localContactView';
   static const String previewLocalContactView='/previewLocalContactView';
+  static const String viewAllTeacher='/viewAllTeacher';
 
 
   /// The name of the route for unrecognized route screen
@@ -182,6 +184,7 @@ class Routes {
     GetPage(name: languageView, page: () => LanguageView()),
     GetPage(name: pendingTickets, page: () => const PendingTickets()),
     GetPage(name: viewAllClass, page: () =>  ViewAllClass()),
+    GetPage(name: viewAllTeacher, page: () =>  ViewAllTeacher()),
     GetPage(name: rescheduleClass, page: () =>  const RescheduleClass()),
     GetPage(name: locationSentView, page: () =>  const LocationSentView()),
 

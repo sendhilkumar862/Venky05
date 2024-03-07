@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hessah/feature/home/repository/model/getClassList.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -31,7 +32,7 @@ import '../../setting_view/manage_address/controller/manage_controller.dart';
 import '../../tutorial/language/controller/language_controller.dart';
 import '../../tutorial/language/model/country_model.dart';
 import '../controller/home_controller.dart';
-import '../model/getClassList.dart';
+
 class ViewAllClass extends StatefulWidget {
   const ViewAllClass({Key? key}) : super(key: key);
 
@@ -60,6 +61,8 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
     _manageAddressController.fetchAddressData();
     // ignore: avoid_dynamic_calls
     classType=Get.arguments['type'];
+
+
     _homeController.scrollController.addListener(pagination);
   }
   void pagination() async{
@@ -87,6 +90,7 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
         await _homeController.getClassList( classType,_homeController.upcomingPageIndex,isReload: true);
 
       }
+
         }
   }
   @override

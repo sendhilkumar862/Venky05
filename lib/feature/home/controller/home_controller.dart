@@ -10,11 +10,15 @@ import '../../../product/cache/key_value_storage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../classDetails/repository/book_class_repository.dart';
 import '../../tutorial/login/model/refresh_model.dart';
-import '../model/getClassList.dart';
-import '../model/get_class_list_request_model.dart';
-import '../model/home_model.dart';
+import '../repository/add_favourites_repository.dart';
+import '../repository/delete_favourites_repository.dart';
 import '../repository/get_class_list_repository.dart';
 import '../repository/get_dashboard_detail_repository.dart';
+import '../repository/get_favourites_repository.dart';
+import '../repository/model/favourites_data_model.dart';
+import '../repository/model/getClassList.dart';
+import '../repository/model/get_class_list_request_model.dart';
+import '../repository/model/home_model.dart';
 import '../repository/refersh_token_repository.dart';
 
 
@@ -24,8 +28,12 @@ class HomeController extends GetxController {
   final GetClassListRepository _getClassListRepository = GetClassListRepository();
   final BookClassRepository _bookClassRepository=BookClassRepository();
   final RefreshTokenRepositoryRepository _refreshTokenRepositoryRepository = RefreshTokenRepositoryRepository();
+  final GetFavouriteListRepository _getFavouriteListRepository=GetFavouriteListRepository();
+  final AddFavouritesRepository _addFavouritesRepository=AddFavouritesRepository();
+  final DeleteFavouritesRepository _deleteFavouriteAPIRequest=DeleteFavouritesRepository();
   RxBool isCreatedClass = false.obs;
   ScrollController scrollController = ScrollController();
+  RxDouble childAspectRatio=0.65.obs;
   final MirrorFlyAuthController _mirrorFlyAuthController=Get.put(MirrorFlyAuthController());
   // ignore: always_declare_return_types
   fetchToken() async {
@@ -41,7 +49,7 @@ class HomeController extends GetxController {
 void onInit(){
   super.onInit();
   fetchData();
-
+  getFavouriteInfo(favouritePageIndex);
 }
 
   getData()async{
@@ -53,6 +61,7 @@ void onInit(){
       getClassList(SchoolEndpoint.HISTORY_CLASS,historyPageIndex),
       getClassList(SchoolEndpoint.ACTIVITY_CLASS,activityPageIndex),
       getClassList(SchoolEndpoint.RELATED_CLASS,relatedPageIndex),
+      getFavouriteInfo(favouritePageIndex),
     ]);
     hideLoading();
   }
@@ -67,6 +76,8 @@ void onInit(){
   RxList<GetClassListModel> classHistoryList = <GetClassListModel>[].obs;
   RxList<GetClassListModel> classActivityList = <GetClassListModel>[].obs;
   RxList<GetClassListModel> classRelatedList = <GetClassListModel>[].obs;
+  RxList<FavouritesModel> favouritesList=<FavouritesModel>[].obs;
+
 
   int totalUpcomingCount=0;
   int upcomingPageIndex=1;
@@ -82,8 +93,11 @@ void onInit(){
 
   int totalRelatedStudentCount=0;
   int totalFavouriteStudentCount=0;
+
   int totalRelatedTeacherCount=0;
-  int totalFavouriteTeacherCount=0;
+
+  int totalFavouriteCount=0;
+  int favouritePageIndex=1;
 
 
   Future<void> fetchData() async {
@@ -162,4 +176,58 @@ void onInit(){
       hideLoading();
     }
   }
+
+
+
+
+  Future<void> getFavouriteInfo(int startIndex,{bool isReload=false}) async {
+  if(isReload){
+  showLoading();
+  }
+    final BaseResponse getFavouriteInfoDataResponse =
+    await _getFavouriteListRepository.getFavouriteList(GetClassRequestModel(limit: '10',startIndex: startIndex.toString(),sortColumn:'created_at',sortDirection: 'desc' ));
+    if (getFavouriteInfoDataResponse.status?.type == 'success') {
+      // ignore: always_specify_types
+      final List favouritesListData=getFavouriteInfoDataResponse.data!.item! as List;
+
+      if(!isReload) {
+        favouritesList.clear();}
+      totalFavouriteCount=getFavouriteInfoDataResponse.paginationData?.total??0;
+      // ignore: always_specify_types
+      for (final element in favouritesListData) {
+        favouritesList.add(FavouritesModel.fromJson(element));
+      }
+
+    }
+  if(isReload){
+    hideLoading();
+  }
+  }
+
+  Future<void> addFavouriteInfo(String  id) async {
+    showLoading();
+    final BaseResponse addFavouriteInfoDataResponse =
+    await _addFavouritesRepository.addFavourites(id);
+    if (addFavouriteInfoDataResponse.status?.type == 'success') {
+      if (addFavouriteInfoDataResponse.data!.item != null) {
+
+      }
+    }
+    hideLoading();
+
+  }
+
+  Future<void> deleteFavouriteInfo(String  id) async {
+    showLoading();
+    final BaseResponse deleteFavouriteInfoDataResponse =
+    await _deleteFavouriteAPIRequest.deleteFavourites(id);
+    if (deleteFavouriteInfoDataResponse.status?.type == 'success') {
+      if (deleteFavouriteInfoDataResponse.data!.item != null) {
+
+      }
+    }
+    hideLoading();
+
+  }
+
 }
