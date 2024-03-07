@@ -226,6 +226,18 @@ class ApiEndpoint {
     }
   }
 
+
+  static String favourites(FavouritesEndPoint endpoint) {
+    const String path = 'favorites';
+    switch (endpoint) {
+      case FavouritesEndPoint.Favourites:
+        return '$path/';
+      case FavouritesEndPoint.Favourites_Add:
+        return '$path/add';
+
+    }
+  }
+
 }
 
 /// A collection of endpoints used for authentication purposes.
@@ -339,6 +351,18 @@ enum UsersEndPoint{
 
   /// An endpoint for make  payment type requests.
   MAKE_PAYMENT,
+}
+
+
+
+
+
+enum FavouritesEndPoint {
+  /// An endpoint for favourites list
+  Favourites,
+
+  /// An endpoint for favourites Add
+  Favourites_Add,
 }
 
 /// A collection of endpoints used for authentication purposes.

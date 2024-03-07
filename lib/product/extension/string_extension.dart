@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -108,4 +110,5 @@ extension StringLocalization on String {
     // ignore: avoid_bool_literals_in_conditional_expressions
     return this != null ? this!.toLowerCase() == "true" : false;
   }
+
 }

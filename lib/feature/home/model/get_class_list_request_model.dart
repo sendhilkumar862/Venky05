@@ -1,10 +1,6 @@
 
 
 class GetClassRequestModel {
-  String? limit;
-  String? startIndex;
-  String? sortColumn;
-  String? sortDirection;
 
   GetClassRequestModel(
       {this.limit, this.startIndex, this.sortColumn, this.sortDirection});
@@ -15,13 +11,17 @@ class GetClassRequestModel {
     sortColumn = json['sortColumn'];
     sortDirection = json['sortDirection'];
   }
+  String? limit;
+  String? startIndex;
+  String? sortColumn;
+  String? sortDirection;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['limit'] = this.limit;
-    data['startIndex'] = this.startIndex;
-    data['sortColumn'] = this.sortColumn;
-    data['sortDirection'] = this.sortDirection;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['limit'] = limit;
+    data['startIndex'] = startIndex;
+    data['sortColumn'] = sortColumn;
+    data['sortDirection'] = sortDirection;
     return data;
   }
 }
