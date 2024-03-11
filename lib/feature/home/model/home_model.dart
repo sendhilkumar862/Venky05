@@ -22,6 +22,9 @@ class HomeModel {
     userId = json['userId'];
     imageId = json['imageId'];
     username = json['username'];
+    userStatus = json['userStatus'];
+    mobile = json['mobile'];
+    country = json['country'];
   }
   String? firstName;
   String? lastName;
