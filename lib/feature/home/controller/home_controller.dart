@@ -67,7 +67,7 @@ void onInit(){
     hideLoading();
   }
 
-  Rx<HomeModel?> homeData = const HomeModel().obs;
+  Rx<HomeModel?> homeData =  HomeModel().obs;
   RxList<String> favouriteTeachersList = <String>[].obs;
   RxList<String> relatedTeachersList = <String>[].obs;
   RxList<String> favouriteStudentsList = <String>[].obs;
