@@ -1,4 +1,4 @@
-import 'package:hessah/feature/home/repository/model/get_class_list_request_model.dart';
+
 
 import '../../../../core/api_end_points.dart';
 import '../../../../core/backend_service.dart';
@@ -6,6 +6,7 @@ import '../../../../core/base_request.dart';
 import '../../../../core/base_response.dart';
 import '../../../../core/hessah_exception.dart';
 import '../../../../product/constants/enums/backend_services_method_enums.dart';
+import '../model/get_class_list_request_model.dart';
 
 
 class GetClassListRepository {

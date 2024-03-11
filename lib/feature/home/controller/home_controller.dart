@@ -10,15 +10,16 @@ import '../../../product/cache/key_value_storage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../classDetails/repository/book_class_repository.dart';
 import '../../tutorial/login/model/refresh_model.dart';
+import '../model/favourites_data_model.dart';
+import '../model/getClassList.dart';
+import '../model/get_class_list_request_model.dart';
+import '../model/home_model.dart';
 import '../repository/add_favourites_repository.dart';
 import '../repository/delete_favourites_repository.dart';
 import '../repository/get_class_list_repository.dart';
 import '../repository/get_dashboard_detail_repository.dart';
 import '../repository/get_favourites_repository.dart';
-import '../repository/model/favourites_data_model.dart';
-import '../repository/model/getClassList.dart';
-import '../repository/model/get_class_list_request_model.dart';
-import '../repository/model/home_model.dart';
+
 import '../repository/refersh_token_repository.dart';
 
 
