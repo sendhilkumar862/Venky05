@@ -20,9 +20,10 @@ class DetailsCardView extends StatelessWidget {
     this.isBookmarked,
     this.cardMargin,
     this.boxShadow,
+    this.onTap,
     super.key,
   });
-
+  VoidCallback? onTap;
   num? reViewLength;
   String? avatar;
   String? name;
@@ -66,23 +67,24 @@ class DetailsCardView extends StatelessWidget {
                         color: Colors.black.withOpacity(0.2),
                         spreadRadius: 2,
                         blurRadius: 4,
-                        offset:
-                        const Offset(0, 2), // changes the position of the shadow
+                        offset: const Offset(
+                            0, 2), // changes the position of the shadow
                       ),
                     ],
                   ),
                   width: 50.px,
                   height: 50.px,
                   child: ClipOval(
-                    child:  avatar==null?Center(
-                        child: Text(
-                            name!.extractInitials(),
-                            style: openSans.get20.w700.white)): AppImageAsset(
-                      image: avatar!.getImageUrl('profile'),
-                      height: 40.px,
-                    ),
+                    child: avatar == null
+                        ? Center(
+                            child: Text(name!.extractInitials(),
+                                style: openSans.get20.w700.white))
+                        : AppImageAsset(
+                            image: avatar!.getImageUrl('profile'),
+                            height: 40.px,
+                          ),
                   ),
-                ) ,
+                ),
                 SizedBox(
                   height: 20.px,
                   width: 50.px,
@@ -188,13 +190,13 @@ class DetailsCardView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                   // Check if icon is not null and not empty
-                      AppImageAsset(
-                        image: ImageConstants.moneyIcon,
-                        height: 14.px,
-                      ),
-                     // Another check for spacing
-                      SizedBox(width: 2.px),
+                    // Check if icon is not null and not empty
+                    AppImageAsset(
+                      image: ImageConstants.moneyIcon,
+                      height: 14.px,
+                    ),
+                    // Another check for spacing
+                    SizedBox(width: 2.px),
                     AppText(
                       subjects ?? '',
                       fontSize: 10.px,
@@ -206,11 +208,14 @@ class DetailsCardView extends StatelessWidget {
               ],
             ),
           ),
-          AppImageAsset(
-            image: (isBookmarked ?? false)
-                ? ImageConstants.removeBookmark
-                : ImageConstants.doBookmark,
-            height: 18.px,
+          GestureDetector(
+            onTap:onTap,
+            child: AppImageAsset(
+              image: (isBookmarked ?? false)
+                  ? ImageConstants.doBookmark
+                  : ImageConstants.removeBookmark,
+              height: 18.px,
+            ),
           ),
         ],
       ),

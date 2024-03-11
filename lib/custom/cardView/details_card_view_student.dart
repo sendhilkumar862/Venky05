@@ -18,10 +18,11 @@ class DetailsCardViewStudent extends StatelessWidget {
     this.isBookmarked,
     this.cardMargin,
     this.boxShadow,
+    this.onTap,
     super.key,
   });
 
-
+  VoidCallback? onTap;
   String? avatar;
   String? name;
 
@@ -91,13 +92,17 @@ class DetailsCardViewStudent extends StatelessWidget {
               ],
             ),
           ),
-          Align(
-            alignment: Alignment.topRight,
-            child: AppImageAsset(
-              image: (isBookmarked ?? false)
-                  ? ImageConstants.removeBookmark
-                  : ImageConstants.doBookmark,
-              height: 18.px,
+          GestureDetector(
+            onTap: onTap,
+            child: Align(
+              alignment: Alignment.topRight,
+              child: AppImageAsset(
+                image: (isBookmarked ?? false)
+                    ? ImageConstants.doBookmark
+                    : ImageConstants.removeBookmark,
+
+                height: 18.px,
+              ),
             ),
           ),
         ],

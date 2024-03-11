@@ -230,13 +230,15 @@ class ApiEndpoint {
 
 
   static String favourites(FavouritesEndPoint endpoint) {
-    const String path = 'favorites';
+    const String favouritePath = 'favorites';
+    const String relatedPath = 'school/related';
     switch (endpoint) {
       case FavouritesEndPoint.Favourites:
-        return '$path/';
+        return '$favouritePath/';
       case FavouritesEndPoint.Favourites_Add:
-        return '$path/add';
-
+        return '$favouritePath/add';
+      case FavouritesEndPoint.Related:
+        return '$relatedPath/users';
     }
   }
 
@@ -365,6 +367,9 @@ enum FavouritesEndPoint {
 
   /// An endpoint for favourites Add
   Favourites_Add,
+
+  /// An endpoint for favourites Add
+  Related,
 }
 
 /// A collection of endpoints used for authentication purposes.
