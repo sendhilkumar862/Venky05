@@ -99,16 +99,18 @@ class _StudentsViewState extends State<StudentsView> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (BuildContext context, int index) {
                                 return DetailsCardViewStudent(
-                                  onTap: ()async{
-                                    await _homeController.deleteFavouriteInfo(_homeController.relatedStudentList[index].userId!.toString());
-                                  },
+                                    onTap: () async {
+                                      await _homeController.deleteFavouriteInfo(
+                                          _homeController
+                                              .relatedStudentList[index].userId!
+                                              .toString());
+                                    },
                                     name: _homeController
                                             .favouritesStudentList[index]
                                             .name ??
                                         '',
                                     avatar: _homeController
-                                        .favouritesStudentList[index]
-                                        .imageId,
+                                        .favouritesStudentList[index].imageId,
                                     isBookmarked: true,
                                     grades:
                                         'Grade ${_homeController.favouritesStudentList[index].grade?.join(' - ')}');
@@ -161,16 +163,39 @@ class _StudentsViewState extends State<StudentsView> {
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (BuildContext context, int index) {
                               return DetailsCardViewStudent(
-                                  onTap: ()async{
-                                    (_homeController.relatedStudentList[index].isBookmarked==1||_homeController.relatedStudentList[index].isBookmarked==null)?await _homeController.deleteFavouriteInfo(_homeController.relatedStudentList[index].userId!.toString()):await _homeController.addFavouriteInfo(_homeController.relatedStudentList[index].userId!.toString());
+                                  onTap: () async {
+                                    if (_homeController
+                                            .relatedStudentList[index]
+                                            .isBookmarked !=
+                                        null) {
+                                      _homeController.relatedStudentList[index]
+                                                  .isBookmarked ==
+                                              1
+                                          ? await _homeController
+                                              .deleteFavouriteInfo(
+                                                  _homeController
+                                                      .relatedStudentList[index]
+                                                      .userId!
+                                                      .toString())
+                                          : await _homeController
+                                              .addFavouriteInfo(_homeController
+                                                  .relatedStudentList[index]
+                                                  .userId!
+                                                  .toString());
+                                    }
                                   },
                                   name: _homeController
                                       .relatedStudentList[index].name,
                                   avatar: _homeController
                                       .relatedStudentList[index].imageId,
                                   isBookmarked: _homeController
-                                      .relatedStudentList[index].isBookmarked==1?true:false,
-                                  grades: 'Grade ${_homeController.relatedStudentList[index].grade?.join(' - ')}');
+                                              .relatedStudentList[index]
+                                              .isBookmarked ==
+                                          1
+                                      ? true
+                                      : false,
+                                  grades:
+                                      'Grade ${_homeController.relatedStudentList[index].grade?.join(' - ')}');
                             },
                           ),
                         ),

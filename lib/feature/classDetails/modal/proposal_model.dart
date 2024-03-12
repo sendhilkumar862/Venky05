@@ -1,17 +1,16 @@
-
-
 class ProposalModel {
-
   ProposalModel(
-      {this.proposalId,
-        this.cost,
-        this.currency,
-        this.name,
-        this.imageId,
-        this.country,
-        this.flagUrl,
-        this.rating,
-        this.subscription});
+      {this.userId,
+      this.proposalId,
+      this.cost,
+      this.currency,
+      this.name,
+      this.imageId,
+      this.country,
+      this.flagUrl,
+      this.rating,
+      this.isBookmarked,
+      this.subscription});
 
   ProposalModel.fromJson(Map<String, dynamic> json) {
     proposalId = json['proposalId'];
@@ -23,7 +22,10 @@ class ProposalModel {
     flagUrl = json['flagUrl'];
     rating = json['rating'];
     subscription = json['subscription'];
+    isBookmarked = json['isBookMarked'];
+    userId = json['userId'];
   }
+
   String? proposalId;
   String? cost;
   String? currency;
@@ -33,4 +35,6 @@ class ProposalModel {
   String? flagUrl;
   int? rating;
   String? subscription;
+  int? isBookmarked;
+  int? userId;
 }

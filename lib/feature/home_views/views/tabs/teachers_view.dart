@@ -95,16 +95,18 @@ class _TeachersViewState extends State<TeachersView> {
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (BuildContext context, int index) {
                             return DetailsCardView(
-                              onTap: ()async{
-                                await _homeController.deleteFavouriteInfo(_homeController
-                                    .favouritesTeacherList[index].userId!.toString());
-                              },
+                                onTap: () async {
+                                  await _homeController.deleteFavouriteInfo(
+                                      _homeController
+                                          .favouritesTeacherList[index].userId!
+                                          .toString());
+                                },
                                 reViewLength: _homeController
                                         .favouritesTeacherList[index].rating ??
                                     0,
                                 name:
                                     '${_homeController.favouritesTeacherList[index].firstName ?? ''} ${_homeController.favouritesTeacherList[index].lastName ?? ''}',
-                                avatar:_homeController
+                                avatar: _homeController
                                     .favouritesTeacherList[index].imageId,
                                 countryIcon: _homeController
                                     .favouritesTeacherList[index].flagUrl,
@@ -165,17 +167,32 @@ class _TeachersViewState extends State<TeachersView> {
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (BuildContext context, int index) {
                             return DetailsCardView(
-                                onTap: ()async{
-                                  (_homeController.relatedTeacherList[index].isBookmarked==1||_homeController.relatedTeacherList[index].isBookmarked==null)?await _homeController.deleteFavouriteInfo(_homeController
-                                      .relatedTeacherList[index].userId!.toString()):await _homeController.addFavouriteInfo(_homeController
-                                      .relatedTeacherList[index].userId!.toString());
+                                onTap: () async {
+                                  if (_homeController.relatedTeacherList[index]
+                                          .isBookmarked !=
+                                      null) {
+                                    _homeController.relatedTeacherList[index]
+                                                .isBookmarked ==
+                                            1
+                                        ? await _homeController
+                                            .deleteFavouriteInfo(_homeController
+                                                .relatedTeacherList[index]
+                                                .userId!
+                                                .toString())
+                                        : await _homeController
+                                            .addFavouriteInfo(_homeController
+                                                .relatedTeacherList[index]
+                                                .userId!
+                                                .toString());
+                                  }
                                 },
                                 reViewLength: _homeController
                                         .relatedTeacherList[index].rating ??
                                     0,
                                 name:
                                     '${_homeController.relatedTeacherList[index].firstName ?? ''} ${_homeController.relatedTeacherList[index].lastName ?? ''}',
-                                avatar: _homeController.relatedTeacherList[index].imageId,
+                                avatar: _homeController
+                                    .relatedTeacherList[index].imageId,
                                 countryIcon: _homeController
                                     .relatedTeacherList[index].flagUrl,
                                 countryName: _homeController
@@ -187,8 +204,12 @@ class _TeachersViewState extends State<TeachersView> {
                                     ? false
                                     : true,
                                 // ignore: avoid_bool_literals_in_conditional_expressions
-                                isBookmarked: _homeController.relatedTeacherList[index]
-                                    .isBookmarked==1?true:false,
+                                isBookmarked: _homeController
+                                            .relatedTeacherList[index]
+                                            .isBookmarked ==
+                                        1
+                                    ? true
+                                    : false,
                                 subjects: 'Science - Accounts..');
                           },
                         ),

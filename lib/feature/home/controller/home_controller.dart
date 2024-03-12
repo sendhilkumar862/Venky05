@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +8,7 @@ import '../../../mirrorfly/mirrorFlyController/mirrorfly_auth_controller.dart';
 import '../../../product/cache/key_value_storage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_constants.dart';
+import '../../classDetails/controller/class_details_controller.dart';
 import '../../classDetails/repository/book_class_repository.dart';
 import '../../tutorial/login/model/refresh_model.dart';
 
@@ -26,57 +26,65 @@ import '../repository/get_favourites_repository.dart';
 import '../repository/get_related_student_teacher_repository.dart';
 import '../repository/refersh_token_repository.dart';
 
-
 class HomeController extends GetxController {
-
-  final GetDashboardDetailRepository _dashboardDetailRepository = GetDashboardDetailRepository();
-  final GetClassListRepository _getClassListRepository = GetClassListRepository();
-  final BookClassRepository _bookClassRepository=BookClassRepository();
-  final RefreshTokenRepositoryRepository _refreshTokenRepositoryRepository = RefreshTokenRepositoryRepository();
-  final GetFavouriteListRepository _getFavouriteListRepository=GetFavouriteListRepository();
-  final GetRelatedStudentTeacherListRepository _getRelatedStudentTeacherListRepository=GetRelatedStudentTeacherListRepository();
-  final AddFavouritesRepository _addFavouritesRepository=AddFavouritesRepository();
-  final DeleteFavouritesRepository _deleteFavouriteAPIRequest=DeleteFavouritesRepository();
+  final GetDashboardDetailRepository _dashboardDetailRepository =
+      GetDashboardDetailRepository();
+  final GetClassListRepository _getClassListRepository =
+      GetClassListRepository();
+  final BookClassRepository _bookClassRepository = BookClassRepository();
+  final RefreshTokenRepositoryRepository _refreshTokenRepositoryRepository =
+      RefreshTokenRepositoryRepository();
+  final GetFavouriteListRepository _getFavouriteListRepository =
+      GetFavouriteListRepository();
+  final GetRelatedStudentTeacherListRepository
+      _getRelatedStudentTeacherListRepository =
+      GetRelatedStudentTeacherListRepository();
+  final AddFavouritesRepository _addFavouritesRepository =
+      AddFavouritesRepository();
+  final DeleteFavouritesRepository _deleteFavouriteAPIRequest =
+      DeleteFavouritesRepository();
   RxBool isCreatedClass = false.obs;
   ScrollController scrollController = ScrollController();
-  RxDouble childAspectRatio=0.65.obs;
+  RxDouble childAspectRatio = 0.65.obs;
   String selectedProfile = '';
-  final MirrorFlyAuthController _mirrorFlyAuthController=Get.put(MirrorFlyAuthController());
+  final MirrorFlyAuthController _mirrorFlyAuthController =
+      Get.put(MirrorFlyAuthController());
+
   // ignore: always_declare_return_types
   fetchToken() async {
     final String token = LocaleManager.getAuthToken() ?? '';
     if (token != '') {
       getData();
       isCreatedClass.value =
-          LocaleManager.getValue(StorageKeys.createdClass) ??false;
+          LocaleManager.getValue(StorageKeys.createdClass) ?? false;
     }
   }
 
-@override
-void onInit(){
-  super.onInit();
-  selectedProfile = LocaleManager.getValue(StorageKeys.profile) ?? '';
-  fetchData();
-  getFavouriteStudentTeacherList(favouritePageIndex);
-  getRelatedStudentTeacherList(totalRelatedStudentTeacherPageIndex);
-}
+  @override
+  void onInit() {
+    super.onInit();
+    selectedProfile = LocaleManager.getValue(StorageKeys.profile) ?? '';
+    fetchData();
+    getFavouriteStudentTeacherList(favouritePageIndex);
+    getRelatedStudentTeacherList(totalRelatedStudentTeacherPageIndex);
+  }
 
-  getData()async{
+  getData() async {
     showLoading();
     await Future.wait(<Future<void>>[
-    fetchData(),
-    getClassList(SchoolEndpoint.GET, 1),
-      getClassList(SchoolEndpoint.UPCOMING_CLASS,upcomingPageIndex),
-      getClassList(SchoolEndpoint.HISTORY_CLASS,historyPageIndex),
-      getClassList(SchoolEndpoint.ACTIVITY_CLASS,activityPageIndex),
-      getClassList(SchoolEndpoint.RELATED_CLASS,relatedPageIndex),
+      fetchData(),
+      getClassList(SchoolEndpoint.GET, 1),
+      getClassList(SchoolEndpoint.UPCOMING_CLASS, upcomingPageIndex),
+      getClassList(SchoolEndpoint.HISTORY_CLASS, historyPageIndex),
+      getClassList(SchoolEndpoint.ACTIVITY_CLASS, activityPageIndex),
+      getClassList(SchoolEndpoint.RELATED_CLASS, relatedPageIndex),
       getFavouriteStudentTeacherList(favouritePageIndex),
       getRelatedStudentTeacherList(totalRelatedStudentTeacherPageIndex),
     ]);
     hideLoading();
   }
 
-  Rx<HomeModel?> homeData =  HomeModel().obs;
+  Rx<HomeModel?> homeData = HomeModel().obs;
   RxList<String> favouriteTeachersList = <String>[].obs;
   RxList<String> relatedTeachersList = <String>[].obs;
   RxList<String> favouriteStudentsList = <String>[].obs;
@@ -86,53 +94,58 @@ void onInit(){
   RxList<GetClassListModel> classHistoryList = <GetClassListModel>[].obs;
   RxList<GetClassListModel> classActivityList = <GetClassListModel>[].obs;
   RxList<GetClassListModel> classRelatedList = <GetClassListModel>[].obs;
-  RxList<FavouritesTeacherModel> favouritesTeacherList=<FavouritesTeacherModel>[].obs;
-  RxList<FavouritesTeacherModel> relatedTeacherList=<FavouritesTeacherModel>[].obs;
-  RxList<FavouriteStudentModel> favouritesStudentList=<FavouriteStudentModel>[].obs;
-  RxList<FavouriteStudentModel> relatedStudentList=<FavouriteStudentModel>[].obs;
+  RxList<FavouritesTeacherModel> favouritesTeacherList =
+      <FavouritesTeacherModel>[].obs;
+  RxList<FavouritesTeacherModel> relatedTeacherList =
+      <FavouritesTeacherModel>[].obs;
+  RxList<FavouriteStudentModel> favouritesStudentList =
+      <FavouriteStudentModel>[].obs;
+  RxList<FavouriteStudentModel> relatedStudentList =
+      <FavouriteStudentModel>[].obs;
 
+  int totalUpcomingCount = 0;
+  int upcomingPageIndex = 1;
 
-  int totalUpcomingCount=0;
-  int upcomingPageIndex=1;
+  int totalHistoryCount = 0;
+  int historyPageIndex = 1;
 
-  int totalHistoryCount=0;
-  int historyPageIndex=1;
+  int totalActivityCount = 0;
+  int activityPageIndex = 1;
 
-  int totalActivityCount=0;
-  int activityPageIndex=1;
+  int totalRelatedCount = 0;
+  int relatedPageIndex = 1;
 
-  int totalRelatedCount=0;
-  int relatedPageIndex=1;
+  int totalRelatedStudentCount = 0;
+  int totalFavouriteStudentCount = 0;
 
-  int totalRelatedStudentCount=0;
-  int totalFavouriteStudentCount=0;
+  int totalFavouriteCount = 0;
+  int favouritePageIndex = 1;
 
-
-  int totalFavouriteCount=0;
-  int favouritePageIndex=1;
-
-  int totalRelatedStudentTeacherCount=0;
-  int totalRelatedStudentTeacherPageIndex=1;
-
+  int totalRelatedStudentTeacherCount = 0;
+  int totalRelatedStudentTeacherPageIndex = 1;
 
   Future<void> fetchData() async {
-    final BaseResponse dashboardDataResponse = await _dashboardDetailRepository.getDashboardDetail();
+    final BaseResponse dashboardDataResponse =
+        await _dashboardDetailRepository.getDashboardDetail();
     if (dashboardDataResponse.status?.type == 'success') {
-      final  Map<String, dynamic> dashBoardData=dashboardDataResponse.data!.item! as Map<String ,dynamic>;
+      final Map<String, dynamic> dashBoardData =
+          dashboardDataResponse.data!.item! as Map<String, dynamic>;
       homeData.value = HomeModel.fromJson(dashBoardData);
-      await _mirrorFlyAuthController.updateProfile('${homeData.value?.firstName??''} ${homeData.value?.lastName??''}',homeData.value?.email??'');
+      await _mirrorFlyAuthController.updateProfile(
+          '${homeData.value?.firstName ?? ''} ${homeData.value?.lastName ?? ''}',
+          homeData.value?.email ?? '');
     }
   }
+
   Future<void> refreshToken() async {
     showLoading();
     final BaseResponse signInResponse =
-    await _refreshTokenRepositoryRepository.refreshToken();
+        await _refreshTokenRepositoryRepository.refreshToken();
     if (signInResponse.status?.type == 'success') {
       final RefreshModelClass responseData = RefreshModelClass.fromJson(
           signInResponse.data!.item! as Map<String, dynamic>);
       if (responseData.auth?.accessToken?.isNotEmpty ?? false) {
-        LocaleManager
-            .setAuthToken(responseData.auth?.accessToken ?? '');
+        LocaleManager.setAuthToken(responseData.auth?.accessToken ?? '');
         fetchToken();
       }
     } else {
@@ -140,131 +153,194 @@ void onInit(){
     }
   }
 
-
-  Future<void> getClassList(SchoolEndpoint schoolEndpoint,int startIndex,{bool isReload=false}) async {
-    if(isReload){
+  Future<void> getClassList(SchoolEndpoint schoolEndpoint, int startIndex,
+      {bool isReload = false}) async {
+    if (isReload) {
       showLoading();
     }
-    final BaseResponse classListDataResponse = await _getClassListRepository.getClassList(GetClassRequestModel(limit: '10',startIndex: startIndex.toString(),sortColumn:'created_at',sortDirection: 'desc' ),schoolEndpoint);
+    final BaseResponse classListDataResponse =
+        await _getClassListRepository.getClassList(
+            GetClassRequestModel(
+                limit: '10',
+                startIndex: startIndex.toString(),
+                sortColumn: 'created_at',
+                sortDirection: 'desc'),
+            schoolEndpoint);
     if (classListDataResponse.status?.type == 'success') {
       // ignore: always_specify_types
-      final List classListData=classListDataResponse.data!.item! as List;
+      final List classListData = classListDataResponse.data!.item! as List;
 
-     if(schoolEndpoint==SchoolEndpoint.GET){
-       if(!isReload) {
-         classList.clear();
-       }
-      // ignore: always_specify_types
-      for (final element in classListData) {
-        classList.add(GetClassListModel.fromJson(element));
-      }}
-     else if(schoolEndpoint==SchoolEndpoint.UPCOMING_CLASS){
-       if(!isReload) {
-       classUpcomingList.clear();}
-       totalUpcomingCount=classListDataResponse.paginationData?.total??0;
-       // ignore: always_specify_types
-       for (final element in classListData) {
-         classUpcomingList.add(GetClassListModel.fromJson(element));
-       }} else if(schoolEndpoint==SchoolEndpoint.HISTORY_CLASS){
-       if(!isReload) {
-       classHistoryList.clear();}
-       totalHistoryCount=classListDataResponse.paginationData?.total??0;
-       // ignore: always_specify_types
-       for (final element in classListData) {
-         classHistoryList.add(GetClassListModel.fromJson(element));
-       }} else if(schoolEndpoint==SchoolEndpoint.ACTIVITY_CLASS){
-       if(!isReload) {classActivityList.clear();}
-       totalActivityCount=classListDataResponse.paginationData?.total??0;
-       // ignore: always_specify_types
-       for (final element in classListData) {
-         classActivityList.add(GetClassListModel.fromJson(element));
-       }} else if(schoolEndpoint==SchoolEndpoint.RELATED_CLASS){
-       if(!isReload) {classRelatedList.clear();}
-       totalRelatedCount=classListDataResponse.paginationData?.total??0;
-       // ignore: always_specify_types
-       for (final element in classListData) {
-         classRelatedList.add(GetClassListModel.fromJson(element));
-       }}
-
+      if (schoolEndpoint == SchoolEndpoint.GET) {
+        if (!isReload) {
+          classList.clear();
+        }
+        // ignore: always_specify_types
+        for (final element in classListData) {
+          classList.add(GetClassListModel.fromJson(element));
+        }
+      } else if (schoolEndpoint == SchoolEndpoint.UPCOMING_CLASS) {
+        if (!isReload) {
+          classUpcomingList.clear();
+        }
+        totalUpcomingCount = classListDataResponse.paginationData?.total ?? 0;
+        // ignore: always_specify_types
+        for (final element in classListData) {
+          classUpcomingList.add(GetClassListModel.fromJson(element));
+        }
+      } else if (schoolEndpoint == SchoolEndpoint.HISTORY_CLASS) {
+        if (!isReload) {
+          classHistoryList.clear();
+        }
+        totalHistoryCount = classListDataResponse.paginationData?.total ?? 0;
+        // ignore: always_specify_types
+        for (final element in classListData) {
+          classHistoryList.add(GetClassListModel.fromJson(element));
+        }
+      } else if (schoolEndpoint == SchoolEndpoint.ACTIVITY_CLASS) {
+        if (!isReload) {
+          classActivityList.clear();
+        }
+        totalActivityCount = classListDataResponse.paginationData?.total ?? 0;
+        // ignore: always_specify_types
+        for (final element in classListData) {
+          classActivityList.add(GetClassListModel.fromJson(element));
+        }
+      } else if (schoolEndpoint == SchoolEndpoint.RELATED_CLASS) {
+        if (!isReload) {
+          classRelatedList.clear();
+        }
+        totalRelatedCount = classListDataResponse.paginationData?.total ?? 0;
+        // ignore: always_specify_types
+        for (final element in classListData) {
+          classRelatedList.add(GetClassListModel.fromJson(element));
+        }
+      }
     }
-    if(isReload){
+    if (isReload) {
       hideLoading();
     }
   }
 
-
-
-
-  Future<void> getFavouriteStudentTeacherList(int startIndex,{bool isReload=false}) async {
-  if(isReload){
-  showLoading();
-  }
+  Future<void> getFavouriteStudentTeacherList(int startIndex,
+      {bool isReload = false}) async {
+    if (isReload) {
+      showLoading();
+    }
     final BaseResponse getFavouriteInfoDataResponse =
-    await _getFavouriteListRepository.getFavouriteList(GetClassRequestModel(limit: '10',startIndex: startIndex.toString(),sortColumn:'created_at',sortDirection: 'desc' ));
+        await _getFavouriteListRepository.getFavouriteList(GetClassRequestModel(
+            limit: '10',
+            startIndex: startIndex.toString(),
+            sortColumn: 'created_at',
+            sortDirection: 'desc'));
     if (getFavouriteInfoDataResponse.status?.type == 'success') {
       // ignore: always_specify_types
-      final List favouritesListData=getFavouriteInfoDataResponse.data!.item! as List;
+      final List favouritesListData =
+          getFavouriteInfoDataResponse.data!.item! as List;
 
-      if(!isReload) {
-        selectedProfile == ApplicationConstants.student?favouritesTeacherList.clear():favouritesStudentList.clear();}
-      totalFavouriteCount=getFavouriteInfoDataResponse.paginationData?.total??0;
+      if (!isReload) {
+        selectedProfile == ApplicationConstants.student
+            ? favouritesTeacherList.clear()
+            : favouritesStudentList.clear();
+      }
+      totalFavouriteCount =
+          getFavouriteInfoDataResponse.paginationData?.total ?? 0;
       // ignore: always_specify_types
       for (final element in favouritesListData) {
-        selectedProfile == ApplicationConstants.student?favouritesTeacherList.add(FavouritesTeacherModel.fromJson(element)):favouritesStudentList.add(FavouriteStudentModel.fromJson(element));
+        selectedProfile == ApplicationConstants.student
+            ? favouritesTeacherList
+                .add(FavouritesTeacherModel.fromJson(element))
+            : favouritesStudentList
+                .add(FavouriteStudentModel.fromJson(element));
       }
-
     }
-  if(isReload){
-    hideLoading();
-  }
+    if (isReload) {
+      hideLoading();
+    }
   }
 
-  Future<void> getRelatedStudentTeacherList(int startIndex,{bool isReload=false}) async {
-    if(isReload){
+  Future<void> getRelatedStudentTeacherList(int startIndex,
+      {bool isReload = false}) async {
+    if (isReload) {
       showLoading();
     }
     final BaseResponse getRelatedInfoDataResponse =
-    await _getRelatedStudentTeacherListRepository.getRelatedList(GetClassRequestModel(limit: '10',startIndex: startIndex.toString(),sortColumn:'created_at',sortDirection: 'desc' ));
+        await _getRelatedStudentTeacherListRepository.getRelatedList(
+            GetClassRequestModel(
+                limit: '10',
+                startIndex: startIndex.toString(),
+                sortColumn: 'created_at',
+                sortDirection: 'desc'));
     if (getRelatedInfoDataResponse.status?.type == 'success') {
       // ignore: always_specify_types
-      final List relatedListData=getRelatedInfoDataResponse.data!.item! as List;
+      final List relatedListData =
+          getRelatedInfoDataResponse.data!.item! as List;
 
-      if(!isReload) {
-        selectedProfile == ApplicationConstants.student?relatedTeacherList.clear():relatedStudentList.clear();}
-        totalRelatedStudentTeacherCount=getRelatedInfoDataResponse.paginationData?.total??0;
-        // ignore: always_specify_types
-        for (final element in relatedListData) {
-          selectedProfile == ApplicationConstants.student?relatedTeacherList.add(FavouritesTeacherModel.fromJson(element)):relatedStudentList.add(FavouriteStudentModel.fromJson(element));
-        }
-
+      if (!isReload) {
+        selectedProfile == ApplicationConstants.student
+            ? relatedTeacherList.clear()
+            : relatedStudentList.clear();
+      }
+      totalRelatedStudentTeacherCount =
+          getRelatedInfoDataResponse.paginationData?.total ?? 0;
+      // ignore: always_specify_types
+      for (final element in relatedListData) {
+        selectedProfile == ApplicationConstants.student
+            ? relatedTeacherList.add(FavouritesTeacherModel.fromJson(element))
+            : relatedStudentList.add(FavouriteStudentModel.fromJson(element));
+      }
     }
-    if(isReload){
+    if (isReload) {
       hideLoading();
     }
   }
 
-  Future<void> addFavouriteInfo(String  id) async {
+  Future<void> addFavouriteInfo(String id,
+      {String screenName = '', String classId = ''}) async {
     showLoading();
     final BaseResponse addFavouriteInfoDataResponse =
-    await _addFavouritesRepository.addFavourites(id);
+        await _addFavouritesRepository.addFavourites(id);
     if (addFavouriteInfoDataResponse.status?.type == 'success') {
-      getFavouriteStudentTeacherList(favouritePageIndex);
-      getRelatedStudentTeacherList(totalRelatedStudentTeacherPageIndex);
+      if (screenName != '') {
+        final ClassDetailsController classDetailsController = Get.find();
+        if (screenName == 'DetailsScreen') {
+          await classDetailsController.getClassDetails(classId);
+        } else if (screenName == 'StudentsView') {
+          await classDetailsController.getStudentAllAtDetails(
+              classId, classDetailsController.startIndex);
+        } else if (screenName == 'ProposalBy') {
+          await classDetailsController.getProposalDetails(
+              classId, classDetailsController.startIndex);
+        }
+      } else {
+        getFavouriteStudentTeacherList(favouritePageIndex);
+        getRelatedStudentTeacherList(totalRelatedStudentTeacherPageIndex);
+      }
     }
     hideLoading();
-
   }
 
-  Future<void> deleteFavouriteInfo(String  id) async {
+  Future<void> deleteFavouriteInfo(String id,
+      {String screenName = '', String classId = ''}) async {
     showLoading();
     final BaseResponse deleteFavouriteInfoDataResponse =
-    await _deleteFavouriteAPIRequest.deleteFavourites(id);
+        await _deleteFavouriteAPIRequest.deleteFavourites(id);
     if (deleteFavouriteInfoDataResponse.status?.type == 'success') {
-      getFavouriteStudentTeacherList(favouritePageIndex);
-      getRelatedStudentTeacherList(totalRelatedStudentTeacherPageIndex);
+      if (screenName != '') {
+        final ClassDetailsController classDetailsController = Get.find();
+        if (screenName == 'DetailsScreen') {
+          await classDetailsController.getClassDetails(classId);
+        } else if (screenName == 'StudentsView') {
+          await classDetailsController.getStudentAllAtDetails(
+              classId, classDetailsController.startIndex);
+        } else if (screenName == 'ProposalBy') {
+          await classDetailsController.getProposalDetails(
+              classId, classDetailsController.startIndex);
+        }
+      } else {
+        getFavouriteStudentTeacherList(favouritePageIndex);
+        getRelatedStudentTeacherList(totalRelatedStudentTeacherPageIndex);
+      }
     }
     hideLoading();
-
   }
-
 }

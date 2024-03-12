@@ -26,6 +26,7 @@ import '../../../product/extension/context_extension.dart';
 import '../../../product/extension/string_extension.dart';
 import '../../../product/utils/typography.dart';
 import '../../class/class_detail/controller/class_detail_controller.dart';
+import '../../home/controller/home_controller.dart';
 import '../../proposal/create_proposal/controller/create_proposal_controller.dart';
 import '../../proposal/proposals_by/controller/proposals_by_controller.dart';
 import '../../proposal/proposals_by/view/proposals_by.dart';
@@ -54,6 +55,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
       Get.put(ManageAddressController());
   final ClassDetailController _classDetailController =
       Get.put(ClassDetailController());
+  final HomeController _homeController = Get.find();
 
   @override
   void initState() {
@@ -150,6 +152,27 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               Padding(
                 padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                 child: DetailsCardViewHorizontal(
+                  onTap: () async {
+                    if (_classDetailsController
+                            .classData.value.studentDetails?.isBookmarked !=
+                        null) {
+                      _classDetailsController.classData.value.studentDetails
+                                  ?.isBookmarked ==
+                              1
+                          ? await _homeController.deleteFavouriteInfo(
+                              _classDetailsController
+                                  .classData.value.studentDetails!.userId!
+                                  .toString(),
+                              screenName: 'DetailsScreen',
+                              classId: _classDetailsController.classId)
+                          : await _homeController.addFavouriteInfo(
+                              _classDetailsController
+                                  .classData.value.studentDetails!.userId!
+                                  .toString(),
+                              screenName: 'DetailsScreen',
+                              classId: _classDetailsController.classId);
+                    }
+                  },
                   heading: 'Created By',
                   name: _classDetailsController
                           .classData.value.studentDetails?.name ??
@@ -161,7 +184,12 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       'Grade ${_classDetailsController.classData.value.studentDetails?.grade?.join('-')}',
                   // ignore: avoid_bool_literals_in_conditional_expressions
                   isPro: false,
-                  isBookmarked: true,
+                  // ignore: avoid_bool_literals_in_conditional_expressions
+                  isBookmarked: _classDetailsController
+                              .classData.value.studentDetails?.isBookmarked ==
+                          1
+                      ? true
+                      : false,
                 ),
               ),
             ],
@@ -290,6 +318,27 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
         ? Padding(
             padding: const EdgeInsets.only(bottom: 10.0),
             child: DetailsCardViewHorizontal(
+              onTap: () async {
+                if (_classDetailsController
+                        .classData.value.teacherDetails?.isBookmarked !=
+                    null) {
+                  _classDetailsController
+                              .classData.value.teacherDetails?.isBookmarked ==
+                          1
+                      ? await _homeController.deleteFavouriteInfo(
+                          _classDetailsController
+                              .classData.value.teacherDetails!.userId!
+                              .toString(),
+                          screenName: 'DetailsScreen',
+                          classId: _classDetailsController.classId)
+                      : await _homeController.addFavouriteInfo(
+                          _classDetailsController
+                              .classData.value.teacherDetails!.userId!
+                              .toString(),
+                          screenName: 'DetailsScreen',
+                          classId: _classDetailsController.classId);
+                }
+              },
               heading: 'Teacher',
               name: _classDetailsController
                       .classData.value.teacherDetails?.name ??
@@ -304,7 +353,12 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       'Free'
                   ? false
                   : true,
-              isBookmarked: true,
+              // ignore: avoid_bool_literals_in_conditional_expressions
+              isBookmarked: _classDetailsController
+                          .classData.value.teacherDetails?.isBookmarked ==
+                      1
+                  ? true
+                  : false,
             ),
           )
         : const SizedBox.shrink();
@@ -359,7 +413,29 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       child: DetailsCardView(
                           cardMargin: EdgeInsets.only(
                               right: 15.px, top: 10.px, bottom: 27.px),
-                          reViewLength: _classDetailsController.classData.value.proposals![index].rating,
+                          reViewLength: _classDetailsController
+                              .classData.value.proposals![index].rating,
+                          onTap: () async {
+                            if (_classDetailsController.classData.value
+                                    .proposals![index].isBookmarked !=
+                                null) {
+                              _classDetailsController.classData.value
+                                          .proposals![index].isBookmarked ==
+                                      1
+                                  ? await _homeController.deleteFavouriteInfo(
+                                      _classDetailsController.classData.value
+                                          .proposals![index].userId!
+                                          .toString(),
+                                      screenName: 'DetailsScreen',
+                                      classId: _classDetailsController.classId)
+                                  : await _homeController.addFavouriteInfo(
+                                      _classDetailsController.classData.value
+                                          .proposals![index].userId!
+                                          .toString(),
+                                      screenName: 'DetailsScreen',
+                                      classId: _classDetailsController.classId);
+                            }
+                          },
                           name: _classDetailsController
                                   .classData.value.proposals![index].name ??
                               '',
@@ -375,7 +451,12 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                   'Free'
                               ? false
                               : true,
-                          isBookmarked: true,
+                          // ignore: avoid_bool_literals_in_conditional_expressions
+                          isBookmarked: _classDetailsController.classData.value
+                                      .proposals![index].isBookmarked ==
+                                  1
+                              ? true
+                              : false,
                           subjects:
                               '${_classDetailsController.classData.value.proposals![index].cost} ${_classDetailsController.classData.value.proposals![index].currency} per Session'),
                     );
@@ -1247,17 +1328,19 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
           )
         : const SizedBox.shrink();
   }
-int sessions(){
-    int session=0;
-    bool set=false;
-  _classDetailsController.classData.value.scheduleInfo?.forEach((element) {
-    if(element.startTime!>=DateTime.now().millisecondsSinceEpoch && !set){
-      session= element.session??0;
-      set=true;
-    }
-  });
-  return session;
-}
+
+  int sessions() {
+    int session = 0;
+    bool set = false;
+    _classDetailsController.classData.value.scheduleInfo?.forEach((element) {
+      if (element.startTime! >= DateTime.now().millisecondsSinceEpoch && !set) {
+        session = element.session ?? 0;
+        set = true;
+      }
+    });
+    return session;
+  }
+
   Widget getOwnerView() {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),

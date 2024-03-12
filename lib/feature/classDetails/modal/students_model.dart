@@ -7,7 +7,8 @@ class StudentsModel {
         this.grade,
         this.name,
         this.imageId,
-      this.status});
+      this.status,
+      this.isBookmarked,});
 
   StudentsModel.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
@@ -22,6 +23,7 @@ class StudentsModel {
     name = json['name'];
     imageId = json['imageId'];
     status= json['status'];
+    isBookmarked=json['isBookmarked'];
   }
   int? userId;
   List<String>? subject;
@@ -31,5 +33,6 @@ class StudentsModel {
   String? name;
   String? imageId;
   int? status;
+  int?isBookmarked;
 
 }

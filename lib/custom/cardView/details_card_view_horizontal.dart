@@ -21,9 +21,11 @@ class DetailsCardViewHorizontal extends StatelessWidget {
     this.heading,
     this.height,
     this.isBookmarked,
+    this.onTap,
     super.key,
   });
 
+  VoidCallback? onTap;
   num? reViewLength;
   String? avatar;
   String? name;
@@ -217,11 +219,13 @@ class DetailsCardViewHorizontal extends StatelessWidget {
               ],
             ),
           ),
-          AppImageAsset(
-            image: (isBookmarked ?? false)
-                ? ImageConstants.removeBookmark
-                : ImageConstants.doBookmark,
-            height: 22.px,
+          GestureDetector(
+            onTap:onTap,
+            child: AppImageAsset(
+              image: (isBookmarked ?? false)
+                  ? ImageConstants.doBookmark: ImageConstants.removeBookmark,
+                  height: 22.px,
+            ),
           ),
         ],
       ),
