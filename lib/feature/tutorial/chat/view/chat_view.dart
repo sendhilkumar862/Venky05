@@ -121,7 +121,7 @@ class _ChatViewState extends State<ChatView> {
                                                         ? locationView(data[index].locationChatMessage)
                                                         : data[index].messageType == 'CONTACT'
                                                             ? contactView(data[index].contactChatMessage)
-                                                            : data[index].messageType == 'IMAGE'
+                                                            : data[index].messageType == 'IMAGE' ||  data[index].messageType == 'DOCUMENT'
                                                                 ? ImageMessageView(chatMessage: data[index],
                                                                     isSelected:false)
                                                                 : const SizedBox
