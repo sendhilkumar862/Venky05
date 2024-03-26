@@ -2,10 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide Response;
 import '../../../../mirrorfly/mirrorFlyController/mirrorfly_user_list_controller.dart';
 
-
-
-
-
 class MessageController extends GetxController{
 
 

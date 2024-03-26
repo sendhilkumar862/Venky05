@@ -2,6 +2,7 @@
 
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
@@ -64,8 +65,22 @@ class MirrorFlyChatViewController extends GetxController {
      userJid = Get.arguments['jid'];
     getMessage();
     Mirrorfly.onMessageReceived.listen((event) {
-      final ChatMessageModel chatData = sendMessageModelFromJson(event);
-      chatMessageModel.add(chatData);
+      getMessage();
+      // final ChatMessageModel chatData = sendMessageModelFromJson(event);
+
+      // if(!chatMessageModel.contains(chatData)) {
+      //   chatMessageModel.add(chatData);
+      // }
+    });
+    Mirrorfly.onUploadDownloadProgressChanged.listen((event){
+      var data = json.decode(event.toString());
+      var messageId = data["message_id"] ?? "";
+      var progressPercentage = data["progress_percentage"] ?? 0;
+      getMessage();
+    });
+    Mirrorfly.onMediaStatusUpdated.listen((event){
+      var chatMessageModel = sendMessageModelFromJson(event);
+      getMessage();
     });
     setAudioPath();
     // player.onPlayerComplete.listen((event) {
@@ -108,11 +123,9 @@ class MirrorFlyChatViewController extends GetxController {
 
  // ignore: always_declare_return_types
  downloadMedia(String mediaId){
-   // ignore: always_specify_types
    Mirrorfly.downloadMedia(mediaId);
-   Future.delayed(const Duration(milliseconds: 500), () {
-     getMessage();
-   });
+   getMessage();
+
 
  }
 
