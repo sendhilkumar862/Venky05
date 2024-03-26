@@ -6,21 +6,22 @@ import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:swipe_to/swipe_to.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../../config/routes/route.dart';
 import '../../../../custom/appbar/appbar.dart';
 import '../../../../custom/image/app_image_assets.dart';
 import '../../../../custom/text/app_text.dart';
 import '../../../../mirrorfly/mirrorFlyController/mirrorfly_chat_view_controller.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
-import '../../../../product/constants/enums/app_register_status_enums.dart';
 import '../../../../product/constants/image/image_constants.dart';
+import '../../../../product/utils/common_function.dart';
 import '../../../../product/utils/validators.dart';
 import '../../messages/model/chat_message_model.dart';
 import '../controller/chat_controller.dart';
+import 'chat_media_file.dart';
+import 'chat_widget.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView({super.key});
@@ -34,6 +35,12 @@ final MirrorFlyChatViewController _mirrorFlyChatViewController =
     Get.put(MirrorFlyChatViewController());
 
 class _ChatViewState extends State<ChatView> {
+  @override
+  void initState() {
+    super.initState();
+    _mirrorFlyChatViewController.onInit();
+  }
+
   @override
   Widget build(BuildContext context) {
     logs('Current Screen--> $runtimeType');
@@ -104,122 +111,66 @@ class _ChatViewState extends State<ChatView> {
                                           ),
 
                                         Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: data[index].messageType ==
-                                                  'TEXT'
-                                              ? Text(data[index]
-                                                      .messageTextContent ??
-                                                  '')
-                                              : data[index].messageType ==
-                                                      'AUDIO'
-                                                  ? Obx(
-                                                      () => Row(
-                                                        children: [
-                                                          InkWell(
-                                                            onTap: () {
-                                                              _mirrorFlyChatViewController
-                                                                      .isPlayAudio
-                                                                      .value =
-                                                                  !_mirrorFlyChatViewController
-                                                                      .isPlayAudio
-                                                                      .value;
-                                                              _mirrorFlyChatViewController
-                                                                  .audioPlay(data[
-                                                                      index]);
-                                                            },
-                                                            child: !_mirrorFlyChatViewController
-                                                                    .isPlayAudio
-                                                                    .value
-                                                                ? AppImageAsset(
-                                                                    image: ImageConstants
-                                                                        .playIcon,
-                                                                    height:
-                                                                        25.px)
-                                                                : AppImageAsset(
-                                                                    image: ImageConstants
-                                                                        .pauseButton,
-                                                                    height:
-                                                                        25.px),
-                                                          ),
-                                                          const SizedBox(
-                                                              width: 5),
-                                                          AppImageAsset(
-                                                              image: ImageConstants
-                                                                  .audioWavesPlay,
-                                                              height: 25.px),
-                                                          const SizedBox(
-                                                              width: 5),
-                                                          AppText(
-                                                              _mirrorFlyChatViewController.durationToString(Duration(
-                                                                  milliseconds: data[index]
-                                                                              .mediaChatMessage !=
-                                                                          null
-                                                                      ? data[index]
-                                                                              .mediaChatMessage
-                                                                              ?.mediaDuration ??
-                                                                          0
-                                                                      : 0)),
-                                                              fontSize: 14.px,
-                                                              color: AppColors
-                                                                  .appWhite)
-                                                        ],
-                                                      ),
-                                                    )
-                                                  : data[index].messageType ==
-                                                          'LOCATION'
-                                                      ? locationView(data[index]
-                                                          .locationChatMessage)
-                                                      : data[index]
-                                                                  .messageType ==
-                                                              'CONTACT'
-                                                          ? contactView(data[
-                                                                  index]
-                                                              .contactChatMessage)
-                                                          : Container(
-                                                              margin: EdgeInsets
-                                                                  .all(1.5.px),
-                                                              height: 200.px,
-                                                              width: 200.px,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: AppColors
-                                                                    .lightPurple,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            8.px),
-                                                              ),
-                                                              child: Image(
-                                                                image: FileImage(
-                                                                    File(data[index]
-                                                                            .mediaChatMessage
-                                                                            ?.mediaLocalStoragePath ??
-                                                                        '')),
-                                                                loadingBuilder:
-                                                                    (context,
-                                                                        child,
-                                                                        loadingProgress) {
-                                                                  if (loadingProgress ==
-                                                                      null) {
-                                                                    return FutureBuilder(
-                                                                        future:
-                                                                            null,
-                                                                        builder:
-                                                                            (context,
-                                                                                d) {
-                                                                          return child;
-                                                                        });
-                                                                  }
-                                                                  return const Center(
-                                                                      child:
-                                                                          CircularProgressIndicator());
-                                                                },
-                                                                width: 300.px,
-                                                                height: 200.px,
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              )),
-                                        ),
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: data[index].messageType ==
+                                                    'TEXT'
+                                                ? Text(data[index].messageTextContent ?? '')
+                                                : data[index].messageType == 'AUDIO'
+                                                    ? imageView(data[index])
+                                                    : data[index].messageType == 'LOCATION'
+                                                        ? locationView(data[index].locationChatMessage)
+                                                        : data[index].messageType == 'CONTACT'
+                                                            ? contactView(data[index].contactChatMessage)
+                                                            : data[index].messageType == 'IMAGE'
+                                                                ? ImageMessageView(chatMessage: data[index],
+                                                                    isSelected:false)
+                                                                : const SizedBox
+                                                                    .shrink()
+                                            // Container(
+                                            //                                             margin: EdgeInsets
+                                            //                                                 .all(1.5.px),
+                                            //                                             height: 200.px,
+                                            //                                             width: 200.px,
+                                            //                                             decoration:
+                                            //                                                 BoxDecoration(
+                                            //                                               color: AppColors
+                                            //                                                   .lightPurple,
+                                            //                                               borderRadius:
+                                            //                                                   BorderRadius
+                                            //                                                       .circular(
+                                            //                                                           8.px),
+                                            //                                             ),
+                                            //                                             child: Image(
+                                            //                                               image: FileImage(
+                                            //                                                   File(data[index]
+                                            //                                                           .mediaChatMessage
+                                            //                                                           ?.mediaLocalStoragePath ??
+                                            //                                                       '')),
+                                            //                                               loadingBuilder:
+                                            //                                                   (context,
+                                            //                                                       child,
+                                            //                                                       loadingProgress) {
+                                            //                                                 if (loadingProgress ==
+                                            //                                                     null) {
+                                            //                                                   return FutureBuilder(
+                                            //                                                       future:
+                                            //                                                           null,
+                                            //                                                       builder:
+                                            //                                                           (context,
+                                            //                                                               d) {
+                                            //                                                         return child;
+                                            //                                                       });
+                                            //                                                 }
+                                            //                                                 return const Center(
+                                            //                                                     child:
+                                            //                                                         CircularProgressIndicator());
+                                            //                                               },
+                                            //                                               width: 300.px,
+                                            //                                               height: 200.px,
+                                            //                                               fit: BoxFit
+                                            //                                                   .cover,
+                                            //                                             )),
+                                            ),
 
                                         if (data[index].isMessageSentByMe)
                                           const Padding(
@@ -858,9 +809,7 @@ class _ChatViewState extends State<ChatView> {
                                         child: InkWell(
                                           onTap: () async {
                                             Get.back();
-
-                                            await _mirrorFlyChatViewController
-                                                .sendLocation();
+                                            requestLocationPermission();
                                           },
                                           child: const Row(
                                             children: <Widget>[
@@ -1006,6 +955,59 @@ class _ChatViewState extends State<ChatView> {
         ));
   }
 
+
+  Widget imageView(ChatMessageModel chatMessageModel){
+    return Obx(
+          () => Row(
+        children: [
+          InkWell(
+            onTap: () {
+              _mirrorFlyChatViewController
+                  .isPlayAudio
+                  .value =
+              !_mirrorFlyChatViewController
+                  .isPlayAudio
+                  .value;
+              _mirrorFlyChatViewController
+                  .audioPlay(chatMessageModel);
+            },
+            child: !_mirrorFlyChatViewController
+                .isPlayAudio
+                .value
+                ? AppImageAsset(
+                image: ImageConstants
+                    .playIcon,
+                height:
+                25.px)
+                : AppImageAsset(
+                image: ImageConstants
+                    .pauseButton,
+                height: 25
+                    .px),
+          ),
+          const SizedBox(
+              width: 5),
+          AppImageAsset(
+              image: ImageConstants
+                  .audioWavesPlay,
+              height: 25.px),
+          const SizedBox(
+              width: 5),
+          AppText(
+              _mirrorFlyChatViewController.durationToString(Duration(
+                  milliseconds: chatMessageModel.mediaChatMessage !=
+                      null
+                      ? chatMessageModel.mediaChatMessage?.mediaDuration ??
+                      0
+                      : 0)),
+              fontSize: 14.px,
+              color: AppColors
+                  .appWhite)
+        ],
+      ),
+    );
+  }
+
   Widget contactView(ContactChatMessage? contactChatMessage) {
     return Container(
         height: 50,
@@ -1024,7 +1026,7 @@ class _ChatViewState extends State<ChatView> {
               border: Border.all(color: AppColors.white, width: 1.1.px),
             ),
             child: Column(
-             crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(contactChatMessage?.contactName ?? ''),
                 Text(
@@ -1047,6 +1049,18 @@ class _ChatViewState extends State<ChatView> {
         await _mirrorFlyChatViewController.sendDocumentMessage(
             _mirrorFlyChatViewController.croppedFilePath, '', '');
       }
+    }
+  }
+
+  Future<void> requestLocationPermission() async {
+    final PermissionStatus status = await Permission.location.request();
+    final bool locationStatus= handlePermissionResult(status);
+    if(locationStatus){
+      await _mirrorFlyChatViewController
+          .sendLocation();
+    }
+    else{
+      Get.back();
     }
   }
 

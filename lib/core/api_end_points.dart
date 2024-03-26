@@ -111,6 +111,8 @@ class ApiEndpoint {
         return '$path/master';
       case SchoolEndpoint.UPCOMING_CLASS:
         return '$path/class/upcoming';
+      case SchoolEndpoint.FAVOURITE:
+        return '$path/class/upcoming';
       case SchoolEndpoint.HISTORY_CLASS:
         return '$path/class/history';
       case SchoolEndpoint.PROPOSAL:
@@ -223,6 +225,20 @@ class ApiEndpoint {
       case SupportEndpoint.UPDATE_TICKET_STATUS:
         return '$path/ticket/status/';
 
+    }
+  }
+
+
+  static String favourites(FavouritesEndPoint endpoint) {
+    const String favouritePath = 'favorites';
+    const String relatedPath = 'school/related';
+    switch (endpoint) {
+      case FavouritesEndPoint.Favourites:
+        return '$favouritePath/';
+      case FavouritesEndPoint.Favourites_Add:
+        return '$favouritePath/add';
+      case FavouritesEndPoint.Related:
+        return '$relatedPath/users';
     }
   }
 
@@ -341,6 +357,21 @@ enum UsersEndPoint{
   MAKE_PAYMENT,
 }
 
+
+
+
+
+enum FavouritesEndPoint {
+  /// An endpoint for favourites list
+  Favourites,
+
+  /// An endpoint for favourites Add
+  Favourites_Add,
+
+  /// An endpoint for favourites Add
+  Related,
+}
+
 /// A collection of endpoints used for authentication purposes.
 enum SchoolEndpoint {
   /// An endpoint for grades requests.
@@ -375,6 +406,11 @@ enum SchoolEndpoint {
 
   /// An endpoint for get upcomming class.
   UPCOMING_CLASS,
+
+  /// An endpoint for get upcomming class.
+  FAVOURITE,
+
+  /// An endpoint for get upcomming class.
 
   /// An endpoint for get history class.
   HISTORY_CLASS,

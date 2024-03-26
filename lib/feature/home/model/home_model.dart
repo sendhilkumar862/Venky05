@@ -1,21 +1,41 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-part 'home_model.freezed.dart';
-part 'home_model.g.dart';
+class HomeModel {
 
-@freezed
-class HomeModel with _$HomeModel {
-  const factory HomeModel(
-      {String? firstName,
-      String? lastName,
-      String? email,
-      String? countryCode,
-      String? mobile,
-      String? country,
-      String? userStatus,
-      String? userId,
-      String? imageId,
-        String? username }) = _HomeModel;
+  HomeModel(
+      {this.lastName,
+        this.imageId,
+        this.email,
+        this.firstName,
+        this.country,
+        this.username,
+        this.userStatus,
+        this.mobile,
+        this.userId,
+        this.countryCode});
 
-  factory HomeModel.fromJson(Map<String, dynamic> json) =>
-      _$HomeModelFromJson(json);
+
+
+  HomeModel.fromJson(Map<String, dynamic> json) {
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    email = json['email'];
+    countryCode = json['countryCode'];
+    userId = json['userId'];
+    imageId = json['imageId'];
+    username = json['username'];
+    userStatus = json['userStatus'];
+    mobile = json['mobile'];
+    country = json['country'];
+  }
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? countryCode;
+  String? mobile;
+  String? country;
+  String? userStatus;
+  String? userId;
+  String? imageId;
+  String? username;
+
+
 }

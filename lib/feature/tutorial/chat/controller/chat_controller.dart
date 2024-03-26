@@ -12,9 +12,11 @@ class ChatController extends GetxController{
   final FlutterContactPicker contactPicker = new FlutterContactPicker();
   List<Contact>? contacts;
   RxBool isOnTapMic = false.obs;
+  RxBool isOnTapSend = false.obs;
   File? selectedImage;
   List<Chat> message = <Chat>[];
   RxBool isSwipeRight = false.obs;
+
 
   getChatTimeFormate(int time) {
     final int millisecondsSinceEpoch = time; // Example timestamp

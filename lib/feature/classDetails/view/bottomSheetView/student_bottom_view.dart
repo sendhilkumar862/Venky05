@@ -9,6 +9,7 @@ import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/extension/string_extension.dart';
 import '../../../../product/utils/typography.dart';
+import '../../../home/controller/home_controller.dart';
 import '../../controller/class_details_controller.dart';
 
 class StudentBottomSheet extends StatefulWidget {
@@ -23,6 +24,7 @@ class StudentBottomSheet extends StatefulWidget {
 class _StudentBottomSheetState extends State<StudentBottomSheet> {
   final ClassDetailsController _classDetailsController =
       Get.put(ClassDetailsController());
+  final HomeController _homeController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -92,9 +94,7 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                                 _classDetailsController.studentsList.value
                                         .students![index].status ==
                                     0) &&
-                            (_classDetailsController.studentsList.value
-                                        .students![index].status !=
-                                    null &&
+                            (_classDetailsController.studentsList.value.students![index].status != null &&
                                 _classDetailsController.studentsList.value
                                         .students![index].status ==
                                     0)) {
@@ -102,17 +102,13 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                         } else if (_classDetailsController.studentsList.value
                                     .students![index].status !=
                                 null &&
-                            _classDetailsController.studentsList.value
-                                    .students![index].status ==
+                            _classDetailsController.studentsList.value.students![index].status ==
                                 0) {
                           _classDetailsController.childAspectRatio.value = 0.6;
-                        }
-                        else if (_classDetailsController.studentsList.value
-                            .students![index].status !=
-                            null &&
-                            _classDetailsController.studentsList.value
-                                .students![index].status !=
-                                0) {
+                        } else if (_classDetailsController.studentsList.value
+                                    .students![index].status !=
+                                null &&
+                            _classDetailsController.studentsList.value.students![index].status != 0) {
                           _classDetailsController.childAspectRatio.value = 0.8;
                         }
                       });
@@ -133,11 +129,41 @@ class _StudentBottomSheetState extends State<StudentBottomSheet> {
                         // ),
                         child: Stack(
                           children: <Widget>[
-                            Align(
-                              alignment: Alignment.topRight,
-                              child: AppImageAsset(
-                                  image: ImageConstants.removeBookmark,
-                                  height: 18.px),
+                            GestureDetector(
+                              onTap: () async {
+                                if (_classDetailsController.studentsList.value
+                                        .students![index].isBookmarked !=
+                                    null) {
+                                  _classDetailsController.studentsList.value
+                                              .students![index].isBookmarked ==
+                                          1
+                                      ? _homeController.deleteFavouriteInfo(
+                                          _classDetailsController.studentsList
+                                              .value.students![index].userId
+                                              .toString(),
+                                          screenName: 'StudentsView',
+                                          classId: widget.classId)
+                                      : _homeController.addFavouriteInfo(
+                                          _classDetailsController.studentsList
+                                              .value.students![index].userId
+                                              .toString(),
+                                          screenName: 'StudentsView',
+                                          classId: widget.classId);
+                                }
+                              },
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: AppImageAsset(
+                                    image: _classDetailsController
+                                                .studentsList
+                                                .value
+                                                .students![index]
+                                                .isBookmarked ==
+                                            1
+                                        ? ImageConstants.doBookmark
+                                        : ImageConstants.removeBookmark,
+                                    height: 18.px),
+                              ),
                             ),
                             Center(
                               child: Column(

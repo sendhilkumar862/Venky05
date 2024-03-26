@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+
 import '../../../config/routes/route.dart';
 import '../../../core/api_end_points.dart';
 import '../../../core/base_response.dart';
 import '../../../custom/loader/easy_loader.dart';
 import '../../../product/constants/app/app_utils.dart';
 import '../../class/class_detail/controller/class_detail_controller.dart';
+
 import '../../home/model/getClassList.dart';
 import '../../home/model/teacher_search_model.dart';
 import '../../home/model/user_search_model.dart';

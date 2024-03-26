@@ -19,7 +19,7 @@ import '../../../tutorial/language/controller/language_controller.dart';
 import '../../../tutorial/language/model/country_model.dart';
 import 'classes_view.dart';
 class ActivitiesView extends StatefulWidget {
-  const ActivitiesView({Key? key}) : super(key: key);
+  const ActivitiesView({super.key});
   @override
   State<ActivitiesView> createState() => _ActivitiesViewState();
 }

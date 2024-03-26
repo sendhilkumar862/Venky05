@@ -11,6 +11,7 @@ import '../../../../product/extension/string_extension.dart';
 import '../../../../product/utils/typography.dart';
 import '../../../classDetails/controller/class_details_controller.dart';
 import '../../../classDetails/view/bottomSheetView/booking_bottom_view.dart';
+import '../../../home/controller/home_controller.dart';
 import '../controller/proposals_by_controller.dart';
 
 
@@ -25,6 +26,7 @@ class ProposalsBy extends StatefulWidget {
 class _ProposalsByState extends State<ProposalsBy> {
   final ProposalsByController _proposalsByController=Get.put(ProposalsByController());
   final ClassDetailsController _classDetailsController = Get.put(ClassDetailsController());
+  final HomeController _homeController=Get.find();
 @override
   void initState() {
     // TODO: implement initState
@@ -101,7 +103,7 @@ class _ProposalsByState extends State<ProposalsBy> {
                         onTap: _classDetailsController
                             .classData.value.status !=
                             'Paying'?() {
-                          _proposalsByController.getProposalDetails( _classDetailsController.proposalList[index].proposalId??'',widget.classId);
+                          _proposalsByController.getProposalDetails( _classDetailsController.proposalList[index].proposalId??'',widget.classId,);
                           _classDetailsController.proposalId=_classDetailsController.proposalList[index].proposalId??'';
                           proposalByTeacherBottomSheet(index);
                         }:(){
@@ -121,6 +123,13 @@ class _ProposalsByState extends State<ProposalsBy> {
                           );
                         },
                         child: DetailsCardView(
+                          onTap: ()async{
+                            if(_classDetailsController.proposalList[index].isBookmarked!=null)
+                              {
+                                _classDetailsController.proposalList[index].isBookmarked==1?await _homeController.deleteFavouriteInfo(_classDetailsController.proposalList[index].userId!.toString(),screenName: 'ProposalBy',classId:_classDetailsController.classId )
+                                    :await _homeController.addFavouriteInfo(_classDetailsController.proposalList[index].userId!.toString(),screenName: 'ProposalBy',classId:_classDetailsController.classId);
+                              }
+                            },
                             cardMargin: EdgeInsets.only(
                                 right: 14.px, top: 10.px, bottom: 27.px),
                             reViewLength: _classDetailsController.proposalList[index].rating,
@@ -131,7 +140,8 @@ class _ProposalsByState extends State<ProposalsBy> {
                             // ignore: avoid_bool_literals_in_conditional_expressions
                             isPro: _classDetailsController
                                 .proposalList[index].subscription=='Free'?false:true,
-                            isBookmarked: true,
+                            // ignore: avoid_bool_literals_in_conditional_expressions
+                            isBookmarked: _classDetailsController.proposalList[index].isBookmarked==1?true:false,
                             subjects: '${_classDetailsController
                                 .proposalList[index].cost} ${_classDetailsController
                                 .proposalList[index].currency} per Session'),

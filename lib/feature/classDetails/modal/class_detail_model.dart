@@ -30,10 +30,10 @@ class ClassDetailsModel {
       this.canSubmitProposal,
       this.canCancelClass,
       this.canBookClass,
-        this.rescheduleInfo,
+      this.rescheduleInfo,
       this.canRescheduleClass,
-        this.canApproveTheReschedule,
-        this.canRejectTheReschedule,
+      this.canApproveTheReschedule,
+      this.canRejectTheReschedule,
       this.canWithdrawProposal,
       this.canPay,
       this.proposalsCount,
@@ -74,14 +74,14 @@ class ClassDetailsModel {
     canCancelClass = json['canCancelClass'];
     canBookClass = json['canBookClass'];
     canCancelClass = json['canCancelClass'];
-    canRescheduleClass=json['canRescheduleClass'];
+    canRescheduleClass = json['canRescheduleClass'];
     canApproveCancel = json['canApproveTheCancellation'];
     canRejectCancel = json['canRejectTheCancellation'];
     canWithdrawProposal = json['canWithdrawProposal'];
-    canApproveTheReschedule=json['canApproveTheReschedule'];
-    canRejectTheReschedule=json['canRejectTheReschedule'];
-   if (json['rescheduleInfo'] != null) {
-     rescheduleInfo = <RescheduleInfo>[];
+    canApproveTheReschedule = json['canApproveTheReschedule'];
+    canRejectTheReschedule = json['canRejectTheReschedule'];
+    if (json['rescheduleInfo'] != null) {
+      rescheduleInfo = <RescheduleInfo>[];
       // ignore: avoid_dynamic_calls
       json['rescheduleInfo'].forEach((v) {
         rescheduleInfo!.add(RescheduleInfo.fromJson(v));
@@ -116,6 +116,7 @@ class ClassDetailsModel {
       });
     }
   }
+
   String? userName;
   String? displayId;
   String? classNumber;
@@ -165,6 +166,7 @@ class Location {
     lat = json['lat'];
     long = json['long'];
   }
+
   String? lat;
   String? long;
 }
@@ -186,6 +188,7 @@ class MyProposaldetails {
     pDuration = json['p_duration'];
     id = json['p_id'];
   }
+
   String? pCost;
   String? pCurrency;
   int? pClassTime;
@@ -195,15 +198,17 @@ class MyProposaldetails {
 }
 
 class TeacherDetails {
-  TeacherDetails(
-      {this.userId,
-      this.name,
-      this.imageId,
-      this.country,
-      this.flagUrl,
-      this.rating,
-      //  this.subject,
-      this.subscription});
+  TeacherDetails({
+    this.userId,
+    this.name,
+    this.imageId,
+    this.country,
+    this.flagUrl,
+    this.rating,
+    //  this.subject,
+    this.subscription,
+    this.isBookmarked,
+  });
 
   TeacherDetails.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
@@ -214,7 +219,9 @@ class TeacherDetails {
     rating = json['rating'];
     // subject = json['subject'].cast<String>();
     subscription = json['subscription'];
+    isBookmarked = json['isBookmarked'];
   }
+
   int? userId;
   String? name;
   String? imageId;
@@ -222,16 +229,18 @@ class TeacherDetails {
   String? flagUrl;
   int? rating;
   String? subscription;
-  // List<String>? subject;
+  int? isBookmarked;
+// List<String>? subject;
 }
+
 class RescheduleInfo {
-  RescheduleInfo(
-      {this.classId,
-        this.classScheduleId,
-        this.startTime,
-        this.endTime,
-        this.userId,
-        });
+  RescheduleInfo({
+    this.classId,
+    this.classScheduleId,
+    this.startTime,
+    this.endTime,
+    this.userId,
+  });
 
   RescheduleInfo.fromJson(Map<String, dynamic> json) {
     classId = json['class_id'];
@@ -240,21 +249,25 @@ class RescheduleInfo {
     endTime = json['start_time'];
     userId = json['user_id'];
   }
+
   String? classId;
   int? classScheduleId;
   int? startTime;
   int? endTime;
   int? userId;
 }
+
 class StudentDetails {
-  StudentDetails(
-      {this.userId,
-      this.name,
-      this.imageId,
-      this.subject,
-      this.school,
-      this.curriculum,
-      this.grade});
+  StudentDetails({
+    this.userId,
+    this.name,
+    this.imageId,
+    this.subject,
+    this.school,
+    this.curriculum,
+    this.grade,
+    this.isBookmarked,
+  });
 
   StudentDetails.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
@@ -268,7 +281,9 @@ class StudentDetails {
     curriculum = json['curriculum'].cast<String>();
     // ignore: avoid_dynamic_calls
     grade = json['grade'].cast<String>();
+    isBookmarked = json['isBookmarked'];
   }
+
   int? userId;
   String? name;
   String? imageId;
@@ -276,4 +291,5 @@ class StudentDetails {
   List<String>? school;
   List<String>? curriculum;
   List<String>? grade;
+  int? isBookmarked;
 }
