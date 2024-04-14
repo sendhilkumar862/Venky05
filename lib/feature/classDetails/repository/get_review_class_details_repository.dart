@@ -5,11 +5,12 @@ import '../../../../core/base_response.dart';
 import '../../../../core/hessah_exception.dart';
 import '../../../../product/constants/enums/backend_services_method_enums.dart';
 
-class GetClassDetailRepository {
-  Future<BaseResponse> getClassDetail (String id) async {  
+class GetReviewClassDetailRepository {
+  Future<BaseResponse> getReviewSessionClassDetail (String id) async {  
     try {
+      print("check class name::: home ${ReviewSessionClassDetailAPIRequest(id: id).endPoint} ${ReviewSessionClassDetailAPIRequest(id: id).header}");
       return await BackendService.post(
-          ClassDetailAPIRequest(id: id));
+          ReviewSessionClassDetailAPIRequest(id: id));
     } catch (e) {
       if (e is HessahException) {
         return BaseResponse(status: Status(type: 'error', message: 'Something went wrong'));
@@ -18,12 +19,12 @@ class GetClassDetailRepository {
     }
   }
 }
-class ClassDetailAPIRequest extends BaseRequest {
-  ClassDetailAPIRequest({required this.id});
+class ReviewSessionClassDetailAPIRequest extends BaseRequest {
+  ReviewSessionClassDetailAPIRequest({required this.id});
   final String id;
 
   @override
-  String get endPoint => '${ApiEndpoint.school(SchoolEndpoint.CREATE_CLASS)}/$id${ApiEndpoint.school(SchoolEndpoint.DETAILS)}';
+  String get endPoint => '${ApiEndpoint.school(SchoolEndpoint.CREATE_CLASS)}/$id${ApiEndpoint.school(SchoolEndpoint.REVIEW)}';
   @override
   Map<String, dynamic> get body =>{};
 

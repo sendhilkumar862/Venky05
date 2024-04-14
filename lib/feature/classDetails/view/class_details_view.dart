@@ -20,7 +20,6 @@ import '../../../custom/text/app_text.dart';
 import '../../../product/constants/app/app_constants.dart';
 import '../../../product/constants/app/app_utils.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
-import '../../../product/constants/enums/app_register_status_enums.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/extension/context_extension.dart';
 import '../../../product/extension/string_extension.dart';
@@ -96,6 +95,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               getAddressText(),
               getScheduledDetails(),
               getRescheduleOption(),
+              addRatingOption(),
               getEditProposalOption(),
               getBookNowOption(),
               getSubmitProposalOption(),
@@ -901,6 +901,25 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
             onPressed: () async {
               Get.toNamed(Routes.rescheduleClass);
               await _classDetailsController.getScheduleInfo();
+            },
+          )
+        : const SizedBox.shrink();
+  }
+
+  Widget addRatingOption() {
+    return 
+    _classDetailsController.classData.value.canAddRating
+     ?? false
+        ? AppButton(
+            isDisable: false,
+            title: 'Add Rating',
+            borderColor: AppColors.appBlue,
+            onPressed: () async {
+               Get.toNamed(Routes.RatingScreen,
+                                  arguments: <String, Object?>{
+                                    'classNumber': _classDetailsController.classData.value.classNumber,
+                                    'teacherName':_classDetailsController.classData.value.teacherDetails!.name
+               });
             },
           )
         : const SizedBox.shrink();

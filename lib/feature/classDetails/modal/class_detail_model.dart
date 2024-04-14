@@ -40,7 +40,9 @@ class ClassDetailsModel {
       this.teacherDetails,
       this.proposals,
       this.canApproveCancel,
-      this.canRejectCancel});
+      this.canRejectCancel,
+      this.canAddRating
+      });
 
   ClassDetailsModel.fromJson(Map<String, dynamic> json) {
     userName = json['username'];
@@ -80,6 +82,7 @@ class ClassDetailsModel {
     canWithdrawProposal = json['canWithdrawProposal'];
     canApproveTheReschedule = json['canApproveTheReschedule'];
     canRejectTheReschedule = json['canRejectTheReschedule'];
+    canAddRating = json['canAddRating'];
     if (json['rescheduleInfo'] != null) {
       rescheduleInfo = <RescheduleInfo>[];
       // ignore: avoid_dynamic_calls
@@ -151,6 +154,7 @@ class ClassDetailsModel {
   bool? canPay;
   bool? canApproveTheReschedule;
   bool? canRejectTheReschedule;
+  bool? canAddRating;
   TeacherDetails? teacherDetails;
   List<RescheduleInfo>? rescheduleInfo;
   List<RescheduleInfoModel>? scheduleInfo;
