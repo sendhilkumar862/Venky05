@@ -54,7 +54,7 @@ class _RatingViewState extends State<RatingView> with TickerProviderStateMixin {
                       value: '',
                       hintText: 'Select Sessionn',
                       onChanged: (String? id) {
-                          final ReviewSessionModal selectedSession = _ratingController.fullSessionRecord.where((p0) => p0.sessionNo.toString()==id).toList()[0];
+                          final ReviewSessionModal selectedSession = _ratingController.fullSessionRecord.where((p0) => p0.sessionNo.toString()==id?.replaceAll("Session - ", "")).toList()[0];
                           _ratingController.session_id.value=selectedSession.sessionId.toString();
                       },
                     ),),

@@ -292,6 +292,8 @@ class _ClassesViewState extends State<ClassesView> {
                       itemCount: _homeController.classUpcomingList.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (BuildContext context, int index) {
+                        print("checking ddata:::${_homeController
+                                .classUpcomingList[index].toJson()}");
                         return SizedBox(
                           width: 340.px,
                           child: AppCardView(
@@ -311,6 +313,7 @@ class _ClassesViewState extends State<ClassesView> {
                             status:
                                 _homeController.classUpcomingList[index].status,
                             // isPro: true,
+                            
                             avtar: _homeController
                                 .classUpcomingList[index].imageId
                                 ?.getImageUrl('profile'),

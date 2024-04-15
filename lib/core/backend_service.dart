@@ -33,6 +33,7 @@ class BackendService {
       }
       final Response response;
       if (request.apiMethod == BackEndServicesEnum.POST) {
+        print("checking URL:::${ApiEndpoint.baseUrl + request.endPoint} ");
         response = await dio.post(
           ApiEndpoint.baseUrl + request.endPoint,
           options: Options(

@@ -40,7 +40,7 @@ class RatingController extends GetxController{
         fullSessionRecord.value=sessionJson;
         sessionNumber.clear();
         for (final ReviewSessionModal element in sessionJson) {
-          sessionNumber.add('${element.sessionNo!}');
+          sessionNumber.add('Session - ${element.sessionNo!}');
         }
       }else{
         AppUtils.showFlushBar(
@@ -60,8 +60,8 @@ class RatingController extends GetxController{
       overallRating: double.parse(overall_rating.value).round(),
       sessionId: int.parse(session_id.value)
     );
-
-    final BaseResponse sessionnResponse = await _postReviewClassDetailRepository.postReviewSessionClassDetail(Get.arguments['classNumber'],reviewSessionSubmitModal);
+    final className=Get.arguments['classNumber'];
+    final BaseResponse sessionnResponse = await _postReviewClassDetailRepository.postReviewSessionClassDetail(className,reviewSessionSubmitModal);
       if (sessionnResponse.status?.type == 'success') {
     AppUtils.showFlushBar(
           icon: Icons.done_rounded,
@@ -69,7 +69,11 @@ class RatingController extends GetxController{
           context: Routes.navigatorKey.currentContext!,
           message: sessionnResponse.status?.message ?? 'Error occured',
         );
-    Future.delayed(const Duration(milliseconds: 1000),()=> Get.back());
+    Future.delayed(const Duration(milliseconds: 1000),()=>  {
+    Get.back(),
+    Get.back(),
+    }
+                                  );
       }else{
         AppUtils.showFlushBar(
           context: Routes.navigatorKey.currentContext!,
