@@ -107,6 +107,8 @@ class ApiEndpoint {
         return '/details';
       case SchoolEndpoint.REVIEW:
         return '/review';
+      case SchoolEndpoint.ATTENDANCE:
+        return '/attendance';
       case SchoolEndpoint.GET:
         return '$path/get';
       case SchoolEndpoint.MASTER:
@@ -399,6 +401,9 @@ enum SchoolEndpoint {
 
   /// An endpoint for class details Review session.
   REVIEW,
+
+  /// An endpoint for class details ATTENDANCE session.
+  ATTENDANCE,
 
   /// An endpoint for class List get.
   GET,

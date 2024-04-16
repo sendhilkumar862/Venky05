@@ -96,6 +96,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               getScheduledDetails(),
               getRescheduleOption(),
               addRatingOption(),
+              confirmStudentAttendance(),
               getEditProposalOption(),
               getBookNowOption(),
               getSubmitProposalOption(),
@@ -919,6 +920,24 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                                   arguments: <String, Object?>{
                                     'classNumber': _classDetailsController.classData.value.classNumber,
                                     'teacherName':_classDetailsController.classData.value.teacherDetails!.name
+               });
+            },
+          )
+        : const SizedBox.shrink();
+  }
+
+   Widget confirmStudentAttendance() {
+    return 
+    _classDetailsController.classData.value.confirmSelectedStudAttendance
+     ?? false
+        ? AppButton(
+            isDisable: false,
+            title: 'Confirm Student Attendance',
+            borderColor: AppColors.appBlue,
+            onPressed: () async {
+              Get.toNamed(Routes.ConfirmAttendanceScreen, arguments: <String, Object?>{
+                                    'classNumber': _classDetailsController.classData.value.classNumber,
+                                    'teacherName':"bala"
                });
             },
           )

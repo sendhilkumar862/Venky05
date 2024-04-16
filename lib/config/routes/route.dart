@@ -5,6 +5,7 @@ import '../../feature/class/class_detail/view/class_detail.dart';
 import '../../feature/class/create_class/view/create_class.dart';
 import '../../feature/classDetails/view/class_details_view.dart';
 import '../../feature/classDetails/view/rescheduleView/reschedule_class_view.dart';
+import '../../feature/confirm_attendance/view/confirm_attendance_view.dart';
 import '../../feature/home/view/home_view.dart';
 import '../../feature/home/view/view_all_class.dart';
 import '../../feature/home/view/view_all_teacher.dart';
@@ -78,6 +79,7 @@ class Routes {
   static const String PreferencesScreen = '/Pref-screen';
   static const String createClass = '/create-class';
   static const String RatingScreen = '/rating-screen';
+  static const String ConfirmAttendanceScreen = '/confirm-attendance-screen';
   static const String invoiceDetails = '/invoice-details';
   static const String teachingInfo = '/teaching-info';
   static const String experienceInfo = '/experience-info';
@@ -139,6 +141,7 @@ class Routes {
     GetPage(name: PreferencesScreen, page: () => const PreferenceView()),
     GetPage(name: invoiceDetails, page: () => const InvoiceDetails()),
     GetPage(name: RatingScreen, page: () => const RatingView()),
+    GetPage(name: ConfirmAttendanceScreen, page: () => const ConfirmAttendanceView()),
     GetPage(name: teachingInfo, page: () => const TeachingInfo()),
     GetPage(name: experienceInfo, page: () => const ExperienceInfo()),
     GetPage(name: financingView, page: () => const FinancingView()),

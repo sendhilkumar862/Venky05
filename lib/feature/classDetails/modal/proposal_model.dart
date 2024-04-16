@@ -33,7 +33,7 @@ class ProposalModel {
   String? imageId;
   String? country;
   String? flagUrl;
-  int? rating;
+  double? rating;
   String? subscription;
   int? isBookmarked;
   int? userId;

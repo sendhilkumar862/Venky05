@@ -41,7 +41,8 @@ class ClassDetailsModel {
       this.proposals,
       this.canApproveCancel,
       this.canRejectCancel,
-      this.canAddRating
+      this.canAddRating,
+      this.confirmSelectedStudAttendance
       });
 
   ClassDetailsModel.fromJson(Map<String, dynamic> json) {
@@ -83,6 +84,7 @@ class ClassDetailsModel {
     canApproveTheReschedule = json['canApproveTheReschedule'];
     canRejectTheReschedule = json['canRejectTheReschedule'];
     canAddRating = json['canAddRating'];
+    confirmSelectedStudAttendance = json['confirmSelectedStudAttendance'];
     if (json['rescheduleInfo'] != null) {
       rescheduleInfo = <RescheduleInfo>[];
       // ignore: avoid_dynamic_calls
@@ -155,6 +157,7 @@ class ClassDetailsModel {
   bool? canApproveTheReschedule;
   bool? canRejectTheReschedule;
   bool? canAddRating;
+  bool? confirmSelectedStudAttendance;
   TeacherDetails? teacherDetails;
   List<RescheduleInfo>? rescheduleInfo;
   List<RescheduleInfoModel>? scheduleInfo;
@@ -231,7 +234,7 @@ class TeacherDetails {
   String? imageId;
   String? country;
   String? flagUrl;
-  int? rating;
+  double? rating;
   String? subscription;
   int? isBookmarked;
 // List<String>? subject;
