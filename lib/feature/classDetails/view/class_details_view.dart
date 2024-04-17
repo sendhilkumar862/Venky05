@@ -936,8 +936,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
             borderColor: AppColors.appBlue,
             onPressed: () async {
               Get.toNamed(Routes.ConfirmAttendanceScreen, arguments: <String, Object?>{
-                                    'classNumber': _classDetailsController.classData.value.classNumber,
-                                    'teacherName':"bala"
+                                    'classNumber': _classDetailsController.classData.value.classNumber
                });
             },
           )

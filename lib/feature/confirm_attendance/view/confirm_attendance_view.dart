@@ -84,7 +84,9 @@ class _ConfirmAttendanceViewState extends State<ConfirmAttendanceView> with Tick
                                     isDisable: false,
                                     title: 'Attended',
                                     borderColor: AppColors.appBlue,
-                                    onPressed: _confirmAttendanceController.submittingReview,
+                                    onPressed: (){
+                                      _confirmAttendanceController.makeItAsAttended(true,_confirmAttendanceController.sessionClassAttandanceList[index]);
+                                    },
                                   ),
                                   AppButton(
                                     isDisable: false,
@@ -92,7 +94,9 @@ class _ConfirmAttendanceViewState extends State<ConfirmAttendanceView> with Tick
                                     isBorderOnly: true,
                                     borderColor: AppColors.white,
                                     height: 30,
-                                    onPressed: _confirmAttendanceController.submittingReview,
+                                    onPressed: (){
+                                        _confirmAttendanceController.makeItAsAttended(false,_confirmAttendanceController.sessionClassAttandanceList[index]);
+                                    },
                                   )
                               ],
                             ) else AppButton(
@@ -111,12 +115,12 @@ class _ConfirmAttendanceViewState extends State<ConfirmAttendanceView> with Tick
              const SizedBox(
                 height: 20,
               ),
-             Obx(() =>  AppButton(
+            AppButton(
                 isDisable: true,
                 title: 'All Student Attended',
                 borderColor: AppColors.appBlue,
                 onPressed: (){},
-              ),),
+              ),
               const SizedBox(height: 30)
             ],
           ),

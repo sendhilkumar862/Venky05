@@ -1,32 +1,25 @@
-class ReviewSessionSubmitModal {
+class ClassAttendancePostModel {
 
-  ReviewSessionSubmitModal(
-      {this.educationalSkills,
-      this.friendliness,
-      this.ontimeArrival,
-      this.overallRating,
-      this.sessionId});
+  ClassAttendancePostModel(
+      {this.isSelectAll, this.type, this.sessions, this.users});
 
-  ReviewSessionSubmitModal.fromJson(Map<String, dynamic> json) {
-    educationalSkills = json['educational_skills'];
-    friendliness = json['friendliness'];
-    ontimeArrival = json['ontime_arrival'];
-    overallRating = json['overall_rating'];
-    sessionId = json['session_id'];
+  ClassAttendancePostModel.fromJson(Map<String, dynamic> json) {
+    isSelectAll = json['isSelectAll'];
+    type = json['type'];
+    sessions = json['sessions'].cast<String>();
+    users = json['users'].cast<String>();
   }
-  int? educationalSkills;
-  int? friendliness;
-  int? ontimeArrival;
-  int? overallRating;
-  int? sessionId;
+  bool? isSelectAll;
+  String? type;
+  List<String>? sessions;
+  List<String>? users;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['educational_skills'] = educationalSkills;
-    data['friendliness'] = friendliness;
-    data['ontime_arrival'] = ontimeArrival;
-    data['overall_rating'] = overallRating;
-    data['session_id'] = sessionId;
+    data['isSelectAll'] = isSelectAll;
+    data['type'] = type;
+    data['sessions'] = sessions;
+    data['users'] = users;
     return data;
   }
 }
