@@ -19,14 +19,10 @@ class ConfirmAttendanceController extends GetxController{
 
      RxList<String> sessionNumber=<String>[].obs;
     ClassAttendanceModel fullSessionRecord=ClassAttendanceModel();
+    RxList<Attendance> sessionClassAttandanceList=<Attendance>[].obs;
      final GetClassAttendanceRepository _getClassAttendanceRepository=GetClassAttendanceRepository();
-     final PostReviewClassDetailRepository _postReviewClassDetailRepository=PostReviewClassDetailRepository();
 
-     RxString session_id =''.obs;
-     RxString educational_skills =''.obs;
-     RxString friendliness =''.obs;
-     RxString ontime_arrival =''.obs;
-     RxString overall_rating =''.obs;
+   
  
   @override
  void onInit() {
@@ -36,14 +32,15 @@ class ConfirmAttendanceController extends GetxController{
  Future<void> fetchSession(String id) async {
     final BaseResponse sessionnResponse = await _getClassAttendanceRepository.getGetClassAttendance(id);
       if (sessionnResponse.status?.type == 'success') {
-   final Map<String,String>  sessionResponseData =
-          sessionnResponse.data! as  Map<String,String>;
-        final ClassAttendanceModel sessionJson = ClassAttendanceModel.fromJson(sessionResponseData);
+   final Data  sessionResponseData =
+          sessionnResponse.data!;
+          
+        final ClassAttendanceModel sessionJson = ClassAttendanceModel.fromJson(objectToMap(sessionResponseData));
         fullSessionRecord=sessionJson;
         sessionNumber.clear();
-      //  for (var i = 0; i < sessionJson.count; i++) {
-      //     sessionNumber.add('Session - ${element.!}');
-      //  }
+       for (var i = 1; i <= int.parse('${sessionResponseData.count}'); i++) {
+          sessionNumber.add('Session - $i');
+       }
       }else{
         AppUtils.showFlushBar(
           context: Routes.navigatorKey.currentContext!,
@@ -53,16 +50,23 @@ class ConfirmAttendanceController extends GetxController{
 
   }
 
+  Map<String, dynamic> objectToMap(dynamic obj) {
+  final Map<String, dynamic> resultMap = {};
+  resultMap['items'] = obj.item;
+  resultMap['count'] = obj.count;
+  return resultMap;
+}
+
+
+
+Future<void> onSelectSession(String? value)async{
+  var filterData=fullSessionRecord.items?.where((element) => element.sessionNo.toString()==value?.replaceAll('Session - ', "")).toList();
+  sessionClassAttandanceList.value=filterData!.first.attendance!;
+}
+
 
   Future<void> submittingReview() async {
-    final ReviewSessionSubmitModal reviewSessionSubmitModal=ReviewSessionSubmitModal(
-      educationalSkills: double.parse(educational_skills.value).round(),
-      friendliness: double.parse(friendliness.value).round(),
-      ontimeArrival: double.parse(ontime_arrival.value).round(),
-      overallRating: double.parse(overall_rating.value).round(),
-      sessionId: int.parse(session_id.value)
-    );
-    final className=Get.arguments['classNumber'];
+   
     // final BaseResponse sessionnResponse = await _postReviewClassDetailRepository.postReviewSessionClassDetail(className,reviewSessionSubmitModal);
     //   if (sessionnResponse.status?.type == 'success') {
     // AppUtils.showFlushBar(

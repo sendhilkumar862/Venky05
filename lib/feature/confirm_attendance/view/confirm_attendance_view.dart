@@ -54,61 +54,68 @@ class _ConfirmAttendanceViewState extends State<ConfirmAttendanceView> with Tick
                                   AppColors.appTextColor.withOpacity(0.25))
                               .get14,
                       value: '',
-                      hintText: 'Select Sessionn',
-                      onChanged: (String? id) {
-                          // final ReviewSessionModal selectedSession = _confirmAttendanceController.fullSessionRecord.where((ReviewSessionModal p0) => p0.sessionNo.toString()==id?.replaceAll("Session - ", "")).toList()[0];
-                          // _confirmAttendanceController.session_id.value=selectedSession.sessionId.toString();
-                      },
+                      hintText: 'Select Session',
+                      onChanged: _confirmAttendanceController.onSelectSession,
                     ),),
               const SizedBox(
                 height: 20,
               ),
               Expanded(
-                child: GridView.count(
+                child: Obx(() => GridView.count(
                    crossAxisCount: 2,  
                   crossAxisSpacing: 4.0,  
                   mainAxisSpacing: 8.0,  
                   childAspectRatio: 0.83,
-                  children: List.generate(4, (int index) {  
+                  children: List.generate(_confirmAttendanceController.sessionClassAttandanceList.length, (int index) {  
                     return Card(
                       surfaceTintColor: Colors.white,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            CircleAvatar(backgroundImage: NetworkImage("https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_640.png"),),
-                            Text("User Name"),
-                            Text("Grade 1-2-3"),
-                            AppButton(
-                                    isDisable: _confirmAttendanceController.session_id.isEmpty||_confirmAttendanceController.educational_skills.isEmpty||_confirmAttendanceController.friendliness.isEmpty||_confirmAttendanceController.ontime_arrival.isEmpty||_confirmAttendanceController.overall_rating.isEmpty,
+                            const CircleAvatar(backgroundImage: NetworkImage('https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_640.png'),),
+                            Text('${_confirmAttendanceController.sessionClassAttandanceList[index].name}'),
+                            Text('Grade - ${_confirmAttendanceController.sessionClassAttandanceList[index].grade}'),
+                            if (_confirmAttendanceController.sessionClassAttandanceList[index].status==2) Column(
+                              children: [
+                                AppButton(
+                                    isDisable: false,
                                     title: 'Attended',
                                     borderColor: AppColors.appBlue,
                                     onPressed: _confirmAttendanceController.submittingReview,
                                   ),
                                   AppButton(
-                                    isDisable: _confirmAttendanceController.session_id.isEmpty||_confirmAttendanceController.educational_skills.isEmpty||_confirmAttendanceController.friendliness.isEmpty||_confirmAttendanceController.ontime_arrival.isEmpty||_confirmAttendanceController.overall_rating.isEmpty,
+                                    isDisable: false,
                                     title: 'Not Attended',
                                     isBorderOnly: true,
                                     borderColor: AppColors.white,
                                     height: 30,
                                     onPressed: _confirmAttendanceController.submittingReview,
                                   )
+                              ],
+                            ) else AppButton(
+                                    isDisable: false,
+                                    title: _confirmAttendanceController.sessionClassAttandanceList[index].status==0?'Not Attended':'Attended',
+                                    borderColor: AppColors.appBlue,
+                                    onPressed: (){},
+                                  ),
                           ],
                         ),
                       ),
                     );  
                   }  
-                  )  ,),
+                  )  ,),)
               ),
              const SizedBox(
                 height: 20,
               ),
              Obx(() =>  AppButton(
-                isDisable: _confirmAttendanceController.session_id.isEmpty||_confirmAttendanceController.educational_skills.isEmpty||_confirmAttendanceController.friendliness.isEmpty||_confirmAttendanceController.ontime_arrival.isEmpty||_confirmAttendanceController.overall_rating.isEmpty,
+                isDisable: true,
                 title: 'All Student Attended',
                 borderColor: AppColors.appBlue,
-                onPressed: _confirmAttendanceController.submittingReview,
+                onPressed: (){},
               ),),
               const SizedBox(height: 30)
             ],
