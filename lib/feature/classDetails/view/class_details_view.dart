@@ -18,6 +18,7 @@ import '../../../custom/dialog/warning_dialog.dart';
 import '../../../custom/image/app_image_assets.dart';
 import '../../../custom/text/app_text.dart';
 import '../../../product/constants/app/app_constants.dart';
+import '../../../product/constants/app/app_enums.dart';
 import '../../../product/constants/app/app_utils.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
@@ -191,6 +192,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                           1
                       ? true
                       : false,
+                    role: _classDetailsController.classData.value.role,
+                    reViewLength: _classDetailsController.classData.value.teacherDetails?.rating??0,
                 ),
               ),
             ],
@@ -344,7 +347,7 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
               name: _classDetailsController
                       .classData.value.teacherDetails?.name ??
                   '',
-              height: 95.px,
+              height: 105.px,
               avatar: _classDetailsController
                   .classData.value.teacherDetails?.imageId,
               countryName: 'Grade ',
@@ -360,6 +363,8 @@ class _ClassDetailsViewState extends State<ClassDetailsView>
                       1
                   ? true
                   : false,
+                   role: UserRole.tutor,
+                    reViewLength: _classDetailsController.classData.value.teacherDetails?.rating??0,
             ),
           )
         : const SizedBox.shrink();

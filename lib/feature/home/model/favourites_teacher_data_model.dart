@@ -32,7 +32,7 @@ class FavouritesTeacherModel {
   String? lastName;
   String? country;
   String? flagUrl;
-  int? rating;
+  num? rating;
   String? subscription;
   int? createdAt;
   int?isBookmarked;

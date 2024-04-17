@@ -49,6 +49,8 @@ class _HomeViewsState extends State<HomeViews> with TickerProviderStateMixin {
             appBar: HessaAppBar(
               icon: ImageConstants.avtar,
               title: 'Welcome!',
+              role: selectedProfile,
+              reViewLength: _homeController.homeData.value?.rating??0,
               subTitle:
                   "${_homeController.homeData.value?.firstName ?? ""} ${_homeController.homeData.value?.lastName ?? ""}",
               isSearchIconShown: !(selectedProfile == ApplicationConstants.tutor &&

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../product/constants/app/app_enums.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
 import '../../product/extension/string_extension.dart';
@@ -22,6 +23,7 @@ class DetailsCardViewHorizontal extends StatelessWidget {
     this.height,
     this.isBookmarked,
     this.onTap,
+    this.role,
     super.key,
   });
 
@@ -37,6 +39,7 @@ class DetailsCardViewHorizontal extends StatelessWidget {
   String? subjects;
   String? heading;
   double? height;
+  String? role;
 
   @override
   Widget build(BuildContext context) {
@@ -88,8 +91,7 @@ class DetailsCardViewHorizontal extends StatelessWidget {
                         ),
                       ),
                     ) ,
-                    if (reViewLength != null)
-                      SizedBox(
+                     if (role==UserRole.tutor) SizedBox(
                         height: 20.px,
                         width: 50.px,
                         child: ListView.builder(
@@ -105,7 +107,7 @@ class DetailsCardViewHorizontal extends StatelessWidget {
                             );
                           },
                         ),
-                      ),
+                      ) else SizedBox.shrink(),
                   ],
                 ),
                 SizedBox(

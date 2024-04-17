@@ -10,7 +10,9 @@ class HomeModel {
         this.userStatus,
         this.mobile,
         this.userId,
-        this.countryCode});
+        this.countryCode,
+        this.rating
+        });
 
 
 
@@ -25,6 +27,7 @@ class HomeModel {
     userStatus = json['userStatus'];
     mobile = json['mobile'];
     country = json['country'];
+    rating = json['rating'];
   }
   String? firstName;
   String? lastName;
@@ -36,6 +39,7 @@ class HomeModel {
   String? userId;
   String? imageId;
   String? username;
+  num? rating;
 
 
 }

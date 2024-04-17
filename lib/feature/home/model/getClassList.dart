@@ -22,7 +22,10 @@ class GetClassListModel {
         this.name,
         this.imageId,
         this.country,
-        this.canBookFlag});
+        this.canBookFlag,
+        this.rating,
+        this.role
+        });
 
   GetClassListModel.fromJson(Map<String, dynamic> json) {
     displayId = json['displayId'];
@@ -43,6 +46,8 @@ class GetClassListModel {
     imageId = json['imageId'];
     country = json['country'];
     canBookFlag = json['canBookFlag'];
+    rating = json['rating'];
+    role = json['role'];
 
   }
   String? displayId;
@@ -63,6 +68,8 @@ class GetClassListModel {
  String? imageId;
   String? country;
   int? canBookFlag;
+  num? rating;
+  String? role;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -84,6 +91,8 @@ class GetClassListModel {
     data['imageId'] = imageId;
     data['country'] = country;
     data['canBookFlag']=canBookFlag;
+    data['rating']=rating;
+    data['role']=role;
     return data;
   }
 }

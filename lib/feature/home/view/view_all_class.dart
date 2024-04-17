@@ -18,6 +18,7 @@ import '../../../custom/dialog/success_fail_dialog.dart';
 import '../../../product/cache/key_value_storage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_constants.dart';
+import '../../../product/constants/app/app_enums.dart';
 import '../../../product/constants/app/app_utils.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
@@ -139,7 +140,8 @@ class _ViewAlaaClassState extends State<ViewAllClass> {
                 avtar: data.imageId?.getImageUrl('profile') ,
                 countryIcon:  data.country!=null && _languageController.countries.isNotEmpty?_languageController.countries.firstWhere((Country element) => element.name==data.country).flag_url:ImageConstants.countryIcon,
                 countryName:  data.country,
-                reViewLength: 3,
+                reViewLength: data.rating,
+                role: data.role??UserRole.student,
                 teacherName:
                 data.name,
                 // ignore: avoid_bool_literals_in_conditional_expressions

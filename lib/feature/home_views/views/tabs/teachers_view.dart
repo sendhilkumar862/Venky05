@@ -104,6 +104,7 @@ class _TeachersViewState extends State<TeachersView> {
                                 reViewLength: _homeController
                                         .favouritesTeacherList[index].rating ??
                                     0,
+                                    
                                 name:
                                     '${_homeController.favouritesTeacherList[index].firstName ?? ''} ${_homeController.favouritesTeacherList[index].lastName ?? ''}',
                                 avatar: _homeController

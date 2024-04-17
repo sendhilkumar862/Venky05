@@ -18,6 +18,7 @@ import '../../../custom/divider/divider.dart';
 import '../../../product/cache/key_value_storage.dart';
 import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_constants.dart';
+import '../../../product/constants/app/app_enums.dart';
 import '../../../product/constants/app/app_utils.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
@@ -629,6 +630,7 @@ class _ForStudentsState extends State<ForStudents> {
   }
 
   Widget searchedDataScreen(){
+   
     return ListView.separated(
       padding: const EdgeInsets.only(
         top: 5, bottom: 20,),
@@ -641,6 +643,7 @@ class _ForStudentsState extends State<ForStudents> {
           proposals: 5,
           cardTitle:
           _searchController.searchClassList[index].subject,
+          
           // ignore: avoid_bool_literals_in_conditional_expressions
           isBook: _searchController.searchClassList[index].canBookFlag!=null && _searchController.searchClassList[index].canBookFlag==1?true:false,
           date:  _searchController.searchClassList[index].classTime!=null?_searchController.searchClassList[index].classTime
@@ -658,7 +661,8 @@ class _ForStudentsState extends State<ForStudents> {
           countryIcon: _searchController.searchClassList[index].country!=null && _languageController.countries.isNotEmpty?_languageController.countries.firstWhere((Country element) => element.name==_searchController.searchClassList[index].country).flag_url:ImageConstants.countryIcon,
 
           countryName: _searchController.searchClassList[index].country,
-          reViewLength: 3,
+          reViewLength: _searchController.searchClassList[index].rating??0,
+          role: _searchController.searchClassList[index].role??UserRole.student,
           teacherName:
           _searchController.searchClassList[index].name,
           grade: _searchController.searchClassList[index].grade,

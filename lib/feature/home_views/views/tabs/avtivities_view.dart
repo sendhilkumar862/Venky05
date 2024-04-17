@@ -11,6 +11,7 @@ import '../../../../custom/cardView/app_card_view.dart';
 import '../../../../custom/cardView/info_card_view.dart';
 import '../../../../product/cache/key_value_storage.dart';
 import '../../../../product/cache/local_manager.dart';
+import '../../../../product/constants/app/app_enums.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
 import '../../../../product/extension/string_extension.dart';
@@ -107,7 +108,8 @@ class _ActivitiesViewState extends State<ActivitiesView> {
                        avtar: _homeController.classActivityList[index].imageId?.getImageUrl('profile'),
                        countryIcon: _homeController.classActivityList[index].country!=null && _languageController.countries.isNotEmpty?_languageController.countries.firstWhere((Country element) => element.name==_homeController.classActivityList[index].country).flag_url:ImageConstants.countryIcon,
                        countryName: _homeController.classActivityList[index].country??'',
-                       reViewLength: 3,
+                       reViewLength: _homeController.classActivityList[index].rating,
+                       role: _homeController.classActivityList[index].role??UserRole.student,
                        teacherName:
                        _homeController.classActivityList[index].name,
                        grade: _homeController.classActivityList[index].grade,

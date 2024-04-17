@@ -15,7 +15,10 @@ import '../../../custom/sheet/file_select.dart';
 import '../../../custom/sheet/show_bottom_sheet.dart';
 import '../../../custom/switch/app_switch.dart';
 import '../../../custom/text/app_text.dart';
+import '../../../product/cache/key_value_storage.dart';
+import '../../../product/cache/local_manager.dart';
 import '../../../product/constants/app/app_constants.dart';
+import '../../../product/constants/app/app_enums.dart';
 import '../../../product/constants/colors/app_colors_constants.dart';
 import '../../../product/constants/image/image_constants.dart';
 import '../../../product/extension/string_extension.dart';
@@ -36,6 +39,7 @@ class SettingView extends StatefulWidget {
 
 class _SettingViewState extends State<SettingView> {
   CroppedFile? croppedFile;
+  String selectedProfile = '';
   final SettingController _settingController = Get.put(SettingController());
   final LanguageController _languageController = Get.put(LanguageController());
   final HomeController _homeController = Get.find();
@@ -45,6 +49,12 @@ class _SettingViewState extends State<SettingView> {
     'otp_id': '',
     'isScreen': false,
   };
+
+  @override
+  void initState(){
+    super.initState();
+     selectedProfile = LocaleManager.getValue(StorageKeys.profile) ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,8 +106,25 @@ class _SettingViewState extends State<SettingView> {
         child: Column(
           children: <Widget>[
             profileImageView(context),
+             if (selectedProfile==UserRole.tutor) SizedBox(
+                        height: 20.px,
+                        width: 50.px,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 5,
+                          itemBuilder: (BuildContext context, int index) {
+                            return AppImageAsset(
+                              image: (index < (_homeController.homeData.value?.rating??0))
+                                  ? ImageConstants.reviewStarPurple
+                                  : ImageConstants.reviewStar,
+                              height: 10.px,
+                              width: 10.px,
+                            );
+                          },
+                        ),
+                      ) else SizedBox.shrink(),
             Padding(
-              padding: const EdgeInsets.only(top: 13, bottom: 3),
+              padding: const EdgeInsets.only(top: 5, bottom: 3),
               child: Text(
                   "${_homeController.homeData.value?.firstName ?? ""} ${_homeController.homeData.value?.lastName ?? ""}",
                   style: openSans.get20.w700.appTextColor),

@@ -16,6 +16,7 @@ import '../../../../custom/dialog/success_fail_dialog.dart';
 import '../../../../product/cache/key_value_storage.dart';
 import '../../../../product/cache/local_manager.dart';
 import '../../../../product/constants/app/app_constants.dart';
+import '../../../../product/constants/app/app_enums.dart';
 import '../../../../product/constants/app/app_utils.dart';
 import '../../../../product/constants/colors/app_colors_constants.dart';
 import '../../../../product/constants/image/image_constants.dart';
@@ -292,8 +293,7 @@ class _ClassesViewState extends State<ClassesView> {
                       itemCount: _homeController.classUpcomingList.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (BuildContext context, int index) {
-                        print("checking ddata:::${_homeController
-                                .classUpcomingList[index].toJson()}");
+                      
                         return SizedBox(
                           width: 340.px,
                           child: AppCardView(
@@ -330,7 +330,8 @@ class _ClassesViewState extends State<ClassesView> {
                                 : ImageConstants.countryIcon,
                             countryName: _homeController
                                 .classUpcomingList[index].country,
-                            reViewLength: 3,
+                              reViewLength: _homeController.classUpcomingList[index].rating,
+                             role: _homeController.classUpcomingList[index].role??UserRole.student,
                             teacherName:
                                 _homeController.classUpcomingList[index].name,
                             grade:
@@ -523,7 +524,8 @@ class _ClassesViewState extends State<ClassesView> {
                                 : ImageConstants.countryIcon,
                             countryName: _homeController
                                 .classRelatedList[index].country,
-                            reViewLength: 3,
+                             reViewLength: _homeController.classRelatedList[index].rating,
+                             role: _homeController.classRelatedList[index].role??UserRole.student,
                             teacherName:
                                 _homeController.classRelatedList[index].name,
                             grade:
@@ -716,7 +718,8 @@ class _ClassesViewState extends State<ClassesView> {
                                 : ImageConstants.countryIcon,
                             countryName:
                                 _homeController.classHistoryList[index].country,
-                            reViewLength: 3,
+                              reViewLength: _homeController.classHistoryList[index].rating,
+                             role: _homeController.classHistoryList[index].role??UserRole.student,
                             teacherName:
                                 _homeController.classHistoryList[index].name,
                             grade:

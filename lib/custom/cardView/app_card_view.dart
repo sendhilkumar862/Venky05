@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../product/constants/app/app_enums.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
 import '../../product/extension/context_extension.dart';
@@ -33,6 +34,7 @@ class AppCardView extends StatelessWidget {
     this.isBook=true,
     this.title='Book',
     super.key,
+    this.role=UserRole.student
   });
 
   String? cardTitle;
@@ -54,6 +56,7 @@ class AppCardView extends StatelessWidget {
   VoidCallback? cardTap;
   bool isBook;
   String title;
+  String role;
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +128,7 @@ class AppCardView extends StatelessWidget {
                   countyIcon: countryIcon,
                   reViewLength: reViewLength,
                   buttonTap: buttonTap,
-
+                  role:role
                 )
               ],
             ),
@@ -207,6 +210,7 @@ class AppCardView extends StatelessWidget {
     String? countyIcon,
     String? country,
     VoidCallback? buttonTap,
+    String? role
   }) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15.px),
@@ -227,6 +231,7 @@ class AppCardView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                        Container(
+                        margin: (role==UserRole.tutor) ?EdgeInsets.zero:EdgeInsets.symmetric(vertical:10),
                         decoration: BoxDecoration(
                           color: AppColors.appProfile,
                           borderRadius: BorderRadius.circular(50),
@@ -252,7 +257,7 @@ class AppCardView extends StatelessWidget {
                         ),
                         ),
                       ) ,
-                      SizedBox(
+                      if (role==UserRole.tutor) SizedBox(
                         height: 20.px,
                         width: 50.px,
                         child: ListView.builder(
@@ -268,7 +273,7 @@ class AppCardView extends StatelessWidget {
                             );
                           },
                         ),
-                      ),
+                      ) else SizedBox.shrink(),
                     ],
                   ),
                   SizedBox(

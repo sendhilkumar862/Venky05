@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../feature/home/controller/home_controller.dart';
+import '../../product/constants/app/app_enums.dart';
 import '../../product/constants/colors/app_colors_constants.dart';
 import '../../product/constants/image/image_constants.dart';
 import '../../product/utils/typography.dart';
@@ -29,7 +30,10 @@ class HessaAppBar extends PreferredSize {
       this.trailingWidget,
       this.reviewStarLength = 0,
       this.isReviewStar = false,
-      this.icon})
+      this.icon,
+      this.role,
+      this.reViewLength
+      })
       : super(
           child: Container(),
           preferredSize: Size.fromHeight(160.px),
@@ -53,6 +57,8 @@ class HessaAppBar extends PreferredSize {
   final bool? isReviewStar;
   final int? reviewStarLength;
   final HomeController _homeController = Get.put(HomeController());
+  final String? role;
+  final num? reViewLength;
 
   @override
   Widget build(BuildContext context) {
@@ -134,63 +140,84 @@ class HessaAppBar extends PreferredSize {
               child: Row(
                 children: <Widget>[
                   const SizedBox(width: 15),
-                  Container(
-                    height: 55,
-                    width: 55,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: AppColors.appPurple.withOpacity(0.4),
-                          blurRadius: 6,
-                          spreadRadius: 1,
-                          offset: const Offset(1, 7),
+                  Column(
+                    children: [
+                      Container(
+                        height: 55,
+                        width: 55,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              color: AppColors.appPurple.withOpacity(0.4),
+                              blurRadius: 6,
+                              spreadRadius: 1,
+                              offset: const Offset(1, 7),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: Obx(
-                      () => SizedBox(
-                        height: 60,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(500),
-                          child: GestureDetector(
-                            onTap: onProfileTap,
-                            child: _homeController.homeData.value?.imageId !=
-                                        null &&
-                                    _homeController
-                                        .homeData.value!.imageId!.isNotEmpty
-                                ? AppImageAsset(
-                                    image: _homeController
-                                            .homeData.value?.imageId
-                                            ?.getImageUrl('profile') ??
-                                        '',
-                                    fit: BoxFit.fill,
-                                  )
-                                : Container(
-                                    decoration: BoxDecoration(
-                                      color: AppColors.appProfile,
-                                      borderRadius: BorderRadius.circular(50),
-                                      boxShadow: <BoxShadow>[
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.2),
-                                          spreadRadius: 2,
-                                          blurRadius: 4,
-                                          offset: const Offset(0,
-                                              2), // changes the position of the shadow
+                        child: Obx(
+                          () => SizedBox(
+                            height: 60,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(500),
+                              child: GestureDetector(
+                                onTap: onProfileTap,
+                                child: _homeController.homeData.value?.imageId !=
+                                            null &&
+                                        _homeController
+                                            .homeData.value!.imageId!.isNotEmpty
+                                    ? AppImageAsset(
+                                        image: _homeController
+                                                .homeData.value?.imageId
+                                                ?.getImageUrl('profile') ??
+                                            '',
+                                        fit: BoxFit.fill,
+                                      )
+                                    : Container(
+                                        decoration: BoxDecoration(
+                                          color: AppColors.appProfile,
+                                          borderRadius: BorderRadius.circular(50),
+                                          boxShadow: <BoxShadow>[
+                                            BoxShadow(
+                                              color: Colors.black.withOpacity(0.2),
+                                              spreadRadius: 2,
+                                              blurRadius: 4,
+                                              offset: const Offset(0,
+                                                  2), // changes the position of the shadow
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    width: 65,
-                                    height: 65,
-                                    child: Center(
-                                        child: Text(
-                                            '${_homeController.homeData.value?.firstName ?? ''} ${_homeController.homeData.value?.lastName ?? ''}'
-                                                .extractInitials(),
-                                            style: openSans.get20.w700.white))),
+                                        width: 65,
+                                        height: 65,
+                                        child: Center(
+                                            child: Text(
+                                                '${_homeController.homeData.value?.firstName ?? ''} ${_homeController.homeData.value?.lastName ?? ''}'
+                                                    .extractInitials(),
+                                                style: openSans.get20.w700.white))),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                     if (role==UserRole.tutor) SizedBox(
+                        height: 20.px,
+                        width: 50.px,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 5,
+                          itemBuilder: (BuildContext context, int index) {
+                            return AppImageAsset(
+                              image: (index < reViewLength!)
+                                  ? ImageConstants.reviewStarPurple
+                                  : ImageConstants.reviewStar,
+                              height: 10.px,
+                              width: 10.px,
+                            );
+                          },
+                        ),
+                      ) else SizedBox.shrink()
+                    ],
                   ),
                   const SizedBox(width: 23),
                   Column(
@@ -240,6 +267,7 @@ class HessaAppBar extends PreferredSize {
                             ],
                           ),
                         ),
+                  
                     ],
                   ),
                   const Spacer(),

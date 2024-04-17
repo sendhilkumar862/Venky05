@@ -65,7 +65,7 @@ class _ForTeacherState extends State<ForTeacher> {
            controller: _searchController.scrollControllerUser,
            itemBuilder: (BuildContext context, int index) {
              return DetailsCardView(
-                 reViewLength: 4,
+                 reViewLength: _searchController.searchClassListTeacher[index].rating??0,
                  boxShadow: AppColors.searchCardBoxShadow,
                  cardMargin: EdgeInsets.zero,
                  name: "${_searchController.searchClassListTeacher[index].firstName??''} ${_searchController.searchClassListTeacher[index].lastName??''}",
@@ -563,7 +563,7 @@ class _ForTeacherState extends State<ForTeacher> {
         controller: _searchController.scrollControllerUser,
         itemBuilder: (BuildContext context, int index) {
           return DetailsCardView(
-              reViewLength: 4,
+              reViewLength: _searchController.searchClassListTeacher[index].rating??0,
               boxShadow: AppColors.searchCardBoxShadow,
               cardMargin: EdgeInsets.zero,
               name: "${_searchController.searchClassListTeacher[index].firstName??''} ${_searchController.searchClassListTeacher[index].lastName??''}",
